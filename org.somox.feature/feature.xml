@@ -112,8 +112,9 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </url>
 
    <requires>
-      <import feature="eu.qimpress.samm.feature" version="1.0.0.qualifier"/>
-      <import feature="de.fzi.gast.feature" version="1.0.0.qualifier"/>
+      <import feature="de.fzi.gast.feature" version="1.0.0.201207061624"/>
+      <import feature="eu.qimpress.samm.feature" version="1.0.0.201101311330NGT"/>
+      <import feature="eu.qimpress.reverseengineering.gast2seff.feature" version="1.0.0.qualifier"/>
    </requires>
 
    <plugin
@@ -178,14 +179,14 @@ This Agreement is governed by the laws of the State of New York and the intellec
          unpack="false"/>
 
    <plugin
-         id="eu.qimpress.reverseengineering.gast2seff"
+         id="org.somox.metricvaluesstorage"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.somox.metricvaluesstorage"
+         id="eu.qimpress.reverseengineering.gast2seff"
          download-size="0"
          install-size="0"
          version="0.0.0"
