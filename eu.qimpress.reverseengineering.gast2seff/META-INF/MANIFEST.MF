@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Gast2seff
+Bundle-SymbolicName: eu.qimpress.reverseengineering.gast2seff; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: eu.qimpress.reverseengineering.gast2seff.Activator
+Bundle-Vendor: Q-ImPrESS Consortium
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ de.uka.ipd.sdq.workflow;bundle-version="1.1.0",
+ de.uka.ipd.sdq.workflow.mdsd;bundle-version="1.0.0",
+ de.fzi.gast;bundle-version="1.0.0",
+ eu.qimpress.seff;bundle-version="1.0.0",
+ org.eclipse.emf;bundle-version="2.5.0",
+ eu.qimpress.samm;bundle-version="1.0.0",
+ eu.qimpress.gast;bundle-version="1.0.0",
+ eu.qimpress.sourcecodedecorator;bundle-version="1.0.0",
+ eu.qimpress.qualityannotationdecorator;bundle-version="1.0.0",
+ org.somox.resources.defaultmodels;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: eu.qimpress.reverseengineering.gast2seff.jobs
