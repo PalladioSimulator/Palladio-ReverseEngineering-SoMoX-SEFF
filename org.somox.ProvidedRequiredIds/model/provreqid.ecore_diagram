@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_ZlSZkZIhEd64xNxR2O8pgw" type="Ecore" measurementUnit="Pixel">
+  <children xmi:type="notation:Shape" xmi:id="_Z_ELgJIhEd64xNxR2O8pgw" type="2001">
+    <children xmi:type="notation:DecorationNode" xmi:id="_Z_ELgpIhEd64xNxR2O8pgw" type="5001"/>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_Z_g3cJIhEd64xNxR2O8pgw" type="7001">
+      <styles xmi:type="notation:SortingStyle" xmi:id="_Z_g3cZIhEd64xNxR2O8pgw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_Z_g3cpIhEd64xNxR2O8pgw"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_Z_g3c5IhEd64xNxR2O8pgw" type="7002">
+      <styles xmi:type="notation:SortingStyle" xmi:id="_Z_g3dJIhEd64xNxR2O8pgw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_Z_g3dZIhEd64xNxR2O8pgw"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_Z_g3dpIhEd64xNxR2O8pgw" type="7003">
+      <styles xmi:type="notation:SortingStyle" xmi:id="_Z_g3d5IhEd64xNxR2O8pgw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_Z_g3eJIhEd64xNxR2O8pgw"/>
+    </children>
+    <element xmi:type="ecore:EClass" href="provreqid.ecore#//ProvidedService"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Z_ELgZIhEd64xNxR2O8pgw" x="125" y="200"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_Z_g3eZIhEd64xNxR2O8pgw" type="2001">
+    <children xmi:type="notation:DecorationNode" xmi:id="_Z_g3e5IhEd64xNxR2O8pgw" type="5001"/>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_Z_g3fJIhEd64xNxR2O8pgw" type="7001">
+      <styles xmi:type="notation:SortingStyle" xmi:id="_Z_g3fZIhEd64xNxR2O8pgw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_Z_g3fpIhEd64xNxR2O8pgw"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_Z_g3f5IhEd64xNxR2O8pgw" type="7002">
+      <styles xmi:type="notation:SortingStyle" xmi:id="_Z_g3gJIhEd64xNxR2O8pgw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_Z_g3gZIhEd64xNxR2O8pgw"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_Z_g3gpIhEd64xNxR2O8pgw" type="7003">
+      <styles xmi:type="notation:SortingStyle" xmi:id="_Z_g3g5IhEd64xNxR2O8pgw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_Z_g3hJIhEd64xNxR2O8pgw"/>
+    </children>
+    <element xmi:type="ecore:EClass" href="provreqid.ecore#//RequiredService"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Z_g3epIhEd64xNxR2O8pgw" x="325" y="200"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_Z_g3hZIhEd64xNxR2O8pgw" type="2001">
+    <children xmi:type="notation:DecorationNode" xmi:id="_Z_g3h5IhEd64xNxR2O8pgw" type="5001"/>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_Z_g3iJIhEd64xNxR2O8pgw" type="7001">
+      <children xmi:type="notation:Node" xmi:id="_cpkNcJIiEd64xNxR2O8pgw" type="3001">
+        <element xmi:type="ecore:EAttribute" href="provreqid.ecore#//ProvReqRepository/name"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_cpkNcZIiEd64xNxR2O8pgw"/>
+      </children>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_Z_g3iZIhEd64xNxR2O8pgw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_Z_g3ipIhEd64xNxR2O8pgw"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_Z_g3i5IhEd64xNxR2O8pgw" type="7002">
+      <styles xmi:type="notation:SortingStyle" xmi:id="_Z_g3jJIhEd64xNxR2O8pgw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_Z_g3jZIhEd64xNxR2O8pgw"/>
+    </children>
+    <children xmi:type="notation:BasicCompartment" xmi:id="_Z_g3jpIhEd64xNxR2O8pgw" type="7003">
+      <styles xmi:type="notation:SortingStyle" xmi:id="_Z_g3j5IhEd64xNxR2O8pgw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_Z_g3kJIhEd64xNxR2O8pgw"/>
+    </children>
+    <element xmi:type="ecore:EClass" href="provreqid.ecore#//ProvReqRepository"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Z_g3hpIhEd64xNxR2O8pgw" x="225" y="15"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_ZlSZkpIhEd64xNxR2O8pgw"/>
+  <element xmi:type="ecore:EPackage" href="provreqid.ecore#/"/>
+  <edges xmi:type="notation:Connector" xmi:id="_IgK2QJIiEd64xNxR2O8pgw" type="4003" source="_Z_g3hZIhEd64xNxR2O8pgw" target="_Z_ELgJIhEd64xNxR2O8pgw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_IgK2Q5IiEd64xNxR2O8pgw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_IgK2RJIiEd64xNxR2O8pgw" y="40"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_IgK2RZIiEd64xNxR2O8pgw" type="6004">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_IgK2RpIiEd64xNxR2O8pgw" x="14" y="26"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_IgK2QZIiEd64xNxR2O8pgw"/>
+    <element xmi:type="ecore:EReference" href="provreqid.ecore#//ProvReqRepository/@eStructuralFeatures.0"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_IgK2QpIiEd64xNxR2O8pgw" points="[-13, 26, 70, -159]$[-135, 162, -52, -23]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_JRflgJIiEd64xNxR2O8pgw" type="4003" source="_Z_g3hZIhEd64xNxR2O8pgw" target="_Z_g3eZIhEd64xNxR2O8pgw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_JRflg5IiEd64xNxR2O8pgw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_JRflhJIiEd64xNxR2O8pgw" y="40"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_JRflhZIiEd64xNxR2O8pgw" type="6004">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_JRflhpIiEd64xNxR2O8pgw" y="60"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_JRflgZIiEd64xNxR2O8pgw"/>
+    <element xmi:type="ecore:EReference" href="provreqid.ecore#//ProvReqRepository/@eStructuralFeatures.1"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_JRflgpIiEd64xNxR2O8pgw" points="[10, 26, -47, -159]$[110, 194, 53, 9]"/>
+  </edges>
+</notation:Diagram>

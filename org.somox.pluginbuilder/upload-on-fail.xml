@@ -1,0 +1,26 @@
+<project name="UpdateSite">
+	<!-- action to do for failed builds: upload logging files (txt files) -->
+
+	<target name="clean_remote">
+		<sshexec host="i43pc12.ipd.uka.de"
+				username="ccontrol"
+				keyfile="/home/ccontrol/.ssh/id_rsa" 
+				passphrase="" 
+				trust="true" 
+				command="cd /var/www/eclipse/q-impress/org.somox/; 
+				rm ./*.txt; 
+			"/>
+	</target>
+
+	<target name="upload" depends="clean_remote">
+		<scp todir="ccontrol@i43pc12.ipd.uka.de:/var/www/eclipse/q-impress/org.somox/"
+				keyfile="/home/ccontrol/.ssh/id_rsa" 
+				passphrase="" 
+				trust="true">
+			<fileset dir="/home/ccontrol/pluginbuilder/org.somox.pluginbuilder">
+				<include name="*.txt" />
+			</fileset>
+	  	</scp>	
+	</target>
+
+</project>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.somox.provreqid.presentation.ProvreqidModelWizardID"
+            name="%_UI_ProvreqidModelWizard_label"
+            class="org.somox.provreqid.presentation.ProvreqidModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ProvreqidModelFile.gif">
+         <description>%_UI_ProvreqidModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.somox.provreqid.presentation.ProvreqidEditorID"
+            name="%_UI_ProvreqidEditor_label"
+            icon="icons/full/obj16/ProvreqidModelFile.gif"
+            extensions="provreqid"
+            class="org.somox.provreqid.presentation.ProvreqidEditor"
+            contributorClass="org.somox.provreqid.presentation.ProvreqidActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

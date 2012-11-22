@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--xtools2_universal_type_manager-->
+<?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.uml.msl.model" version="7.0.0"><feature description="" name="com.ibm.xtools.ruml.feature" url="" version="7.0.0"/></signature>?>
+<?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.mmi.ui.signatures.diagram" version="7.0.0"><feature description="" name="Rational Modeling Platform (com.ibm.xtools.rmp)" url="" version="7.0.0"/></signature>?>
+<uml:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.0/notation" xmlns:uml="http://www.eclipse.org/uml2/2.0.0/UML" xmlns:umlnotation="http://www.ibm.com/xtools/1.5.2/Umlnotation" xmi:id="_V_SAwMVQEd2IBLcNXXQ3qw" name="core_controller_listener">
+  <eAnnotations xmi:id="_V_SAwcVQEd2IBLcNXXQ3qw" source="uml2.diagrams" references="_V_SAwsVQEd2IBLcNXXQ3qw">
+    <contents xmi:type="notation:Diagram" xmi:id="_V_SAwsVQEd2IBLcNXXQ3qw" type="Class" name="Main">
+      <children xmi:id="_zgA5gM1NEd2BlK2sqP8qDg">
+        <children xmi:id="_zgA5g81NEd2BlK2sqP8qDg" type="ImageCompartment">
+          <layoutConstraint xmi:type="notation:Size" xmi:id="_zgA5hM1NEd2BlK2sqP8qDg" width="530" height="530"/>
+        </children>
+        <children xmi:id="_zgA5hc1NEd2BlK2sqP8qDg" type="Stereotype"/>
+        <children xmi:id="_zgA5hs1NEd2BlK2sqP8qDg" type="Kind"/>
+        <children xmi:id="_zgA5h81NEd2BlK2sqP8qDg" type="Name"/>
+        <children xmi:id="_zgA5iM1NEd2BlK2sqP8qDg" type="Parent"/>
+        <children xmi:id="_zgKDcM1NEd2BlK2sqP8qDg" type="AttributeCompartment">
+          <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_zgKDcc1NEd2BlK2sqP8qDg"/>
+        </children>
+        <children xmi:id="_zgKDcs1NEd2BlK2sqP8qDg" type="OperationCompartment">
+          <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_zgKDc81NEd2BlK2sqP8qDg"/>
+        </children>
+        <styles xmi:type="umlnotation:UMLClassifierStyle" xmi:id="_zgA5gc1NEd2BlK2sqP8qDg" showListSignature="true" showParentName="true" showStereotype="Label" useClassifierShape="true"/>
+        <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=SoMoXCoreController%5Bjcu%5Ename=SoMoXCoreController.java%5Bjpack%5Ename=org.somox.controller%5Bjsrcroot%5Esrcfolder=src%5Bproject%5Eid=SoMoX%20Core%5D%5D%5D%5D$uml.Interface"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zgA5gs1NEd2BlK2sqP8qDg" x="6974" y="6340"/>
+      </children>
+      <children xmi:id="_zgKDdM1NEd2BlK2sqP8qDg">
+        <children xmi:id="_zgKDd81NEd2BlK2sqP8qDg" type="ImageCompartment">
+          <layoutConstraint xmi:type="notation:Size" xmi:id="_zgKDeM1NEd2BlK2sqP8qDg" width="530" height="530"/>
+        </children>
+        <children xmi:id="_zgKDec1NEd2BlK2sqP8qDg" type="Stereotype"/>
+        <children xmi:id="_zgKDes1NEd2BlK2sqP8qDg" type="Kind"/>
+        <children xmi:id="_zgKDe81NEd2BlK2sqP8qDg" type="Name"/>
+        <children xmi:id="_zgKDfM1NEd2BlK2sqP8qDg" type="Parent"/>
+        <children xmi:id="_zgKDfc1NEd2BlK2sqP8qDg" type="AttributeCompartment">
+          <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_zgKDfs1NEd2BlK2sqP8qDg"/>
+        </children>
+        <children xmi:id="_zgKDf81NEd2BlK2sqP8qDg" type="OperationCompartment">
+          <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_zgKDgM1NEd2BlK2sqP8qDg"/>
+        </children>
+        <styles xmi:type="umlnotation:UMLClassifierStyle" xmi:id="_zgKDdc1NEd2BlK2sqP8qDg" showListSignature="true" showStereotype="Label" useClassifierShape="true"/>
+        <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=SoMoXCoreControllerListener%5Bjcu%5Ename=SoMoXCoreControllerListener.java%5Bjpack%5Ename=org.somox.controller%5Bjsrcroot%5Esrcfolder=src%5Bproject%5Eid=SoMoX%20Core%5D%5D%5D%5D$uml.Interface"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zgKDds1NEd2BlK2sqP8qDg" x="20144" y="5433"/>
+      </children>
+      <children xmi:id="_zWNAwM1OEd2BlK2sqP8qDg">
+        <children xmi:id="_zWNAw81OEd2BlK2sqP8qDg" type="ImageCompartment">
+          <layoutConstraint xmi:type="notation:Size" xmi:id="_zWNAxM1OEd2BlK2sqP8qDg" width="530" height="530"/>
+        </children>
+        <children xmi:id="_zWNAxc1OEd2BlK2sqP8qDg" type="Stereotype"/>
+        <children xmi:id="_zWNAxs1OEd2BlK2sqP8qDg" type="Kind"/>
+        <children xmi:id="_zWNAx81OEd2BlK2sqP8qDg" type="Name"/>
+        <children xmi:id="_zWNAyM1OEd2BlK2sqP8qDg" type="Parent"/>
+        <children xmi:id="_zWNAyc1OEd2BlK2sqP8qDg" type="AttributeCompartment">
+          <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_zWNAys1OEd2BlK2sqP8qDg"/>
+        </children>
+        <children xmi:id="_zWNAy81OEd2BlK2sqP8qDg" type="OperationCompartment">
+          <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_zWNAzM1OEd2BlK2sqP8qDg"/>
+        </children>
+        <styles xmi:type="umlnotation:UMLClassifierStyle" xmi:id="_zWNAwc1OEd2BlK2sqP8qDg" showListSignature="true" showStereotype="Label" useClassifierShape="true"/>
+        <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=ConfigurableComponent%5Bjcu%5Ename=ConfigurableComponent.java%5Bjpack%5Ename=org.somox.configuration%5Bjsrcroot%5Esrcfolder=src%5Bproject%5Eid=SoMoX%20Core%5D%5D%5D%5D$uml.Interface"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zWNAws1OEd2BlK2sqP8qDg" x="10144" y="3487"/>
+      </children>
+      <children xmi:id="_AoeIEM1PEd2BlK2sqP8qDg">
+        <children xmi:id="_AoeIE81PEd2BlK2sqP8qDg" type="ImageCompartment">
+          <layoutConstraint xmi:type="notation:Size" xmi:id="_AoeIFM1PEd2BlK2sqP8qDg" width="1320" height="1320"/>
+        </children>
+        <children xmi:id="_AoeIFc1PEd2BlK2sqP8qDg" type="Stereotype"/>
+        <children xmi:id="_AoeIFs1PEd2BlK2sqP8qDg" type="Name"/>
+        <children xmi:id="_AoeIF81PEd2BlK2sqP8qDg" type="Parent"/>
+        <children xmi:id="_AoeIGM1PEd2BlK2sqP8qDg" type="AttributeCompartment">
+          <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_AoeIGc1PEd2BlK2sqP8qDg"/>
+        </children>
+        <children xmi:id="_AoeIGs1PEd2BlK2sqP8qDg" type="OperationCompartment">
+          <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_AoeIG81PEd2BlK2sqP8qDg"/>
+        </children>
+        <styles xmi:type="umlnotation:UMLShapeStyle" xmi:id="_AoeIEc1PEd2BlK2sqP8qDg" showListSignature="true" showStereotype="Label"/>
+        <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=SoMoXCoreListenerImpl%5Bjcu%5Ename=SoMoXCoreListenerImpl.java%5Bjpack%5Ename=org.somox.controller.impl%5Bjsrcroot%5Esrcfolder=src%5Bproject%5Eid=SoMoX%20Core%5D%5D%5D%5D$uml.Class"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AoeIEs1PEd2BlK2sqP8qDg" x="20630" y="8242"/>
+      </children>
+      <children xmi:id="_OxkJtM1PEd2BlK2sqP8qDg">
+        <children xmi:id="_Oxt6sM1PEd2BlK2sqP8qDg" type="ImageCompartment">
+          <layoutConstraint xmi:type="notation:Size" xmi:id="_Oxt6sc1PEd2BlK2sqP8qDg" width="530" height="530"/>
+        </children>
+        <children xmi:id="_Oxt6ss1PEd2BlK2sqP8qDg" type="Stereotype"/>
+        <children xmi:id="_Oxt6s81PEd2BlK2sqP8qDg" type="Kind"/>
+        <children xmi:id="_Oxt6tM1PEd2BlK2sqP8qDg" type="Name"/>
+        <children xmi:id="_Oxt6tc1PEd2BlK2sqP8qDg" type="Parent"/>
+        <children xmi:id="_Oxt6ts1PEd2BlK2sqP8qDg" type="AttributeCompartment">
+          <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_Oxt6t81PEd2BlK2sqP8qDg"/>
+        </children>
+        <children xmi:id="_Oxt6uM1PEd2BlK2sqP8qDg" type="OperationCompartment">
+          <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_Oxt6uc1PEd2BlK2sqP8qDg"/>
+        </children>
+        <styles xmi:type="umlnotation:UMLClassifierStyle" xmi:id="_OxkJtc1PEd2BlK2sqP8qDg" showListSignature="true" showStereotype="Label" useClassifierShape="true"/>
+        <element xmi:type="uml:Interface" href="mmi:///#jsrctype%5Ename=SoMoXCore%5Bjcu%5Ename=SoMoXCore.java%5Bjpack%5Ename=org.somox.core%5Bjsrcroot%5Esrcfolder=src%5Bproject%5Eid=SoMoX%20Core%5D%5D%5D%5D$uml.Interface"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OxkJts1PEd2BlK2sqP8qDg" x="15689" y="12991"/>
+      </children>
+      <styles xmi:type="umlnotation:UMLDiagramStyle" xmi:id="_V_SAw8VQEd2IBLcNXXQ3qw"/>
+    </contents>
+  </eAnnotations>
+  <packageImport xmi:id="_V_SAxMVQEd2IBLcNXXQ3qw">
+    <importedPackage xmi:type="uml:Model" href="jar:file:E:%5CProgramme%5CIBM%5CSDP70Shared%5Cplugins%5Corg.eclipse.uml2.uml.resources_2.0.2.v200610251409.jar!/libraries/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <profileApplication xmi:id="_V_SAxcVQEd2IBLcNXXQ3qw">
+    <eAnnotations xmi:id="_V_SAxsVQEd2IBLcNXXQ3qw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://UML_PROFILES/Standard.profile.uml#_yzU58YinEdqtvbnfB2L_5w"/>
+    </eAnnotations>
+    <appliedProfile href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
+  </profileApplication>
+  <profileApplication xmi:id="_V_SAx8VQEd2IBLcNXXQ3qw">
+    <eAnnotations xmi:id="_V_SAyMVQEd2IBLcNXXQ3qw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://UML2_MSL_PROFILES/Default.epx#_IN8k8MmBEdqBcN1R6EvWUw?Default/Default?"/>
+    </eAnnotations>
+    <appliedProfile href="pathmap://UML2_MSL_PROFILES/Default.epx#_a_S3wNWLEdiy4IqP8whjFA?Default?"/>
+  </profileApplication>
+  <profileApplication xmi:id="_V_SAycVQEd2IBLcNXXQ3qw">
+    <eAnnotations xmi:id="_V_SAysVQEd2IBLcNXXQ3qw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://UML2_MSL_PROFILES/Deployment.epx#_IrdAUMmBEdqBcN1R6EvWUw?Deployment/Deployment?"/>
+    </eAnnotations>
+    <appliedProfile href="pathmap://UML2_MSL_PROFILES/Deployment.epx#_vjbuwOvHEdiDX5bji0iVSA?Deployment?"/>
+  </profileApplication>
+</uml:Model>

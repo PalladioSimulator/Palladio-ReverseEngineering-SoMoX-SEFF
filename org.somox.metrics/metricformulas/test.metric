@@ -1,0 +1,10 @@
+extern org.somox.metrics.basic.InternalAccessesCount;
+extern org.somox.metrics.basic.ExternalAccessesCount;
+
+Metrics {
+
+	Metric org.somox.metrics.Coupling ("Coupling","A coupling metric") {
+		Ratio { org.somox.metrics.basic.InternalAccessesCount / org.somox.metrics.basic.ExternalAccessesCount }
+	};
+	
+}

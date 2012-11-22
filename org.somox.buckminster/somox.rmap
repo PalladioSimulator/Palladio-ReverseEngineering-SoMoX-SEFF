@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
+
+  <rm:locator searchPathRef="localresources" failOnError="false"/>
+  <rm:locator searchPathRef="qimpress-reverse-engineering" failOnError="false"/>
+  <rm:locator searchPathRef="qimpress-metamodels" failOnError="false"/>
+  <rm:locator searchPathRef="qimpress-backbone" failOnError="false"/>
+  <rm:locator searchPathRef="SISSy" failOnError="false"/>
+  <rm:locator searchPathRef="SDQ_Commons" failOnError="false" pattern="^de\.uka\.ipd\.sdq\..*" />
+  <rm:locator searchPathRef="SDQ_Commons" failOnError="false" pattern="^edu\.kit\.ipd\.sdq\..*" />
+  <rm:locator searchPathRef="WorkflowEngine" failOnError="false" pattern="^de\.uka\.ipd\.sdq\..*" />
+  <rm:locator searchPathRef="Palladio" failOnError="false" />
+  <rm:locator searchPathRef="indigo-updatesite" failOnError="true"/>
+  
+  <rm:searchPath name="qimpress-metamodels">
+    <rm:provider componentTypes="eclipse.feature,osgi.bundle,buckminster" readerType="svn" source="true">
+      <rm:uri format="svn://svn.forge.objectweb.org/svnroot/q-impress/qimpress-ide/trunk/metamodels/trunk/{0}">
+      	<bc:propertyRef key="buckminster.component" />
+      </rm:uri>
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="qimpress-reverse-engineering">
+    <rm:provider componentTypes="eclipse.feature,osgi.bundle,buckminster" readerType="svn" source="true">
+      <rm:uri format="svn://svn.forge.objectweb.org/svnroot/q-impress/qimpress-ide/trunk/reverse-engineering/trunk/{0}">
+      	<bc:replace>
+       		<bc:propertyRef key="buckminster.component" />       		
+       		<bc:match pattern="^eu\.qimpress\.reverseengineering\.qabstractor_impl"
+                 replacement="eu.qimpress.reverseengineering.qabstractor-impl" />
+     	</bc:replace>
+      </rm:uri>
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="qimpress-backbone">
+    <rm:provider componentTypes="eclipse.feature,osgi.bundle,buckminster" readerType="svn" source="true">
+      <rm:uri format="svn://svn.forge.objectweb.org/svnroot/q-impress/qimpress-ide/trunk/backbone-plugins/trunk/{0}">
+		<bc:propertyRef key="buckminster.component" />       		
+      </rm:uri>
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="indigo-updatesite">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://download.eclipse.org/releases/indigo/"/>
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="SISSy">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
+   	  <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/sissy/releases/1.1/" />
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="Palladio">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
+   	  <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/palladio/releases/3.3/" />
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="SDQ_Commons">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
+   	  <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/commons/releases/1.0/" />
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="WorkflowEngine">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
+   	  <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/1.3/" />
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="localresources">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
+      <rm:uri format="file:///{0}/{1}/">
+        <bc:propertyRef key="workspace.root"/>
+      	<bc:replace>
+       		<bc:propertyRef key="buckminster.component" />
+     	</bc:replace>
+      </rm:uri>
+    </rm:provider>
+  </rm:searchPath>
+</rm:rmap>
