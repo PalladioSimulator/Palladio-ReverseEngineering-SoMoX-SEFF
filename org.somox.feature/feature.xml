@@ -106,9 +106,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <url>
       <update label="Q-Impress Update Site org.somox" url="http://sdqweb.ipd.uka.de/eclipse/q-impress/org.somox"/>
-      <discovery label="Software Design and Quality" url="http://sdq.ipd.uka.de"/>
-      <discovery label="FZI Karlsruhe" url="http://www.fzi.de"/>
-      <discovery label="Q-ImPrESS" url="http://www.q-impress.eu"/>
    </url>
 
    <requires>
