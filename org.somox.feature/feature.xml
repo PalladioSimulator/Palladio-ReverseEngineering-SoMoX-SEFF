@@ -112,6 +112,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import feature="de.fzi.gast.feature" version="1.0.0.201207061624"/>
       <import feature="eu.qimpress.samm.feature" version="1.0.0.201101311330NGT"/>
       <import feature="de.fzi.sissy.bundle.feature" version="1.1.0.201207061624"/>
+      <import feature="eu.qimpress.ide.editors.gmf.feature" version="1.0.0.201101311330NGT"/>
    </requires>
 
    <plugin
