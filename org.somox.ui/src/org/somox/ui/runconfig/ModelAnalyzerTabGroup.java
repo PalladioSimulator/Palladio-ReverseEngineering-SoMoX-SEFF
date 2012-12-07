@@ -103,17 +103,13 @@ public class ModelAnalyzerTabGroup extends AbstractLaunchConfigurationTabGroup {
 			}
 			if (o instanceof AbstractMetric) {
 				AbstractMetric metric = (AbstractMetric)o;
-				if(metric.getLaunchConfigurationTab() != null) {
-					MetricTab metricTab = metric.getLaunchConfigurationTab();
+				MetricTab metricTab = metric.getLaunchConfigurationTab();
+				if(metricTab != null) {					
 					metricTab.setModelAnalyzerTabGroupBlackboard(modelAnalyzerTabGroupBlackboard);
 					tabList.add(metricTab);
 				}
-				
 			}
 		}
-		BlacklistTab blacklistTab = new BlacklistTab();
-		blacklistTab.setModelAnalyzerTabGroupBlackboard(modelAnalyzerTabGroupBlackboard);
-		tabList.add(blacklistTab);
 		return tabList;		
 	}
 	
