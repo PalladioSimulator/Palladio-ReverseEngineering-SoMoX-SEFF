@@ -2,8 +2,9 @@ package org.somox.analyzer.simplemodelanalyzer.builder;
 
 import org.somox.analyzer.AnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.metamodeladdition.Root;
 
-import de.fzi.gast.core.Root;
+//import de.fzi.gast.core.Root;
 
 public class AbstractBuilder {
 

@@ -1,6 +1,24 @@
 package org.somox.configuration;
 
-import static org.somox.common.SoMoXProjectPreferences.*;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_COMPOSE;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_MERGE;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_COMPOSE;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_MERGE;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_COMPOSE;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_MERGE;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_DIRECTORY_MAPPING;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_DMS;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_HIGHEST_NAME_RESEMBLANCE;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_HIGH_COUPLING;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_HIGH_NAME_RESEMBLANCE;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_HIGH_SLAQ;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_INTERFACE_VIOLATION_IRRELEVANT;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_INTERFACE_VIOLATION_RELEVANT;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_LOW_COUPLING;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_LOW_NAME_RESEMBLANCE;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_LOW_SLAQ;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_MID_NAME_RESEMBLANCE;
+import static org.somox.common.SoMoXProjectPreferences.SOMOX_WEIGHT_PACKAGE_MAPPING;
 
 import java.util.Map;
 

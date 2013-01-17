@@ -2,15 +2,21 @@ package org.somox.analyzer.simplemodelanalyzer.builder;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
+import org.eclipse.gmt.modisco.java.Block;
+import org.eclipse.gmt.modisco.java.MethodDeclaration;
+import org.eclipse.gmt.modisco.java.Type;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.detection.util.EqualityChecker;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.KDMHelper;
+import org.somox.kdmhelper.metamodeladdition.Root;
 
-import de.fzi.gast.core.Root;
-import de.fzi.gast.functions.Function;
-import de.fzi.gast.functions.Method;
-import de.fzi.gast.statements.BlockStatement;
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.functions.Function;
+//import de.fzi.gast.functions.Method;
+//import de.fzi.gast.statements.BlockStatement;
+//import de.fzi.gast.types.GASTClass;
 import eu.qimpress.qimpressgast.GASTBehaviour;
 import eu.qimpress.qimpressgast.qimpressgastFactory;
 import eu.qimpress.samm.behaviour.BehaviourFactory;
@@ -77,7 +83,7 @@ public class GASTBehaviourBuilder extends AbstractBuilder {
 		component.getOperationBehaviour().add(gastBehaviourStub);
 		
 		// links steems from interface; thus get component-specific implementation:
-		BlockStatement methodBody = getFunctionImplementation(link.getFunction(), findComponenentLink(component));
+		Block methodBody = getFunctionImplementation(link.getFunction(), findComponenentLink(component));
 		
 		gastBehaviour.setBlockstatement(methodBody); 
 		if (gastBehaviour.getBlockstatement() == null || gastBehaviour.getBlockstatement().getStatements().size() == 0) {
@@ -96,19 +102,19 @@ public class GASTBehaviourBuilder extends AbstractBuilder {
 	 * @param component The component to find the method implementation for
 	 * @return The block statement realising the function for the component; null in a case of error.
 	 */
-	private BlockStatement getFunctionImplementation(Function function,
+	private Block getFunctionImplementation(AbstractMethodDeclaration function,
 			ComponentImplementingClassesLink component) {		
 		
-		for(GASTClass implementingClass : component.getImplementingClasses()) {
-			for(Method implementedMethod : implementingClass.getMethods()) {				
+		for(Type implementingClass : component.getImplementingClasses()) {
+			for(MethodDeclaration implementedMethod : KDMHelper.getMethods(implementingClass)) {				
 				if(EqualityChecker.areFunctionsEqual(function, implementedMethod)) { //FIXME: check why equal fails 
 				//if(implementedMethod.equals(function)) {
-					return implementedMethod.getBody();	
+					return implementedMethod.getBody();
 				}				
 			}
 		}
 
-		logger.error("No method implemementation found for method " + function.getSimpleName() + " for component " + component.getComponent().getName());
+		logger.error("No method implemementation found for method " + function.getName() + " for component " + component.getComponent().getName());
 		return null;
 	}
 

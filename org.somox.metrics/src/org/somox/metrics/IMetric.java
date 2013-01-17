@@ -2,15 +2,17 @@ package org.somox.metrics;
 
 import java.util.Map;
 
+import org.eclipse.gmt.modisco.java.Type;
 import org.jgrapht.DirectedGraph;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.metrics.helper.ClassAccessGraphEdge;
 import org.somox.metrics.helper.ComponentToImplementingClassesHelper;
 import org.somox.metrics.parameter.ParameterDescriptor;
 import org.somox.metrics.tabs.MetricTab;
 
-import de.fzi.gast.core.Root;
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.types.GASTClass;
 
 /**
  * Base interface for all SoMoX metrics.
@@ -49,7 +51,7 @@ public interface IMetric {
 	public void initialize(Root gastModel,
 			SoMoXConfiguration somoxConfiguration,
 			Map<MetricID, IMetric> allMetrics,
-			DirectedGraph<GASTClass, ClassAccessGraphEdge> accessGraph,
+			DirectedGraph<Type, ClassAccessGraphEdge> accessGraph,
 			ComponentToImplementingClassesHelper componentToClassHelper);
 
 	/**

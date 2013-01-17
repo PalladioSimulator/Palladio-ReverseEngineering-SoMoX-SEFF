@@ -3,13 +3,15 @@ package org.somox.metrics;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.eclipse.gmt.modisco.java.Type;
 import org.jgrapht.DirectedGraph;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.metrics.helper.ClassAccessGraphEdge;
 import org.somox.metrics.helper.ComponentToImplementingClassesHelper;
 
-import de.fzi.gast.core.Root;
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.types.GASTClass;
 
 /**
  * Base class for a metric which uses other (child) metrics and a function to 
@@ -36,10 +38,10 @@ public abstract class AbstractComposedMetric extends AbstractMetric {
 	 */
 	@Override
 	public void initialize(
-			Root gastModel, 
+			Root gastModel,
 			SoMoXConfiguration somoxConfiguration, 
 			Map<MetricID, IMetric> allMetrics,
-			DirectedGraph<GASTClass, ClassAccessGraphEdge> accessGraph, 
+			DirectedGraph<Type, ClassAccessGraphEdge> accessGraph,
 			ComponentToImplementingClassesHelper componentToImplementingClassesHelper) {
 		super.initialize(gastModel, somoxConfiguration, allMetrics, accessGraph, componentToImplementingClassesHelper);
 	

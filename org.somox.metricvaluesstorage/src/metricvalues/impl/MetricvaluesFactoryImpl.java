@@ -6,14 +6,18 @@
  */
 package metricvalues.impl;
 
-import metricvalues.*;
+import metricvalues.Component;
+import metricvalues.ComponentCandidate;
+import metricvalues.Iteration;
+import metricvalues.MetricValue;
+import metricvalues.MetricValuesModel;
+import metricvalues.MetricvaluesFactory;
+import metricvalues.MetricvaluesPackage;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
@@ -25,134 +29,130 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 public class MetricvaluesFactoryImpl extends EFactoryImpl implements MetricvaluesFactory
 {
    /**
-    * Creates the default factory implementation.
-    * <!-- begin-user-doc -->
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public static MetricvaluesFactory init()
    {
-      try
-      {
-         MetricvaluesFactory theMetricvaluesFactory = (MetricvaluesFactory)EPackage.Registry.INSTANCE.getEFactory("http://metricvalues/1.0"); 
-         if (theMetricvaluesFactory != null)
-         {
-            return theMetricvaluesFactory;
-         }
-      }
-      catch (Exception exception)
-      {
-         EcorePlugin.INSTANCE.log(exception);
-      }
-      return new MetricvaluesFactoryImpl();
-   }
+		try {
+			MetricvaluesFactory theMetricvaluesFactory = (MetricvaluesFactory)EPackage.Registry.INSTANCE.getEFactory("http://metricvalues/1.0"); 
+			if (theMetricvaluesFactory != null) {
+				return theMetricvaluesFactory;
+			}
+		}
+		catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new MetricvaluesFactoryImpl();
+	}
 
    /**
-    * Creates an instance of the factory.
-    * <!-- begin-user-doc -->
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public MetricvaluesFactoryImpl()
    {
-      super();
-   }
+		super();
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    @Override
    public EObject create(EClass eClass)
    {
-      switch (eClass.getClassifierID())
-      {
-         case MetricvaluesPackage.COMPONENT: return createComponent();
-         case MetricvaluesPackage.COMPONENT_CANDIDATE: return createComponentCandidate();
-         case MetricvaluesPackage.ITERATION: return createIteration();
-         case MetricvaluesPackage.METRIC_VALUE: return createMetricValue();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL: return createMetricValuesModel();
-         default:
-            throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-      }
-   }
+		switch (eClass.getClassifierID()) {
+			case MetricvaluesPackage.COMPONENT: return createComponent();
+			case MetricvaluesPackage.COMPONENT_CANDIDATE: return createComponentCandidate();
+			case MetricvaluesPackage.ITERATION: return createIteration();
+			case MetricvaluesPackage.METRIC_VALUE: return createMetricValue();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL: return createMetricValuesModel();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public Component createComponent()
    {
-      ComponentImpl component = new ComponentImpl();
-      return component;
-   }
+		ComponentImpl component = new ComponentImpl();
+		return component;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public ComponentCandidate createComponentCandidate()
    {
-      ComponentCandidateImpl componentCandidate = new ComponentCandidateImpl();
-      return componentCandidate;
-   }
+		ComponentCandidateImpl componentCandidate = new ComponentCandidateImpl();
+		return componentCandidate;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public Iteration createIteration()
    {
-      IterationImpl iteration = new IterationImpl();
-      return iteration;
-   }
+		IterationImpl iteration = new IterationImpl();
+		return iteration;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public MetricValue createMetricValue()
    {
-      MetricValueImpl metricValue = new MetricValueImpl();
-      return metricValue;
-   }
+		MetricValueImpl metricValue = new MetricValueImpl();
+		return metricValue;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public MetricValuesModel createMetricValuesModel()
    {
-      MetricValuesModelImpl metricValuesModel = new MetricValuesModelImpl();
-      return metricValuesModel;
-   }
+		MetricValuesModelImpl metricValuesModel = new MetricValuesModelImpl();
+		return metricValuesModel;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public MetricvaluesPackage getMetricvaluesPackage()
    {
-      return (MetricvaluesPackage)getEPackage();
-   }
+		return (MetricvaluesPackage)getEPackage();
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @deprecated
-    * @generated
-    */
+	 * @deprecated
+	 * @generated
+	 */
    @Deprecated
    public static MetricvaluesPackage getPackage()
    {
-      return MetricvaluesPackage.eINSTANCE;
-   }
+		return MetricvaluesPackage.eINSTANCE;
+	}
 
 } //MetricvaluesFactoryImpl

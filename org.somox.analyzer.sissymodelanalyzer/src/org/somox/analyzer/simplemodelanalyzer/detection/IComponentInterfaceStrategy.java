@@ -1,6 +1,8 @@
 package org.somox.analyzer.simplemodelanalyzer.detection;
 
-import de.fzi.gast.types.GASTClass;
+import org.eclipse.gmt.modisco.java.Type;
+
+//import de.fzi.gast.types.GASTClass;
 
 /**
  * Recognition strategy for identifying classes as potential component
@@ -22,6 +24,6 @@ public interface IComponentInterfaceStrategy {
 	 * @param classToCheck The class to check
 	 * @return true if considered as an interface; false else
 	 */
-	public abstract boolean isComponentInterface(GASTClass classToCheck);
+	public abstract boolean isComponentInterface(Type classToCheck);
 
 }

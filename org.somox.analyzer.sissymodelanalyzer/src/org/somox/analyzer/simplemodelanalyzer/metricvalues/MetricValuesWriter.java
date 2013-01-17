@@ -22,13 +22,14 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.gmt.modisco.java.Type;
 import org.jgrapht.DirectedGraph;
 import org.somox.analyzer.simplemodelanalyzer.Activator;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.MetricID;
 
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.types.GASTClass;
 import eu.qimpress.samm.staticstructure.ComponentType;
 import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
 
@@ -77,7 +78,7 @@ public class MetricValuesWriter
       Iteration currentIteration = createCurrentIteration(metricsGraph, iteration, currentComposeThreshold,
             currentMergeThreshold, componentCandidates, isMergeIteration);
 
-      model.getIterationsList().add(currentIteration);
+      model.getIterationsList().add(currentIteration);//REALLYCHANGEMF
 
       if (iteration == 1)
       {
@@ -166,7 +167,7 @@ public class MetricValuesWriter
          ComponentType compA = clusteringRelation.getComponentA().getComponent();
          ComponentType compB = clusteringRelation.getComponentB().getComponent();
 
-         for (Component component : currentIteration.getComponentsList())
+         for (Component component : currentIteration.getComponents())//REALLYCHANGEMF
          {
             if (component.getId().equals(compA.getId()))
             {
@@ -180,7 +181,7 @@ public class MetricValuesWriter
 
          createMetricValue(clusteringRelation, compCandidate);
 
-         currentIteration.getComponentCandidatesList().add(compCandidate);
+         currentIteration.getComponentCandidatesList().add(compCandidate);//REALLYCHANGEMF
       }
    }
 
@@ -193,7 +194,7 @@ public class MetricValuesWriter
          MetricValue metricValue = MetricvaluesFactory.eINSTANCE.createMetricValue();
          metricValue.setMetricID(entry.getKey().getMetricID());
          metricValue.setValue(entry.getValue().doubleValue());
-         compCandidate.getMetricValuesList().add(metricValue);
+         compCandidate.getMetricValuesList().add(metricValue);//REALLYCHANGEMF
       }
    }
 
@@ -204,7 +205,7 @@ public class MetricValuesWriter
       {
          Component component = createComponent(currentIteration, compLink);
 
-         currentIteration.getComponentsList().add(component);
+         currentIteration.getComponentsList().add(component);//REALLYCHANGEMF
       }
    }
 
@@ -216,17 +217,17 @@ public class MetricValuesWriter
       component.setId(comp.getId());
       component.setName(comp.getName());
 
-      List<GASTClass> classes = compCand.getImplementingClasses();
-      for (GASTClass gastClass : classes)
+      List<Type> classes = compCand.getImplementingClasses();
+      for (Type gastClass : classes)
       {
-         component.getClassesList().add(gastClass);
+         component.getClassesList().add(gastClass);//REALLYCHANGEMF
       }
 
       List<ComponentImplementingClassesLink> subComponents = compCand.getSubComponents();
       for (ComponentImplementingClassesLink componentImplementingClassesLink : subComponents)
       {
          Component subComponent = createComponent(currentIteration, componentImplementingClassesLink);
-         component.getSubComponentsList().add(subComponent);
+         component.getSubComponentsList().add(subComponent);//REALLYCHANGEMF
       }
 
       return component;

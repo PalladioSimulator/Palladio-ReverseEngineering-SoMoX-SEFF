@@ -1,8 +1,6 @@
 package org.somox.analyzer.simplemodelanalyzer.builder;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -10,27 +8,16 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.InterfacePortBuilderHelper;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.SubComponentInformation;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.resources.defaultmodels.DefaultModelLoader;
 
-import de.fzi.gast.core.Root;
+//import de.fzi.gast.core.Root;
 import eu.qimpress.samm.deployment.allocation.AllocationFactory;
 import eu.qimpress.samm.deployment.allocation.Service;
-import eu.qimpress.samm.deployment.hardware.HardwareDescriptorRepository;
-import eu.qimpress.samm.deployment.hardware.HardwarePackage;
-import eu.qimpress.samm.deployment.targetenvironment.Container;
-import eu.qimpress.samm.deployment.targetenvironment.TargetEnvironment;
-import eu.qimpress.samm.deployment.targetenvironment.TargetenvironmentPackage;
-import eu.qimpress.samm.qosannotation.QosAnnotations;
-import eu.qimpress.samm.qosannotation.QosannotationPackage;
 import eu.qimpress.samm.staticstructure.ComponentEndpoint;
 import eu.qimpress.samm.staticstructure.Connector;
 import eu.qimpress.samm.staticstructure.Interface;

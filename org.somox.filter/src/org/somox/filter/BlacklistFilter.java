@@ -4,10 +4,12 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
+import org.eclipse.gmt.modisco.java.Type;
+import org.somox.kdmhelper.KDMHelper;
 
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.types.GASTClass;
 
-public class BlacklistFilter extends BaseFilter<GASTClass> {
+public class BlacklistFilter extends BaseFilter<Type> {
 
 	private static Logger logger = Logger.getLogger(BlacklistFilter.class);
 	
@@ -20,7 +22,7 @@ public class BlacklistFilter extends BaseFilter<GASTClass> {
 	}
 	
 	@Override
-	public boolean passes(GASTClass object) {
+	public boolean passes(Type object) {
 		return !classMatchesBlacklist(object);
 	}
 
@@ -48,10 +50,10 @@ public class BlacklistFilter extends BaseFilter<GASTClass> {
 	 * @param currentClass The class of the component
 	 * @return true if the FQN of the class matches the given pattern
 	 */
-	private boolean classMatchesBlacklist(GASTClass currentClass) {
-		boolean result = matchPattern.matcher(currentClass.getQualifiedName()).matches();
+	private boolean classMatchesBlacklist(Type currentClass) {
+		boolean result = matchPattern.matcher(KDMHelper.computeFullQualifiedName(currentClass)).matches();
 		if (logger.isTraceEnabled()) {
-			logger.trace("Blacklist filter matches "+currentClass.getQualifiedName()+": " + result);
+			logger.trace("Blacklist filter matches " + KDMHelper.computeFullQualifiedName(currentClass) + ": " + result);
 		}
 		return result;
 	}

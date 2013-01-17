@@ -2,11 +2,12 @@ package org.somox.metrics.basic;
 
 import java.util.Set;
 
+import org.eclipse.gmt.modisco.java.Type;
 import org.somox.metrics.AbstractCountingMetric;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.MetricID;
 
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.types.GASTClass;
 
 /**
  * Efferent coupling (Ce): The number of types inside this assembly that depends on types 
@@ -23,7 +24,20 @@ public class EfferentCoupling extends AbstractCountingMetric {
 	@Override
 	protected ClusteringRelation internalComputeDirected(
 			ClusteringRelation relationToCompute) {
-		Set<GASTClass> internalClasses = calculateUnion(relationToCompute.getComponentA(), relationToCompute.getComponentB());
+		
+		
+//		//removelater
+//		java.util.List<Type> type1 = relationToCompute.getComponentA().getImplementingClasses();
+//		java.util.List<Type> type2 = relationToCompute.getComponentB().getImplementingClasses();
+//		if(type1!= null & type2!=null & type1.size()>0 & type2.size()>0){
+//			if(type1.get(0).getName().equals("CashBox") &
+//					type2.get(0).getName().equals("RefreshButton")){
+//				String fileName = "interfacecount.txt";; 
+////				org.somox.changetest.Helper.writeToFile(fileName, "---" +type1.get(0).getName() + " " + type2.get(0).getName());
+//			}
+//		}
+		
+		Set<Type> internalClasses = calculateUnion(relationToCompute.getComponentA(), relationToCompute.getComponentB());
 
 		relationToCompute.setResultMetric(METRIC_ID, getAccessGraphCache().calculateNumberOfExternalAccesses(internalClasses));
 		

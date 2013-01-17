@@ -4,14 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.eclipse.gmt.modisco.java.Type;
 import org.jgrapht.DirectedGraph;
 import org.somox.filter.BaseFilter;
 import org.somox.filter.NotFilter;
+import org.somox.kdmhelper.KDMHelper;
 import org.somox.metrics.helper.ClassAccessGraphEdge;
 import org.somox.metrics.helper.SourceClassEdgeFilter;
 import org.somox.metrics.helper.TargetClassEdgeFilter;
 
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.types.GASTClass;
 
 /**
  * Class used to encapsulate all computations based on the number
@@ -30,7 +32,7 @@ public class AccessCacheGraph {
 	 * A graph serving as cache for the number of accesses from each 
 	 * GASTClass to each other GASTClass
 	 */
-	private final DirectedGraph<GASTClass, ClassAccessGraphEdge> accessGraph;
+	private final DirectedGraph<Type, ClassAccessGraphEdge> accessGraph;
 
 	/**
 	 * Constructor of the access cache
@@ -40,7 +42,7 @@ public class AccessCacheGraph {
 	 * two connected classes 
 	 */
 	public AccessCacheGraph(
-			DirectedGraph<GASTClass, ClassAccessGraphEdge> accessGraph) {
+			DirectedGraph<Type, ClassAccessGraphEdge> accessGraph) {
 		super();
 		this.accessGraph = accessGraph;
 	}
@@ -53,8 +55,8 @@ public class AccessCacheGraph {
 	 * @return count of accesses The number of total accesses from sourceClasses to targetClasses
 	 */
 	public long calculateNumberOfAccessesToClassesInSet(
-			Set<GASTClass> sourceClasses,
-			Set<GASTClass> targetClasses) {
+			Set<Type> sourceClasses,
+			Set<Type> targetClasses) {
 		
 		if (sourceClasses == null || targetClasses == null)
 			throw new IllegalArgumentException("Source or target classes must not be null");
@@ -70,7 +72,7 @@ public class AccessCacheGraph {
 	 * @return The total number of incoming accesses to the set of classes
 	 */
 	public long calculateNumberOfIncommingAccesses(
-			Set<GASTClass> sourceClasses) {
+			Set<Type> sourceClasses) {
 	
 		BaseFilter<ClassAccessGraphEdge> filter = 
 			new NotFilter<ClassAccessGraphEdge>(new SourceClassEdgeFilter(sourceClasses));		
@@ -87,7 +89,7 @@ public class AccessCacheGraph {
 	 * @return Count of accesses
 	 */
 	public long calculateNumberOfExternalAccesses(
-			Set<GASTClass> sourceClasses) {
+			Set<Type> sourceClasses) {
 	
 		BaseFilter<ClassAccessGraphEdge> filter = 
 			new NotFilter<ClassAccessGraphEdge>(new TargetClassEdgeFilter(sourceClasses));		
@@ -95,7 +97,7 @@ public class AccessCacheGraph {
 		long result = getNumberOfFilteredOutgoingAccesses(sourceClasses, filter);
 		
 		if (logger.isDebugEnabled()) {
-			Set<GASTClass> otherClasses = substractSet(this.accessGraph.vertexSet(),sourceClasses);
+			Set<Type> otherClasses = substractSet(this.accessGraph.vertexSet(),sourceClasses);
 			assert result == calculateNumberOfAccessesToClassesInSet(sourceClasses, otherClasses);
 		}
 		
@@ -109,7 +111,7 @@ public class AccessCacheGraph {
 	 * @return Count of accesses
 	 */
 	public long calculateNumberOfInternalAccesses(
-			Set<GASTClass> sourceClasses) {
+			Set<Type> sourceClasses) {
 
 		BaseFilter<ClassAccessGraphEdge> filter = 
 			new TargetClassEdgeFilter(sourceClasses);		
@@ -129,9 +131,9 @@ public class AccessCacheGraph {
 	 * @param setToRemove Elements to be removed from source set
 	 * @return source - setToRemove
 	 */
-	private Set<GASTClass> substractSet(Set<GASTClass> source, Set<GASTClass> setToRemove) {
-		Set<GASTClass> otherClasses = new HashSet<GASTClass>();
-		for (GASTClass clazz : source) {
+	private Set<Type> substractSet(Set<Type> source, Set<Type> setToRemove) {
+		Set<Type> otherClasses = new HashSet<Type>();
+		for (Type clazz : source) {
 			if (!setToRemove.contains(clazz)){
 				otherClasses.add(clazz);
 			}
@@ -140,16 +142,17 @@ public class AccessCacheGraph {
 	}
 
 	private long getNumberOfFilteredOutgoingAccesses(
-			Set<GASTClass> sourceClasses,
+			Set<Type> sourceClasses,
 			BaseFilter<ClassAccessGraphEdge> filter) {
-		
+		//removelater
+//		Helper.writeToFile("interfacecount.txt", "start");
 		if (sourceClasses == null)
 			throw new IllegalArgumentException("Source classes must not be null.");
 		
 		long numberOfReferences = 0;
-		for(GASTClass clazz : sourceClasses) {
+		for(Type clazz : sourceClasses) {
 			try {
-				if(clazz.getSimpleName().startsWith("I")) {
+				if(clazz.getName().startsWith("I")) {
 					int i = 0; // debug
 				}
 
@@ -159,7 +162,9 @@ public class AccessCacheGraph {
 				assert this.accessGraph.vertexSet().contains(clazz);
 				if (this.accessGraph.outDegreeOf(clazz) > 0) {
 					for(ClassAccessGraphEdge edge : filter.filter(this.accessGraph.outgoingEdgesOf(clazz))) {
-						numberOfReferences += edge.getCount(); 
+						numberOfReferences += edge.getCount();
+						//removelater
+//						Helper.writeToFile("interfacecount.txt", GASTClassHelper.computeFullQualifiedName(edge.getTargetClazz()) + " " + edge.getCount());
 					}
 				}
 			} catch(IllegalArgumentException e) {
@@ -168,14 +173,17 @@ public class AccessCacheGraph {
 				throw new RuntimeException("This should never happen as outDegree was > 0",e);
 			}
 		}
+		//removelater
+//		Helper.writeToFile("interfacecount.txt", "end");
+
 		return numberOfReferences;
 	}	
 
 	private long getNumberOfFilteredIncomingAccesses(
-			Set<GASTClass> sourceClasses,
+			Set<Type> sourceClasses,
 			BaseFilter<ClassAccessGraphEdge> filter) {
 		long numberOfReferences = 0;
-		for(GASTClass clazz : sourceClasses) {
+		for(Type clazz : sourceClasses) {
 			try {
 				assert this.accessGraph.vertexSet().contains(clazz);
 				if (this.accessGraph.inDegreeOf(clazz) > 0) {

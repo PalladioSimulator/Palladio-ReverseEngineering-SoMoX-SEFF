@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.somox.analyzer.simplemodelanalyzer.builder.ComponentBuilder;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.metamodeladdition.Root;
 
-import de.fzi.gast.core.Root;
+//import de.fzi.gast.core.Root;
 import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**

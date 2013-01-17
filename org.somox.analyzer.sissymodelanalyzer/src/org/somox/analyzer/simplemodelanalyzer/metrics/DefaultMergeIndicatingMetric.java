@@ -3,7 +3,6 @@ package org.somox.analyzer.simplemodelanalyzer.metrics;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.somox.analyzer.simplemodelanalyzer.metrics.tabs.WeightsTab;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.metrics.AbstractComposedMetric;
 import org.somox.metrics.ICompositionFunction;

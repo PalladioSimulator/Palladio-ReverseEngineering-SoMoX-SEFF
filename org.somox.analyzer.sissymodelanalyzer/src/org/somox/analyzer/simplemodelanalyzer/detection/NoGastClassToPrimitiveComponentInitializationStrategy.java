@@ -3,14 +3,17 @@ package org.somox.analyzer.simplemodelanalyzer.detection;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.gmt.modisco.java.Type;
+import org.eclipse.gmt.modisco.java.emf.JavaPackage;
 import org.somox.analyzer.simplemodelanalyzer.builder.ComponentBuilder;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.filter.ComposedFilter;
 import org.somox.filter.EClassBasedFilter;
+import org.somox.kdmhelper.metamodeladdition.Root;
 
-import de.fzi.gast.core.Root;
-import de.fzi.gast.types.GASTClass;
-import de.fzi.gast.types.typesPackage;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.types.typesPackage;
 import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
@@ -28,19 +31,19 @@ public class NoGastClassToPrimitiveComponentInitializationStrategy extends Abstr
 	@SuppressWarnings("unchecked")
 	public List<ComponentImplementingClassesLink> createInitialComponentCandidates(Root root, SoMoXConfiguration config, ComponentBuilder builder) {
 		List<ComponentImplementingClassesLink> result = new ArrayList<ComponentImplementingClassesLink>();
-		List<GASTClass> classList = root.getAllNormalClasses();
+		List<Type> classList = root.getNormalClasses();
 		
-		ComposedFilter<GASTClass> gastClassFilter = new ComposedFilter<GASTClass>(
+		ComposedFilter<Type> gastClassFilter = new ComposedFilter<Type>(
 				config.getBlacklistFilter(),
-				new EClassBasedFilter<GASTClass>(
-						typesPackage.eINSTANCE.getGASTEnumeration(),
-						typesPackage.eINSTANCE.getGASTUnion()),
+				new EClassBasedFilter<Type>(
+						JavaPackage.eINSTANCE.getEnumDeclaration()),//SOMOXTODOCHANGE
+						//typesPackage.eINSTANCE.getGASTUnion()),//SOMOXTODOCHANGE
 				primitiveClassesFilter,
 				improperStructFilter,
 				dataObjectFilter,
 				unknownClassTypeFilter);
 
-		for (GASTClass clazz : gastClassFilter.filter(classList)){
+		for (Type clazz : gastClassFilter.filter(classList)){
 			// Attention: does only create the component links but not the SAMM primitive component:
 			ComponentImplementingClassesLink newPrimitiveComponent = builder.createComponentLinkFromGASTClass(clazz);
 			result.add(newPrimitiveComponent);

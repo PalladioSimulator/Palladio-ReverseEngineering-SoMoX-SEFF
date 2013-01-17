@@ -3,8 +3,9 @@ package org.somox.analyzer.simplemodelanalyzer.builder;
 import org.apache.log4j.Logger;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.metamodeladdition.Root;
 
-import de.fzi.gast.core.Root;
+//import de.fzi.gast.core.Root;
 import eu.qimpress.samm.core.NamedEntity;
 import eu.qimpress.samm.staticstructure.ComponentType;
 import eu.qimpress.samm.staticstructure.CompositeStructure;

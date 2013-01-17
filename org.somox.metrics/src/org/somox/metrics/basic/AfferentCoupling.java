@@ -2,11 +2,12 @@ package org.somox.metrics.basic;
 
 import java.util.Set;
 
+import org.eclipse.gmt.modisco.java.Type;
 import org.somox.metrics.AbstractCountingMetric;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.MetricID;
 
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.types.GASTClass;
 
 /**
  * Afferent coupling (Ca): The number of types outside this assembly that 
@@ -23,7 +24,7 @@ public class AfferentCoupling extends AbstractCountingMetric {
 	@Override
 	protected ClusteringRelation internalComputeDirected(
 			ClusteringRelation relationToCompute) {
-		Set<GASTClass> internalClasses = calculateUnion(relationToCompute.getComponentA(), relationToCompute.getComponentB());
+		Set<Type> internalClasses = calculateUnion(relationToCompute.getComponentA(), relationToCompute.getComponentB());
 		relationToCompute.setResultMetric(METRIC_ID, getAccessGraphCache().calculateNumberOfIncommingAccesses(internalClasses));
 		
 		return relationToCompute;

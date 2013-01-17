@@ -1,5 +1,6 @@
 package org.somox.analyzer.simplemodelanalyzer;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.gmt.modisco.java.Type;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.ModelAnalyzer;
 import org.somox.analyzer.ModelAnalyzerException;
@@ -17,9 +19,12 @@ import org.somox.analyzer.simplemodelanalyzer.factories.BasicSoMoXStrategiesFact
 import org.somox.analyzer.simplemodelanalyzer.factories.ISoMoXStrategiesFactory;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.extractor.ExtractionResult;
+import org.somox.kdmhelper.KDMHelper;
+import org.somox.kdmhelper.KDMReader;
+import org.somox.kdmhelper.metamodeladdition.Root;
 
-import de.fzi.gast.core.Root;
-import de.fzi.gast.helpers.GASTReader;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.helpers.GASTReader;
 import de.uka.ipd.sdq.workflow.ExecutionTimeLoggingProgressMonitor;
 import eu.qimpress.qimpressgast.GASTBehaviourRepository;
 import eu.qimpress.qimpressgast.qimpressgastFactory;
@@ -80,10 +85,10 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 		String platformPath = somoxConfiguration.getFileLocations().getAnalyserInputFile(); 
 		if (platformPath != null) {
 			URI fileURI = URI.createPlatformResourceURI(platformPath, true);
-			if (fileURI.fileExtension().toLowerCase().equals("gast")) {
-				GASTReader modelReader;
+			if (fileURI.fileExtension().toLowerCase().equals("xmi")) { 
+				KDMReader modelReader;
 				try {
-					modelReader = new GASTReader();
+					modelReader = new KDMReader();
 					modelReader.loadFile(fileURI);
 				} catch (IOException e) {
 					logger.error("Failed to load GAST Model",e);
@@ -125,6 +130,17 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 		List<ComponentImplementingClassesLink> initialComponents = detectInitialComponentCandidates(
 				gastModel, somoxConfiguration, sammComponentBuilder, strategiesFactory,
 				progressMonitor);
+		
+		//removelater
+//		String fileName = "01initialComponentsPCKDM.txt";
+//		int PCnumber = 0;
+//		for(ComponentImplementingClassesLink element : initialComponents){
+////			org.somox.changetest.Helper.writeToFile(fileName, String.valueOf(PCnumber++));
+//			for(Type type : element.getImplementingClasses()){
+//				org.somox.changetest.Helper.writeToFile(fileName, GASTClassHelper.computeFullQualifiedName(type));
+//			}
+//		}
+//		org.somox.changetest.Helper.sortFile(fileName);
 
 		// Component Detection
 		clusterComponents(initialComponents, somoxConfiguration, sammComponentBuilder,
@@ -175,6 +191,8 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 			strategiesFactory.getDetectionStrategy(initialComponentCandidates).startDetection(sammBuilder, somoxConfiguration, 
 				progressMonitor,initialComponentCandidates);
 
+	
+		
 		if (logger.isDebugEnabled()) {
 			logger.debug("Printing detected components");
 			ComponentPrinter.printComponents(componentsFound, logger);
@@ -185,7 +203,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 
 	/**
 	 * Method called to derive initial component candidates based on the passed source code in GAST format
-	 * @param gastModel The source code in its GAST representation
+	 * @param gastModel The source code in its GAST representation //ESTIMATEDBYDOCQUERY
 	 * @param somoxConfiguration The SoMoX configuration containing configuration options for the component detecting like the name blacklist
 	 * @param sammBuilder The SAM model builder used to create the component SAM model elements
 	 * @param strategiesFactory Factory used to create the clustering strategy

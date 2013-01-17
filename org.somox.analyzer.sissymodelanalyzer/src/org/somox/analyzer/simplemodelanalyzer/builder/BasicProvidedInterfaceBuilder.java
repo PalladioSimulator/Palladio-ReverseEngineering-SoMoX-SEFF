@@ -5,8 +5,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.metamodeladdition.Root;
 
-import de.fzi.gast.core.Root;
+//import de.fzi.gast.core.Root;
 import eu.qimpress.samm.staticstructure.InterfacePort;
 import eu.qimpress.samm.staticstructure.StaticstructureFactory;
 import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;

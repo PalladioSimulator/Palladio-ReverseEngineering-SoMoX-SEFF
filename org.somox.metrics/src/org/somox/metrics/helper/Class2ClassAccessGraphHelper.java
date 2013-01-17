@@ -4,6 +4,10 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.Type;
+import org.eclipse.gmt.modisco.java.TypeAccess;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.EdgeFactory;
 import org.jgrapht.Graph;
@@ -12,11 +16,13 @@ import org.somox.configuration.SoMoXConfiguration;
 import org.somox.filter.AccessedTargetBlacklistFilter;
 import org.somox.filter.BaseFilter;
 import org.somox.filter.EClassBasedFilter;
+import org.somox.kdmhelper.KDMHelper;
+import org.somox.kdmhelper.GetAccessedType;
 import org.somox.metrics.util.GraphPrinter;
 
-import de.fzi.gast.accesses.Access;
-import de.fzi.gast.accesses.accessesPackage;
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.accesses.Access;
+//import de.fzi.gast.accesses.accessesPackage;
+//import de.fzi.gast.types.GASTClass;
 
 /**
  * A class used as filter to filter the available classes being potential component candidates 
@@ -27,16 +33,16 @@ public class Class2ClassAccessGraphHelper {
 	
 	private static final Logger logger = Logger.getLogger(Class2ClassAccessGraphHelper.class);
 	
-	private static final BaseFilter<GASTClass> primitiveTypeFilter = new BaseFilter<GASTClass>() {
+	private static final BaseFilter<Type> primitiveTypeFilter = new BaseFilter<Type>() {
 		
 		@Override
-		public boolean passes(GASTClass object) {
-			return !object.isPrimitive();
+		public boolean passes(Type object) {
+			return ! KDMHelper.isPrimitive(object);
 		}
 	};
 
-	private static final EdgeFactory<GASTClass, ClassAccessGraphEdge> edgeFactory = new EdgeFactory<GASTClass, ClassAccessGraphEdge>() {
-		public ClassAccessGraphEdge createEdge(GASTClass source, GASTClass target) {
+	private static final EdgeFactory<Type, ClassAccessGraphEdge> edgeFactory = new EdgeFactory<Type, ClassAccessGraphEdge>() {
+		public ClassAccessGraphEdge createEdge(Type source, Type target) {
 			return new ClassAccessGraphEdge(source, target);
 		}
 	};
@@ -50,12 +56,12 @@ public class Class2ClassAccessGraphHelper {
 	 * also used in the initial component detection
 	 * @return A "graph" giving the connections of GAST classes and their number of accesses
 	 */
-	public static DirectedGraph<GASTClass,ClassAccessGraphEdge> computeFilteredClass2ClassAccessGraph(
+	public static DirectedGraph<Type,ClassAccessGraphEdge> computeFilteredClass2ClassAccessGraph(
 			SoMoXConfiguration somoxConfiguration, 
-			Set<GASTClass> componentsImplementingClasses) {
+			Set<Type> componentsImplementingClasses) {
 		
-		DirectedGraph<GASTClass,ClassAccessGraphEdge> accessGraph = new SimpleDirectedGraph<GASTClass, ClassAccessGraphEdge>(edgeFactory);
-		for (GASTClass clazz : primitiveTypeFilter.filter(componentsImplementingClasses)) {
+		DirectedGraph<Type,ClassAccessGraphEdge> accessGraph = new SimpleDirectedGraph<Type, ClassAccessGraphEdge>(edgeFactory);
+		for (Type clazz : primitiveTypeFilter.filter(componentsImplementingClasses)) {
 			accessGraph.addVertex(clazz);
 		}
 
@@ -63,7 +69,7 @@ public class Class2ClassAccessGraphHelper {
 		
 		AccessedTargetBlacklistFilter filter = new AccessedTargetBlacklistFilter(somoxConfiguration.getBlacklistFilter());
 		
-		for (GASTClass clazz : componentsImplementingClasses) {
+		for (Type clazz : componentsImplementingClasses) {
 			addAccessesToGraph(accessGraph, filter, clazz);
 		}
 		
@@ -79,17 +85,26 @@ public class Class2ClassAccessGraphHelper {
 	}
 
 	private static boolean noPrimitiveTypesAsVertexes(
-			DirectedGraph<GASTClass, ClassAccessGraphEdge> accessGraph) {
+			DirectedGraph<Type, ClassAccessGraphEdge> accessGraph) {
 		boolean result = true;
-		for (GASTClass clazz : accessGraph.vertexSet()) {
-			result &= !clazz.isPrimitive();
+		for (Type clazz : accessGraph.vertexSet()) {
+			result &= ! KDMHelper.isPrimitive(clazz);
 		}
 		return result;
 	}
 
-	private static final EClassBasedFilter<Access> accessFilter = new EClassBasedFilter<Access>(
-			new EClass[]{accessesPackage.eINSTANCE.getInheritanceTypeAccess()});
-	
+	private static final EClassBasedFilter<ASTNode> accessFilter = new EClassBasedFilter<ASTNode>(){
+			//new EClass[]{/**accessesPackage.eINSTANCE.getInheritanceTypeAccess()**/});//SOMOXTODOCHANGE
+		@Override//REALLYADDED
+		public boolean passes(EObject object) {//REALLYADDED
+			if(object != null && object instanceof TypeAccess){//REALLYADDED
+				if(KDMHelper.isInheritanceTypeAccess((TypeAccess) object)){//REALLYADDED
+					return false;//REALLYADDED
+				}//REALLYADDED
+			}//REALLYADDED
+			return true;//REALLYADDED
+		}//REALLYADDED
+	};
 	/**
 	 * Compute the outgoing links for the node containing class "clazz". Links pointing to classes which match the blacklist pattern are not created
 	 * @param filter Blacklist match pattern. Used to remove potential targets
@@ -97,12 +112,20 @@ public class Class2ClassAccessGraphHelper {
 	 * @return A set of target classes and their link weights. Weights model the number of accesses between clazz and its respective target
 	 */
 	private static void addAccessesToGraph(
-			Graph<GASTClass,ClassAccessGraphEdge> graph,
+			Graph<Type,ClassAccessGraphEdge> graph,
 			AccessedTargetBlacklistFilter filter,
-			GASTClass clazz) {
+			Type clazz) {
 				
-		for (Access singleAccess : accessFilter.filter(filter.filter(clazz.getAllAccesses()))) {
-			GASTClass accessedClass = singleAccess.getAccessedClass();
+		for (ASTNode singleAccess : accessFilter.filter(filter.filter(KDMHelper.getAllAccesses(clazz)))) {
+			
+//			if(singleAccess != null & singleAccess instanceof TypeAccess){ //SOMOXTODOCHANGE was added here because removed in accessFilter creation
+//				if(GASTClassHelper.isInheritanceTypeAccess((TypeAccess) singleAccess)){
+//					System.out.println("was ita");
+//					continue;
+//				}
+//			}
+			
+			Type accessedClass = GetAccessedType.getAccessedType(singleAccess);
 			
 			// Relations between the class itself are not interesting...
 			if (clazz == accessedClass)

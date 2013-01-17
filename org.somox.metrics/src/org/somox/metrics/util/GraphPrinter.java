@@ -11,10 +11,12 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.gmt.modisco.java.Type;
 import org.jgrapht.Graph;
+import org.somox.kdmhelper.KDMHelper;
 import org.somox.metrics.helper.ComponentToImplementingClassesHelper;
 
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.types.GASTClass;
 import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
@@ -163,8 +165,8 @@ public class GraphPrinter {
 			ComponentToImplementingClassesHelper componentToClassesHelper,
 			Object component, 
 			boolean useRealBreak) {
-		if (component instanceof GASTClass)
-			return "\""+((GASTClass)component).getQualifiedName()+"\"";
+		if (component instanceof Type)
+			return "\"" + KDMHelper.computeFullQualifiedName(((Type)component)) + "\"";
 		else if (component instanceof ComponentImplementingClassesLink)
 			return getNodeId(componentToClassesHelper, (ComponentImplementingClassesLink)component, useRealBreak);
 		return component.toString();
@@ -174,12 +176,12 @@ public class GraphPrinter {
 			ComponentToImplementingClassesHelper componentToClassesHelper,
 			ComponentImplementingClassesLink component, 
 			boolean useRealBreak) {
-		Set<GASTClass> classes = componentToClassesHelper.deriveImplementingClasses(component);
+		Set<Type> classes = componentToClassesHelper.deriveImplementingClasses(component);
 		StringBuilder stringBuilder = new StringBuilder();
 		
 		stringBuilder.append("\"");
-		for (GASTClass clazz : classes) {
-			stringBuilder.append(clazz.getQualifiedName());
+		for (Type clazz : classes) {
+			stringBuilder.append(KDMHelper.computeFullQualifiedName(clazz));
 			stringBuilder.append(useRealBreak ? "\n" : "\\n");
 		}
 		if (!useRealBreak) 

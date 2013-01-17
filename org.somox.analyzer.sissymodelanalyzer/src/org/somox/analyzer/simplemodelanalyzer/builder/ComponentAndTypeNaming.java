@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.gmt.modisco.java.Type;
+import org.somox.kdmhelper.KDMHelper;
+import org.somox.kdmhelper.metamodeladdition.Root;
 
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.types.GASTClass;
 import eu.qimpress.samm.staticstructure.ComponentType;
 import eu.qimpress.samm.staticstructure.Interface;
 import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
@@ -38,8 +41,8 @@ public class ComponentAndTypeNaming {
 	}
 
 	@Deprecated
-	public String createSimpleComponentName(int i, GASTClass gastClass) {
-		return "Comp. " + i + ": " + gastClass.getSimpleName();
+	public String createSimpleComponentName(int i, Type gastClass) {
+		return "Comp. " + i + ": " + gastClass.getName();
 	}
 
 	/**
@@ -48,13 +51,13 @@ public class ComponentAndTypeNaming {
 	 * @param shorten true: a short name
 	 * @return
 	 */
-	public String createSimpleComponentName(List<GASTClass> gastClasses, boolean shorten) {
+	public String createSimpleComponentName(List<Type> gastClasses, boolean shorten) {
 		StringBuilder nameBuilder = new StringBuilder();
 		nameBuilder.append(" <PC No. "+ primitiveComponentNumber++);
 		
 		StringBuilder subComponentNames = new StringBuilder();
-		for(GASTClass currentGASTclass : gastClasses) {
-			subComponentNames.append(" " + currentGASTclass.getSimpleName());
+		for(Type currentGASTclass : gastClasses) { 
+			subComponentNames.append(" " + KDMHelper.computeFullQualifiedName(currentGASTclass));
 		}
 		
 		if(shorten) {
@@ -68,15 +71,15 @@ public class ComponentAndTypeNaming {
 		return nameBuilder.toString();
 	}
 	
-	public String createSimpleComponentName(GASTClass gastClass) {
-		return gastClass.getQualifiedName() + " <PC No. "+ primitiveComponentNumber++ + ">";
+	public String createSimpleComponentName(Type gastClass) {
+		return KDMHelper.computeFullQualifiedName(gastClass) + " <PC No. "+ primitiveComponentNumber++ + ">";
 	}
 	
 	public String createSimpleComponentName(int i, List<ComponentImplementingClassesLink> currentList) {
 		StringBuilder sb = new StringBuilder();
 		for(ComponentImplementingClassesLink currentClassesLinkList : currentList) {
-			for (GASTClass currentClass : currentClassesLinkList.getImplementingClasses()) {
-				sb.append(currentClass.getSimpleName() + " ");
+			for (Type currentClass : currentClassesLinkList.getImplementingClasses()) {
+				sb.append(currentClass.getName() + " ");
 			}
 		}
 		String name = "Comp No. " + i + " " + sb.toString();		
@@ -137,28 +140,28 @@ public class ComponentAndTypeNaming {
 		String directoryName = "";
 		int maxNumber = 0;
 		for (ComponentImplementingClassesLink currentClassesLink : currentList) {
-			for(GASTClass currentClass : currentClassesLink.getImplementingClasses()) {
-				if (currentClass.getSurroundingPackage() != null) {
-					Integer tmpNumber = numberOfPackageNames.get(currentClass.getSurroundingPackage().getId());
+			for(Type currentClass : currentClassesLink.getImplementingClasses()) {
+				if (KDMHelper.getSurroundingPackage(currentClass) != null) {
+					Integer tmpNumber = numberOfPackageNames.get(Root.getIdForPackage(KDMHelper.getSurroundingPackage(currentClass)));
 					if (tmpNumber != null) {
 						tmpNumber++;
-						numberOfPackageNames.put(currentClass.getSurroundingPackage().getId(), tmpNumber);
+						numberOfPackageNames.put(Root.getIdForPackage(KDMHelper.getSurroundingPackage(currentClass)), tmpNumber);
 						if (tmpNumber > maxNumber) {
 							maxNumber = tmpNumber;
-							maxNumberPackageId = currentClass.getSurroundingPackage().getId();
+							maxNumberPackageId = Root.getIdForPackage(KDMHelper.getSurroundingPackage(currentClass));
 						}
 					} else {
-						numberOfPackageNames.put(currentClass.getSurroundingPackage().getId(), 1);
-						packageNames.put(currentClass.getSurroundingPackage().getId(), currentClass.getSurroundingPackage().getQualifiedName());
+						numberOfPackageNames.put(Root.getIdForPackage(KDMHelper.getSurroundingPackage(currentClass)), 1);
+						packageNames.put(Root.getIdForPackage(KDMHelper.getSurroundingPackage(currentClass)), KDMHelper.computeFullQualifiedName(KDMHelper.getSurroundingPackage(currentClass)));
 						if (1 > maxNumber) {
 							maxNumber = 1;
-							maxNumberPackageId = currentClass.getSurroundingPackage().getId();
+							maxNumberPackageId = Root.getIdForPackage(KDMHelper.getSurroundingPackage(currentClass));
 						}
 					}
-				} else if (currentClass.getPosition() != null && currentClass.getPosition().getSourceFile() != null){							
-					directoryName = currentClass.getPosition().getSourceFile().getFileSystemPath();				
+				} else if (KDMHelper.getJavaNodeSourceRegion(currentClass) != null && KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(currentClass)) != null){			
+					directoryName = KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(currentClass)).getPath();				
 				} else {
-					logger.warn("found neither packages nor directories for GAST class " + currentClass.getQualifiedName());
+					logger.warn("found neither packages nor directories for GAST class " + KDMHelper.computeFullQualifiedName(currentClass));
 				}
 			} 
 		}
@@ -235,8 +238,8 @@ public class ComponentAndTypeNaming {
 	 * @param interfaceClass
 	 * @return
 	 */
-	public String createInterfaceName(GASTClass interfaceClass) {
-		String interfaceName = segmentBasedInterfaceName(interfaceClass.getQualifiedName()); 
+	public String createInterfaceName(Type interfaceClass) {
+		String interfaceName = segmentBasedInterfaceName(KDMHelper.computeFullQualifiedName(interfaceClass));
 		return shorten(interfaceName, true);
 	}	
 	
@@ -246,8 +249,8 @@ public class ComponentAndTypeNaming {
 	 * @param interfaceClass
 	 * @return
 	 */
-	public String createInterfaceNameForClass(GASTClass interfaceClass) {		
-		String interfaceName = segmentBasedInterfaceName(interfaceClass.getQualifiedName()); 		
+	public String createInterfaceNameForClass(Type interfaceClass) {
+		String interfaceName = segmentBasedInterfaceName(KDMHelper.computeFullQualifiedName(interfaceClass));		
 		return "I" + shorten(interfaceName, true);
 	}
 

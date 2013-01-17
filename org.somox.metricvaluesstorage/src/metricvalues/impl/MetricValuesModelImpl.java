@@ -14,16 +14,12 @@ import metricvalues.MetricvaluesPackage;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -66,1475 +62,1469 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class MetricValuesModelImpl extends EObjectImpl implements MetricValuesModel
 {
    /**
-    * The cached value of the '{@link #getIterationsList() <em>Iterations</em>}' containment reference list.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getIterationsList() <em>Iterations</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getIterationsList()
-    * @generated
-    * @ordered
-    */
+	 * @see #getIterationsList()
+	 * @generated
+	 * @ordered
+	 */
    protected EList<Iteration> iterations;
 
    /**
-    * The empty value for the '{@link #getIterations() <em>Iterations</em>}' array accessor.
-    * <!-- begin-user-doc -->
+	 * The empty value for the '{@link #getIterations() <em>Iterations</em>}' array accessor.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getIterations()
-    * @generated
-    * @ordered
-    */
+	 * @see #getIterations()
+	 * @generated
+	 * @ordered
+	 */
    protected static final Iteration[] ITERATIONS_EEMPTY_ARRAY = new Iteration [0];
 
    /**
-    * The default value of the '{@link #getMinCompThreshold() <em>Min Comp Threshold</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getMinCompThreshold() <em>Min Comp Threshold</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getMinCompThreshold()
-    * @generated
-    * @ordered
-    */
+	 * @see #getMinCompThreshold()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double MIN_COMP_THRESHOLD_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getMinCompThreshold() <em>Min Comp Threshold</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getMinCompThreshold() <em>Min Comp Threshold</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getMinCompThreshold()
-    * @generated
-    * @ordered
-    */
+	 * @see #getMinCompThreshold()
+	 * @generated
+	 * @ordered
+	 */
    protected double minCompThreshold = MIN_COMP_THRESHOLD_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getMaxMergeThreshold() <em>Max Merge Threshold</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getMaxMergeThreshold() <em>Max Merge Threshold</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getMaxMergeThreshold()
-    * @generated
-    * @ordered
-    */
+	 * @see #getMaxMergeThreshold()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double MAX_MERGE_THRESHOLD_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getMaxMergeThreshold() <em>Max Merge Threshold</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getMaxMergeThreshold() <em>Max Merge Threshold</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getMaxMergeThreshold()
-    * @generated
-    * @ordered
-    */
+	 * @see #getMaxMergeThreshold()
+	 * @generated
+	 * @ordered
+	 */
    protected double maxMergeThreshold = MAX_MERGE_THRESHOLD_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getWeightLowCoupling() <em>Weight Low Coupling</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getWeightLowCoupling() <em>Weight Low Coupling</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightLowCoupling()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightLowCoupling()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double WEIGHT_LOW_COUPLING_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getWeightLowCoupling() <em>Weight Low Coupling</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWeightLowCoupling() <em>Weight Low Coupling</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightLowCoupling()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightLowCoupling()
+	 * @generated
+	 * @ordered
+	 */
    protected double weightLowCoupling = WEIGHT_LOW_COUPLING_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getWeightHighCoupling() <em>Weight High Coupling</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getWeightHighCoupling() <em>Weight High Coupling</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightHighCoupling()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightHighCoupling()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double WEIGHT_HIGH_COUPLING_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getWeightHighCoupling() <em>Weight High Coupling</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWeightHighCoupling() <em>Weight High Coupling</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightHighCoupling()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightHighCoupling()
+	 * @generated
+	 * @ordered
+	 */
    protected double weightHighCoupling = WEIGHT_HIGH_COUPLING_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getWeightLowNameResemblance() <em>Weight Low Name Resemblance</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getWeightLowNameResemblance() <em>Weight Low Name Resemblance</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightLowNameResemblance()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightLowNameResemblance()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double WEIGHT_LOW_NAME_RESEMBLANCE_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getWeightLowNameResemblance() <em>Weight Low Name Resemblance</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWeightLowNameResemblance() <em>Weight Low Name Resemblance</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightLowNameResemblance()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightLowNameResemblance()
+	 * @generated
+	 * @ordered
+	 */
    protected double weightLowNameResemblance = WEIGHT_LOW_NAME_RESEMBLANCE_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getWeightMidNameResemblance() <em>Weight Mid Name Resemblance</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getWeightMidNameResemblance() <em>Weight Mid Name Resemblance</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightMidNameResemblance()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightMidNameResemblance()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double WEIGHT_MID_NAME_RESEMBLANCE_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getWeightMidNameResemblance() <em>Weight Mid Name Resemblance</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWeightMidNameResemblance() <em>Weight Mid Name Resemblance</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightMidNameResemblance()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightMidNameResemblance()
+	 * @generated
+	 * @ordered
+	 */
    protected double weightMidNameResemblance = WEIGHT_MID_NAME_RESEMBLANCE_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getWeightHighNameResemblance() <em>Weight High Name Resemblance</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getWeightHighNameResemblance() <em>Weight High Name Resemblance</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightHighNameResemblance()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightHighNameResemblance()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double WEIGHT_HIGH_NAME_RESEMBLANCE_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getWeightHighNameResemblance() <em>Weight High Name Resemblance</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWeightHighNameResemblance() <em>Weight High Name Resemblance</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightHighNameResemblance()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightHighNameResemblance()
+	 * @generated
+	 * @ordered
+	 */
    protected double weightHighNameResemblance = WEIGHT_HIGH_NAME_RESEMBLANCE_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getWeightInterfaceViolationRelevant() <em>Weight Interface Violation Relevant</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getWeightInterfaceViolationRelevant() <em>Weight Interface Violation Relevant</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightInterfaceViolationRelevant()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightInterfaceViolationRelevant()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double WEIGHT_INTERFACE_VIOLATION_RELEVANT_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getWeightInterfaceViolationRelevant() <em>Weight Interface Violation Relevant</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWeightInterfaceViolationRelevant() <em>Weight Interface Violation Relevant</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightInterfaceViolationRelevant()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightInterfaceViolationRelevant()
+	 * @generated
+	 * @ordered
+	 */
    protected double weightInterfaceViolationRelevant = WEIGHT_INTERFACE_VIOLATION_RELEVANT_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getWeightInterfaceViolationIrrelevant() <em>Weight Interface Violation Irrelevant</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getWeightInterfaceViolationIrrelevant() <em>Weight Interface Violation Irrelevant</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightInterfaceViolationIrrelevant()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightInterfaceViolationIrrelevant()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double WEIGHT_INTERFACE_VIOLATION_IRRELEVANT_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getWeightInterfaceViolationIrrelevant() <em>Weight Interface Violation Irrelevant</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWeightInterfaceViolationIrrelevant() <em>Weight Interface Violation Irrelevant</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightInterfaceViolationIrrelevant()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightInterfaceViolationIrrelevant()
+	 * @generated
+	 * @ordered
+	 */
    protected double weightInterfaceViolationIrrelevant = WEIGHT_INTERFACE_VIOLATION_IRRELEVANT_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getWeightHighSLAQ() <em>Weight High SLAQ</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getWeightHighSLAQ() <em>Weight High SLAQ</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightHighSLAQ()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightHighSLAQ()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double WEIGHT_HIGH_SLAQ_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getWeightHighSLAQ() <em>Weight High SLAQ</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWeightHighSLAQ() <em>Weight High SLAQ</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightHighSLAQ()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightHighSLAQ()
+	 * @generated
+	 * @ordered
+	 */
    protected double weightHighSLAQ = WEIGHT_HIGH_SLAQ_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getWeightLowSLAQ() <em>Weight Low SLAQ</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getWeightLowSLAQ() <em>Weight Low SLAQ</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightLowSLAQ()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightLowSLAQ()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double WEIGHT_LOW_SLAQ_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getWeightLowSLAQ() <em>Weight Low SLAQ</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWeightLowSLAQ() <em>Weight Low SLAQ</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightLowSLAQ()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightLowSLAQ()
+	 * @generated
+	 * @ordered
+	 */
    protected double weightLowSLAQ = WEIGHT_LOW_SLAQ_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getWeightPackageMapping() <em>Weight Package Mapping</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getWeightPackageMapping() <em>Weight Package Mapping</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightPackageMapping()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightPackageMapping()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double WEIGHT_PACKAGE_MAPPING_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getWeightPackageMapping() <em>Weight Package Mapping</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWeightPackageMapping() <em>Weight Package Mapping</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightPackageMapping()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightPackageMapping()
+	 * @generated
+	 * @ordered
+	 */
    protected double weightPackageMapping = WEIGHT_PACKAGE_MAPPING_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getWeightDirectoryMapping() <em>Weight Directory Mapping</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getWeightDirectoryMapping() <em>Weight Directory Mapping</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightDirectoryMapping()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightDirectoryMapping()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double WEIGHT_DIRECTORY_MAPPING_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getWeightDirectoryMapping() <em>Weight Directory Mapping</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWeightDirectoryMapping() <em>Weight Directory Mapping</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightDirectoryMapping()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightDirectoryMapping()
+	 * @generated
+	 * @ordered
+	 */
    protected double weightDirectoryMapping = WEIGHT_DIRECTORY_MAPPING_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getWeightDMS() <em>Weight DMS</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getWeightDMS() <em>Weight DMS</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightDMS()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightDMS()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double WEIGHT_DMS_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getWeightDMS() <em>Weight DMS</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWeightDMS() <em>Weight DMS</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightDMS()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightDMS()
+	 * @generated
+	 * @ordered
+	 */
    protected double weightDMS = WEIGHT_DMS_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getWeightHighestNameResemblance() <em>Weight Highest Name Resemblance</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getWeightHighestNameResemblance() <em>Weight Highest Name Resemblance</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightHighestNameResemblance()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightHighestNameResemblance()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double WEIGHT_HIGHEST_NAME_RESEMBLANCE_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getWeightHighestNameResemblance() <em>Weight Highest Name Resemblance</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWeightHighestNameResemblance() <em>Weight Highest Name Resemblance</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWeightHighestNameResemblance()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWeightHighestNameResemblance()
+	 * @generated
+	 * @ordered
+	 */
    protected double weightHighestNameResemblance = WEIGHT_HIGHEST_NAME_RESEMBLANCE_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getWildcardKey() <em>Wildcard Key</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getWildcardKey() <em>Wildcard Key</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWildcardKey()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWildcardKey()
+	 * @generated
+	 * @ordered
+	 */
    protected static final String WILDCARD_KEY_EDEFAULT = null;
 
    /**
-    * The cached value of the '{@link #getWildcardKey() <em>Wildcard Key</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getWildcardKey() <em>Wildcard Key</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getWildcardKey()
-    * @generated
-    * @ordered
-    */
+	 * @see #getWildcardKey()
+	 * @generated
+	 * @ordered
+	 */
    protected String wildcardKey = WILDCARD_KEY_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getAdditionalWildcards() <em>Additional Wildcards</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getAdditionalWildcards() <em>Additional Wildcards</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getAdditionalWildcards()
-    * @generated
-    * @ordered
-    */
+	 * @see #getAdditionalWildcards()
+	 * @generated
+	 * @ordered
+	 */
    protected static final String ADDITIONAL_WILDCARDS_EDEFAULT = null;
 
    /**
-    * The cached value of the '{@link #getAdditionalWildcards() <em>Additional Wildcards</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getAdditionalWildcards() <em>Additional Wildcards</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getAdditionalWildcards()
-    * @generated
-    * @ordered
-    */
+	 * @see #getAdditionalWildcards()
+	 * @generated
+	 * @ordered
+	 */
    protected String additionalWildcards = ADDITIONAL_WILDCARDS_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getMinMergeThreshold() <em>Min Merge Threshold</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getMinMergeThreshold() <em>Min Merge Threshold</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getMinMergeThreshold()
-    * @generated
-    * @ordered
-    */
+	 * @see #getMinMergeThreshold()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double MIN_MERGE_THRESHOLD_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getMinMergeThreshold() <em>Min Merge Threshold</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getMinMergeThreshold() <em>Min Merge Threshold</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getMinMergeThreshold()
-    * @generated
-    * @ordered
-    */
+	 * @see #getMinMergeThreshold()
+	 * @generated
+	 * @ordered
+	 */
    protected double minMergeThreshold = MIN_MERGE_THRESHOLD_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getMaxComposeThreshold() <em>Max Compose Threshold</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getMaxComposeThreshold() <em>Max Compose Threshold</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getMaxComposeThreshold()
-    * @generated
-    * @ordered
-    */
+	 * @see #getMaxComposeThreshold()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double MAX_COMPOSE_THRESHOLD_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getMaxComposeThreshold() <em>Max Compose Threshold</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getMaxComposeThreshold() <em>Max Compose Threshold</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getMaxComposeThreshold()
-    * @generated
-    * @ordered
-    */
+	 * @see #getMaxComposeThreshold()
+	 * @generated
+	 * @ordered
+	 */
    protected double maxComposeThreshold = MAX_COMPOSE_THRESHOLD_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getComposeThresholdDecrement() <em>Compose Threshold Decrement</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getComposeThresholdDecrement() <em>Compose Threshold Decrement</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getComposeThresholdDecrement()
-    * @generated
-    * @ordered
-    */
+	 * @see #getComposeThresholdDecrement()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double COMPOSE_THRESHOLD_DECREMENT_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getComposeThresholdDecrement() <em>Compose Threshold Decrement</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getComposeThresholdDecrement() <em>Compose Threshold Decrement</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getComposeThresholdDecrement()
-    * @generated
-    * @ordered
-    */
+	 * @see #getComposeThresholdDecrement()
+	 * @generated
+	 * @ordered
+	 */
    protected double composeThresholdDecrement = COMPOSE_THRESHOLD_DECREMENT_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getMergeThresholdDecrement() <em>Merge Threshold Decrement</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getMergeThresholdDecrement() <em>Merge Threshold Decrement</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getMergeThresholdDecrement()
-    * @generated
-    * @ordered
-    */
+	 * @see #getMergeThresholdDecrement()
+	 * @generated
+	 * @ordered
+	 */
    protected static final double MERGE_THRESHOLD_DECREMENT_EDEFAULT = 0.0;
 
    /**
-    * The cached value of the '{@link #getMergeThresholdDecrement() <em>Merge Threshold Decrement</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getMergeThresholdDecrement() <em>Merge Threshold Decrement</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getMergeThresholdDecrement()
-    * @generated
-    * @ordered
-    */
+	 * @see #getMergeThresholdDecrement()
+	 * @generated
+	 * @ordered
+	 */
    protected double mergeThresholdDecrement = MERGE_THRESHOLD_DECREMENT_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getExcludedPrefixesForNameResemblance() <em>Excluded Prefixes For Name Resemblance</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getExcludedPrefixesForNameResemblance() <em>Excluded Prefixes For Name Resemblance</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getExcludedPrefixesForNameResemblance()
-    * @generated
-    * @ordered
-    */
+	 * @see #getExcludedPrefixesForNameResemblance()
+	 * @generated
+	 * @ordered
+	 */
    protected static final String EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT = null;
 
    /**
-    * The cached value of the '{@link #getExcludedPrefixesForNameResemblance() <em>Excluded Prefixes For Name Resemblance</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getExcludedPrefixesForNameResemblance() <em>Excluded Prefixes For Name Resemblance</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getExcludedPrefixesForNameResemblance()
-    * @generated
-    * @ordered
-    */
+	 * @see #getExcludedPrefixesForNameResemblance()
+	 * @generated
+	 * @ordered
+	 */
    protected String excludedPrefixesForNameResemblance = EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT;
 
    /**
-    * The default value of the '{@link #getExcludedSuffixesForNameResemblance() <em>Excluded Suffixes For Name Resemblance</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getExcludedSuffixesForNameResemblance() <em>Excluded Suffixes For Name Resemblance</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getExcludedSuffixesForNameResemblance()
-    * @generated
-    * @ordered
-    */
+	 * @see #getExcludedSuffixesForNameResemblance()
+	 * @generated
+	 * @ordered
+	 */
    protected static final String EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT = null;
 
    /**
-    * The cached value of the '{@link #getExcludedSuffixesForNameResemblance() <em>Excluded Suffixes For Name Resemblance</em>}' attribute.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getExcludedSuffixesForNameResemblance() <em>Excluded Suffixes For Name Resemblance</em>}' attribute.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getExcludedSuffixesForNameResemblance()
-    * @generated
-    * @ordered
-    */
+	 * @see #getExcludedSuffixesForNameResemblance()
+	 * @generated
+	 * @ordered
+	 */
    protected String excludedSuffixesForNameResemblance = EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT;
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    protected MetricValuesModelImpl()
    {
-      super();
-   }
+		super();
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    @Override
    protected EClass eStaticClass()
    {
-      return MetricvaluesPackage.Literals.METRIC_VALUES_MODEL;
-   }
+		return MetricvaluesPackage.Literals.METRIC_VALUES_MODEL;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public Iteration[] getIterations()
    {
-      if (iterations == null || iterations.isEmpty()) return ITERATIONS_EEMPTY_ARRAY;
-      BasicEList<Iteration> list = (BasicEList<Iteration>)iterations;
-      list.shrink();
-      return (Iteration[])list.data();
-   }
+		if (iterations == null || iterations.isEmpty()) return ITERATIONS_EEMPTY_ARRAY;
+		BasicEList<Iteration> list = (BasicEList<Iteration>)iterations;
+		list.shrink();
+		return (Iteration[])list.data();
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public Iteration getIterations(int index)
    {
-      return getIterationsList().get(index);
-   }
+		return getIterationsList().get(index);
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public int getIterationsLength()
    {
-      return iterations == null ? 0 : iterations.size();
-   }
+		return iterations == null ? 0 : iterations.size();
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setIterations(Iteration[] newIterations)
    {
-      ((BasicEList<Iteration>)getIterationsList()).setData(newIterations.length, newIterations);
-   }
+		((BasicEList<Iteration>)getIterationsList()).setData(newIterations.length, newIterations);
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setIterations(int index, Iteration element)
    {
-      getIterationsList().set(index, element);
-   }
+		getIterationsList().set(index, element);
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public EList<Iteration> getIterationsList()
    {
-      if (iterations == null)
-      {
-         iterations = new EObjectContainmentEList<Iteration>(Iteration.class, this, MetricvaluesPackage.METRIC_VALUES_MODEL__ITERATIONS);
-      }
-      return iterations;
-   }
+		if (iterations == null) {
+			iterations = new EObjectContainmentEList<Iteration>(Iteration.class, this, MetricvaluesPackage.METRIC_VALUES_MODEL__ITERATIONS);
+		}
+		return iterations;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getMinCompThreshold()
    {
-      return minCompThreshold;
-   }
+		return minCompThreshold;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setMinCompThreshold(double newMinCompThreshold)
    {
-      double oldMinCompThreshold = minCompThreshold;
-      minCompThreshold = newMinCompThreshold;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_COMP_THRESHOLD, oldMinCompThreshold, minCompThreshold));
-   }
+		double oldMinCompThreshold = minCompThreshold;
+		minCompThreshold = newMinCompThreshold;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_COMP_THRESHOLD, oldMinCompThreshold, minCompThreshold));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getMaxMergeThreshold()
    {
-      return maxMergeThreshold;
-   }
+		return maxMergeThreshold;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setMaxMergeThreshold(double newMaxMergeThreshold)
    {
-      double oldMaxMergeThreshold = maxMergeThreshold;
-      maxMergeThreshold = newMaxMergeThreshold;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_MERGE_THRESHOLD, oldMaxMergeThreshold, maxMergeThreshold));
-   }
+		double oldMaxMergeThreshold = maxMergeThreshold;
+		maxMergeThreshold = newMaxMergeThreshold;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_MERGE_THRESHOLD, oldMaxMergeThreshold, maxMergeThreshold));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getWeightLowCoupling()
    {
-      return weightLowCoupling;
-   }
+		return weightLowCoupling;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setWeightLowCoupling(double newWeightLowCoupling)
    {
-      double oldWeightLowCoupling = weightLowCoupling;
-      weightLowCoupling = newWeightLowCoupling;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_COUPLING, oldWeightLowCoupling, weightLowCoupling));
-   }
+		double oldWeightLowCoupling = weightLowCoupling;
+		weightLowCoupling = newWeightLowCoupling;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_COUPLING, oldWeightLowCoupling, weightLowCoupling));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getWeightHighCoupling()
    {
-      return weightHighCoupling;
-   }
+		return weightHighCoupling;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setWeightHighCoupling(double newWeightHighCoupling)
    {
-      double oldWeightHighCoupling = weightHighCoupling;
-      weightHighCoupling = newWeightHighCoupling;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_COUPLING, oldWeightHighCoupling, weightHighCoupling));
-   }
+		double oldWeightHighCoupling = weightHighCoupling;
+		weightHighCoupling = newWeightHighCoupling;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_COUPLING, oldWeightHighCoupling, weightHighCoupling));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getWeightLowNameResemblance()
    {
-      return weightLowNameResemblance;
-   }
+		return weightLowNameResemblance;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setWeightLowNameResemblance(double newWeightLowNameResemblance)
    {
-      double oldWeightLowNameResemblance = weightLowNameResemblance;
-      weightLowNameResemblance = newWeightLowNameResemblance;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_NAME_RESEMBLANCE, oldWeightLowNameResemblance, weightLowNameResemblance));
-   }
+		double oldWeightLowNameResemblance = weightLowNameResemblance;
+		weightLowNameResemblance = newWeightLowNameResemblance;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_NAME_RESEMBLANCE, oldWeightLowNameResemblance, weightLowNameResemblance));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getWeightMidNameResemblance()
    {
-      return weightMidNameResemblance;
-   }
+		return weightMidNameResemblance;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setWeightMidNameResemblance(double newWeightMidNameResemblance)
    {
-      double oldWeightMidNameResemblance = weightMidNameResemblance;
-      weightMidNameResemblance = newWeightMidNameResemblance;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_MID_NAME_RESEMBLANCE, oldWeightMidNameResemblance, weightMidNameResemblance));
-   }
+		double oldWeightMidNameResemblance = weightMidNameResemblance;
+		weightMidNameResemblance = newWeightMidNameResemblance;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_MID_NAME_RESEMBLANCE, oldWeightMidNameResemblance, weightMidNameResemblance));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getWeightHighNameResemblance()
    {
-      return weightHighNameResemblance;
-   }
+		return weightHighNameResemblance;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setWeightHighNameResemblance(double newWeightHighNameResemblance)
    {
-      double oldWeightHighNameResemblance = weightHighNameResemblance;
-      weightHighNameResemblance = newWeightHighNameResemblance;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_NAME_RESEMBLANCE, oldWeightHighNameResemblance, weightHighNameResemblance));
-   }
+		double oldWeightHighNameResemblance = weightHighNameResemblance;
+		weightHighNameResemblance = newWeightHighNameResemblance;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_NAME_RESEMBLANCE, oldWeightHighNameResemblance, weightHighNameResemblance));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getWeightInterfaceViolationRelevant()
    {
-      return weightInterfaceViolationRelevant;
-   }
+		return weightInterfaceViolationRelevant;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setWeightInterfaceViolationRelevant(double newWeightInterfaceViolationRelevant)
    {
-      double oldWeightInterfaceViolationRelevant = weightInterfaceViolationRelevant;
-      weightInterfaceViolationRelevant = newWeightInterfaceViolationRelevant;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_RELEVANT, oldWeightInterfaceViolationRelevant, weightInterfaceViolationRelevant));
-   }
+		double oldWeightInterfaceViolationRelevant = weightInterfaceViolationRelevant;
+		weightInterfaceViolationRelevant = newWeightInterfaceViolationRelevant;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_RELEVANT, oldWeightInterfaceViolationRelevant, weightInterfaceViolationRelevant));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getWeightInterfaceViolationIrrelevant()
    {
-      return weightInterfaceViolationIrrelevant;
-   }
+		return weightInterfaceViolationIrrelevant;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setWeightInterfaceViolationIrrelevant(double newWeightInterfaceViolationIrrelevant)
    {
-      double oldWeightInterfaceViolationIrrelevant = weightInterfaceViolationIrrelevant;
-      weightInterfaceViolationIrrelevant = newWeightInterfaceViolationIrrelevant;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_IRRELEVANT, oldWeightInterfaceViolationIrrelevant, weightInterfaceViolationIrrelevant));
-   }
+		double oldWeightInterfaceViolationIrrelevant = weightInterfaceViolationIrrelevant;
+		weightInterfaceViolationIrrelevant = newWeightInterfaceViolationIrrelevant;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_IRRELEVANT, oldWeightInterfaceViolationIrrelevant, weightInterfaceViolationIrrelevant));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getWeightHighSLAQ()
    {
-      return weightHighSLAQ;
-   }
+		return weightHighSLAQ;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setWeightHighSLAQ(double newWeightHighSLAQ)
    {
-      double oldWeightHighSLAQ = weightHighSLAQ;
-      weightHighSLAQ = newWeightHighSLAQ;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_SLAQ, oldWeightHighSLAQ, weightHighSLAQ));
-   }
+		double oldWeightHighSLAQ = weightHighSLAQ;
+		weightHighSLAQ = newWeightHighSLAQ;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_SLAQ, oldWeightHighSLAQ, weightHighSLAQ));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getWeightLowSLAQ()
    {
-      return weightLowSLAQ;
-   }
+		return weightLowSLAQ;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setWeightLowSLAQ(double newWeightLowSLAQ)
    {
-      double oldWeightLowSLAQ = weightLowSLAQ;
-      weightLowSLAQ = newWeightLowSLAQ;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_SLAQ, oldWeightLowSLAQ, weightLowSLAQ));
-   }
+		double oldWeightLowSLAQ = weightLowSLAQ;
+		weightLowSLAQ = newWeightLowSLAQ;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_SLAQ, oldWeightLowSLAQ, weightLowSLAQ));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getWeightPackageMapping()
    {
-      return weightPackageMapping;
-   }
+		return weightPackageMapping;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setWeightPackageMapping(double newWeightPackageMapping)
    {
-      double oldWeightPackageMapping = weightPackageMapping;
-      weightPackageMapping = newWeightPackageMapping;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_PACKAGE_MAPPING, oldWeightPackageMapping, weightPackageMapping));
-   }
+		double oldWeightPackageMapping = weightPackageMapping;
+		weightPackageMapping = newWeightPackageMapping;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_PACKAGE_MAPPING, oldWeightPackageMapping, weightPackageMapping));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getWeightDirectoryMapping()
    {
-      return weightDirectoryMapping;
-   }
+		return weightDirectoryMapping;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setWeightDirectoryMapping(double newWeightDirectoryMapping)
    {
-      double oldWeightDirectoryMapping = weightDirectoryMapping;
-      weightDirectoryMapping = newWeightDirectoryMapping;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DIRECTORY_MAPPING, oldWeightDirectoryMapping, weightDirectoryMapping));
-   }
+		double oldWeightDirectoryMapping = weightDirectoryMapping;
+		weightDirectoryMapping = newWeightDirectoryMapping;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DIRECTORY_MAPPING, oldWeightDirectoryMapping, weightDirectoryMapping));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getWeightDMS()
    {
-      return weightDMS;
-   }
+		return weightDMS;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setWeightDMS(double newWeightDMS)
    {
-      double oldWeightDMS = weightDMS;
-      weightDMS = newWeightDMS;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DMS, oldWeightDMS, weightDMS));
-   }
+		double oldWeightDMS = weightDMS;
+		weightDMS = newWeightDMS;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DMS, oldWeightDMS, weightDMS));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getWeightHighestNameResemblance()
    {
-      return weightHighestNameResemblance;
-   }
+		return weightHighestNameResemblance;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setWeightHighestNameResemblance(double newWeightHighestNameResemblance)
    {
-      double oldWeightHighestNameResemblance = weightHighestNameResemblance;
-      weightHighestNameResemblance = newWeightHighestNameResemblance;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGHEST_NAME_RESEMBLANCE, oldWeightHighestNameResemblance, weightHighestNameResemblance));
-   }
+		double oldWeightHighestNameResemblance = weightHighestNameResemblance;
+		weightHighestNameResemblance = newWeightHighestNameResemblance;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGHEST_NAME_RESEMBLANCE, oldWeightHighestNameResemblance, weightHighestNameResemblance));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public String getWildcardKey()
    {
-      return wildcardKey;
-   }
+		return wildcardKey;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setWildcardKey(String newWildcardKey)
    {
-      String oldWildcardKey = wildcardKey;
-      wildcardKey = newWildcardKey;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WILDCARD_KEY, oldWildcardKey, wildcardKey));
-   }
+		String oldWildcardKey = wildcardKey;
+		wildcardKey = newWildcardKey;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__WILDCARD_KEY, oldWildcardKey, wildcardKey));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public String getAdditionalWildcards()
    {
-      return additionalWildcards;
-   }
+		return additionalWildcards;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setAdditionalWildcards(String newAdditionalWildcards)
    {
-      String oldAdditionalWildcards = additionalWildcards;
-      additionalWildcards = newAdditionalWildcards;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__ADDITIONAL_WILDCARDS, oldAdditionalWildcards, additionalWildcards));
-   }
+		String oldAdditionalWildcards = additionalWildcards;
+		additionalWildcards = newAdditionalWildcards;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__ADDITIONAL_WILDCARDS, oldAdditionalWildcards, additionalWildcards));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getMinMergeThreshold()
    {
-      return minMergeThreshold;
-   }
+		return minMergeThreshold;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setMinMergeThreshold(double newMinMergeThreshold)
    {
-      double oldMinMergeThreshold = minMergeThreshold;
-      minMergeThreshold = newMinMergeThreshold;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_MERGE_THRESHOLD, oldMinMergeThreshold, minMergeThreshold));
-   }
+		double oldMinMergeThreshold = minMergeThreshold;
+		minMergeThreshold = newMinMergeThreshold;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_MERGE_THRESHOLD, oldMinMergeThreshold, minMergeThreshold));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getMaxComposeThreshold()
    {
-      return maxComposeThreshold;
-   }
+		return maxComposeThreshold;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setMaxComposeThreshold(double newMaxComposeThreshold)
    {
-      double oldMaxComposeThreshold = maxComposeThreshold;
-      maxComposeThreshold = newMaxComposeThreshold;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_COMPOSE_THRESHOLD, oldMaxComposeThreshold, maxComposeThreshold));
-   }
+		double oldMaxComposeThreshold = maxComposeThreshold;
+		maxComposeThreshold = newMaxComposeThreshold;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_COMPOSE_THRESHOLD, oldMaxComposeThreshold, maxComposeThreshold));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getComposeThresholdDecrement()
    {
-      return composeThresholdDecrement;
-   }
+		return composeThresholdDecrement;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setComposeThresholdDecrement(double newComposeThresholdDecrement)
    {
-      double oldComposeThresholdDecrement = composeThresholdDecrement;
-      composeThresholdDecrement = newComposeThresholdDecrement;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__COMPOSE_THRESHOLD_DECREMENT, oldComposeThresholdDecrement, composeThresholdDecrement));
-   }
+		double oldComposeThresholdDecrement = composeThresholdDecrement;
+		composeThresholdDecrement = newComposeThresholdDecrement;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__COMPOSE_THRESHOLD_DECREMENT, oldComposeThresholdDecrement, composeThresholdDecrement));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public double getMergeThresholdDecrement()
    {
-      return mergeThresholdDecrement;
-   }
+		return mergeThresholdDecrement;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setMergeThresholdDecrement(double newMergeThresholdDecrement)
    {
-      double oldMergeThresholdDecrement = mergeThresholdDecrement;
-      mergeThresholdDecrement = newMergeThresholdDecrement;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__MERGE_THRESHOLD_DECREMENT, oldMergeThresholdDecrement, mergeThresholdDecrement));
-   }
+		double oldMergeThresholdDecrement = mergeThresholdDecrement;
+		mergeThresholdDecrement = newMergeThresholdDecrement;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__MERGE_THRESHOLD_DECREMENT, oldMergeThresholdDecrement, mergeThresholdDecrement));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public String getExcludedPrefixesForNameResemblance()
    {
-      return excludedPrefixesForNameResemblance;
-   }
+		return excludedPrefixesForNameResemblance;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setExcludedPrefixesForNameResemblance(String newExcludedPrefixesForNameResemblance)
    {
-      String oldExcludedPrefixesForNameResemblance = excludedPrefixesForNameResemblance;
-      excludedPrefixesForNameResemblance = newExcludedPrefixesForNameResemblance;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE, oldExcludedPrefixesForNameResemblance, excludedPrefixesForNameResemblance));
-   }
+		String oldExcludedPrefixesForNameResemblance = excludedPrefixesForNameResemblance;
+		excludedPrefixesForNameResemblance = newExcludedPrefixesForNameResemblance;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE, oldExcludedPrefixesForNameResemblance, excludedPrefixesForNameResemblance));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public String getExcludedSuffixesForNameResemblance()
    {
-      return excludedSuffixesForNameResemblance;
-   }
+		return excludedSuffixesForNameResemblance;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setExcludedSuffixesForNameResemblance(String newExcludedSuffixesForNameResemblance)
    {
-      String oldExcludedSuffixesForNameResemblance = excludedSuffixesForNameResemblance;
-      excludedSuffixesForNameResemblance = newExcludedSuffixesForNameResemblance;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE, oldExcludedSuffixesForNameResemblance, excludedSuffixesForNameResemblance));
-   }
+		String oldExcludedSuffixesForNameResemblance = excludedSuffixesForNameResemblance;
+		excludedSuffixesForNameResemblance = newExcludedSuffixesForNameResemblance;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE, oldExcludedSuffixesForNameResemblance, excludedSuffixesForNameResemblance));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    @Override
    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
    {
-      switch (featureID)
-      {
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__ITERATIONS:
-            return ((InternalEList<?>)getIterationsList()).basicRemove(otherEnd, msgs);
-      }
-      return super.eInverseRemove(otherEnd, featureID, msgs);
-   }
+		switch (featureID) {
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__ITERATIONS:
+				return ((InternalEList<?>)getIterationsList()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    @Override
    public Object eGet(int featureID, boolean resolve, boolean coreType)
    {
-      switch (featureID)
-      {
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__ITERATIONS:
-            return getIterationsList();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_COMP_THRESHOLD:
-            return getMinCompThreshold();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_MERGE_THRESHOLD:
-            return getMaxMergeThreshold();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_COUPLING:
-            return getWeightLowCoupling();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_COUPLING:
-            return getWeightHighCoupling();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_NAME_RESEMBLANCE:
-            return getWeightLowNameResemblance();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_MID_NAME_RESEMBLANCE:
-            return getWeightMidNameResemblance();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_NAME_RESEMBLANCE:
-            return getWeightHighNameResemblance();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_RELEVANT:
-            return getWeightInterfaceViolationRelevant();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_IRRELEVANT:
-            return getWeightInterfaceViolationIrrelevant();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_SLAQ:
-            return getWeightHighSLAQ();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_SLAQ:
-            return getWeightLowSLAQ();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_PACKAGE_MAPPING:
-            return getWeightPackageMapping();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DIRECTORY_MAPPING:
-            return getWeightDirectoryMapping();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DMS:
-            return getWeightDMS();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGHEST_NAME_RESEMBLANCE:
-            return getWeightHighestNameResemblance();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WILDCARD_KEY:
-            return getWildcardKey();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__ADDITIONAL_WILDCARDS:
-            return getAdditionalWildcards();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_MERGE_THRESHOLD:
-            return getMinMergeThreshold();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_COMPOSE_THRESHOLD:
-            return getMaxComposeThreshold();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__COMPOSE_THRESHOLD_DECREMENT:
-            return getComposeThresholdDecrement();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MERGE_THRESHOLD_DECREMENT:
-            return getMergeThresholdDecrement();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE:
-            return getExcludedPrefixesForNameResemblance();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE:
-            return getExcludedSuffixesForNameResemblance();
-      }
-      return super.eGet(featureID, resolve, coreType);
-   }
+		switch (featureID) {
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__ITERATIONS:
+				return getIterationsList();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_COMP_THRESHOLD:
+				return getMinCompThreshold();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_MERGE_THRESHOLD:
+				return getMaxMergeThreshold();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_COUPLING:
+				return getWeightLowCoupling();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_COUPLING:
+				return getWeightHighCoupling();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_NAME_RESEMBLANCE:
+				return getWeightLowNameResemblance();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_MID_NAME_RESEMBLANCE:
+				return getWeightMidNameResemblance();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_NAME_RESEMBLANCE:
+				return getWeightHighNameResemblance();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_RELEVANT:
+				return getWeightInterfaceViolationRelevant();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_IRRELEVANT:
+				return getWeightInterfaceViolationIrrelevant();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_SLAQ:
+				return getWeightHighSLAQ();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_SLAQ:
+				return getWeightLowSLAQ();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_PACKAGE_MAPPING:
+				return getWeightPackageMapping();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DIRECTORY_MAPPING:
+				return getWeightDirectoryMapping();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DMS:
+				return getWeightDMS();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGHEST_NAME_RESEMBLANCE:
+				return getWeightHighestNameResemblance();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WILDCARD_KEY:
+				return getWildcardKey();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__ADDITIONAL_WILDCARDS:
+				return getAdditionalWildcards();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_MERGE_THRESHOLD:
+				return getMinMergeThreshold();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_COMPOSE_THRESHOLD:
+				return getMaxComposeThreshold();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__COMPOSE_THRESHOLD_DECREMENT:
+				return getComposeThresholdDecrement();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MERGE_THRESHOLD_DECREMENT:
+				return getMergeThresholdDecrement();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE:
+				return getExcludedPrefixesForNameResemblance();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE:
+				return getExcludedSuffixesForNameResemblance();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    @SuppressWarnings("unchecked")
    @Override
    public void eSet(int featureID, Object newValue)
    {
-      switch (featureID)
-      {
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__ITERATIONS:
-            getIterationsList().clear();
-            getIterationsList().addAll((Collection<? extends Iteration>)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_COMP_THRESHOLD:
-            setMinCompThreshold((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_MERGE_THRESHOLD:
-            setMaxMergeThreshold((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_COUPLING:
-            setWeightLowCoupling((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_COUPLING:
-            setWeightHighCoupling((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_NAME_RESEMBLANCE:
-            setWeightLowNameResemblance((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_MID_NAME_RESEMBLANCE:
-            setWeightMidNameResemblance((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_NAME_RESEMBLANCE:
-            setWeightHighNameResemblance((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_RELEVANT:
-            setWeightInterfaceViolationRelevant((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_IRRELEVANT:
-            setWeightInterfaceViolationIrrelevant((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_SLAQ:
-            setWeightHighSLAQ((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_SLAQ:
-            setWeightLowSLAQ((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_PACKAGE_MAPPING:
-            setWeightPackageMapping((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DIRECTORY_MAPPING:
-            setWeightDirectoryMapping((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DMS:
-            setWeightDMS((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGHEST_NAME_RESEMBLANCE:
-            setWeightHighestNameResemblance((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WILDCARD_KEY:
-            setWildcardKey((String)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__ADDITIONAL_WILDCARDS:
-            setAdditionalWildcards((String)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_MERGE_THRESHOLD:
-            setMinMergeThreshold((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_COMPOSE_THRESHOLD:
-            setMaxComposeThreshold((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__COMPOSE_THRESHOLD_DECREMENT:
-            setComposeThresholdDecrement((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MERGE_THRESHOLD_DECREMENT:
-            setMergeThresholdDecrement((Double)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE:
-            setExcludedPrefixesForNameResemblance((String)newValue);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE:
-            setExcludedSuffixesForNameResemblance((String)newValue);
-            return;
-      }
-      super.eSet(featureID, newValue);
-   }
+		switch (featureID) {
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__ITERATIONS:
+				getIterationsList().clear();
+				getIterationsList().addAll((Collection<? extends Iteration>)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_COMP_THRESHOLD:
+				setMinCompThreshold((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_MERGE_THRESHOLD:
+				setMaxMergeThreshold((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_COUPLING:
+				setWeightLowCoupling((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_COUPLING:
+				setWeightHighCoupling((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_NAME_RESEMBLANCE:
+				setWeightLowNameResemblance((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_MID_NAME_RESEMBLANCE:
+				setWeightMidNameResemblance((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_NAME_RESEMBLANCE:
+				setWeightHighNameResemblance((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_RELEVANT:
+				setWeightInterfaceViolationRelevant((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_IRRELEVANT:
+				setWeightInterfaceViolationIrrelevant((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_SLAQ:
+				setWeightHighSLAQ((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_SLAQ:
+				setWeightLowSLAQ((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_PACKAGE_MAPPING:
+				setWeightPackageMapping((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DIRECTORY_MAPPING:
+				setWeightDirectoryMapping((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DMS:
+				setWeightDMS((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGHEST_NAME_RESEMBLANCE:
+				setWeightHighestNameResemblance((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WILDCARD_KEY:
+				setWildcardKey((String)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__ADDITIONAL_WILDCARDS:
+				setAdditionalWildcards((String)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_MERGE_THRESHOLD:
+				setMinMergeThreshold((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_COMPOSE_THRESHOLD:
+				setMaxComposeThreshold((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__COMPOSE_THRESHOLD_DECREMENT:
+				setComposeThresholdDecrement((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MERGE_THRESHOLD_DECREMENT:
+				setMergeThresholdDecrement((Double)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE:
+				setExcludedPrefixesForNameResemblance((String)newValue);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE:
+				setExcludedSuffixesForNameResemblance((String)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    @Override
    public void eUnset(int featureID)
    {
-      switch (featureID)
-      {
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__ITERATIONS:
-            getIterationsList().clear();
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_COMP_THRESHOLD:
-            setMinCompThreshold(MIN_COMP_THRESHOLD_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_MERGE_THRESHOLD:
-            setMaxMergeThreshold(MAX_MERGE_THRESHOLD_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_COUPLING:
-            setWeightLowCoupling(WEIGHT_LOW_COUPLING_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_COUPLING:
-            setWeightHighCoupling(WEIGHT_HIGH_COUPLING_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_NAME_RESEMBLANCE:
-            setWeightLowNameResemblance(WEIGHT_LOW_NAME_RESEMBLANCE_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_MID_NAME_RESEMBLANCE:
-            setWeightMidNameResemblance(WEIGHT_MID_NAME_RESEMBLANCE_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_NAME_RESEMBLANCE:
-            setWeightHighNameResemblance(WEIGHT_HIGH_NAME_RESEMBLANCE_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_RELEVANT:
-            setWeightInterfaceViolationRelevant(WEIGHT_INTERFACE_VIOLATION_RELEVANT_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_IRRELEVANT:
-            setWeightInterfaceViolationIrrelevant(WEIGHT_INTERFACE_VIOLATION_IRRELEVANT_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_SLAQ:
-            setWeightHighSLAQ(WEIGHT_HIGH_SLAQ_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_SLAQ:
-            setWeightLowSLAQ(WEIGHT_LOW_SLAQ_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_PACKAGE_MAPPING:
-            setWeightPackageMapping(WEIGHT_PACKAGE_MAPPING_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DIRECTORY_MAPPING:
-            setWeightDirectoryMapping(WEIGHT_DIRECTORY_MAPPING_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DMS:
-            setWeightDMS(WEIGHT_DMS_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGHEST_NAME_RESEMBLANCE:
-            setWeightHighestNameResemblance(WEIGHT_HIGHEST_NAME_RESEMBLANCE_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WILDCARD_KEY:
-            setWildcardKey(WILDCARD_KEY_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__ADDITIONAL_WILDCARDS:
-            setAdditionalWildcards(ADDITIONAL_WILDCARDS_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_MERGE_THRESHOLD:
-            setMinMergeThreshold(MIN_MERGE_THRESHOLD_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_COMPOSE_THRESHOLD:
-            setMaxComposeThreshold(MAX_COMPOSE_THRESHOLD_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__COMPOSE_THRESHOLD_DECREMENT:
-            setComposeThresholdDecrement(COMPOSE_THRESHOLD_DECREMENT_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MERGE_THRESHOLD_DECREMENT:
-            setMergeThresholdDecrement(MERGE_THRESHOLD_DECREMENT_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE:
-            setExcludedPrefixesForNameResemblance(EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT);
-            return;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE:
-            setExcludedSuffixesForNameResemblance(EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT);
-            return;
-      }
-      super.eUnset(featureID);
-   }
+		switch (featureID) {
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__ITERATIONS:
+				getIterationsList().clear();
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_COMP_THRESHOLD:
+				setMinCompThreshold(MIN_COMP_THRESHOLD_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_MERGE_THRESHOLD:
+				setMaxMergeThreshold(MAX_MERGE_THRESHOLD_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_COUPLING:
+				setWeightLowCoupling(WEIGHT_LOW_COUPLING_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_COUPLING:
+				setWeightHighCoupling(WEIGHT_HIGH_COUPLING_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_NAME_RESEMBLANCE:
+				setWeightLowNameResemblance(WEIGHT_LOW_NAME_RESEMBLANCE_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_MID_NAME_RESEMBLANCE:
+				setWeightMidNameResemblance(WEIGHT_MID_NAME_RESEMBLANCE_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_NAME_RESEMBLANCE:
+				setWeightHighNameResemblance(WEIGHT_HIGH_NAME_RESEMBLANCE_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_RELEVANT:
+				setWeightInterfaceViolationRelevant(WEIGHT_INTERFACE_VIOLATION_RELEVANT_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_IRRELEVANT:
+				setWeightInterfaceViolationIrrelevant(WEIGHT_INTERFACE_VIOLATION_IRRELEVANT_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_SLAQ:
+				setWeightHighSLAQ(WEIGHT_HIGH_SLAQ_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_SLAQ:
+				setWeightLowSLAQ(WEIGHT_LOW_SLAQ_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_PACKAGE_MAPPING:
+				setWeightPackageMapping(WEIGHT_PACKAGE_MAPPING_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DIRECTORY_MAPPING:
+				setWeightDirectoryMapping(WEIGHT_DIRECTORY_MAPPING_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DMS:
+				setWeightDMS(WEIGHT_DMS_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGHEST_NAME_RESEMBLANCE:
+				setWeightHighestNameResemblance(WEIGHT_HIGHEST_NAME_RESEMBLANCE_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WILDCARD_KEY:
+				setWildcardKey(WILDCARD_KEY_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__ADDITIONAL_WILDCARDS:
+				setAdditionalWildcards(ADDITIONAL_WILDCARDS_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_MERGE_THRESHOLD:
+				setMinMergeThreshold(MIN_MERGE_THRESHOLD_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_COMPOSE_THRESHOLD:
+				setMaxComposeThreshold(MAX_COMPOSE_THRESHOLD_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__COMPOSE_THRESHOLD_DECREMENT:
+				setComposeThresholdDecrement(COMPOSE_THRESHOLD_DECREMENT_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MERGE_THRESHOLD_DECREMENT:
+				setMergeThresholdDecrement(MERGE_THRESHOLD_DECREMENT_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE:
+				setExcludedPrefixesForNameResemblance(EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT);
+				return;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE:
+				setExcludedSuffixesForNameResemblance(EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    @Override
    public boolean eIsSet(int featureID)
    {
-      switch (featureID)
-      {
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__ITERATIONS:
-            return iterations != null && !iterations.isEmpty();
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_COMP_THRESHOLD:
-            return minCompThreshold != MIN_COMP_THRESHOLD_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_MERGE_THRESHOLD:
-            return maxMergeThreshold != MAX_MERGE_THRESHOLD_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_COUPLING:
-            return weightLowCoupling != WEIGHT_LOW_COUPLING_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_COUPLING:
-            return weightHighCoupling != WEIGHT_HIGH_COUPLING_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_NAME_RESEMBLANCE:
-            return weightLowNameResemblance != WEIGHT_LOW_NAME_RESEMBLANCE_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_MID_NAME_RESEMBLANCE:
-            return weightMidNameResemblance != WEIGHT_MID_NAME_RESEMBLANCE_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_NAME_RESEMBLANCE:
-            return weightHighNameResemblance != WEIGHT_HIGH_NAME_RESEMBLANCE_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_RELEVANT:
-            return weightInterfaceViolationRelevant != WEIGHT_INTERFACE_VIOLATION_RELEVANT_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_IRRELEVANT:
-            return weightInterfaceViolationIrrelevant != WEIGHT_INTERFACE_VIOLATION_IRRELEVANT_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_SLAQ:
-            return weightHighSLAQ != WEIGHT_HIGH_SLAQ_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_SLAQ:
-            return weightLowSLAQ != WEIGHT_LOW_SLAQ_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_PACKAGE_MAPPING:
-            return weightPackageMapping != WEIGHT_PACKAGE_MAPPING_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DIRECTORY_MAPPING:
-            return weightDirectoryMapping != WEIGHT_DIRECTORY_MAPPING_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DMS:
-            return weightDMS != WEIGHT_DMS_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGHEST_NAME_RESEMBLANCE:
-            return weightHighestNameResemblance != WEIGHT_HIGHEST_NAME_RESEMBLANCE_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__WILDCARD_KEY:
-            return WILDCARD_KEY_EDEFAULT == null ? wildcardKey != null : !WILDCARD_KEY_EDEFAULT.equals(wildcardKey);
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__ADDITIONAL_WILDCARDS:
-            return ADDITIONAL_WILDCARDS_EDEFAULT == null ? additionalWildcards != null : !ADDITIONAL_WILDCARDS_EDEFAULT.equals(additionalWildcards);
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_MERGE_THRESHOLD:
-            return minMergeThreshold != MIN_MERGE_THRESHOLD_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_COMPOSE_THRESHOLD:
-            return maxComposeThreshold != MAX_COMPOSE_THRESHOLD_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__COMPOSE_THRESHOLD_DECREMENT:
-            return composeThresholdDecrement != COMPOSE_THRESHOLD_DECREMENT_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__MERGE_THRESHOLD_DECREMENT:
-            return mergeThresholdDecrement != MERGE_THRESHOLD_DECREMENT_EDEFAULT;
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE:
-            return EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT == null ? excludedPrefixesForNameResemblance != null : !EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT.equals(excludedPrefixesForNameResemblance);
-         case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE:
-            return EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT == null ? excludedSuffixesForNameResemblance != null : !EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT.equals(excludedSuffixesForNameResemblance);
-      }
-      return super.eIsSet(featureID);
-   }
+		switch (featureID) {
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__ITERATIONS:
+				return iterations != null && !iterations.isEmpty();
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_COMP_THRESHOLD:
+				return minCompThreshold != MIN_COMP_THRESHOLD_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_MERGE_THRESHOLD:
+				return maxMergeThreshold != MAX_MERGE_THRESHOLD_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_COUPLING:
+				return weightLowCoupling != WEIGHT_LOW_COUPLING_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_COUPLING:
+				return weightHighCoupling != WEIGHT_HIGH_COUPLING_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_NAME_RESEMBLANCE:
+				return weightLowNameResemblance != WEIGHT_LOW_NAME_RESEMBLANCE_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_MID_NAME_RESEMBLANCE:
+				return weightMidNameResemblance != WEIGHT_MID_NAME_RESEMBLANCE_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_NAME_RESEMBLANCE:
+				return weightHighNameResemblance != WEIGHT_HIGH_NAME_RESEMBLANCE_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_RELEVANT:
+				return weightInterfaceViolationRelevant != WEIGHT_INTERFACE_VIOLATION_RELEVANT_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_INTERFACE_VIOLATION_IRRELEVANT:
+				return weightInterfaceViolationIrrelevant != WEIGHT_INTERFACE_VIOLATION_IRRELEVANT_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGH_SLAQ:
+				return weightHighSLAQ != WEIGHT_HIGH_SLAQ_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_LOW_SLAQ:
+				return weightLowSLAQ != WEIGHT_LOW_SLAQ_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_PACKAGE_MAPPING:
+				return weightPackageMapping != WEIGHT_PACKAGE_MAPPING_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DIRECTORY_MAPPING:
+				return weightDirectoryMapping != WEIGHT_DIRECTORY_MAPPING_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_DMS:
+				return weightDMS != WEIGHT_DMS_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WEIGHT_HIGHEST_NAME_RESEMBLANCE:
+				return weightHighestNameResemblance != WEIGHT_HIGHEST_NAME_RESEMBLANCE_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__WILDCARD_KEY:
+				return WILDCARD_KEY_EDEFAULT == null ? wildcardKey != null : !WILDCARD_KEY_EDEFAULT.equals(wildcardKey);
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__ADDITIONAL_WILDCARDS:
+				return ADDITIONAL_WILDCARDS_EDEFAULT == null ? additionalWildcards != null : !ADDITIONAL_WILDCARDS_EDEFAULT.equals(additionalWildcards);
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MIN_MERGE_THRESHOLD:
+				return minMergeThreshold != MIN_MERGE_THRESHOLD_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MAX_COMPOSE_THRESHOLD:
+				return maxComposeThreshold != MAX_COMPOSE_THRESHOLD_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__COMPOSE_THRESHOLD_DECREMENT:
+				return composeThresholdDecrement != COMPOSE_THRESHOLD_DECREMENT_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__MERGE_THRESHOLD_DECREMENT:
+				return mergeThresholdDecrement != MERGE_THRESHOLD_DECREMENT_EDEFAULT;
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE:
+				return EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT == null ? excludedPrefixesForNameResemblance != null : !EXCLUDED_PREFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT.equals(excludedPrefixesForNameResemblance);
+			case MetricvaluesPackage.METRIC_VALUES_MODEL__EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE:
+				return EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT == null ? excludedSuffixesForNameResemblance != null : !EXCLUDED_SUFFIXES_FOR_NAME_RESEMBLANCE_EDEFAULT.equals(excludedSuffixesForNameResemblance);
+		}
+		return super.eIsSet(featureID);
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    @Override
    public String toString()
    {
-      if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-      StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (minCompThreshold: ");
-      result.append(minCompThreshold);
-      result.append(", maxMergeThreshold: ");
-      result.append(maxMergeThreshold);
-      result.append(", weightLowCoupling: ");
-      result.append(weightLowCoupling);
-      result.append(", weightHighCoupling: ");
-      result.append(weightHighCoupling);
-      result.append(", weightLowNameResemblance: ");
-      result.append(weightLowNameResemblance);
-      result.append(", weightMidNameResemblance: ");
-      result.append(weightMidNameResemblance);
-      result.append(", weightHighNameResemblance: ");
-      result.append(weightHighNameResemblance);
-      result.append(", weightInterfaceViolationRelevant: ");
-      result.append(weightInterfaceViolationRelevant);
-      result.append(", weightInterfaceViolationIrrelevant: ");
-      result.append(weightInterfaceViolationIrrelevant);
-      result.append(", weightHighSLAQ: ");
-      result.append(weightHighSLAQ);
-      result.append(", weightLowSLAQ: ");
-      result.append(weightLowSLAQ);
-      result.append(", weightPackageMapping: ");
-      result.append(weightPackageMapping);
-      result.append(", weightDirectoryMapping: ");
-      result.append(weightDirectoryMapping);
-      result.append(", weightDMS: ");
-      result.append(weightDMS);
-      result.append(", weightHighestNameResemblance: ");
-      result.append(weightHighestNameResemblance);
-      result.append(", wildcardKey: ");
-      result.append(wildcardKey);
-      result.append(", additionalWildcards: ");
-      result.append(additionalWildcards);
-      result.append(", minMergeThreshold: ");
-      result.append(minMergeThreshold);
-      result.append(", maxComposeThreshold: ");
-      result.append(maxComposeThreshold);
-      result.append(", composeThresholdDecrement: ");
-      result.append(composeThresholdDecrement);
-      result.append(", mergeThresholdDecrement: ");
-      result.append(mergeThresholdDecrement);
-      result.append(", excludedPrefixesForNameResemblance: ");
-      result.append(excludedPrefixesForNameResemblance);
-      result.append(", excludedSuffixesForNameResemblance: ");
-      result.append(excludedSuffixesForNameResemblance);
-      result.append(')');
-      return result.toString();
-   }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (minCompThreshold: ");
+		result.append(minCompThreshold);
+		result.append(", maxMergeThreshold: ");
+		result.append(maxMergeThreshold);
+		result.append(", weightLowCoupling: ");
+		result.append(weightLowCoupling);
+		result.append(", weightHighCoupling: ");
+		result.append(weightHighCoupling);
+		result.append(", weightLowNameResemblance: ");
+		result.append(weightLowNameResemblance);
+		result.append(", weightMidNameResemblance: ");
+		result.append(weightMidNameResemblance);
+		result.append(", weightHighNameResemblance: ");
+		result.append(weightHighNameResemblance);
+		result.append(", weightInterfaceViolationRelevant: ");
+		result.append(weightInterfaceViolationRelevant);
+		result.append(", weightInterfaceViolationIrrelevant: ");
+		result.append(weightInterfaceViolationIrrelevant);
+		result.append(", weightHighSLAQ: ");
+		result.append(weightHighSLAQ);
+		result.append(", weightLowSLAQ: ");
+		result.append(weightLowSLAQ);
+		result.append(", weightPackageMapping: ");
+		result.append(weightPackageMapping);
+		result.append(", weightDirectoryMapping: ");
+		result.append(weightDirectoryMapping);
+		result.append(", weightDMS: ");
+		result.append(weightDMS);
+		result.append(", weightHighestNameResemblance: ");
+		result.append(weightHighestNameResemblance);
+		result.append(", wildcardKey: ");
+		result.append(wildcardKey);
+		result.append(", additionalWildcards: ");
+		result.append(additionalWildcards);
+		result.append(", minMergeThreshold: ");
+		result.append(minMergeThreshold);
+		result.append(", maxComposeThreshold: ");
+		result.append(maxComposeThreshold);
+		result.append(", composeThresholdDecrement: ");
+		result.append(composeThresholdDecrement);
+		result.append(", mergeThresholdDecrement: ");
+		result.append(mergeThresholdDecrement);
+		result.append(", excludedPrefixesForNameResemblance: ");
+		result.append(excludedPrefixesForNameResemblance);
+		result.append(", excludedSuffixesForNameResemblance: ");
+		result.append(excludedSuffixesForNameResemblance);
+		result.append(')');
+		return result.toString();
+	}
 
 } //MetricValuesModelImpl

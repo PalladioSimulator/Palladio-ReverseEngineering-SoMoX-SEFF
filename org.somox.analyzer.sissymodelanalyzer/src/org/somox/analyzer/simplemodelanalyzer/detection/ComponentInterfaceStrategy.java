@@ -1,7 +1,11 @@
 package org.somox.analyzer.simplemodelanalyzer.detection;
 
-import de.fzi.gast.functions.Method;
-import de.fzi.gast.types.GASTClass;
+import org.eclipse.gmt.modisco.java.MethodDeclaration;
+import org.eclipse.gmt.modisco.java.Type;
+import org.somox.kdmhelper.KDMHelper;
+
+//import de.fzi.gast.functions.Method;
+//import de.fzi.gast.types.GASTClass;
 import eu.qimpress.sourcecodedecorator.InterfaceSourceCodeLink;
 import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorRepository;
 
@@ -30,7 +34,7 @@ public class ComponentInterfaceStrategy implements IComponentInterfaceStrategy {
 	/* (non-Javadoc)
 	 * @see org.somox.analyzer.simplemodelanalyzer.detection.IComponentInterfaceStrategy#isComponentInterface(de.fzi.gast.types.GASTClass)
 	 */
-	public boolean isComponentInterface(GASTClass classToCheck) {
+	public boolean isComponentInterface(Type classToCheck) {
 		return 
 			isRegularInterface(classToCheck) || 
 			isPureVirtualClass(classToCheck) || 
@@ -43,8 +47,8 @@ public class ComponentInterfaceStrategy implements IComponentInterfaceStrategy {
 	 * @param classToCheck class to check for component interface status.
 	 * @return true if interface flag is set.
 	 */
-	private boolean isRegularInterface(GASTClass classToCheck) {
-		return classToCheck.isInterface();
+	private boolean isRegularInterface(Type classToCheck) {
+		return KDMHelper.isInterface(classToCheck);
 	}
 
 	/**
@@ -54,7 +58,7 @@ public class ComponentInterfaceStrategy implements IComponentInterfaceStrategy {
 	 * @param classToCheck The class to check in for in the source code decorator.
 	 * @return true if the class appears in the source code decorator. 
 	 */
-	private boolean isClassifiedAsInterfaceViaSourceCodeDecorator(GASTClass classToCheck) {
+	private boolean isClassifiedAsInterfaceViaSourceCodeDecorator(Type classToCheck) {
 		for(InterfaceSourceCodeLink ifLink : sourceCodeDecorator.getInterfaceSourceCodeLink()) {
 			if(ifLink.getGastClass().equals(classToCheck)) {
 				return true;
@@ -69,14 +73,14 @@ public class ComponentInterfaceStrategy implements IComponentInterfaceStrategy {
 	 * @param classToCheck The class to check
 	 * @return true if all methods are declared virtual; false else
 	 */
-	private boolean isPureVirtualClass(GASTClass classToCheck) {
+	private boolean isPureVirtualClass(Type classToCheck) {
 		
 		// do not consider "empty" classes with no methods as interface
-		if(classToCheck.getMethods().size() == 0) {
+		if(KDMHelper.getMethods(classToCheck).size() == 0) {
 			return false;
 		}
-		for(Method method : classToCheck.getMethods()) {
-			if(!method.isVirtual()) {
+		for(MethodDeclaration method : KDMHelper.getMethods(classToCheck)) {
+			if(!KDMHelper.isVirtual(method)) {
 				return false;
 			}
 			if (method.getBody() != null) {

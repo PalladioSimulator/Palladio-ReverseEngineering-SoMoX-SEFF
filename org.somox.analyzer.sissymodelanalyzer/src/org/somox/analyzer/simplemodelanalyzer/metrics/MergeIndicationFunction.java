@@ -12,7 +12,6 @@ import org.somox.metrics.hierarchy.PackageMapping;
 import org.somox.metrics.naming.NameResemblance;
 import org.somox.metrics.ratio.AdherenceToInterfaceCommunication;
 import org.somox.metrics.ratio.Coupling;
-import org.somox.metrics.ratio.DMS;
 import org.somox.metrics.structure.SliceLayerArchitectureQuality;
 import org.somox.metrics.structure.SubsystemComponent;
 

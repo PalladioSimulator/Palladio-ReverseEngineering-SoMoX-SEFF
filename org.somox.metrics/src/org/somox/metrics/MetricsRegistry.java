@@ -1,6 +1,5 @@
 package org.somox.metrics;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,17 +7,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-//import org.somox.metrics.dSL.Metric;
-//import org.somox.metrics.dSL.MetricModel;
-//import org.somox.metrics.dslvisitor.DSLConfigurationVisitor;
 
 /**
  * A registry storing all registered metrics in the running Eclipse instance. 

@@ -6,17 +6,18 @@ package org.somox.analyzer.simplemodelanalyzer.factories;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.somox.analyzer.simplemodelanalyzer.detection.ComponentDetectionByClustering;
 import org.somox.analyzer.simplemodelanalyzer.detection.DeleteInitialComponentCandidatesStrategy;
 import org.somox.analyzer.simplemodelanalyzer.detection.DummyPostComponentDetectionStrategy;
 import org.somox.analyzer.simplemodelanalyzer.detection.GastToPrimitiveComponentInitializationStrategy;
-import org.somox.analyzer.simplemodelanalyzer.detection.ComponentDetectionByClustering;
 import org.somox.analyzer.simplemodelanalyzer.detection.IDetectionStrategy;
 import org.somox.analyzer.simplemodelanalyzer.detection.IInitializationStrategy;
 import org.somox.analyzer.simplemodelanalyzer.detection.IPostComponentDetectionStrategy;
 import org.somox.analyzer.simplemodelanalyzer.detection.NoGastClassToPrimitiveComponentInitializationStrategy;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.metamodeladdition.Root;
 
-import de.fzi.gast.core.Root;
+//import de.fzi.gast.core.Root;
 import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**

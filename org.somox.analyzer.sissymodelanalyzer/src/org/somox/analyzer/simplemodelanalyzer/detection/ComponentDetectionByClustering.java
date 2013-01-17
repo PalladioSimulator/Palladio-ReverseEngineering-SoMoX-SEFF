@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.gmt.modisco.java.Type;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.ConnectivityInspector;
@@ -32,6 +33,7 @@ import org.somox.analyzer.simplemodelanalyzer.metrics.DefaultMergeIndicatingMetr
 import org.somox.analyzer.simplemodelanalyzer.metricvalues.MetricValuesWriter;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.filter.FilteredCollectionsFactory;
+import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.IMetric;
 import org.somox.metrics.MetricID;
@@ -41,8 +43,8 @@ import org.somox.metrics.helper.ClassAccessGraphEdge;
 import org.somox.metrics.helper.ComponentToImplementingClassesHelper;
 import org.somox.metrics.util.GraphPrinter;
 
-import de.fzi.gast.core.Root;
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.types.GASTClass;
 import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
@@ -69,7 +71,7 @@ public class ComponentDetectionByClustering implements IDetectionStrategy {
 	final private SoMoXConfiguration somoxConfiguration;
 	
 	/**
-	 * Helper to convert {@link ComponentImplementingClassesLink}s to Set of {@link GASTClass} 
+	 * Helper to convert {@link ComponentImplementingClassesLink}s to Set of {@link org.eclipse.gmt.modisco.java.Type}
 	 */
 	private ComponentToImplementingClassesHelper componentToImplementingClassHelper = new ComponentToImplementingClassesHelper();
 
@@ -137,7 +139,9 @@ public class ComponentDetectionByClustering implements IDetectionStrategy {
 		boolean isMergeIteration = true; //merge or compose in a iteration; by default first try to merge
 		int iteration = 0;
 		
-		ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
+		//removelater
+//		ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
+		ExecutorService pool = Executors.newFixedThreadPool(1);
 		completionService = new ExecutorCompletionService<ClusteringRelation[]>(pool);
 		
 		// Cluster as long as there is a chance to find new components in the clustering step; //merge starts with minimal threshold
@@ -321,9 +325,9 @@ public class ComponentDetectionByClustering implements IDetectionStrategy {
 	 * @param componentCandidates The list of initial component candidates. Used to further narrow the graph
 	 * @return The graph as described in the methods main description  
 	 */
-	private DirectedGraph<GASTClass, ClassAccessGraphEdge> getAccessGraph(List<ComponentImplementingClassesLink> componentCandidates) {
+	private DirectedGraph<Type, ClassAccessGraphEdge> getAccessGraph(List<ComponentImplementingClassesLink> componentCandidates) {
 		// Graph whose nodes are GASTClasses and whose Edges 
-		DirectedGraph<GASTClass,ClassAccessGraphEdge> accessGraph =
+		DirectedGraph<Type,ClassAccessGraphEdge> accessGraph =
 			Class2ClassAccessGraphHelper.computeFilteredClass2ClassAccessGraph(
 					somoxConfiguration, 
 					this.componentToImplementingClassHelper.collectAllClasses(componentCandidates));
@@ -341,7 +345,7 @@ public class ComponentDetectionByClustering implements IDetectionStrategy {
 	private Map<MetricID, IMetric> initializeMetrics(List<ComponentImplementingClassesLink> componentCandidates) {
 		Map<MetricID, IMetric> allMetrics = MetricsRegistry.getRegisteredMetrics();
 		
-		DirectedGraph<GASTClass, ClassAccessGraphEdge> accessGraph = getAccessGraph(componentCandidates);
+		DirectedGraph<Type, ClassAccessGraphEdge> accessGraph = getAccessGraph(componentCandidates);
 		for (IMetric metric : allMetrics.values()) {
 			metric.initialize(gastModel, somoxConfiguration, allMetrics, accessGraph, this.componentToImplementingClassHelper );
 		}

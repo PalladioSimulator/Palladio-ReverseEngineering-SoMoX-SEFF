@@ -1,11 +1,13 @@
 package org.somox.metrics.tabs;
 
+import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
+import org.somox.kdmhelper.metamodeladdition.Root;
 
-import de.fzi.gast.core.Root;
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.types.GASTClass;
 
 public class CheckboxLabelProvider implements ILabelProvider {
 
@@ -16,10 +18,10 @@ public class CheckboxLabelProvider implements ILabelProvider {
 	public String getText(Object element) {
 		if (element instanceof Root) {
 			return ("Root");
-		} else if (element instanceof de.fzi.gast.core.Package) {
-			return ((de.fzi.gast.core.Package) element).getSimpleName();
-		} else if (element instanceof GASTClass) {
-			return ((GASTClass) element).getSimpleName();
+		} else if (element instanceof org.eclipse.gmt.modisco.java.Package) {
+			return ((org.eclipse.gmt.modisco.java.Package) element).getName();
+		} else if (element instanceof Type) {
+			return ((Type) element).getName();
 		}
 		return null;
 	}

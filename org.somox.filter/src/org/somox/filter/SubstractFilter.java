@@ -2,24 +2,25 @@ package org.somox.filter;
 
 import java.util.Set;
 
+import org.eclipse.gmt.modisco.java.Type;
 
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.types.GASTClass;
 
 /**
  * Removes one set from another set.
  *
  */
-public class SubstractFilter extends BaseFilter<GASTClass> {
+public class SubstractFilter extends BaseFilter<Type> {
 
-	private Set<GASTClass> classesToRemove;
+	private Set<Type> classesToRemove;
 	
-	public SubstractFilter(Set<GASTClass> classesToRemove) {
+	public SubstractFilter(Set<Type> classesToRemove) {
 		super();
 		this.classesToRemove = classesToRemove;
 	}
 
 	@Override
-	public boolean passes(GASTClass object) {
+	public boolean passes(Type object) {
 		return !classesToRemove.contains(object);		
 	}
 	

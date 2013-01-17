@@ -14,17 +14,22 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.java.emf.util.JavaAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.kdm.util.KdmAdapterFactory;
+//import org.eclipse.modisco.java.composition.javaapplication.util.JavaapplicationAdapterFactory;
 import org.somox.core.Activator;
+import org.somox.kdmhelper.KDMReader;
+import org.somox.kdmhelper.metamodeladdition.Root;
 
-import de.fzi.gast.accesses.provider.accessesItemProviderAdapterFactory;
-import de.fzi.gast.annotations.provider.annotationsItemProviderAdapterFactory;
-import de.fzi.gast.core.Root;
-import de.fzi.gast.core.provider.coreItemProviderAdapterFactory;
-import de.fzi.gast.functions.provider.functionsItemProviderAdapterFactory;
-import de.fzi.gast.helpers.GASTReader;
-import de.fzi.gast.statements.provider.statementsItemProviderAdapterFactory;
-import de.fzi.gast.types.provider.typesItemProviderAdapterFactory;
-import de.fzi.gast.variables.provider.variablesItemProviderAdapterFactory;
+//import de.fzi.gast.accesses.provider.accessesItemProviderAdapterFactory;
+//import de.fzi.gast.annotations.provider.annotationsItemProviderAdapterFactory;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.core.provider.coreItemProviderAdapterFactory;
+//import de.fzi.gast.functions.provider.functionsItemProviderAdapterFactory;
+//import de.fzi.gast.helpers.GASTReader;
+//import de.fzi.gast.statements.provider.statementsItemProviderAdapterFactory;
+//import de.fzi.gast.types.provider.typesItemProviderAdapterFactory;
+//import de.fzi.gast.variables.provider.variablesItemProviderAdapterFactory;
 
 /**
  * @author  Snowball
@@ -51,14 +56,18 @@ public class ModelAnalyzerTabGroupBlackboard {
 		
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new statementsItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new coreItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new annotationsItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new typesItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new functionsItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new accessesItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new variablesItemProviderAdapterFactory());
+//		adapterFactory.addAdapterFactory(new statementsItemProviderAdapterFactory());
+//		adapterFactory.addAdapterFactory(new coreItemProviderAdapterFactory());
+//		adapterFactory.addAdapterFactory(new annotationsItemProviderAdapterFactory());
+//		adapterFactory.addAdapterFactory(new typesItemProviderAdapterFactory());
+//		adapterFactory.addAdapterFactory(new functionsItemProviderAdapterFactory());
+//		adapterFactory.addAdapterFactory(new accessesItemProviderAdapterFactory());
+//		adapterFactory.addAdapterFactory(new variablesItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
+//		adapterFactory.addAdapterFactory(new JavaAdapterFactory());//REALLYADDED//SOMOXTODOCHANGE
+//		adapterFactory.addAdapterFactory(new KdmAdapterFactory());;//REALLYADDED//SOMOXTODOCHANGE
+//		adapterFactory.addAdapterFactory(new JavaapplicationAdapterFactory());//SOMOXTODOCHANGE //TODO verify.....
+		
 
 		//BasicCommandStack commandStack = new BasicCommandStack();
 
@@ -111,7 +120,7 @@ public class ModelAnalyzerTabGroupBlackboard {
 		if (this.somoxAnalyzerInputFile == null) {
 			this.somoxAnalyzerInputFile = somoxAnalyzerInputFile;
 			if (this.somoxAnalyzerInputFile != null) {
-				if (somoxAnalyzerInputFile.endsWith(".gast")) {
+				if (somoxAnalyzerInputFile.endsWith(".xmi")) {
 					loadModel();
 				} else {
 					root = null;
@@ -123,7 +132,7 @@ public class ModelAnalyzerTabGroupBlackboard {
 		} else if (this.somoxAnalyzerInputFile != null && !this.somoxAnalyzerInputFile.equals(somoxAnalyzerInputFile)) {
 			this.somoxAnalyzerInputFile = somoxAnalyzerInputFile;
 			if (this.somoxAnalyzerInputFile != null) {
-				if (somoxAnalyzerInputFile.endsWith(".gast")) {
+				if (somoxAnalyzerInputFile.endsWith(".xmi")) {
 					loadModel();
 				} else {
 					root = null;
@@ -142,7 +151,7 @@ public class ModelAnalyzerTabGroupBlackboard {
 		IWorkspaceRoot resRoot = ResourcesPlugin.getWorkspace().getRoot();
 		if(resRoot.findMember(fileURI.toPlatformString(true)) instanceof IFile) {
 		try {
-			GASTReader gastReader = new GASTReader();
+			KDMReader gastReader = new KDMReader();
 			gastReader.loadFile(fileURI);
 			root=gastReader.getRoot();
 		} catch (IOException e1) {

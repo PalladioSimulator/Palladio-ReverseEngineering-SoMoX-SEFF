@@ -8,8 +8,10 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
+import org.eclipse.gmt.modisco.java.Type;
 import org.jgrapht.DirectedGraph;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.metrics.AbstractMetric;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.IMetric;
@@ -21,14 +23,14 @@ import org.somox.metrics.tabs.NameResemblanceTab;
 
 import uk.ac.shef.wit.simmetrics.similaritymetrics.InterfaceStringMetric;
 import uk.ac.shef.wit.simmetrics.similaritymetrics.JaroWinkler;
-import de.fzi.gast.core.Root;
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.types.GASTClass;
 
 class NamePair {
-	private final GASTClass class1;
-	private final GASTClass class2;
+	private final Type class1;
+	private final Type class2;
 
-	public NamePair(GASTClass class1, GASTClass class2) {
+	public NamePair(Type class1, Type class2) {
 		super();
 		
 		if (class1 == null || class2 == null) {
@@ -64,7 +66,7 @@ class NamePair {
 }
 
 /**
- * NameResemblance metric. Counts for all {@link GASTClass}es in any of the two component candidates the similar names and
+ * NameResemblance metric. Counts for all {@link Type}s in any of the two component candidates the similar names and
  * divides it by the total amount of names. The names are trimmed before they are compared, i.e., their prefixes and suffixes are 
  * removed as configured on this metric's configuration tab.
  * 
@@ -102,18 +104,18 @@ public class NameResemblance extends AbstractMetric {
 	public void initialize(Root gastModel,
 			SoMoXConfiguration somoxConfiguration,
 			Map<MetricID, IMetric> allMetrics,
-			DirectedGraph<GASTClass, ClassAccessGraphEdge> accessGraph,
+			DirectedGraph<Type, ClassAccessGraphEdge> accessGraph,
 			ComponentToImplementingClassesHelper componentToImplementingClassesHelper) {
 		super.initialize(gastModel, somoxConfiguration, allMetrics, accessGraph, componentToImplementingClassesHelper);
 	
 		this.excludedPrefixes = tokenizeString(somoxConfiguration.getExcludedPrefixesForNameResemblance());
 		this.excludedSuffixes = tokenizeString(somoxConfiguration.getExcludedSuffixesForNameResemblance());
 		
-		for (GASTClass class1 : accessGraph.vertexSet()) {
-			for (GASTClass class2 : accessGraph.vertexSet()) {
+		for (Type class1 : accessGraph.vertexSet()) {
+			for (Type class2 : accessGraph.vertexSet()) {
 				Float resemblance = nameResemblanceMap.get(new NamePair(class1,class2));
 				if (resemblance == null) {
-					resemblance = resemblanceMetric.getSimilarity(trimString(class1.getSimpleName()), trimString(class2.getSimpleName()));
+					resemblance = resemblanceMetric.getSimilarity(trimString(class1.getName()), trimString(class2.getName()));
 					nameResemblanceMap.put(new NamePair(class1, class2), resemblance);
 				}
 			}
@@ -133,14 +135,14 @@ public class NameResemblance extends AbstractMetric {
 		// if (componentCandidate1.isCompositeComponent() || componentCandidate2.isCompositeComponent())
 		//	return 0.0;
 		
-		Set<GASTClass> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentA());
-		Set<GASTClass> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentB());
+		Set<Type> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentA());
+		Set<Type> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentB());
 
 		int totalCompares = classes1.size() * classes2.size();
 		
 		double nameResemblance = 0.0;
-		for (GASTClass class1 : classes1) {
-			for (GASTClass class2 : classes2) {
+		for (Type class1 : classes1) {
+			for (Type class2 : classes2) {
 				Float resemblance = nameResemblanceMap.get(new NamePair(class1, class2));
 				if (resemblance == null) {
 					throw new RuntimeException("This should not happen as all classes are precomputed");
@@ -229,10 +231,10 @@ public class NameResemblance extends AbstractMetric {
 		}
 	};
 	
-	private Set<String> collectAllSimpleNames(Set<GASTClass> classes) {
+	private Set<String> collectAllSimpleNames(Set<Type> classes) {
 		Set<String> allSimpleTrimmedNames = new HashSet<String>();
-		for (GASTClass clazz : classes) {
-			allSimpleTrimmedNames.add(trimString(clazz.getSimpleName()));
+		for (Type clazz : classes) {
+			allSimpleTrimmedNames.add(trimString(clazz.getName()));
 		}
 		return allSimpleTrimmedNames;
 	}

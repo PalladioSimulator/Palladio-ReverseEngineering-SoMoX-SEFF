@@ -6,8 +6,6 @@
  */
 package metricvalues.impl;
 
-import de.fzi.gast.types.GASTClass;
-
 import java.util.Collection;
 
 import metricvalues.Component;
@@ -17,18 +15,13 @@ import metricvalues.MetricvaluesPackage;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -49,323 +42,313 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class ComponentCandidateImpl extends EObjectImpl implements ComponentCandidate
 {
    /**
-    * The cached value of the '{@link #getMetricValuesList() <em>Metric Values</em>}' containment reference list.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getMetricValuesList() <em>Metric Values</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getMetricValuesList()
-    * @generated
-    * @ordered
-    */
+	 * @see #getMetricValuesList()
+	 * @generated
+	 * @ordered
+	 */
    protected EList<MetricValue> metricValues;
 
    /**
-    * The empty value for the '{@link #getMetricValues() <em>Metric Values</em>}' array accessor.
-    * <!-- begin-user-doc -->
+	 * The empty value for the '{@link #getMetricValues() <em>Metric Values</em>}' array accessor.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getMetricValues()
-    * @generated
-    * @ordered
-    */
+	 * @see #getMetricValues()
+	 * @generated
+	 * @ordered
+	 */
    protected static final MetricValue[] METRIC_VALUES_EEMPTY_ARRAY = new MetricValue [0];
 
    /**
-    * The cached value of the '{@link #getFirstComponent() <em>First Component</em>}' reference.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getFirstComponent() <em>First Component</em>}' reference.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getFirstComponent()
-    * @generated
-    * @ordered
-    */
+	 * @see #getFirstComponent()
+	 * @generated
+	 * @ordered
+	 */
    protected Component firstComponent;
 
    /**
-    * The cached value of the '{@link #getSecondComponent() <em>Second Component</em>}' reference.
-    * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getSecondComponent() <em>Second Component</em>}' reference.
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @see #getSecondComponent()
-    * @generated
-    * @ordered
-    */
+	 * @see #getSecondComponent()
+	 * @generated
+	 * @ordered
+	 */
    protected Component secondComponent;
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    protected ComponentCandidateImpl()
    {
-      super();
-   }
+		super();
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    @Override
    protected EClass eStaticClass()
    {
-      return MetricvaluesPackage.Literals.COMPONENT_CANDIDATE;
-   }
+		return MetricvaluesPackage.Literals.COMPONENT_CANDIDATE;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public MetricValue[] getMetricValues()
    {
-      if (metricValues == null || metricValues.isEmpty()) return METRIC_VALUES_EEMPTY_ARRAY;
-      BasicEList<MetricValue> list = (BasicEList<MetricValue>)metricValues;
-      list.shrink();
-      return (MetricValue[])list.data();
-   }
+		if (metricValues == null || metricValues.isEmpty()) return METRIC_VALUES_EEMPTY_ARRAY;
+		BasicEList<MetricValue> list = (BasicEList<MetricValue>)metricValues;
+		list.shrink();
+		return (MetricValue[])list.data();
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public MetricValue getMetricValues(int index)
    {
-      return getMetricValuesList().get(index);
-   }
+		return getMetricValuesList().get(index);
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public int getMetricValuesLength()
    {
-      return metricValues == null ? 0 : metricValues.size();
-   }
+		return metricValues == null ? 0 : metricValues.size();
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setMetricValues(MetricValue[] newMetricValues)
    {
-      ((BasicEList<MetricValue>)getMetricValuesList()).setData(newMetricValues.length, newMetricValues);
-   }
+		((BasicEList<MetricValue>)getMetricValuesList()).setData(newMetricValues.length, newMetricValues);
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setMetricValues(int index, MetricValue element)
    {
-      getMetricValuesList().set(index, element);
-   }
+		getMetricValuesList().set(index, element);
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public EList<MetricValue> getMetricValuesList()
    {
-      if (metricValues == null)
-      {
-         metricValues = new EObjectContainmentEList<MetricValue>(MetricValue.class, this, MetricvaluesPackage.COMPONENT_CANDIDATE__METRIC_VALUES);
-      }
-      return metricValues;
-   }
+		if (metricValues == null) {
+			metricValues = new EObjectContainmentEList<MetricValue>(MetricValue.class, this, MetricvaluesPackage.COMPONENT_CANDIDATE__METRIC_VALUES);
+		}
+		return metricValues;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public Component getFirstComponent()
    {
-      if (firstComponent != null && firstComponent.eIsProxy())
-      {
-         InternalEObject oldFirstComponent = (InternalEObject)firstComponent;
-         firstComponent = (Component)eResolveProxy(oldFirstComponent);
-         if (firstComponent != oldFirstComponent)
-         {
-            if (eNotificationRequired())
-               eNotify(new ENotificationImpl(this, Notification.RESOLVE, MetricvaluesPackage.COMPONENT_CANDIDATE__FIRST_COMPONENT, oldFirstComponent, firstComponent));
-         }
-      }
-      return firstComponent;
-   }
+		if (firstComponent != null && firstComponent.eIsProxy()) {
+			InternalEObject oldFirstComponent = (InternalEObject)firstComponent;
+			firstComponent = (Component)eResolveProxy(oldFirstComponent);
+			if (firstComponent != oldFirstComponent) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MetricvaluesPackage.COMPONENT_CANDIDATE__FIRST_COMPONENT, oldFirstComponent, firstComponent));
+			}
+		}
+		return firstComponent;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public Component basicGetFirstComponent()
    {
-      return firstComponent;
-   }
+		return firstComponent;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setFirstComponent(Component newFirstComponent)
    {
-      Component oldFirstComponent = firstComponent;
-      firstComponent = newFirstComponent;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.COMPONENT_CANDIDATE__FIRST_COMPONENT, oldFirstComponent, firstComponent));
-   }
+		Component oldFirstComponent = firstComponent;
+		firstComponent = newFirstComponent;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.COMPONENT_CANDIDATE__FIRST_COMPONENT, oldFirstComponent, firstComponent));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public Component getSecondComponent()
    {
-      if (secondComponent != null && secondComponent.eIsProxy())
-      {
-         InternalEObject oldSecondComponent = (InternalEObject)secondComponent;
-         secondComponent = (Component)eResolveProxy(oldSecondComponent);
-         if (secondComponent != oldSecondComponent)
-         {
-            if (eNotificationRequired())
-               eNotify(new ENotificationImpl(this, Notification.RESOLVE, MetricvaluesPackage.COMPONENT_CANDIDATE__SECOND_COMPONENT, oldSecondComponent, secondComponent));
-         }
-      }
-      return secondComponent;
-   }
+		if (secondComponent != null && secondComponent.eIsProxy()) {
+			InternalEObject oldSecondComponent = (InternalEObject)secondComponent;
+			secondComponent = (Component)eResolveProxy(oldSecondComponent);
+			if (secondComponent != oldSecondComponent) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MetricvaluesPackage.COMPONENT_CANDIDATE__SECOND_COMPONENT, oldSecondComponent, secondComponent));
+			}
+		}
+		return secondComponent;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public Component basicGetSecondComponent()
    {
-      return secondComponent;
-   }
+		return secondComponent;
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    public void setSecondComponent(Component newSecondComponent)
    {
-      Component oldSecondComponent = secondComponent;
-      secondComponent = newSecondComponent;
-      if (eNotificationRequired())
-         eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.COMPONENT_CANDIDATE__SECOND_COMPONENT, oldSecondComponent, secondComponent));
-   }
+		Component oldSecondComponent = secondComponent;
+		secondComponent = newSecondComponent;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetricvaluesPackage.COMPONENT_CANDIDATE__SECOND_COMPONENT, oldSecondComponent, secondComponent));
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    @Override
    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
    {
-      switch (featureID)
-      {
-         case MetricvaluesPackage.COMPONENT_CANDIDATE__METRIC_VALUES:
-            return ((InternalEList<?>)getMetricValuesList()).basicRemove(otherEnd, msgs);
-      }
-      return super.eInverseRemove(otherEnd, featureID, msgs);
-   }
+		switch (featureID) {
+			case MetricvaluesPackage.COMPONENT_CANDIDATE__METRIC_VALUES:
+				return ((InternalEList<?>)getMetricValuesList()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    @Override
    public Object eGet(int featureID, boolean resolve, boolean coreType)
    {
-      switch (featureID)
-      {
-         case MetricvaluesPackage.COMPONENT_CANDIDATE__METRIC_VALUES:
-            return getMetricValuesList();
-         case MetricvaluesPackage.COMPONENT_CANDIDATE__FIRST_COMPONENT:
-            if (resolve) return getFirstComponent();
-            return basicGetFirstComponent();
-         case MetricvaluesPackage.COMPONENT_CANDIDATE__SECOND_COMPONENT:
-            if (resolve) return getSecondComponent();
-            return basicGetSecondComponent();
-      }
-      return super.eGet(featureID, resolve, coreType);
-   }
+		switch (featureID) {
+			case MetricvaluesPackage.COMPONENT_CANDIDATE__METRIC_VALUES:
+				return getMetricValuesList();
+			case MetricvaluesPackage.COMPONENT_CANDIDATE__FIRST_COMPONENT:
+				if (resolve) return getFirstComponent();
+				return basicGetFirstComponent();
+			case MetricvaluesPackage.COMPONENT_CANDIDATE__SECOND_COMPONENT:
+				if (resolve) return getSecondComponent();
+				return basicGetSecondComponent();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    @SuppressWarnings("unchecked")
    @Override
    public void eSet(int featureID, Object newValue)
    {
-      switch (featureID)
-      {
-         case MetricvaluesPackage.COMPONENT_CANDIDATE__METRIC_VALUES:
-            getMetricValuesList().clear();
-            getMetricValuesList().addAll((Collection<? extends MetricValue>)newValue);
-            return;
-         case MetricvaluesPackage.COMPONENT_CANDIDATE__FIRST_COMPONENT:
-            setFirstComponent((Component)newValue);
-            return;
-         case MetricvaluesPackage.COMPONENT_CANDIDATE__SECOND_COMPONENT:
-            setSecondComponent((Component)newValue);
-            return;
-      }
-      super.eSet(featureID, newValue);
-   }
+		switch (featureID) {
+			case MetricvaluesPackage.COMPONENT_CANDIDATE__METRIC_VALUES:
+				getMetricValuesList().clear();
+				getMetricValuesList().addAll((Collection<? extends MetricValue>)newValue);
+				return;
+			case MetricvaluesPackage.COMPONENT_CANDIDATE__FIRST_COMPONENT:
+				setFirstComponent((Component)newValue);
+				return;
+			case MetricvaluesPackage.COMPONENT_CANDIDATE__SECOND_COMPONENT:
+				setSecondComponent((Component)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    @Override
    public void eUnset(int featureID)
    {
-      switch (featureID)
-      {
-         case MetricvaluesPackage.COMPONENT_CANDIDATE__METRIC_VALUES:
-            getMetricValuesList().clear();
-            return;
-         case MetricvaluesPackage.COMPONENT_CANDIDATE__FIRST_COMPONENT:
-            setFirstComponent((Component)null);
-            return;
-         case MetricvaluesPackage.COMPONENT_CANDIDATE__SECOND_COMPONENT:
-            setSecondComponent((Component)null);
-            return;
-      }
-      super.eUnset(featureID);
-   }
+		switch (featureID) {
+			case MetricvaluesPackage.COMPONENT_CANDIDATE__METRIC_VALUES:
+				getMetricValuesList().clear();
+				return;
+			case MetricvaluesPackage.COMPONENT_CANDIDATE__FIRST_COMPONENT:
+				setFirstComponent((Component)null);
+				return;
+			case MetricvaluesPackage.COMPONENT_CANDIDATE__SECOND_COMPONENT:
+				setSecondComponent((Component)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
    /**
-    * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
-    */
+	 * @generated
+	 */
    @Override
    public boolean eIsSet(int featureID)
    {
-      switch (featureID)
-      {
-         case MetricvaluesPackage.COMPONENT_CANDIDATE__METRIC_VALUES:
-            return metricValues != null && !metricValues.isEmpty();
-         case MetricvaluesPackage.COMPONENT_CANDIDATE__FIRST_COMPONENT:
-            return firstComponent != null;
-         case MetricvaluesPackage.COMPONENT_CANDIDATE__SECOND_COMPONENT:
-            return secondComponent != null;
-      }
-      return super.eIsSet(featureID);
-   }
+		switch (featureID) {
+			case MetricvaluesPackage.COMPONENT_CANDIDATE__METRIC_VALUES:
+				return metricValues != null && !metricValues.isEmpty();
+			case MetricvaluesPackage.COMPONENT_CANDIDATE__FIRST_COMPONENT:
+				return firstComponent != null;
+			case MetricvaluesPackage.COMPONENT_CANDIDATE__SECOND_COMPONENT:
+				return secondComponent != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //ComponentCandidateImpl

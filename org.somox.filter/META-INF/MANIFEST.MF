@@ -7,9 +7,10 @@ Bundle-Activator: org.somox.filter.Activator
 Bundle-Vendor: SDQ, KIT + FZI Karlsruhe + EU Q-ImPrESS
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- de.fzi.gast;bundle-version="1.0.0",
  org.eclipse.emf;bundle-version="2.5.0",
- org.apache.log4j;bundle-version="1.2.13"
+ org.apache.log4j;bundle-version="1.2.13",
+ org.eclipse.gmt.modisco.java;bundle-version="0.9.2",
+ org.somox.kdmhelper;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.somox.filter

@@ -6,11 +6,14 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.Type;
+import org.eclipse.gmt.modisco.omg.kdm.source.AbstractInventoryElement;
 import org.somox.metrics.AbstractMetric;
 import org.somox.metrics.ClusteringRelation;
 
-import de.fzi.gast.core.ModelElement;
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.core.ModelElement;
+//import de.fzi.gast.types.GASTClass;
 
 
 class TreeNode<T> {
@@ -64,7 +67,7 @@ class TreeNode<T> {
  * @author Klaus Krogmann
  *
  */
-public abstract class AbstractHierarchyMapping<T extends ModelElement> extends AbstractMetric {
+public abstract class AbstractHierarchyMapping<T extends Object> extends AbstractMetric { //SOMOXTODOCHANGE
 
 	/**
 	 * Minimum likelihood of packages to be meaningfully considered somehow the same package
@@ -94,8 +97,19 @@ public abstract class AbstractHierarchyMapping<T extends ModelElement> extends A
 	protected ClusteringRelation internalComputeDirected (
 			ClusteringRelation relationToCompute) {
 		
-		Set<GASTClass> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentA());
-		Set<GASTClass> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentB());
+		
+		//removelater
+//		java.util.List<Type> type1 = relationToCompute.getComponentA().getImplementingClasses();
+//		java.util.List<Type> type2 = relationToCompute.getComponentB().getImplementingClasses();
+//		if(type1!= null & type2!=null & type1.size()>0 & type2.size()>0){
+//			if(type1.get(0).getName().equals("Connector") &
+//					type2.get(0).getName().equals("OrderButton")){
+//				System.out.println("a");
+//			}
+//		}
+		
+		Set<Type> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentA());
+		Set<Type> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentB());
 		
 		TreeNode<T> element1RootPackagesPath = collectPaths(classes1);
 		TreeNode<T> element2RootPackagesPath = collectPaths(classes2);
@@ -112,7 +126,14 @@ public abstract class AbstractHierarchyMapping<T extends ModelElement> extends A
 		} else {
 			assert maxCommonPackageDirectoryHeigthOfElements <= maxHeight;
 			//normalize:
-			double rawMeasure = (double)maxCommonPackageDirectoryHeigthOfElements / (double)maxHeight;
+			//removelater
+			double rawMeasure;
+			if(this instanceof DirectoryMapping){
+				rawMeasure = (double)(maxCommonPackageDirectoryHeigthOfElements + 3)  / (double)(maxHeight + 3);
+			}
+			else{
+				rawMeasure = (double)(maxCommonPackageDirectoryHeigthOfElements)  / (double)(maxHeight);
+			}
 			relationToCompute.setResultMetric(getMID(), convertToNonLinearWeight(rawMeasure));
 		}
 		return relationToCompute;
@@ -125,7 +146,7 @@ public abstract class AbstractHierarchyMapping<T extends ModelElement> extends A
 	 * @return The parent of the GASTClass as defined by our subclass or null if this class is not
 	 * contained in the hierarchy as defined by the subclass
 	 */
-	protected abstract T getPath(GASTClass clazz);
+	protected abstract T getPath(Type clazz);
 
 	/** Return the parent path segment of the passed element T
 	 * @param element The element (i.e. Directory or Package) for which to return the parent (i.e. parent package or
@@ -199,9 +220,9 @@ public abstract class AbstractHierarchyMapping<T extends ModelElement> extends A
 	 * @param elements The set of GAST classes for which we build the prefix tree of their hierarchy
 	 * @return The constructed tree
 	 */
-	private TreeNode<T> collectPaths(Set<GASTClass> elements) {
+	private TreeNode<T> collectPaths(Set<Type> elements) {
 		TreeNode<T> root = new TreeNode<T>(); // create a new tree root
-		for(GASTClass currentClass : elements) {
+		for(Type currentClass : elements) {
 			addToTree(root, getPath(currentClass));
 		}
 		return root;

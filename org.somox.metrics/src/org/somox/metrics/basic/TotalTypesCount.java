@@ -2,11 +2,12 @@ package org.somox.metrics.basic;
 
 import java.util.Set;
 
+import org.eclipse.gmt.modisco.java.Type;
 import org.somox.metrics.AbstractCountingMetric;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.MetricID;
 
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.types.GASTClass;
 
 public class TotalTypesCount extends AbstractCountingMetric {
 
@@ -15,7 +16,7 @@ public class TotalTypesCount extends AbstractCountingMetric {
 	@Override
 	protected ClusteringRelation internalComputeDirected (
 			ClusteringRelation relationToCompute) {
-		Set<GASTClass> allClasses = calculateUnion(relationToCompute.getComponentA(), relationToCompute.getComponentB());
+		Set<Type> allClasses = calculateUnion(relationToCompute.getComponentA(), relationToCompute.getComponentB());
 		relationToCompute.setResultMetric(getMID(), (double)allClasses.size());
 		return relationToCompute;
 	}

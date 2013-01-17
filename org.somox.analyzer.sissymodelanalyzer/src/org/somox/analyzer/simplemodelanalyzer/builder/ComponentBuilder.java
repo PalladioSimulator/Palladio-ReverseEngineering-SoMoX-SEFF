@@ -8,13 +8,16 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.gmt.modisco.java.Type;
 import org.jgrapht.Graph;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.KDMHelper;
+import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.metrics.ClusteringRelation;
 
-import de.fzi.gast.core.Root;
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.types.GASTClass;
 import eu.qimpress.samm.staticstructure.ComponentType;
 import eu.qimpress.samm.staticstructure.CompositeComponent;
 import eu.qimpress.samm.staticstructure.CompositeStructure;
@@ -174,9 +177,9 @@ public class ComponentBuilder extends AbstractBuilder {
 	 * @return The {@link ComponentImplementingClassesLink} annotation describing the new component and its origin in the source code
 	 */
 	public ComponentImplementingClassesLink createPrimitiveComponentFromGASTClass(
-			GASTClass gastClass) {
+			Type gastClass) {
 			
-		List<GASTClass> singleClassList = new ArrayList<GASTClass>();
+		List<Type> singleClassList = new ArrayList<Type>();
 		singleClassList.add(gastClass);
 		return createSinglePrimitiveComponentFromGASTClasses(singleClassList);
 	}
@@ -191,7 +194,7 @@ public class ComponentBuilder extends AbstractBuilder {
 	 * and its origin in the source code
 	 */
 	public ComponentImplementingClassesLink createSinglePrimitiveComponentFromGASTClasses(
-			List<GASTClass> gastClasses) {
+			List<Type> gastClasses) {
 		ComponentImplementingClassesLink newPrimitiveComponent = 
 			SourceCodeDecoratorFactory.eINSTANCE.createComponentImplementingClassesLink();
 	
@@ -208,8 +211,12 @@ public class ComponentBuilder extends AbstractBuilder {
 	 * @return The {@link ComponentImplementingClassesLink} annotation describing the new component and its origin in the source code
 	 */
 	public ComponentImplementingClassesLink createSinglePrimitiveComponentFromGASTClasses(
-			List<GASTClass> gastClasses, ComponentImplementingClassesLink primitiveComponent) {
-		String componentName = componentNamingStrategy.createSimpleComponentName(gastClasses, true);	
+			List<Type> gastClasses, ComponentImplementingClassesLink primitiveComponent) {
+		
+		//removelater
+		//String componentName = componentNamingStrategy.createSimpleComponentName(gastClasses, true);	
+		String componentName = componentNamingStrategy.createSimpleComponentName(gastClasses, false);//for metric compare reasons
+		
 		logger.info("Creating primitive component "+componentName);
 		
 		this.analysisResult.getSourceCodeDecoratorRepository().getComponentImplementingClassesLink().add(primitiveComponent);
@@ -221,8 +228,8 @@ public class ComponentBuilder extends AbstractBuilder {
 		primitiveComponent.setComponent(newComponentType);
 		
 		// TODO: check whether now duplicate classes are added
-		for(GASTClass currentGASTclass : gastClasses) {						
-			primitiveComponent.getImplementingClasses().addAll(getInnerClasses(currentGASTclass,newComponentType));			
+		for(Type currentGASTclass : gastClasses) {						
+			primitiveComponent.getImplementingClasses().addAll(getInnerClasses(currentGASTclass,newComponentType));
 		}		
 		
 		interfaceBuilder.findAndAddRequiredInterfaces(primitiveComponent);
@@ -240,7 +247,7 @@ public class ComponentBuilder extends AbstractBuilder {
 	 * @return The {@link ComponentImplementingClassesLink} annotation describing the new component link and its origin in the source code
 	 */
 	public ComponentImplementingClassesLink createComponentLinkFromGASTClass(
-			GASTClass gastClass) {
+			Type gastClass) {
 		
 		ComponentImplementingClassesLink newPrimitiveComponent = 
 			SourceCodeDecoratorFactory.eINSTANCE.createComponentImplementingClassesLink();
@@ -259,7 +266,7 @@ public class ComponentBuilder extends AbstractBuilder {
 	private ComponentImplementingClassesLink createSinglePrimitiveComponent(
 			Graph<ComponentImplementingClassesLink, ClusteringRelation> compositeComponentSubgraph) {
 		logger.trace("creating single primitive component (merge)");
-		EList<GASTClass> classesOfPrimitiveComponent = new BasicEList<GASTClass>();
+		EList<Type> classesOfPrimitiveComponent = new BasicEList<Type>();
 		for(ComponentImplementingClassesLink currentComponent : compositeComponentSubgraph.vertexSet()) {	
 			assert(currentComponent.isInitialComponent()); 
 			
@@ -365,17 +372,18 @@ public class ComponentBuilder extends AbstractBuilder {
 	 * @param newComponentType 
 	 * @return a list containing the given class plus all inner classes
 	 */
-	private Set<GASTClass> getInnerClasses (GASTClass element, ComponentType newComponentType) {
-		Set<GASTClass> currentList = new HashSet<GASTClass>();
+	//SOMOXTODOCHANGE rename this class to getInputElementAndInnerClasses
+	private Set<Type> getInnerClasses (Type element, ComponentType newComponentType) {
+		Set<Type> currentList = new HashSet<Type>();
 		currentList.add(element);
 		storeFileLocationInSourceCodeDecorator(element, newComponentType);
 		
-		List<GASTClass> innerClasses = element.getInnerClasses();
+		List<Type> innerClasses = KDMHelper.getInnerClasses(element);
 		
 		if (innerClasses != null) {
 			currentList.addAll(innerClasses);
 		}
-		for (GASTClass innerClass : innerClasses) {
+		for (Type innerClass : innerClasses) {
 			currentList.addAll(getInnerClasses(innerClass, newComponentType));
 		}
 		
@@ -389,16 +397,16 @@ public class ComponentBuilder extends AbstractBuilder {
 	 * @param newComponentType 
 	 * @return a list containing the given class plus all inner classes
 	 */
-	private Set<GASTClass> getInnerClasses (GASTClass element) {
-		Set<GASTClass> currentList = new HashSet<GASTClass>();
+	private Set<Type> getInnerClasses (Type element) {
+		Set<Type> currentList = new HashSet<Type>();
 		currentList.add(element);
 		
-		List<GASTClass> innerClasses = element.getInnerClasses();
+		List<Type> innerClasses = KDMHelper.getInnerClasses(element);
 		
 		if (innerClasses != null) {
 			currentList.addAll(innerClasses);
 		}
-		for (GASTClass innerClass : innerClasses) {
+		for (Type innerClass : innerClasses) {
 			currentList.addAll(getInnerClasses(innerClass));
 		}
 		
@@ -412,12 +420,12 @@ public class ComponentBuilder extends AbstractBuilder {
 	 * @param newComponent
 	 */
 	private void storeFileLocationInSourceCodeDecorator(
-			GASTClass gastClass, ComponentType newComponent) {
+			Type gastClass, ComponentType newComponent) {
 		//TODO inner classes?
 		FileLevelSourceCodeLink link = SourceCodeDecoratorFactory.eINSTANCE.createFileLevelSourceCodeLink();
 		link.setComponentType(newComponent);
-		if(gastClass.getPosition() != null && gastClass.getPosition().getSourceFile() != null) { // can be null for C code
-			link.setFile(gastClass.getPosition().getSourceFile());
+		if(KDMHelper.getJavaNodeSourceRegion(gastClass) != null && KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(gastClass)) != null) { // can be null for C code
+			link.setFile(KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(gastClass)));
 		}
 		this.analysisResult.getSourceCodeDecoratorRepository().getFileLevelSourceCodeLink().add(link);
 	}

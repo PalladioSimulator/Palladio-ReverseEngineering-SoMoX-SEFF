@@ -3,14 +3,18 @@ package org.somox.analyzer.simplemodelanalyzer.detection;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.gmt.modisco.java.Type;
+import org.eclipse.gmt.modisco.java.emf.JavaPackage;
 import org.somox.analyzer.simplemodelanalyzer.builder.ComponentBuilder;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.filter.ComposedFilter;
 import org.somox.filter.EClassBasedFilter;
+import org.somox.kdmhelper.KDMHelper;
+import org.somox.kdmhelper.metamodeladdition.Root;
 
-import de.fzi.gast.core.Root;
-import de.fzi.gast.types.GASTClass;
-import de.fzi.gast.types.typesPackage;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.types.typesPackage;
 import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
@@ -22,7 +26,7 @@ import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
  * @author Steffen Becker, Johannes Stammel, Grischa Liebel, Klaus Krogmann
  *
  */
-public class GastToPrimitiveComponentInitializationStrategy extends AbstractInitializationStrategy {	
+public class GastToPrimitiveComponentInitializationStrategy extends AbstractInitializationStrategy {
 	
 	/**
 	 * Create an initial list of component candidates by following a simple heuristic: each GASTClass is 
@@ -31,10 +35,16 @@ public class GastToPrimitiveComponentInitializationStrategy extends AbstractInit
 	 */
 	public List<ComponentImplementingClassesLink> createInitialComponentCandidates(Root root, SoMoXConfiguration config, ComponentBuilder builder) {
 		List<ComponentImplementingClassesLink> result = new ArrayList<ComponentImplementingClassesLink>();
-		List<GASTClass> classList = root.getAllNormalClasses();
+		List<Type> classList = root.getNormalClasses();
 		
+		//removelater
+//		String fileName = "00getNormalClassesPCKDM.txt";
+//		for(Type element : classList){
+//			org.somox.changetest.Helper.writeToFile(fileName, GASTClassHelper.computeFullQualifiedName(element));
+//		}
+//		org.somox.changetest.Helper.sortFile(fileName);
 
-		for (GASTClass clazz : getFilter(config).filter(classList)){ 
+		for (Type clazz : getFilter(config).filter(classList)){
 			ComponentImplementingClassesLink newPrimitiveComponent = builder.createPrimitiveComponentFromGASTClass(clazz);
 			newPrimitiveComponent.setIsInitialComponent(true);
 			result.add(newPrimitiveComponent);
@@ -44,12 +54,12 @@ public class GastToPrimitiveComponentInitializationStrategy extends AbstractInit
 	}
 	
 	@SuppressWarnings("unchecked")
-	private ComposedFilter<GASTClass> getFilter(SoMoXConfiguration config) {
-		ComposedFilter<GASTClass> gastClassFilter = new ComposedFilter<GASTClass>(
+	private ComposedFilter<Type> getFilter(SoMoXConfiguration config) {
+		ComposedFilter<Type> gastClassFilter = new ComposedFilter<Type>(
 				config.getBlacklistFilter(),
-				new EClassBasedFilter<GASTClass>(
-						typesPackage.eINSTANCE.getGASTEnumeration(),
-						typesPackage.eINSTANCE.getGASTUnion()),
+				new EClassBasedFilter<Type>(
+						/*JavaPackage.eINSTANCE.getEnumDeclaration()*/),//SOMOXTODOCHANGE removed because old version passes enums
+						///*typesPackage.eINSTANCE.getGASTUnion())*/,//SOMOXTODOCHANGE
 				primitiveClassesFilter,
 				improperStructFilter,
 				dataObjectFilter,

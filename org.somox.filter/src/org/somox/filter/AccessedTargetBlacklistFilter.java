@@ -1,7 +1,11 @@
 package org.somox.filter;
 
-import de.fzi.gast.accesses.Access;
-import de.fzi.gast.types.GASTClass;
+import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.Type;
+import org.somox.kdmhelper.GetAccessedType;
+
+//import de.fzi.gast.accesses.Access;
+//import de.fzi.gast.types.GASTClass;
 
 /**
  * This class filters a list of Accesses based on the accessed class. If the accessed class is in the blacklist then
@@ -9,7 +13,7 @@ import de.fzi.gast.types.GASTClass;
  * 
  * @author Steffen Becker
  */
-public class AccessedTargetBlacklistFilter extends BaseFilter<Access> {
+public class AccessedTargetBlacklistFilter extends BaseFilter<ASTNode> {
 	private BlacklistFilter blacklistFilter = null;
 	
 	public AccessedTargetBlacklistFilter(BlacklistFilter blacklistFilter) {
@@ -21,8 +25,8 @@ public class AccessedTargetBlacklistFilter extends BaseFilter<Access> {
 	}
 
 	@Override
-	public boolean passes(Access access) {
-		GASTClass accessedClass = access.getAccessedClass(); 
+	public boolean passes(ASTNode access) {
+		Type accessedClass = GetAccessedType.getAccessedType(access);
 		if (accessedClass == null)
 			return false;
 		return blacklistFilter.passes(accessedClass);

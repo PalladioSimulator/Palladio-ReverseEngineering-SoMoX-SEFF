@@ -9,6 +9,10 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.Type;
+import org.eclipse.gmt.modisco.java.TypeAccess;
+import org.eclipse.gmt.modisco.java.emf.JavaPackage;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.InterfacePortBuilderHelper;
 import org.somox.analyzer.simplemodelanalyzer.detection.ComponentInterfaceStrategy;
@@ -16,12 +20,14 @@ import org.somox.analyzer.simplemodelanalyzer.detection.IComponentInterfaceStrat
 import org.somox.analyzer.simplemodelanalyzer.detection.util.AccessFilter;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.filter.EClassBasedFilter;
+import org.somox.kdmhelper.KDMHelper;
+import org.somox.kdmhelper.metamodeladdition.Root;
 
-import de.fzi.gast.accesses.Access;
-import de.fzi.gast.accesses.InheritanceTypeAccess;
-import de.fzi.gast.accesses.accessesPackage;
-import de.fzi.gast.core.Root;
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.accesses.Access;
+//import de.fzi.gast.accesses.InheritanceTypeAccess;
+//import de.fzi.gast.accesses.accessesPackage;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.types.GASTClass;
 import eu.qimpress.samm.staticstructure.ComponentType;
 import eu.qimpress.samm.staticstructure.CompositeStructure;
 import eu.qimpress.samm.staticstructure.Interface;
@@ -45,7 +51,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 	 * interfaces) or normal GASTClasses if the interface has been derived from all public methods
 	 * to their respective SAMM model interfaces
 	 */
-	private Map<GASTClass, Interface> alreadyCreatedInterfaces = new HashMap<GASTClass, Interface>();
+	private Map<Type, Interface> alreadyCreatedInterfaces = new HashMap<Type, Interface>();
 
 	/**
 	 * Logger of this builder 
@@ -84,7 +90,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 	 * @param result The analysis result containing the root nodes of the models in which this builder will store
 	 * the created model elements
 	 */
-	public InterfaceBuilder(Root gastModel, 
+	public InterfaceBuilder(Root gastModel,
 			SoMoXConfiguration configuration,
 			AnalysisResult result) {
 		super(gastModel, configuration, result);
@@ -115,26 +121,27 @@ public class InterfaceBuilder extends AbstractBuilder {
 		boolean addedARequiredInterface = false;
 		
 		// Filter used to remove inheritance type relations from the list of accesses
-		EClassBasedFilter<Access> accessFilter = new EClassBasedFilter<Access>(
+		EClassBasedFilter<ASTNode> accessFilter = new EClassBasedFilter<ASTNode>(
 				new EClass[] { 
-						accessesPackage.eINSTANCE.getInheritanceTypeAccess(), 
-						accessesPackage.eINSTANCE.getSelfAccess() //remove class-internal accesses
+						/**accessesPackage.eINSTANCE.getInheritanceTypeAccess()**///SOMOXTODOCHANGE
+						JavaPackage.eINSTANCE.getThisExpression(), //remove class-internal accesses//SOMOXTODOCHANGE
+						JavaPackage.eINSTANCE.getSuperFieldAccess()//REALLYADDED//SOMOXTODOCHANGE
 						});	
-
+		
 		// Get all accessed classes from all implementation classes of this
 		// component
-		List<GASTClass> filteredAccessedClasses = new LinkedList<GASTClass>();		
-		List<GASTClass> componentClasses = new LinkedList<GASTClass>();
-		for (GASTClass clazz : componentCandidate.getImplementingClasses()) {
-			filteredAccessedClasses.addAll(AccessFilter.filterAccessList(clazz
-					.getAllAccesses(), accessFilter));
+		List<Type> filteredAccessedClasses = new LinkedList<Type>();		
+		List<Type> componentClasses = new LinkedList<Type>();
+		for (Type clazz : componentCandidate.getImplementingClasses()) {
+			filteredAccessedClasses.addAll(AccessFilter.filterAccessList(KDMHelper.getAllAccesses(clazz)
+					, accessFilter));
 			componentClasses.add(clazz);
 		}
 		
 		// remove self accesses inside component (NOT equal to a self access)
 		filteredAccessedClasses.removeAll(componentClasses);
 		
-		for (GASTClass accessedClass : this.somoxConfiguration.getBlacklistFilter().filter(filteredAccessedClasses)) {
+		for (Type accessedClass : this.somoxConfiguration.getBlacklistFilter().filter(filteredAccessedClasses)) {
 			if (interfaceStrategy.isComponentInterface(accessedClass)) {
 				
 				// Setting null here since the interface implementation is not generally known; i. e. there could be multiple
@@ -176,8 +183,8 @@ public class InterfaceBuilder extends AbstractBuilder {
 		if (componentCandidate.isCompositeComponent())
 			throw new IllegalArgumentException("This method can only be called on primitive components");
 		
-		for (GASTClass gastClass : componentCandidate.getImplementingClasses()) {
-			for (GASTClass superType : this.somoxConfiguration.getBlacklistFilter().filter(gastClass.getSuperTypes())) {
+		for (Type gastClass : componentCandidate.getImplementingClasses()) {
+			for (Type superType : this.somoxConfiguration.getBlacklistFilter().filter(KDMHelper.getSuperTypes(gastClass))) {
 				createInterfaceForSupertype(componentCandidate, gastClass,
 						superType);
 			}
@@ -250,15 +257,15 @@ public class InterfaceBuilder extends AbstractBuilder {
 
 	private void createInterfaceForSupertype(
 			ComponentImplementingClassesLink componentCandidate,
-			GASTClass gastClass, GASTClass superType) {
+			Type gastClass, Type superType) {
 		
 		// Recursively traverse all supertypes
-		for (GASTClass ownSuperType : this.somoxConfiguration.getBlacklistFilter().filter(superType.getSuperTypes())) {
+		for (Type ownSuperType : this.somoxConfiguration.getBlacklistFilter().filter(KDMHelper.getSuperTypes(superType))) {
 			createInterfaceForSupertype(componentCandidate, gastClass, ownSuperType);
 		}
 		
 		if (interfaceStrategy.isComponentInterface(superType)) {
-			logger.debug("Found interface "+superType.getQualifiedName()+" for component "+componentCandidate.getComponent().getName());
+			logger.debug("Found interface "+KDMHelper.computeFullQualifiedName(superType)+" for component "+componentCandidate.getComponent().getName());
 			Interface providedInterface = createInterface(gastClass,superType);
 			
 			if (!componentProvidesInterface(providedInterface,
@@ -272,7 +279,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 	private void createProvidedPortAndBehaviour(
 			ComponentImplementingClassesLink componentCandidate,
 			Interface providedInterface, 
-			GASTClass gastClass) {
+			Type gastClass) {
 		InterfacePort providedPort = createProvidedPort(providedInterface,
 				componentCandidate.getComponent());
 
@@ -298,10 +305,10 @@ public class InterfaceBuilder extends AbstractBuilder {
 			ComponentImplementingClassesLink componentCandidate) {
 		logger.debug("Assigning public methods as interfaces");
 
-		List<GASTClass> gastClasses = componentCandidate.getImplementingClasses();
+		List<Type> gastClasses = componentCandidate.getImplementingClasses();
 		
 		if( !gastClasses.isEmpty() ) {
-			for(GASTClass gastClass : gastClasses) {
+			for(Type gastClass : gastClasses) {
 					
 				Interface compInterface = createInterfaceBasedOnPublicMethods(gastClass);
 
@@ -325,17 +332,17 @@ public class InterfaceBuilder extends AbstractBuilder {
 	 * otherwise the existing interface is returned
 	 */
 	private Interface createInterfaceBasedOnPublicMethods(
-			GASTClass gastClass) {	
+			Type gastClass) {	
 		
 		if (interfaceStrategy.isComponentInterface(gastClass))
-			logger.info(gastClass.getQualifiedName() + " used as interface but is a pseudo-interface.");
+			logger.info(KDMHelper.computeFullQualifiedName(gastClass) + " used as interface but is a pseudo-interface.");
 				
 		if(this.alreadyCreatedInterfaces.containsKey(gastClass)) 
 			return this.alreadyCreatedInterfaces.get(gastClass);
 
 		Interface compInterface = StaticstructureFactory.eINSTANCE.createInterface();			
 		compInterface.setName(naming.createInterfaceNameForClass(gastClass));
-		compInterface.setDocumentation(gastClass.getSimpleName());
+		compInterface.setDocumentation(gastClass.getName());
 			
 		this.operationBuilder.createOperations(gastClass, gastClass,compInterface);
 		
@@ -357,7 +364,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 	 *            the SAMM repository in which the interface should be contained
 	 * @return the interface
 	 */
-	private Interface createInterface(GASTClass implementingClass, GASTClass interfaceClass) {	
+	private Interface createInterface(Type implementingClass, Type interfaceClass) {	
 		
 		// check for existing interface:
 		Interface result = getExistingInterface(interfaceClass);
@@ -365,18 +372,18 @@ public class InterfaceBuilder extends AbstractBuilder {
 		// new interface
 		if (result == null) {
 			result = StaticstructureFactory.eINSTANCE.createInterface();
-			for (InheritanceTypeAccess inheritanceTypeAccess : interfaceClass
-					.getInheritanceTypeAccesses()) {
-				GASTClass superType = (GASTClass) inheritanceTypeAccess
-						.getTargetType();
+			for (TypeAccess inheritanceTypeAccess : KDMHelper.getInheritanceTypeAccesses(interfaceClass)
+					) {
+				Type superType = (Type) inheritanceTypeAccess
+						.getType();
 				if (this.somoxConfiguration.getBlacklistFilter().passes(superType) &&
 						interfaceStrategy.isComponentInterface(superType)) {
-					Interface parentInterface = createInterface(implementingClass, (GASTClass) superType);
+					Interface parentInterface = createInterface(implementingClass, (Type) superType);
 					result.getInheritance().add(parentInterface);
 				}
 			}
 			result.setName(naming.createInterfaceName(interfaceClass));
-			result.setDocumentation(interfaceClass.getQualifiedName());
+			result.setDocumentation(KDMHelper.computeFullQualifiedName(interfaceClass));
 	
 			operationBuilder.createOperations(implementingClass, interfaceClass, result);  
 	
@@ -394,7 +401,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 	 * @param interfaces
 	 * @return null if no interface could not be found
 	 */
-	private Interface getExistingInterface(GASTClass gastClass) {
+	private Interface getExistingInterface(Type gastClass) {
 		Interface returnInterface = null;
 	
 		if (this.alreadyCreatedInterfaces.containsKey(gastClass)) {
@@ -418,7 +425,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 	private void updateInterfacesInSourceCodeDecorator(
 			ComponentImplementingClassesLink component,
 			Interface interf,
-			GASTClass gastClass, 
+			Type gastClass,
 			boolean isProvidedInterface) {
 		InterfaceSourceCodeLink interfaceLink = SourceCodeDecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();
 		if (gastClass != null) {
@@ -475,7 +482,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 	public void reverseEngineerRemainingInterfacesAsFreeFloatingInterfaces(
 			AnalysisResult analysisResult, Root gastModel) {
 		analysisResult.getSourceCodeDecoratorRepository();
-		for(GASTClass currentClass : gastModel.getAllNormalClasses()) {
+		for(Type currentClass : gastModel.getNormalClasses()) {
 			if(interfaceStrategy.isComponentInterface(currentClass) &&
 					!alreadyCreatedInterfaces.containsKey(currentClass)) {
 				

@@ -5,8 +5,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.gmt.modisco.java.Type;
 import org.jgrapht.DirectedGraph;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.KDMHelper;
+import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.metrics.AbstractMetric;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.IMetric;
@@ -14,9 +17,9 @@ import org.somox.metrics.MetricID;
 import org.somox.metrics.helper.ClassAccessGraphEdge;
 import org.somox.metrics.helper.ComponentToImplementingClassesHelper;
 
-import de.fzi.gast.core.Package;
-import de.fzi.gast.core.Root;
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.core.Package;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.types.GASTClass;
 
 /**
  * SubsystemComponent metric
@@ -37,7 +40,7 @@ public class SubsystemComponent extends AbstractMetric{
 	public void initialize(Root gastModel,
 			SoMoXConfiguration somoxConfiguration,
 			Map<MetricID, IMetric> allMetrics,
-			DirectedGraph<GASTClass, ClassAccessGraphEdge> accessGraph,
+			DirectedGraph<Type, ClassAccessGraphEdge> accessGraph,
 			ComponentToImplementingClassesHelper componentToImplementingClassesHelper) {
 		super.initialize(gastModel, somoxConfiguration, allMetrics, accessGraph,componentToImplementingClassesHelper);
 		
@@ -50,28 +53,39 @@ public class SubsystemComponent extends AbstractMetric{
 	protected ClusteringRelation internalComputeDirected (
 			ClusteringRelation relationToCompute) {
 
+		//removelater
+//		java.util.List<Type> type1 = relationToCompute.getComponentA().getImplementingClasses();
+//		java.util.List<Type> type2 = relationToCompute.getComponentB().getImplementingClasses();
+//		if(type1!= null & type2!=null & type1.size()>0 & type2.size()>0){
+//			if(type1.get(0).getName().equals("StoreQueryImplTest") &
+//					type2.get(0).getName().equals("TransactionContextImpl")){
+//				String fileName = "interfacecount.txt";; 
+////				org.somox.changetest.Helper.writeToFile(fileName, "---" +type1.get(0).getName() + " " + type2.get(0).getName());
+//			}
+//		}
+		
 		//TODO: Refactor me!!!!
-		Set<GASTClass> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentA());
-		Set<GASTClass> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentB());
+		Set<Type> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentA());
+		Set<Type> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentB());
 
 		//compute overall prefix
-		Package prefixPackage = computePrefix(classes1, classes2);
+		org.eclipse.gmt.modisco.java.Package prefixPackage = computePrefix(classes1, classes2);
 		
 		if (prefixPackage == null) {
 			relationToCompute.setResultMetric(getMID(), 0.0);
 			return relationToCompute;
 		}
 		
-		EList<de.fzi.gast.core.Package> slices = prefixPackage.getSubPackages();
-		EList<de.fzi.gast.core.Package> layers = null;
+		EList<org.eclipse.gmt.modisco.java.Package> slices = prefixPackage.getOwnedPackages();
+		EList<org.eclipse.gmt.modisco.java.Package> layers = null;
 		
 		String subLayer = null;
 		
 		//compute the maximum number of layers in a slice
 		int max = 0;
-		for (Package current : slices) {
-			if (current.getSubPackages().size()>=max) {
-				layers = current.getSubPackages();
+		for (org.eclipse.gmt.modisco.java.Package current : slices) {
+			if (current.getOwnedPackages().size()>=max) {
+				layers = current.getOwnedPackages();
 				max = layers.size();
 			}
 		}
@@ -81,17 +95,17 @@ public class SubsystemComponent extends AbstractMetric{
 			relationToCompute.setResultMetric(getMID(), 0.0);
 			return relationToCompute;
 		}
-		Package currentPackage = null;
-		for (GASTClass currentElement : classes1) {
-			currentPackage = currentElement.getSurroundingPackage();
+		org.eclipse.gmt.modisco.java.Package currentPackage = null;
+		for (Type currentElement : classes1) {
+			currentPackage = KDMHelper.getSurroundingPackage(currentElement);
 
 			if (currentPackage != null) {
 				if (subLayer == null) {
-					for (Package slicePackage : slices) {
-						if (currentPackage.getQualifiedName().startsWith(slicePackage.getQualifiedName())) {
-							for (Package layerPackage : layers) {
-								if (currentPackage.getQualifiedName().startsWith(slicePackage.getQualifiedName() + "." + layerPackage.getSimpleName())) {
-									subLayer = slicePackage.getQualifiedName() + "." + layerPackage.getSimpleName();
+					for (org.eclipse.gmt.modisco.java.Package slicePackage : slices) {
+						if (KDMHelper.computeFullQualifiedName(currentPackage).startsWith(KDMHelper.computeFullQualifiedName(slicePackage))) {
+							for (org.eclipse.gmt.modisco.java.Package layerPackage : layers) {
+								if (KDMHelper.computeFullQualifiedName(currentPackage).startsWith(KDMHelper.computeFullQualifiedName(slicePackage) + "." + layerPackage.getName())) {
+									subLayer = KDMHelper.computeFullQualifiedName(slicePackage) + "." + layerPackage.getName();
 									break;
 								}
 							}
@@ -99,7 +113,7 @@ public class SubsystemComponent extends AbstractMetric{
 						}
 					}
 				} else {
-					if (!currentPackage.getQualifiedName().startsWith(subLayer)) {
+					if (! KDMHelper.computeFullQualifiedName(currentPackage).startsWith(subLayer)) {
 						relationToCompute.setResultMetric(getMID(), 0.0);
 						return relationToCompute;
 					}
@@ -107,15 +121,15 @@ public class SubsystemComponent extends AbstractMetric{
 			}
 		}
 		
-		for (GASTClass currentElement : classes2) {
-			currentPackage = currentElement.getSurroundingPackage();
+		for (Type currentElement : classes2) {
+			currentPackage = KDMHelper.getSurroundingPackage(currentElement);
 			if (currentPackage != null) {
 				if (subLayer == null) {
-					for (Package slicePackage : slices) {
-						if (currentPackage.getQualifiedName().startsWith(slicePackage.getQualifiedName())) {
-							for (Package layerPackage : layers) {
-								if (currentPackage.getQualifiedName().startsWith(slicePackage.getQualifiedName() + "." + layerPackage.getSimpleName())) {
-									subLayer = slicePackage.getQualifiedName() + "." + layerPackage.getSimpleName();
+					for (org.eclipse.gmt.modisco.java.Package slicePackage : slices) {
+						if (KDMHelper.computeFullQualifiedName(currentPackage).startsWith(KDMHelper.computeFullQualifiedName(slicePackage))) {
+							for (org.eclipse.gmt.modisco.java.Package layerPackage : layers) {
+								if (KDMHelper.computeFullQualifiedName(currentPackage).startsWith(KDMHelper.computeFullQualifiedName(slicePackage) + "." + layerPackage.getName())) {
+									subLayer = KDMHelper.computeFullQualifiedName(slicePackage) + "." + layerPackage.getName();
 									break;
 								}
 							}
@@ -123,7 +137,7 @@ public class SubsystemComponent extends AbstractMetric{
 						}
 					}
 				} else {
-					if (!currentPackage.getQualifiedName().startsWith(subLayer)) {
+					if (! KDMHelper.computeFullQualifiedName(currentPackage).startsWith(subLayer)) {
 						relationToCompute.setResultMetric(getMID(), 0.0);
 						return relationToCompute;
 					}
@@ -158,25 +172,25 @@ public class SubsystemComponent extends AbstractMetric{
 	 * @param packages a given package-hierarchy
 	 * @return the last package in the package-hierarchy in which all non-blacklisted elements are included
 	 */
-	private Package computePrefix (Set<GASTClass> elements1, Set<GASTClass> elements2) {
+	private org.eclipse.gmt.modisco.java.Package computePrefix (Set<Type> elements1, Set<Type> elements2) {
 		
-		Package prefix = null;
+		org.eclipse.gmt.modisco.java.Package prefix = null;
 		
-		LinkedList<GASTClass> elementsLeft = new LinkedList<GASTClass>();
+		LinkedList<Type> elementsLeft = new LinkedList<Type>();
 		
 		elementsLeft.addAll(elements1);
 		elementsLeft.addAll(elements2);
 		
-		java.util.ListIterator<GASTClass> iterator = elementsLeft.listIterator();
+		java.util.ListIterator<Type> iterator = elementsLeft.listIterator();
 		
 		while (iterator.hasNext()) {
-			GASTClass current = iterator.next();
-			if (prefix == null && current.getSurroundingPackage() != null) {
-				prefix = current.getSurroundingPackage();
+			Type current = iterator.next();
+			if (prefix == null && KDMHelper.getSurroundingPackage(current) != null) {
+				prefix = KDMHelper.getSurroundingPackage(current);
 			}
 			
-			if (prefix != null && current.getSurroundingPackage() != null && !current.getQualifiedName().startsWith(prefix.getQualifiedName())) {
-				prefix = prefix.getSurroundingPackage();
+			if (prefix != null && KDMHelper.getSurroundingPackage(current) != null && !KDMHelper.computeFullQualifiedName(current).startsWith(KDMHelper.computeFullQualifiedName(prefix))) {
+				prefix = prefix.getPackage();
 				if (prefix == null) {
 					return null;
 				} else {

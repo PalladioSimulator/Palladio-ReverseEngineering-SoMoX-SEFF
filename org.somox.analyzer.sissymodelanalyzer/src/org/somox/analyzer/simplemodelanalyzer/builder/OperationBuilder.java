@@ -4,20 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.gmt.modisco.java.MethodDeclaration;
+import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
+import org.eclipse.gmt.modisco.java.Type;
+import org.eclipse.gmt.modisco.java.VisibilityKind;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.KDMHelper;
+import org.somox.kdmhelper.GetAccessedType;
+import org.somox.kdmhelper.metamodeladdition.Root;
 
-import de.fzi.gast.core.Root;
-import de.fzi.gast.functions.Method;
-import de.fzi.gast.types.GASTClass;
-import de.fzi.gast.types.Visibilities;
-import de.fzi.gast.variables.FormalParameter;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.functions.Method;
+//import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.types.Visibilities;
+//import de.fzi.gast.variables.FormalParameter;
 import eu.qimpress.samm.datatypes.CollectionDataType;
 import eu.qimpress.samm.datatypes.ComplexDataType;
 import eu.qimpress.samm.datatypes.DatatypesFactory;
 import eu.qimpress.samm.datatypes.InnerElement;
 import eu.qimpress.samm.datatypes.PrimitiveDataType;
-import eu.qimpress.samm.datatypes.Type;
 import eu.qimpress.samm.datatypes.XSDPrimitiveDataTypes;
 import eu.qimpress.samm.staticstructure.Interface;
 import eu.qimpress.samm.staticstructure.MessageType;
@@ -46,21 +52,21 @@ public class OperationBuilder extends AbstractBuilder {
 		
 	}
 
-	public void createOperations(GASTClass implementationClass, GASTClass interfaceClass, Interface interf) {
+	public void createOperations(Type implementationClass, Type interfaceClass, Interface interf) {
 		
-		for (Method method : interfaceClass.getMethods()) {
-			if ((method.getVisibility().equals(Visibilities.VISIBILITYPACKAGE))
-				|| (method.getVisibility()
-						.equals(Visibilities.VISIBILITYPUBLIC))) {	
-				Method realMethod = method;
+		for (MethodDeclaration method : KDMHelper.getMethods(interfaceClass)) {
+			if ( (KDMHelper.isModifierOfKind(method, VisibilityKind.NONE))
+				|| KDMHelper.isModifierOfKind(method,
+						VisibilityKind.PUBLIC)) {	
+				MethodDeclaration realMethod = method;
 				if (implementationClass != null) {
 					realMethod = getRealMethod(implementationClass,method);
 					if (realMethod == null) {
 						realMethod = method;
-						logger.error("GAST Model misses a method "+method.getSimpleName());
+						logger.error("GAST Model misses a method "+method.getName());
 					}
 				} else {
-					logger.warn("no implementation class for method "+method.getSimpleName() + " of interface " + interfaceClass.getSimpleName());
+					logger.warn("no implementation class for method "+method.getName() + " of interface " + interfaceClass.getName());
 				}
 				Operation op = createOperationParametersAndMessageType(realMethod);
 				interf.getSignatures().add(op);
@@ -74,25 +80,25 @@ public class OperationBuilder extends AbstractBuilder {
 	 * @param method interface method
 	 * @return null if no implementation method was found; the queried method otherwise
 	 */
-	private Method getRealMethod(GASTClass implementationClass, Method method) {
+	private MethodDeclaration getRealMethod(Type implementationClass, MethodDeclaration method) {
 		assert implementationClass != null;
-
-		for (Method m : implementationClass.getMethods()) {
+ 
+		for (MethodDeclaration m : KDMHelper.getMethods(implementationClass)) {
 			if (m == method)
 				return m;
-			if (m.getSimpleName().equals(method.getSimpleName())) {
-				Method overrideMethod = (Method) m.getOverriddenMember();
+			if (m.getName().equals(method.getName())) {
+				MethodDeclaration overrideMethod = (MethodDeclaration) KDMHelper.getOverriddenMember(m);
 				while (overrideMethod != null) {
 					if (overrideMethod == method)
 						return m;
 					else 
-						overrideMethod = (Method) overrideMethod.getOverriddenMember();
+						overrideMethod = (MethodDeclaration) KDMHelper.getOverriddenMember(overrideMethod);
 				}
 			}
 		}
-		for (GASTClass superClass : implementationClass.getSuperTypes()) {
-			if (!superClass.isAbstract() && !superClass.isInterface()) {
-				Method real = getRealMethod(superClass, method);
+		for (Type superClass : KDMHelper.getSuperTypes(implementationClass)) {
+			if (! KDMHelper.isAbstract(superClass) && ! KDMHelper.isInterface(superClass)) {
+				MethodDeclaration real = getRealMethod(superClass, method);
 				if (real != null) {
 					return real;
 				}
@@ -108,24 +114,24 @@ public class OperationBuilder extends AbstractBuilder {
 	 * @param resultRepository repository to write to
 	 * @return a new operation for which parameter names and types already exist in the resultRepository  
 	 */
-	private Operation createOperationParametersAndMessageType(Method method) {
+	private Operation createOperationParametersAndMessageType(MethodDeclaration method) {
 		
 		Operation operation = StaticstructureFactory.eINSTANCE.createOperation();
-		operation.setName(method.getSimpleName());
+		operation.setName(method.getName());
 		
 		updateSourceCodeDecorator(operation,method);
 		
 		ArrayList<String> paramNames = new ArrayList<String>();
-		ArrayList<GASTClass> paramTypes = new ArrayList<GASTClass>();
-		for (FormalParameter inputParameter : method.getFormalParameters()) {
+		ArrayList<Type> paramTypes = new ArrayList<Type>();
+		for (SingleVariableDeclaration inputParameter : method.getParameters()) {
 				
-			paramNames.add(inputParameter.getSimpleName());
-			if(inputParameter.getTypeDeclaration() != null && inputParameter.getType() != null) {
+			paramNames.add(inputParameter.getName());
+			if(inputParameter.getType() != null && inputParameter.getType().getType() != null) {
 				// derive GASTClass from input parameter:
-				paramTypes.add(inputParameter.getTypeDeclaration().getAccessedClass());
+				paramTypes.add(GetAccessedType.getAccessedType(inputParameter.getType()));
 			} else {
 				logger.error("Input parameter type was null. Could not set the parameter type \"" +
-						inputParameter.getSimpleName() + "\" of method \"" + method.getSimpleName() + "\"");
+						inputParameter.getName() + "\" of method \"" + method.getName() + "\"");
 			}
 		}
 		if (paramNames.size() > 0) {
@@ -141,7 +147,7 @@ public class OperationBuilder extends AbstractBuilder {
 		return operation;
 	}
 
-	private void updateSourceCodeDecorator(Operation operation, Method method) {
+	private void updateSourceCodeDecorator(Operation operation, MethodDeclaration method) {
 		//assert method.getStatus() == Status.NORMAL; //TODO: check re-enabling other status implies empty method body and causes trouble during later stages
 		
 		MethodLevelSourceCodeLink link = SourceCodeDecoratorFactory.eINSTANCE.createMethodLevelSourceCodeLink();
@@ -149,9 +155,9 @@ public class OperationBuilder extends AbstractBuilder {
 		link.setFunction(method);
 		link.setOperation(operation);
 		
-		if(method.getPosition() != null && 
-				method.getPosition().getSourceFile() != null) {
-			link.setFile(method.getPosition().getSourceFile());
+		if(KDMHelper.getJavaNodeSourceRegion(method) != null &&
+				KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(method)) != null) {
+			link.setFile(KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(method)));
 		}
 		
 		this.analysisResult.getSourceCodeDecoratorRepository().getMethodLevelSourceCodeLink().add(link);
@@ -167,12 +173,12 @@ public class OperationBuilder extends AbstractBuilder {
 	 */
 	private MessageType findMessageTypeInRepository(
 			List<String> parameterNames, 
-			List<GASTClass> parameterTypes) {
+			List<Type> parameterTypes) {
 		if (parameterNames == null) {
 			parameterNames = new ArrayList<String>();
 		}
 		if (parameterTypes == null) {
-			parameterTypes = new ArrayList<GASTClass>();
+			parameterTypes = new ArrayList<Type>();
 		}
 		if (parameterNames.size() != parameterTypes.size()) {
 			return null;
@@ -189,9 +195,9 @@ public class OperationBuilder extends AbstractBuilder {
 					break;
 				}
 				if (param.getType() != null && param.getType().getName() != null && //null pointer protection
-						parameterTypes.get(i).getSimpleName() != null &&
+						parameterTypes.get(i).getName() != null &&
 						!param.getType().getName().toLowerCase().equals(
-								parameterTypes.get(i).getSimpleName().toLowerCase())) {
+								parameterTypes.get(i).getName().toLowerCase())) {
 					parametersMatch = false;
 					break;
 				}
@@ -218,12 +224,12 @@ public class OperationBuilder extends AbstractBuilder {
 	 *         if only void parameters are present
 	 */
 	private MessageType createMessageType(List<String> parameterNames,
-			List<GASTClass> parameterTypes) {
+			List<Type> parameterTypes) {
 		if (parameterNames == null) {
 			parameterNames = new ArrayList<String>();
 		}
 		if (parameterTypes == null) {
-			parameterTypes = new ArrayList<GASTClass>();
+			parameterTypes = new ArrayList<Type>();
 		}
 		if (parameterNames.size() != parameterTypes.size()) {
 			return null;
@@ -232,12 +238,12 @@ public class OperationBuilder extends AbstractBuilder {
 		String messageTypeName = "";
 		if (parameterTypes.size() > 0) {
 			for (int i = 0; i < parameterTypes.size(); i++) {
-				if(!parameterTypes.get(i).getSimpleName().equals(voidType)) { //do not create void pointers
+				if(!parameterTypes.get(i).getName().equals(voidType)) { //do not create void pointers
 				
 					if (messageTypeName.length() > 0) {
 						messageTypeName += "_";
 					}
-					messageTypeName += parameterTypes.get(i).getSimpleName();
+					messageTypeName += parameterTypes.get(i).getName();
 					Parameter param = StaticstructureFactory.eINSTANCE.createParameter();
 					param.setName(parameterNames.get(i));
 					param.setType(getType(parameterTypes.get(i), this.analysisResult.getInternalArchitectureModel()));
@@ -263,8 +269,8 @@ public class OperationBuilder extends AbstractBuilder {
 	 * @return a new data type for non-existing ones; the existing
 	 * instance else
 	 */
-	private Type getType(GASTClass gastType, Repository repository) {
-		Type type = getExistingType(gastType, repository);
+	private eu.qimpress.samm.datatypes.Type getType(Type gastType, Repository repository) {
+		eu.qimpress.samm.datatypes.Type type = getExistingType(gastType, repository);
 		
 		if(type == null) {		
 			type = createDataType(repository, gastType);			
@@ -278,11 +284,11 @@ public class OperationBuilder extends AbstractBuilder {
 	 * @param gastType The type to create a SAMM data type for 
 	 * @return
 	 */
-	private Type createDataType(Repository repository, GASTClass gastType) {				
-		String typeName = gastType.getSimpleName();
+	private eu.qimpress.samm.datatypes.Type createDataType(Repository repository, Type gastType) {				
+		String typeName = gastType.getName();
 		typeName = getUnifiedTypeName(typeName);
 
-		Type newType = null;
+		eu.qimpress.samm.datatypes.Type newType = null;
 		if (typeName.toLowerCase().equals(voidType)) {
 			// do nothing
 		} else if (typeName.toLowerCase().equals("integer")) {
@@ -316,17 +322,17 @@ public class OperationBuilder extends AbstractBuilder {
 			String tmpInnerTypeName = typeName.substring(0, typeName.length() - 2);
 			((CollectionDataType) newType).setInnertype(getExistingTypeByName(tmpInnerTypeName, repository));			
 		} else {		
-			if(gastType.getAllAccessedClasses().size() > 1) {
+			if(KDMHelper.getAllAccessedClasses(gastType).size() > 1) {
 				// create a complex data type:
 				newType = DatatypesFactory.eINSTANCE.createComplexDataType();
 				newType.setName(typeName);
 				repository.getType().add(newType);
 				
 				// set inner types:			
-				for(GASTClass currentClass : gastType.getAllAccessedClasses()) {
+				for(Type currentClass : KDMHelper.getAllAccessedClasses(gastType)) {
 					// avoid self-references and void as access
-					if(!currentClass.equals(gastType) && !currentClass.getSimpleName().equals("void")) {
-						String tmpInnerTypeName = currentClass.getSimpleName();;
+					if(!currentClass.equals(gastType) && !currentClass.getName().equals("void")) {
+						String tmpInnerTypeName = currentClass.getName();;
 						InnerElement innerElement = DatatypesFactory.eINSTANCE.createInnerElement();						
 						innerElement.setType(getType(currentClass, repository));
 						innerElement.setName(tmpInnerTypeName);
@@ -372,8 +378,8 @@ public class OperationBuilder extends AbstractBuilder {
 	 * @param repository
 	 * @return null if not found
 	 */
-	private Type getExistingType(GASTClass gastType, Repository repository) {
-		return getExistingTypeByName(gastType.getSimpleName(), repository);
+	private eu.qimpress.samm.datatypes.Type getExistingType(Type gastType, Repository repository) {
+		return getExistingTypeByName(gastType.getName(), repository);
 	}
 	
 	/**
@@ -382,10 +388,10 @@ public class OperationBuilder extends AbstractBuilder {
 	 * @param repository
 	 * @return null if not found
 	 */
-	private Type getExistingTypeByName(String gastTypeName, Repository repository) {
+	private eu.qimpress.samm.datatypes.Type getExistingTypeByName(String gastTypeName, Repository repository) {
 		gastTypeName = getUnifiedTypeName(gastTypeName);
 		
-		for (Type currentType : repository.getType()) {
+		for (eu.qimpress.samm.datatypes.Type currentType : repository.getType()) {
 			if (currentType.getName().toLowerCase().equals(gastTypeName.toLowerCase())) {
 				return currentType;
 			}

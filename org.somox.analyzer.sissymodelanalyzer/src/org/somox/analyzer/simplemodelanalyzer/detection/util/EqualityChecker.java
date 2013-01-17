@@ -1,6 +1,15 @@
 package org.somox.analyzer.simplemodelanalyzer.detection.util;
 
-import de.fzi.gast.functions.Function;
+import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
+import org.eclipse.gmt.modisco.java.ConstructorDeclaration;
+import org.eclipse.gmt.modisco.java.MethodDeclaration;
+import org.eclipse.gmt.modisco.java.Type;
+import org.eclipse.gmt.modisco.java.TypeAccess;
+
+//import de.fzi.gast.functions.Function;
+
+
+//SOMOXTODOCHANGE more precise compare of Type (->Parameterized Type)
 
 /**
  * Helper class
@@ -16,28 +25,30 @@ public class EqualityChecker {
 	 * @param function2
 	 * @return true if both functions are equal; false else
 	 */
-	public static boolean areFunctionsEqual(Function function1, Function function2) {
+	public static boolean areFunctionsEqual(AbstractMethodDeclaration function1, AbstractMethodDeclaration function2) {
 		//preconditions
-		if(function1.getReturnTypeDeclaration() == null || function2.getReturnTypeDeclaration() == null ||
-				function1.getFormalParameters() == null || function2.getFormalParameters() == null) {
+		
+		
+		if(getReturnTypeAccess(function1) == null || getReturnTypeAccess(function2) == null ||
+				function1.getParameters() == null || function2.getParameters() == null) {
 			return false;
 		}
 		
 		//checks
-		if(! ( function1.getSimpleName().equals(function2.getSimpleName()) && //name				
-				function1.getReturnTypeDeclaration().getTargetType() == function2.getReturnTypeDeclaration().getTargetType() //return type
+		if(! ( function1.getName().equals(function2.getName()) && //name				
+				getReturnTypeAccess(function1).getType() == getReturnTypeAccess(function2).getType() //return type
 			) ) {
 			return false;
 		}
 		
-		if(function1.getFormalParameters() != null &&  function2.getFormalParameters() != null) { //parameter size (faster than directly checking parameter types) 
-			if(! (function1.getFormalParameters().size() == function2.getFormalParameters().size()) ) {
+		if(function1.getParameters() != null &&  function2.getParameters() != null) { //parameter size (faster than directly checking parameter types)
+			if(! (function1.getParameters().size() == function2.getParameters().size()) ) {
 				return false;
 			}
 		}					
 		
-		for(int i = 0; i < function1.getFormalParameters().size(); i++) { //parameter types
-			if(! function1.getFormalParameters().get(i).getType().equals(function2.getFormalParameters().get(i).getType()) ) {
+		for(int i = 0; i < function1.getParameters().size(); i++) { //parameter types
+			if(! function1.getParameters().get(i).getType().getType().equals(function2.getParameters().get(i).getType().getType()) ) {
 				return false;
 			}
 			
@@ -45,4 +56,23 @@ public class EqualityChecker {
 		
 		return true;
 	}
+	
+	
+	private static TypeAccess getReturnTypeAccess(AbstractMethodDeclaration function){//REALLYADDED
+		if(function instanceof MethodDeclaration){//REALLYADDED
+			MethodDeclaration method = (MethodDeclaration) function;//REALLYADDED
+			return method.getReturnType();//REALLYADDED
+		} else {//REALLYADDED
+			return null;//REALLYADDED
+		}//REALLYADDED
+	}//REALLYADDED
+	
+	//SOMOXTODOCHANGE
+//	private static Type getTypeFromTypeAccess(TypeAccess typeAccess){
+//		if(typeAccess == null){
+//			return null;
+//		} else{
+//			return typeAccess.getType();
+//		}
+//	}
 }

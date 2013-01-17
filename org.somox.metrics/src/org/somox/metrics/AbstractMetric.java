@@ -5,16 +5,18 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.eclipse.gmt.modisco.java.Type;
 import org.jgrapht.DirectedGraph;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.metrics.helper.ClassAccessGraphEdge;
 import org.somox.metrics.helper.ComponentToImplementingClassesHelper;
 import org.somox.metrics.parameter.ParameterDescriptor;
 import org.somox.metrics.tabs.MetricTab;
 import org.somox.metrics.util.AccessCacheGraph;
 
-import de.fzi.gast.core.Root;
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.types.GASTClass;
 import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
@@ -77,10 +79,10 @@ public abstract class AbstractMetric implements IMetric {
 	 * @see org.somox.metrics.IMetric#initialize(de.fzi.gast.core.Root, org.somox.configuration.SoMoXConfiguration, java.util.Map, org.jgrapht.DirectedGraph, org.somox.metrics.helper.ComponentToImplementingClassesHelper)
 	 */
 	public void initialize (
-			Root gastModel, 
+			Root gastModel,
 			SoMoXConfiguration somoxConfiguration, 
 			Map<MetricID,IMetric> allMetrics, 
-			DirectedGraph<GASTClass, ClassAccessGraphEdge> accessGraph,
+			DirectedGraph<Type, ClassAccessGraphEdge> accessGraph,
 			ComponentToImplementingClassesHelper componentToClassHelper) {
 		if (accessGraph == null) {
 			logger.error("No access cache graph passed");
@@ -149,8 +151,8 @@ public abstract class AbstractMetric implements IMetric {
 	 * @param classes2 second set
 	 * @return Union of set1 and set2
 	 */
-	protected Set<GASTClass> calculateUnion(Set<GASTClass> classes1, Set<GASTClass> classes2) {
-		Set<GASTClass> allInnerClasses = new HashSet<GASTClass>(classes1);
+	protected Set<Type> calculateUnion(Set<Type> classes1, Set<Type> classes2) {
+		Set<Type> allInnerClasses = new HashSet<Type>(classes1);
 		allInnerClasses.addAll(classes2);
 		return allInnerClasses;
 	}
@@ -162,7 +164,7 @@ public abstract class AbstractMetric implements IMetric {
 	 * @param component2 Second component
 	 * @return Union of all classes implementing component1 and component2
 	 */
-	protected Set<GASTClass> calculateUnion(ComponentImplementingClassesLink component1, ComponentImplementingClassesLink component2) {
+	protected Set<Type> calculateUnion(ComponentImplementingClassesLink component1, ComponentImplementingClassesLink component2) {
 		return calculateUnion(
 				this.getComponentToClassHelper().deriveImplementingClasses(component1),
 				this.getComponentToClassHelper().deriveImplementingClasses(component2));		
