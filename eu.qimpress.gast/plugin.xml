@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://q-impress.eu/qimpressgast"
+            class="eu.qimpress.qimpressgast.qimpressgastPackage"
+            genModel="model/QimpressGast.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="samm_gastbehaviour"
+            class="eu.qimpress.qimpressgast.util.qimpressgastResourceFactoryImpl"/>
+   </extension>
+
+</plugin>
