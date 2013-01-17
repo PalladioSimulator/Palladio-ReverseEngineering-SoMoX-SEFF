@@ -5,11 +5,8 @@ Bundle-SymbolicName: org.somox.kdmhelper
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.somox.kdmhelper.Activator
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.gmt.modisco.java;bundle-version="0.9.2",
- org.eclipse.emf.ecore;bundle-version="2.7.0",
  org.eclipse.modisco.java.composition;bundle-version="0.9.2";visibility:=reexport,
  org.eclipse.gmt.modisco.infra.common.core;bundle-version="0.9.2",
- org.eclipse.gmt.modisco.infra.query;bundle-version="0.9.2",
  org.apache.log4j;bundle-version="1.2.15",
  org.eclipse.gmt.modisco.infra.query.core;bundle-version="0.9.2";visibility:=reexport,
  org.eclipse.modisco.kdm.source.extension;bundle-version="0.9.2";visibility:=reexport

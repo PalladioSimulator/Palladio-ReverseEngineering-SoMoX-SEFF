@@ -12,15 +12,8 @@ Export-Package: eu.qimpress.sourcecodedecorator.presentation
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
  eu.qimpress.sourcecodedecorator.edit;visibility:=reexport,
- org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.emf.edit.ui;visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
- de.uka.ipd.sdq.identifier.edit;visibility:=reexport,
- de.uka.ipd.sdq.probfunction.edit;visibility:=reexport,
- eu.qimpress.samm.edit;visibility:=reexport,
- eu.qimpress.seff.edit;visibility:=reexport,
- de.uka.ipd.sdq.stoex.edit;visibility:=reexport,
- de.uka.ipd.sdq.units.edit;visibility:=reexport,
  org.eclipse.gmt.modisco.java.edit;bundle-version="1.0.0",
  org.eclipse.gmt.modisco.omg.kdm.edit;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy

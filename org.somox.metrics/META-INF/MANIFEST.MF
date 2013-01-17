@@ -4,24 +4,15 @@ Bundle-Name: SoMoX Metrics Plug-in
 Bundle-SymbolicName: org.somox.metrics;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.somox.metrics.Activator
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.emf;bundle-version="2.4.0",
- org.eclipse.emf.ecore;bundle-version="2.4.1",
- org.eclipse.emf.edit;bundle-version="2.4.1",
+Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.edit.ui;bundle-version="2.4.1",
- org.eclipse.emf.query;bundle-version="1.2.0",
  org.eclipse.debug.ui;bundle-version="3.4.1",
  org.somox.core;bundle-version="1.0.0",
- eu.qimpress.identifier;bundle-version="1.0.0",
- org.apache.log4j;bundle-version="1.2.8",
  org.somox.filter;bundle-version="1.0.0",
  org.jgrapht;bundle-version="0.8.1",
  eu.qimpress.sourcecodedecorator;bundle-version="1.0.0",
  uk.ac.shef.dcs.simmetrics;bundle-version="1.6.2",
- org.eclipse.gmt.modisco.java;bundle-version="0.9.2",
- org.somox.kdmhelper;bundle-version="1.0.0",
- org.eclipse.gmt.modisco.omg.kdm;bundle-version="0.9.2"
+ org.somox.kdmhelper;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.somox.metrics,
