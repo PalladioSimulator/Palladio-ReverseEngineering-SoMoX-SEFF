@@ -1,0 +1,151 @@
+package org.somox.kdmhelper;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
+import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
+import org.eclipse.gmt.modisco.java.AbstractVariablesContainer;
+import org.eclipse.gmt.modisco.java.ArrayAccess;
+import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
+import org.eclipse.gmt.modisco.java.EnumConstantDeclaration;
+import org.eclipse.gmt.modisco.java.FieldAccess;
+import org.eclipse.gmt.modisco.java.FieldDeclaration;
+import org.eclipse.gmt.modisco.java.SingleVariableAccess;
+import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
+import org.eclipse.gmt.modisco.java.SuperFieldAccess;
+import org.eclipse.gmt.modisco.java.ThisExpression;
+import org.eclipse.gmt.modisco.java.Type;
+import org.eclipse.gmt.modisco.java.TypeAccess;
+import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
+
+/**
+ * A EMF-Switch to get the accessed type of an access.
+ * @author Oliver
+ *
+ */
+public class GetAccessedType extends JavaSwitch<Type> {
+
+	/**
+	 * Singleton.
+	 */
+	private static GetAccessedType getInstance = new GetAccessedType();
+
+	/**
+	 * Computes the accessed type for an access.
+	 * @param input The input access.
+	 * @return The accessed Type be the access.
+	 */
+	public static Type getAccessedType(ASTNode input) {
+		return getInstance.doSwitch(input);
+	}
+
+	@Override
+	public Type caseAbstractMethodInvocation(AbstractMethodInvocation object) {
+		if (object instanceof ClassInstanceCreation) {
+			return ((ClassInstanceCreation) object).getType().getType();
+		}
+		return object.getMethod().getAbstractTypeDeclaration();
+	}
+
+	@Override
+	public Type caseTypeAccess(TypeAccess object) {
+		return object.getType();
+	}
+
+	@Override
+	public Type caseArrayAccess(ArrayAccess object) {
+		return getInstance.doSwitch(object.getArray());
+	}
+
+	@Override
+	public Type caseFieldAccess(FieldAccess object) {
+		return getInstance.doSwitch(object.getField());
+		// return object.getField().getQualifier().get
+	}
+
+	/**
+	 * Used to compute in which type a {@link ASTNode} is placed.
+	 * @param input
+	 * @return
+	 */
+	private static Type getAbstractTypeDeclarationContainer(ASTNode input) {
+		ASTNode node = input;
+		while (!(node.eContainer() instanceof AbstractTypeDeclaration)) {
+			node = (ASTNode) node.eContainer();
+		}
+		return (Type) node.eContainer();
+	}
+
+	@Override
+	public Type caseSingleVariableAccess(SingleVariableAccess object) {
+
+		// ASTNode node = object;
+		// while (!(node.eContainer() instanceof AbstractTypeDeclaration)) {
+		// node = (ASTNode) node.eContainer();
+		// }
+		// ASTNode tempResult1 = (Type) (node.eContainer());
+
+		if (object.getVariable() != null) {
+			// if (object.getVariable() instanceof SingleVariableDeclaration
+			// | object.getVariable() instanceof EnumConstantDeclaration) {
+			// return getAbstractTypeDeclaration(object.getVariable());
+			// }
+			return getAbstractTypeDeclarationContainer(object.getVariable());
+
+		}
+//		System.out.println("VDF");
+		return null;
+		// ASTNode tempResult2 =
+		// getInstance.doSwitch(object.getVariable().eContainer());
+
+		// alt
+		// if(object.getVariable() != null){
+		// if (object.getVariable() instanceof SingleVariableDeclaration |
+		// object.getVariable() instanceof EnumConstantDeclaration){
+		// return getInstance.doSwitch(object.getVariable());
+		// }
+		//
+		// }
+		// return getInstance.doSwitch(object.getVariable().eContainer());
+	}
+
+	@Override
+	public Type caseEnumConstantDeclaration(EnumConstantDeclaration object) {
+		return (Type) object.eContainer();
+	}
+
+	@Override
+	public Type caseSingleVariableDeclaration(SingleVariableDeclaration object) {
+		return getInstance.doSwitch(object.getType());
+	}
+
+	@Override
+	public Type caseAbstractVariablesContainer(AbstractVariablesContainer object) {
+		// TODO Auto-generated method stub
+		return object.getType().getType();
+	}
+
+	@Override
+	public Type caseFieldDeclaration(FieldDeclaration object) {
+		// TODO Auto-generated method stub
+		return object.getAbstractTypeDeclaration();
+	}
+
+	@Override
+	public Type caseSuperFieldAccess(SuperFieldAccess object) {
+		return new GetAccessedType().doSwitch(object.getField());
+	}
+
+	@Override
+	public Type caseThisExpression(ThisExpression object) {
+		EObject container = object.eContainer();
+		while (container != null) {
+			if (container instanceof Type) {
+				return (Type) container;
+			}
+			container = container.eContainer();
+		}
+		throw new IllegalArgumentException();
+	}
+
+}
