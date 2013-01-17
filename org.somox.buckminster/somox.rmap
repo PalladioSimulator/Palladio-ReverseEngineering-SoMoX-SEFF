@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
   <rm:locator searchPathRef="localresources" failOnError="false"/>
-  <rm:locator pattern="^eu\.qimpress\.sourcecodedecorator\..*" searchPathRef="localresources" failOnError="false"/>
+  <rm:locator pattern="eu\.qimpress\.sourcecodedecorator\..*" searchPathRef="localresources" failOnError="false"/>
   <rm:locator searchPathRef="qimpress" failOnError="false"/>
   <rm:locator searchPathRef="SISSy" failOnError="false"/>
   <rm:locator searchPathRef="Palladio_Commons" failOnError="false"/>
