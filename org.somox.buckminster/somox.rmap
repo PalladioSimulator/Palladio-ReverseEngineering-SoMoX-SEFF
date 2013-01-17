@@ -54,7 +54,7 @@
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="qimpress">
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
+    <rm:provider pattern="^eu\.qimpress\.sourcecodedecorator\..*" componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
       <rm:uri format="http://q-impress.ow2.org/updatesite_epl/"/>
