@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
+
   <rm:locator searchPathRef="localresources" failOnError="false"/>
-  <rm:locator pattern="eu\.qimpress\.sourcecodedecorator\..*" searchPathRef="localresources" failOnError="false"/>
-  <rm:locator pattern="^eu\.qimpress\.sourcecodedecorator\..*" searchPathRef="qimpress" failOnError="false"/>
+  <rm:locator searchPathRef="qimpress" failOnError="false"/>
   <rm:locator searchPathRef="SISSy" failOnError="false"/>
   <rm:locator searchPathRef="Palladio_Commons" failOnError="false"/>
-  <rm:locator pattern="^de\.uka\.ipd\.sdq\..*" searchPathRef="Palladio_WorkflowEngine" failOnError="false"/>
-  <rm:locator pattern="^org\.eclipse\.xtend*" searchPathRef="xtext" failOnError="false"/>
-  <rm:locator pattern="^org\.eclipse\.xtext*" searchPathRef="xtext" failOnError="false"/>
-  <rm:locator pattern="^org\.eclipse\.emf\.mwe\..*" searchPathRef="xtext" failOnError="false"/>
-  <rm:locator pattern="^org\.eclipse\.emf\.mwe2\..*" searchPathRef="xtext" failOnError="false"/>
+  <rm:locator searchPathRef="Palladio_WorkflowEngine" failOnError="false" pattern="^de\.uka\.ipd\.sdq\..*" />
+  <rm:locator searchPathRef="xtext" failOnError="false" pattern="^org\.eclipse\.xtend*" />
+  <rm:locator searchPathRef="xtext" failOnError="false" pattern="^org\.eclipse\.xtext*" />
+  <rm:locator searchPathRef="xtext" failOnError="false" pattern="^org\.eclipse\.emf\.mwe\..*" />
+  <rm:locator searchPathRef="xtext" failOnError="false" pattern="^org\.eclipse\.emf\.mwe2\..*" />
   <rm:locator searchPathRef="juno" failOnError="false"/>
+  
   <rm:searchPath name="indigo-updatesite">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
@@ -20,32 +21,31 @@
   </rm:searchPath>
   <rm:searchPath name="SISSy">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
+   	  <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/sissy/releases/1.1/"/>
+      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/sissy/releases/1.1/" />
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="Palladio_Commons">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
+   	  <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/commons/releases/1.1/"/>
+      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/commons/releases/1.1/" />
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="Palladio_WorkflowEngine">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
+   	  <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/1.4/"/>
+      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/1.4/" />
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="xtext">
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
-      <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
-    </rm:provider>
-  </rm:searchPath>
+  <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+ 	<rm:property key="buckminster.source" value="false"/>
+    <rm:property key="buckminster.mutable" value="false"/>
+  	<rm:uri format="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
+  </rm:provider></rm:searchPath>
   <rm:searchPath name="juno">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
@@ -54,7 +54,7 @@
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="qimpress">
-    <rm:provider  componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
       <rm:uri format="http://q-impress.ow2.org/updatesite_epl/"/>
@@ -64,9 +64,9 @@
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
       <rm:uri format="file:///{0}/{1}/">
         <bc:propertyRef key="workspace.root"/>
-        <bc:replace>
-          <bc:propertyRef key="buckminster.component"/>
-        </bc:replace>
+      	<bc:replace>
+       		<bc:propertyRef key="buckminster.component" />
+     	</bc:replace>
       </rm:uri>
     </rm:provider>
   </rm:searchPath>
