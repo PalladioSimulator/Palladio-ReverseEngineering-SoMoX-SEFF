@@ -5,13 +5,13 @@
       version="1.0.0.qualifier"
       provider-name="SDQ, KIT + FZI Karlsruhe + EU Q-ImPrESS">
 
-   <description url="http://www.q-impress.eu/">
+   <description url="http://www.somox.org">
       SoMoX - SOftware MOdel eXtractor
 Reverse Engineering of Component-Based Software Architectures
    </description>
 
-   <copyright url="http://www.q-impress.eu/">
-      Q-ImPrESS - Quality Impact Prediction for Evolving Service-Oriented Software, EU FP7 project (grant FP7-215013)
+   <copyright url="http://www.somox.org">
+      www.somox.org
    </copyright>
 
    <license url="http://www.eclipse.org/legal/epl-v10.html">
@@ -194,21 +194,21 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="eu.qimpress.sourcecodedecorator"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.0"
          unpack="false"/>
 
    <plugin
          id="eu.qimpress.sourcecodedecorator.edit"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.0"
          unpack="false"/>
 
    <plugin
          id="eu.qimpress.sourcecodedecorator.editor"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.0"
          unpack="false"/>
 
 </feature>
