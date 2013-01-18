@@ -108,6 +108,10 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <update label="Q-Impress Update Site org.somox" url="http://sdqweb.ipd.uka.de/eclipse/q-impress/org.somox"/>
    </url>
 
+   <includes
+         id="org.somox.modisco.feature"
+         version="0.0.0"/>
+
    <requires>
       <import feature="de.fzi.gast.feature" version="0.0.0" match="greaterOrEqual"/>
       <import feature="eu.qimpress.samm.feature" version="0.0.0" match="greaterOrEqual"/>
