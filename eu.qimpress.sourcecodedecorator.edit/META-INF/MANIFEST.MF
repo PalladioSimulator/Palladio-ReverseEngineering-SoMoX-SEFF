@@ -13,7 +13,7 @@ Require-Bundle: eu.qimpress.sourcecodedecorator;visibility:=reexport,
  de.uka.ipd.sdq.identifier.edit;visibility:=reexport,
  eu.qimpress.seff.edit;visibility:=reexport,
  de.uka.ipd.sdq.stoex.edit;visibility:=reexport,
- org.eclipse.gmt.modisco.java.edit;bundle-version="1.0.0",
- org.eclipse.gmt.modisco.omg.kdm.edit;bundle-version="1.0.0",
+ org.eclipse.gmt.modisco.java.edit,
+ org.eclipse.gmt.modisco.omg.kdm.edit,
  org.eclipse.core.runtime;bundle-version="3.8.0"
 Bundle-ActivationPolicy: lazy
