@@ -191,14 +191,14 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="eu.qimpress.sourcecodedecorator.edit"
          download-size="0"
          install-size="0"
-         version="1.0.1"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="eu.qimpress.sourcecodedecorator.editor"
          download-size="0"
          install-size="0"
-         version="1.0.1"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
@@ -212,7 +212,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="eu.qimpress.sourcecodedecorator"
          download-size="0"
          install-size="0"
-         version="1.0.1"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
