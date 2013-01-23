@@ -1,19 +1,19 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: eu.qimpress.sourcecodedecorator.editor;singleton:=true
+Bundle-SymbolicName: org.somox.sourcecodedecorator.editor;singleton:=true
 Bundle-Version: 1.0.1.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: eu.qimpress.sourcecodedecorator.presentation.SourcecodedecoratorEditorPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: eu.qimpress.sourcecodedecorator.presentation
+Export-Package: org.somox.sourcecodedecorator.presentation
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
- eu.qimpress.sourcecodedecorator.edit;visibility:=reexport,
  org.eclipse.emf.edit.ui;visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
  org.eclipse.gmt.modisco.java.edit,
- org.eclipse.gmt.modisco.omg.kdm.edit
+ org.eclipse.gmt.modisco.omg.kdm.edit,
+ org.somox.sourcecodedecorator.edit;visibility:=reexport
 Bundle-ActivationPolicy: lazy

@@ -1,15 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: eu.qimpress.sourcecodedecorator;singleton:=true
+Bundle-SymbolicName: org.somox.sourcecodedecorator;singleton:=true
 Bundle-Version: 1.0.1.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: eu.qimpress.sourcecodedecorator,
- eu.qimpress.sourcecodedecorator.impl,
- eu.qimpress.sourcecodedecorator.util
+Export-Package: org.somox.sourcecodedecorator,
+ org.somox.sourcecodedecorator.impl,
+ org.somox.sourcecodedecorator.util
 Require-Bundle: de.uka.ipd.sdq.identifier;visibility:=reexport,
  eu.qimpress.samm;visibility:=reexport,
  eu.qimpress.seff;visibility:=reexport,
