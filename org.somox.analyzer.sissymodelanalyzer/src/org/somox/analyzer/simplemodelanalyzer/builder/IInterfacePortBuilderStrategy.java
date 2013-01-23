@@ -1,6 +1,6 @@
 package org.somox.analyzer.simplemodelanalyzer.builder;
 
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
  * Interface for strategies assigning / creating provided interfaces

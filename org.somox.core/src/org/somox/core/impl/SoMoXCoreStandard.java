@@ -31,7 +31,7 @@ import eu.qimpress.samm.qosannotation.QosAnnotations;
 import eu.qimpress.samm.staticstructure.Repository;
 import eu.qimpress.samm.staticstructure.ServiceArchitectureModel;
 import eu.qimpress.samm.staticstructure.StaticstructureFactory;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorRepository;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 /**
  * Standard Implementation of the SoMoX Core.

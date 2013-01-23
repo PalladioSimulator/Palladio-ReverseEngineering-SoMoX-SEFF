@@ -7,7 +7,7 @@ import org.somox.analyzer.ModelAnalyzerException;
 import org.somox.analyzer.simplemodelanalyzer.builder.ComponentBuilder;
 import org.somox.configuration.SoMoXConfiguration;
 
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 public interface IDetectionStrategy {
 

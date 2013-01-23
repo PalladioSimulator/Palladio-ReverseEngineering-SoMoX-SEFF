@@ -28,10 +28,10 @@ import eu.qimpress.samm.staticstructure.ServiceArchitectureModel;
 import eu.qimpress.samm.staticstructure.StaticstructureFactory;
 import eu.qimpress.samm.staticstructure.SubcomponentEndpoint;
 import eu.qimpress.samm.staticstructure.SubcomponentInstance;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
-import eu.qimpress.sourcecodedecorator.InterfaceSourceCodeLink;
-import eu.qimpress.sourcecodedecorator.SammSystemImplementatingClassesLink;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorFactory;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.SammSystemImplementatingClassesLink;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 
 /**
  * Builder for SAMM system + architecture model structures.

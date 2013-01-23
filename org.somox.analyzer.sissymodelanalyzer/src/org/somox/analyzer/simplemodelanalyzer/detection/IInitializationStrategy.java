@@ -7,7 +7,7 @@ import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.metamodeladdition.Root;
 
 //import de.fzi.gast.core.Root;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
  * This strategy judges how to initially handle GAST classes and how or whether at all to convert to components. 

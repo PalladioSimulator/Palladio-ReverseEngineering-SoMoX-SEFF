@@ -2,7 +2,7 @@ package org.somox.analyzer.simplemodelanalyzer.builder.util;
 
 import eu.qimpress.samm.staticstructure.InterfacePort;
 import eu.qimpress.samm.staticstructure.SubcomponentInstance;
-import eu.qimpress.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 
 /**
  * Builder-related information for proper connector

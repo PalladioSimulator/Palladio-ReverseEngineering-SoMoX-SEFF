@@ -23,9 +23,9 @@ import eu.qimpress.samm.staticstructure.CompositeComponent;
 import eu.qimpress.samm.staticstructure.CompositeStructure;
 import eu.qimpress.samm.staticstructure.StaticstructureFactory;
 import eu.qimpress.samm.staticstructure.SubcomponentInstance;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
-import eu.qimpress.sourcecodedecorator.FileLevelSourceCodeLink;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorFactory;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.FileLevelSourceCodeLink;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 
 /**
  * Builder for SAMM structures. Takes care of updating the source code decorator.

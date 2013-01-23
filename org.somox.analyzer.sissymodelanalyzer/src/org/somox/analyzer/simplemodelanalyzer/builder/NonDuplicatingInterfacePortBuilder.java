@@ -20,10 +20,10 @@ import eu.qimpress.samm.staticstructure.Interface;
 import eu.qimpress.samm.staticstructure.InterfacePort;
 import eu.qimpress.samm.staticstructure.StaticstructureFactory;
 import eu.qimpress.samm.staticstructure.SubcomponentEndpoint;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
-import eu.qimpress.sourcecodedecorator.InterfaceSourceCodeLink;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorFactory;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorRepository;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 /**
  * Idea: All interfaces which are not required by internal interfaces (and consequently captured in

@@ -34,9 +34,9 @@ import eu.qimpress.samm.staticstructure.Interface;
 import eu.qimpress.samm.staticstructure.InterfacePort;
 import eu.qimpress.samm.staticstructure.PrimitiveComponent;
 import eu.qimpress.samm.staticstructure.StaticstructureFactory;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
-import eu.qimpress.sourcecodedecorator.InterfaceSourceCodeLink;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorFactory;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 
 /**
  * Builder used to create {@link Interface}s in the SAMM instance based on reverse engineered 

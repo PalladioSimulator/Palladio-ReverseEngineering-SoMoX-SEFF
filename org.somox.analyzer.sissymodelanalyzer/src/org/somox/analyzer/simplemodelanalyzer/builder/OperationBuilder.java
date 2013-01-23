@@ -31,8 +31,8 @@ import eu.qimpress.samm.staticstructure.Operation;
 import eu.qimpress.samm.staticstructure.Parameter;
 import eu.qimpress.samm.staticstructure.Repository;
 import eu.qimpress.samm.staticstructure.StaticstructureFactory;
-import eu.qimpress.sourcecodedecorator.MethodLevelSourceCodeLink;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorFactory;
+import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 
 /**
  * Builder for operations, parameters, message types, and data types. Keeps the source code

@@ -11,7 +11,7 @@ import eu.qimpress.samm.staticstructure.CompositeStructure;
 import eu.qimpress.samm.staticstructure.Connector;
 import eu.qimpress.samm.staticstructure.EndPoint;
 import eu.qimpress.samm.staticstructure.InterfacePort;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
  * Strategy: Prefer establishing assembly connectors INSIDE a composite

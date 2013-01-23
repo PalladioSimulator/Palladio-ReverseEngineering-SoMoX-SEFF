@@ -10,10 +10,10 @@ import org.somox.kdmhelper.metamodeladdition.Root;
 //import de.fzi.gast.core.Root;
 import eu.qimpress.samm.staticstructure.InterfacePort;
 import eu.qimpress.samm.staticstructure.StaticstructureFactory;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
-import eu.qimpress.sourcecodedecorator.InterfaceSourceCodeLink;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorFactory;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorRepository;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 /**
  * Simple strategy for deriving provided interfaces. Creates a new provided

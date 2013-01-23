@@ -17,7 +17,7 @@ import org.somox.kdmhelper.KDMHelper;
 import org.somox.metrics.helper.ComponentToImplementingClassesHelper;
 
 //import de.fzi.gast.types.GASTClass;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
  * Helper class used in SoMoX to dump internal graphs in GraphML and DOT file format for debugging

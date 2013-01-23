@@ -9,8 +9,8 @@ import java.util.Set;
 import org.eclipse.gmt.modisco.java.Type;
 
 //import de.fzi.gast.types.GASTClass;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
-import eu.qimpress.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 
 /**
  * Helper for calculating recursively associated classes for a component.

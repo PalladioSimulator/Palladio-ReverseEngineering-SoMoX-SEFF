@@ -14,9 +14,9 @@ import eu.qimpress.samm.behaviour.OperationBehaviour;
 import eu.qimpress.samm.staticstructure.ComponentType;
 import eu.qimpress.samm.staticstructure.Operation;
 import eu.qimpress.samm.staticstructure.PrimitiveComponent;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
-import eu.qimpress.sourcecodedecorator.FileLevelSourceCodeLink;
-import eu.qimpress.sourcecodedecorator.MethodLevelSourceCodeLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.FileLevelSourceCodeLink;
+import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 
 /**
  * Deletes initial components which have been replaced by merged primitive components and converts

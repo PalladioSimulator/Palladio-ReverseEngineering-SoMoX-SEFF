@@ -25,8 +25,8 @@ import eu.qimpress.samm.staticstructure.ComponentType;
 import eu.qimpress.samm.staticstructure.InterfacePort;
 import eu.qimpress.samm.staticstructure.Operation;
 import eu.qimpress.samm.staticstructure.PrimitiveComponent;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
-import eu.qimpress.sourcecodedecorator.MethodLevelSourceCodeLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 
 /**
  * Builder used to add GAST behaviour to methods detected as provided operations of components

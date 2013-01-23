@@ -14,9 +14,9 @@ import eu.qimpress.samm.staticstructure.Connector;
 import eu.qimpress.samm.staticstructure.EndPoint;
 import eu.qimpress.samm.staticstructure.InterfacePort;
 import eu.qimpress.samm.staticstructure.SubcomponentInstance;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
-import eu.qimpress.sourcecodedecorator.InterfaceSourceCodeLink;
-import eu.qimpress.sourcecodedecorator.SammSystemImplementatingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.SammSystemImplementatingClassesLink;
 
 /**
  * Query functionality useful when creating interface ports.

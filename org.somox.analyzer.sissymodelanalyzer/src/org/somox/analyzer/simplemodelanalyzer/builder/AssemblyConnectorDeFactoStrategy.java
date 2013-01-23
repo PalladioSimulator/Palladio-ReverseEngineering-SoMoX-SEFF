@@ -9,7 +9,7 @@ import org.somox.metrics.ClusteringRelation;
 import eu.qimpress.samm.staticstructure.CompositeComponent;
 import eu.qimpress.samm.staticstructure.CompositeStructure;
 import eu.qimpress.samm.staticstructure.InterfacePort;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
  * Try to add assembly connectors for each edge in the subgraph of relations which formed the

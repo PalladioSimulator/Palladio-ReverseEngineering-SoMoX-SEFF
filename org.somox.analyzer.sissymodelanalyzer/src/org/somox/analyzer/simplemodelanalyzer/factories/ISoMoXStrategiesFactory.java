@@ -9,7 +9,7 @@ import org.somox.analyzer.simplemodelanalyzer.detection.IDetectionStrategy;
 import org.somox.analyzer.simplemodelanalyzer.detection.IInitializationStrategy;
 import org.somox.analyzer.simplemodelanalyzer.detection.IPostComponentDetectionStrategy;
 
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
  * Abstract factory design pattern used to create all strategies which have an impact on the model extractor using this

@@ -12,7 +12,7 @@ import org.somox.kdmhelper.metamodeladdition.Root;
 //import de.fzi.gast.types.GASTClass;
 import eu.qimpress.samm.staticstructure.ComponentType;
 import eu.qimpress.samm.staticstructure.Interface;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
  * Component, package, interface, and port naming facility.

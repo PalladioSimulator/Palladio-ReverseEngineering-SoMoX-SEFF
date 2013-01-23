@@ -8,7 +8,7 @@ import eu.qimpress.qimpressgast.GASTBehaviourRepository;
 import eu.qimpress.samm.qosannotation.QosAnnotations;
 import eu.qimpress.samm.staticstructure.Repository;
 import eu.qimpress.samm.staticstructure.ServiceArchitectureModel;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorRepository;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 //import eu.qimpress.commonmodel.commonmodel.StaticStructure.Repository;
 

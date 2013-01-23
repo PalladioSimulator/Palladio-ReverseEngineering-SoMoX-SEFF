@@ -10,9 +10,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.somox.core;bundle-version="1.0.0",
  org.somox.filter;bundle-version="1.0.0",
  org.jgrapht;bundle-version="0.8.1",
- eu.qimpress.sourcecodedecorator;bundle-version="1.0.0",
  uk.ac.shef.dcs.simmetrics;bundle-version="1.6.2",
- org.somox.kdmhelper;bundle-version="1.0.0"
+ org.somox.kdmhelper;bundle-version="1.0.0",
+ org.somox.sourcecodedecorator;bundle-version="1.0.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.somox.metrics,

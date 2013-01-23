@@ -33,9 +33,9 @@ import eu.qimpress.samm.qosannotation.QosannotationFactory;
 import eu.qimpress.samm.staticstructure.Repository;
 import eu.qimpress.samm.staticstructure.ServiceArchitectureModel;
 import eu.qimpress.samm.staticstructure.StaticstructureFactory;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorFactory;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorRepository;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 /**
  * This class runs a component detection based on a GAST input model and returns the results

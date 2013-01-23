@@ -6,8 +6,8 @@ import org.somox.kdmhelper.KDMHelper;
 
 //import de.fzi.gast.functions.Method;
 //import de.fzi.gast.types.GASTClass;
-import eu.qimpress.sourcecodedecorator.InterfaceSourceCodeLink;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorRepository;
+import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 /**
  * Default interface detection strategy.

@@ -7,7 +7,7 @@ import org.eclipse.gmt.modisco.java.Type;
 import org.somox.kdmhelper.KDMHelper;
 
 //import de.fzi.gast.types.GASTClass;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 public class ComponentPrinter {
 

@@ -7,7 +7,7 @@ import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.IMetric;
 import org.somox.metrics.MetricID;
 
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 public class NodePair {
 	

@@ -31,7 +31,7 @@ import org.somox.metrics.MetricID;
 
 //import de.fzi.gast.types.GASTClass;
 import eu.qimpress.samm.staticstructure.ComponentType;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 
 public class MetricValuesWriter

@@ -6,7 +6,7 @@ import org.somox.filter.BaseFilter;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.MetricID;
 
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
  * Filters based on edge threshold and vertex type: only initial

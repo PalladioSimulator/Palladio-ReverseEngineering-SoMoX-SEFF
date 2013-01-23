@@ -15,7 +15,7 @@ import org.somox.kdmhelper.metamodeladdition.Root;
 //import de.fzi.gast.core.Root;
 //import de.fzi.gast.types.GASTClass;
 //import de.fzi.gast.types.typesPackage;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
  * Initialization class for the conversion from GAST class to component. 

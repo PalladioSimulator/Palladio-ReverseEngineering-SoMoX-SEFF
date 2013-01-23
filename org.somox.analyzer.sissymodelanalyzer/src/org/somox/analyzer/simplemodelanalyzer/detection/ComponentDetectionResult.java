@@ -3,7 +3,7 @@ package org.somox.analyzer.simplemodelanalyzer.detection;
 import java.util.LinkedList;
 import java.util.List;
 
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 
 /**

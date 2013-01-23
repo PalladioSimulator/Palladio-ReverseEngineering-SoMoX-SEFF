@@ -6,7 +6,7 @@ import org.jgrapht.Graph;
 import org.somox.metrics.ClusteringRelation;
 
 import eu.qimpress.samm.staticstructure.CompositeStructure;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 public interface IAssemblyConnectorStrategy {
 

@@ -45,7 +45,7 @@ import org.somox.metrics.util.GraphPrinter;
 
 //import de.fzi.gast.core.Root;
 //import de.fzi.gast.types.GASTClass;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
  * Detection strategy for composite component which relies on clustering of metrics computed for pair-wise component
