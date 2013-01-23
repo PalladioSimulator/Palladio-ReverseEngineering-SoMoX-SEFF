@@ -188,20 +188,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
          unpack="false"/>
 
    <plugin
-         id="eu.qimpress.sourcecodedecorator.edit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="eu.qimpress.sourcecodedecorator.editor"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.somox.kdmhelper"
          download-size="0"
          install-size="0"
@@ -209,7 +195,21 @@ This Agreement is governed by the laws of the State of New York and the intellec
          unpack="false"/>
 
    <plugin
-         id="eu.qimpress.sourcecodedecorator"
+         id="org.somox.sourcecodedecorator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.somox.sourcecodedecorator.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.somox.sourcecodedecorator.editor"
          download-size="0"
          install-size="0"
          version="0.0.0"
