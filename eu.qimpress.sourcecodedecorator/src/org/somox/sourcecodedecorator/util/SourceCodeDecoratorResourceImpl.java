@@ -2,8 +2,11 @@
  */
 package org.somox.sourcecodedecorator.util;
 
+import java.util.HashMap;
+
 import org.eclipse.emf.common.util.URI;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
 /**
@@ -19,10 +22,12 @@ public class SourceCodeDecoratorResourceImpl extends XMIResourceImpl {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param uri the URI of the new resource.
-	 * @generated
+	 * @generated not
 	 */
 	public SourceCodeDecoratorResourceImpl(URI uri) {
 		super(uri);
+		
+		this.setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
 	}
 
 } //SourceCodeDecoratorResourceImpl
