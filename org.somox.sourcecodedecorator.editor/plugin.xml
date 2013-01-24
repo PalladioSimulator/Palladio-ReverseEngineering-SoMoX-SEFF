@@ -15,9 +15,9 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="eu.qimpress.sourcecodedecorator.presentation.SourceCodeDecoratorModelWizardID"
+            id="org.somox.sourcecodedecorator.presentation.SourceCodeDecoratorModelWizardID"
             name="%_UI_SourceCodeDecoratorModelWizard_label"
-            class="eu.qimpress.sourcecodedecorator.presentation.SourceCodeDecoratorModelWizard"
+            class="org.somox.sourcecodedecorator.presentation.SourceCodeDecoratorModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/SourceCodeDecoratorModelFile.gif">
          <description>%_UI_SourceCodeDecoratorModelWizard_description</description>
@@ -27,12 +27,12 @@
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            id="eu.qimpress.sourcecodedecorator.presentation.SourceCodeDecoratorEditorID"
+            id="org.somox.sourcecodedecorator.presentation.SourceCodeDecoratorEditorID"
             name="%_UI_SourceCodeDecoratorEditor_label"
             icon="icons/full/obj16/SourceCodeDecoratorModelFile.gif"
             extensions="sourcecodedecorator"
-            class="eu.qimpress.sourcecodedecorator.presentation.SourceCodeDecoratorEditor"
-            contributorClass="eu.qimpress.sourcecodedecorator.presentation.SourceCodeDecoratorActionBarContributor">
+            class="org.somox.sourcecodedecorator.presentation.SourceCodeDecoratorEditor"
+            contributorClass="org.somox.sourcecodedecorator.presentation.SourceCodeDecoratorActionBarContributor">
       </editor>
    </extension>
 
