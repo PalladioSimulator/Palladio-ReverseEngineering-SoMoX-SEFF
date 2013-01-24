@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.somox.sourcecodedecorator.edit;singleton:=true
 Bundle-Version: 1.0.1.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: eu.qimpress.sourcecodedecorator.provider.SourcecodedecoratorEditPlugin$Implementation
+Bundle-Activator: org.somox.sourcecodedecorator.provider.SourcecodedecoratorEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
