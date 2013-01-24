@@ -13,14 +13,14 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://qimpress.eu/sourcecodedecorator/1.0"
-            class="eu.qimpress.sourcecodedecorator.SourceCodeDecoratorPackage"
+            class="org.somox.sourcecodedecorator.SourceCodeDecoratorPackage"
             genModel="model/sourcecodedecorator.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
       <parser
             type="sourcecodedecorator"
-            class="eu.qimpress.sourcecodedecorator.util.SourceCodeDecoratorResourceFactoryImpl"/>
+            class="org.somox.sourcecodedecorator.util.SourceCodeDecoratorResourceFactoryImpl"/>
    </extension>
 
 </plugin>
