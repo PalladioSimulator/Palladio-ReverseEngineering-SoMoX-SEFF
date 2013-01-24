@@ -661,7 +661,7 @@ public class SourceCodeDecoratorEditor
 			BasicDiagnostic diagnostic =
 				new BasicDiagnostic
 					(Diagnostic.OK,
-					 "eu.qimpress.sourcecodedecorator.editor",
+					 "org.somox.sourcecodedecorator.editor",
 					 0,
 					 null,
 					 new Object [] { editingDomain.getResourceSet() });
@@ -1046,7 +1046,7 @@ public class SourceCodeDecoratorEditor
 			BasicDiagnostic basicDiagnostic =
 				new BasicDiagnostic
 					(Diagnostic.ERROR,
-					 "eu.qimpress.sourcecodedecorator.editor",
+					 "org.somox.sourcecodedecorator.editor",
 					 0,
 					 getString("_UI_CreateModelError_message", resource.getURI()),
 					 new Object [] { exception == null ? (Object)resource : exception });
@@ -1057,7 +1057,7 @@ public class SourceCodeDecoratorEditor
 			return
 				new BasicDiagnostic
 					(Diagnostic.ERROR,
-					 "eu.qimpress.sourcecodedecorator.editor",
+					 "org.somox.sourcecodedecorator.editor",
 					 0,
 					 getString("_UI_CreateModelError_message", resource.getURI()),
 					 new Object[] { exception });
