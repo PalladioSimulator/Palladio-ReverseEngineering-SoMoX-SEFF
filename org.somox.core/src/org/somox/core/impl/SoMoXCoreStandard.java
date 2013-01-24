@@ -26,7 +26,7 @@ import org.somox.core.SoMoXCore;
 import org.somox.extractor.ExtractionResult;
 import org.somox.extractor.SoftwareExtractor;
 
-import eu.qimpress.qimpressgast.GASTBehaviourRepository;
+import org.somox.qimpressgast.GASTBehaviourRepository;
 import eu.qimpress.samm.qosannotation.QosAnnotations;
 import eu.qimpress.samm.staticstructure.Repository;
 import eu.qimpress.samm.staticstructure.ServiceArchitectureModel;

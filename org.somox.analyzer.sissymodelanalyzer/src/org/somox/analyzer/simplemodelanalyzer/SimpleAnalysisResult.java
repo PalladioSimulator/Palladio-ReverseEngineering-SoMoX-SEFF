@@ -7,7 +7,7 @@ import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.ModelAnalyzer;
 import org.somox.common.Message;
 
-import eu.qimpress.qimpressgast.GASTBehaviourRepository;
+import org.somox.qimpressgast.GASTBehaviourRepository;
 import eu.qimpress.samm.qosannotation.QosAnnotations;
 import eu.qimpress.samm.staticstructure.Repository;
 import eu.qimpress.samm.staticstructure.ServiceArchitectureModel;

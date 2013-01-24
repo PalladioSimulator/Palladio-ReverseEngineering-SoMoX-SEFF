@@ -135,8 +135,8 @@ public class DeleteInitialComponentCandidatesStrategy implements
 	private void cleanUpGastBehaviour(SimpleAnalysisResult analysisResult,
 			Set<ComponentImplementingClassesLink> componentLinksToDelete) {
 		
-		Set<eu.qimpress.qimpressgast.GASTBehaviour> behavioursToDelete = new HashSet<eu.qimpress.qimpressgast.GASTBehaviour>();
-		for(eu.qimpress.qimpressgast.GASTBehaviour gastBehaviour : analysisResult.getGastBehaviourRepository().getGastbehaviour()) {			
+		Set<org.somox.qimpressgast.GASTBehaviour> behavioursToDelete = new HashSet<org.somox.qimpressgast.GASTBehaviour>();
+		for(org.somox.qimpressgast.GASTBehaviour gastBehaviour : analysisResult.getGastBehaviourRepository().getGastbehaviour()) {			
 			Operation operation = gastBehaviour.getGastbehaviourstub().getOperation();			
 			
 			outer:
@@ -161,7 +161,7 @@ public class DeleteInitialComponentCandidatesStrategy implements
 			}			
 		}
 		
-		for(eu.qimpress.qimpressgast.GASTBehaviour gastBehaviour : behavioursToDelete) {
+		for(org.somox.qimpressgast.GASTBehaviour gastBehaviour : behavioursToDelete) {
 			logger.trace("deleting gast behaviour in decorator: " + gastBehaviour.getGastbehaviourstub().getName() + " " + gastBehaviour);
 			EcoreUtil.delete(gastBehaviour, false);
 		}
