@@ -12,7 +12,7 @@
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
-            uri="http://q-impress.eu/qimpressgast"
+            uri="http://org.somox/qimpressgast"
             class="org.somox.qimpressgast.qimpressgastPackage"
             genModel="model/QimpressGast.genmodel"/>
    </extension>
