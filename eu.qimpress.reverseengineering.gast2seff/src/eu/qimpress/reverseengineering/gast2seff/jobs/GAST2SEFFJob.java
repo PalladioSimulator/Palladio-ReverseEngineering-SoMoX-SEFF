@@ -21,14 +21,15 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
+import org.eclipse.gmt.modisco.java.Block;
 
 import de.fzi.gast.statements.BlockStatement;
 import de.uka.ipd.sdq.workflow.IJob;
 import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
-import eu.qimpress.qimpressgast.GASTBehaviour;
-import eu.qimpress.qimpressgast.GASTBehaviourRepository;
+import org.somox.qimpressgast.GASTBehaviour;
+import org.somox.qimpressgast.GASTBehaviourRepository;
 import eu.qimpress.reverseengineering.gast2seff.visitors.BasicFunctionClassificationStrategy;
 import eu.qimpress.reverseengineering.gast2seff.visitors.FunctionCallClassificationVisitor;
 import eu.qimpress.reverseengineering.gast2seff.visitors.GastStatementVisitor;
@@ -45,7 +46,7 @@ import eu.qimpress.seff.SeffRepository;
 import eu.qimpress.seff.StartAction;
 import eu.qimpress.seff.StopAction;
 import eu.qimpress.seff.seffFactory;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorRepository;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 /**
  * Transformation Job transforming a SAM instance with GAST Behaviours into a SAM instance with SEFF
@@ -301,7 +302,7 @@ public class GAST2SEFFJob implements IJob {
 		
 		seff.getSteps().add(start);
 		
-		BlockStatement body = findBody(gastBehaviourStub);
+		Block body = findBody(gastBehaviourStub);
 		logger.trace("visiting (seff entry): " + gastBehaviourStub.getName());
 		if (body != null) {			
 			typeVisitor.doSwitch(body); 
@@ -326,12 +327,15 @@ public class GAST2SEFFJob implements IJob {
 	 * @return The GAST behaviour matching the gast behaviour stub
 	 * @throws JobFailedException Thrown if the gast behaviour is missing in the model file
 	 */
-	private BlockStatement findBody(GastBehaviourStub gastBehaviourStub) throws JobFailedException {
+	private Block findBody(GastBehaviourStub gastBehaviourStub) throws JobFailedException {
 
 		assert onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getGastbehaviour(), gastBehaviourStub);
 		
 		for (GASTBehaviour behaviour : this.gastBehaviourRepositoryModel.getGastbehaviour()) {
-
+			//removelater start
+			logger.info("To search for: " + gastBehaviourStub.getId());
+			logger.info("Iteration ID   " + behaviour.getGastbehaviourstub().getId());
+			//removelater end
 			if (behaviour.getGastbehaviourstub().getId().equals(gastBehaviourStub.getId())) { 
 				
 				return behaviour.getBlockstatement();		

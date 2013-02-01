@@ -28,9 +28,9 @@ import eu.qimpress.seff.InternalAction;
 import eu.qimpress.seff.LoopAction;
 import eu.qimpress.seff.ResourceDemandingBehaviour;
 import eu.qimpress.seff.seffFactory;
-import eu.qimpress.sourcecodedecorator.InterfaceSourceCodeLink;
-import eu.qimpress.sourcecodedecorator.MethodLevelSourceCodeLink;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorRepository;
+import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 /**
  * A visitor which traverses a GAST behaviour and creates a SEFF matching the traversed behaviour. The 

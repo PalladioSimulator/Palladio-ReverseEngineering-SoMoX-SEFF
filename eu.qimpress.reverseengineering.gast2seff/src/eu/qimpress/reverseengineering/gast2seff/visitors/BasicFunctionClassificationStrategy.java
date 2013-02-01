@@ -8,9 +8,11 @@ import org.apache.log4j.Logger;
 import de.fzi.gast.accesses.FunctionAccess;
 import de.fzi.gast.types.GASTClass;
 import eu.qimpress.samm.staticstructure.PrimitiveComponent;
-import eu.qimpress.sourcecodedecorator.ComponentImplementingClassesLink;
-import eu.qimpress.sourcecodedecorator.InterfaceSourceCodeLink;
-import eu.qimpress.sourcecodedecorator.SourceCodeDecoratorRepository;
+
+import org.somox.kdmhelper.KDMHelper;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 /**
  * Implementation of {@link IFunctionClassificationStrategy}. Uses basic heuristics based on the source code decorator and the GAST model
@@ -44,7 +46,7 @@ implements
 				
 		ComponentImplementingClassesLink compLink = queryComponentLink(this.primitiveComponent);
 		for(InterfaceSourceCodeLink ifLink : compLink.getRequiredInterfaces()) {
-			if(ifLink.getGastClass().getMethods().contains(functionAccess.getTargetFunction())) {
+			if(KDMHelper.getMethods(ifLink.getGastClass()).contains(functionAccess.getTargetFunction())) {
 				logger.debug("Classified call as external call: "+functionAccess.getTargetFunction().getSimpleName() + 
 						" for component " + primitiveComponent.getName());				
 				return true;
