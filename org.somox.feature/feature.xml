@@ -113,7 +113,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
          version="0.0.0"/>
 
    <requires>
-      <import feature="eu.qimpress.samm.feature" version="0.0.0" match="greaterOrEqual"/>
       <import feature="eu.qimpress.ide.editors.gmf.feature" version="0.0.0" match="greaterOrEqual"/>
    </requires>
 
@@ -229,6 +228,62 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="org.somox.gast.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="eu.qimpress.identifier"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="eu.qimpress.identifier.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="eu.qimpress.qualityannotationdecorator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="eu.qimpress.qualityannotationdecorator.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="eu.qimpress.qualityannotationdecorator.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="eu.qimpress.samm"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="eu.qimpress.samm.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="eu.qimpress.samm.editor"
          download-size="0"
          install-size="0"
          version="0.0.0"
