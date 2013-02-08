@@ -18,7 +18,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.gmt.modisco.java;bundle-version="0.10.1",
  org.somox.sourcecodedecorator;bundle-version="1.0.1",
  org.somox.gast;bundle-version="1.0.0",
- org.somox.kdmhelper;bundle-version="1.0.0"
+ org.somox.kdmhelper;bundle-version="1.0.0",
+ org.somox.analyzer.sissymodelanalyzer;bundle-version="1.0.0",
+ org.somox.core;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: eu.qimpress.reverseengineering.gast2seff.jobs

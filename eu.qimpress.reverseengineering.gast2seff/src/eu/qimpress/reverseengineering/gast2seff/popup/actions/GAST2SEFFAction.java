@@ -49,15 +49,17 @@ public class GAST2SEFFAction implements IObjectActionDelegate {
 						
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				WorkflowExceptionHandler exceptionHandler = new UIBasedWorkflowExceptionHandler(false); 
-				IJob gast2seffJob;
-				gast2seffJob = new GAST2SEFFJob(getSAMInstanceURI());
-				Workflow workflow = new Workflow(gast2seffJob,monitor,exceptionHandler);
-				workflow.run();
+				logger.error("Action Deprecated");				
+				return Status.CANCEL_STATUS;
+//				WorkflowExceptionHandler exceptionHandler = new UIBasedWorkflowExceptionHandler(false); 
+//				IJob gast2seffJob;
+				// gast2seffJob = new GAST2SEFFJob(getSAMInstanceURI());
+//				Workflow workflow = new Workflow(gast2seffJob,monitor,exceptionHandler);
+//				workflow.run();
 				
-				monitor.done();
-				logger.info("finished GAST2SEFF");				
-				return Status.OK_STATUS;
+//				monitor.done();
+//				logger.info("finished GAST2SEFF");				
+//				return Status.OK_STATUS;
 			}			
 		};
 		IProgressMonitor pm = Job.getJobManager().createProgressGroup();

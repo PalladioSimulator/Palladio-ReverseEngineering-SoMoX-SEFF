@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.ModelAnalyzerException;
 import org.somox.configuration.ConfigurationDefinition;
 import org.somox.configuration.SoMoXConfiguration;
@@ -70,10 +71,10 @@ public class GUISoMoXCoreController implements SoMoXCoreController {
 	 * @param progressMonitor
 	 * @throws ModelAnalyzerException 
 	 */
-	public void startAnalyze(String analyzerID, IProgressMonitor progressMonitor, HashMap<String, String> globalPreferences, SoMoXConfiguration somoxConfiguration) throws ModelAnalyzerException {
+	public AnalysisResult startAnalyze(String analyzerID, IProgressMonitor progressMonitor, HashMap<String, String> globalPreferences, SoMoXConfiguration somoxConfiguration) throws ModelAnalyzerException {
 		//TODO what if soMoXCore is null?
 		try {
-			soMoXCore.runAnalyzer(analyzerID, progressMonitor, globalPreferences, somoxConfiguration);
+			return soMoXCore.runAnalyzer(analyzerID, progressMonitor, globalPreferences, somoxConfiguration);
 		} catch (ModelAnalyzerException e) {
 			throw e;
 		}

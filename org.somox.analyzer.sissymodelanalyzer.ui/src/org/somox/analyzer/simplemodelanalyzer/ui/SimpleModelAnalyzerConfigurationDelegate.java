@@ -9,14 +9,15 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.emf.common.util.URI;
+import org.somox.analyzer.simplemodelanalyzer.jobs.SaveSoMoXModelsJob;
 import org.somox.analyzer.simplemodelanalyzer.jobs.SimpleModelAnalyzerJob;
+import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
 import org.somox.configuration.SOMOXConfigurationBuilderByPreferences;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.ui.runconfig.ModelAnalyzerConfiguration;
 
 import de.uka.ipd.sdq.workflow.IJob;
-import de.uka.ipd.sdq.workflow.OrderPreservingCompositeJob;
+import de.uka.ipd.sdq.workflow.OrderPreservingBlackboardCompositeJob;
 import de.uka.ipd.sdq.workflow.Workflow;
 import de.uka.ipd.sdq.workflow.launchconfig.AbstractWorkflowBasedLaunchConfigurationDelegate;
 import de.uka.ipd.sdq.workflow.logging.console.LoggerAppenderStruct;
@@ -34,18 +35,17 @@ public class SimpleModelAnalyzerConfigurationDelegate
 	
 	protected IJob createWorkflowJob(final ModelAnalyzerConfiguration config,
 			ILaunch launch) throws CoreException {
-		OrderPreservingCompositeJob somoxJob = new OrderPreservingCompositeJob();
-		
+		OrderPreservingBlackboardCompositeJob<SoMoXBlackboard> somoxJob = new OrderPreservingBlackboardCompositeJob<SoMoXBlackboard>();
+		somoxJob.setBlackboard(new SoMoXBlackboard());
 		somoxJob.add(new SimpleModelAnalyzerJob(config));
 		
 		// Get the project location.
-		//TODO: fix this if qimpress alternatives are used.
-		//TODO: re-enable GAST2SEFF Job
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IProject project = workspace.getRoot().getProject(config.getSomoxConfiguration().getFileLocations().getProjectName());
-//		
-//		TODO: re-enable GAST2SEFF Job
-		somoxJob.add(new GAST2SEFFJob(URI.createFileURI(project.getFullPath()+"/"+config.getSomoxConfiguration().getFileLocations().getOutputFolder()+"/internal_architecture_model.samm_repository")));
+		somoxJob.add(new GAST2SEFFJob(config.getSomoxConfiguration()));
+		
+		somoxJob.add(new SaveSoMoXModelsJob(config.getSomoxConfiguration()));
+		
+		
 		return somoxJob;
 	}
 

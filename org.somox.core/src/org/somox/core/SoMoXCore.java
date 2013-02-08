@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.ModelAnalyzer;
 import org.somox.analyzer.ModelAnalyzerException;
 import org.somox.configuration.ConfigurationDefinition;
@@ -62,7 +63,7 @@ public interface SoMoXCore {
 	 * @param	preferences		Preferences for the analysis
 	 * @throws ModelAnalyzerException 
 	 */
-	public void runAnalyzer(String analyzerID, IProgressMonitor progressMonitor, HashMap<String, String> globalpreferences, SoMoXConfiguration somoxConfiguration) throws ModelAnalyzerException;
+	public AnalysisResult runAnalyzer(String analyzerID, IProgressMonitor progressMonitor, HashMap<String, String> globalpreferences, SoMoXConfiguration somoxConfiguration) throws ModelAnalyzerException;
 
 	/**
 	 * Execute the configured export

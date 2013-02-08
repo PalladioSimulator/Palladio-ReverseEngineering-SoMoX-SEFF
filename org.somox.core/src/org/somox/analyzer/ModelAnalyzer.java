@@ -48,12 +48,10 @@ public interface ModelAnalyzer {
 	 * Execute the analyzer
 	 * @param preferences	The preferences for this analyzer
 	 * @param somoxConfiguration Configuration of this analyzer
-	 * @param internalArchitectureModel	The internal architecture model represented through a Q-IMPREss repository
 	 * @param extractionResultMap		The map of extraction results
 	 * @return	The analysis result object
 	 */
 	public AnalysisResult analyze(SoMoXConfiguration somoxConfiguration,
-								  Repository internalArchitectureModel,
 								  HashMap<String, ExtractionResult> extractionResultMap,
 								  IProgressMonitor progressMonitor)
 		throws ModelAnalyzerException;

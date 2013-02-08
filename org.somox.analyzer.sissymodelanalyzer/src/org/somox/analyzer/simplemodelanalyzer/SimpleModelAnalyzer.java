@@ -69,14 +69,12 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 	 */
 	 public AnalysisResult analyze(
 			SoMoXConfiguration somoxConfiguration,
-			Repository internalArchitectureModel,
 			HashMap<String, ExtractionResult> extractionResultMap,
 			IProgressMonitor progressMonitor) throws ModelAnalyzerException {
 
 		this.status = ModelAnalyzer.Status.RUNNING;
 		logger.info("SISSy Analyzer started with"
 				+"\n SOMOX Configuration: "+somoxConfiguration
-				+"\n internalArchitectureModel "+internalArchitectureModel
 				+"\n extractionResultMap "+extractionResultMap);
 
 		AnalysisResult analysisResult = null;
@@ -95,8 +93,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 					throw new ModelAnalyzerException("Failed to load GAST model",e);
 				}
 				Root root = modelReader.getRoot();
-				analysisResult = analyzeGASTModel(root, internalArchitectureModel,
-						somoxConfiguration, progressMonitor);
+				analysisResult = analyzeGASTModel(root, somoxConfiguration, progressMonitor);
 			}
 		}
 		this.status = ModelAnalyzer.Status.FINISHED;
@@ -106,20 +103,17 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 	/**
 	 * Analyze the given GAST model to find components
 	 * @param gastModel The root of the GAST model to analyze
-	 * @param analysisResult The result to produce
-	 * @param originalComponents The unmodified list of GAST classes contained in the original GAST model 
 	 * @param preferences Preferences containing the configuration of the analysis
 	 * @param progressMonitor Progress monitor used to indicate detection progress
 	 * @throws ModelAnalyzerException
 	 */
 	private SimpleAnalysisResult analyzeGASTModel(
 			Root gastModel,
-			Repository internalArchitectureModel,
 			SoMoXConfiguration somoxConfiguration,
 			IProgressMonitor progressMonitor) throws ModelAnalyzerException {
 		
 		// Set up result
-		SimpleAnalysisResult analysisResult = initializeAnalysisResult(internalArchitectureModel);
+		SimpleAnalysisResult analysisResult = initializeAnalysisResult();
 		analysisResult.setResultStatus(AnalysisResult.ResultStatus.FAILED);
 		
 		// Set up model builder
@@ -232,14 +226,16 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 	 * @param internalArchitectureModel 
 	 * @return A new analysis result
 	 */
-	private SimpleAnalysisResult initializeAnalysisResult(Repository internalArchitectureModel) {
+	private SimpleAnalysisResult initializeAnalysisResult() {
 		SimpleAnalysisResult analysisResult = new SimpleAnalysisResult(this);
 		SourceCodeDecoratorRepository sourceCodeDecoratorRepository = SourceCodeDecoratorFactory.eINSTANCE.createSourceCodeDecoratorRepository();
 		GASTBehaviourRepository gastBehaviourRepository = qimpressgastFactory.eINSTANCE.createGASTBehaviourRepository();
 		ServiceArchitectureModel serviceArchitectureModel = StaticstructureFactory.eINSTANCE.createServiceArchitectureModel();
 		QosAnnotations qosAnnotationModel = QosannotationFactory.eINSTANCE.createQosAnnotations();
+		Repository newInternalArchitectureModel = StaticstructureFactory.eINSTANCE.createRepository();
 		
-		analysisResult.setInternalArchitectureModel(internalArchitectureModel);
+		
+		analysisResult.setInternalArchitectureModel(newInternalArchitectureModel);
 		analysisResult.setGastBehaviourRepository(gastBehaviourRepository);
 		analysisResult.setSourceCodeDecoratorRepository(sourceCodeDecoratorRepository);
 		analysisResult.setServiceArchitectureModel(serviceArchitectureModel);
