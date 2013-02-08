@@ -10,22 +10,18 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.infra.query.core.exception.ModelQueryExecutionException;
 import org.eclipse.gmt.modisco.java.ASTNode;
-import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.ArrayAccess;
 import org.eclipse.gmt.modisco.java.BodyDeclaration;
 import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
-import org.eclipse.gmt.modisco.java.EnumConstantDeclaration;
 import org.eclipse.gmt.modisco.java.FieldAccess;
-import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.gmt.modisco.java.InheritanceKind;
 import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.Modifier;
 import org.eclipse.gmt.modisco.java.NamedElement;
-import org.eclipse.gmt.modisco.java.NamespaceAccess;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.ParameterizedType;
 import org.eclipse.gmt.modisco.java.PrimitiveType;
@@ -35,8 +31,6 @@ import org.eclipse.gmt.modisco.java.TagElement;
 import org.eclipse.gmt.modisco.java.ThisExpression;
 import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
-import org.eclipse.gmt.modisco.java.TypeDeclaration;
-import org.eclipse.gmt.modisco.java.VariableDeclaration;
 import org.eclipse.gmt.modisco.java.VisibilityKind;
 import org.eclipse.gmt.modisco.omg.kdm.source.SourceFile;
 import org.eclipse.modisco.java.composition.javaapplication.Java2File;
@@ -211,13 +205,15 @@ public class KDMHelper {
 	}
 
 	/**
-	 * Returns all accesses inside the type.
+	 * Returns <b>all accesses inside an ASTNode object</b>.
+	 * <br>
+	 * Accesses <b>inside an {@link TagElement}</b> (for example
+	 * in JavaDoc comments) <br>are <b>not in the result set</b>.
 	 * 
-	 * @param input
-	 *            The type
-	 * @return all accesses
+	 * @param input an {@link ASTNode} object
+	 * @return all accesses inside the ASTNode object
 	 */
-	public static List<ASTNode> getAllAccesses(Type input) {
+	public static List<ASTNode> getAllAccesses(ASTNode input) {
 		List<ASTNode> result = new ArrayList<ASTNode>();
 		TreeIterator<EObject> iterator = input.eAllContents();
 
@@ -245,7 +241,8 @@ public class KDMHelper {
 				}
 			}
 		}
-		// TODO add self access ??? (which type?) ThisExpression -> yes
+		// add self access ??? (which type?) ThisExpression -> yes
+		// SelfAccesses were removed in the SISSy GAST manually.
 		return result;
 	}
 
@@ -393,7 +390,7 @@ public class KDMHelper {
 	}
 
 	/**
-	 * Returns all super types.
+	 * Returns all super types of a type.
 	 * 
 	 * @param clazz
 	 *            the input {@link Type}
@@ -571,7 +568,7 @@ public class KDMHelper {
 
 	/**
 	 * A virtual method can be overridden. In Java 1. Static methods cannot be
-	 * overriden. 2. Non static private and final methods cannot be overridden.
+	 * overridden. 2. Non static private and final methods cannot be overridden.
 	 * 
 	 * @param bodyDec
 	 *            the {@link BodyDeclaration} object
