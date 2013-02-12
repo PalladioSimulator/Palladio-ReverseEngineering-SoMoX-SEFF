@@ -33,6 +33,10 @@ import org.somox.qimpressgast.GASTBehaviour;
 import org.somox.qimpressgast.GASTBehaviourRepository;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
+//import de.fzi.gast.statements.BlockStatement;//GAST2SEFFCHANGE
+import de.uka.ipd.sdq.workflow.IJob;
+import de.uka.ipd.sdq.workflow.IBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.IBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.IBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
@@ -308,7 +312,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 		
 		seff.getSteps().add(start);
 		
-		Block body = findBody(gastBehaviourStub);
+		Block body = findBody(gastBehaviourStub);//GAST2SEFFCHANGE
 		logger.trace("visiting (seff entry): " + gastBehaviourStub.getName());
 		if (body != null) {			
 			typeVisitor.doSwitch(body); 
@@ -333,7 +337,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	 * @return The GAST behaviour matching the gast behaviour stub
 	 * @throws JobFailedException Thrown if the gast behaviour is missing in the model file
 	 */
-	private Block findBody(GastBehaviourStub gastBehaviourStub) throws JobFailedException {
+	private Block findBody(GastBehaviourStub gastBehaviourStub) throws JobFailedException {//GAST2SEFFCHANGE
 
 		assert onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getGastbehaviour(), gastBehaviourStub);
 		if(!onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getGastbehaviour(), gastBehaviourStub)){

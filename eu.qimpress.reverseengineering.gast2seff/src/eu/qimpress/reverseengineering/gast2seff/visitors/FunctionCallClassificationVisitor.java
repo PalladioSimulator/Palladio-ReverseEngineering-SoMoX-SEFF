@@ -1,6 +1,6 @@
 package eu.qimpress.reverseengineering.gast2seff.visitors;
 
-import java.util.ArrayList;
+ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,16 +8,35 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
+import org.eclipse.gmt.modisco.java.AssertStatement;
+import org.eclipse.gmt.modisco.java.Block;
+import org.eclipse.gmt.modisco.java.EnhancedForStatement;
+import org.eclipse.gmt.modisco.java.ExpressionStatement;
+import org.eclipse.gmt.modisco.java.ForStatement;
+import org.eclipse.gmt.modisco.java.IfStatement;
+import org.eclipse.gmt.modisco.java.Statement;
+import org.eclipse.gmt.modisco.java.SwitchStatement;
+import org.eclipse.gmt.modisco.java.TryStatement;
+import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
+import org.eclipse.gmt.modisco.java.WhileStatement;
+import org.eclipse.gmt.modisco.java.emf.impl.BlockImpl;
+import org.eclipse.gmt.modisco.java.emf.impl.JavaPackageImpl;
+import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
+import org.somox.kdmhelper.GetAccessedType;
+import org.somox.kdmhelper.KDMHelper;
 
-import de.fzi.gast.accesses.BaseAccess;
-import de.fzi.gast.accesses.FunctionAccess;
-import de.fzi.gast.statements.BlockStatement;
-import de.fzi.gast.statements.Branch;
-import de.fzi.gast.statements.BranchStatement;
-import de.fzi.gast.statements.LoopStatement;
-import de.fzi.gast.statements.SimpleStatement;
-import de.fzi.gast.statements.Statement;
-import de.fzi.gast.statements.util.statementsSwitch;
+//import de.fzi.gast.accesses.BaseAccess;//GAST2SEFFCHANGE
+//import de.fzi.gast.accesses.FunctionAccess;//GAST2SEFFCHANGE
+//import de.fzi.gast.statements.BlockStatement;//GAST2SEFFCHANGE
+//import de.fzi.gast.statements.Branch;//GAST2SEFFCHANGE
+//import de.fzi.gast.statements.BranchStatement;//GAST2SEFFCHANGE
+//import de.fzi.gast.statements.LoopStatement;//GAST2SEFFCHANGE
+//import de.fzi.gast.statements.SimpleStatement;//GAST2SEFFCHANGE
+//import de.fzi.gast.statements.Statement;//GAST2SEFFCHANGE
+//import de.fzi.gast.statements.util.statementsSwitch;//GAST2SEFFCHANGE
 
 /**
  * Classifies function calls are internal, library, or external calls.
@@ -26,7 +45,7 @@ import de.fzi.gast.statements.util.statementsSwitch;
  * @author Steffen Becker, Klaus Krogmann
  *
  */
-public class FunctionCallClassificationVisitor extends statementsSwitch<BitSet> {
+public class FunctionCallClassificationVisitor extends JavaSwitch<BitSet> {//GAST2SEFFCHANGE
 
 	private static final Logger logger = Logger.getLogger(GastStatementVisitor.class);
 
@@ -68,7 +87,7 @@ public class FunctionCallClassificationVisitor extends statementsSwitch<BitSet> 
 	}
 
 	@Override
-	public BitSet caseBlockStatement(BlockStatement object) {
+	public BitSet caseBlock(Block object) {//GAST2SEFFCHANGE
 		if (annotations.containsKey(object)) 
 			return annotations.get(object);
 
@@ -78,51 +97,164 @@ public class FunctionCallClassificationVisitor extends statementsSwitch<BitSet> 
 		return myType;
 	}
 
+	//use two overridden methods -> IfStatement, SwitchStatement
+//	@Override
+//	public BitSet caseBranchStatement(BranchStatement object) {
+//		if (annotations.containsKey(object)) 
+//			return annotations.get(object);
+//
+//		//If: ThenStatement, ElseStatement
+//		//Switch: hier mit HilfsKlasse ersetzen:
+//		//Neu: SwitchBranch: HelperMethode erstellen
+//		
+//		for (Branch branch : object.getBranches()) {
+//			doSwitch(branch.getStatement());
+//		}
+//		List<Statement> branchStatements = new ArrayList<Statement>();
+//		for (Branch branch : object.getBranches()) {
+//			branchStatements.add(branch.getStatement());
+//		}
+//		BitSet myType = computeChildAnnotations(new BitSet(), branchStatements);
+//		annotations.put(object, myType);
+//		
+//		return myType;
+//	}
+
+	//use three overridden methods: WhileStatement, ForStatement,EnhancedForStatement
+
 	@Override
-	public BitSet caseBranchStatement(BranchStatement object) {
+	public BitSet caseIfStatement(IfStatement object) {
 		if (annotations.containsKey(object)) 
 			return annotations.get(object);
 
-		for (Branch branch : object.getBranches()) {
-			doSwitch(branch.getStatement());
+		//If: ThenStatement, ElseStatement
+		//Switch: hier mit HilfsKlasse ersetzen:
+		//Neu: SwitchBranch: HelperMethode erstellen
+//		for (Branch branch : object.getBranches()) {
+//			doSwitch(branch.getStatement());
+//		}
+		//the following four lines replace the former 3 lines
+		doSwitch(object.getThenStatement());
+		if(object.getElseStatement() != null){
+			doSwitch(object.getElseStatement());
 		}
+		
+
+		
 		List<Statement> branchStatements = new ArrayList<Statement>();
-		for (Branch branch : object.getBranches()) {
-			branchStatements.add(branch.getStatement());
+//		for (Branch branch : object.getBranches()) {
+//			branchStatements.add(branch.getStatement());
+//		}
+		//the following four lines replace the former 3 lines
+		branchStatements.add(object.getThenStatement());
+		if(object.getElseStatement() != null){
+			branchStatements.add(object.getElseStatement());
 		}
+
+		
 		BitSet myType = computeChildAnnotations(new BitSet(), branchStatements);
 		annotations.put(object, myType);
 		
 		return myType;
 	}
 
+	//TODO implement caseSwitchStatement
 	@Override
-	public BitSet caseLoopStatement(LoopStatement object) {
+	public BitSet caseSwitchStatement(SwitchStatement object) {
 		if (annotations.containsKey(object)) 
 			return annotations.get(object);
+
+		//If: ThenStatement, ElseStatement
+		//Switch: hier mit HilfsKlasse ersetzen:
+		//Neu: SwitchBranch: HelperMethode erstellen
 		
-		doSwitch(object.getBody());
+//		for (Branch branch : object.getBranches()) {
+//			doSwitch(branch.getStatement());
+//		}
 		
-		BitSet myType = annotations.get(object.getBody());
+//		Block  block = (Block) JavaPackageImpl.eINSTANCE.getBlock();
+//		block.getStatements().add(arg0)
+		List<Statement> branchStatements = new ArrayList<Statement>();
+//		for (Branch branch : object.getBranches()) {
+//			branchStatements.add(branch.getStatement());
+//		}
+		BitSet myType = computeChildAnnotations(new BitSet(), branchStatements);
 		annotations.put(object, myType);
 		
 		return myType;
 	}
+
+//	@Override
+//	public BitSet caseLoopStatement(LoopStatement object) {
+//		if (annotations.containsKey(object)) 
+//			return annotations.get(object);
+//		
+//		doSwitch(object.getBody());
+//		
+//		BitSet myType = annotations.get(object.getBody());
+//		annotations.put(object, myType);
+//		
+//		return myType;
+//	}
 	
+
+	//TODO refactor the following three methods; extract method
 	@Override
-	public BitSet caseExceptionHandler(de.fzi.gast.statements.ExceptionHandler object) {
+	public BitSet caseEnhancedForStatement(EnhancedForStatement object) {
+		if (annotations.containsKey(object))
+			return annotations.get(object);
+
+		doSwitch(object.getBody());
+
+		BitSet myType = annotations.get(object.getBody());
+		annotations.put(object, myType);
+
+		return myType;
+	}
+
+
+	@Override
+	public BitSet caseForStatement(ForStatement object) {
+		if (annotations.containsKey(object))
+			return annotations.get(object);
+
+		doSwitch(object.getBody());
+
+		BitSet myType = annotations.get(object.getBody());
+		annotations.put(object, myType);
+
+		return myType;
+	}
+
+	@Override
+	public BitSet caseWhileStatement(WhileStatement object) {
+		if (annotations.containsKey(object))
+			return annotations.get(object);
+
+		doSwitch(object.getBody());
+
+		BitSet myType = annotations.get(object.getBody());
+		annotations.put(object, myType);
+
+		return myType;
+	}
+
+
+	//replace with TryStatement
+	@Override
+	public BitSet caseTryStatement(TryStatement object) {//GAST2SEFFCHANGE//GAST2SEFFCHANGE
 		if (annotations.containsKey(object)) 
 			return annotations.get(object);
 		List<Statement> allChildStatements = new ArrayList<Statement>();
 
 		// handle guarded block
-		doSwitch(object.getGuardedBlock());
-		allChildStatements.addAll(object.getGuardedBlock().getStatements());
+		doSwitch(object.getBody());//GAST2SEFFCHANGE
+		allChildStatements.addAll(object.getBody().getStatements());//GAST2SEFFCHANGE//GAST2SEFFCHANGE
 
 		// handle finally block
-		if(object.getFinallyBlock() != null) {
-			doSwitch(object.getFinallyBlock());
-			allChildStatements.addAll(object.getFinallyBlock().getStatements());
+		if(object.getFinally() != null) {//GAST2SEFFCHANGE
+			doSwitch(object.getFinally());//GAST2SEFFCHANGE
+			allChildStatements.addAll(object.getFinally().getStatements());//GAST2SEFFCHANGE//GAST2SEFFCHANGE
 		}
  		
 		BitSet myType = computeChildAnnotations(new BitSet(), allChildStatements);
@@ -130,10 +262,45 @@ public class FunctionCallClassificationVisitor extends statementsSwitch<BitSet> 
 		annotations.put(object, myType);
 		
 		return myType;
-	};
+	}
 
+	//replace with three:"ExpressionStatement, VariableDeclarationStatement, AssertStatement,	more..."
+//	@Override
+//	public BitSet caseSimpleStatement(SimpleStatement object) {
+//		if (annotations.containsKey(object)) 
+//			return annotations.get(object);
+//
+//		BitSet myType = this.myStrategy.classifySimpleStatement(object);
+//		annotations.put(object,myType);
+//		
+//		if (myType.get(getIndex(FunctionCallType.INTERNAL))) {
+//			// Also annotate the internal method
+//			AbstractMethodInvocation functionAccess = getFunctionAccess(object);//GAST2SEFFCHANGE
+//			Block targetFunctionBody = functionAccess.getMethod().getBody();//GAST2SEFFCHANGE//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+//			if (targetFunctionBody != null) {
+//				logger.trace("visiting internal call. accessed class: " + GetAccessedType.getAccessedType(functionAccess));//GAST2SEFFCHANGE
+//				doSwitch(targetFunctionBody);
+//			} else {
+//				logger.warn("Behaviour not set in GAST for "+functionAccess.getMethod().getName());//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+//			}
+//		}
+//		
+//		return myType;
+//	}
+	
+	//was former SimpleStatement
 	@Override
-	public BitSet caseSimpleStatement(SimpleStatement object) {
+	public BitSet caseAssertStatement(AssertStatement object) {
+		return handleFormerSimpleStatement(object);
+	}
+
+	/**
+	 * Helper Method to handle former SimpleStatement
+	 * Used in AssertStatement, ExpressionStatement, VariableDeclarationStatement
+	 * @param object
+	 * @return
+	 */
+	private BitSet handleFormerSimpleStatement(Statement object) {
 		if (annotations.containsKey(object)) 
 			return annotations.get(object);
 
@@ -142,23 +309,35 @@ public class FunctionCallClassificationVisitor extends statementsSwitch<BitSet> 
 		
 		if (myType.get(getIndex(FunctionCallType.INTERNAL))) {
 			// Also annotate the internal method
-			FunctionAccess functionAccess = getFunctionAccess(object);
-			BlockStatement targetFunctionBody = functionAccess.getTargetFunction().getBody();
+			AbstractMethodInvocation functionAccess = getFunctionAccess(object);//GAST2SEFFCHANGE
+			Block targetFunctionBody = functionAccess.getMethod().getBody();//GAST2SEFFCHANGE//GAST2SEFFCHANGE//GAST2SEFFCHANGE
 			if (targetFunctionBody != null) {
-				logger.trace("visiting internal call. accessed class: " + functionAccess.getAccessedClass());
+				logger.trace("visiting internal call. accessed class: " + GetAccessedType.getAccessedType(functionAccess));//GAST2SEFFCHANGE
 				doSwitch(targetFunctionBody);
 			} else {
-				logger.warn("Behaviour not set in GAST for "+functionAccess.getTargetFunction().getSimpleName());
+				logger.warn("Behaviour not set in GAST for "+functionAccess.getMethod().getName());//GAST2SEFFCHANGE//GAST2SEFFCHANGE
 			}
 		}
 		
 		return myType;
 	}
-	
-	private FunctionAccess getFunctionAccess(SimpleStatement object) {
-		for (BaseAccess a : object.getAccesses()) {
-			if (a instanceof FunctionAccess) {
-				return (FunctionAccess) a;
+
+	//was former SimpleStatement
+	@Override
+	public BitSet caseExpressionStatement(ExpressionStatement object) {
+		return handleFormerSimpleStatement(object);	}
+
+	//was former SimpleStatement
+	@Override
+	public BitSet caseVariableDeclarationStatement(
+			VariableDeclarationStatement object) {
+		return handleFormerSimpleStatement(object);	}
+
+
+	private AbstractMethodInvocation getFunctionAccess(Statement object) {//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+		for (ASTNode a : KDMHelper.getAllAccesses(object)) {//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+			if (a instanceof AbstractMethodInvocation) {//GAST2SEFFCHANGE
+				return (AbstractMethodInvocation) a;//GAST2SEFFCHANGE
 			}
 		}
 		return null;

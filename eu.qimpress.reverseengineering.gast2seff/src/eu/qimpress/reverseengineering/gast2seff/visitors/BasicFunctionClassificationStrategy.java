@@ -4,11 +4,14 @@
 package eu.qimpress.reverseengineering.gast2seff.visitors;
 
 import org.apache.log4j.Logger;
+import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
+import org.eclipse.gmt.modisco.java.Type;
 
-import de.fzi.gast.accesses.FunctionAccess;
-import de.fzi.gast.types.GASTClass;
+//import de.fzi.gast.accesses.FunctionAccess;//GAST2SEFFCHANGE
+//import de.fzi.gast.types.GASTClass;//GAST2SEFFCHANGE
 import eu.qimpress.samm.staticstructure.PrimitiveComponent;
 
+import org.somox.kdmhelper.GetAccessedType;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
@@ -42,18 +45,18 @@ implements
 	}
 	
 	@Override
-	protected boolean isExternalCall(FunctionAccess functionAccess) {
+	protected boolean isExternalCall(AbstractMethodInvocation functionAccess) {//GAST2SEFFCHANGE
 				
 		ComponentImplementingClassesLink compLink = queryComponentLink(this.primitiveComponent);
 		for(InterfaceSourceCodeLink ifLink : compLink.getRequiredInterfaces()) {
-			if(KDMHelper.getMethods(ifLink.getGastClass()).contains(functionAccess.getTargetFunction())) {
-				logger.debug("Classified call as external call: "+functionAccess.getTargetFunction().getSimpleName() + 
+			if(KDMHelper.getMethods(ifLink.getGastClass()).contains(functionAccess.getMethod())) {//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+				logger.debug("Classified call as external call: "+functionAccess.getMethod().getName() +//GAST2SEFFCHANGE//GAST2SEFFCHANGE 
 						" for component " + primitiveComponent.getName());				
 				return true;
 			}
 		}	
 		
-		logger.trace("no external call: " + functionAccess.getTargetFunction().getSimpleName());
+		logger.trace("no external call: " + functionAccess.getMethod().getName());//GAST2SEFFCHANGE//GAST2SEFFCHANGE
 		return false;
 	}
 
@@ -70,15 +73,15 @@ implements
 	}
 	
 	@Override
-	protected boolean isLibraryCall(FunctionAccess functionAccess) {
-		GASTClass targetClass = functionAccess.getAccessedClass();
+	protected boolean isLibraryCall(AbstractMethodInvocation functionAccess) {//GAST2SEFFCHANGE
+		Type targetClass = GetAccessedType.getAccessedType(functionAccess);//GAST2SEFFCHANGE//GAST2SEFFCHANGE
 		if (targetClass == null) {
 			logger.warn("Failed to classifiy library call because called GASTClass was unavailable.");
 			return true;
 		}
-		logger.debug("Classified call as library call: "+functionAccess.getTargetFunction().getSimpleName() + 
+		logger.debug("Classified call as library call: "+functionAccess.getMethod().getName() +//GAST2SEFFCHANGE//GAST2SEFFCHANGE 
 				" for component " + primitiveComponent.getName());	
-		return (targetClass.getPosition() == null || targetClass.getPosition().getSourceFile() == null);
+		return (KDMHelper.getJavaNodeSourceRegion(targetClass) == null || KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(targetClass)) == null);//GAST2SEFFCHANGE//GAST2SEFFCHANGE
 	}
 
 }

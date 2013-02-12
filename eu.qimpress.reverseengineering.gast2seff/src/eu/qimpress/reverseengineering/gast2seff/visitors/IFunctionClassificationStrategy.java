@@ -2,7 +2,9 @@ package eu.qimpress.reverseengineering.gast2seff.visitors;
 
 import java.util.BitSet;
 
-import de.fzi.gast.statements.SimpleStatement;
+import org.eclipse.gmt.modisco.java.Statement;//GAST2SEFFCHANGE
+
+//import de.fzi.gast.statements.SimpleStatement;
 
 /**
  * Interface for the function call classification strategy. Implementing classes are used by the {@link FunctionCallClassificationVisitor}
@@ -32,5 +34,5 @@ public interface IFunctionClassificationStrategy {
 	 * @return A BitSet where the flags indicate the type of the statement. See {@link FunctionCallClassificationVisitor}
 	 * for details on this.
 	 */
-	BitSet classifySimpleStatement(SimpleStatement object);
+	BitSet classifySimpleStatement(Statement object);//GAST2SEFFCHANGE
 }
