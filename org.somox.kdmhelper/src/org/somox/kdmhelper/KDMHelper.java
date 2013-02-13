@@ -10,6 +10,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.infra.query.core.exception.ModelQueryExecutionException;
 import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.ArrayAccess;
@@ -78,17 +79,27 @@ public class KDMHelper {
 		String result = "";
 
 		if (pack instanceof NamedElement) {
-			result = ((NamedElement) pack).getName();
+			result = getNameOfNamedElement((NamedElement) pack);
 		}
 
 		while (pack != null) {
 			if (pack.eContainer() != null
 					&& pack.eContainer() instanceof NamedElement) {
 				pack = pack.eContainer();
-				result = ((NamedElement) pack).getName() + "." + result;
+				result = getNameOfNamedElement((NamedElement) pack) + "." + result;
 			} else {
 				pack = pack.eContainer();
 			}
+		}
+		return result;
+	}
+	
+	private static String getNameOfNamedElement(NamedElement input){
+		String result ="";
+		if(input instanceof AbstractMethodDeclaration){
+			result = input.getName() + "()";
+		}else{
+			result = input.getName();
 		}
 		return result;
 	}
