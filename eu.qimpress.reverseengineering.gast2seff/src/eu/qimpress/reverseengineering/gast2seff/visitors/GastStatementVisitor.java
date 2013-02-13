@@ -1,6 +1,9 @@
 package eu.qimpress.reverseengineering.gast2seff.visitors;
 
- import java.util.BitSet;
+ import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -8,15 +11,18 @@ import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
 import org.eclipse.gmt.modisco.java.AssertStatement;
 import org.eclipse.gmt.modisco.java.Block;
+import org.eclipse.gmt.modisco.java.BreakStatement;
 import org.eclipse.gmt.modisco.java.EnhancedForStatement;
 import org.eclipse.gmt.modisco.java.ExpressionStatement;
 import org.eclipse.gmt.modisco.java.ForStatement;
 import org.eclipse.gmt.modisco.java.IfStatement;
 import org.eclipse.gmt.modisco.java.Statement;
+import org.eclipse.gmt.modisco.java.SwitchCase;
 import org.eclipse.gmt.modisco.java.SwitchStatement;
 import org.eclipse.gmt.modisco.java.TryStatement;
 import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
 import org.eclipse.gmt.modisco.java.WhileStatement;
+import org.eclipse.gmt.modisco.java.emf.JavaFactory;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.eclipse.gmt.modisco.omg.kdm.source.SourceRegion;
 import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
@@ -207,32 +213,54 @@ extends JavaSwitch<Object> {//GAST2SEFFCHANGE
 	}
 
 	//TODO replace this
-//	@Override
-//	public Object caseSwitchStatement(SwitchStatement object) {
-//		if (containsExternalCall(object)) {
-//			BranchAction branch = seffFactory.eINSTANCE.createBranchAction();
-//			seff.getSteps().add(branch);
+	@Override
+	public Object caseSwitchStatement(SwitchStatement switchStatement) {
+		if (containsExternalCall(switchStatement)) {
+			BranchAction branch = seffFactory.eINSTANCE.createBranchAction();
+			seff.getSteps().add(branch);
 //			branch.setName(positionToString(object.getPosition()));
 //			branch.setDocumentation(blockToString(object.getBlockstatement()));			
-//			
-//			for (Branch b : object.getBranches()) {
-//				AbstractBranchTransition bt = seffFactory.eINSTANCE.createProbabilisticBranchTransition();
-//				bt.setResourceDemandingBehaviour(seffFactory.eINSTANCE.createResourceDemandingBehaviour());
-//				bt.getResourceDemandingBehaviour().getSteps().add(seffFactory.eINSTANCE.createStartAction());				
-//				bt.setName("parent " + positionToString(object.getPosition()) + "/" + positionToString(b.getPosition())); //use parent position since branch position is empty
-//				branch.getAbstractBranchTransition().add(bt);
-//				GastStatementVisitor visitor = new GastStatementVisitor(this.functionClassificationAnnotation,
-//						bt.getResourceDemandingBehaviour(), this.sourceCodeDecoratorRepository, this.primitiveComponent);
+			
+			List<Block> blockList = new ArrayList<Block>();
+			
+			Iterator<Statement> iterator = switchStatement.getStatements().iterator();
+			
+			while(iterator.hasNext()){
+				Statement statement = iterator.next();
+				if(statement instanceof SwitchCase){
+					Block block;
+					block = JavaFactory.eINSTANCE.createBlock();
+					while(true){
+						Statement innerStatement = iterator.next();
+						if(!(innerStatement instanceof BreakStatement)){
+							block.getStatements().add(innerStatement);
+						}
+						else{
+							break;
+						}
+					}
+					blockList.add(block);
+				}
+			}
+			
+			for (Block b : blockList) {
+				AbstractBranchTransition bt = seffFactory.eINSTANCE.createProbabilisticBranchTransition();
+				bt.setResourceDemandingBehaviour(seffFactory.eINSTANCE.createResourceDemandingBehaviour());
+				bt.getResourceDemandingBehaviour().getSteps().add(seffFactory.eINSTANCE.createStartAction());				
+//TODO				bt.setName("parent " + positionToString(switchStatement.getPosition()) + "/" + positionToString(b.getPosition())); //use parent position since branch position is empty
+				branch.getAbstractBranchTransition().add(bt);
+				GastStatementVisitor visitor = new GastStatementVisitor(this.functionClassificationAnnotation,
+						bt.getResourceDemandingBehaviour(), this.sourceCodeDecoratorRepository, this.primitiveComponent);
 //				Statement s = b.getStatement();
-//				visitor.doSwitch(s);				
-//				bt.getResourceDemandingBehaviour().getSteps().add(seffFactory.eINSTANCE.createStopAction());
-//				GAST2SEFFJob.connectActions(bt.getResourceDemandingBehaviour());
-//			}
-//		} else {
-//			createInternalAction(object);
-//		}
-//		return null;
-//	}
+				visitor.doSwitch(b);				
+				bt.getResourceDemandingBehaviour().getSteps().add(seffFactory.eINSTANCE.createStopAction());
+				GAST2SEFFJob.connectActions(bt.getResourceDemandingBehaviour());
+			}
+		} else {
+			createInternalAction(switchStatement);
+		}
+		return null;
+	}
 
 //	@Override
 //	public Object caseLoopStatement(LoopStatement object) {
