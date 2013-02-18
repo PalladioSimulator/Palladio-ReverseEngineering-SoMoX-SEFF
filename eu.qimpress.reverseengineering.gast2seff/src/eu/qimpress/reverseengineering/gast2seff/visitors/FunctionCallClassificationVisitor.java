@@ -4,24 +4,29 @@ package eu.qimpress.reverseengineering.gast2seff.visitors;
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
 import org.eclipse.gmt.modisco.java.AssertStatement;
 import org.eclipse.gmt.modisco.java.Block;
+import org.eclipse.gmt.modisco.java.BreakStatement;
 import org.eclipse.gmt.modisco.java.EnhancedForStatement;
 import org.eclipse.gmt.modisco.java.ExpressionStatement;
 import org.eclipse.gmt.modisco.java.ForStatement;
 import org.eclipse.gmt.modisco.java.IfStatement;
 import org.eclipse.gmt.modisco.java.Statement;
+import org.eclipse.gmt.modisco.java.SwitchCase;
 import org.eclipse.gmt.modisco.java.SwitchStatement;
 import org.eclipse.gmt.modisco.java.TryStatement;
 import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
 import org.eclipse.gmt.modisco.java.WhileStatement;
+import org.eclipse.gmt.modisco.java.emf.JavaFactory;
 import org.eclipse.gmt.modisco.java.emf.impl.BlockImpl;
 import org.eclipse.gmt.modisco.java.emf.impl.JavaPackageImpl;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
@@ -171,13 +176,42 @@ public class FunctionCallClassificationVisitor extends JavaSwitch<BitSet> {//GAS
 //		for (Branch branch : object.getBranches()) {
 //			doSwitch(branch.getStatement());
 //		}
+		List<Block> blockList = new ArrayList<Block>();
 		
-//		Block  block = (Block) JavaPackageImpl.eINSTANCE.getBlock();
-//		block.getStatements().add(arg0)
+//		Iterator<Statement> iterator = object.getStatements().iterator();
+		//TODO change this algorithm for case without break
+		//TODO extract method
+		for(int i=0 ; i<blockList.size() ; i++){
+			
+			Statement statement = blockList.get(i);
+			if(statement instanceof SwitchCase){
+				Block block;
+				block = JavaFactory.eINSTANCE.createBlock();
+				while(true){
+					Statement innerStatement = blockList.get(++i);
+					if(!(innerStatement instanceof BreakStatement)){
+						block.getStatements().add(innerStatement);
+					}
+					else{
+						break;
+					}
+				}
+				blockList.add(block);
+			}
+		}
+		
+		for (Block block : blockList) {
+			doSwitch(block);
+		}
+		
 		List<Statement> branchStatements = new ArrayList<Statement>();
 //		for (Branch branch : object.getBranches()) {
 //			branchStatements.add(branch.getStatement());
 //		}
+		for (Block block : blockList) {
+			branchStatements.add(block);
+		}
+		
 		BitSet myType = computeChildAnnotations(new BitSet(), branchStatements);
 		annotations.put(object, myType);
 		
@@ -375,5 +409,13 @@ public class FunctionCallClassificationVisitor extends JavaSwitch<BitSet> {//GAS
 
 	public Map<Statement, BitSet> getAnnotations() {
 		return Collections.unmodifiableMap(this.annotations);
+	}
+	
+	@Override
+	public BitSet defaultCase(EObject object) {
+		System.out.println("------------------Not handled object by function call visitor:\n  " + object);
+
+		// TODO Auto-generated method stub
+		return super.defaultCase(object);
 	}
 }

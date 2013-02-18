@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
 import org.eclipse.gmt.modisco.java.AssertStatement;
@@ -218,20 +219,22 @@ extends JavaSwitch<Object> {//GAST2SEFFCHANGE
 		if (containsExternalCall(switchStatement)) {
 			BranchAction branch = seffFactory.eINSTANCE.createBranchAction();
 			seff.getSteps().add(branch);
+			//TODO
 //			branch.setName(positionToString(object.getPosition()));
 //			branch.setDocumentation(blockToString(object.getBlockstatement()));			
 			
 			List<Block> blockList = new ArrayList<Block>();
 			
-			Iterator<Statement> iterator = switchStatement.getStatements().iterator();
-			
-			while(iterator.hasNext()){
-				Statement statement = iterator.next();
+			//TODO change this algorithm for case without break
+			//TODO extract method
+			for(int i=0 ; i<=blockList.size() ; i++){
+				
+				Statement statement = blockList.get(i);
 				if(statement instanceof SwitchCase){
 					Block block;
 					block = JavaFactory.eINSTANCE.createBlock();
 					while(true){
-						Statement innerStatement = iterator.next();
+						Statement innerStatement = blockList.get(++i);
 						if(!(innerStatement instanceof BreakStatement)){
 							block.getStatements().add(innerStatement);
 						}
@@ -596,7 +599,7 @@ extends JavaSwitch<Object> {//GAST2SEFFCHANGE
 		StringBuilder positionString = new StringBuilder("position: ");
 		if(position != null) {
 			if(KDMHelper.getSourceFile(position) != null && KDMHelper.getSourceFile(position).getClass() != null) {//GAST2SEFFCHANGE//GAST2SEFFCHANGE
-				//TODO change name of class
+				//TODO change name of class; question: is fqnName of Class better than path?
 //				positionString.append(KDMHelper.getSourceFile(position).getPath() + KDMHelper.getSourceFile(position).getName());//GAST2SEFFCHANGE
 				positionString.append(KDMHelper.computeFullQualifiedName(position.getJavaNode()) );//GAST2SEFFCHANGE
 			}			
@@ -622,6 +625,13 @@ extends JavaSwitch<Object> {//GAST2SEFFCHANGE
 		public Operation operation;
 	}
 
+	//TODO
+	@Override
+		public Object defaultCase(EObject object) {
+			// TODO Auto-generated method stub
+			System.out.println("------------------Not handled object by statement visitor:\n  " + object);
+			return super.defaultCase(object);
+		}
 }
 
 
