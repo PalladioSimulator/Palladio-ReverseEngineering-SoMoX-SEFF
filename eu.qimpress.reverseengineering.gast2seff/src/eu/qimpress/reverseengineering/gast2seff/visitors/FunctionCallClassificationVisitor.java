@@ -164,59 +164,64 @@ public class FunctionCallClassificationVisitor extends JavaSwitch<BitSet> {//GAS
 	}
 
 	//TODO implement caseSwitchStatement
-	@Override
-	public BitSet caseSwitchStatement(SwitchStatement object) {
-		if (annotations.containsKey(object)) 
-			return annotations.get(object);
-
-		//If: ThenStatement, ElseStatement
-		//Switch: hier mit HilfsKlasse ersetzen:
-		//Neu: SwitchBranch: HelperMethode erstellen
-		
-//		for (Branch branch : object.getBranches()) {
-//			doSwitch(branch.getStatement());
+//	@Override
+//	public BitSet caseSwitchStatement(SwitchStatement switchStatement) {
+//		if (annotations.containsKey(switchStatement)) 
+//			return annotations.get(switchStatement);
+//
+//		//If: ThenStatement, ElseStatement
+//		//Switch: hier mit HilfsKlasse ersetzen:
+//		//Neu: SwitchBranch: HelperMethode erstellen
+//		
+////		for (Branch branch : object.getBranches()) {
+////			doSwitch(branch.getStatement());
+////		}
+//		ArrayList<ArrayList<Statement>> blockList = new ArrayList<ArrayList<Statement>>();
+//		
+////		Iterator<Statement> iterator = object.getStatements().iterator();
+//		//TODO change this algorithm for case without break
+//		//TODO extract method
+//		for(int i=0 ; i < switchStatement.getStatements().size() ; i++){
+//			
+//			Statement statement = switchStatement.getStatements().get(i);
+//			if(statement instanceof SwitchCase){
+//				ArrayList<Statement> block = new ArrayList<Statement>();
+//				
+//				while(true){
+//					//if is last statement cancel
+//					if (i == switchStatement.getStatements().size() - 1) {
+//						block.add(statement);
+//						break;
+//					}
+//					Statement nextStatement = switchStatement.getStatements().get(++i);
+//					if(!(nextStatement instanceof BreakStatement)){
+//						block.add(nextStatement);
+//					}
+//					else{
+//						break;
+//					}
+//				}
+//				blockList.add(block);
+//			}
 //		}
-		List<Block> blockList = new ArrayList<Block>();
-		
-//		Iterator<Statement> iterator = object.getStatements().iterator();
-		//TODO change this algorithm for case without break
-		//TODO extract method
-		for(int i=0 ; i<blockList.size() ; i++){
-			
-			Statement statement = blockList.get(i);
-			if(statement instanceof SwitchCase){
-				Block block;
-				block = JavaFactory.eINSTANCE.createBlock();
-				while(true){
-					Statement innerStatement = blockList.get(++i);
-					if(!(innerStatement instanceof BreakStatement)){
-						block.getStatements().add(innerStatement);
-					}
-					else{
-						break;
-					}
-				}
-				blockList.add(block);
-			}
-		}
-		
-		for (Block block : blockList) {
-			doSwitch(block);
-		}
-		
-		List<Statement> branchStatements = new ArrayList<Statement>();
-//		for (Branch branch : object.getBranches()) {
-//			branchStatements.add(branch.getStatement());
+//		
+//		for (ArrayList<Statement> block : blockList) {
+//			doSwitch(block);
 //		}
-		for (Block block : blockList) {
-			branchStatements.add(block);
-		}
-		
-		BitSet myType = computeChildAnnotations(new BitSet(), branchStatements);
-		annotations.put(object, myType);
-		
-		return myType;
-	}
+//		
+//		List<Statement> branchStatements = new ArrayList<Statement>();
+////		for (Branch branch : object.getBranches()) {
+////			branchStatements.add(branch.getStatement());
+////		}
+//		for (ArrayList<Statement> block : blockList) {
+//			branchStatements.add(block);
+//		}
+//		
+//		BitSet myType = computeChildAnnotations(new BitSet(), branchStatements);
+//		annotations.put(switchStatement, myType);
+//		
+//		return myType;
+//	}
 
 //	@Override
 //	public BitSet caseLoopStatement(LoopStatement object) {

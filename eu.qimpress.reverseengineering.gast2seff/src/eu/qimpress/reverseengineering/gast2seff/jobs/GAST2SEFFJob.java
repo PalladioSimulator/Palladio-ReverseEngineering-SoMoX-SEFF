@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
+import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.eclipse.gmt.modisco.java.Block;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
@@ -314,7 +315,14 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 		
 		Block body = findBody(gastBehaviourStub);//GAST2SEFFCHANGE
 		logger.trace("visiting (seff entry): " + gastBehaviourStub.getName());
-		if (body != null) {			
+		if (body != null) {	
+			
+			//removelater
+			AbstractMethodDeclaration method = (AbstractMethodDeclaration) body.eContainer();
+			if (method.getName().equals("orderProducts")) {
+				int a=0; a=a+1;
+			};
+			//removelater
 			typeVisitor.doSwitch(body); 
 		
 			GastStatementVisitor visitor = new GastStatementVisitor(typeVisitor.getAnnotations(), 

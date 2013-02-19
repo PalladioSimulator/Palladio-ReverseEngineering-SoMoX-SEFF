@@ -227,16 +227,21 @@ extends JavaSwitch<Object> {//GAST2SEFFCHANGE
 			
 			//TODO change this algorithm for case without break
 			//TODO extract method
-			for(int i=0 ; i<=blockList.size() ; i++){
+			for(int i=0 ; i < switchStatement.getStatements().size() ; i++){
 				
-				Statement statement = blockList.get(i);
+				Statement statement = switchStatement.getStatements().get(i);
 				if(statement instanceof SwitchCase){
 					Block block;
 					block = JavaFactory.eINSTANCE.createBlock();
 					while(true){
-						Statement innerStatement = blockList.get(++i);
-						if(!(innerStatement instanceof BreakStatement)){
-							block.getStatements().add(innerStatement);
+						//if is last statement cancel
+						if (i == switchStatement.getStatements().size() - 1) {
+							block.getStatements().add(statement);
+							break;
+						}
+						Statement nextStatement = switchStatement.getStatements().get(++i);
+						if(!(nextStatement instanceof BreakStatement)){
+							block.getStatements().add(nextStatement);
 						}
 						else{
 							break;
