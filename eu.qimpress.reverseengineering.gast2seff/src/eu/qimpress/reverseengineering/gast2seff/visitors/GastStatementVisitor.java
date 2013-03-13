@@ -154,7 +154,9 @@ extends JavaSwitch<Object> {//GAST2SEFFCHANGE
 				AbstractBranchTransition bt = seffFactory.eINSTANCE.createProbabilisticBranchTransition();
 				bt.setResourceDemandingBehaviour(seffFactory.eINSTANCE.createResourceDemandingBehaviour());
 				bt.getResourceDemandingBehaviour().getSteps().add(seffFactory.eINSTANCE.createStartAction());				
-				bt.setName("parent " + positionToString(KDMHelper.getJavaNodeSourceRegion(switchStatement)) + "/" /*+ positionToString(b.getPosition())*/); //use parent position since branch position is empty
+				bt.setName("parent " + positionToString(KDMHelper.getJavaNodeSourceRegion(switchStatement)) + 
+						"/" + (branch.size() > 0 ? positionToLineNumber(KDMHelper.getJavaNodeSourceRegion(branch.get(0))) + " to " + 
+								positionToLineNumber(KDMHelper.getJavaNodeSourceRegion(branch.get(branch.size() - 1))): "")); //use parent position since branch position is empty
 				branchAction.getAbstractBranchTransition().add(bt);
 				GastStatementVisitor visitor = new GastStatementVisitor(this.functionClassificationAnnotation,
 						bt.getResourceDemandingBehaviour(), this.sourceCodeDecoratorRepository, this.primitiveComponent);
@@ -166,10 +168,12 @@ extends JavaSwitch<Object> {//GAST2SEFFCHANGE
 					BitSet thisType = this.functionClassificationAnnotation.get(statement);
 					if (!shouldSkip(lastType,thisType)) { // Only generate elements for statements which should not be abstracted away
 						// avoid infinite recursion
-						if(!isVisitedStatement(thisType)) {
-							setVisited(thisType);
-							visitor.doSwitch(statement);//here visitor. was added in contrast to caseBlock
-						}
+//						if(!isVisitedStatement(thisType)) {
+//							setVisited(thisType);
+//							visitor.doSwitch(statement);//here visitor. was added in contrast to caseBlock
+//						}
+						//TODO the four lines above were temporarily removed
+						visitor.doSwitch(statement);//here visitor. was added in contrast to caseBlock
 					}
 					lastType = thisType;
 					//end of copy
@@ -630,6 +634,16 @@ extends JavaSwitch<Object> {//GAST2SEFFCHANGE
 			}			
 			positionString.append(" from " + position.getStartLine());
 			positionString.append(" to " + position.getEndLine());
+		} else {			
+			positionString.append("no position information available");
+		}
+		return positionString.toString();
+	}
+
+	private String positionToLineNumber(JavaNodeSourceRegion position) {//GAST2SEFFCHANGE
+		StringBuilder positionString = new StringBuilder("line ");
+		if(position != null) {
+			positionString.append(position.getStartLine());
 		} else {			
 			positionString.append("no position information available");
 		}

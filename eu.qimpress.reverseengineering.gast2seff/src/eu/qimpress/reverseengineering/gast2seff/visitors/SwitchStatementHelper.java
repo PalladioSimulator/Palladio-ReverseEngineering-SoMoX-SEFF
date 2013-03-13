@@ -2,46 +2,65 @@ package eu.qimpress.reverseengineering.gast2seff.visitors;
 
 import java.util.ArrayList;
 
+import org.eclipse.emf.ecore.util.Switch;
 import org.eclipse.gmt.modisco.java.BreakStatement;
 import org.eclipse.gmt.modisco.java.Statement;
 import org.eclipse.gmt.modisco.java.SwitchCase;
 import org.eclipse.gmt.modisco.java.SwitchStatement;
 
+/**
+ * Computes for a {@link SwitchStatement} the case branches in a way that to the
+ * case branches, that do not end with break, the following case branch is
+ * added.
+ * 
+ * @author Oliver
+ * 
+ */
 public class SwitchStatementHelper {
 
+	public static ArrayList<ArrayList<Statement>> createBlockListFromSwitchStatement(
+			SwitchStatement switchStatement) {
+		ArrayList<ArrayList<Statement>> blockList = new ArrayList<ArrayList<Statement>>();
 
-	
-		public static ArrayList<ArrayList<Statement>> createBlockListFromSwitchStatement(
-				SwitchStatement switchStatement) {
-			ArrayList<ArrayList<Statement>> blockList = new ArrayList<ArrayList<Statement>>();
-			
-	//		Iterator<Statement> iterator = object.getStatements().iterator();
-			//TODO change this algorithm for case without break
-			//TODO extract method
-			for(int i=0 ; i < switchStatement.getStatements().size() ; i++){
-				
-				Statement statement = switchStatement.getStatements().get(i);
-				if(statement instanceof SwitchCase){
-					ArrayList<Statement> block = new ArrayList<Statement>();
-					
-					while(true){
-						//if is last statement cancel
-						if (i == switchStatement.getStatements().size() - 1) {
-							block.add(statement);
+		// TODO change this algorithm for case without break
+		for (int actStatementNo = 0; actStatementNo < switchStatement.getStatements().size(); actStatementNo++) {
+
+			Statement statement = switchStatement.getStatements().get(actStatementNo);
+			if (statement instanceof SwitchCase) {
+				int currentPointer = actStatementNo;
+				ArrayList<Statement> block = new ArrayList<Statement>();
+
+				while (true) {
+					// if last statement
+					if (actStatementNo == switchStatement.getStatements().size() - 1) {
+						Statement lastStatement = switchStatement.getStatements().get(actStatementNo); 
+						if (lastStatement instanceof BreakStatement | lastStatement instanceof SwitchCase) {
 							break;
+						} else{
+							block.add(lastStatement);
 						}
-						Statement nextStatement = switchStatement.getStatements().get(++i);
-						if(!(nextStatement instanceof BreakStatement)){
-							block.add(nextStatement);
-						}
-						else{
-							break;
-						}
+						
 					}
-					blockList.add(block);
+					//goto next statement
+					actStatementNo++;
+					Statement nextStatement = switchStatement.getStatements()
+							.get(actStatementNo);
+					if (nextStatement instanceof SwitchCase) {
+						continue;
+					}
+					//if the next Statement is not break, then add it
+					if (!(nextStatement instanceof BreakStatement )) {
+						block.add(nextStatement);
+					} else {
+						break;
+					}
 				}
+				
+				blockList.add(block);
+				actStatementNo = currentPointer;
 			}
-			return blockList;
 		}
+		return blockList;
+	}
 
 }
