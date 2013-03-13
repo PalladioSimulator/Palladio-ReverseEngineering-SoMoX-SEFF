@@ -147,44 +147,21 @@ public class FunctionCallClassificationVisitor extends JavaSwitch<BitSet> {//GAS
 		if (annotations.containsKey(switchStatement)) 
 			return annotations.get(switchStatement);
 
-		ArrayList<ArrayList<Statement>> blockList = new ArrayList<ArrayList<Statement>>();
+		ArrayList<ArrayList<Statement>> branches = SwitchStatementHelper.createBlockListFromSwitchStatement(switchStatement);
 		
 //		Iterator<Statement> iterator = object.getStatements().iterator();
 		//TODO change this algorithm for case without break
 		//TODO extract method
-		for(int i=0 ; i < switchStatement.getStatements().size() ; i++){
-			
-			Statement statement = switchStatement.getStatements().get(i);
-			if(statement instanceof SwitchCase){
-				ArrayList<Statement> block = new ArrayList<Statement>();
-				
-				while(true){
-					//if is last statement cancel
-					if (i == switchStatement.getStatements().size() - 1) {
-						block.add(statement);
-						break;
-					}
-					Statement nextStatement = switchStatement.getStatements().get(++i);
-					if(!(nextStatement instanceof BreakStatement)){
-						block.add(nextStatement);
-					}
-					else{
-						break;
-					}
-				}
-				blockList.add(block);
-			}
-		}
 		
 //		for (Branch branch : switchStatement.getBranches()) {
 //			doSwitch(branch.getStatement());
 //		}
-		for (ArrayList<Statement> block : blockList) {
-			computeChildAnnotations(new BitSet(), block);//copied from the BlockCase
+		for (ArrayList<Statement> branch : branches) {
+			computeChildAnnotations(new BitSet(), branch);//copied from the BlockCase
 		}
 		
 		List<Statement> branchStatements = new ArrayList<Statement>();
-		for (ArrayList<Statement> branch : blockList) {
+		for (ArrayList<Statement> branch : branches) {
 			branchStatements.addAll(branch);
 		}
 		BitSet myType = computeChildAnnotations(new BitSet(), branchStatements);

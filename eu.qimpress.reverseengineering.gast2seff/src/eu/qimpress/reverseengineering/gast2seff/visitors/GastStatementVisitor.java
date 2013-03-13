@@ -141,61 +141,38 @@ extends JavaSwitch<Object> {//GAST2SEFFCHANGE
 	@Override
 	public Object caseSwitchStatement(SwitchStatement switchStatement) {
 		if (containsExternalCall(switchStatement)) {
-			BranchAction branch = seffFactory.eINSTANCE.createBranchAction();
-			seff.getSteps().add(branch);
+			BranchAction branchAction = seffFactory.eINSTANCE.createBranchAction();
+			seff.getSteps().add(branchAction);
 			//TODO
 //			branch.setName(positionToString(switchStatement.getPosition()));
 //			branch.setDocumentation(blockToString(switchStatement.getBlockstatement()));			
 			
-			ArrayList<ArrayList<Statement>> blockList = new ArrayList<ArrayList<Statement>>();
-			
-			for(int i=0 ; i < switchStatement.getStatements().size() ; i++){
-				
-				Statement statement = switchStatement.getStatements().get(i);
-				if(statement instanceof SwitchCase){
-					ArrayList<Statement> block = new ArrayList<Statement>();
-					
-					while(true){
-						//if is last statement cancel
-						if (i == switchStatement.getStatements().size() - 1) {
-							block.add(statement);
-							break;
-						}
-						Statement nextStatement = switchStatement.getStatements().get(++i);
-						if(!(nextStatement instanceof BreakStatement)){
-							block.add(nextStatement);
-						}
-						else{
-							break;
-						}
-					}
-					blockList.add(block);
-				}
-			}
+			ArrayList<ArrayList<Statement>> branches = SwitchStatementHelper.createBlockListFromSwitchStatement(switchStatement);
 
 			
-			for (ArrayList<Statement> b : blockList) {
+			for (ArrayList<Statement> branch : branches) {
 				AbstractBranchTransition bt = seffFactory.eINSTANCE.createProbabilisticBranchTransition();
 				bt.setResourceDemandingBehaviour(seffFactory.eINSTANCE.createResourceDemandingBehaviour());
 				bt.getResourceDemandingBehaviour().getSteps().add(seffFactory.eINSTANCE.createStartAction());				
 				bt.setName("parent " + positionToString(KDMHelper.getJavaNodeSourceRegion(switchStatement)) + "/" /*+ positionToString(b.getPosition())*/); //use parent position since branch position is empty
-				branch.getAbstractBranchTransition().add(bt);
+				branchAction.getAbstractBranchTransition().add(bt);
 				GastStatementVisitor visitor = new GastStatementVisitor(this.functionClassificationAnnotation,
 						bt.getResourceDemandingBehaviour(), this.sourceCodeDecoratorRepository, this.primitiveComponent);
 //				Statement s = b.getStatement();
 //				visitor.doSwitch(s);
 				
-				for (Statement s : b) {
+				for (Statement statement : branch) {
 					//copied from caseBlock
-					BitSet thisType = this.functionClassificationAnnotation.get(s);
+					BitSet thisType = this.functionClassificationAnnotation.get(statement);
 					if (!shouldSkip(lastType,thisType)) { // Only generate elements for statements which should not be abstracted away
 						// avoid infinite recursion
 						if(!isVisitedStatement(thisType)) {
 							setVisited(thisType);
-							visitor.doSwitch(s);
+							visitor.doSwitch(statement);//here visitor. was added in contrast to caseBlock
 						}
 					}
 					lastType = thisType;
+					//end of copy
 				}
 				
 				
