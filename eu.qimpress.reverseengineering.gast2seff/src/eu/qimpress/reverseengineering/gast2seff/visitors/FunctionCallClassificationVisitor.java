@@ -169,65 +169,6 @@ public class FunctionCallClassificationVisitor extends JavaSwitch<BitSet> {//GAS
 		
 		return myType;
 	}
-	//TODO implement caseSwitchStatement
-//	@Override
-//	public BitSet caseSwitchStatement(SwitchStatement switchStatement) {
-//		if (annotations.containsKey(switchStatement)) 
-//			return annotations.get(switchStatement);
-//
-//		//If: ThenStatement, ElseStatement
-//		//Switch: hier mit HilfsKlasse ersetzen:
-//		//Neu: SwitchBranch: HelperMethode erstellen
-//		
-////		for (Branch branch : object.getBranches()) {
-////			doSwitch(branch.getStatement());
-////		}
-//		ArrayList<ArrayList<Statement>> blockList = new ArrayList<ArrayList<Statement>>();
-//		
-////		Iterator<Statement> iterator = object.getStatements().iterator();
-//		//TODO change this algorithm for case without break
-//		//TODO extract method
-//		for(int i=0 ; i < switchStatement.getStatements().size() ; i++){
-//			
-//			Statement statement = switchStatement.getStatements().get(i);
-//			if(statement instanceof SwitchCase){
-//				ArrayList<Statement> block = new ArrayList<Statement>();
-//				
-//				while(true){
-//					//if is last statement cancel
-//					if (i == switchStatement.getStatements().size() - 1) {
-//						block.add(statement);
-//						break;
-//					}
-//					Statement nextStatement = switchStatement.getStatements().get(++i);
-//					if(!(nextStatement instanceof BreakStatement)){
-//						block.add(nextStatement);
-//					}
-//					else{
-//						break;
-//					}
-//				}
-//				blockList.add(block);
-//			}
-//		}
-//		
-//		for (ArrayList<Statement> block : blockList) {
-//			doSwitch(block);
-//		}
-//		
-//		List<Statement> branchStatements = new ArrayList<Statement>();
-////		for (Branch branch : object.getBranches()) {
-////			branchStatements.add(branch.getStatement());
-////		}
-//		for (ArrayList<Statement> block : blockList) {
-//			branchStatements.add(block);
-//		}
-//		
-//		BitSet myType = computeChildAnnotations(new BitSet(), branchStatements);
-//		annotations.put(switchStatement, myType);
-//		
-//		return myType;
-//	}
 
 //	@Override
 //	public BitSet caseLoopStatement(LoopStatement object) {
@@ -339,6 +280,18 @@ public class FunctionCallClassificationVisitor extends JavaSwitch<BitSet> {//GAS
 		return handleFormerSimpleStatement(object);
 	}
 
+
+	//was former SimpleStatement
+	@Override
+	public BitSet caseExpressionStatement(ExpressionStatement object) {
+		return handleFormerSimpleStatement(object);	}
+
+	//was former SimpleStatement
+	@Override
+	public BitSet caseVariableDeclarationStatement(
+			VariableDeclarationStatement object) {
+		return handleFormerSimpleStatement(object);	}
+
 	/**
 	 * Helper Method to handle former SimpleStatement
 	 * Used in AssertStatement, ExpressionStatement, VariableDeclarationStatement
@@ -348,7 +301,7 @@ public class FunctionCallClassificationVisitor extends JavaSwitch<BitSet> {//GAS
 	private BitSet handleFormerSimpleStatement(Statement object) {
 		if (annotations.containsKey(object)) 
 			return annotations.get(object);
-
+		
 		BitSet myType = this.myStrategy.classifySimpleStatement(object);
 		annotations.put(object,myType);
 		
@@ -366,18 +319,6 @@ public class FunctionCallClassificationVisitor extends JavaSwitch<BitSet> {//GAS
 		
 		return myType;
 	}
-
-	//was former SimpleStatement
-	@Override
-	public BitSet caseExpressionStatement(ExpressionStatement object) {
-		return handleFormerSimpleStatement(object);	}
-
-	//was former SimpleStatement
-	@Override
-	public BitSet caseVariableDeclarationStatement(
-			VariableDeclarationStatement object) {
-		return handleFormerSimpleStatement(object);	}
-
 
 	private AbstractMethodInvocation getFunctionAccess(Statement object) {//GAST2SEFFCHANGE//GAST2SEFFCHANGE
 		for (ASTNode a : KDMHelper.getAllAccesses(object)) {//GAST2SEFFCHANGE//GAST2SEFFCHANGE

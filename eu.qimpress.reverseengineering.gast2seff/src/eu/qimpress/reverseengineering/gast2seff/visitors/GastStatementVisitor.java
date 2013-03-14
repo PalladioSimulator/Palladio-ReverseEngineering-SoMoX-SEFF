@@ -143,9 +143,9 @@ extends JavaSwitch<Object> {//GAST2SEFFCHANGE
 		if (containsExternalCall(switchStatement)) {
 			BranchAction branchAction = seffFactory.eINSTANCE.createBranchAction();
 			seff.getSteps().add(branchAction);
+			branchAction.setName(positionToString(KDMHelper.getJavaNodeSourceRegion(switchStatement)));
 			//TODO
-//			branch.setName(positionToString(switchStatement.getPosition()));
-//			branch.setDocumentation(blockToString(switchStatement.getBlockstatement()));			
+//			branchAction.setDocumentation(blockToString(switchStatement.getBlockstatement()));			
 			
 			ArrayList<ArrayList<Statement>> branches = SwitchStatementHelper.createBlockListFromSwitchStatement(switchStatement);
 
@@ -172,7 +172,9 @@ extends JavaSwitch<Object> {//GAST2SEFFCHANGE
 //							setVisited(thisType);
 //							visitor.doSwitch(statement);//here visitor. was added in contrast to caseBlock
 //						}
-						//TODO the four lines above were temporarily removed
+						//TODO the four lines above were temporarily removed 
+						//in order to allow a a multiple use of a statement
+						//because of the new behaviour for switch statements (case without break)
 						visitor.doSwitch(statement);//here visitor. was added in contrast to caseBlock
 					}
 					lastType = thisType;
@@ -190,51 +192,48 @@ extends JavaSwitch<Object> {//GAST2SEFFCHANGE
 	}
 
 	@Override
-	public Object caseIfStatement(IfStatement object) {
-		if (containsExternalCall(object)) {
+	public Object caseIfStatement(IfStatement input) {
+		if (containsExternalCall(input)) {
 			BranchAction branch = seffFactory.eINSTANCE.createBranchAction();
 			seff.getSteps().add(branch);
-			branch.setName(positionToString(KDMHelper.getJavaNodeSourceRegion(object)));//GAST2SEFFCHANGE
+			branch.setName(positionToString(KDMHelper.getJavaNodeSourceRegion(input)));//GAST2SEFFCHANGE
 			//TODO ??????
 //			branch.setDocumentation(blockToString(object.getBlockstatement()));			
 			branch.setDocumentation("not yet adapted");
 			
 			//TODO refactor this, duplicated code
-			{
-			Statement ifStatement = object.getThenStatement();
-			AbstractBranchTransition bt = seffFactory.eINSTANCE.createProbabilisticBranchTransition();
-			bt.setResourceDemandingBehaviour(seffFactory.eINSTANCE.createResourceDemandingBehaviour());
-			bt.getResourceDemandingBehaviour().getSteps().add(seffFactory.eINSTANCE.createStartAction());				
-			bt.setName("parent " + positionToString(KDMHelper.getJavaNodeSourceRegion(object)) + "/" + positionToString(KDMHelper.getJavaNodeSourceRegion(ifStatement))); //use parent position since branch position is empty//GAST2SEFFCHANGE//GAST2SEFFCHANGE
-			branch.getAbstractBranchTransition().add(bt);
-			GastStatementVisitor visitor = new GastStatementVisitor(this.functionClassificationAnnotation,
-					bt.getResourceDemandingBehaviour(), this.sourceCodeDecoratorRepository, this.primitiveComponent);
-//			Statement s = b.getStatement();//GAST2SEFFCHANGE
-			visitor.doSwitch(ifStatement);				
-			bt.getResourceDemandingBehaviour().getSteps().add(seffFactory.eINSTANCE.createStopAction());
-			GAST2SEFFJob.connectActions(bt.getResourceDemandingBehaviour());
-			}
+			Statement ifStatement = input.getThenStatement();
+			handleIfOrElseBranch(input, branch, ifStatement);
 
-			{
-			Statement elseStatement = object.getElseStatement();
+			Statement elseStatement = input.getElseStatement();
 			if(elseStatement != null){
-				AbstractBranchTransition bt = seffFactory.eINSTANCE.createProbabilisticBranchTransition();
-				bt.setResourceDemandingBehaviour(seffFactory.eINSTANCE.createResourceDemandingBehaviour());
-				bt.getResourceDemandingBehaviour().getSteps().add(seffFactory.eINSTANCE.createStartAction());				
-				bt.setName("parent " + positionToString(KDMHelper.getJavaNodeSourceRegion(object)) + "/" + positionToString(KDMHelper.getJavaNodeSourceRegion(elseStatement))); //use parent position since branch position is empty//GAST2SEFFCHANGE//GAST2SEFFCHANGE
-				branch.getAbstractBranchTransition().add(bt);
-				GastStatementVisitor visitor = new GastStatementVisitor(this.functionClassificationAnnotation,
-						bt.getResourceDemandingBehaviour(), this.sourceCodeDecoratorRepository, this.primitiveComponent);
-//			Statement s = b.getStatement();//GAST2SEFFCHANGE
-				visitor.doSwitch(elseStatement);				
-				bt.getResourceDemandingBehaviour().getSteps().add(seffFactory.eINSTANCE.createStopAction());
-				GAST2SEFFJob.connectActions(bt.getResourceDemandingBehaviour());
-			}
+				handleIfOrElseBranch(input, branch, elseStatement);
 			}
 		} else {
-			createInternalAction(object);
+			createInternalAction(input);
 		}
 		return null;
+	}
+
+	/**
+	 * Handles the branch/block of an if or else block.
+	 * @param input the whole IfStatement
+	 * @param branch the branchAction(SEFF)
+	 * @param ifElseStatement the if or else Statement/Block
+	 */
+	private void handleIfOrElseBranch(IfStatement input, BranchAction branch,
+			Statement ifElseStatement) {
+		AbstractBranchTransition bt = seffFactory.eINSTANCE.createProbabilisticBranchTransition();
+		bt.setResourceDemandingBehaviour(seffFactory.eINSTANCE.createResourceDemandingBehaviour());
+		bt.getResourceDemandingBehaviour().getSteps().add(seffFactory.eINSTANCE.createStartAction());				
+		bt.setName("parent " + positionToString(KDMHelper.getJavaNodeSourceRegion(input)) + "/" + positionToString(KDMHelper.getJavaNodeSourceRegion(ifElseStatement))); //use parent position since branch position is empty//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+		branch.getAbstractBranchTransition().add(bt);
+		GastStatementVisitor visitor = new GastStatementVisitor(this.functionClassificationAnnotation,
+				bt.getResourceDemandingBehaviour(), this.sourceCodeDecoratorRepository, this.primitiveComponent);
+//			Statement s = b.getStatement();//GAST2SEFFCHANGE
+		visitor.doSwitch(ifElseStatement);				
+		bt.getResourceDemandingBehaviour().getSteps().add(seffFactory.eINSTANCE.createStopAction());
+		GAST2SEFFJob.connectActions(bt.getResourceDemandingBehaviour());
 	}
 
 	//TODO replace this
