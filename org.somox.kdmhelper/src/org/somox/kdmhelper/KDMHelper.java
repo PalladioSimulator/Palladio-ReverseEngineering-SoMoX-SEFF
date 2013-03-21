@@ -91,10 +91,23 @@ public class KDMHelper {
 				pack = pack.eContainer();
 			}
 		}
+		result = removeLastPoint(result);
 		return result;
 	}
 	
-	private static String getNameOfNamedElement(NamedElement input){
+	private static String removeLastPoint(String result) {
+	    if(result != null){
+	        if(result.charAt(result.length()-1) == '.'){
+	            return result.substring(0, result.length()-2);
+	        }
+	        else{
+	            return result;
+	        }
+	    }
+	    return null;
+    }
+
+    private static String getNameOfNamedElement(NamedElement input){
 		String result ="";
 		if(input instanceof AbstractMethodDeclaration){
 			result = input.getName() + "()";
