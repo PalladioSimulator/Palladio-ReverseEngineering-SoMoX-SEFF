@@ -22,7 +22,6 @@ public class SwitchStatementHelper {
 			SwitchStatement switchStatement) {
 		ArrayList<ArrayList<Statement>> blockList = new ArrayList<ArrayList<Statement>>();
 
-		// TODO change this algorithm for case without break
 		for (int actStatementNo = 0; actStatementNo < switchStatement.getStatements().size(); actStatementNo++) {
 
 			Statement statement = switchStatement.getStatements().get(actStatementNo);
