@@ -305,7 +305,6 @@ public class FunctionCallClassificationVisitor extends JavaSwitch<BitSet> {// GA
     public BitSet defaultCase(final EObject object) {
         System.out.println("------------------Not handled object by function call visitor:\n  " + object);
 
-        // TODO Auto-generated method stub
         return super.defaultCase(object);
     }
 }

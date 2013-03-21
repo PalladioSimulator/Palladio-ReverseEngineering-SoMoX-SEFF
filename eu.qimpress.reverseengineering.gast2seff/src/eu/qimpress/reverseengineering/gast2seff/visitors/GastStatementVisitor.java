@@ -5,6 +5,7 @@ import java.util.BitSet;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
@@ -139,8 +140,9 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
             final BranchAction branchAction = seffFactory.eINSTANCE.createBranchAction();
             this.seff.getSteps().add(branchAction);
             branchAction.setName(this.positionToString(KDMHelper.getJavaNodeSourceRegion(switchStatement)));
-            // TODO
-            // branchAction.setDocumentation(blockToString(switchStatement.getBlockstatement()));
+            // TODO DONE TEST
+//            branchAction.setDocumentation(statementsToString(switchStatement.getStatements()));
+            branchAction.setDocumentation("created from a switch statement");
 
             final ArrayList<ArrayList<Statement>> branches = SwitchStatementHelper
                     .createBlockListFromSwitchStatement(switchStatement);
@@ -194,15 +196,16 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
         return null;
     }
 
+
     @Override
     public Object caseIfStatement(final IfStatement input) {
         if (this.containsExternalCall(input)) {
             final BranchAction branch = seffFactory.eINSTANCE.createBranchAction();
             this.seff.getSteps().add(branch);
             branch.setName(this.positionToString(KDMHelper.getJavaNodeSourceRegion(input))); // GAST2SEFFCHANGE
-            // TODO ??????
-            // branch.setDocumentation(blockToString(object.getBlockstatement()));
-            branch.setDocumentation("not yet adapted");
+            // TODO DONE 
+//             branch.setDocumentation("not yet adapted");
+             branch.setDocumentation("created from an if statement");
 
             final Statement ifStatement = input.getThenStatement();
             this.handleIfOrElseBranch(input, branch, ifStatement);
@@ -282,9 +285,9 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
             this.seff.getSteps().add(loop);
             loop.getBodyBehaviour().getSteps().add(seffFactory.eINSTANCE.createStartAction());
             loop.setName(this.positionToString(KDMHelper.getJavaNodeSourceRegion(loopStatement))); // GAST2SEFFCHANGE
-            // TODO
-            // loop.setDocumentation(blockToString(object.getBlockstatement()));
-            loop.setDocumentation("not yet implemented");
+            // TODO DONE
+//            loop.setDocumentation(blockToString(body));
+            loop.setDocumentation("created from a loop statement");
 
             new GastStatementVisitor(this.functionClassificationAnnotation, loop.getBodyBehaviour(),
                     this.sourceCodeDecoratorRepository, this.primitiveComponent).doSwitch(body);
@@ -556,6 +559,35 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
         }
     }
 
+    private String statementsToString(final EList<Statement> statements) { // GAST2SEFFCHANGE
+        if (statements != null) {
+            final StringBuilder blockString = new StringBuilder("Block: ");
+            blockString.append(statements.toString());
+
+            for (Statement statement : statements) {
+
+                if (KDMHelper.getAllAccesses(statement) != null && // GAST2SEFFCHANGE
+                        KDMHelper.getAllAccesses(statement).size() >= 1// GAST2SEFFCHANGE
+                        ) {
+                    final ASTNode firstAccess = KDMHelper.getAllAccesses(statement).get(0); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                    if (firstAccess instanceof ASTNode) { // GAST2SEFFCHANGE
+                        final ASTNode access = firstAccess; // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+
+                        if (GetAccessedType.getAccessedType(access) != null) { // GAST2SEFFCHANGE
+                            blockString.append(" " + GetAccessedType.getAccessedType(access).getName() + "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                        }
+                        return blockString.toString();
+                    }
+                }
+            }
+            return blockString.toString();
+            
+
+        } else {
+            return "No blockstatement";
+        }
+    }
+
     private String positionToString(final JavaNodeSourceRegion position) { // GAST2SEFFCHANGE
         final StringBuilder positionString = new StringBuilder("position: ");
         if (position != null) {
@@ -604,7 +636,6 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
     // TODO
     @Override
     public Object defaultCase(final EObject object) {
-        // TODO Auto-generated method stub
         System.out.println("------------------Not handled object by statement visitor:\n  " + object);
         return super.defaultCase(object);
     }
