@@ -146,6 +146,7 @@ public class KDMHelper {
 		if (accessedType != null) {
 			result.add(accessedType);
 		}
+		//TODO adopt this
 		// added after fix
 		// if(accessedType instanceof ParameterizedType){
 		// ParameterizedType paramType =(ParameterizedType) accessedType;
@@ -194,6 +195,7 @@ public class KDMHelper {
 	 * @return a set of the accessed types
 	 */
 
+	//TODO adopt to MoDisco Version
 	private static Set<Type> getAccessedTypesFromParameterizedType(
 			ParameterizedType input) {
 		Set<Type> result = new HashSet<Type>();
