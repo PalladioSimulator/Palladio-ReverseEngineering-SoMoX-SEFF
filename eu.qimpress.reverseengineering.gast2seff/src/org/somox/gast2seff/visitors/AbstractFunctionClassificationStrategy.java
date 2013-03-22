@@ -1,4 +1,4 @@
-package eu.qimpress.reverseengineering.gast2seff.visitors;
+package org.somox.gast2seff.visitors;
 
 import java.util.BitSet;
 
@@ -8,6 +8,7 @@ import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
 import org.eclipse.gmt.modisco.java.Statement;
 import org.eclipse.gmt.modisco.java.Type;
+import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
 import org.somox.kdmhelper.KDMHelper;
 
 //import de.fzi.gast.accesses.BaseAccess;//GAST2SEFFCHANGE
@@ -15,7 +16,6 @@ import org.somox.kdmhelper.KDMHelper;
 //import de.fzi.gast.statements.SimpleStatement;//GAST2SEFFCHANGE
 //import de.fzi.gast.statements.Statement;//GAST2SEFFCHANGE
 //import de.fzi.gast.types.GASTClass;//GAST2SEFFCHANGE
-import eu.qimpress.reverseengineering.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
 
 /**
  * Base implementation of {@link IFunctionClassificationStrategy}. Delagates the decisions on the function
@@ -29,7 +29,7 @@ implements
 	private Logger logger = Logger.getLogger(BasicFunctionClassificationStrategy.class);	
 
 	/* (non-Javadoc)
-	 * @see eu.qimpress.reverseengineering.gast2seff.visitors.IFunctionClassificationStrategy#classifySimpleStatement(de.fzi.gast.statements.SimpleStatement)
+	 * @see org.somox.gast2seff.visitors.IFunctionClassificationStrategy#classifySimpleStatement(de.fzi.gast.statements.SimpleStatement)
 	 */
 	public BitSet classifySimpleStatement(Statement object) {//GAST2SEFFCHANGE	//can/should be replaced with Statement	
 		
@@ -51,7 +51,7 @@ implements
 	}
 
 	/* (non-Javadoc)
-	 * @see eu.qimpress.reverseengineering.gast2seff.visitors.IFunctionClassificationStrategy#mergeFunctionCallType(java.util.BitSet, java.util.BitSet)
+	 * @see org.somox.gast2seff.visitors.IFunctionClassificationStrategy#mergeFunctionCallType(java.util.BitSet, java.util.BitSet)
 	 */
 	public void mergeFunctionCallType(BitSet myType, BitSet functionCallType) {
 		myType.or(functionCallType);

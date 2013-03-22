@@ -14,6 +14,7 @@ import org.somox.analyzer.simplemodelanalyzer.jobs.SimpleModelAnalyzerJob;
 import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
 import org.somox.configuration.SOMOXConfigurationBuilderByPreferences;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.gast2seff.jobs.GAST2SEFFJob;
 import org.somox.ui.runconfig.ModelAnalyzerConfiguration;
 
 import de.uka.ipd.sdq.workflow.IJob;
@@ -21,7 +22,6 @@ import de.uka.ipd.sdq.workflow.OrderPreservingBlackboardCompositeJob;
 import de.uka.ipd.sdq.workflow.Workflow;
 import de.uka.ipd.sdq.workflow.launchconfig.AbstractWorkflowBasedLaunchConfigurationDelegate;
 import de.uka.ipd.sdq.workflow.logging.console.LoggerAppenderStruct;
-import eu.qimpress.reverseengineering.gast2seff.jobs.GAST2SEFFJob;
 
 /**
  * The class is defined by the delegate attribute of a launchConfigurationType

@@ -18,7 +18,7 @@
          </menu>
          <action
                label="GAST2SEFF"
-               class="eu.qimpress.reverseengineering.gast2seff.popup.actions.GAST2SEFFAction"
+               class="org.somox.gast2seff.popup.actions.GAST2SEFFAction"
                menubarPath="eu.qimpress.reverseengineering.gast2seff.menu1/group1"
                enablesFor="1"
                id="eu.qimpress.reverseengineering.gast2seff.newAction">

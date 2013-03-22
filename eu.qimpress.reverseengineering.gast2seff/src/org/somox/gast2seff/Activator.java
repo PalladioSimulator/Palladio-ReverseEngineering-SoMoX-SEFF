@@ -1,4 +1,4 @@
-package eu.qimpress.reverseengineering.gast2seff;
+package org.somox.gast2seff;
 
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
@@ -14,7 +14,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "eu.qimpress.reverseengineering.gast2seff";
+	public static final String PLUGIN_ID = "org.somox.gast2seff";
 
 	// The shared instance
 	private static Activator plugin;

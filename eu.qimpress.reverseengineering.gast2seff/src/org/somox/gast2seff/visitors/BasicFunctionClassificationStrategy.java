@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.qimpress.reverseengineering.gast2seff.visitors;
+package org.somox.gast2seff.visitors;
 
 import org.apache.log4j.Logger;
 import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;

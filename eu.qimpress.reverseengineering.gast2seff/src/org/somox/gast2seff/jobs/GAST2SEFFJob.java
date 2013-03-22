@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.qimpress.reverseengineering.gast2seff.jobs;
+package org.somox.gast2seff.jobs;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +30,9 @@ import org.eclipse.gmt.modisco.java.Block;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
+import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
+import org.somox.gast2seff.visitors.GastStatementVisitor;
 import org.somox.qimpressgast.GASTBehaviour;
 import org.somox.qimpressgast.GASTBehaviourRepository;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
@@ -42,9 +45,6 @@ import de.uka.ipd.sdq.workflow.IBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
-import eu.qimpress.reverseengineering.gast2seff.visitors.BasicFunctionClassificationStrategy;
-import eu.qimpress.reverseengineering.gast2seff.visitors.FunctionCallClassificationVisitor;
-import eu.qimpress.reverseengineering.gast2seff.visitors.GastStatementVisitor;
 import eu.qimpress.samm.behaviour.Behaviour;
 import eu.qimpress.samm.behaviour.BehaviourFactory;
 import eu.qimpress.samm.behaviour.GastBehaviourStub;

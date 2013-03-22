@@ -1,4 +1,4 @@
-package eu.qimpress.reverseengineering.gast2seff.jobs;
+package org.somox.gast2seff.jobs;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.TreeIterator;

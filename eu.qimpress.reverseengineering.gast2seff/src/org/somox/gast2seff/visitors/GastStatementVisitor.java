@@ -1,4 +1,4 @@
-package eu.qimpress.reverseengineering.gast2seff.visitors;
+package org.somox.gast2seff.visitors;
 
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -22,14 +22,14 @@ import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
 import org.eclipse.gmt.modisco.java.WhileStatement;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
+import org.somox.gast2seff.jobs.GAST2SEFFJob;
+import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
 import org.somox.kdmhelper.GetAccessedType;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
-import eu.qimpress.reverseengineering.gast2seff.jobs.GAST2SEFFJob;
-import eu.qimpress.reverseengineering.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
 import eu.qimpress.samm.staticstructure.InterfacePort;
 import eu.qimpress.samm.staticstructure.Operation;
 import eu.qimpress.samm.staticstructure.PrimitiveComponent;

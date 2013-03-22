@@ -1,4 +1,4 @@
-package eu.qimpress.reverseengineering.gast2seff.visitors;
+package org.somox.gast2seff.visitors;
 
 import java.util.ArrayList;
 
