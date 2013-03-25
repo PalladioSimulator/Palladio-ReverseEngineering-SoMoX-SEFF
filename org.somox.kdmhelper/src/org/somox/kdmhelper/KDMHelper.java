@@ -95,10 +95,10 @@ public class KDMHelper {
 		return result;
 	}
 	
-	private static String removeLastPoint(String result) {
+	public static String removeLastPoint(String result) {
 	    if(result != null){
 	        if(result.charAt(result.length()-1) == '.'){
-	            return result.substring(0, result.length()-2);
+	            return result.substring(0, result.length() - 1);
 	        }
 	        else{
 	            return result;
