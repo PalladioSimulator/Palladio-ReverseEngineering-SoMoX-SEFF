@@ -71,11 +71,11 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 
 	private Logger logger = Logger.getLogger(GAST2SEFFJob.class);
 	
-	/** The somox blackboard to interact with. */
+	/** The SoMoX blackboard to interact with. */
 	private SoMoXBlackboard blackboard = null;
 	
 	/**
-	 * The resource set used to load and store all reources needed for the transformation
+	 * The resource set used to load and store all resources needed for the transformation
 	 */
 	private ResourceSet resourceSet = new ResourceSetImpl();
 	
@@ -92,7 +92,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	private SourceCodeDecoratorRepository sourceCodeDecoratorModel = null;
 	private QosAnnotations sammQosAnnotationsModel = null;
 
-	/** The somox configuration. */
+	/** The SoMoX configuration. */
 	private SoMoXConfiguration somoxConfiguration = null;
 
 	private FunctionCallClassificationVisitor typeVisitor = null;
