@@ -1,6 +1,5 @@
 package org.somox.analyzer.simplemodelanalyzer;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.gmt.modisco.java.Type;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.ModelAnalyzer;
 import org.somox.analyzer.ModelAnalyzerException;
@@ -19,23 +17,22 @@ import org.somox.analyzer.simplemodelanalyzer.factories.BasicSoMoXStrategiesFact
 import org.somox.analyzer.simplemodelanalyzer.factories.ISoMoXStrategiesFactory;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.extractor.ExtractionResult;
-import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.KDMReader;
 import org.somox.kdmhelper.metamodeladdition.Root;
-
-//import de.fzi.gast.core.Root;
-//import de.fzi.gast.helpers.GASTReader;
-import de.uka.ipd.sdq.workflow.ExecutionTimeLoggingProgressMonitor;
-import org.somox.qimpressgast.GASTBehaviourRepository;
-import org.somox.qimpressgast.qimpressgastFactory;
-import eu.qimpress.samm.qosannotation.QosAnnotations;
-import eu.qimpress.samm.qosannotation.QosannotationFactory;
-import eu.qimpress.samm.staticstructure.Repository;
-import eu.qimpress.samm.staticstructure.ServiceArchitectureModel;
-import eu.qimpress.samm.staticstructure.StaticstructureFactory;
+import org.somox.seff2javaast.SEFF2JavaAST;
+import org.somox.seff2javaast.Seff2methodFactory;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
+
+import de.uka.ipd.sdq.pcm.qosannotations.QoSAnnotations;
+import de.uka.ipd.sdq.pcm.qosannotations.QosannotationsFactory;
+import de.uka.ipd.sdq.pcm.repository.Repository;
+import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
+import de.uka.ipd.sdq.pcm.system.SystemFactory;
+import de.uka.ipd.sdq.workflow.ExecutionTimeLoggingProgressMonitor;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.helpers.GASTReader;
 
 /**
  * This class runs a component detection based on a GAST input model and returns the results
@@ -229,16 +226,16 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 	private SimpleAnalysisResult initializeAnalysisResult() {
 		SimpleAnalysisResult analysisResult = new SimpleAnalysisResult(this);
 		SourceCodeDecoratorRepository sourceCodeDecoratorRepository = SourceCodeDecoratorFactory.eINSTANCE.createSourceCodeDecoratorRepository();
-		GASTBehaviourRepository gastBehaviourRepository = qimpressgastFactory.eINSTANCE.createGASTBehaviourRepository();
-		ServiceArchitectureModel serviceArchitectureModel = StaticstructureFactory.eINSTANCE.createServiceArchitectureModel();
-		QosAnnotations qosAnnotationModel = QosannotationFactory.eINSTANCE.createQosAnnotations();
-		Repository newInternalArchitectureModel = StaticstructureFactory.eINSTANCE.createRepository();
-		
+		SEFF2JavaAST seff2JavaAST = Seff2methodFactory.eINSTANCE.createSEFF2JavaAST();
+		de.uka.ipd.sdq.pcm.system.System system = SystemFactory.eINSTANCE.createSystem();
+		QoSAnnotations qosAnnotationModel = QosannotationsFactory.eINSTANCE.createQoSAnnotations();
+		Repository newInternalArchitectureModel = RepositoryFactory.eINSTANCE.createRepository();
+		Repository pcmRepository = RepositoryFactory.eINSTANCE.createRepository();
 		
 		analysisResult.setInternalArchitectureModel(newInternalArchitectureModel);
-		analysisResult.setGastBehaviourRepository(gastBehaviourRepository);
+		analysisResult.setSEFF2JavaAST(seff2JavaAST);
 		analysisResult.setSourceCodeDecoratorRepository(sourceCodeDecoratorRepository);
-		analysisResult.setServiceArchitectureModel(serviceArchitectureModel);
+		analysisResult.setSystemModel(system);
 		analysisResult.setQosAnnotationModel(qosAnnotationModel);
 		
 		return analysisResult;

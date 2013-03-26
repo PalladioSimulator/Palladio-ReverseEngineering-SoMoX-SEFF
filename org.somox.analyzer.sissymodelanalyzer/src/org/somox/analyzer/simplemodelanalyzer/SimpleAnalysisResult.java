@@ -6,12 +6,12 @@ import java.util.List;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.ModelAnalyzer;
 import org.somox.common.Message;
-
-import org.somox.qimpressgast.GASTBehaviourRepository;
-import eu.qimpress.samm.qosannotation.QosAnnotations;
-import eu.qimpress.samm.staticstructure.Repository;
-import eu.qimpress.samm.staticstructure.ServiceArchitectureModel;
+import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
+
+import de.uka.ipd.sdq.pcm.qosannotations.QoSAnnotations;
+import de.uka.ipd.sdq.pcm.repository.Repository;
+import de.uka.ipd.sdq.pcm.system.System;
 
 //import eu.qimpress.commonmodel.commonmodel.StaticStructure.Repository;
 
@@ -54,7 +54,7 @@ public class SimpleAnalysisResult implements AnalysisResult {
 	 * @uml.property  name="gastBehaviourRepository"
 	 * @uml.associationEnd  
 	 */
-	private GASTBehaviourRepository gastBehaviourRepository = null;
+	private SEFF2JavaAST seff2JavaAST = null;
 	
 	/**
 	 * the source code decorator repository
@@ -63,9 +63,9 @@ public class SimpleAnalysisResult implements AnalysisResult {
 	 */
 	private SourceCodeDecoratorRepository sourceCodeDecoratorRepository = null;
 	
-	private ServiceArchitectureModel serviceArchitectureModel = null;
+	private System system = null;
 	
-	private QosAnnotations qosAnnotationModel = null;
+	private QoSAnnotations qosAnnotationModel = null;
 
 	/**
 	 * The list of messages
@@ -131,17 +131,21 @@ public class SimpleAnalysisResult implements AnalysisResult {
 	 * @return
 	 * @uml.property  name="gastBehaviourRepository"
 	 */
-	public GASTBehaviourRepository getGastBehaviourRepository() {
-		return gastBehaviourRepository;
+	public SEFF2JavaAST getGastBehaviourRepository() {
+		return seff2JavaAST;
 	}
 
 	/**
 	 * @param gastBehaviourRepository
 	 * @uml.property  name="gastBehaviourRepository"
 	 */
-	public void setGastBehaviourRepository(
-			GASTBehaviourRepository gastBehaviourRepository) {
-				this.gastBehaviourRepository = gastBehaviourRepository;
+	public SEFF2JavaAST getSeff2JavaAST() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public void setSEFF2JavaAST(
+			SEFF2JavaAST seff2JavaAST) {
+				this.seff2JavaAST = seff2JavaAST;
 			}
 
 	/**
@@ -185,21 +189,21 @@ public class SimpleAnalysisResult implements AnalysisResult {
 	 * (non-Javadoc)
 	 * @see org.somox.analyzer.AnalysisResult#getServiceArchitectureModel()
 	 */
-	public ServiceArchitectureModel getServiceArchitectureModel() {
-		return this.serviceArchitectureModel;
+	public System getSystemModel() {
+		return this.system;
 	}
 	
-	public void setServiceArchitectureModel(
-			ServiceArchitectureModel serviceArchitectureModel) {
-		this.serviceArchitectureModel = serviceArchitectureModel;		
+	public void setSystemModel(System system) {
+		this.system = system;
 	}
-
-	public QosAnnotations getQosAnnotationModel() {
+	
+	public QoSAnnotations getQosAnnotationModel() {
 		return qosAnnotationModel;
 	}
 
-	public void setQosAnnotationModel(QosAnnotations qosAnnotationModel) {
+	public void setQosAnnotationModel( QoSAnnotations qosAnnotationModel) {
 		this.qosAnnotationModel = qosAnnotationModel;
 	}
+
 	
 }
