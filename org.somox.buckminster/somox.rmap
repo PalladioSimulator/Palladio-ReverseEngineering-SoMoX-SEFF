@@ -6,17 +6,26 @@
   <rm:locator searchPathRef="SISSy" failOnError="false"/>
   <rm:locator searchPathRef="Palladio_Commons" failOnError="false"/>
   <rm:locator searchPathRef="Palladio_WorkflowEngine" failOnError="false" pattern="^de\.uka\.ipd\.sdq\..*" />
+  <rm:locator searchPathRef="palladio-core" failOnError="false"/>
   <rm:locator searchPathRef="xtext" failOnError="false" pattern="^org\.eclipse\.xtend*" />
   <rm:locator searchPathRef="xtext" failOnError="false" pattern="^org\.eclipse\.xtext*" />
   <rm:locator searchPathRef="xtext" failOnError="false" pattern="^org\.eclipse\.emf\.mwe\..*" />
   <rm:locator searchPathRef="xtext" failOnError="false" pattern="^org\.eclipse\.emf\.mwe2\..*" />
-  <rm:locator searchPathRef="juno" failOnError="false"/>
+  <rm:locator searchPathRef="juno"/>
   
   <rm:searchPath name="indigo-updatesite">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
       <rm:uri format="http://download.eclipse.org/releases/indigo/"/>
+    </rm:provider>
+  </rm:searchPath>
+  
+  <rm:searchPath name="palladio-core">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/palladio/releases/3.4/"/>
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="SISSy">
