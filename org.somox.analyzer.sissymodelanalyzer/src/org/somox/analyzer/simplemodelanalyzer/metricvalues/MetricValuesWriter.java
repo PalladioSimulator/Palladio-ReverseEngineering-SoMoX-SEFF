@@ -30,8 +30,9 @@ import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.MetricID;
 
 //import de.fzi.gast.types.GASTClass;
-import eu.qimpress.samm.staticstructure.ComponentType;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 
 
 public class MetricValuesWriter
@@ -164,8 +165,8 @@ public class MetricValuesWriter
       for (ClusteringRelation clusteringRelation : edges)
       {
          ComponentCandidate compCandidate = MetricvaluesFactory.eINSTANCE.createComponentCandidate();
-         ComponentType compA = clusteringRelation.getComponentA().getComponent();
-         ComponentType compB = clusteringRelation.getComponentB().getComponent();
+         RepositoryComponent compA = clusteringRelation.getComponentA().getComponent();
+         RepositoryComponent compB = clusteringRelation.getComponentB().getComponent();
 
          for (Component component : currentIteration.getComponents())//REALLYCHANGEMF
          {
@@ -213,9 +214,9 @@ public class MetricValuesWriter
    private Component createComponent(Iteration currentIteration, ComponentImplementingClassesLink compCand)
    {
       Component component = MetricvaluesFactory.eINSTANCE.createComponent();
-      ComponentType comp = compCand.getComponent();
+      RepositoryComponent comp = compCand.getComponent();
       component.setId(comp.getId());
-      component.setName(comp.getName());
+      component.setName(comp.getEntityName());
 
       List<Type> classes = compCand.getImplementingClasses();
       for (Type gastClass : classes)
