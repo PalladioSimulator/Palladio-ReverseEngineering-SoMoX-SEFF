@@ -14,17 +14,16 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
-import org.somox.qimpressgast.GASTBehaviourRepository;
+import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
+import de.uka.ipd.sdq.pcm.qosannotations.QoSAnnotations;
+import de.uka.ipd.sdq.pcm.repository.Repository;
+import de.uka.ipd.sdq.pcm.system.System;
 import de.uka.ipd.sdq.workflow.IBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
-import eu.qimpress.samm.qosannotation.QosAnnotations;
-import eu.qimpress.samm.staticstructure.Repository;
-import eu.qimpress.samm.staticstructure.ServiceArchitectureModel;
-import eu.qimpress.seff.SeffRepository;
 
 /**
  * Job to save the SoMoX models from the SoMoX Blackboard.
@@ -41,12 +40,11 @@ public class SaveSoMoXModelsJob implements
 	// ---------------------------------
 
 	/** The path inside the project to store the internal architecture model */
-	private static final String PATH_INTERNAL_ARCHITECTUREMODEL = "/internal_architecture_model.samm_repository";
-	private static final String PATH_GAST_BEHAVIOUR_REPOSITORY = "/internal_architecture_model.samm_gastbehaviour";
+	private static final String PATH_SEFF2JAVAAST_REPOSITORY = "/internal_architecture_model.seff2javaast";
 	private static final String PATH_SOURCECODE_DECORATOR_REPOSITORY = "/internal_architecture_model.sourcecodedecorator";
-	private static final String PATH_SAMM_MODEL = "/internal_architecture_model.samm_servicearchitecturemodel";
+	private static final String PATH_SYSTEM_MODEL = "/internal_architecture_model.system";
 	private static final String PATH_QOS_ANNOTATIONS_MODEL = "/internal_architecture_model.samm_qosannotation";
-	private static final String PATH_SEFF_REPOSITORY_MODEL = "/internal_architecture_model.samm_seff";
+	private static final String PATH_REPOSITORY_MODEL = "/internal_architecture_model.repository";
 
 	private Logger logger = Logger.getLogger(SaveSoMoXModelsJob.class);
 
@@ -90,19 +88,17 @@ public class SaveSoMoXModelsJob implements
 
 		// save the new internal architecture model
 		try {
-			saveInternalArchitectureModel(
+			saveRepositoryModel(
 					result.getInternalArchitectureModel(), projectIdentifier,
 					outputFolder);
-			saveGastBehaviourRepository(result.getGastBehaviourRepository(),
-					projectIdentifier, outputFolder);
 			saveSourceCodeDecoratorRepository(
 					result.getSourceCodeDecoratorRepository(),
 					projectIdentifier, outputFolder);
-			saveSammModel(result.getServiceArchitectureModel(),
+			saveSEFF2JavaASTModel(result.getSeff2JavaAST(), 
+					projectIdentifier, outputFolder);
+			saveSammModel(result.getSystemModel(),
 					projectIdentifier, outputFolder);
 			saveQoSAnnotationsModel(result.getQosAnnotationModel(),
-					projectIdentifier, outputFolder);
-			saveSeffRepositoryModel(blackboard.getSeffRepository(),
 					projectIdentifier, outputFolder);
 		} catch (IOException e) {
 			logger.error("Model Analyzer failed.", e);
@@ -111,29 +107,11 @@ public class SaveSoMoXModelsJob implements
 
 	}
 
-	/**
-	 * Save the internal architecture model
-	 * 
-	 * @param internalArchitectureModel
-	 *            The model to be saved
-	 * @param projectIdentifier
-	 *            The identifier for the project to save the model in
-	 * @throws IOException
-	 *             An exception about problems reading or writing the internal
-	 *             architecture model
-	 */
-	private void saveInternalArchitectureModel(
-			Repository internalArchitectureModel, String projectIdentifier,
-			String outputFolder) throws IOException {
-		save(internalArchitectureModel, projectIdentifier, outputFolder
-				+ PATH_INTERNAL_ARCHITECTUREMODEL);
-	}
-
-	private void saveGastBehaviourRepository(
-			GASTBehaviourRepository repository, String projectIdentifier,
+	private void saveSEFF2JavaASTModel(
+			SEFF2JavaAST repository, String projectIdentifier,
 			String outputFolder) throws IOException {
 		save(repository, projectIdentifier, outputFolder
-				+ PATH_GAST_BEHAVIOUR_REPOSITORY);
+				+ PATH_SEFF2JAVAAST_REPOSITORY);
 	}
 
 	private void saveSourceCodeDecoratorRepository(
@@ -144,24 +122,24 @@ public class SaveSoMoXModelsJob implements
 	}
 
 	private void saveSammModel(
-			ServiceArchitectureModel serviceArchitectureModel,
+			System system,
 			String projectIdentifier, String outputFolder) throws IOException {
-		save(serviceArchitectureModel, projectIdentifier, outputFolder
-				+ PATH_SAMM_MODEL);
+		save(system, projectIdentifier, outputFolder
+				+ PATH_SYSTEM_MODEL);
 	}
 
 	private void saveQoSAnnotationsModel(
-			QosAnnotations serviceArchitectureModel, String projectIdentifier,
+			QoSAnnotations serviceArchitectureModel, String projectIdentifier,
 			String outputFolder) throws IOException {
 		save(serviceArchitectureModel, projectIdentifier, outputFolder
 				+ PATH_QOS_ANNOTATIONS_MODEL);
 	}
 
 
-	private void saveSeffRepositoryModel(SeffRepository seffRepository,
+	private void saveRepositoryModel(Repository repository,
 			String projectIdentifier, String outputFolder) throws IOException {
-		save(seffRepository, projectIdentifier, outputFolder
-				+ PATH_SEFF_REPOSITORY_MODEL);
+		save(repository, projectIdentifier, outputFolder
+				+ PATH_REPOSITORY_MODEL);
 	}
 
 	private void save(EObject emfObject, String projectIdentifier, String path)
@@ -192,44 +170,6 @@ public class SaveSoMoXModelsJob implements
 				.put(Resource.Factory.Registry.DEFAULT_EXTENSION,
 						new XMIResourceFactoryImpl());
 		return resourceSet;
-	}
-
-	/**
-	 * Get the EMF resource to work with
-	 * 
-	 * @param projectIdentifier
-	 *            The identifier for the project to work with
-	 * @return The requested EMF resource
-	 * @throws IOException
-	 */
-	private Resource getResource(String projectIdentifier, String path,
-			EObject defaultObject) throws IOException {
-
-		URI uri = URI.createURI("platform:/resource/" + projectIdentifier
-				+ path);
-
-		Resource resource = resourceSet.getResource(uri, false);
-
-		// GASTReader gastReader;
-		// Resource resource = null;
-		// try {
-		// gastReader = new GASTReader();
-		// gastReader.loadFile(uri.toString());
-		// resource = gastReader.getResourceGAST();
-		// } catch (IOException e1) {
-		// logger.error("Error loading model: " + e1);
-		// e1.printStackTrace();
-		// }
-
-		// if the resource does not exist or is empty create a new one with
-		// an appropriate model inside
-		if (resource == null || resource.getContents().isEmpty()) {
-			resource = resourceSet.createResource(uri);
-			resource.getContents().add(defaultObject);
-			resource.save(null);
-		}
-
-		return resource;
 	}
 
 	@Override
