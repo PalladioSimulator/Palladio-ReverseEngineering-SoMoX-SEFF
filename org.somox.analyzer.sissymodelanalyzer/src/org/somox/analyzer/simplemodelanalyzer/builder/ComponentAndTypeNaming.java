@@ -9,9 +9,8 @@ import org.eclipse.gmt.modisco.java.Type;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
 
-//import de.fzi.gast.types.GASTClass;
-import eu.qimpress.samm.staticstructure.ComponentType;
-import eu.qimpress.samm.staticstructure.Interface;
+import de.uka.ipd.sdq.pcm.repository.Interface;
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
@@ -107,7 +106,7 @@ public class ComponentAndTypeNaming {
 		StringBuilder subComponentName = new StringBuilder();
 		for(ComponentImplementingClassesLink subcomponent : innerComponents) {
 			if(subcomponent.getComponent() != null) { // empty for very initial components
-				subComponentName.append(subcomponent.getComponent().getName() + " ");
+				subComponentName.append(subcomponent.getComponent().getEntityName() + " ");
 			} else {
 				subComponentName.append(
 						createSimpleComponentName(0, subcomponent.getSubComponents()) + " "); //0: default level 
@@ -181,9 +180,9 @@ public class ComponentAndTypeNaming {
 		return shorten(returnComponentName);
 	}
 	
-	public String createComponentInstanceName(ComponentType componentType) {
-		if(componentType != null) {
-			return componentType.getName() + "-instance";
+	public String createComponentInstanceName(RepositoryComponent repositoryComponent) {
+		if(repositoryComponent != null) {
+			return repositoryComponent.getEntityName() + "-instance";
 		} else {
 			return "class-level-instance";
 		}
@@ -195,9 +194,9 @@ public class ComponentAndTypeNaming {
 	 * @param component
 	 * @return
 	 */
-	public String createProvidedPortName(Interface provInterface, ComponentType component) {		
+	public String createProvidedPortName(Interface provInterface, RepositoryComponent component) {		
 		
-		String ifName = provInterface.getName();
+		String ifName = provInterface.getEntityName();
 		if(ifName.contains(".")) {
 			String[] subStrings = ifName.split("\\.", 0);
 			ifName = subStrings[subStrings.length-1]; //last segment
@@ -207,7 +206,7 @@ public class ComponentAndTypeNaming {
 		return shorten(ifName) + " (prov)";		
 	}
 	
-	public String createProvidedSystemPortName(Interface provInterface, ComponentType component) {
+	public String createProvidedSystemPortName(Interface provInterface, RepositoryComponent component) {
 		return createProvidedPortName(provInterface, component) + "(sys)";
 	}
 	
@@ -217,9 +216,9 @@ public class ComponentAndTypeNaming {
 	 * @param component
 	 * @return
 	 */
-	public String createRequiredPortName(Interface reqInterface, ComponentType component) {		
+	public String createRequiredPortName(Interface reqInterface, RepositoryComponent component) {		
 		 
-		String ifName = reqInterface.getName();
+		String ifName = reqInterface.getEntityName();
 		if(ifName.contains(".")) {
 			String[] subStrings = ifName.split("\\.", 0);
 			ifName = subStrings[subStrings.length-1]; //last segment
@@ -229,7 +228,7 @@ public class ComponentAndTypeNaming {
 		return shorten(ifName) + " (req)";
 	}
 	
-	public String createRequiredSystemPortName(Interface reqInterface, ComponentType component) {
+	public String createRequiredSystemPortName(Interface reqInterface, RepositoryComponent component) {
 		return createRequiredPortName(reqInterface, component) + "(sys)";
 	}	
 	
