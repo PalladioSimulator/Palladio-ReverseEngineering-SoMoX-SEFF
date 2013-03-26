@@ -27,20 +27,15 @@ import de.uka.ipd.sdq.pcm.repository.Signature;
 import de.uka.ipd.sdq.pcm.repository.SinkRole;
 import de.uka.ipd.sdq.pcm.seff.ResourceDemandingSEFF;
 import de.uka.ipd.sdq.pcm.seff.SeffFactory;
-//import de.fzi.gast.core.Root;
-//import de.fzi.gast.functions.Function;
-//import de.fzi.gast.functions.Method;
-//import de.fzi.gast.statements.BlockStatement;
-//import de.fzi.gast.types.GASTClass;
 
 /**
  * Builder used to add GAST behaviour to methods detected as provided operations of components
  * 
  * @author Steffen Becker, Michael Hauck
  */
-public class GASTBehaviourBuilder extends AbstractBuilder {
+public class Seff2JavaASTBuilder extends AbstractBuilder {
 	
-	private static final Logger logger = Logger.getLogger(GASTBehaviourBuilder.class);
+	private static final Logger logger = Logger.getLogger(Seff2JavaASTBuilder.class);
 	
 	/**
 	 * Constructor of the GAST behaviour builder
@@ -48,17 +43,17 @@ public class GASTBehaviourBuilder extends AbstractBuilder {
 	 * @param somoxConfiguration Somox configuaration used to retrieve settings
 	 * @param analysisResult Contains the root model elemts used to store the generated model elements
 	 */
-	public GASTBehaviourBuilder(Root gastModel,
+	public Seff2JavaASTBuilder(Root gastModel,
 			SoMoXConfiguration somoxConfiguration, AnalysisResult analysisResult) {
 		super(gastModel, somoxConfiguration, analysisResult);
 	}	
 	
 	/**
-	 * Adds GAST behaviours to the given primitive component for all methods passed in the publicMethods parameter
+	 * Add seffs to the given basic component for all methods passed in the provided roles parameter
 	 * @param component The component to which the behaviour will be added
 	 * @param providedRole The provided role for which each of its operations is to be added. 
 	 */
-	public void addGASTBehaviourToPrimitiveComponent(BasicComponent component, ProvidedRole providedRole) {	
+	public void addSeffsToPrimitiveComponent(BasicComponent component, ProvidedRole providedRole) {	
 		if(providedRole instanceof OperationProvidedRole){
 			OperationInterface providedInterface = ((OperationProvidedRole) providedRole).getProvidedInterface__OperationProvidedRole();
 			for (OperationSignature signature : providedInterface.getSignatures__OperationInterface()) {
@@ -86,7 +81,7 @@ public class GASTBehaviourBuilder extends AbstractBuilder {
 			throw new RuntimeException("Found interface with operations for which no method link exists. This should never happen!");
 		}
 		
-		link.setComponentType(component);
+		link.setRepositoryComponent(component);
 
 		this.analysisResult.getSourceCodeDecoratorRepository().getMethodLevelSourceCodeLink().add(link);
 	
@@ -150,8 +145,9 @@ public class GASTBehaviourBuilder extends AbstractBuilder {
 	private MethodLevelSourceCodeLink getMethodLevelSourceCodeLink(Signature operation) {
 		assert operationUnique(operation);
 		for (MethodLevelSourceCodeLink link : this.analysisResult.getSourceCodeDecoratorRepository().getMethodLevelSourceCodeLink()) {
-			if (operation == link.getOperation())
+			if (operation == link.getOperation()){
 				return link;
+			}
 		}
 		return null;
 	}

@@ -1,9 +1,9 @@
 package org.somox.analyzer.simplemodelanalyzer.builder.util;
 
-import eu.qimpress.samm.staticstructure.PrimitiveComponent;
-import eu.qimpress.samm.staticstructure.SubcomponentInstance;
+import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
+import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 
 public class InstanceComponentTuple {
-	public PrimitiveComponent primitiveComponentType;
-	public SubcomponentInstance componentInstance;
+	public BasicComponent basicComponent;
+	public AssemblyContext componentInstance;
 }

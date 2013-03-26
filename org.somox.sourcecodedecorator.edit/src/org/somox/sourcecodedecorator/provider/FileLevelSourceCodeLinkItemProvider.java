@@ -57,26 +57,26 @@ public class FileLevelSourceCodeLinkItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addComponentTypePropertyDescriptor(object);
+			addRepositoryComponentPropertyDescriptor(object);
 			addFilePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Component Type feature.
+	 * This adds a property descriptor for the Repository Component feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addComponentTypePropertyDescriptor(Object object) {
+	protected void addRepositoryComponentPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_FileLevelSourceCodeLink_componentType_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_FileLevelSourceCodeLink_componentType_feature", "_UI_FileLevelSourceCodeLink_type"),
-				 SourceCodeDecoratorPackage.Literals.FILE_LEVEL_SOURCE_CODE_LINK__COMPONENT_TYPE,
+				 getString("_UI_FileLevelSourceCodeLink_repositoryComponent_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_FileLevelSourceCodeLink_repositoryComponent_feature", "_UI_FileLevelSourceCodeLink_type"),
+				 SourceCodeDecoratorPackage.Literals.FILE_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT,
 				 true,
 				 false,
 				 true,

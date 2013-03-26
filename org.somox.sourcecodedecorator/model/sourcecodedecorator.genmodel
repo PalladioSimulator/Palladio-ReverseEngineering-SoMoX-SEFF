@@ -29,7 +29,7 @@
       resource="XMI" disposableProviderFactory="true" ecorePackage="sourcecodedecorator.ecore#/">
     <genClasses xsi:type="genmodel:GenClass" ecoreClass="sourcecodedecorator.ecore#//FileLevelSourceCodeLink">
       <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
-          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//FileLevelSourceCodeLink/componentType"/>
+          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//FileLevelSourceCodeLink/repositoryComponent"/>
       <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
           propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//FileLevelSourceCodeLink/file"/>
     </genClasses>

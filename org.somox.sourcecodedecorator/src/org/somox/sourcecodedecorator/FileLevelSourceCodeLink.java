@@ -19,7 +19,7 @@ import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getComponentType <em>Component Type</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getRepositoryComponent <em>Repository Component</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getFile <em>File</em>}</li>
  * </ul>
  * </p>
@@ -30,30 +30,30 @@ import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
  */
 public interface FileLevelSourceCodeLink extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Component Type</b></em>' reference.
+	 * Returns the value of the '<em><b>Repository Component</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Component Type</em>' reference isn't clear,
+	 * If the meaning of the '<em>Repository Component</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Component Type</em>' reference.
-	 * @see #setComponentType(RepositoryComponent)
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getFileLevelSourceCodeLink_ComponentType()
+	 * @return the value of the '<em>Repository Component</em>' reference.
+	 * @see #setRepositoryComponent(RepositoryComponent)
+	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getFileLevelSourceCodeLink_RepositoryComponent()
 	 * @model ordered="false"
 	 * @generated
 	 */
-	RepositoryComponent getComponentType();
+	RepositoryComponent getRepositoryComponent();
 
 	/**
-	 * Sets the value of the '{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getComponentType <em>Component Type</em>}' reference.
+	 * Sets the value of the '{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getRepositoryComponent <em>Repository Component</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Component Type</em>' reference.
-	 * @see #getComponentType()
+	 * @param value the new value of the '<em>Repository Component</em>' reference.
+	 * @see #getRepositoryComponent()
 	 * @generated
 	 */
-	void setComponentType(RepositoryComponent value);
+	void setRepositoryComponent(RepositoryComponent value);
 
 	/**
 	 * Returns the value of the '<em><b>File</b></em>' reference.

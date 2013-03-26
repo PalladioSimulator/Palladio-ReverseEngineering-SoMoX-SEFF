@@ -66,7 +66,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 	/**
 	 * Builder used to build GAST Behaviours for provided methods 
 	 */
-	private GASTBehaviourBuilder behaviourBuilder = null;
+	private Seff2JavaASTBuilder behaviourBuilder = null;
 
 	/**
 	 * Strategy for naming elements
@@ -99,7 +99,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 
 		this.operationBuilder = new OperationBuilder(gastModel, configuration,
 				result);
-		this.behaviourBuilder = new GASTBehaviourBuilder(gastModel, configuration,
+		this.behaviourBuilder = new Seff2JavaASTBuilder(gastModel, configuration,
 				result);
 		
 		//TODO: extract to configurable strategy
@@ -292,7 +292,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 
 		if (!componentCandidate.isCompositeComponent()) {
 			// add behaviour
-			behaviourBuilder.addGASTBehaviourToPrimitiveComponent((PrimitiveComponent) componentCandidate.getComponent(), providedPort);
+			behaviourBuilder.addSeffsToPrimitiveComponent((PrimitiveComponent) componentCandidate.getComponent(), providedPort);
 		}
 	}
 

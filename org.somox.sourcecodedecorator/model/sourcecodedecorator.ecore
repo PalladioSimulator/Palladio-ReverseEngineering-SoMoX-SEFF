@@ -6,7 +6,7 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Human readable information for the source code link"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="componentType" ordered="false"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="repositoryComponent" ordered="false"
         eType="ecore:EClass platform:/plugin/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/RepositoryComponent"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="file" ordered="false" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.omg.kdm/model/kdm.ecore#//source/SourceFile"/>
   </eClassifiers>

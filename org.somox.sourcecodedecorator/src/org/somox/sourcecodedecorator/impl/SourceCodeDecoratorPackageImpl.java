@@ -182,7 +182,7 @@ public class SourceCodeDecoratorPackageImpl extends EPackageImpl implements Sour
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getFileLevelSourceCodeLink_ComponentType() {
+	public EReference getFileLevelSourceCodeLink_RepositoryComponent() {
 		return (EReference)fileLevelSourceCodeLinkEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -449,7 +449,7 @@ public class SourceCodeDecoratorPackageImpl extends EPackageImpl implements Sour
 
 		// Create classes and their features
 		fileLevelSourceCodeLinkEClass = createEClass(FILE_LEVEL_SOURCE_CODE_LINK);
-		createEReference(fileLevelSourceCodeLinkEClass, FILE_LEVEL_SOURCE_CODE_LINK__COMPONENT_TYPE);
+		createEReference(fileLevelSourceCodeLinkEClass, FILE_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT);
 		createEReference(fileLevelSourceCodeLinkEClass, FILE_LEVEL_SOURCE_CODE_LINK__FILE);
 
 		methodLevelSourceCodeLinkEClass = createEClass(METHOD_LEVEL_SOURCE_CODE_LINK);
@@ -525,7 +525,7 @@ public class SourceCodeDecoratorPackageImpl extends EPackageImpl implements Sour
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(fileLevelSourceCodeLinkEClass, FileLevelSourceCodeLink.class, "FileLevelSourceCodeLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getFileLevelSourceCodeLink_ComponentType(), theRepositoryPackage.getRepositoryComponent(), null, "componentType", null, 0, 1, FileLevelSourceCodeLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getFileLevelSourceCodeLink_RepositoryComponent(), theRepositoryPackage.getRepositoryComponent(), null, "repositoryComponent", null, 0, 1, FileLevelSourceCodeLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getFileLevelSourceCodeLink_File(), theSourcePackage.getSourceFile(), null, "file", null, 0, 1, FileLevelSourceCodeLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(methodLevelSourceCodeLinkEClass, MethodLevelSourceCodeLink.class, "MethodLevelSourceCodeLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

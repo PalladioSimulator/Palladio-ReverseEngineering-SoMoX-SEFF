@@ -66,13 +66,13 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	int FILE_LEVEL_SOURCE_CODE_LINK = 0;
 
 	/**
-	 * The feature id for the '<em><b>Component Type</b></em>' reference.
+	 * The feature id for the '<em><b>Repository Component</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FILE_LEVEL_SOURCE_CODE_LINK__COMPONENT_TYPE = 0;
+	int FILE_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = 0;
 
 	/**
 	 * The feature id for the '<em><b>File</b></em>' reference.
@@ -103,13 +103,13 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	int METHOD_LEVEL_SOURCE_CODE_LINK = 1;
 
 	/**
-	 * The feature id for the '<em><b>Component Type</b></em>' reference.
+	 * The feature id for the '<em><b>Repository Component</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METHOD_LEVEL_SOURCE_CODE_LINK__COMPONENT_TYPE = FILE_LEVEL_SOURCE_CODE_LINK__COMPONENT_TYPE;
+	int METHOD_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = FILE_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT;
 
 	/**
 	 * The feature id for the '<em><b>File</b></em>' reference.
@@ -158,13 +158,13 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK = 2;
 
 	/**
-	 * The feature id for the '<em><b>Component Type</b></em>' reference.
+	 * The feature id for the '<em><b>Repository Component</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__COMPONENT_TYPE = METHOD_LEVEL_SOURCE_CODE_LINK__COMPONENT_TYPE;
+	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = METHOD_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT;
 
 	/**
 	 * The feature id for the '<em><b>File</b></em>' reference.
@@ -505,15 +505,15 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	EClass getFileLevelSourceCodeLink();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getComponentType <em>Component Type</em>}'.
+	 * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getRepositoryComponent <em>Repository Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Component Type</em>'.
-	 * @see org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getComponentType()
+	 * @return the meta object for the reference '<em>Repository Component</em>'.
+	 * @see org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getRepositoryComponent()
 	 * @see #getFileLevelSourceCodeLink()
 	 * @generated
 	 */
-	EReference getFileLevelSourceCodeLink_ComponentType();
+	EReference getFileLevelSourceCodeLink_RepositoryComponent();
 
 	/**
 	 * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getFile <em>File</em>}'.
@@ -828,12 +828,12 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 		EClass FILE_LEVEL_SOURCE_CODE_LINK = eINSTANCE.getFileLevelSourceCodeLink();
 
 		/**
-		 * The meta object literal for the '<em><b>Component Type</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Repository Component</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference FILE_LEVEL_SOURCE_CODE_LINK__COMPONENT_TYPE = eINSTANCE.getFileLevelSourceCodeLink_ComponentType();
+		EReference FILE_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = eINSTANCE.getFileLevelSourceCodeLink_RepositoryComponent();
 
 		/**
 		 * The meta object literal for the '<em><b>File</b></em>' reference feature.
