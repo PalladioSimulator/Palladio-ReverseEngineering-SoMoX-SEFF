@@ -1,7 +1,6 @@
 package org.somox.analyzer.simplemodelanalyzer.builder;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
@@ -11,22 +10,28 @@ import org.somox.analyzer.simplemodelanalyzer.detection.util.EqualityChecker;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
+import org.somox.seff2javaast.SEFF2MethodMapping;
+import org.somox.seff2javaast.Seff2methodFactory;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 
+import de.uka.ipd.sdq.pcm.repository.BasicComponent;
+import de.uka.ipd.sdq.pcm.repository.EventGroup;
+import de.uka.ipd.sdq.pcm.repository.EventType;
+import de.uka.ipd.sdq.pcm.repository.OperationInterface;
+import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.OperationSignature;
+import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
+import de.uka.ipd.sdq.pcm.repository.Signature;
+import de.uka.ipd.sdq.pcm.repository.SinkRole;
+import de.uka.ipd.sdq.pcm.seff.ResourceDemandingSEFF;
+import de.uka.ipd.sdq.pcm.seff.SeffFactory;
 //import de.fzi.gast.core.Root;
 //import de.fzi.gast.functions.Function;
 //import de.fzi.gast.functions.Method;
 //import de.fzi.gast.statements.BlockStatement;
 //import de.fzi.gast.types.GASTClass;
-import org.somox.qimpressgast.GASTBehaviour;
-import org.somox.qimpressgast.qimpressgastFactory;
-import eu.qimpress.samm.behaviour.BehaviourFactory;
-import eu.qimpress.samm.behaviour.GastBehaviourStub;
-import eu.qimpress.samm.staticstructure.ComponentType;
-import eu.qimpress.samm.staticstructure.InterfacePort;
-import eu.qimpress.samm.staticstructure.Operation;
-import eu.qimpress.samm.staticstructure.PrimitiveComponent;
-import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
-import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 
 /**
  * Builder used to add GAST behaviour to methods detected as provided operations of components
@@ -53,19 +58,27 @@ public class GASTBehaviourBuilder extends AbstractBuilder {
 	 * @param component The component to which the behaviour will be added
 	 * @param providedRole The provided role for which each of its operations is to be added. 
 	 */
-	public void addGASTBehaviourToPrimitiveComponent(PrimitiveComponent component, InterfacePort providedRole) {		
-		for (Operation operation : providedRole.getInterfaceType().getSignatures()) {
-			addGASTBehaviourToPrimitiveComponent(component, operation);
+	public void addGASTBehaviourToPrimitiveComponent(BasicComponent component, ProvidedRole providedRole) {	
+		if(providedRole instanceof OperationProvidedRole){
+			OperationInterface providedInterface = ((OperationProvidedRole) providedRole).getProvidedInterface__OperationProvidedRole();
+			for (OperationSignature signature : providedInterface.getSignatures__OperationInterface()) {
+				addSeffToBasicComponent(component, signature);
+			}
+		} else if(providedRole instanceof SinkRole){
+			EventGroup providedInterface = ((SinkRole) providedRole).getEventGroup__SinkRole();
+			for (EventType signature : providedInterface.getEventTypes__EventGroup()) {
+				addSeffToBasicComponent(component, signature);
+			}
 		}
 	}
 	
 	/**
-	 * 
-	 * @param component The component to add the GAST behaviour for
+	 * Add a seff to a basic component including the mapping to the method in the AST model.
+	 * @param component The component to add the seff for
 	 * @param operation The interface operation
 	 */
-	private void addGASTBehaviourToPrimitiveComponent(
-			PrimitiveComponent component, Operation operation) {
+	private void addSeffToBasicComponent(
+			BasicComponent component, Signature operation) {
 		
 		MethodLevelSourceCodeLink link = getMethodLevelSourceCodeLink(operation); 
 
@@ -77,21 +90,21 @@ public class GASTBehaviourBuilder extends AbstractBuilder {
 
 		this.analysisResult.getSourceCodeDecoratorRepository().getMethodLevelSourceCodeLink().add(link);
 	
-		GastBehaviourStub gastBehaviourStub = BehaviourFactory.eINSTANCE.createGastBehaviourStub();
-		gastBehaviourStub.setOperation(link.getOperation());
-		GASTBehaviour gastBehaviour = qimpressgastFactory.eINSTANCE.createGASTBehaviour();
-		component.getOperationBehaviour().add(gastBehaviourStub);
+		ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+		seff.setDescribedService__SEFF(link.getOperation());
+		SEFF2MethodMapping seff2MethodMapping = Seff2methodFactory.eINSTANCE.createSEFF2MethodMapping();
+		component.getServiceEffectSpecifications__BasicComponent().add(seff);
 		
 		// links steems from interface; thus get component-specific implementation:
 		Block methodBody = getFunctionImplementation(link.getFunction(), findComponenentLink(component));
 		
-		gastBehaviour.setBlockstatement(methodBody); 
-		if (gastBehaviour.getBlockstatement() == null || gastBehaviour.getBlockstatement().getStatements().size() == 0) {
-			logger.warn("Empty behaviour added for " + gastBehaviourStub.getName() + 
+		seff2MethodMapping.setBlockstatement(methodBody); 
+		if (seff2MethodMapping.getBlockstatement() == null || seff2MethodMapping.getBlockstatement().getStatements().size() == 0) {
+			logger.warn("Empty behaviour added for " + seff.getDescribedService__SEFF().getEntityName() + 
 					"! Reverse engineering of behaviour will NOT be able to succeed for this method!");
 		}
-		gastBehaviour.setGastbehaviourstub(gastBehaviourStub);
-		this.analysisResult.getSEFF2JavaAST().getGastbehaviour().add(gastBehaviour);
+		seff2MethodMapping.setSeff(seff);
+		this.analysisResult.getSeff2JavaAST().getSeff2MethodMappings().add(seff2MethodMapping);
 		
 	}
 
@@ -114,7 +127,7 @@ public class GASTBehaviourBuilder extends AbstractBuilder {
 			}
 		}
 
-		logger.error("No method implemementation found for method " + function.getName() + " for component " + component.getComponent().getName());
+		logger.error("No method implemementation found for method " + function.getName() + " for component " + component.getComponent().getEntityName());
 		return null;
 	}
 
@@ -124,18 +137,18 @@ public class GASTBehaviourBuilder extends AbstractBuilder {
 	 * @param component
 	 * @return ComponentLink for component.
 	 */
-	private ComponentImplementingClassesLink findComponenentLink(ComponentType component) {
+	private ComponentImplementingClassesLink findComponenentLink(RepositoryComponent component) {
 		for(ComponentImplementingClassesLink compLink : this.analysisResult.getSourceCodeDecoratorRepository().getComponentImplementingClassesLink()) {
 			if(compLink.getComponent().equals(component)) {
 				return compLink;
 			}
 		}
-		logger.error("No component link found for component " + component.getName());
+		logger.error("No component link found for component " + component.getEntityName());
 		return null; 
 	}
 
-	private MethodLevelSourceCodeLink getMethodLevelSourceCodeLink(Operation operation) {
-		assert operationUnique(operation, this.analysisResult.getSourceCodeDecoratorRepository().getMethodLevelSourceCodeLink());
+	private MethodLevelSourceCodeLink getMethodLevelSourceCodeLink(Signature operation) {
+		assert operationUnique(operation);
 		for (MethodLevelSourceCodeLink link : this.analysisResult.getSourceCodeDecoratorRepository().getMethodLevelSourceCodeLink()) {
 			if (operation == link.getOperation())
 				return link;
@@ -144,19 +157,25 @@ public class GASTBehaviourBuilder extends AbstractBuilder {
 	}
 
 	/**
-	 * For assertion only
-	 * @param operation
-	 * @param methodLevelSourceCodeLink
-	 * @return
+	 * Check if an operation is already present in the source code decorator repository.
+	 * 
+	 * Attention: For assertion only!
+	 * 
+	 * @param signature The signature to look up in the repository.
+	 * @return true/false whether already present or not.
 	 */
-	private boolean operationUnique(Operation operation,
-			EList<MethodLevelSourceCodeLink> methodLevelSourceCodeLink) {
-		int i = 0;
+	private boolean operationUnique(Signature signature) {
+		boolean alreadyFound = false;
 		for (MethodLevelSourceCodeLink link : this.analysisResult.getSourceCodeDecoratorRepository().getMethodLevelSourceCodeLink()) {
-			if (operation == link.getOperation()) {
-				i++;
+			if (signature == link.getOperation()) {
+				
+				if(alreadyFound){
+					return false;
+				}
+				
+				alreadyFound = true;
 			}				
 		}
-		return (i == 1);
+		return alreadyFound;
 	}
 }
