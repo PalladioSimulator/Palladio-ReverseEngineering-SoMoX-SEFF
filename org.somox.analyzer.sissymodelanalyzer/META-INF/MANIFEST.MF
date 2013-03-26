@@ -4,7 +4,7 @@ Bundle-Name: SoMoX Simple Model Analyzer Plug-in
 Bundle-SymbolicName: org.somox.analyzer.sissymodelanalyzer;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.somox.analyzer.simplemodelanalyzer.Activator
-Bundle-Vendor: SDQ, KIT + FZI Karlsruhe + EU Q-ImPrESS
+Bundle-Vendor: Palladio Project
 Require-Bundle: org.somox.core;bundle-version="1.0.0",
  org.somox.ui;bundle-version="1.0.0",
  org.eclipse.ui;bundle-version="3.4.1",
