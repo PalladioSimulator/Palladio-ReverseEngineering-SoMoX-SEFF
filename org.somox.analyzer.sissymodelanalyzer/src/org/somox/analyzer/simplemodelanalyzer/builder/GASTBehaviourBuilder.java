@@ -91,7 +91,7 @@ public class GASTBehaviourBuilder extends AbstractBuilder {
 					"! Reverse engineering of behaviour will NOT be able to succeed for this method!");
 		}
 		gastBehaviour.setGastbehaviourstub(gastBehaviourStub);
-		this.analysisResult.getGastBehaviourRepository().getGastbehaviour().add(gastBehaviour);
+		this.analysisResult.getSEFF2JavaAST().getGastbehaviour().add(gastBehaviour);
 		
 	}
 

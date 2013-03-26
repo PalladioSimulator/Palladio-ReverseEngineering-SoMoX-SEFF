@@ -8,20 +8,28 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.somox.analyzer.simplemodelanalyzer.SimpleAnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
-
-import de.uka.ipd.sdq.workflow.ExecutionTimeLoggingProgressMonitor;
-import eu.qimpress.samm.behaviour.OperationBehaviour;
-import eu.qimpress.samm.staticstructure.ComponentType;
-import eu.qimpress.samm.staticstructure.Operation;
-import eu.qimpress.samm.staticstructure.PrimitiveComponent;
+import org.somox.seff2javaast.SEFF2MethodMapping;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.FileLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 
+import de.uka.ipd.sdq.pcm.repository.BasicComponent;
+import de.uka.ipd.sdq.pcm.repository.EventGroup;
+import de.uka.ipd.sdq.pcm.repository.EventType;
+import de.uka.ipd.sdq.pcm.repository.OperationInterface;
+import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.OperationSignature;
+import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
+import de.uka.ipd.sdq.pcm.repository.Signature;
+import de.uka.ipd.sdq.pcm.repository.SinkRole;
+import de.uka.ipd.sdq.pcm.seff.ServiceEffectSpecification;
+import de.uka.ipd.sdq.workflow.ExecutionTimeLoggingProgressMonitor;
+
 /**
- * Deletes initial components which have been replaced by merged primitive components and converts
- * the kept initial components into real primitive component (is initial flag).
- * Cleans up SAMM and source code decorator.
+ * Deletes initial components which have been replaced by merged basic components and converts
+ * the kept initial components into real basic component (is initial flag).
+ * Cleans up palladio model and source code decorator.
  * <br>
  * Does expect that composite components have NO references to transitively contained inner classes.
  * @author Klaus Krogmann
@@ -50,8 +58,8 @@ public class DeleteInitialComponentCandidatesStrategy implements
 		subProgressMonitor.beginTask("Post component detection", IProgressMonitor.UNKNOWN);
 		logger.trace("Post component detection");
 		
-		Set<ComponentType> componentsToDelete = 
-			new HashSet<ComponentType>();
+		Set<RepositoryComponent> componentsToDelete = 
+			new HashSet<RepositoryComponent>();
 		Set<ComponentImplementingClassesLink> componentLinksToDelete = 
 			new HashSet<ComponentImplementingClassesLink>();
 		boolean lastCollectedForDeletion = false;
@@ -63,7 +71,7 @@ public class DeleteInitialComponentCandidatesStrategy implements
 					if(innerComponentLink != componentLinkToCheck &&
 							innerComponentLink.getImplementingClasses().containsAll(componentLinkToCheck.getImplementingClasses()) ) {
 						
-						logger.trace("Deleting initial component: " + componentLinkToCheck.getComponent().getName());
+						logger.trace("Deleting initial component: " + componentLinkToCheck.getComponent().getEntityName());
 
 						// collect entities to delete:
 						componentLinksToDelete.add(componentLinkToCheck);
@@ -92,7 +100,7 @@ public class DeleteInitialComponentCandidatesStrategy implements
 			EcoreUtil.delete(compLink, true);
 		}
 		
-		for(ComponentType comp : componentsToDelete) {
+		for(RepositoryComponent comp : componentsToDelete) {
 			EcoreUtil.delete(comp, true);
 		}			
 	
@@ -135,35 +143,59 @@ public class DeleteInitialComponentCandidatesStrategy implements
 	private void cleanUpGastBehaviour(SimpleAnalysisResult analysisResult,
 			Set<ComponentImplementingClassesLink> componentLinksToDelete) {
 		
-		Set<org.somox.qimpressgast.GASTBehaviour> behavioursToDelete = new HashSet<org.somox.qimpressgast.GASTBehaviour>();
-		for(org.somox.qimpressgast.GASTBehaviour gastBehaviour : analysisResult.getGastBehaviourRepository().getGastbehaviour()) {			
-			Operation operation = gastBehaviour.getGastbehaviourstub().getOperation();			
+		Set<SEFF2MethodMapping> mappingsToDelete = new HashSet<SEFF2MethodMapping>();
+		for(SEFF2MethodMapping seff2MethodMapping : analysisResult.getSeff2JavaAST().getSeff2MethodMappings()) {			
+			Signature signature = seff2MethodMapping.getSeff().getDescribedService__SEFF();			
 			
 			outer:
 			for(ComponentImplementingClassesLink compLink : componentLinksToDelete) {
-				for(OperationBehaviour operationBehaviour : compLink.getComponent().getOperationBehaviour()) {
+				for(ProvidedRole providedRole : compLink.getComponent().getProvidedRoles_InterfaceProvidingEntity()){
 					
-					if(gastBehaviour.getGastbehaviourstub().eContainer() instanceof PrimitiveComponent) {
-						PrimitiveComponent compOfBehaviour = (PrimitiveComponent)gastBehaviour.getGastbehaviourstub().eContainer();
-						
-						// must belong to right component & operation must fit
-						if(operationBehaviour.getOperation().equals(operation) && compOfBehaviour.equals(compLink.getComponent())) { 
-							// found a behaviour declared by component to be deleted
-
-							behavioursToDelete.add(gastBehaviour);
-							break outer;
-						}												
+					if(providedRole instanceof OperationProvidedRole){
+						OperationInterface operationInterface = ((OperationProvidedRole) providedRole).getProvidedInterface__OperationProvidedRole();
+						for(OperationSignature operationSignature : operationInterface.getSignatures__OperationInterface()) {
+							
+							if(seff2MethodMapping.getSeff().eContainer() instanceof BasicComponent) {
+								BasicComponent compOfBehaviour = (BasicComponent)seff2MethodMapping.getSeff().eContainer();
+								
+								// must belong to right component & operation must fit
+								if(operationSignature.equals(signature) && compOfBehaviour.equals(compLink.getComponent())) { 
+									// found a behaviour declared by component to be deleted
+									mappingsToDelete.add(seff2MethodMapping);
+									break outer;
+								}												
+							} else {
+								logger.warn("Parent of gast behaviour stub should be a primitive component.");
+							}					
+						}
+					} else if(providedRole instanceof SinkRole){
+						EventGroup eventGroup = ((SinkRole) providedRole).getEventGroup__SinkRole();
+						for(EventType eventType : eventGroup.getEventTypes__EventGroup()) {
+							
+							if(seff2MethodMapping.getSeff().eContainer() instanceof BasicComponent) {
+								BasicComponent compOfBehaviour = (BasicComponent)seff2MethodMapping.getSeff().eContainer();
+								
+								// must belong to right component & operation must fit
+								if(eventType.equals(signature) && compOfBehaviour.equals(compLink.getComponent())) { 
+									// found a behaviour declared by component to be deleted
+									mappingsToDelete.add(seff2MethodMapping);
+									break outer;
+								}												
+							} else {
+								logger.warn("Parent of gast behaviour stub should be a primitive component.");
+							}					
+						}
 					} else {
-						logger.warn("Parent of gast behaviour stub should be a primitive component.");
-					}					
-					
+						logger.warn("Unsupported operation type: "+providedRole.getEntityName()+" ["+providedRole.getClass().getSimpleName()+"]");
+					}
 				}
 			}			
 		}
 		
-		for(org.somox.qimpressgast.GASTBehaviour gastBehaviour : behavioursToDelete) {
-			logger.trace("deleting gast behaviour in decorator: " + gastBehaviour.getGastbehaviourstub().getName() + " " + gastBehaviour);
-			EcoreUtil.delete(gastBehaviour, false);
+		for(SEFF2MethodMapping seff2MethodMapping : mappingsToDelete) {
+			ServiceEffectSpecification seff = seff2MethodMapping.getSeff();
+			logger.trace("deleting Seff2MethodMapping in decorator: " + seff.getSeffTypeID() + ": "+ seff.getDescribedService__SEFF().getEntityName() + " " + seff2MethodMapping);
+			EcoreUtil.delete(seff2MethodMapping, false);
 		}
 	}
 

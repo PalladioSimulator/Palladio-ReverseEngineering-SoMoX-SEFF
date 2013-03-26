@@ -131,7 +131,8 @@ public class SimpleAnalysisResult implements AnalysisResult {
 	 * @return
 	 * @uml.property  name="gastBehaviourRepository"
 	 */
-	public SEFF2JavaAST getGastBehaviourRepository() {
+	@Override
+	public SEFF2JavaAST getSeff2JavaAST() {
 		return seff2JavaAST;
 	}
 
@@ -139,10 +140,6 @@ public class SimpleAnalysisResult implements AnalysisResult {
 	 * @param gastBehaviourRepository
 	 * @uml.property  name="gastBehaviourRepository"
 	 */
-	public SEFF2JavaAST getSeff2JavaAST() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	public void setSEFF2JavaAST(
 			SEFF2JavaAST seff2JavaAST) {
 				this.seff2JavaAST = seff2JavaAST;
