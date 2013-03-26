@@ -2,19 +2,15 @@
  */
 package org.somox.sourcecodedecorator.impl;
 
-import eu.qimpress.seff.AbstractAction;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.gmt.modisco.java.Statement;
-
 import org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorPackage;
+
+import de.uka.ipd.sdq.pcm.seff.AbstractAction;
 
 /**
  * <!-- begin-user-doc -->

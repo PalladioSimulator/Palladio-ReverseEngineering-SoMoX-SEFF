@@ -2,9 +2,9 @@
  */
 package org.somox.sourcecodedecorator;
 
-import eu.qimpress.seff.AbstractAction;
-
 import org.eclipse.gmt.modisco.java.Statement;
+
+import de.uka.ipd.sdq.pcm.seff.AbstractAction;
 
 /**
  * <!-- begin-user-doc -->

@@ -198,7 +198,7 @@ public class SourceCodeDecoratorRepositoryItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(SourceCodeDecoratorPackage.Literals.SOURCE_CODE_DECORATOR_REPOSITORY__COMPONENT_IMPLEMENTING_CLASSES_LINK,
-				 SourceCodeDecoratorFactory.eINSTANCE.createSammSystemImplementatingClassesLink()));
+				 SourceCodeDecoratorFactory.eINSTANCE.createPCMSystemImplementatingClassesLink()));
 	}
 
 	/**

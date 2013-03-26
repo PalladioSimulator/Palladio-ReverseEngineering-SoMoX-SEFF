@@ -17,16 +17,16 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 
-import org.somox.sourcecodedecorator.SammSystemImplementatingClassesLink;
+import org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorPackage;
 
 /**
- * This is the item provider adapter for a {@link org.somox.sourcecodedecorator.SammSystemImplementatingClassesLink} object.
+ * This is the item provider adapter for a {@link org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class SammSystemImplementatingClassesLinkItemProvider
+public class PCMSystemImplementatingClassesLinkItemProvider
 	extends ComponentImplementingClassesLinkItemProvider
 	implements
 		IEditingDomainItemProvider,
@@ -40,7 +40,7 @@ public class SammSystemImplementatingClassesLinkItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SammSystemImplementatingClassesLinkItemProvider(AdapterFactory adapterFactory) {
+	public PCMSystemImplementatingClassesLinkItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -55,25 +55,25 @@ public class SammSystemImplementatingClassesLinkItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addServiceArchitectureModelPropertyDescriptor(object);
+			addSystemModelPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Service Architecture Model feature.
+	 * This adds a property descriptor for the System Model feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addServiceArchitectureModelPropertyDescriptor(Object object) {
+	protected void addSystemModelPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_SammSystemImplementatingClassesLink_serviceArchitectureModel_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_SammSystemImplementatingClassesLink_serviceArchitectureModel_feature", "_UI_SammSystemImplementatingClassesLink_type"),
-				 SourceCodeDecoratorPackage.Literals.SAMM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SERVICE_ARCHITECTURE_MODEL,
+				 getString("_UI_PCMSystemImplementatingClassesLink_systemModel_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PCMSystemImplementatingClassesLink_systemModel_feature", "_UI_PCMSystemImplementatingClassesLink_type"),
+				 SourceCodeDecoratorPackage.Literals.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL,
 				 true,
 				 false,
 				 true,
@@ -83,14 +83,14 @@ public class SammSystemImplementatingClassesLinkItemProvider
 	}
 
 	/**
-	 * This returns SammSystemImplementatingClassesLink.gif.
+	 * This returns PCMSystemImplementatingClassesLink.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/SammSystemImplementatingClassesLink"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/PCMSystemImplementatingClassesLink"));
 	}
 
 	/**
@@ -101,8 +101,8 @@ public class SammSystemImplementatingClassesLinkItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		SammSystemImplementatingClassesLink sammSystemImplementatingClassesLink = (SammSystemImplementatingClassesLink)object;
-		return getString("_UI_SammSystemImplementatingClassesLink_type") + " " + sammSystemImplementatingClassesLink.isCompositeComponent();
+		PCMSystemImplementatingClassesLink pcmSystemImplementatingClassesLink = (PCMSystemImplementatingClassesLink)object;
+		return getString("_UI_PCMSystemImplementatingClassesLink_type") + " " + pcmSystemImplementatingClassesLink.isCompositeComponent();
 	}
 
 	/**

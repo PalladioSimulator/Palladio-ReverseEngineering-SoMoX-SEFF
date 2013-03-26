@@ -2,9 +2,9 @@
  */
 package org.somox.sourcecodedecorator;
 
-import eu.qimpress.samm.staticstructure.Operation;
-
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
+
+import de.uka.ipd.sdq.pcm.repository.Signature;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,12 +33,12 @@ public interface MethodLevelSourceCodeLink extends FileLevelSourceCodeLink {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Operation</em>' reference.
-	 * @see #setOperation(Operation)
+	 * @see #setOperation(Signature)
 	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getMethodLevelSourceCodeLink_Operation()
 	 * @model ordered="false"
 	 * @generated
 	 */
-	Operation getOperation();
+	Signature getOperation();
 
 	/**
 	 * Sets the value of the '{@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink#getOperation <em>Operation</em>}' reference.
@@ -48,7 +48,7 @@ public interface MethodLevelSourceCodeLink extends FileLevelSourceCodeLink {
 	 * @see #getOperation()
 	 * @generated
 	 */
-	void setOperation(Operation value);
+	void setOperation(Signature value);
 
 	/**
 	 * Returns the value of the '<em><b>Function</b></em>' reference.

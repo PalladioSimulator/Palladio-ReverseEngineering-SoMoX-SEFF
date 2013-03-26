@@ -2,19 +2,15 @@
  */
 package org.somox.sourcecodedecorator.impl;
 
-import eu.qimpress.samm.staticstructure.Operation;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
-
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorPackage;
+
+import de.uka.ipd.sdq.pcm.repository.Signature;
 
 /**
  * <!-- begin-user-doc -->
@@ -39,7 +35,7 @@ public class MethodLevelSourceCodeLinkImpl extends FileLevelSourceCodeLinkImpl i
 	 * @generated
 	 * @ordered
 	 */
-	protected Operation operation;
+	protected Signature operation;
 
 	/**
 	 * The cached value of the '{@link #getFunction() <em>Function</em>}' reference.
@@ -75,10 +71,10 @@ public class MethodLevelSourceCodeLinkImpl extends FileLevelSourceCodeLinkImpl i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Operation getOperation() {
+	public Signature getOperation() {
 		if (operation != null && operation.eIsProxy()) {
 			InternalEObject oldOperation = (InternalEObject)operation;
-			operation = (Operation)eResolveProxy(oldOperation);
+			operation = (Signature)eResolveProxy(oldOperation);
 			if (operation != oldOperation) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourceCodeDecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION, oldOperation, operation));
@@ -92,7 +88,7 @@ public class MethodLevelSourceCodeLinkImpl extends FileLevelSourceCodeLinkImpl i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Operation basicGetOperation() {
+	public Signature basicGetOperation() {
 		return operation;
 	}
 
@@ -101,8 +97,8 @@ public class MethodLevelSourceCodeLinkImpl extends FileLevelSourceCodeLinkImpl i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setOperation(Operation newOperation) {
-		Operation oldOperation = operation;
+	public void setOperation(Signature newOperation) {
+		Signature oldOperation = operation;
 		operation = newOperation;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, SourceCodeDecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION, oldOperation, operation));
@@ -173,7 +169,7 @@ public class MethodLevelSourceCodeLinkImpl extends FileLevelSourceCodeLinkImpl i
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SourceCodeDecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION:
-				setOperation((Operation)newValue);
+				setOperation((Signature)newValue);
 				return;
 			case SourceCodeDecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
 				setFunction((AbstractMethodDeclaration)newValue);
@@ -191,7 +187,7 @@ public class MethodLevelSourceCodeLinkImpl extends FileLevelSourceCodeLinkImpl i
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case SourceCodeDecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION:
-				setOperation((Operation)null);
+				setOperation((Signature)null);
 				return;
 			case SourceCodeDecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
 				setFunction((AbstractMethodDeclaration)null);

@@ -2,27 +2,21 @@
  */
 package org.somox.sourcecodedecorator.impl;
 
-import eu.qimpress.samm.staticstructure.ComponentType;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-
 import org.eclipse.gmt.modisco.java.Type;
-
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorPackage;
+
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 
 /**
  * <!-- begin-user-doc -->
@@ -62,7 +56,7 @@ public class ComponentImplementingClassesLinkImpl extends EObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected ComponentType component;
+	protected RepositoryComponent component;
 
 	/**
 	 * The cached value of the '{@link #getImplementingClasses() <em>Implementing Classes</em>}' reference list.
@@ -166,10 +160,10 @@ public class ComponentImplementingClassesLinkImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ComponentType getComponent() {
+	public RepositoryComponent getComponent() {
 		if (component != null && component.eIsProxy()) {
 			InternalEObject oldComponent = (InternalEObject)component;
-			component = (ComponentType)eResolveProxy(oldComponent);
+			component = (RepositoryComponent)eResolveProxy(oldComponent);
 			if (component != oldComponent) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourceCodeDecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT, oldComponent, component));
@@ -183,7 +177,7 @@ public class ComponentImplementingClassesLinkImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ComponentType basicGetComponent() {
+	public RepositoryComponent basicGetComponent() {
 		return component;
 	}
 
@@ -192,8 +186,8 @@ public class ComponentImplementingClassesLinkImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setComponent(ComponentType newComponent) {
-		ComponentType oldComponent = component;
+	public void setComponent(RepositoryComponent newComponent) {
+		RepositoryComponent oldComponent = component;
 		component = newComponent;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, SourceCodeDecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT, oldComponent, component));
@@ -305,7 +299,7 @@ public class ComponentImplementingClassesLinkImpl extends EObjectImpl implements
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SourceCodeDecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT:
-				setComponent((ComponentType)newValue);
+				setComponent((RepositoryComponent)newValue);
 				return;
 			case SourceCodeDecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES:
 				getImplementingClasses().clear();
@@ -339,7 +333,7 @@ public class ComponentImplementingClassesLinkImpl extends EObjectImpl implements
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case SourceCodeDecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT:
-				setComponent((ComponentType)null);
+				setComponent((RepositoryComponent)null);
 				return;
 			case SourceCodeDecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES:
 				getImplementingClasses().clear();

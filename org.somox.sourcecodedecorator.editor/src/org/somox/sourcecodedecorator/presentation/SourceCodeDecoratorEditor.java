@@ -5,7 +5,6 @@ package org.somox.sourcecodedecorator.presentation;
 
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -24,22 +23,68 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-
+import org.eclipse.emf.common.command.BasicCommandStack;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CommandStack;
+import org.eclipse.emf.common.command.CommandStackListener;
+import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.ui.MarkerHelper;
+import org.eclipse.emf.common.ui.ViewerPane;
+import org.eclipse.emf.common.ui.editor.ProblemEditorPart;
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EValidator;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
+import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
+import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
+import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
+import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
+import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
+import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
+import org.eclipse.emf.edit.ui.util.EditUIUtil;
+import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
+import org.eclipse.gmt.modisco.java.emf.provider.JavaItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.action.provider.ActionItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.build.provider.BuildItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.code.provider.CodeItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.conceptual.provider.ConceptualItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.core.provider.CoreItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.data.provider.DataItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.event.provider.EventItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.kdm.provider.KdmItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.platform.provider.PlatformItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.source.provider.SourceItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.structure.provider.StructureItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.ui.provider.UiItemProviderAdapterFactory;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -53,28 +98,20 @@ import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-
 import org.eclipse.swt.SWT;
-
 import org.eclipse.swt.custom.CTabFolder;
-
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
-
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
-
 import org.eclipse.swt.graphics.Point;
-
 import org.eclipse.swt.layout.FillLayout;
-
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
-
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -82,134 +119,42 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
-
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
-
 import org.eclipse.ui.ide.IGotoMarker;
-
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
-
 import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
-
-import org.eclipse.emf.common.command.BasicCommandStack;
-import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.command.CommandStack;
-import org.eclipse.emf.common.command.CommandStackListener;
-
-import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.common.ui.MarkerHelper;
-import org.eclipse.emf.common.ui.ViewerPane;
-
-import org.eclipse.emf.common.ui.editor.ProblemEditorPart;
-
-import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-
-import org.eclipse.emf.common.util.BasicDiagnostic;
-import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.URI;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EValidator;
-
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-
-import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-
-import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
-import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-
-import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
-
-import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
-
-import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
-
-import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
-
-import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
-import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
-import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
-
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
-
-import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
-import org.eclipse.emf.edit.ui.util.EditUIUtil;
-
-import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
-
 import org.somox.sourcecodedecorator.provider.SourceCodeDecoratorItemProviderAdapterFactory;
 
+import de.uka.ipd.sdq.identifier.provider.IdentifierItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.allocation.provider.AllocationItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.core.composition.provider.CompositionItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.core.entity.provider.EntityItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.parameter.provider.ParameterItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.protocol.provider.ProtocolItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.provider.PcmItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.qosannotations.provider.QosannotationsItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.qosannotations.qos_performance.provider.QosPerformanceItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.qosannotations.qos_reliability.provider.QosReliabilityItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.reliability.provider.ReliabilityItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.repository.provider.RepositoryItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.resourceenvironment.provider.ResourceenvironmentItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.resourcetype.provider.ResourcetypeItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.seff.provider.SeffItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.seff.seff_performance.provider.SeffPerformanceItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.seff.seff_reliability.provider.SeffReliabilityItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.subsystem.provider.SubsystemItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.system.provider.SystemItemProviderAdapterFactory;
+import de.uka.ipd.sdq.pcm.usagemodel.provider.UsagemodelItemProviderAdapterFactory;
 import de.uka.ipd.sdq.probfunction.provider.ProbfunctionItemProviderAdapterFactory;
-
 import de.uka.ipd.sdq.stoex.provider.StoexItemProviderAdapterFactory;
-
 import de.uka.ipd.sdq.units.provider.UnitsItemProviderAdapterFactory;
-
-import eu.qimpress.identifier.provider.IdentifierItemProviderAdapterFactory;
-
-import eu.qimpress.samm.annotation.provider.AnnotationItemProviderAdapterFactory;
-
-import eu.qimpress.samm.behaviour.provider.BehaviourItemProviderAdapterFactory;
-
-import eu.qimpress.samm.datatypes.provider.DatatypesItemProviderAdapterFactory;
-
-import eu.qimpress.samm.deployment.allocation.provider.AllocationItemProviderAdapterFactory;
-
-import eu.qimpress.samm.deployment.hardware.provider.HardwareItemProviderAdapterFactory;
-
-import eu.qimpress.samm.deployment.targetenvironment.provider.TargetenvironmentItemProviderAdapterFactory;
-
-import eu.qimpress.samm.qosannotation.provider.QosannotationItemProviderAdapterFactory;
-
-import eu.qimpress.samm.staticstructure.provider.StaticstructureItemProviderAdapterFactory;
-
-import eu.qimpress.samm.usagemodel.provider.UsagemodelItemProviderAdapterFactory;
-
-import eu.qimpress.seff.provider.seffItemProviderAdapterFactory;
-
-import org.eclipse.gmt.modisco.java.emf.provider.JavaItemProviderAdapterFactory;
-
-import org.eclipse.gmt.modisco.omg.kdm.action.provider.ActionItemProviderAdapterFactory;
-
-import org.eclipse.gmt.modisco.omg.kdm.build.provider.BuildItemProviderAdapterFactory;
-
-import org.eclipse.gmt.modisco.omg.kdm.code.provider.CodeItemProviderAdapterFactory;
-
-import org.eclipse.gmt.modisco.omg.kdm.conceptual.provider.ConceptualItemProviderAdapterFactory;
-
-import org.eclipse.gmt.modisco.omg.kdm.core.provider.CoreItemProviderAdapterFactory;
-
-import org.eclipse.gmt.modisco.omg.kdm.data.provider.DataItemProviderAdapterFactory;
-
-import org.eclipse.gmt.modisco.omg.kdm.event.provider.EventItemProviderAdapterFactory;
-
-import org.eclipse.gmt.modisco.omg.kdm.kdm.provider.KdmItemProviderAdapterFactory;
-
-import org.eclipse.gmt.modisco.omg.kdm.platform.provider.PlatformItemProviderAdapterFactory;
-
-import org.eclipse.gmt.modisco.omg.kdm.source.provider.SourceItemProviderAdapterFactory;
-
-import org.eclipse.gmt.modisco.omg.kdm.structure.provider.StructureItemProviderAdapterFactory;
-
-import org.eclipse.gmt.modisco.omg.kdm.ui.provider.UiItemProviderAdapterFactory;
-
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 
 /**
@@ -759,18 +704,27 @@ public class SourceCodeDecoratorEditor
 		adapterFactory.addAdapterFactory(new EventItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new StructureItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new UiItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new ProbfunctionItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new StaticstructureItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new eu.qimpress.samm.core.provider.CoreItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new DatatypesItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new BehaviourItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new TargetenvironmentItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new HardwareItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new AllocationItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new AnnotationItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new PcmItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new de.uka.ipd.sdq.pcm.core.provider.CoreItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new EntityItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new CompositionItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new UsagemodelItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new QosannotationItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new seffItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new RepositoryItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ResourcetypeItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ProtocolItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ParameterItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ReliabilityItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new SeffItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new SeffPerformanceItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new SeffReliabilityItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new QosannotationsItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new QosPerformanceItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new QosReliabilityItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new SystemItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ResourceenvironmentItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new AllocationItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new SubsystemItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ProbfunctionItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new StoexItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new UnitsItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());

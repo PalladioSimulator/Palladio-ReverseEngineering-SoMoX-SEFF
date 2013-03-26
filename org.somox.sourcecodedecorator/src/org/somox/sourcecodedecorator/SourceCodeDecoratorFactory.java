@@ -76,13 +76,13 @@ public interface SourceCodeDecoratorFactory extends EFactory {
 	ComponentImplementingClassesLink createComponentImplementingClassesLink();
 
 	/**
-	 * Returns a new object of class '<em>Samm System Implementating Classes Link</em>'.
+	 * Returns a new object of class '<em>PCM System Implementating Classes Link</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Samm System Implementating Classes Link</em>'.
+	 * @return a new object of class '<em>PCM System Implementating Classes Link</em>'.
 	 * @generated
 	 */
-	SammSystemImplementatingClassesLink createSammSystemImplementatingClassesLink();
+	PCMSystemImplementatingClassesLink createPCMSystemImplementatingClassesLink();
 
 	/**
 	 * Returns the package supported by this factory.

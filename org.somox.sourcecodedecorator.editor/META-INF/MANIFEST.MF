@@ -15,5 +15,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.ide;visibility:=reexport,
  org.eclipse.gmt.modisco.java.edit,
  org.eclipse.gmt.modisco.omg.kdm.edit,
- org.somox.sourcecodedecorator.edit;visibility:=reexport
+ org.somox.sourcecodedecorator.edit;visibility:=reexport,
+ de.uka.ipd.sdq.pcm.edit;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy

@@ -92,8 +92,8 @@ public class SourceCodeDecoratorAdapterFactory extends AdapterFactoryImpl {
 				return createComponentImplementingClassesLinkAdapter();
 			}
 			@Override
-			public Adapter caseSammSystemImplementatingClassesLink(SammSystemImplementatingClassesLink object) {
-				return createSammSystemImplementatingClassesLinkAdapter();
+			public Adapter casePCMSystemImplementatingClassesLink(PCMSystemImplementatingClassesLink object) {
+				return createPCMSystemImplementatingClassesLinkAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -200,16 +200,16 @@ public class SourceCodeDecoratorAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.somox.sourcecodedecorator.SammSystemImplementatingClassesLink <em>Samm System Implementating Classes Link</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink <em>PCM System Implementating Classes Link</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.somox.sourcecodedecorator.SammSystemImplementatingClassesLink
+	 * @see org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink
 	 * @generated
 	 */
-	public Adapter createSammSystemImplementatingClassesLinkAdapter() {
+	public Adapter createPCMSystemImplementatingClassesLinkAdapter() {
 		return null;
 	}
 

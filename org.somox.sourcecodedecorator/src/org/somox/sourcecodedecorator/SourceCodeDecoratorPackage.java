@@ -404,14 +404,14 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	int COMPONENT_IMPLEMENTING_CLASSES_LINK_FEATURE_COUNT = 7;
 
 	/**
-	 * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.SammSystemImplementatingClassesLinkImpl <em>Samm System Implementating Classes Link</em>}' class.
+	 * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl <em>PCM System Implementating Classes Link</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.somox.sourcecodedecorator.impl.SammSystemImplementatingClassesLinkImpl
-	 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getSammSystemImplementatingClassesLink()
+	 * @see org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl
+	 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getPCMSystemImplementatingClassesLink()
 	 * @generated
 	 */
-	int SAMM_SYSTEM_IMPLEMENTATING_CLASSES_LINK = 6;
+	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK = 6;
 
 	/**
 	 * The feature id for the '<em><b>Is Composite Component</b></em>' attribute.
@@ -420,7 +420,7 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SAMM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__IS_COMPOSITE_COMPONENT = COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT;
+	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__IS_COMPOSITE_COMPONENT = COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT;
 
 	/**
 	 * The feature id for the '<em><b>Component</b></em>' reference.
@@ -429,7 +429,7 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SAMM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__COMPONENT = COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT;
+	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__COMPONENT = COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT;
 
 	/**
 	 * The feature id for the '<em><b>Implementing Classes</b></em>' reference list.
@@ -438,7 +438,7 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SAMM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__IMPLEMENTING_CLASSES = COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES;
+	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__IMPLEMENTING_CLASSES = COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES;
 
 	/**
 	 * The feature id for the '<em><b>Sub Components</b></em>' reference list.
@@ -447,7 +447,7 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SAMM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SUB_COMPONENTS = COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS;
+	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SUB_COMPONENTS = COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS;
 
 	/**
 	 * The feature id for the '<em><b>Provided Interfaces</b></em>' reference list.
@@ -456,7 +456,7 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SAMM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__PROVIDED_INTERFACES = COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES;
+	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__PROVIDED_INTERFACES = COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES;
 
 	/**
 	 * The feature id for the '<em><b>Required Interfaces</b></em>' reference list.
@@ -465,7 +465,7 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SAMM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__REQUIRED_INTERFACES = COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES;
+	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__REQUIRED_INTERFACES = COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES;
 
 	/**
 	 * The feature id for the '<em><b>Is Initial Component</b></em>' attribute.
@@ -474,26 +474,25 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SAMM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__IS_INITIAL_COMPONENT = COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT;
+	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__IS_INITIAL_COMPONENT = COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT;
 
 	/**
-	 * The feature id for the '<em><b>Service Architecture Model</b></em>' reference.
+	 * The feature id for the '<em><b>System Model</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SAMM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SERVICE_ARCHITECTURE_MODEL = COMPONENT_IMPLEMENTING_CLASSES_LINK_FEATURE_COUNT + 0;
+	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL = COMPONENT_IMPLEMENTING_CLASSES_LINK_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Samm System Implementating Classes Link</em>' class.
+	 * The number of structural features of the '<em>PCM System Implementating Classes Link</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SAMM_SYSTEM_IMPLEMENTATING_CLASSES_LINK_FEATURE_COUNT = COMPONENT_IMPLEMENTING_CLASSES_LINK_FEATURE_COUNT + 1;
-
+	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK_FEATURE_COUNT = COMPONENT_IMPLEMENTING_CLASSES_LINK_FEATURE_COUNT + 1;
 
 	/**
 	 * Returns the meta object for class '{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink <em>File Level Source Code Link</em>}'.
@@ -776,25 +775,25 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	EAttribute getComponentImplementingClassesLink_IsInitialComponent();
 
 	/**
-	 * Returns the meta object for class '{@link org.somox.sourcecodedecorator.SammSystemImplementatingClassesLink <em>Samm System Implementating Classes Link</em>}'.
+	 * Returns the meta object for class '{@link org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink <em>PCM System Implementating Classes Link</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Samm System Implementating Classes Link</em>'.
-	 * @see org.somox.sourcecodedecorator.SammSystemImplementatingClassesLink
+	 * @return the meta object for class '<em>PCM System Implementating Classes Link</em>'.
+	 * @see org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink
 	 * @generated
 	 */
-	EClass getSammSystemImplementatingClassesLink();
+	EClass getPCMSystemImplementatingClassesLink();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.SammSystemImplementatingClassesLink#getServiceArchitectureModel <em>Service Architecture Model</em>}'.
+	 * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink#getSystemModel <em>System Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Service Architecture Model</em>'.
-	 * @see org.somox.sourcecodedecorator.SammSystemImplementatingClassesLink#getServiceArchitectureModel()
-	 * @see #getSammSystemImplementatingClassesLink()
+	 * @return the meta object for the reference '<em>System Model</em>'.
+	 * @see org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink#getSystemModel()
+	 * @see #getPCMSystemImplementatingClassesLink()
 	 * @generated
 	 */
-	EReference getSammSystemImplementatingClassesLink_ServiceArchitectureModel();
+	EReference getPCMSystemImplementatingClassesLink_SystemModel();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1039,22 +1038,22 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 		EAttribute COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT = eINSTANCE.getComponentImplementingClassesLink_IsInitialComponent();
 
 		/**
-		 * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.SammSystemImplementatingClassesLinkImpl <em>Samm System Implementating Classes Link</em>}' class.
+		 * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl <em>PCM System Implementating Classes Link</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.somox.sourcecodedecorator.impl.SammSystemImplementatingClassesLinkImpl
-		 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getSammSystemImplementatingClassesLink()
+		 * @see org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl
+		 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getPCMSystemImplementatingClassesLink()
 		 * @generated
 		 */
-		EClass SAMM_SYSTEM_IMPLEMENTATING_CLASSES_LINK = eINSTANCE.getSammSystemImplementatingClassesLink();
+		EClass PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK = eINSTANCE.getPCMSystemImplementatingClassesLink();
 
 		/**
-		 * The meta object literal for the '<em><b>Service Architecture Model</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>System Model</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SAMM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SERVICE_ARCHITECTURE_MODEL = eINSTANCE.getSammSystemImplementatingClassesLink_ServiceArchitectureModel();
+		EReference PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL = eINSTANCE.getPCMSystemImplementatingClassesLink_SystemModel();
 
 	}
 

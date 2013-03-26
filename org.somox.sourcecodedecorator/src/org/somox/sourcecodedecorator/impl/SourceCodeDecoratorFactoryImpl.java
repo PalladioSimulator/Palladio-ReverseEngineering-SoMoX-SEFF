@@ -62,7 +62,7 @@ public class SourceCodeDecoratorFactoryImpl extends EFactoryImpl implements Sour
 			case SourceCodeDecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY: return createSourceCodeDecoratorRepository();
 			case SourceCodeDecoratorPackage.INTERFACE_SOURCE_CODE_LINK: return createInterfaceSourceCodeLink();
 			case SourceCodeDecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK: return createComponentImplementingClassesLink();
-			case SourceCodeDecoratorPackage.SAMM_SYSTEM_IMPLEMENTATING_CLASSES_LINK: return createSammSystemImplementatingClassesLink();
+			case SourceCodeDecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK: return createPCMSystemImplementatingClassesLink();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -133,9 +133,9 @@ public class SourceCodeDecoratorFactoryImpl extends EFactoryImpl implements Sour
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SammSystemImplementatingClassesLink createSammSystemImplementatingClassesLink() {
-		SammSystemImplementatingClassesLinkImpl sammSystemImplementatingClassesLink = new SammSystemImplementatingClassesLinkImpl();
-		return sammSystemImplementatingClassesLink;
+	public PCMSystemImplementatingClassesLink createPCMSystemImplementatingClassesLink() {
+		PCMSystemImplementatingClassesLinkImpl pcmSystemImplementatingClassesLink = new PCMSystemImplementatingClassesLinkImpl();
+		return pcmSystemImplementatingClassesLink;
 	}
 
 	/**

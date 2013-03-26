@@ -13,5 +13,6 @@ Export-Package: org.somox.sourcecodedecorator,
 Require-Bundle: de.uka.ipd.sdq.identifier;visibility:=reexport,
  de.uka.ipd.sdq.stoex;visibility:=reexport,
  org.eclipse.gmt.modisco.java,
- org.eclipse.gmt.modisco.omg.kdm
+ org.eclipse.gmt.modisco.omg.kdm,
+ de.uka.ipd.sdq.pcm;bundle-version="3.2.0"
 Bundle-ActivationPolicy: lazy

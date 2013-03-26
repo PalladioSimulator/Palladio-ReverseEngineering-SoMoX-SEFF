@@ -105,10 +105,10 @@ public class SourceCodeDecoratorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SourceCodeDecoratorPackage.SAMM_SYSTEM_IMPLEMENTATING_CLASSES_LINK: {
-				SammSystemImplementatingClassesLink sammSystemImplementatingClassesLink = (SammSystemImplementatingClassesLink)theEObject;
-				T result = caseSammSystemImplementatingClassesLink(sammSystemImplementatingClassesLink);
-				if (result == null) result = caseComponentImplementingClassesLink(sammSystemImplementatingClassesLink);
+			case SourceCodeDecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK: {
+				PCMSystemImplementatingClassesLink pcmSystemImplementatingClassesLink = (PCMSystemImplementatingClassesLink)theEObject;
+				T result = casePCMSystemImplementatingClassesLink(pcmSystemImplementatingClassesLink);
+				if (result == null) result = caseComponentImplementingClassesLink(pcmSystemImplementatingClassesLink);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -207,17 +207,17 @@ public class SourceCodeDecoratorSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Samm System Implementating Classes Link</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>PCM System Implementating Classes Link</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Samm System Implementating Classes Link</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>PCM System Implementating Classes Link</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSammSystemImplementatingClassesLink(SammSystemImplementatingClassesLink object) {
+	public T casePCMSystemImplementatingClassesLink(PCMSystemImplementatingClassesLink object) {
 		return null;
 	}
 

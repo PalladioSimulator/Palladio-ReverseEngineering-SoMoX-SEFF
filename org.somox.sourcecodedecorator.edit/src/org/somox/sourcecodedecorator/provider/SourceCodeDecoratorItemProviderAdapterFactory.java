@@ -210,26 +210,26 @@ public class SourceCodeDecoratorItemProviderAdapterFactory extends SourceCodeDec
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.SammSystemImplementatingClassesLink} instances.
+	 * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SammSystemImplementatingClassesLinkItemProvider sammSystemImplementatingClassesLinkItemProvider;
+	protected PCMSystemImplementatingClassesLinkItemProvider pcmSystemImplementatingClassesLinkItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.somox.sourcecodedecorator.SammSystemImplementatingClassesLink}.
+	 * This creates an adapter for a {@link org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createSammSystemImplementatingClassesLinkAdapter() {
-		if (sammSystemImplementatingClassesLinkItemProvider == null) {
-			sammSystemImplementatingClassesLinkItemProvider = new SammSystemImplementatingClassesLinkItemProvider(this);
+	public Adapter createPCMSystemImplementatingClassesLinkAdapter() {
+		if (pcmSystemImplementatingClassesLinkItemProvider == null) {
+			pcmSystemImplementatingClassesLinkItemProvider = new PCMSystemImplementatingClassesLinkItemProvider(this);
 		}
 
-		return sammSystemImplementatingClassesLinkItemProvider;
+		return pcmSystemImplementatingClassesLinkItemProvider;
 	}
 
 	/**
@@ -337,7 +337,7 @@ public class SourceCodeDecoratorItemProviderAdapterFactory extends SourceCodeDec
 		if (sourceCodeDecoratorRepositoryItemProvider != null) sourceCodeDecoratorRepositoryItemProvider.dispose();
 		if (interfaceSourceCodeLinkItemProvider != null) interfaceSourceCodeLinkItemProvider.dispose();
 		if (componentImplementingClassesLinkItemProvider != null) componentImplementingClassesLinkItemProvider.dispose();
-		if (sammSystemImplementatingClassesLinkItemProvider != null) sammSystemImplementatingClassesLinkItemProvider.dispose();
+		if (pcmSystemImplementatingClassesLinkItemProvider != null) pcmSystemImplementatingClassesLinkItemProvider.dispose();
 	}
 
 }

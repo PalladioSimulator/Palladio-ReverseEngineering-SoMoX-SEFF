@@ -2,25 +2,16 @@
  */
 package org.somox.sourcecodedecorator.provider;
 
-import de.uka.ipd.sdq.probfunction.provider.ProbabilityFunctionEditPlugin;
-
-import de.uka.ipd.sdq.stoex.provider.StoexEditPlugin;
-
-import de.uka.ipd.sdq.units.provider.UnitsEditPlugin;
-
-import eu.qimpress.identifier.provider.IdentifierEditPlugin;
-
-import eu.qimpress.samm.staticstructure.provider.SammEditPlugin;
-
-import eu.qimpress.seff.provider.SeffEditPlugin;
-
 import org.eclipse.emf.common.EMFPlugin;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.gmt.modisco.java.emf.provider.JavaEditPlugin;
-
 import org.eclipse.gmt.modisco.omg.kdm.core.provider.KdmEditPlugin;
+
+import de.uka.ipd.sdq.identifier.provider.IdentifierEditPlugin;
+import de.uka.ipd.sdq.pcm.core.provider.PalladioComponentModelEditPlugin;
+import de.uka.ipd.sdq.probfunction.provider.ProbabilityFunctionEditPlugin;
+import de.uka.ipd.sdq.stoex.provider.StoexEditPlugin;
+import de.uka.ipd.sdq.units.provider.UnitsEditPlugin;
 
 /**
  * This is the central singleton for the Sourcecodedecorator edit plugin.
@@ -57,9 +48,8 @@ public final class SourcecodedecoratorEditPlugin extends EMFPlugin {
 		     IdentifierEditPlugin.INSTANCE,
 		     JavaEditPlugin.INSTANCE,
 		     KdmEditPlugin.INSTANCE,
+		     PalladioComponentModelEditPlugin.INSTANCE,
 		     ProbabilityFunctionEditPlugin.INSTANCE,
-		     SammEditPlugin.INSTANCE,
-		     SeffEditPlugin.INSTANCE,
 		     StoexEditPlugin.INSTANCE,
 		     UnitsEditPlugin.INSTANCE,
 		   });

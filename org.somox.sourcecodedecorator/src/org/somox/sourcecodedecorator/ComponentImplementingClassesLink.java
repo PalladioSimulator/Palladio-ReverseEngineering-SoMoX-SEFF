@@ -2,12 +2,9 @@
  */
 package org.somox.sourcecodedecorator;
 
-import eu.qimpress.samm.staticstructure.ComponentType;
-
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.gmt.modisco.java.Type;
 
 /**
@@ -68,12 +65,12 @@ public interface ComponentImplementingClassesLink extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Component</em>' reference.
-	 * @see #setComponent(ComponentType)
+	 * @see #setComponent(RepositoryComponent)
 	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getComponentImplementingClassesLink_Component()
 	 * @model required="true" ordered="false"
 	 * @generated
 	 */
-	ComponentType getComponent();
+	RepositoryComponent getComponent();
 
 	/**
 	 * Sets the value of the '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getComponent <em>Component</em>}' reference.
@@ -83,7 +80,7 @@ public interface ComponentImplementingClassesLink extends EObject {
 	 * @see #getComponent()
 	 * @generated
 	 */
-	void setComponent(ComponentType value);
+	void setComponent(RepositoryComponent value);
 
 	/**
 	 * Returns the value of the '<em><b>Implementing Classes</b></em>' reference list.

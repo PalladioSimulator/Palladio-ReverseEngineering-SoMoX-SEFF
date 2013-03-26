@@ -2,11 +2,10 @@
  */
 package org.somox.sourcecodedecorator;
 
-import eu.qimpress.samm.staticstructure.Interface;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.gmt.modisco.java.Type;
+
+import de.uka.ipd.sdq.pcm.repository.Interface;
 
 /**
  * <!-- begin-user-doc -->

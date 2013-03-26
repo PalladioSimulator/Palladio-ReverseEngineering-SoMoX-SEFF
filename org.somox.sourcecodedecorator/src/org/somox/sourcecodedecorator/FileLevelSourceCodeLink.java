@@ -2,11 +2,10 @@
  */
 package org.somox.sourcecodedecorator;
 
-import eu.qimpress.samm.staticstructure.ComponentType;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.gmt.modisco.omg.kdm.source.SourceFile;
+
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 
 /**
  * <!-- begin-user-doc -->
@@ -39,12 +38,12 @@ public interface FileLevelSourceCodeLink extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Component Type</em>' reference.
-	 * @see #setComponentType(ComponentType)
+	 * @see #setComponentType(RepositoryComponent)
 	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getFileLevelSourceCodeLink_ComponentType()
 	 * @model ordered="false"
 	 * @generated
 	 */
-	ComponentType getComponentType();
+	RepositoryComponent getComponentType();
 
 	/**
 	 * Sets the value of the '{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getComponentType <em>Component Type</em>}' reference.
@@ -54,7 +53,7 @@ public interface FileLevelSourceCodeLink extends EObject {
 	 * @see #getComponentType()
 	 * @generated
 	 */
-	void setComponentType(ComponentType value);
+	void setComponentType(RepositoryComponent value);
 
 	/**
 	 * Returns the value of the '<em><b>File</b></em>' reference.
