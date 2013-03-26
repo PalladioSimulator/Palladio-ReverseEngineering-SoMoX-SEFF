@@ -42,8 +42,8 @@ public class ComponentBuilder extends AbstractBuilder {
 	private InterfaceBuilder interfaceBuilder = null;
 	private IAssemblyConnectorStrategy assemblyConnectorDeFactoBuilder = null;
 	private IAssemblyConnectorStrategy assemblyConnectorInnerBuilder = null;
-	private IInterfacePortBuilderStrategy providedInterfaceBuilder = null;
-	private IInterfacePortBuilderStrategy requiredInterfaceBuilder = null;
+	private IProvidedRoleBuilderStrategy providedInterfaceBuilder = null;
+	private IProvidedRoleBuilderStrategy requiredInterfaceBuilder = null;
 	
 	private static Logger logger = Logger.getLogger(ComponentBuilder.class);
 	
@@ -114,8 +114,8 @@ public class ComponentBuilder extends AbstractBuilder {
 		this.assemblyConnectorDeFactoBuilder.buildAssemblyConnectors(result,compositeComponentSubgraph);
 		this.assemblyConnectorInnerBuilder.buildAssemblyConnectors(result,compositeComponentSubgraph);
 		
-		this.providedInterfaceBuilder.buildInterfacePort(result);
-		this.requiredInterfaceBuilder.buildInterfacePort(result);
+		this.providedInterfaceBuilder.buildProvidedRole(result);
+		this.requiredInterfaceBuilder.buildProvidedRole(result);
 		
 		return result;		
 	}
@@ -312,8 +312,8 @@ public class ComponentBuilder extends AbstractBuilder {
 			
 		}
 		
-		this.providedInterfaceBuilder.buildInterfacePort(compositeComponentLink);
-		this.requiredInterfaceBuilder.buildInterfacePort(compositeComponentLink);
+		this.providedInterfaceBuilder.buildProvidedRole(compositeComponentLink);
+		this.requiredInterfaceBuilder.buildProvidedRole(compositeComponentLink);
 		
 		this.assemblyConnectorDeFactoBuilder.buildAssemblyConnectors(compositeComponentLink,compositeComponentSubgraph); 
 		this.assemblyConnectorInnerBuilder.buildAssemblyConnectors(compositeComponentLink,compositeComponentSubgraph);				

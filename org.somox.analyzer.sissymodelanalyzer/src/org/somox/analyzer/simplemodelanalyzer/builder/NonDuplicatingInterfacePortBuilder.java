@@ -33,7 +33,7 @@ import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
  * @author Klaus Krogmann
  *
  */
-public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implements IInterfacePortBuilderStrategy {
+public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implements IProvidedRoleBuilderStrategy {
 
 	private static final Logger logger = Logger.getLogger(NonDuplicatingInterfacePortBuilder.class);
 	
@@ -57,7 +57,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 	 * assembly connectors. Additionally creates provided and required delegation connectors.
 	 * @param componentLink The composite component for which to build interface ports 
 	 */
-	public void buildInterfacePort(
+	public void buildProvidedRole(
 			ComponentImplementingClassesLink componentLink) {
 		assert (componentLink.isCompositeComponent());
 
