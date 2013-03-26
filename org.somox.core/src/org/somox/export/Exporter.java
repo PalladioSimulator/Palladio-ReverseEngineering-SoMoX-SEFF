@@ -4,9 +4,7 @@ import java.util.HashMap;
 
 import org.somox.configuration.ConfigurableComponent;
 
-import eu.qimpress.samm.staticstructure.Repository;
-
-//import eu.qimpress.commonmodel.commonmodel.StaticStructure.Repository;
+import de.uka.ipd.sdq.pcm.repository.Repository;
 
 /**
  * Interface for model exporter that are respoonsible to produce

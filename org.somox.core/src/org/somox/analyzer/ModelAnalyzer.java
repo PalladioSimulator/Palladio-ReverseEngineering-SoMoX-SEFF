@@ -6,11 +6,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.extractor.ExtractionResult;
 
-import eu.qimpress.samm.staticstructure.Repository;
-
-//import eu.qimpress.commonmodel.commonmodel.StaticStructure.Repository;
-
-
 /**
  * Interface for Analyzer extensions to be accessed from the SoMoX core
  * @author Benjamin Klatt

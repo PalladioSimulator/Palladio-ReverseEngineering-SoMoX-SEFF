@@ -3,14 +3,11 @@ package org.somox.analyzer;
 import java.util.List;
 
 import org.somox.common.Message;
-
-import org.somox.qimpressgast.GASTBehaviourRepository;
-import eu.qimpress.samm.qosannotation.QosAnnotations;
-import eu.qimpress.samm.staticstructure.Repository;
-import eu.qimpress.samm.staticstructure.ServiceArchitectureModel;
+import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
-//import eu.qimpress.commonmodel.commonmodel.StaticStructure.Repository;
+import de.uka.ipd.sdq.pcm.qosannotations.QoSAnnotations;
+import de.uka.ipd.sdq.pcm.repository.Repository;
 
 /**
  * The result of an analysis iteration.
@@ -68,14 +65,14 @@ public interface AnalysisResult {
 
 	/**
 	 * Get the resulting internal architectural model
-	 * @return Q-IMPRESS model repository.
+	 * @return PCM model repository.
 	 */
 	public Repository getInternalArchitectureModel();
 	
 	/**
-	 * GAST behaviour repository to create
+	 * SEFF2JavaAST repository to create
 	 */
-	public GASTBehaviourRepository getGastBehaviourRepository();
+	public SEFF2JavaAST getSeff2JavaAST();
 
 	/**
 	 * Source code decorator to update
@@ -84,14 +81,14 @@ public interface AnalysisResult {
 	public SourceCodeDecoratorRepository getSourceCodeDecoratorRepository();
 
 	/**
-	 * SAMM System (outer most component encapsulated).
+	 * PCM System (outer most component encapsulated).
 	 */
-	public ServiceArchitectureModel getServiceArchitectureModel();
+	public System getSystemModel();
 	
 	/**
 	 * QoS Annotation model
 	 */
-	public QosAnnotations getQosAnnotationModel();
+	public QoSAnnotations getQosAnnotationModel();
 
 	/**
 	 * Add a message object to the result
