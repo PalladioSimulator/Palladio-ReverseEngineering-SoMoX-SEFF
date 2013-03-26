@@ -236,14 +236,8 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
         bt.setResourceDemandingBehaviour(seffFactory.eINSTANCE.createResourceDemandingBehaviour());
         bt.getResourceDemandingBehaviour().getSteps().add(seffFactory.eINSTANCE.createStartAction());
         bt.setName("parent " + this.positionToString(KDMHelper.getJavaNodeSourceRegion(input)) + "/"
-                + this.positionToString(KDMHelper.getJavaNodeSourceRegion(ifElseStatement))); // use
-                                                                                              // parent
-                                                                                              // position
-                                                                                              // since
-                                                                                              // branch
-                                                                                              // position
-                                                                                              // is
-                                                                                              // empty//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                + this.positionToString(KDMHelper.getJavaNodeSourceRegion(ifElseStatement))); 
+		// use parent position since branch position is empty//GAST2SEFFCHANGE//GAST2SEFFCHANGE
         branch.getAbstractBranchTransition().add(bt);
         final GastStatementVisitor visitor = new GastStatementVisitor(this.functionClassificationAnnotation,
                 bt.getResourceDemandingBehaviour(), this.sourceCodeDecoratorRepository, this.primitiveComponent);
