@@ -10,7 +10,6 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.somox.sourcecodedecorator.provider
 Require-Bundle: de.uka.ipd.sdq.identifier.edit;visibility:=reexport,
- eu.qimpress.seff.edit;visibility:=reexport,
  de.uka.ipd.sdq.stoex.edit;visibility:=reexport,
  org.eclipse.gmt.modisco.java.edit,
  org.eclipse.gmt.modisco.omg.kdm.edit,

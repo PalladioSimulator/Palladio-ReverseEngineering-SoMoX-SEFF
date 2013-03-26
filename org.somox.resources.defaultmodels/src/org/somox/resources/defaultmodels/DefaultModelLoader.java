@@ -16,8 +16,6 @@ import eu.qimpress.samm.deployment.targetenvironment.Container;
 import eu.qimpress.samm.deployment.targetenvironment.ExecutionResource;
 import eu.qimpress.samm.deployment.targetenvironment.TargetEnvironment;
 import eu.qimpress.samm.deployment.targetenvironment.TargetenvironmentPackage;
-import eu.qimpress.samm.qosannotation.QosAnnotations;
-import eu.qimpress.samm.qosannotation.QosannotationPackage;
 
 /**
  * Default model handling / loading / accessing. Provides eased access

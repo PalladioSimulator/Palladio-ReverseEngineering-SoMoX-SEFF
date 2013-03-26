@@ -11,8 +11,6 @@ Export-Package: org.somox.sourcecodedecorator,
  org.somox.sourcecodedecorator.impl,
  org.somox.sourcecodedecorator.util
 Require-Bundle: de.uka.ipd.sdq.identifier;visibility:=reexport,
- eu.qimpress.samm;visibility:=reexport,
- eu.qimpress.seff;visibility:=reexport,
  de.uka.ipd.sdq.stoex;visibility:=reexport,
  org.eclipse.gmt.modisco.java,
  org.eclipse.gmt.modisco.omg.kdm
