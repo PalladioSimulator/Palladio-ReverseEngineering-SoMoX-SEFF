@@ -191,7 +191,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 			logger.info("Found GAST behaviour, generating SEFF behaviour for it: " + name);
 			
 			ResourceDemandingSEFF resourceDemandingSEFF = generateSEFFForGASTBehaviour(stub);				
-			seffRepository.g .getResourceDemandingSeff().add(resourceDemandingSEFF);
+//			seffRepository.g .getResourceDemandingSeff().add(resourceDemandingSEFF);
 			monitor.worked(1);
 			
 //			EObject eObject = iterator.next();
@@ -207,14 +207,14 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 		
 		// Create default annotations
 		DefaultQosAnnotationsBuilder qosAnnotationBuilder = new DefaultQosAnnotationsBuilder(
-				this.sammQosAnnotationsModel, seffRepository);
-		qosAnnotationBuilder.buildDefaultQosAnnotations();
+				this.sammQosAnnotationsModel);
+		qosAnnotationBuilder.buildDefaultQosAnnotations(this.gastBehaviourRepositoryModel.getSeff2MethodMappings());
 		
 		subMonitor.done();
 		
 		monitor.subTask("saving models");
 		
-		blackboard.setSeffRepository(seffRepository);
+//		blackboard.setSeffRepository(seffRepository);
 		//saveResources(seffRepository);
 	}
 

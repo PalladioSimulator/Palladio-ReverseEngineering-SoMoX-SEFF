@@ -1,10 +1,12 @@
 package org.somox.gast2seff.jobs;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
+import org.somox.seff2javaast.SEFF2MethodMapping;
 //import org.somox.resources.defaultmodels.DefaultModelLoader;
 
 import de.uka.ipd.sdq.pcm.core.CoreFactory;
@@ -46,7 +48,7 @@ public class DefaultQosAnnotationsBuilder {
 //	private SeffRepository seffRepository;
 //	DefaultModelLoader defaultModelLoader;
 
-	public DefaultQosAnnotationsBuilder(QoSAnnotations qosAnnotationsModel, SeffRepository seffRepository) {
+	public DefaultQosAnnotationsBuilder(QoSAnnotations qosAnnotationsModel) {
 //		this.qosAnnotationsModel = qosAnnotationsModel;
 //		this.seffRepository = seffRepository;
 //		this.defaultModelLoader = new DefaultModelLoader();
@@ -55,10 +57,11 @@ public class DefaultQosAnnotationsBuilder {
 	/**
 	 * Creates a QoS Annotation model with equal
 	 * branch probabilities and 1 fixed loop execution.
+	 * @param eList 
 	 * 
 	 */
-	public void buildDefaultQosAnnotations() {
-		TreeIterator<Object> elements = EcoreUtil.getAllContents(this.seffRepository, true);
+	public void buildDefaultQosAnnotations(EList<SEFF2MethodMapping> eList) {
+		TreeIterator<Object> elements = EcoreUtil.getAllContents(eList, true);
 		while(elements.hasNext()) {
 			EObject eObject = (EObject)elements.next();
 
