@@ -19,10 +19,12 @@ import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.FileLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 
-import de.uka.ipd.sdq.pcm.repository.ComponentType;
+import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
+import de.uka.ipd.sdq.pcm.core.composition.ComposedStructure;
+import de.uka.ipd.sdq.pcm.core.composition.CompositionFactory;
 import de.uka.ipd.sdq.pcm.repository.CompositeComponent;
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
-import de.uka.ipd.sdq.pcm.repository.impl.CompositeComponentImpl;
 //import de.fzi.gast.core.Root;
 //import de.fzi.gast.types.GASTClass;
 
@@ -92,23 +94,23 @@ public class ComponentBuilder extends AbstractBuilder {
 
 		// For the found pair of component candidates: merge them into a new component candidate
 		ComponentImplementingClassesLink result = SourceCodeDecoratorFactory.eINSTANCE.createComponentImplementingClassesLink();
-		de.uka.ipd.sdq.pcm.repository.CompositeComponent newComponentType = RepositoryFactory.eINSTANCE.createCompositeComponent();
+		CompositeComponent newComponentType = RepositoryFactory.eINSTANCE.createCompositeComponent();
 
 		String componentName = this.componentNamingStrategy.createCompositeComponentName(compositeComponentSubgraph.vertexSet());
 		logger.info("Creating composite component with name: "+componentName);
-		newComponentType.setEntityName((componentName);
-		newComponentType.setDocumentation(
-				this.componentNamingStrategy.createCompositeComponentName(
-						compositeComponentSubgraph.vertexSet(), false)); //full name
+		newComponentType.setEntityName(componentName);
+		//newComponentType.setDocumentation(
+		//this.componentNamingStrategy.createCompositeComponentName(
+		//compositeComponentSubgraph.vertexSet(), false)); //full name
 				
-		createSubComponentInstances(compositeComponentSubgraph.vertexSet(),
+		createAssemblyContext(compositeComponentSubgraph.vertexSet(),
 				newComponentType);
 		
 		result.setComponent(newComponentType);
 		result.getSubComponents().addAll(compositeComponentSubgraph.vertexSet());
 		
 		this.analysisResult.getSourceCodeDecoratorRepository().getComponentImplementingClassesLink().add(result);
-		this.analysisResult.getInternalArchitectureModel().getComponenttype().add(newComponentType);
+		this.analysisResult.getInternalArchitectureModel().getComponents__Repository().add(newComponentType);
 
 		this.assemblyConnectorDeFactoBuilder.buildAssemblyConnectors(result,compositeComponentSubgraph);
 		this.assemblyConnectorInnerBuilder.buildAssemblyConnectors(result,compositeComponentSubgraph);
@@ -125,16 +127,16 @@ public class ComponentBuilder extends AbstractBuilder {
 	 * @param newComponentType The outer component for which to add the instances
 	 * @return created subcomponent instances
 	 */
-	public List<SubcomponentInstance> createSubComponentInstances(
+	public List<AssemblyContext> createAssemblyContext(
 			Set<ComponentImplementingClassesLink> subComponents,
-			CompositeStructure newComponentType) {
-		ArrayList<SubcomponentInstance> subComponentInstance = new ArrayList<SubcomponentInstance>(subComponents.size());
+			ComposedStructure newComponentType) {
+		ArrayList<AssemblyContext> subComponentInstance = new ArrayList<AssemblyContext>(subComponents.size());
 		
 		for(ComponentImplementingClassesLink innerComponent : subComponents) {
-			SubcomponentInstance subcomponentInstance = StaticstructureFactory.eINSTANCE.createSubcomponentInstance();
-			subcomponentInstance.setRealizedBy(innerComponent.getComponent());
-			subcomponentInstance.setName(this.componentNamingStrategy.createComponentInstanceName(innerComponent.getComponent()));
-			newComponentType.getSubcomponents().add(subcomponentInstance);			
+			AssemblyContext assemblyContext = CompositionFactory.eINSTANCE.createAssemblyContext();
+			assemblyContext.setParentStructure__AssemblyContext(newComponentType);
+			assemblyContext.setEncapsulatedComponent__AssemblyContext(innerComponent.getComponent());
+			assemblyContext.setEntityName(this.componentNamingStrategy.createComponentInstanceName(innerComponent.getComponent()));
 			
 			// for those inner components which might have been initial ones: no more initial when used in composite component:
 			innerComponent.setIsInitialComponent(false);
@@ -220,10 +222,10 @@ public class ComponentBuilder extends AbstractBuilder {
 		
 		this.analysisResult.getSourceCodeDecoratorRepository().getComponentImplementingClassesLink().add(primitiveComponent);
 		
-		ComponentType newComponentType = StaticstructureFactory.eINSTANCE.createPrimitiveComponent();
-		newComponentType.setName(componentName); //short name
-		newComponentType.setDocumentation(componentNamingStrategy.createSimpleComponentName(gastClasses, false)); //long description
-		this.analysisResult.getInternalArchitectureModel().getComponenttype().add(newComponentType);			
+		RepositoryComponent newComponentType = RepositoryFactory.eINSTANCE.createBasicComponent();
+		newComponentType.setEntityName(componentName); //short name
+		//newComponentType.setDocumentation(componentNamingStrategy.createSimpleComponentName(gastClasses, false)); //long description
+		this.analysisResult.getInternalArchitectureModel().getComponents__Repository().add(newComponentType);			
 		primitiveComponent.setComponent(newComponentType);
 		
 		// TODO: check whether now duplicate classes are added
@@ -296,12 +298,13 @@ public class ComponentBuilder extends AbstractBuilder {
 				//Create a single large primitive component comprising multiple classes / handle the new :				
 				ComponentImplementingClassesLink newInnerPrimitiveComponent = 
 					createSinglePrimitiveComponentFromGASTClasses(innerComponent.getImplementingClasses());
-
+				
 				// for all other inner components corresponding inner components have already been created:
-				SubcomponentInstance subcomponentInstance = StaticstructureFactory.eINSTANCE.createSubcomponentInstance();
-				subcomponentInstance.setRealizedBy(newInnerPrimitiveComponent.getComponent());
-				subcomponentInstance.setName(this.componentNamingStrategy.createComponentInstanceName(newInnerPrimitiveComponent.getComponent()));			
-				((CompositeComponent)compositeComponentLink.getComponent()).getSubcomponents().add(subcomponentInstance);
+				AssemblyContext assemblyContext = CompositionFactory.eINSTANCE.createAssemblyContext();
+				assemblyContext.setEncapsulatedComponent__AssemblyContext(newInnerPrimitiveComponent.getComponent());
+				assemblyContext.setEntityName(this.componentNamingStrategy.createComponentInstanceName(newInnerPrimitiveComponent.getComponent()));
+				
+				((CompositeComponent)compositeComponentLink.getComponent()).getAssemblyContexts__ComposedStructure().add(assemblyContext);
 
 				// update the result source code decorator
 				compositeComponentLink.getSubComponents().add(newInnerPrimitiveComponent);
@@ -372,7 +375,7 @@ public class ComponentBuilder extends AbstractBuilder {
 	 * @return a list containing the given class plus all inner classes
 	 */
 	//SOMOXTODOCHANGE rename this class to getInputElementAndInnerClasses
-	private Set<Type> getInnerClasses (Type element, ComponentType newComponentType) {
+	private Set<Type> getInnerClasses (Type element, RepositoryComponent newComponentType) {
 		Set<Type> currentList = new HashSet<Type>();
 		currentList.add(element);
 		storeFileLocationInSourceCodeDecorator(element, newComponentType);
@@ -419,7 +422,7 @@ public class ComponentBuilder extends AbstractBuilder {
 	 * @param newComponent
 	 */
 	private void storeFileLocationInSourceCodeDecorator(
-			Type gastClass, ComponentType newComponent) {
+			Type gastClass, RepositoryComponent newComponent) {
 		//TODO inner classes?
 		FileLevelSourceCodeLink link = SourceCodeDecoratorFactory.eINSTANCE.createFileLevelSourceCodeLink();
 		link.setComponentType(newComponent);
