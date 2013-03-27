@@ -11,7 +11,7 @@ import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.ModelAnalyzer;
 import org.somox.analyzer.ModelAnalyzerException;
 import org.somox.analyzer.simplemodelanalyzer.builder.ComponentBuilder;
-import org.somox.analyzer.simplemodelanalyzer.builder.SammSystemBuilder;
+import org.somox.analyzer.simplemodelanalyzer.builder.PCMSystemBuilder;
 import org.somox.analyzer.simplemodelanalyzer.detection.util.ComponentPrinter;
 import org.somox.analyzer.simplemodelanalyzer.factories.BasicSoMoXStrategiesFactory;
 import org.somox.analyzer.simplemodelanalyzer.factories.ISoMoXStrategiesFactory;
@@ -141,8 +141,8 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 		postComponentDetection(somoxConfiguration, analysisResult, strategiesFactory, progressMonitor);
 		
 		// Create SAMM System		
-		SammSystemBuilder sammSystemBuilder = new SammSystemBuilder(gastModel, somoxConfiguration, analysisResult, sammComponentBuilder);		
-		sammSystemBuilder.buildServiceArchitectureModel();
+		PCMSystemBuilder pcmSystemBuilder = new PCMSystemBuilder(gastModel, somoxConfiguration, analysisResult, sammComponentBuilder);		
+		pcmSystemBuilder.buildSystemModel();
 		
 		analysisResult.setResultStatus(AnalysisResult.ResultStatus.SUCCESS);
 		
