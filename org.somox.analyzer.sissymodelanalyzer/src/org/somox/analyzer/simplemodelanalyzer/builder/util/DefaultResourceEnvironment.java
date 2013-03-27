@@ -87,7 +87,7 @@ public class DefaultResourceEnvironment {
 		return getResourceRepository().getSchedulingPolicies__ResourceRepository().get(0);
 	}
 
-	protected static ProcessingResourceType getCPUProcessingResourceType() {
+	public static ProcessingResourceType getCPUProcessingResourceType() {
 		return (ProcessingResourceType)getResourceRepository().getAvailableResourceTypes_ResourceRepository().get(0);
 	}
 	

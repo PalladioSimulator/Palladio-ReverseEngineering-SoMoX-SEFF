@@ -25,6 +25,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.somox.analyzer.simplemodelanalyzer,
  org.somox.analyzer.simplemodelanalyzer.builder,
+ org.somox.analyzer.simplemodelanalyzer.builder.util,
  org.somox.analyzer.simplemodelanalyzer.detection,
  org.somox.analyzer.simplemodelanalyzer.detection.util,
  org.somox.analyzer.simplemodelanalyzer.factories,
