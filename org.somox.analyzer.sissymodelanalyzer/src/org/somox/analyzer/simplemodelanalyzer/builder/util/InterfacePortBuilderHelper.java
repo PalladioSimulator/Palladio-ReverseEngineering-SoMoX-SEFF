@@ -7,20 +7,14 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.somox.analyzer.simplemodelanalyzer.builder.InterfacesBoundInConnectorFilter;
-
-import de.uka.ipd.sdq.pcm.core.entity.Entity;
-import de.uka.ipd.sdq.pcm.core.entity.InterfaceProvidingEntity;
-import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
-import de.uka.ipd.sdq.pcm.repository.Role;
-import eu.qimpress.samm.staticstructure.CompositeComponent;
-import eu.qimpress.samm.staticstructure.CompositeStructure;
-import eu.qimpress.samm.staticstructure.Connector;
-import eu.qimpress.samm.staticstructure.EndPoint;
-import eu.qimpress.samm.staticstructure.InterfacePort;
-import eu.qimpress.samm.staticstructure.SubcomponentInstance;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
-import org.somox.sourcecodedecorator.SammSystemImplementatingClassesLink;
+
+import de.uka.ipd.sdq.pcm.core.composition.Connector;
+import de.uka.ipd.sdq.pcm.core.entity.Entity;
+import de.uka.ipd.sdq.pcm.repository.CompositeComponent;
+import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.Role;
 
 /**
  * Query functionality useful when creating interface ports.

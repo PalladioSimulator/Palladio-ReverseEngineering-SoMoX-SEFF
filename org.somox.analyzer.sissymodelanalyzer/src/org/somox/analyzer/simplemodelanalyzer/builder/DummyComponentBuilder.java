@@ -9,8 +9,11 @@ import org.somox.analyzer.simplemodelanalyzer.builder.util.SubComponentInformati
 import de.uka.ipd.sdq.pcm.allocation.Allocation;
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
 import de.uka.ipd.sdq.pcm.core.composition.CompositionFactory;
+import de.uka.ipd.sdq.pcm.core.entity.InterfaceProvidingEntity;
+import de.uka.ipd.sdq.pcm.core.entity.InterfaceProvidingRequiringEntity;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.OperationInterface;
+import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
@@ -41,21 +44,18 @@ public class DummyComponentBuilder {
 		// add all interfaces as provided to component:
 		for(SubComponentInformation subCompInfo : subComponentInformationOnNonBoundInterfacePorts) {
 			
-			ProvidedRole newProvidedRole = RepositoryFactory.eINSTANCE.createInfrastructureProvidedRole();
-			newProvidedRole.setEntityName(subCompInfo.getRole().getEntityName() + " (prov dummy)");
-			
-			
-			newProvidedInterfacePort.setInterfaceType(subCompInfo.getInterfacePort().getInterfaceType());
-			newProvidedInterfacePort.setName(subCompInfo.getInterfacePort().getInterfaceType().getName() + " (prov dummy)");
-			newProvidedInterfacePort.setDocumentation("SoMoX created provided port");
-			dummyComponentInfo.primitiveComponentType.getProvided().add(newProvidedInterfacePort);
+			OperationProvidedRole newProvidedRole = RepositoryFactory.eINSTANCE.createOperationProvidedRole();
+			newProvidedRole.setEntityName(subCompInfo.getOperationRequiredRole().getEntityName() + " (prov dummy)");
+			newProvidedRole.setEntityName(subCompInfo.getOperationRequiredRole().getEntityName() + " (prov dummy)");
+			//newProvidedInterfacePort.setDocumentation("SoMoX created provided port");
+			dummyComponentInfo.basicComponent.getProvidedRoles_InterfaceProvidingEntity().add(newProvidedRole);
 			
 			
 			// create assembly connector:
 			AssemblyConnectorBuilder.createAssemblyConnector(
 					pcmSystem, 
-					subCompInfo.getRole(), newProvidedRole, 
-					subCompInfo.getAssemblyContext(), dummyComponentInfo.basicComponent);
+					subCompInfo.getOperationRequiredRole(), newProvidedRole, 
+					subCompInfo.getAssemblyContext(), dummyComponentInfo.assemblyContext);
 		}		
 		
 		return dummyComponentInfo.basicComponent;		

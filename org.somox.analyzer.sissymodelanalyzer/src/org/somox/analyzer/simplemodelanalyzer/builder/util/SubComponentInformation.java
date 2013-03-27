@@ -3,7 +3,7 @@ package org.somox.analyzer.simplemodelanalyzer.builder.util;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
-import de.uka.ipd.sdq.pcm.repository.Role;
+import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
 
 /**
  * Builder-related information for proper connector
@@ -11,15 +11,15 @@ import de.uka.ipd.sdq.pcm.repository.Role;
  */
 public class SubComponentInformation {
 	InterfaceSourceCodeLink interfaceSourceCodeLink;
-	Role role;
+	OperationRequiredRole operationRequiredRole;
 	AssemblyContext assemblyContext;
 	
 	public SubComponentInformation(
 			InterfaceSourceCodeLink interfaceSourceCodeLink,
-			Role role,
+			OperationRequiredRole operationRequiredRole,
 			AssemblyContext assemblyContext) {
 		this.interfaceSourceCodeLink = interfaceSourceCodeLink;
-		this.role = role;
+		this.operationRequiredRole = operationRequiredRole;
 		this.assemblyContext = assemblyContext;
 	}
 	
@@ -27,8 +27,8 @@ public class SubComponentInformation {
 		return interfaceSourceCodeLink;
 	}
 	
-	public Role getRole() {
-		return role;
+	public OperationRequiredRole getOperationRequiredRole() {
+		return operationRequiredRole;
 	}
 
 	public AssemblyContext getAssemblyContext() {
@@ -42,7 +42,7 @@ public class SubComponentInformation {
 			return false;
 		} else {
 			SubComponentInformation instance = (SubComponentInformation) obj;
-			return(instance.getRole().equals(this.getRole())
+			return(instance.getOperationRequiredRole().equals(this.getOperationRequiredRole())
 					&& instance.getInterfaceSourceCodeLink().equals(this.getInterfaceSourceCodeLink())
 					&& instance.getAssemblyContext().equals(this.getAssemblyContext())
 			);
