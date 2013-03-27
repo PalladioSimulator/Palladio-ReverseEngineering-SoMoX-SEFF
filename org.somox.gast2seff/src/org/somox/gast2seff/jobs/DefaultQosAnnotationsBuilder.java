@@ -13,6 +13,7 @@ import de.uka.ipd.sdq.pcm.core.CoreFactory;
 import de.uka.ipd.sdq.pcm.core.PCMRandomVariable;
 import de.uka.ipd.sdq.pcm.qosannotations.QoSAnnotations;
 import de.uka.ipd.sdq.pcm.qosannotations.QosannotationsFactory;
+import de.uka.ipd.sdq.pcm.seff.ServiceEffectSpecification;
 import de.uka.ipd.sdq.pcm.seff.seff_performance.ParametricResourceDemand;
 import de.uka.ipd.sdq.pcm.seff.seff_performance.SeffPerformanceFactory;
 import de.uka.ipd.sdq.stoex.RandomVariable;
@@ -57,27 +58,31 @@ public class DefaultQosAnnotationsBuilder {
 	/**
 	 * Creates a QoS Annotation model with equal
 	 * branch probabilities and 1 fixed loop execution.
-	 * @param eList 
+	 * @param listofSEFF2MethodMappings 
 	 * 
 	 */
-	public void buildDefaultQosAnnotations(EList<SEFF2MethodMapping> eList) {
-		TreeIterator<Object> elements = EcoreUtil.getAllContents(eList, true);
-		while(elements.hasNext()) {
-			EObject eObject = (EObject)elements.next();
-
-			if(eObject instanceof de.uka.ipd.sdq.pcm.seff.LoopAction) {
-				de.uka.ipd.sdq.pcm.seff.LoopAction loopAction = (de.uka.ipd.sdq.pcm.seff.LoopAction)eObject;		
-				createDefaultLoopCount(loopAction);			
-			}
-			if(eObject instanceof de.uka.ipd.sdq.pcm.seff.BranchAction) {
-				de.uka.ipd.sdq.pcm.seff.BranchAction branchAction = (de.uka.ipd.sdq.pcm.seff.BranchAction)eObject;		
-				createDefaultBranchProbability(branchAction);			
+	public void buildDefaultQosAnnotations(EList<SEFF2MethodMapping> listofSEFF2MethodMappings) {
+		for(SEFF2MethodMapping mapping : listofSEFF2MethodMappings){
+			ServiceEffectSpecification seff = mapping.getSeff();
+			
+			TreeIterator<Object> elements = EcoreUtil.getAllContents(seff, true);
+			while(elements.hasNext()) {
+				EObject eObject = (EObject)elements.next();
+				
+				if(eObject instanceof de.uka.ipd.sdq.pcm.seff.LoopAction) {
+					de.uka.ipd.sdq.pcm.seff.LoopAction loopAction = (de.uka.ipd.sdq.pcm.seff.LoopAction)eObject;		
+					createDefaultLoopCount(loopAction);			
+				}
+				if(eObject instanceof de.uka.ipd.sdq.pcm.seff.BranchAction) {
+					de.uka.ipd.sdq.pcm.seff.BranchAction branchAction = (de.uka.ipd.sdq.pcm.seff.BranchAction)eObject;		
+					createDefaultBranchProbability(branchAction);			
+				}		
+				if(eObject instanceof de.uka.ipd.sdq.pcm.seff.InternalAction) {
+					de.uka.ipd.sdq.pcm.seff.InternalAction internalAction = (de.uka.ipd.sdq.pcm.seff.InternalAction)eObject;		
+					createDefaultCpuResourceDemand(internalAction);			
+				}								
 			}		
-			if(eObject instanceof de.uka.ipd.sdq.pcm.seff.InternalAction) {
-				de.uka.ipd.sdq.pcm.seff.InternalAction internalAction = (de.uka.ipd.sdq.pcm.seff.InternalAction)eObject;		
-				createDefaultCpuResourceDemand(internalAction);			
-			}								
-		}		
+		}
 		
 //		this.qosAnnotationsModel.setEntityName("SoMoX Default QoS Annotations");
 	}
