@@ -64,6 +64,11 @@ public class DefaultResourceEnvironment {
 		return resourceEnvironment;
 	}
 	
+	/**
+	 * Retrieves a list of {@link de.uka.ipd.sdq.pcm.repository.PrimitiveDataType}s as defined in the standrad PCM resource repository. 
+	 * @return
+	 * 		A cached list of primitive data types.
+	 */
 	public static List<PrimitiveDataType> getPrimitiveDataTypes() {
 		List<PrimitiveDataType> primitives = new ArrayList<PrimitiveDataType>();
 		if (primitiveTypesRepository == null) {
