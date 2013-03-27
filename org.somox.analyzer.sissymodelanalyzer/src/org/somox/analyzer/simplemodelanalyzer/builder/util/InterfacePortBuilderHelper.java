@@ -8,6 +8,10 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.somox.analyzer.simplemodelanalyzer.builder.InterfacesBoundInConnectorFilter;
 
+import de.uka.ipd.sdq.pcm.core.entity.Entity;
+import de.uka.ipd.sdq.pcm.core.entity.InterfaceProvidingEntity;
+import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.Role;
 import eu.qimpress.samm.staticstructure.CompositeComponent;
 import eu.qimpress.samm.staticstructure.CompositeStructure;
 import eu.qimpress.samm.staticstructure.Connector;
@@ -128,18 +132,18 @@ public class InterfacePortBuilderHelper {
 	 * @param searchProvidedPort switch provided / required search
 	 * @return
 	 */
-	public static InterfacePort getInterfacePort(
+	public static Role getInterfacePort(
 			ComponentImplementingClassesLink subComponentLink,
 			InterfaceSourceCodeLink interfaceLinkSub,
 			boolean searchProvidedPort) {
+		EList<ProvidedRole> entities;
 		
-		EList<InterfacePort> interfacePorts;
 		if(searchProvidedPort) {
-			interfacePorts = subComponentLink.getComponent().getProvided();
+			entities = subComponentLink.getComponent().getProvidedRoles_InterfaceProvidingEntity();
 		} else {
-			interfacePorts = subComponentLink.getComponent().getRequired(); 
+			entities = subComponentLink.getComponent().getRequiredRoles_InterfaceRequiringEntity();
 		}
-		for(InterfacePort currentInterfacePort : interfacePorts) {
+		for(Entity currentInterfacePort : entities) {
 			if(interfaceLinkSub.getInterface().equals(currentInterfacePort.getInterfaceType())) {
 				return currentInterfacePort;
 			}

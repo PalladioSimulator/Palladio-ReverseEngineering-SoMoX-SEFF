@@ -27,7 +27,6 @@ import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
-import de.uka.ipd.sdq.pcm.repository.ComponentType;
 import de.uka.ipd.sdq.pcm.repository.Interface;
 import de.uka.ipd.sdq.pcm.repository.OperationInterface;
 import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
@@ -41,7 +40,6 @@ import de.uka.ipd.sdq.pcm.repository.Role;
 //import de.fzi.gast.accesses.accessesPackage;
 //import de.fzi.gast.core.Root;
 //import de.fzi.gast.types.GASTClass;
-import de.uka.ipd.sdq.pcm.repository.RequiredRole;
 
 /**
  * Builder used to create {@link Interface}s in the SAMM instance based on reverse engineered 
@@ -489,7 +487,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 				
 				//create a new interface
 				Interface newInterface = createInterface(currentClass, currentClass);				
-				analysisResult.getInternalArchitectureModel().getInterface().add(newInterface);
+				analysisResult.getInternalArchitectureModel().getInterfaces__Repository().add(newInterface);
 				
 				//update source code decorator
 				InterfaceSourceCodeLink ifLink = SourceCodeDecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();

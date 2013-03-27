@@ -129,22 +129,20 @@ public class PCMSystemBuilder extends AbstractBuilder {
 				
 		Set<SubComponentInformation> subComponentInformationSet = new HashSet<SubComponentInformation>();
 		
+		Allocation allocation = analysisResult.getAllocation();
+		allocation.setEntityName("SoMoX Reverse Engineered Allocation");
+		allocation.setSystem_Allocation(pcmSystem);
+		allocation.setTargetResourceEnvironment_Allocation(DefaultResourceEnvironment.getDefaultResourceEnvironment());
+		
 		for(ComponentImplementingClassesLink compLink : innerComponents) {
 		
 			// create subcomponent instances
-			// TODO: What is a subcomponent instances in PCM?
 			AssemblyContext assemblyContext = CompositionFactory.eINSTANCE.createAssemblyContext();
 			assemblyContext.setEncapsulatedComponent__AssemblyContext(compLink.getComponent());
 			assemblyContext.setEntityName(compLink.getComponent().getEntityName());
 			pcmSystem.eContents().add(assemblyContext);
 			pcmLink.getSubComponents().add(compLink);
 									
-			// Service allocation
-			Allocation allocation = AllocationFactory.eINSTANCE.createAllocation();
-			allocation.setEntityName(compLink.getComponent().getEntityName());
-			allocation.setSystem_Allocation(pcmSystem);
-			allocation.setTargetResourceEnvironment_Allocation(DefaultResourceEnvironment.getDefaultResourceEnvironment());
-			
 			// replicate provided ports for SAMM system:
 			for(InterfaceSourceCodeLink provIfLink : compLink.getProvidedInterfaces()) {
 				createPortAndDelegationConnector(pcmSystem, compLink,

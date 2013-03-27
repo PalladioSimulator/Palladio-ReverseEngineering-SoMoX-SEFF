@@ -5,13 +5,14 @@ import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.jgrapht.Graph;
 import org.somox.metrics.ClusteringRelation;
-
-import eu.qimpress.samm.staticstructure.CompositeComponent;
-import eu.qimpress.samm.staticstructure.CompositeStructure;
-import eu.qimpress.samm.staticstructure.Connector;
-import eu.qimpress.samm.staticstructure.EndPoint;
-import eu.qimpress.samm.staticstructure.InterfacePort;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+
+import de.uka.ipd.sdq.pcm.core.composition.Connector;
+import de.uka.ipd.sdq.pcm.core.composition.ProvidedDelegationConnector;
+import de.uka.ipd.sdq.pcm.repository.CompositeComponent;
+import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
+import de.uka.ipd.sdq.pcm.repository.RequiredRole;
 
 /**
  * Strategy: Prefer establishing assembly connectors INSIDE a composite
@@ -61,7 +62,7 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 	 * (non-Javadoc)
 	 * @see org.somox.analyzer.simplemodelanalyzer.builder.IAssemblyConnectorStrategy#buildAssemblyConnectors(eu.qimpress.samm.staticstructure.ServiceArchitectureModel, java.util.List)
 	 */
-	public void buildAssemblyConnectors(CompositeStructure compositeStructure, List<ComponentImplementingClassesLink> subComponents) {
+	public void buildAssemblyConnectors(RepositoryComponent compositeStructure, List<ComponentImplementingClassesLink> subComponents) {
 		establishAssemblyConnectorsForNonConnectedPorts(compositeStructure, subComponents);
 	}
 	
@@ -71,12 +72,12 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 	 * structure.
 	 * @param compositeComponentCandidate
 	 */
-	private void establishAssemblyConnectorsForNonConnectedPorts(CompositeStructure outerComposite,
+	private void establishAssemblyConnectorsForNonConnectedPorts(RepositoryComponent outerComposite,
 			List<ComponentImplementingClassesLink> subComponents) {
 		
 		// loop required ports
 		for(ComponentImplementingClassesLink firstComponent : subComponents) {
- 			for(InterfacePort requiredPort : firstComponent.getComponent().getRequired()) {
+ 			for(RequiredRole requiredPort : firstComponent.getComponent().getRequiredRoles_InterfaceRequiringEntity()) {
 
  				// connect only if not yet connected
  				if(!isBoundInConnector(outerComposite.getConnector(), requiredPort)) {
@@ -129,8 +130,8 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 	 * @param port the port to find
 	 * @return
 	 */
-	private boolean isBoundInConnector(EList<Connector> connectors,
-			InterfacePort port) {
+	private boolean isBoundInConnector(EList<ProvidedDelegationConnector> connectors,
+			ProvidedRole providedRole) {
 		for(Connector currentConnectors : connectors) {
 			for(EndPoint endpoint : currentConnectors.getEndpoints()) {
 				if(endpoint.getPort().equals(port)) {

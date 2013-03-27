@@ -2,20 +2,19 @@ package org.somox.analyzer.simplemodelanalyzer.builder;
 
 import java.util.Set;
 
+import org.somox.analyzer.simplemodelanalyzer.SimpleAnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.InstanceComponentTuple;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.SubComponentInformation;
 
+import de.uka.ipd.sdq.pcm.allocation.Allocation;
+import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
+import de.uka.ipd.sdq.pcm.core.composition.CompositionFactory;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
+import de.uka.ipd.sdq.pcm.repository.OperationInterface;
+import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
+import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
 import de.uka.ipd.sdq.pcm.system.System;
-
-import eu.qimpress.samm.deployment.allocation.AllocationFactory;
-import eu.qimpress.samm.deployment.allocation.Service;
-import eu.qimpress.samm.deployment.targetenvironment.Container;
-import eu.qimpress.samm.staticstructure.InterfacePort;
-import eu.qimpress.samm.staticstructure.PrimitiveComponent;
-import eu.qimpress.samm.staticstructure.ServiceArchitectureModel;
-import eu.qimpress.samm.staticstructure.StaticstructureFactory;
-import eu.qimpress.samm.staticstructure.SubcomponentInstance;
 
 /** 
  * Creates a system level dummy component.
@@ -36,12 +35,16 @@ public class DummyComponentBuilder {
 	 */
 	public static BasicComponent createDummyComponent(
 			Set<SubComponentInformation> subComponentInformationOnNonBoundInterfacePorts,
-			System sammSystem, Container container) {
-		InstanceComponentTuple dummyComponentInfo = createDummyComponent(sammSystem, container);
+			System pcmSystem, ResourceEnvironment resourceEnv, SimpleAnalysisResult simpleAnalysisResult) {
+		InstanceComponentTuple dummyComponentInfo = createDummyComponent(pcmSystem, resourceEnv, simpleAnalysisResult );
 		
 		// add all interfaces as provided to component:
 		for(SubComponentInformation subCompInfo : subComponentInformationOnNonBoundInterfacePorts) {
-			InterfacePort newProvidedInterfacePort = StaticstructureFactory.eINSTANCE.createInterfacePort();
+			
+			ProvidedRole newProvidedRole = RepositoryFactory.eINSTANCE.createInfrastructureProvidedRole();
+			newProvidedRole.setEntityName(subCompInfo.getRole().getEntityName() + " (prov dummy)");
+			
+			
 			newProvidedInterfacePort.setInterfaceType(subCompInfo.getInterfacePort().getInterfaceType());
 			newProvidedInterfacePort.setName(subCompInfo.getInterfacePort().getInterfaceType().getName() + " (prov dummy)");
 			newProvidedInterfacePort.setDocumentation("SoMoX created provided port");
@@ -50,36 +53,34 @@ public class DummyComponentBuilder {
 			
 			// create assembly connector:
 			AssemblyConnectorBuilder.createAssemblyConnector(
-					sammSystem, 
-					subCompInfo.getInterfacePort(), newProvidedInterfacePort, 
-					subCompInfo.getSubComponentInstance(), dummyComponentInfo.componentInstance);
+					pcmSystem, 
+					subCompInfo.getRole(), newProvidedRole, 
+					subCompInfo.getAssemblyContext(), dummyComponentInfo.basicComponent);
 		}		
 		
-		return dummyComponentInfo.primitiveComponentType;		
+		return dummyComponentInfo.basicComponent;		
 	}
 	
 	private static InstanceComponentTuple createDummyComponent(
-			System pymSystem, Container container) {
-		PrimitiveComponent primitiveComponent = StaticstructureFactory.eINSTANCE.createPrimitiveComponent();
-		primitiveComponent.setName("SoMoX System-Level Dummy Component");
-		primitiveComponent.setDocumentation("Captures calls to system-external services.");
+			System pcmSystem, ResourceEnvironment resourceEnv, SimpleAnalysisResult sar) {
+		BasicComponent basicComponent = RepositoryFactory.eINSTANCE.createBasicComponent();
+		basicComponent.setEntityName("SoMoX System-Level Dummy Component");
+		//basicComponent.setDocumentation("Captures calls to system-external services.");
 			
-		SubcomponentInstance subComponentInstance =
-			StaticstructureFactory.eINSTANCE.createSubcomponentInstance();
-		subComponentInstance.setRealizedBy(primitiveComponent);
-		subComponentInstance.setName("SoMoX Dummy Component Instance");
-		sammSystem.getSubcomponents().add(subComponentInstance);
+		AssemblyContext assemblyContext = CompositionFactory.eINSTANCE.createAssemblyContext();
+		assemblyContext.setEncapsulatedComponent__AssemblyContext(basicComponent);
+		assemblyContext.setEntityName("SoMoX Dummy Component Instance");
+		pcmSystem.getAssemblyContexts__ComposedStructure().add(assemblyContext);
+		
 		
 		// allocate service
-		Service service = AllocationFactory.eINSTANCE.createService();
-		sammSystem.getService().add(service);
-		service.setSubcomponentInstance(subComponentInstance);
-		service.setName("SoMoX Dummy Component Allocation Service");
-		service.setContainer(container);	
+		//Allocation allocation = 
+		Allocation allocation = sar.getAllocation();
+		allocation.setTargetResourceEnvironment_Allocation(resourceEnv);
 		
 		InstanceComponentTuple instanceComponentTuple = new InstanceComponentTuple();
-		instanceComponentTuple.componentInstance = subComponentInstance;
-		instanceComponentTuple.primitiveComponentType = primitiveComponent;
+		instanceComponentTuple.basicComponent = basicComponent;
+		instanceComponentTuple.assemblyContext = assemblyContext;
 		
 		return instanceComponentTuple;
 	}	

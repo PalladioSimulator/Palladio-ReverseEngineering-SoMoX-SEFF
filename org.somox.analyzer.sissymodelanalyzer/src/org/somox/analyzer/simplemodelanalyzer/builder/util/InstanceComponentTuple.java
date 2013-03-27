@@ -5,5 +5,5 @@ import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 
 public class InstanceComponentTuple {
 	public BasicComponent basicComponent;
-	public AssemblyContext componentInstance;
+	public AssemblyContext assemblyContext;
 }

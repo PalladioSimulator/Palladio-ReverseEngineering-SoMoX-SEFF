@@ -7,6 +7,9 @@ import org.somox.analyzer.AnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.metamodeladdition.Root;
 
+import de.uka.ipd.sdq.pcm.core.composition.AssemblyConnector;
+import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
+import de.uka.ipd.sdq.pcm.core.composition.CompositionFactory;
 import de.uka.ipd.sdq.pcm.core.composition.Connector;
 import de.uka.ipd.sdq.pcm.core.entity.ComposedProvidingRequiringEntity;
 import de.uka.ipd.sdq.pcm.core.entity.NamedElement;
@@ -43,8 +46,8 @@ public class AssemblyConnectorBuilder extends AbstractBuilder {
 			RepositoryComponent parentComponent,
 			Port requiredPort,
 			Port providedPort,
-			ComponentType requiredComponentType,
-			ComponentType providedComponentType) {
+			AssemblyContext requiredComponentType,
+			RepositoryComponent providedComponentType) {
 		
 		Connector newConnector = createAssemblyConnectorEntity(parentComponent,
 				requiredComponentType, providedComponentType);
@@ -95,8 +98,8 @@ public class AssemblyConnectorBuilder extends AbstractBuilder {
 			NamedElement requiredComponentType,
 			NamedElement providedComponentType) throws Exception, IllegalAccessException {
 		logger.debug("Creating new assembly connector from "+requiredComponentType.getEntityName()+" to "+providedComponentType.getEntityName());		
-		Connector newConnector = AssemblyConnectorBuilder.
-		
+		Connector newConnector = CompositionFactory.eINSTANCE.createAssemblyConnector();
+		newConnector.setEntityName("");
 		parentComponent.getConnectors__ComposedStructure().add(newConnector);
 		//newConnector.setDocumentation("Assembly Connector from "+requiredComponentType.getEntityName()+" to "+providedComponentType.getEntityName());
 		return newConnector;
