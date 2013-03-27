@@ -9,6 +9,7 @@ import org.somox.common.Message;
 import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
+import de.uka.ipd.sdq.pcm.allocation.Allocation;
 import de.uka.ipd.sdq.pcm.qosannotations.QoSAnnotations;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.system.System;
@@ -64,6 +65,8 @@ public class SimpleAnalysisResult implements AnalysisResult {
 	private SourceCodeDecoratorRepository sourceCodeDecoratorRepository = null;
 	
 	private System system = null;
+	
+	private Allocation allocation = null;
 	
 	private QoSAnnotations qosAnnotationModel = null;
 
@@ -203,4 +206,11 @@ public class SimpleAnalysisResult implements AnalysisResult {
 	}
 
 	
+	public void setAllocation( Allocation allocation) {
+		this.allocation = allocation;
+	}
+	
+	public Allocation getAllocation() {
+		return this.allocation;
+	}
 }
