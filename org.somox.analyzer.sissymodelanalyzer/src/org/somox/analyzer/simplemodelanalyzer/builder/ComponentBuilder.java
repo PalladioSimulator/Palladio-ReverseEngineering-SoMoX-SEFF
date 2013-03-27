@@ -15,17 +15,16 @@ import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.metrics.ClusteringRelation;
-
-//import de.fzi.gast.core.Root;
-//import de.fzi.gast.types.GASTClass;
-import eu.qimpress.samm.staticstructure.ComponentType;
-import eu.qimpress.samm.staticstructure.CompositeComponent;
-import eu.qimpress.samm.staticstructure.CompositeStructure;
-import eu.qimpress.samm.staticstructure.StaticstructureFactory;
-import eu.qimpress.samm.staticstructure.SubcomponentInstance;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.FileLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
+
+import de.uka.ipd.sdq.pcm.repository.ComponentType;
+import de.uka.ipd.sdq.pcm.repository.CompositeComponent;
+import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
+import de.uka.ipd.sdq.pcm.repository.impl.CompositeComponentImpl;
+//import de.fzi.gast.core.Root;
+//import de.fzi.gast.types.GASTClass;
 
 /**
  * Builder for SAMM structures. Takes care of updating the source code decorator.
@@ -93,11 +92,11 @@ public class ComponentBuilder extends AbstractBuilder {
 
 		// For the found pair of component candidates: merge them into a new component candidate
 		ComponentImplementingClassesLink result = SourceCodeDecoratorFactory.eINSTANCE.createComponentImplementingClassesLink();
-		CompositeComponent newComponentType = StaticstructureFactory.eINSTANCE.createCompositeComponent();
+		de.uka.ipd.sdq.pcm.repository.CompositeComponent newComponentType = RepositoryFactory.eINSTANCE.createCompositeComponent();
 
 		String componentName = this.componentNamingStrategy.createCompositeComponentName(compositeComponentSubgraph.vertexSet());
 		logger.info("Creating composite component with name: "+componentName);
-		newComponentType.setName(componentName);
+		newComponentType.setEntityName((componentName);
 		newComponentType.setDocumentation(
 				this.componentNamingStrategy.createCompositeComponentName(
 						compositeComponentSubgraph.vertexSet(), false)); //full name

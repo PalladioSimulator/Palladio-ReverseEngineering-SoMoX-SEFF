@@ -22,21 +22,17 @@ import org.somox.configuration.SoMoXConfiguration;
 import org.somox.filter.EClassBasedFilter;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 
+import de.uka.ipd.sdq.pcm.repository.ComponentType;
+import de.uka.ipd.sdq.pcm.repository.Interface;
 //import de.fzi.gast.accesses.Access;
 //import de.fzi.gast.accesses.InheritanceTypeAccess;
 //import de.fzi.gast.accesses.accessesPackage;
 //import de.fzi.gast.core.Root;
 //import de.fzi.gast.types.GASTClass;
-import eu.qimpress.samm.staticstructure.ComponentType;
-import eu.qimpress.samm.staticstructure.CompositeStructure;
-import eu.qimpress.samm.staticstructure.Interface;
-import eu.qimpress.samm.staticstructure.InterfacePort;
-import eu.qimpress.samm.staticstructure.PrimitiveComponent;
-import eu.qimpress.samm.staticstructure.StaticstructureFactory;
-import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
-import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 
 /**
  * Builder used to create {@link Interface}s in the SAMM instance based on reverse engineered 

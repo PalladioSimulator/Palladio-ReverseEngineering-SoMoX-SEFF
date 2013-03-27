@@ -1,19 +1,21 @@
 package org.somox.analyzer.simplemodelanalyzer.builder;
 
+import javax.sound.sampled.Port;
+
 import org.apache.log4j.Logger;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.metamodeladdition.Root;
 
+import de.uka.ipd.sdq.pcm.core.composition.Connector;
+import de.uka.ipd.sdq.pcm.core.entity.ComposedProvidingRequiringEntity;
+import de.uka.ipd.sdq.pcm.core.entity.NamedElement;
+import de.uka.ipd.sdq.pcm.repository.ComponentType;
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 //import de.fzi.gast.core.Root;
-import eu.qimpress.samm.core.NamedEntity;
-import eu.qimpress.samm.staticstructure.ComponentType;
-import eu.qimpress.samm.staticstructure.CompositeStructure;
-import eu.qimpress.samm.staticstructure.Connector;
-import eu.qimpress.samm.staticstructure.Port;
-import eu.qimpress.samm.staticstructure.StaticstructureFactory;
-import eu.qimpress.samm.staticstructure.SubcomponentEndpoint;
-import eu.qimpress.samm.staticstructure.SubcomponentInstance;
+import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
+import de.uka.ipd.sdq.pcm.system.System;
+import de.uka.ipd.sdq.pcm.system.SystemFactory;
 
 /**
  * Builder for Assembly Connectors.
@@ -38,7 +40,7 @@ public class AssemblyConnectorBuilder extends AbstractBuilder {
 	 * @param providedComponentType
 	 */
 	public static Connector createAssemblyConnector(
-			CompositeStructure parentComponent,
+			RepositoryComponent parentComponent,
 			Port requiredPort,
 			Port providedPort,
 			ComponentType requiredComponentType,
@@ -71,8 +73,8 @@ public class AssemblyConnectorBuilder extends AbstractBuilder {
 			CompositeStructure parentComponent,
 			Port requiredPort,
 			Port providedPort,
-			SubcomponentInstance requiredComponentInstance,
-			SubcomponentInstance providedComponentInstance) {
+			ComposedProvidingRequiringEntity requiredComponentInstance,
+			ComposedProvidingRequiringEntity providedComponentInstance) {
 
 		Connector newConnector = createAssemblyConnectorEntity(parentComponent,
 				requiredComponentInstance, providedComponentInstance);
@@ -89,13 +91,14 @@ public class AssemblyConnectorBuilder extends AbstractBuilder {
 	}
 
 	private static Connector createAssemblyConnectorEntity(
-			CompositeStructure parentComponent,
-			NamedEntity requiredComponentType,
-			NamedEntity providedComponentType) {
-		logger.debug("Creating new assembly connector from "+requiredComponentType.getName()+" to "+providedComponentType.getName());		
-		Connector newConnector = StaticstructureFactory.eINSTANCE.createConnector();
-		parentComponent.getConnector().add(newConnector);
-		newConnector.setDocumentation("Assembly Connector from "+requiredComponentType.getName()+" to "+providedComponentType.getName());
+			ComposedProvidingRequiringEntity parentComponent,
+			NamedElement requiredComponentType,
+			NamedElement providedComponentType) throws Exception, IllegalAccessException {
+		logger.debug("Creating new assembly connector from "+requiredComponentType.getEntityName()+" to "+providedComponentType.getEntityName());		
+		Connector newConnector = AssemblyConnectorBuilder.
+		
+		parentComponent.getConnectors__ComposedStructure().add(newConnector);
+		//newConnector.setDocumentation("Assembly Connector from "+requiredComponentType.getEntityName()+" to "+providedComponentType.getEntityName());
 		return newConnector;
 	}	
 
@@ -106,9 +109,9 @@ public class AssemblyConnectorBuilder extends AbstractBuilder {
 	 * @return
 	 */
 	private static SubcomponentEndpoint addSubcomponentEndpoint(
-			Connector newConnector, SubcomponentInstance subcomponentInstance) {
+			Connector newConnector, ComposedProvidingRequiringEntity subcomponentInstance) {
 		
-		SubcomponentEndpoint endpoint = StaticstructureFactory.eINSTANCE.createSubcomponentEndpoint();
+	    SubcomponentEndpoint endpoint = StaticstructureFactory.eINSTANCE.createSubcomponentEndpoint();
 		endpoint.setSubcomponent(subcomponentInstance);
 	
 		newConnector.getEndpoints().add(endpoint);

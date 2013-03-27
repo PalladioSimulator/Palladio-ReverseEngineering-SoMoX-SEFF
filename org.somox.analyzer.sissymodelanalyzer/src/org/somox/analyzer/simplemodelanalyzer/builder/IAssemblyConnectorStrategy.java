@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.jgrapht.Graph;
 import org.somox.metrics.ClusteringRelation;
-
-import eu.qimpress.samm.staticstructure.CompositeStructure;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 public interface IAssemblyConnectorStrategy {

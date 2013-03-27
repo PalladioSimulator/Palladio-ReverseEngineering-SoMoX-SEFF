@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.sound.sampled.Port;
+
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.somox.analyzer.AnalysisResult;
@@ -13,36 +15,33 @@ import org.somox.analyzer.simplemodelanalyzer.builder.util.InterfacePortBuilderH
 import org.somox.analyzer.simplemodelanalyzer.builder.util.SubComponentInformation;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.metamodeladdition.Root;
-import org.somox.resources.defaultmodels.DefaultModelLoader;
-
-//import de.fzi.gast.core.Root;
-import eu.qimpress.samm.deployment.allocation.AllocationFactory;
-import eu.qimpress.samm.deployment.allocation.Service;
-import eu.qimpress.samm.staticstructure.ComponentEndpoint;
-import eu.qimpress.samm.staticstructure.Connector;
-import eu.qimpress.samm.staticstructure.Interface;
-import eu.qimpress.samm.staticstructure.InterfacePort;
-import eu.qimpress.samm.staticstructure.Port;
-import eu.qimpress.samm.staticstructure.PrimitiveComponent;
-import eu.qimpress.samm.staticstructure.ServiceArchitectureModel;
-import eu.qimpress.samm.staticstructure.StaticstructureFactory;
-import eu.qimpress.samm.staticstructure.SubcomponentEndpoint;
-import eu.qimpress.samm.staticstructure.SubcomponentInstance;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
-import org.somox.sourcecodedecorator.SammSystemImplementatingClassesLink;
+import org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
+
+import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
+import de.uka.ipd.sdq.pcm.core.composition.CompositionFactory;
+import de.uka.ipd.sdq.pcm.core.composition.Connector;
+import de.uka.ipd.sdq.pcm.repository.BasicComponent;
+import de.uka.ipd.sdq.pcm.repository.Interface;
+import de.uka.ipd.sdq.pcm.repository.Repository;
+import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
+import de.uka.ipd.sdq.pcm.system.System;
+import de.uka.ipd.sdq.pcm.system.SystemFactory;
+//import de.fzi.gast.core.Root;
 
 /**
  * Builder for SAMM system + architecture model structures.
  * Additionally creates default allocation.
  * @author Klaus Krogmann
  */
-public class SammSystemBuilder extends AbstractBuilder {
+public class PCMSystemBuilder extends AbstractBuilder {
 		
-	private static Logger logger = Logger.getLogger(SammSystemBuilder.class);
+	private static Logger logger = Logger.getLogger(PCMSystemBuilder.class);
 
-	private DefaultModelLoader defaultModelLoader;
+	private System defaultSystem;
+	private Repository defaultContainer;
 	
 	private ComponentAndTypeNaming namingStrategy;
 	private ComponentBuilder componentBuilder;
@@ -53,7 +52,7 @@ public class SammSystemBuilder extends AbstractBuilder {
 	 * @param somoxConfiguration SoMoX configuration object
 	 * @param analysisResult Object holding the root elements of the models to create
 	 */
-	public SammSystemBuilder(Root gastModel,
+	public PCMSystemBuilder(Root gastModel,
 			SoMoXConfiguration somoxConfiguration,
 			AnalysisResult analysisResult,
 			ComponentBuilder componentBuilder) {
@@ -64,7 +63,8 @@ public class SammSystemBuilder extends AbstractBuilder {
 		this.componentBuilder = componentBuilder;
 		this.namingStrategy = componentBuilder.getComponentAndTypeNamingStrategy();
 				
-		this.defaultModelLoader = new DefaultModelLoader();
+		this.defaultSystem = SystemFactory.eINSTANCE.createSystem();
+		this.defaultContainer = RepositoryFactory.eINSTANCE.createRepository();
 	}
 	
 	/**
@@ -72,8 +72,8 @@ public class SammSystemBuilder extends AbstractBuilder {
 	 * Updates the SAMM system. Creates a SAMM for the last composite component of the
 	 * repository model. Creates a default allocation with to a default target environment.
 	 */
-	public void buildServiceArchitectureModel() {
-		buildServiceArchitectureModel(				
+	public void buildSystemModel() {
+		buildSystemModel(				
 				getNonContainedComponents()		
 		);	
 	}
@@ -99,7 +99,8 @@ public class SammSystemBuilder extends AbstractBuilder {
 			}
 			if(!isComponentLinkToCheckContained) {
 				nonContainedComponents.add(compLinkToCheckWhetherContained);
-				logger.debug("non-contained component: " + compLinkToCheckWhetherContained.getComponent().getName() + " used for the system level");
+				logger.debug("non-contained component: " + compLinkToCheckWhetherContained.getComponent().getEntityName()
+							+ " used for the system level");
 			}
 		}
 				
@@ -111,13 +112,13 @@ public class SammSystemBuilder extends AbstractBuilder {
 	 * Updates the SAMM system.
 	 * @param innerComponents List of Component which shall become instances of the SAMM system.
 	 */
-	private void buildServiceArchitectureModel(List<ComponentImplementingClassesLink> innerComponents) {
-		ServiceArchitectureModel sammSystem = analysisResult.getServiceArchitectureModel();		
-		sammSystem.setName("SoMoX Reverse Engineered System");
+	private void buildSystemModel(List<ComponentImplementingClassesLink> innerComponents) {
+		System pcmSystem = analysisResult.getSystemModel();		
+		pcmSystem.setEntityName("SoMoX Reverse Engineered System");
 		
-		SammSystemImplementatingClassesLink sammLink =
-			SourceCodeDecoratorFactory.eINSTANCE.createSammSystemImplementatingClassesLink();
-		sammLink.setServiceArchitectureModel(sammSystem);
+		PCMSystemImplementatingClassesLink pcmLink =
+			SourceCodeDecoratorFactory.eINSTANCE.createPCMSystemImplementatingClassesLink();
+		pcmLink.setSystemModel(pcmSystem);
 		// FIXME: currently saving results in invalid serialisation
 		//this.analysisResult.getSourceCodeDecoratorRepository().getComponentImplementingClassesLink().add(sammLink);
 				
@@ -126,37 +127,35 @@ public class SammSystemBuilder extends AbstractBuilder {
 		for(ComponentImplementingClassesLink compLink : innerComponents) {
 		
 			// create subcomponent instances
-			// TODO: change to builder use
-			//componentBuilder.createSubComponentInstances(listToSet(innerComponents), sammSystem);			
-			SubcomponentInstance subComponentInstance =
-				StaticstructureFactory.eINSTANCE.createSubcomponentInstance();
-			subComponentInstance.setRealizedBy(compLink.getComponent());
-			subComponentInstance.setName(compLink.getComponent().getName());
-			sammSystem.getSubcomponents().add(subComponentInstance);			
-			sammLink.getSubComponents().add(compLink);
+			// TODO: What is a subcomponent instances in PCM?
+			AssemblyContext assemblyContext = CompositionFactory.eINSTANCE.createAssemblyContext();
+			assemblyContext.setEncapsulatedComponent__AssemblyContext(compLink.getComponent());
+			assemblyContext.setEntityName(compLink.getComponent().getEntityName());
+			pcmSystem.eContents().add(assemblyContext);
+			pcmLink.getSubComponents().add(compLink);
 									
 			// Service allocation
-			Service service = AllocationFactory.eINSTANCE.createService();
+			/*Service service = AllocationFactory.eINSTANCE.createService();
 			sammSystem.getService().add(service);
 			service.setSubcomponentInstance(subComponentInstance);
 			service.setName(compLink.getComponent().getName());
-			service.setContainer(defaultModelLoader.getDefaultContainer());
+			service.setContainer(defaultModelLoader.getDefaultContainer());*/
 
 			// replicate provided ports for SAMM system:
 			for(InterfaceSourceCodeLink provIfLink : compLink.getProvidedInterfaces()) {
-				createPortAndDelegationConnector(sammSystem, compLink,
-						subComponentInstance, provIfLink, true);
+				createPortAndDelegationConnector(pcmSystem, compLink,
+						assemblyContext, provIfLink, true);
 			}	
 		}
 		
 		// create assembly connectors among system components
 		// execute only once: possible since here no decorator is used
 		componentBuilder.getInsideCompositeComponentAssemblyConnectorStrategy().
-			buildAssemblyConnectors(sammSystem, innerComponents); 			
+			buildAssemblyConnectors(pcmSystem, innerComponents); 			
 				
 		// collect information on non-connected interfaces
 		Iterable<SubComponentInformation> subComponentInformation =
-			InterfacePortBuilderHelper.collectInformationOnNonBoundInterfaces(sammLink, sammSystem, false); //Link must be SAMM!
+			InterfacePortBuilderHelper.collectInformationOnNonBoundInterfaces(pcmLink, pcmSystem, false); //Link must be SAMM!
 		Iterator<SubComponentInformation> iterator = subComponentInformation.iterator();
 		while(iterator.hasNext()) {
 			subComponentInformationSet.add(iterator.next());
@@ -165,10 +164,10 @@ public class SammSystemBuilder extends AbstractBuilder {
 		// required ports not allowed/supported for SAMM system thus capture by dummy component
 		// create dummy components for non-connected interfaces and
 		// build assembly connectors for the newly created dummy component:
-		PrimitiveComponent dummyComponent = DummyComponentBuilder.createDummyComponent(
-				subComponentInformationSet, sammSystem, defaultModelLoader.getDefaultContainer());
-		this.analysisResult.getInternalArchitectureModel().getComponenttype().add(dummyComponent);
-		
+		// TODO: Can PCM systems have required ports?
+		/*BasicComponent dummyComponent = DummyComponentBuilder.createDummyComponent(
+				subComponentInformationSet, pcmSystem, defaultContainer);
+		this.analysisResult.getInternalArchitectureModel().getComponents__Repository().add(dummyComponent);*/		
 	}
 	
 
@@ -182,9 +181,9 @@ public class SammSystemBuilder extends AbstractBuilder {
 	}
 
 	private void createPortAndDelegationConnector(
-			ServiceArchitectureModel sammSystem,
+			System sammSystem,
 			ComponentImplementingClassesLink compLink,
-			SubcomponentInstance subComponentInstance,
+			AssemblyContext assemblyContext,
 			InterfaceSourceCodeLink ifLink,
 			boolean isProvided) {
 		InterfacePort outerIfPort = StaticstructureFactory.eINSTANCE.createInterfacePort();

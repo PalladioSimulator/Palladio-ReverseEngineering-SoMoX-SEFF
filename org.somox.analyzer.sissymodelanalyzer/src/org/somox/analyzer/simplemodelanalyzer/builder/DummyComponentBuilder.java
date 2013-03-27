@@ -5,6 +5,9 @@ import java.util.Set;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.InstanceComponentTuple;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.SubComponentInformation;
 
+import de.uka.ipd.sdq.pcm.repository.BasicComponent;
+import de.uka.ipd.sdq.pcm.system.System;
+
 import eu.qimpress.samm.deployment.allocation.AllocationFactory;
 import eu.qimpress.samm.deployment.allocation.Service;
 import eu.qimpress.samm.deployment.targetenvironment.Container;
@@ -31,9 +34,9 @@ public class DummyComponentBuilder {
 	 * @param container the container to allocate to
 	 * @return the newly created component
 	 */
-	public static PrimitiveComponent createDummyComponent(
+	public static BasicComponent createDummyComponent(
 			Set<SubComponentInformation> subComponentInformationOnNonBoundInterfacePorts,
-			ServiceArchitectureModel sammSystem, Container container) {
+			System sammSystem, Container container) {
 		InstanceComponentTuple dummyComponentInfo = createDummyComponent(sammSystem, container);
 		
 		// add all interfaces as provided to component:
@@ -43,6 +46,7 @@ public class DummyComponentBuilder {
 			newProvidedInterfacePort.setName(subCompInfo.getInterfacePort().getInterfaceType().getName() + " (prov dummy)");
 			newProvidedInterfacePort.setDocumentation("SoMoX created provided port");
 			dummyComponentInfo.primitiveComponentType.getProvided().add(newProvidedInterfacePort);
+			
 			
 			// create assembly connector:
 			AssemblyConnectorBuilder.createAssemblyConnector(
@@ -55,7 +59,7 @@ public class DummyComponentBuilder {
 	}
 	
 	private static InstanceComponentTuple createDummyComponent(
-			ServiceArchitectureModel sammSystem, Container container) {
+			System pymSystem, Container container) {
 		PrimitiveComponent primitiveComponent = StaticstructureFactory.eINSTANCE.createPrimitiveComponent();
 		primitiveComponent.setName("SoMoX System-Level Dummy Component");
 		primitiveComponent.setDocumentation("Captures calls to system-external services.");
