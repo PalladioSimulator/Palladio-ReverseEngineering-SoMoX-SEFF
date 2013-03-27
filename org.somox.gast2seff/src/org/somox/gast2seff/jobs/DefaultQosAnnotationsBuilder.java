@@ -6,6 +6,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.somox.resources.defaultmodels.DefaultModelLoader;
 
+import de.uka.ipd.sdq.pcm.qosannotations.QoSAnnotations;
+import de.uka.ipd.sdq.pcm.qosannotations.QosannotationsFactory;
+
 import eu.qimpress.qualityannotationdecorator.seffdecorator.BranchProbability;
 import eu.qimpress.qualityannotationdecorator.seffdecorator.CpuResourceDemand;
 import eu.qimpress.qualityannotationdecorator.seffdecorator.LoopCount;
@@ -32,11 +35,11 @@ public class DefaultQosAnnotationsBuilder {
 	
 	private Logger logger = Logger.getLogger(DefaultQosAnnotationsBuilder.class);
 	
-	private QosAnnotations qosAnnotationsModel;
+	private QoSAnnotations qosAnnotationsModel;
 	private SeffRepository seffRepository;
 	DefaultModelLoader defaultModelLoader;
 
-	public DefaultQosAnnotationsBuilder(QosAnnotations qosAnnotationsModel, SeffRepository seffRepository) {
+	public DefaultQosAnnotationsBuilder(QoSAnnotations qosAnnotationsModel, SeffRepository seffRepository) {
 		this.qosAnnotationsModel = qosAnnotationsModel;
 		this.seffRepository = seffRepository;
 		this.defaultModelLoader = new DefaultModelLoader();
@@ -52,30 +55,30 @@ public class DefaultQosAnnotationsBuilder {
 		while(elements.hasNext()) {
 			EObject eObject = (EObject)elements.next();
 
-			if(eObject instanceof LoopAction) {
-				LoopAction loopAction = (LoopAction)eObject;		
+			if(eObject instanceof de.uka.ipd.sdq.pcm.seff.LoopAction) {
+				de.uka.ipd.sdq.pcm.seff.LoopAction loopAction = (de.uka.ipd.sdq.pcm.seff.LoopAction)eObject;		
 				createDefaultLoopCount(loopAction);			
 			}
-			if(eObject instanceof BranchAction) {
-				BranchAction branchAction = (BranchAction)eObject;		
+			if(eObject instanceof de.uka.ipd.sdq.pcm.seff.BranchAction) {
+				de.uka.ipd.sdq.pcm.seff.BranchAction branchAction = (de.uka.ipd.sdq.pcm.seff.BranchAction)eObject;		
 				createDefaultBranchProbability(branchAction);			
 			}		
-			if(eObject instanceof InternalAction) {
-				InternalAction internalAction = (InternalAction)eObject;		
+			if(eObject instanceof de.uka.ipd.sdq.pcm.seff.InternalAction) {
+				de.uka.ipd.sdq.pcm.seff.InternalAction internalAction = (de.uka.ipd.sdq.pcm.seff.InternalAction)eObject;		
 				createDefaultCpuResourceDemand(internalAction);			
 			}								
 		}		
 		
-		this.qosAnnotationsModel.setName("SoMoX Default QoS Annotations");
+		this.qosAnnotationsModel.setEntityName("SoMoX Default QoS Annotations");
 	}
 
 	private void createDefaultBranchProbability(
-			BranchAction branchAction) {
-		for(AbstractBranchTransition branchTransition : branchAction.getAbstractBranchTransition()) {
-			if(branchTransition instanceof ProbabilisticBranchTransition) {
+			de.uka.ipd.sdq.pcm.seff.BranchAction branchAction) {
+		for(de.uka.ipd.sdq.pcm.seff.AbstractBranchTransition branchTransition : branchAction.getBranches_Branch()) {
+			if(branchTransition instanceof de.uka.ipd.sdq.pcm.seff.ProbabilisticBranchTransition) {
 			
 				BranchProbability branchProbability = SeffdecoratorFactory.eINSTANCE.createBranchProbability();				
-				ConstantNumber constantNumber = QosannotationFactory.eINSTANCE.createConstantNumber();
+				ConstantNumber constantNumber = QosannotationsFactory.eINSTANCE.createConstantNumber();
 				// equal probability
 				double probability = 1.0d / branchAction.getAbstractBranchTransition().size(); 				
 				constantNumber.setValue(probability);
@@ -83,7 +86,7 @@ public class DefaultQosAnnotationsBuilder {
 				branchProbability.setAnnotationType(AnnotationType.REQUIREMENT);
 				branchProbability.setName("SoMoX default branch probability");
 				branchProbability.setDocumentation("Replace this value with real measured or estimated values");
-				branchProbability.setProbabilisticBranchTransition((ProbabilisticBranchTransition)branchTransition);
+				branchProbability.setProbabilisticBranchTransition((de.uka.ipd.sdq.pcm.seff.ProbabilisticBranchTransition)branchTransition);
 
 				qosAnnotationsModel.getAnnotation().add(branchProbability);
 			} else {
@@ -92,7 +95,7 @@ public class DefaultQosAnnotationsBuilder {
 		}
 	}
 
-	private void createDefaultLoopCount(LoopAction loopAction) {
+	private void createDefaultLoopCount(de.uka.ipd.sdq.pcm.seff.LoopAction loopAction) {
 		LoopCount loopCount = SeffdecoratorFactory.eINSTANCE.createLoopCount();
 		ParametricFormula parametricFormula = QosannotationFactory.eINSTANCE.createParametricFormula();
 		parametricFormula.setSpecification("1"); //constant default
@@ -105,7 +108,7 @@ public class DefaultQosAnnotationsBuilder {
 		qosAnnotationsModel.getAnnotation().add(loopCount);
 	}	
 	
-	private void createDefaultCpuResourceDemand(InternalAction internalAction) {
+	private void createDefaultCpuResourceDemand(de.uka.ipd.sdq.pcm.seff.InternalAction internalAction) {
 		CpuResourceDemand resourceDemand = SeffdecoratorFactory.eINSTANCE.createCpuResourceDemand();
 		ParametricFormula parametricFormula = QosannotationFactory.eINSTANCE.createParametricFormula();
 		parametricFormula.setSpecification("1"); //constant default

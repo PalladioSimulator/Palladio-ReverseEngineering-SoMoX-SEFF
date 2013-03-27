@@ -33,10 +33,20 @@ import org.somox.configuration.SoMoXConfiguration;
 import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.GastStatementVisitor;
-import org.somox.qimpressgast.GASTBehaviour;
-import org.somox.qimpressgast.GASTBehaviourRepository;
+import org.somox.seff2javaast.SEFF2JavaAST;
+import org.somox.seff2javaast.SEFF2MethodMapping;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
+import de.uka.ipd.sdq.pcm.qosannotations.QoSAnnotations;
+import de.uka.ipd.sdq.pcm.repository.BasicComponent;
+import de.uka.ipd.sdq.pcm.seff.AbstractAction;
+import de.uka.ipd.sdq.pcm.seff.ResourceDemandingBehaviour;
+import de.uka.ipd.sdq.pcm.seff.ResourceDemandingSEFF;
+import de.uka.ipd.sdq.pcm.seff.SeffFactory;
+import de.uka.ipd.sdq.pcm.seff.ServiceEffectSpecification;
+import de.uka.ipd.sdq.pcm.seff.StartAction;
+import de.uka.ipd.sdq.pcm.seff.StopAction;
+import de.uka.ipd.sdq.pcm.system.System;
 //import de.fzi.gast.statements.BlockStatement;//GAST2SEFFCHANGE
 import de.uka.ipd.sdq.workflow.IJob;
 import de.uka.ipd.sdq.workflow.IBlackboardInteractingJob;
@@ -45,20 +55,20 @@ import de.uka.ipd.sdq.workflow.IBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
-import eu.qimpress.samm.behaviour.Behaviour;
-import eu.qimpress.samm.behaviour.BehaviourFactory;
-import eu.qimpress.samm.behaviour.GastBehaviourStub;
-import eu.qimpress.samm.behaviour.SeffBehaviourStub;
-import eu.qimpress.samm.qosannotation.QosAnnotations;
-import eu.qimpress.samm.staticstructure.PrimitiveComponent;
-import eu.qimpress.samm.staticstructure.ServiceArchitectureModel;
-import eu.qimpress.seff.AbstractAction;
-import eu.qimpress.seff.ResourceDemandingBehaviour;
-import eu.qimpress.seff.ResourceDemandingSEFF;
-import eu.qimpress.seff.SeffRepository;
-import eu.qimpress.seff.StartAction;
-import eu.qimpress.seff.StopAction;
-import eu.qimpress.seff.seffFactory;
+//import eu.qimpress.samm.behaviour.Behaviour;
+//import eu.qimpress.samm.behaviour.BehaviourFactory;
+//import eu.qimpress.samm.behaviour.GastBehaviourStub;
+//import eu.qimpress.samm.behaviour.SeffBehaviourStub;
+//import eu.qimpress.samm.qosannotation.QosAnnotations;
+//import eu.qimpress.samm.staticstructure.PrimitiveComponent;
+//import eu.qimpress.samm.staticstructure.ServiceArchitectureModel;
+//import eu.qimpress.seff.AbstractAction;
+//import eu.qimpress.seff.ResourceDemandingBehaviour;
+//import eu.qimpress.seff.ResourceDemandingSEFF;
+//import eu.qimpress.seff.SeffRepository;
+//import eu.qimpress.seff.StartAction;
+//import eu.qimpress.seff.StopAction;
+//import eu.qimpress.seff.seffFactory;
 
 /**
  * Transformation Job transforming a SAM instance with GAST Behaviours into a SAM instance with SEFF
@@ -87,10 +97,10 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 //	private Resource gastBehaviourRepository = null;
 //	private Resource seffBehaviourRepository = null;
 //	private Resource sammQosAnnotations = null;
-	private GASTBehaviourRepository gastBehaviourRepositoryModel = null;
+	private SEFF2JavaAST gastBehaviourRepositoryModel = null;
 	private Resource sourceCodeDecorator = null;
 	private SourceCodeDecoratorRepository sourceCodeDecoratorModel = null;
-	private QosAnnotations sammQosAnnotationsModel = null;
+	private QoSAnnotations sammQosAnnotationsModel = null;
 
 	/** The SoMoX configuration. */
 	private SoMoXConfiguration somoxConfiguration = null;
@@ -156,25 +166,26 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 //		this.sourceCodeDecorator = loadResource(sourceCodeDecoratorURI, false);
 
 		AnalysisResult result = blackboard.getAnalysisResult();
-		ServiceArchitectureModel samm = result.getServiceArchitectureModel();
-		this.gastBehaviourRepositoryModel = result.getGastBehaviourRepository();
+		System samm = result.getSystemModel();
+		this.gastBehaviourRepositoryModel = result.getSeff2JavaAST();
 		this.sammQosAnnotationsModel = result.getQosAnnotationModel();
 		this.sourceCodeDecoratorModel = result.getSourceCodeDecoratorRepository();
 
 		// resource to write to
 		// this.seffBehaviourRepository = createResource(seffBehaviourRepositoryURI);
 		
-		SeffRepository seffRepository = seffFactory.eINSTANCE.createSeffRepository();
+		SeffRepository seffRepository = SeffFactory.eINSTANCE.createSeffRepository();
 		
 		IProgressMonitor subMonitor = new SubProgressMonitor(monitor, IProgressMonitor.UNKNOWN);
 		subMonitor.setTaskName("Creating SEFF behaviour");
 		// TreeIterator<EObject> iterator = sammInstance.getAllContents();	
 //		TreeIterator<EObject> iterator = samm.eAllContents();
-		Iterator<GASTBehaviour> iterator = this.gastBehaviourRepositoryModel.getGastbehaviour().iterator();
+		Iterator<SEFF2MethodMapping> iterator = this.gastBehaviourRepositoryModel.getSeff2MethodMappings().iterator();
 		while (iterator.hasNext()) {
-			GASTBehaviour gASTBehaviour = iterator.next();
-			GastBehaviourStub stub = gASTBehaviour.getGastbehaviourstub();
-			String name = stub.getName();
+			SEFF2MethodMapping gASTBehaviour = iterator.next();
+			ServiceEffectSpecification stub = gASTBehaviour.getSeff();
+			//TODO SAMM2PCM????
+			String name = stub.getSeffTypeID();
 			logger.info("Found GAST behaviour, generating SEFF behaviour for it: " + name);
 			
 			ResourceDemandingSEFF resourceDemandingSEFF = generateSEFFForGASTBehaviour(stub);				
@@ -301,20 +312,19 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	 * @throws JobFailedException 
 	 */
 	private ResourceDemandingSEFF createSeff(
-			GastBehaviourStub gastBehaviourStub,
-			ResourceDemandingSEFF seff) throws JobFailedException {		
-		StartAction start = seffFactory.eINSTANCE.createStartAction();
-		StopAction stop = seffFactory.eINSTANCE.createStopAction();
+			ResourceDemandingSEFF gastBehaviourStub) throws JobFailedException {		
+		StartAction start = SeffFactory.eINSTANCE.createStartAction();
+		StopAction stop = SeffFactory.eINSTANCE.createStopAction();
 
 		// initialise for new component / seff to reverse engineer:
-		PrimitiveComponent primitiveComponent = (PrimitiveComponent)gastBehaviourStub.eContainer();
+		BasicComponent primitiveComponent = (BasicComponent)gastBehaviourStub.eContainer();
 		typeVisitor = new FunctionCallClassificationVisitor(new BasicFunctionClassificationStrategy(
 				sourceCodeDecoratorModel, primitiveComponent));		
 		
-		seff.getSteps().add(start);
+		gastBehaviourStub.getSteps_Behaviour().add(start);
 		
 		Block body = findBody(gastBehaviourStub);//GAST2SEFFCHANGE
-		logger.trace("visiting (seff entry): " + gastBehaviourStub.getName());
+		logger.trace("visiting (seff entry): " + gastBehaviourStub.getSeffTypeID());
 		if (body != null) {	
 			
 			//removelater
@@ -326,17 +336,17 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 			typeVisitor.doSwitch(body); 
 		
 			GastStatementVisitor visitor = new GastStatementVisitor(typeVisitor.getAnnotations(), 
-					seff, this.sourceCodeDecoratorModel, primitiveComponent);
+					gastBehaviourStub, this.sourceCodeDecoratorModel, primitiveComponent);
 			visitor.doSwitch(body);
 		} else {
-			logger.warn("Found GAST behaviour (" + gastBehaviourStub.getName() + ") without a method body... Skipping it...");
+			logger.warn("Found GAST behaviour (" + gastBehaviourStub.getSeffTypeID() + ") without a method body... Skipping it...");
 		}
 			
-		seff.getSteps().add(stop);
+		gastBehaviourStub.getSteps_Behaviour().add(stop);
 		
-		connectActions(seff);
+		connectActions(gastBehaviourStub);
 		
-		return seff;
+		return gastBehaviourStub;
 	}
 	
 	/**
@@ -345,24 +355,25 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	 * @return The GAST behaviour matching the gast behaviour stub
 	 * @throws JobFailedException Thrown if the gast behaviour is missing in the model file
 	 */
-	private Block findBody(GastBehaviourStub gastBehaviourStub) throws JobFailedException {//GAST2SEFFCHANGE
+	private Block findBody(ResourceDemandingSEFF gastBehaviourStub) throws JobFailedException {//GAST2SEFFCHANGE
 
-		assert onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getGastbehaviour(), gastBehaviourStub);
-		if(!onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getGastbehaviour(), gastBehaviourStub)){
+		assert onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getSeff2MethodMappings(), gastBehaviourStub);
+		if(!onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getSeff2MethodMappings(), gastBehaviourStub)){
 			logger.error("Assertion fails - onlyOnceAsGastBehaviour");
 		}
 		
-		for (GASTBehaviour behaviour : this.gastBehaviourRepositoryModel.getGastbehaviour()) {
+		for (SEFF2MethodMapping behaviour : this.gastBehaviourRepositoryModel.getSeff2MethodMappings()) {
 			//removelater start
 			logger.info("To search for: " + gastBehaviourStub.getId());
-			logger.info("Iteration ID   " + behaviour.getGastbehaviourstub().getId());
+			logger.info("Iteration ID   " + ((ResourceDemandingSEFF)behaviour.getSeff()).getId());
 			//removelater end
-			if (behaviour.getGastbehaviourstub().getId().equals(gastBehaviourStub.getId())) { 
-				logger.debug("Matching GastBehaviourSub found "+ gastBehaviourStub.getId());
+			if (((ResourceDemandingSEFF)behaviour.getSeff()).getId().equals(gastBehaviourStub.getId())) { 
+				logger.debug("Matching GastBehaviourSub found "+ ((ResourceDemandingSEFF)gastBehaviourStub).getId());
 				return behaviour.getBlockstatement();		
 			}
 		}
-		logger.warn("Checked gastBehaviourRepository for " + gastBehaviourStub.getName() + " " + gastBehaviourStub.getId() + " but found none");
+		//TODO !!!!!!!!!!!! change
+		logger.warn("Checked gastBehaviourRepository for " + gastBehaviourStub.getSeffTypeID() + " " + gastBehaviourStub.getId() + " but found none");
 		return null; //FIXME: re-enable: exception 
 		//throw new JobFailedException("Unable to find operation body for given method");	
 	}
@@ -373,12 +384,13 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	 * @param gastBehaviourStub
 	 * @return
 	 */
-	private boolean onlyOnceAsGastBehaviour(EList<GASTBehaviour> gastbehaviour,
-			GastBehaviourStub gastBehaviourStub) {
+	private boolean onlyOnceAsGastBehaviour(EList<SEFF2MethodMapping> gastbehaviour,
+			ServiceEffectSpecification gastBehaviourStub) {
 		int i = 0;
 		
-		for (GASTBehaviour behaviour : gastbehaviour) {
-			if (behaviour.getGastbehaviourstub().getId().equals(gastBehaviourStub.getId())) { 
+		for (SEFF2MethodMapping behaviour : gastbehaviour) {
+			//TODO change
+			if (behaviour.getSeff().getSeffTypeID().equals(gastBehaviourStub.getSeffTypeID())) { 
 				i++;
 			}
 		}
@@ -392,7 +404,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	 */
 	public static void connectActions(ResourceDemandingBehaviour seff) {
 		AbstractAction previous = null;
-		for (AbstractAction a : seff.getSteps()) {
+		for (AbstractAction a : seff.getSteps_Behaviour()) {
 			a.setPredecessor_AbstractAction(previous);
 			previous = a;
 		}
@@ -405,8 +417,8 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	 * @throws JobFailedException
 	 */
 	private ResourceDemandingSEFF generateSEFFForGASTBehaviour(
-			GastBehaviourStub gastBehaviourStub) throws JobFailedException {
-		ResourceDemandingSEFF resourceDemandingSEFF = seffFactory.eINSTANCE.createResourceDemandingSEFF();
+			ServiceEffectSpecification gastBehaviourStub) throws JobFailedException {
+		ResourceDemandingSEFF resourceDemandingSEFF = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
 				
 		createSeff(gastBehaviourStub,resourceDemandingSEFF);
 		

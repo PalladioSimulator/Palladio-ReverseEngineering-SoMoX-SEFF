@@ -7,9 +7,9 @@ import org.apache.log4j.Logger;
 import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
 import org.eclipse.gmt.modisco.java.Type;
 
+import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 //import de.fzi.gast.accesses.FunctionAccess;//GAST2SEFFCHANGE
 //import de.fzi.gast.types.GASTClass;//GAST2SEFFCHANGE
-import eu.qimpress.samm.staticstructure.PrimitiveComponent;
 
 import org.somox.kdmhelper.GetAccessedType;
 import org.somox.kdmhelper.KDMHelper;
@@ -31,7 +31,7 @@ implements
 	private static Logger logger = Logger.getLogger(BasicFunctionClassificationStrategy.class);
 
 	private SourceCodeDecoratorRepository sourceCodeDecoratorRepository;
-	private PrimitiveComponent primitiveComponent;
+	private BasicComponent primitiveComponent;
 	
 	/**
 	 * @param sourceCodeDecoratorRepository The source code decorator which links the component
@@ -39,7 +39,7 @@ implements
 	 * @param primitiveComponent  The primitive component for which to decide whether the function access
 	 * represents an external call.
 	 */
-	public BasicFunctionClassificationStrategy(SourceCodeDecoratorRepository sourceCodeDecoratorRepository, PrimitiveComponent primitiveComponent) {
+	public BasicFunctionClassificationStrategy(SourceCodeDecoratorRepository sourceCodeDecoratorRepository, BasicComponent primitiveComponent) {
 		this.sourceCodeDecoratorRepository = sourceCodeDecoratorRepository;
 		this.primitiveComponent = primitiveComponent;
 	}
@@ -51,7 +51,7 @@ implements
 		for(InterfaceSourceCodeLink ifLink : compLink.getRequiredInterfaces()) {
 			if(KDMHelper.getMethods(ifLink.getGastClass()).contains(functionAccess.getMethod())) {//GAST2SEFFCHANGE//GAST2SEFFCHANGE
 				logger.debug("Classified call as external call: "+functionAccess.getMethod().getName() +//GAST2SEFFCHANGE//GAST2SEFFCHANGE 
-						" for component " + primitiveComponent.getName());				
+						" for component " + primitiveComponent.getEntityName());				
 				return true;
 			}
 		}	
@@ -60,14 +60,14 @@ implements
 		return false;
 	}
 
-	private ComponentImplementingClassesLink queryComponentLink(PrimitiveComponent primitiveComponent) {
+	private ComponentImplementingClassesLink queryComponentLink(BasicComponent primitiveComponent) {
 		for(ComponentImplementingClassesLink compLink : sourceCodeDecoratorRepository.getComponentImplementingClassesLink()) {
 			if(compLink.getComponent().equals(primitiveComponent)) {
 				return compLink;
 			}
 		}
 		String msg = "Could not find a component implementing classes link in the source code " +
-				"decorator for component " + primitiveComponent.getName();
+				"decorator for component " + primitiveComponent.getEntityName();
 		logger.error(msg);
 		throw new RuntimeException(msg);
 	}
@@ -80,7 +80,7 @@ implements
 			return true;
 		}
 		logger.debug("Classified call as library call: "+functionAccess.getMethod().getName() +//GAST2SEFFCHANGE//GAST2SEFFCHANGE 
-				" for component " + primitiveComponent.getName());	
+				" for component " + primitiveComponent.getEntityName());	
 		return (KDMHelper.getJavaNodeSourceRegion(targetClass) == null || KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(targetClass)) == null);//GAST2SEFFCHANGE//GAST2SEFFCHANGE
 	}
 
