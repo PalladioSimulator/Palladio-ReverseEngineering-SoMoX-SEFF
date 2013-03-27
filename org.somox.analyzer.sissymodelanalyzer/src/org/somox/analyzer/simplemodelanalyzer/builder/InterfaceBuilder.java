@@ -26,13 +26,22 @@ import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 
+import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.ComponentType;
 import de.uka.ipd.sdq.pcm.repository.Interface;
+import de.uka.ipd.sdq.pcm.repository.OperationInterface;
+import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
+import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
+import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
+import de.uka.ipd.sdq.pcm.repository.Role;
 //import de.fzi.gast.accesses.Access;
 //import de.fzi.gast.accesses.InheritanceTypeAccess;
 //import de.fzi.gast.accesses.accessesPackage;
 //import de.fzi.gast.core.Root;
 //import de.fzi.gast.types.GASTClass;
+import de.uka.ipd.sdq.pcm.repository.RequiredRole;
 
 /**
  * Builder used to create {@link Interface}s in the SAMM instance based on reverse engineered 
@@ -47,7 +56,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 	 * interfaces) or normal GASTClasses if the interface has been derived from all public methods
 	 * to their respective SAMM model interfaces
 	 */
-	private Map<Type, Interface> alreadyCreatedInterfaces = new HashMap<Type, Interface>();
+	private Map<Type, OperationInterface> alreadyCreatedInterfaces = new HashMap<Type, OperationInterface>();
 
 	/**
 	 * Logger of this builder 
@@ -142,7 +151,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 				
 				// Setting null here since the interface implementation is not generally known; i. e. there could be multiple
 				// implementations.
-				Interface reqInterface = createInterface(null,accessedClass); 
+				OperationInterface reqInterface = createInterface(null,accessedClass); 
 
 				// If the interface has already been added to component, do not
 				// add it again
@@ -186,7 +195,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 			}
 		}
 
-		if (componentCandidate.getComponent().getProvided().isEmpty()) {
+		if (componentCandidate.getComponent().getProvidedRoles_InterfaceProvidingEntity().isEmpty()) {
 			assignPublicMethodsAsInterfaceForComponentsWithoutInterface(componentCandidate);
 		}		
 	}
@@ -196,23 +205,21 @@ public class InterfaceBuilder extends AbstractBuilder {
 	 * @param component The component which gets the interface as required role
 	 * @param reqInterface The interface which is part of the required role
 	 */
-	private void createRequiredPort(ComponentType component,
-			Interface reqInterface) {
-		InterfacePort reqInterfacePort = StaticstructureFactory.eINSTANCE
-				.createInterfacePort();
-		reqInterfacePort.setName(naming.createRequiredPortName(reqInterface, component));
-		reqInterfacePort.setInterfaceType(reqInterface);
-		component.getRequired().add(reqInterfacePort);
+	private void createRequiredPort(RepositoryComponent component,
+			OperationInterface reqInterface) {
+		OperationRequiredRole requiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
+		requiredRole.setEntityName(naming.createRequiredPortName(reqInterface, component));
+		requiredRole.setRequiredInterface__OperationRequiredRole(reqInterface);
+		component.getRequiredRoles_InterfaceRequiringEntity().add(requiredRole);		
 	}
 
-	private InterfacePort createProvidedPort(Interface theInterface,
-			ComponentType component) {
-		InterfacePort provInterfacePort = StaticstructureFactory.eINSTANCE
-				.createInterfacePort();
-		provInterfacePort.setName(naming.createProvidedPortName(theInterface, component));
-		provInterfacePort.setInterfaceType(theInterface);
-		component.getProvided().add(provInterfacePort);		
-		return provInterfacePort;
+	private ProvidedRole createProvidedPort(OperationInterface theInterface,
+			RepositoryComponent component) {
+		OperationProvidedRole providedRole = RepositoryFactory.eINSTANCE.createOperationProvidedRole();
+		providedRole.setEntityName(naming.createProvidedPortName(theInterface, component));
+		providedRole.setProvidedInterface__OperationProvidedRole(theInterface);
+		component.getProvidedRoles_InterfaceProvidingEntity().add(providedRole);
+		return providedRole;
 	}
 
 	/**
@@ -223,13 +230,11 @@ public class InterfaceBuilder extends AbstractBuilder {
 	 * @return true if already required; false else
 	 */
 	private boolean doesComponentAlreadyRequireInterface(
-			Interface theInterface, ComponentType component) {
-		for (InterfacePort port : component.getRequired()) {
-			if ((port.getInterfaceType() != null)
-					&& (port.getInterfaceType().getId().equals(theInterface
-							.getId()))) {
+			Interface theInterface, RepositoryComponent component) {
+		for (ProvidedRole provRole : component.getProvidedRoles_InterfaceProvidingEntity()) {
+			if( provRole.getId().equals(theInterface.getId())){
 				return true;
-			}
+			}			
 		}
 		return false;
 	}
@@ -240,11 +245,9 @@ public class InterfaceBuilder extends AbstractBuilder {
 	 * @return true if the given interface is referenced in any of the provided ports of the component
 	 */
 	private boolean componentProvidesInterface(Interface theInterface,
-			ComponentType component) {
-		for (InterfacePort port : component.getProvided()) {
-			if ((port.getInterfaceType() != null)
-					&& (port.getInterfaceType().getId().equals(theInterface
-							.getId()))) {
+			RepositoryComponent component) {
+		for (ProvidedRole provRole : component.getProvidedRoles_InterfaceProvidingEntity()) {
+			if( provRole.getId().equals(theInterface.getId())){
 				return true;
 			}
 		}
@@ -261,8 +264,9 @@ public class InterfaceBuilder extends AbstractBuilder {
 		}
 		
 		if (interfaceStrategy.isComponentInterface(superType)) {
-			logger.debug("Found interface "+KDMHelper.computeFullQualifiedName(superType)+" for component "+componentCandidate.getComponent().getName());
-			Interface providedInterface = createInterface(gastClass,superType);
+			logger.debug("Found interface "+KDMHelper.computeFullQualifiedName(superType)+" for component "+
+							componentCandidate.getComponent().getEntityName());
+			OperationInterface providedInterface = createInterface(gastClass,superType);
 			
 			if (!componentProvidesInterface(providedInterface,
 					componentCandidate.getComponent())) {
@@ -274,11 +278,11 @@ public class InterfaceBuilder extends AbstractBuilder {
 
 	private void createProvidedPortAndBehaviour(
 			ComponentImplementingClassesLink componentCandidate,
-			Interface providedInterface, 
+			OperationInterface providedInterface, 
 			Type gastClass) {
-		InterfacePort providedPort = createProvidedPort(providedInterface,
-				componentCandidate.getComponent());
-
+		
+		ProvidedRole providedRole = createProvidedPort(providedInterface, componentCandidate.getComponent());
+	
 		updateInterfacesInSourceCodeDecorator(
 				componentCandidate,
 				providedInterface,
@@ -288,7 +292,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 
 		if (!componentCandidate.isCompositeComponent()) {
 			// add behaviour
-			behaviourBuilder.addSeffsToPrimitiveComponent((PrimitiveComponent) componentCandidate.getComponent(), providedPort);
+			behaviourBuilder.addSeffsToPrimitiveComponent((BasicComponent) componentCandidate.getComponent(), providedRole);
 		}
 	}
 
@@ -306,7 +310,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 		if( !gastClasses.isEmpty() ) {
 			for(Type gastClass : gastClasses) {
 					
-				Interface compInterface = createInterfaceBasedOnPublicMethods(gastClass);
+				OperationInterface compInterface = createInterfaceBasedOnPublicMethods(gastClass);
 
 				if (compInterface != null) {
 					createProvidedPortAndBehaviour(componentCandidate,
@@ -316,7 +320,8 @@ public class InterfaceBuilder extends AbstractBuilder {
 				}
 			}
 		} else {
-			logger.warn("No gast classes found for component: " + componentCandidate.getComponent().getName() + " id: " + componentCandidate.getComponent().getId());
+			logger.warn("No gast classes found for component: " + componentCandidate.getComponent().getEntityName() + " id: "
+							+ componentCandidate.getComponent().getId());
 		}
 	}	
 	
@@ -327,7 +332,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 	 * @return A new interface if a interface for gastClass did not exist;
 	 * otherwise the existing interface is returned
 	 */
-	private Interface createInterfaceBasedOnPublicMethods(
+	private OperationInterface createInterfaceBasedOnPublicMethods(
 			Type gastClass) {	
 		
 		if (interfaceStrategy.isComponentInterface(gastClass))
@@ -336,14 +341,14 @@ public class InterfaceBuilder extends AbstractBuilder {
 		if(this.alreadyCreatedInterfaces.containsKey(gastClass)) 
 			return this.alreadyCreatedInterfaces.get(gastClass);
 
-		Interface compInterface = StaticstructureFactory.eINSTANCE.createInterface();			
-		compInterface.setName(naming.createInterfaceNameForClass(gastClass));
-		compInterface.setDocumentation(gastClass.getName());
+		OperationInterface compInterface = RepositoryFactory.eINSTANCE.createOperationInterface();			
+		compInterface.setEntityName(naming.createInterfaceNameForClass(gastClass));
+		//compInterface.setDocumentation(gastClass.getName());
 			
 		this.operationBuilder.createOperations(gastClass, gastClass,compInterface);
 		
 		this.alreadyCreatedInterfaces.put(gastClass, compInterface);
-		this.analysisResult.getInternalArchitectureModel().getInterface().add(compInterface);
+		this.analysisResult.getInternalArchitectureModel().getInterfaces__Repository().add(compInterface);
 
 		return compInterface;
 	}
@@ -360,14 +365,14 @@ public class InterfaceBuilder extends AbstractBuilder {
 	 *            the SAMM repository in which the interface should be contained
 	 * @return the interface
 	 */
-	private Interface createInterface(Type implementingClass, Type interfaceClass) {	
+	private OperationInterface createInterface(Type implementingClass, Type interfaceClass) {	
 		
 		// check for existing interface:
-		Interface result = getExistingInterface(interfaceClass);
+		OperationInterface result = getExistingInterface(interfaceClass);
 	
 		// new interface
 		if (result == null) {
-			result = StaticstructureFactory.eINSTANCE.createInterface();
+			result = RepositoryFactory.eINSTANCE.createOperationInterface();
 			for (TypeAccess inheritanceTypeAccess : KDMHelper.getInheritanceTypeAccesses(interfaceClass)
 					) {
 				Type superType = (Type) inheritanceTypeAccess
@@ -375,16 +380,16 @@ public class InterfaceBuilder extends AbstractBuilder {
 				if (this.somoxConfiguration.getBlacklistFilter().passes(superType) &&
 						interfaceStrategy.isComponentInterface(superType)) {
 					Interface parentInterface = createInterface(implementingClass, (Type) superType);
-					result.getInheritance().add(parentInterface);
+					result.getParentInterfaces__Interface().add(parentInterface);
 				}
 			}
-			result.setName(naming.createInterfaceName(interfaceClass));
-			result.setDocumentation(KDMHelper.computeFullQualifiedName(interfaceClass));
+			result.setEntityName(naming.createInterfaceName(interfaceClass));
+			//result.setDocumentation(KDMHelper.computeFullQualifiedName(interfaceClass));
 	
 			operationBuilder.createOperations(implementingClass, interfaceClass, result);  
 	
 			this.alreadyCreatedInterfaces.put(interfaceClass, result);
-			this.analysisResult.getInternalArchitectureModel().getInterface()
+			this.analysisResult.getInternalArchitectureModel().getInterfaces__Repository()
 					.add(result);
 		}
 		return result;
@@ -397,8 +402,8 @@ public class InterfaceBuilder extends AbstractBuilder {
 	 * @param interfaces
 	 * @return null if no interface could not be found
 	 */
-	private Interface getExistingInterface(Type gastClass) {
-		Interface returnInterface = null;
+	private OperationInterface getExistingInterface(Type gastClass) {
+		OperationInterface returnInterface = null;
 	
 		if (this.alreadyCreatedInterfaces.containsKey(gastClass)) {
 			returnInterface = this.alreadyCreatedInterfaces.get(gastClass);
@@ -459,7 +464,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 		if(addedANewInterface) {			
 			for(ComponentImplementingClassesLink compLink : analysisResult.getSourceCodeDecoratorRepository().getComponentImplementingClassesLink()) {
 				if(compLink.isCompositeComponent()) {
-					CompositeStructure composite = (CompositeStructure)compLink.getComponent();
+					RepositoryComponent composite = compLink.getComponent();
 					
 					assemblyConnectorStrategy.buildAssemblyConnectors(composite, compLink.getSubComponents());
 				}
@@ -508,12 +513,12 @@ public class InterfaceBuilder extends AbstractBuilder {
 		
 		for(InterfaceSourceCodeInterfacePortTuple currentIfTupleToRemove : requiredIfToRemove) {
 			logger.trace("removing self-access component interface " + 
-					currentIfTupleToRemove.interfaceSourceCodeLink.getInterface().getName() + 
-					" of component " + primitiveComponent.getComponent().getName()); 
+					currentIfTupleToRemove.interfaceSourceCodeLink.getInterface().getEntityName() + 
+					" of component " + primitiveComponent.getComponent().getEntityName()); 
 			
 			// model	
-			primitiveComponent.getComponent().getRequired().remove(currentIfTupleToRemove.interfacePort); 
-			EcoreUtil.delete(currentIfTupleToRemove.interfacePort);
+			primitiveComponent.getComponent().getRequiredRoles_InterfaceRequiringEntity().remove(currentIfTupleToRemove.role);
+			EcoreUtil.delete(currentIfTupleToRemove.role);
 			//EcoreUtil.remove(requiredPortToRemove);				
 			
 			// source code decorator
@@ -544,7 +549,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 						new InterfaceSourceCodeInterfacePortTuple();
 
 					// model
-					ifToRemoveTuple.interfacePort = InterfacePortBuilderHelper.
+					ifToRemoveTuple.role = InterfacePortBuilderHelper.
 						getInterfacePort(primitiveComponent,requiredInterfaceLink, false);	
 
 					// source code decorator
@@ -560,7 +565,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 	
 	private class InterfaceSourceCodeInterfacePortTuple {
 		public InterfaceSourceCodeLink interfaceSourceCodeLink;
-		public InterfacePort interfacePort;
+		public Role role;
 	}
 	
 

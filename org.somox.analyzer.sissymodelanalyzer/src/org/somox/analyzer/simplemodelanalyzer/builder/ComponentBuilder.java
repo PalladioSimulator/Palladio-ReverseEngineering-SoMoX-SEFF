@@ -57,7 +57,7 @@ public class ComponentBuilder extends AbstractBuilder {
 			AnalysisResult analysisResult) {
 		super(gastModel, somoxConfiguration, analysisResult);
 		
-		logger.debug("Initialising SAMM model builder");
+		logger.debug("Initialising PCM model builder");
 		
 		this.componentNamingStrategy = new ComponentAndTypeNaming();
 		this.interfaceBuilder = new InterfaceBuilder(gastModel, somoxConfiguration, analysisResult);

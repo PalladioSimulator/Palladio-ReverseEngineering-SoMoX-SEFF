@@ -14,6 +14,7 @@ import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.GetAccessedType;
 import org.somox.kdmhelper.metamodeladdition.Root;
 
+import de.uka.ipd.sdq.pcm.repository.OperationInterface;
 //import de.fzi.gast.core.Root;
 //import de.fzi.gast.functions.Method;
 //import de.fzi.gast.types.GASTClass;
@@ -52,7 +53,7 @@ public class OperationBuilder extends AbstractBuilder {
 		
 	}
 
-	public void createOperations(Type implementationClass, Type interfaceClass, Interface interf) {
+	public void createOperations(Type implementationClass, Type interfaceClass, OperationInterface interf) {
 		
 		for (MethodDeclaration method : KDMHelper.getMethods(interfaceClass)) {
 			if ( (KDMHelper.isModifierOfKind(method, VisibilityKind.NONE))

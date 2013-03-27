@@ -11,6 +11,7 @@ import javax.sound.sampled.Port;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.somox.analyzer.AnalysisResult;
+import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.InterfacePortBuilderHelper;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.SubComponentInformation;
 import org.somox.configuration.SoMoXConfiguration;
@@ -20,13 +21,17 @@ import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 
+import de.uka.ipd.sdq.pcm.allocation.Allocation;
+import de.uka.ipd.sdq.pcm.allocation.AllocationFactory;
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
 import de.uka.ipd.sdq.pcm.core.composition.CompositionFactory;
 import de.uka.ipd.sdq.pcm.core.composition.Connector;
-import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.Interface;
+import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
+import de.uka.ipd.sdq.pcm.repository.RequiredRole;
+import de.uka.ipd.sdq.pcm.repository.Role;
 import de.uka.ipd.sdq.pcm.system.System;
 import de.uka.ipd.sdq.pcm.system.SystemFactory;
 //import de.fzi.gast.core.Root;
@@ -135,12 +140,11 @@ public class PCMSystemBuilder extends AbstractBuilder {
 			pcmLink.getSubComponents().add(compLink);
 									
 			// Service allocation
-			/*Service service = AllocationFactory.eINSTANCE.createService();
-			sammSystem.getService().add(service);
-			service.setSubcomponentInstance(subComponentInstance);
-			service.setName(compLink.getComponent().getName());
-			service.setContainer(defaultModelLoader.getDefaultContainer());*/
-
+			Allocation allocation = AllocationFactory.eINSTANCE.createAllocation();
+			allocation.setEntityName(compLink.getComponent().getEntityName());
+			allocation.setSystem_Allocation(pcmSystem);
+			allocation.setTargetResourceEnvironment_Allocation(DefaultResourceEnvironment.getDefaultResourceEnvironment());
+			
 			// replicate provided ports for SAMM system:
 			for(InterfaceSourceCodeLink provIfLink : compLink.getProvidedInterfaces()) {
 				createPortAndDelegationConnector(pcmSystem, compLink,
@@ -151,7 +155,7 @@ public class PCMSystemBuilder extends AbstractBuilder {
 		// create assembly connectors among system components
 		// execute only once: possible since here no decorator is used
 		componentBuilder.getInsideCompositeComponentAssemblyConnectorStrategy().
-			buildAssemblyConnectors(pcmSystem, innerComponents); 			
+			buildAssemblyConnectors(pcmSystem, innerComponents);
 				
 		// collect information on non-connected interfaces
 		Iterable<SubComponentInformation> subComponentInformation =
@@ -181,25 +185,35 @@ public class PCMSystemBuilder extends AbstractBuilder {
 	}
 
 	private void createPortAndDelegationConnector(
-			System sammSystem,
+			System pcmSystem,
 			ComponentImplementingClassesLink compLink,
 			AssemblyContext assemblyContext,
 			InterfaceSourceCodeLink ifLink,
 			boolean isProvided) {
-		InterfacePort outerIfPort = StaticstructureFactory.eINSTANCE.createInterfacePort();
-		outerIfPort.setProvidingComponentType(sammSystem);
-		outerIfPort.setInterfaceType(ifLink.getInterface());
-
+		Role providedRequiredRole = null;
+		if(isProvided){
+			ProvidedRole providedRole = RepositoryFactory.eINSTANCE.createInfrastructureProvidedRole();
+			providedRole.setProvidingEntity_ProvidedRole(pcmSystem);
+			providedRequiredRole = providedRole;
+		}
+		else{
+			RequiredRole requiredRole = RepositoryFactory.eINSTANCE.createInfrastructureRequiredRole();
+			requiredRole.setRequiringEntity_RequiredRole(pcmSystem);
+			providedRequiredRole = requiredRole;
+		}
+		
 		// naming:
 		if(isProvided) {			
-			outerIfPort.setName(
+			providedRequiredRole.setEntityName(
 					namingStrategy.createProvidedSystemPortName(ifLink.getInterface(), compLink.getComponent()));
 		} else {
-			outerIfPort.setName(
+			providedRequiredRole.setEntityName(
 					namingStrategy.createRequiredSystemPortName(ifLink.getInterface(), compLink.getComponent()));
 		}
 		
+		
 		// subcomponent endpoint
+		Provi
 		SubcomponentEndpoint subComponentEndpoint = StaticstructureFactory.eINSTANCE.createSubcomponentEndpoint();
 		subComponentEndpoint.setSubcomponent(subComponentInstance);
 
@@ -212,14 +226,17 @@ public class PCMSystemBuilder extends AbstractBuilder {
 		}
 
 		// component endpoint
+		
 		ComponentEndpoint componentEndpoint = StaticstructureFactory.eINSTANCE.createComponentEndpoint();
 		componentEndpoint.setPort(outerIfPort); //outer port				
 		
+		Connector connector;
+		connector.setParentStructure__Connector(componentEndpoint);
 		Connector connector = StaticstructureFactory.eINSTANCE.createConnector();				
 		connector.getEndpoints().add(subComponentEndpoint);
 		connector.getEndpoints().add(componentEndpoint);		
 		
-		sammSystem.getConnector().add(connector);
+		pcmSystem.getConnectors__ComposedStructure().add(connector);
 	}
 	
 	private Port getMatchingPort(EList<InterfacePort> interfacePorts, Interface theInterface) {
