@@ -31,18 +31,23 @@ import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
+import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
+import de.uka.ipd.sdq.pcm.repository.OperationSignature;
+import de.uka.ipd.sdq.pcm.repository.RequiredRole;
+import de.uka.ipd.sdq.pcm.repository.Role;
+import de.uka.ipd.sdq.pcm.repository.Signature;
 import de.uka.ipd.sdq.pcm.seff.SeffFactory;
 
-import eu.qimpress.samm.staticstructure.InterfacePort;
-import eu.qimpress.samm.staticstructure.Operation;
-import eu.qimpress.samm.staticstructure.PrimitiveComponent;
-import eu.qimpress.seff.AbstractBranchTransition;
-import eu.qimpress.seff.BranchAction;
-import eu.qimpress.seff.ExternalCallAction;
-import eu.qimpress.seff.InternalAction;
-import eu.qimpress.seff.LoopAction;
-import eu.qimpress.seff.ResourceDemandingBehaviour;
-import eu.qimpress.seff.seffFactory;
+//import eu.qimpress.samm.staticstructure.InterfacePort;
+//import eu.qimpress.samm.staticstructure.Operation;
+//import eu.qimpress.samm.staticstructure.PrimitiveComponent;
+//import eu.qimpress.seff.AbstractBranchTransition;
+//import eu.qimpress.seff.BranchAction;
+//import eu.qimpress.seff.ExternalCallAction;
+//import eu.qimpress.seff.InternalAction;
+//import eu.qimpress.seff.LoopAction;
+//import eu.qimpress.seff.ResourceDemandingBehaviour;
+//import eu.qimpress.seff.seffFactory;
 //import de.fzi.gast.accesses.Access;//GAST2SEFFCHANGE
 //import de.fzi.gast.accesses.BaseAccess;//GAST2SEFFCHANGE
 //import de.fzi.gast.accesses.FunctionAccess;//GAST2SEFFCHANGE
@@ -435,8 +440,8 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
         final AbstractMethodInvocation access = this.getFunctionAccess(object); // GAST2SEFFCHANGE
         call.setEntityName(access.getMethod().getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
         final InterfacePortOperationTuple ifOperationTuple = this.getCalledInterfacePort(access);
-        call.setCalledInterfacePort(ifOperationTuple.interfacePort);
-        call.setCalledService(ifOperationTuple.operation);
+        call.setRole_ExternalService((OperationRequiredRole) ifOperationTuple.interfacePort);
+        call.setCalledService_ExternalService((OperationSignature) ifOperationTuple.operation);
 //        call.setDocumentation(this.positionToString(KDMHelper.getJavaNodeSourceRegion(object))); // GAST2SEFFCHANGE
         this.seff.getSteps_Behaviour().add(call);
     }
@@ -451,12 +456,12 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
     private InterfacePortOperationTuple getCalledInterfacePort(final AbstractMethodInvocation access) { // GAST2SEFFCHANGE
         final InterfacePortOperationTuple interfacePortOperationTuple = new InterfacePortOperationTuple();
 
-        for (final InterfacePort ifPort : this.primitiveComponent.getRequired()) {
+        for (final RequiredRole ifPort : this.primitiveComponent.getRequiredRoles_InterfaceRequiringEntity()) {
             for (final InterfaceSourceCodeLink ifLink : this.sourceCodeDecoratorRepository.getInterfaceSourceCodeLink()) {
-                if (ifPort.getInterfaceType().equals(ifLink.getInterface())) {
+                if (ifPort.getRequiringEntity_RequiredRole().equals(ifLink.getInterface())) {
                     if (ifLink.getGastClass().equals(GetAccessedType.getAccessedType(access))) { // GAST2SEFFCHANGE
 
-                        logger.trace("accessed interface port " + ifPort.getName());
+                        logger.trace("accessed interface port " + ifPort.getEntityName());
                         interfacePortOperationTuple.interfacePort = ifPort;
                         // query operation:
                         interfacePortOperationTuple.operation = this.queryInterfaceOperation(access);
@@ -479,13 +484,13 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
      *            The access to find in the SAMM
      * @return Operation corresponding to function access
      */
-    private Operation queryInterfaceOperation(final AbstractMethodInvocation access) { // GAST2SEFFCHANGE
+    private Signature queryInterfaceOperation(final AbstractMethodInvocation access) { // GAST2SEFFCHANGE
         for (final MethodLevelSourceCodeLink methodLink : this.sourceCodeDecoratorRepository
                 .getMethodLevelSourceCodeLink()) {
 
             if (methodLink.getFunction().equals(access.getMethod())) { // GAST2SEFFCHANGE
 
-                logger.trace("accessed operation " + methodLink.getOperation().getName());
+                logger.trace("accessed operation " + methodLink.getOperation().getEntityName());
                 return methodLink.getOperation();
             }
         }
@@ -626,8 +631,8 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
     }
 
     private class InterfacePortOperationTuple {
-        public InterfacePort interfacePort;
-        public Operation operation;
+        public Role interfacePort;
+        public Signature operation;
     }
 
     // TODO

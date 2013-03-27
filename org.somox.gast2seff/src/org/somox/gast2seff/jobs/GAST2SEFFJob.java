@@ -39,6 +39,8 @@ import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 import de.uka.ipd.sdq.pcm.qosannotations.QoSAnnotations;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
+import de.uka.ipd.sdq.pcm.repository.Repository;
+import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
 import de.uka.ipd.sdq.pcm.seff.AbstractAction;
 import de.uka.ipd.sdq.pcm.seff.ResourceDemandingBehaviour;
 import de.uka.ipd.sdq.pcm.seff.ResourceDemandingSEFF;
@@ -174,7 +176,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 		// resource to write to
 		// this.seffBehaviourRepository = createResource(seffBehaviourRepositoryURI);
 		
-		SeffRepository seffRepository = SeffFactory.eINSTANCE.createSeffRepository();
+//		Repository seffRepository = RepositoryFactory.eINSTANCE.createRepository();
 		
 		IProgressMonitor subMonitor = new SubProgressMonitor(monitor, IProgressMonitor.UNKNOWN);
 		subMonitor.setTaskName("Creating SEFF behaviour");
@@ -183,13 +185,13 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 		Iterator<SEFF2MethodMapping> iterator = this.gastBehaviourRepositoryModel.getSeff2MethodMappings().iterator();
 		while (iterator.hasNext()) {
 			SEFF2MethodMapping gASTBehaviour = iterator.next();
-			ServiceEffectSpecification stub = gASTBehaviour.getSeff();
+			ResourceDemandingSEFF stub = (ResourceDemandingSEFF) gASTBehaviour.getSeff();
 			//TODO SAMM2PCM????
 			String name = stub.getSeffTypeID();
 			logger.info("Found GAST behaviour, generating SEFF behaviour for it: " + name);
 			
 			ResourceDemandingSEFF resourceDemandingSEFF = generateSEFFForGASTBehaviour(stub);				
-			seffRepository.getResourceDemandingSeff().add(resourceDemandingSEFF);
+			seffRepository.g .getResourceDemandingSeff().add(resourceDemandingSEFF);
 			monitor.worked(1);
 			
 //			EObject eObject = iterator.next();
@@ -417,15 +419,16 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	 * @throws JobFailedException
 	 */
 	private ResourceDemandingSEFF generateSEFFForGASTBehaviour(
-			ServiceEffectSpecification gastBehaviourStub) throws JobFailedException {
-		ResourceDemandingSEFF resourceDemandingSEFF = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+			ResourceDemandingSEFF gastBehaviourStub) throws JobFailedException {
+		//ResourceDemandingSEFF resourceDemandingSEFF = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
 				
-		createSeff(gastBehaviourStub,resourceDemandingSEFF);
+//		createSeff(gastBehaviourStub,resourceDemandingSEFF);
+		createSeff(gastBehaviourStub);
 		
-		SeffBehaviourStub seffBehaviourStub = findOrCreateBehaviourStub(gastBehaviourStub); 
-		resourceDemandingSEFF.setSeffBehaviourStub(seffBehaviourStub);
+//		SeffBehaviourStub seffBehaviourStub = findOrCreateBehaviourStub(gastBehaviourStub); 
+//		resourceDemandingSEFF.setSeffBehaviourStub(seffBehaviourStub);
 		
-		return resourceDemandingSEFF;
+		return gastBehaviourStub;
 	}
 
 	/**
@@ -434,29 +437,29 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	 * @param gastBehaviourStub The GAST behaviour stub for which a matching SEFF behaviour stub is searched
 	 * @return The found or newly created SEFF behaviour stub
 	 */
-	private SeffBehaviourStub findOrCreateBehaviourStub(GastBehaviourStub gastBehaviourStub) {
-		PrimitiveComponent parentComponent = (PrimitiveComponent) gastBehaviourStub.eContainer();
-		SeffBehaviourStub seffBehaviourStub = null;
-
-		for (Behaviour behaviour : parentComponent.getOperationBehaviour()) {
-			if (behaviour instanceof SeffBehaviourStub) {
-				SeffBehaviourStub candidateStub = (SeffBehaviourStub) behaviour;
-				if (candidateStub.getOperation() == gastBehaviourStub.getOperation()) {
-					logger.debug("Found SEFF behaviour stub, reusing it...");
-					seffBehaviourStub = candidateStub;
-					break;
-				}
-			}
-		}
-		
-		if (seffBehaviourStub == null)
-			seffBehaviourStub = BehaviourFactory.eINSTANCE.createSeffBehaviourStub();
-		
-		seffBehaviourStub.setOperation(gastBehaviourStub.getOperation());
-		parentComponent.getOperationBehaviour().add(seffBehaviourStub);
-		
-		return seffBehaviourStub;
-	}
+//	private SeffBehaviourStub findOrCreateBehaviourStub(ResourceDemandingSEFF gastBehaviourStub) {
+//		BasicComponent parentComponent = (BasicComponent) gastBehaviourStub.eContainer();
+//		SeffBehaviourStub seffBehaviourStub = null;
+//
+//		for (ServiceEffectSpecification behaviour : parentComponent.getServiceEffectSpecifications__BasicComponent()) {
+//			if (behaviour instanceof SeffBehaviourStub) {
+//				SeffBehaviourStub candidateStub = (SeffBehaviourStub) behaviour;
+//				if (candidateStub.getOperation() == gastBehaviourStub.getOperation) {
+//					logger.debug("Found SEFF behaviour stub, reusing it...");
+//					seffBehaviourStub = candidateStub;
+//					break;
+//				}
+//			}
+//		}
+//		
+//		if (seffBehaviourStub == null)
+//			seffBehaviourStub = BehaviourFactory.eINSTANCE.createSeffBehaviourStub();
+//		
+//		seffBehaviourStub.setOperation(gastBehaviourStub.getOperation());
+//		parentComponent.get.getOperationBehaviour().add(seffBehaviourStub);
+//		
+//		return seffBehaviourStub;
+//	}
 
 	/**
 	 * @param blackBoard the blackBoard to set
