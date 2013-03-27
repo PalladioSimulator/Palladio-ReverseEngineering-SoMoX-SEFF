@@ -1,5 +1,7 @@
 package org.somox.analyzer.simplemodelanalyzer.builder.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -10,6 +12,9 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 import de.uka.ipd.sdq.pcm.core.CoreFactory;
 import de.uka.ipd.sdq.pcm.core.PCMRandomVariable;
+import de.uka.ipd.sdq.pcm.repository.DataType;
+import de.uka.ipd.sdq.pcm.repository.PrimitiveDataType;
+import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ProcessingResourceSpecification;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
@@ -30,10 +35,15 @@ public class DefaultResourceEnvironment {
 
 	private static final String RESOURCETYPE_URI = "platform:/plugin/de.uka.ipd.sdq.pcm.resources/defaultModels/Palladio.resourcetype";
 
+	private static final String PRIMITIVETYPES_URI = "platform:/plugin/de.uka.ipd.sdq.pcm.resources/defaultModels/PrimitiveTypes.repository";
+
+	
 	/** cached instance of default resource environment.  */
 	private static ResourceEnvironment resourceEnvironment;
 	
 	private static ResourceRepository resourceRepository; 
+
+	private static Repository primitiveTypesRepository; 
 	
 	/** Prohibited. Only static access to class. */
 	private DefaultResourceEnvironment() {
@@ -52,6 +62,18 @@ public class DefaultResourceEnvironment {
 			resourceEnvironment = createDefaultResourceEnvironment();	
 		}
 		return resourceEnvironment;
+	}
+	
+	public static List<PrimitiveDataType> getPrimitiveDataTypes() {
+		List<PrimitiveDataType> primitives = new ArrayList<PrimitiveDataType>();
+		if (primitiveTypesRepository == null) {
+			primitiveTypesRepository = getPrimitiveTypesRepository();	
+		}
+		for (DataType d : primitiveTypesRepository.getDataTypes__Repository()) {
+			if (d instanceof PrimitiveDataType) 
+				primitives.add((PrimitiveDataType)d);
+		}
+		return primitives;
 	}
 	
 	/**
@@ -91,6 +113,22 @@ public class DefaultResourceEnvironment {
 		return (ProcessingResourceType)getResourceRepository().getAvailableResourceTypes_ResourceRepository().get(0);
 	}
 	
+	protected static Repository getPrimitiveTypesRepository() {
+		if (primitiveTypesRepository != null) return primitiveTypesRepository;
+		
+		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+	    Map<String, Object> m = reg.getExtensionToFactoryMap();
+	    m.put("repository", new XMIResourceFactoryImpl());
+
+	    URI uri = URI.createURI(PRIMITIVETYPES_URI);
+	    
+		ResourceSet resSet = new ResourceSetImpl();
+		Resource resource = resSet.getResource(uri, true);
+		
+		primitiveTypesRepository = (Repository)resource.getContents().get(0);
+		return primitiveTypesRepository;
+	}
+
 	protected static ResourceRepository getResourceRepository() {
 		if (resourceRepository != null) return resourceRepository;
 		
@@ -106,4 +144,5 @@ public class DefaultResourceEnvironment {
 		resourceRepository = (ResourceRepository)resource.getContents().get(0);
 		return resourceRepository;
 	}
+
 }
