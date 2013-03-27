@@ -230,7 +230,6 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 		de.uka.ipd.sdq.pcm.system.System system = SystemFactory.eINSTANCE.createSystem();
 		QoSAnnotations qosAnnotationModel = QosannotationsFactory.eINSTANCE.createQoSAnnotations();
 		Repository newInternalArchitectureModel = RepositoryFactory.eINSTANCE.createRepository();
-		Repository pcmRepository = RepositoryFactory.eINSTANCE.createRepository();
 		
 		analysisResult.setInternalArchitectureModel(newInternalArchitectureModel);
 		analysisResult.setSEFF2JavaAST(seff2JavaAST);
