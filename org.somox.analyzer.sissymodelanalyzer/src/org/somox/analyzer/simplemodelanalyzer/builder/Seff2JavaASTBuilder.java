@@ -81,7 +81,7 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
 			throw new RuntimeException("Found interface with operations for which no method link exists. This should never happen!");
 		}
 		
-		link.setComponentType(component);
+		link.setRepositoryComponent(component);
 
 		this.analysisResult.getSourceCodeDecoratorRepository().getMethodLevelSourceCodeLink().add(link);
 	
