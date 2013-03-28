@@ -326,6 +326,12 @@ public class OperationBuilder extends AbstractBuilder {
 //			((PrimitiveDataType) newType).setType(XSDPrimitiveDataTypes.BOOLEAN);
 			newType = DefaultResourceEnvironment.getPrimitiveDataTypeBool();
 			repository.getDataTypes__Repository().add(newType);	
+		} else if (typeName.toLowerCase().equals("char")) {//TODO PCM2SAMM ADDEDD
+			newType = DefaultResourceEnvironment.getPrimitiveDataTypeChar();//TODO PCM2SAMM ADDEDD
+			repository.getDataTypes__Repository().add(newType);	//TODO PCM2SAMM ADDEDD
+		} else if (typeName.toLowerCase().equals("byte")) {//TODO PCM2SAMM ADDEDD
+			newType = DefaultResourceEnvironment.getPrimitiveDataTypeByte();//TODO PCM2SAMM ADDEDD
+			repository.getDataTypes__Repository().add(newType);	//TODO PCM2SAMM ADDEDD
 		} else if (typeName.endsWith("[]")) {
 			// Create a collection data type:			
 			newType = RepositoryFactory.eINSTANCE.createCollectionDataType();
@@ -354,10 +360,11 @@ public class OperationBuilder extends AbstractBuilder {
 				}
 			} else {
 				// create a non-default primitive data type:
-				//TODO SAMM2PCM removed
+				//TODO SAMM2PCM removed; could lead to a NPE... what to create here?
 //				newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();
 //				newType.setName(typeName);
 //				repository.getDataTypes__Repository().add(newType);
+				throw new UnsupportedOperationException("Operation Builder: Should implement something here.");
 			}
 		}
 		
@@ -378,8 +385,8 @@ public class OperationBuilder extends AbstractBuilder {
 		} else if (typeName.toLowerCase().equals("bool")) { 
 			// Do not create 2 datatypes for bool and boolean
 			typeName = "boolean";
-		} else if (typeName.toLowerCase().equals("char")) {
-			typeName = "string"; // map char to string
+//		} else if (typeName.toLowerCase().equals("char")) {//TODO SAMM2PCM removed
+//			typeName = "string"; // map char to string
 		} else if (typeName.toLowerCase().equals("float")) {
 			typeName = "double"; // map double to float
 		}
