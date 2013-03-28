@@ -1,7 +1,6 @@
 package org.somox.analyzer.simplemodelanalyzer.builder.util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -65,21 +64,49 @@ public class DefaultResourceEnvironment {
 	}
 	
 	/**
-	 * Retrieves a list of {@link de.uka.ipd.sdq.pcm.repository.PrimitiveDataType}s as defined in the standrad PCM resource repository. 
+	 * Retrieves a map of {@link de.uka.ipd.sdq.pcm.repository.PrimitiveDataType}s as defined in the standard PCM resource repository. 
 	 * @return
-	 * 		A cached list of primitive data types.
+	 * 		A cached map of primitive data types.
 	 */
-	public static List<PrimitiveDataType> getPrimitiveDataTypes() {
-		List<PrimitiveDataType> primitives = new ArrayList<PrimitiveDataType>();
+	private static Map<String, PrimitiveDataType> getPrimitiveDataTypes() {
+		Map<String, PrimitiveDataType> primitives = new HashMap<String, PrimitiveDataType>();
 		if (primitiveTypesRepository == null) {
 			primitiveTypesRepository = getPrimitiveTypesRepository();	
 		}
 		for (DataType d : primitiveTypesRepository.getDataTypes__Repository()) {
-			if (d instanceof PrimitiveDataType) 
-				primitives.add((PrimitiveDataType)d);
+			if (d instanceof PrimitiveDataType){
+				PrimitiveDataType pdt = (PrimitiveDataType) d;
+				primitives.put(pdt.getType().getName(), pdt);
+			}
 		}
 		return primitives;
 	}
+	
+	public static PrimitiveDataType getPrimitiveDataTypeInteger() {
+		return getPrimitiveDataTypes().get("INT");
+	}
+
+	public static PrimitiveDataType getPrimitiveDataTypeDouble() {
+		return getPrimitiveDataTypes().get("DOUBLE");
+	}
+
+	public static PrimitiveDataType getPrimitiveDataTypeBool() {
+		return getPrimitiveDataTypes().get("BOOL");
+	}
+
+	public static PrimitiveDataType getPrimitiveDataTypeChar() {
+		return getPrimitiveDataTypes().get("CHAR");
+	}
+
+	public static PrimitiveDataType getPrimitiveDataTypeByte() {
+		return getPrimitiveDataTypes().get("BYTE");
+	}
+
+	public static PrimitiveDataType getPrimitiveDataTypeString() {
+		return getPrimitiveDataTypes().get("STRING");
+	}
+	
+	
 	
 	/**
 	 * Creates and returns a new instance of {@link de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment} 
