@@ -115,12 +115,12 @@ public class DeleteInitialComponentCandidatesStrategy implements
 		Set<MethodLevelSourceCodeLink> methodLevelSourceCodeLinksToDelete = new HashSet<MethodLevelSourceCodeLink>();
 		for(ComponentImplementingClassesLink compLink : componentLinksToDelete) {
 			for(FileLevelSourceCodeLink sourceLink : analysisResult.getSourceCodeDecoratorRepository().getFileLevelSourceCodeLink()) {
-				if(sourceLink.getComponentType().equals(compLink.getComponent())) {
+				if(sourceLink.getRepositoryComponent().equals(compLink.getComponent())) {
 					fileLevelSourceCodeLinksToDelete.add(sourceLink);
 				}
 			}
 			for(MethodLevelSourceCodeLink sourceLink : analysisResult.getSourceCodeDecoratorRepository().getMethodLevelSourceCodeLink()) {
-				if(sourceLink.getComponentType() != null && sourceLink.getComponentType().equals(compLink.getComponent())) {
+				if(sourceLink.getRepositoryComponent() != null && sourceLink.getRepositoryComponent().equals(compLink.getComponent())) {
 					methodLevelSourceCodeLinksToDelete.add(sourceLink);
 				}
 			}			
