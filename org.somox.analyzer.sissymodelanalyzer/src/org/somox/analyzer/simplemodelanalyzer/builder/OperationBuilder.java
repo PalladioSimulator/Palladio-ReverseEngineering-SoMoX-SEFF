@@ -9,29 +9,38 @@ import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.VisibilityKind;
 import org.somox.analyzer.AnalysisResult;
+import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.GetAccessedType;
 import org.somox.kdmhelper.metamodeladdition.Root;
 
+import de.uka.ipd.sdq.pcm.repository.CompositeDataType;
+import de.uka.ipd.sdq.pcm.repository.DataType;
+import de.uka.ipd.sdq.pcm.repository.InnerDeclaration;
 import de.uka.ipd.sdq.pcm.repository.OperationInterface;
+import de.uka.ipd.sdq.pcm.repository.OperationSignature;
+import de.uka.ipd.sdq.pcm.repository.Parameter;
+import de.uka.ipd.sdq.pcm.repository.PrimitiveDataType;
+import de.uka.ipd.sdq.pcm.repository.PrimitiveTypeEnum;
+import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
 //import de.fzi.gast.core.Root;
 //import de.fzi.gast.functions.Method;
 //import de.fzi.gast.types.GASTClass;
 //import de.fzi.gast.types.Visibilities;
 //import de.fzi.gast.variables.FormalParameter;
-import eu.qimpress.samm.datatypes.CollectionDataType;
-import eu.qimpress.samm.datatypes.ComplexDataType;
-import eu.qimpress.samm.datatypes.DatatypesFactory;
-import eu.qimpress.samm.datatypes.InnerElement;
-import eu.qimpress.samm.datatypes.PrimitiveDataType;
-import eu.qimpress.samm.datatypes.XSDPrimitiveDataTypes;
-import eu.qimpress.samm.staticstructure.Interface;
-import eu.qimpress.samm.staticstructure.MessageType;
-import eu.qimpress.samm.staticstructure.Operation;
-import eu.qimpress.samm.staticstructure.Parameter;
-import eu.qimpress.samm.staticstructure.Repository;
-import eu.qimpress.samm.staticstructure.StaticstructureFactory;
+//import eu.qimpress.samm.datatypes.CollectionDataType;
+//import eu.qimpress.samm.datatypes.ComplexDataType;
+//import eu.qimpress.samm.datatypes.DatatypesFactory;
+//import eu.qimpress.samm.datatypes.InnerElement;
+//import eu.qimpress.samm.datatypes.PrimitiveDataType;
+//import eu.qimpress.samm.datatypes.XSDPrimitiveDataTypes;
+//import eu.qimpress.samm.staticstructure.Interface;
+//import eu.qimpress.samm.staticstructure.MessageType;
+//import eu.qimpress.samm.staticstructure.Operation;
+//import eu.qimpress.samm.staticstructure.Parameter;
+//import eu.qimpress.samm.staticstructure.Repository;
+//import eu.qimpress.samm.staticstructure.StaticstructureFactory;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 
@@ -69,8 +78,8 @@ public class OperationBuilder extends AbstractBuilder {
 				} else {
 					logger.warn("no implementation class for method "+method.getName() + " of interface " + interfaceClass.getName());
 				}
-				Operation op = createOperationParametersAndMessageType(realMethod);
-				interf.getSignatures().add(op);
+				OperationSignature op = createOperationParametersAndMessageType(realMethod);
+				interf.getSignatures__OperationInterface().add(op);
 			}
 		}
 	}
@@ -115,10 +124,10 @@ public class OperationBuilder extends AbstractBuilder {
 	 * @param resultRepository repository to write to
 	 * @return a new operation for which parameter names and types already exist in the resultRepository  
 	 */
-	private Operation createOperationParametersAndMessageType(MethodDeclaration method) {
+	private OperationSignature createOperationParametersAndMessageType(MethodDeclaration method) {
 		
-		Operation operation = StaticstructureFactory.eINSTANCE.createOperation();
-		operation.setName(method.getName());
+		OperationSignature operation = RepositoryFactory.eINSTANCE.createOperationSignature();
+		operation.setEntityName(method.getName());
 		
 		updateSourceCodeDecorator(operation,method);
 		
@@ -135,20 +144,21 @@ public class OperationBuilder extends AbstractBuilder {
 						inputParameter.getName() + "\" of method \"" + method.getName() + "\"");
 			}
 		}
-		if (paramNames.size() > 0) {
-			MessageType messageType = findMessageTypeInRepository(paramNames, paramTypes);
-			if (messageType == null) {
-				messageType = createMessageType(paramNames, paramTypes);
-			}
-			if(messageType != null) { //newly created message type can still be null
-				operation.setInput(messageType);
-			}
-		}
+//		TODO SAMM2PCM removed
+//		if (paramNames.size() > 0) {
+//			MessageType messageType = findMessageTypeInRepository(paramNames, paramTypes);
+//			if (messageType == null) {
+//				messageType = createMessageType(paramNames, paramTypes);
+//			}
+//			if(messageType != null) { //newly created message type can still be null
+//				operation.setInput(messageType);
+//			}
+//		}
 		
 		return operation;
 	}
 
-	private void updateSourceCodeDecorator(Operation operation, MethodDeclaration method) {
+	private void updateSourceCodeDecorator(OperationSignature operation, MethodDeclaration method) {
 		//assert method.getStatus() == Status.NORMAL; //TODO: check re-enabling other status implies empty method body and causes trouble during later stages
 		
 		MethodLevelSourceCodeLink link = SourceCodeDecoratorFactory.eINSTANCE.createMethodLevelSourceCodeLink();
@@ -172,43 +182,43 @@ public class OperationBuilder extends AbstractBuilder {
 	 *         the size of parameterNames does not equal the size of
 	 *         parameterTypes.
 	 */
-	private MessageType findMessageTypeInRepository(
-			List<String> parameterNames, 
-			List<Type> parameterTypes) {
-		if (parameterNames == null) {
-			parameterNames = new ArrayList<String>();
-		}
-		if (parameterTypes == null) {
-			parameterTypes = new ArrayList<Type>();
-		}
-		if (parameterNames.size() != parameterTypes.size()) {
-			return null;
-		}
-		for (MessageType messageType : this.analysisResult.getInternalArchitectureModel().getMessagetype()) {
-			if (messageType.getParameters().size() != parameterNames.size()) {
-				continue;
-			}
-			boolean parametersMatch = true;
-			for (int i = 0; i < messageType.getParameters().size(); i++) {
-				Parameter param = messageType.getParameters().get(i);
-				if (!param.getName().equals(parameterNames.get(i))) {
-					parametersMatch = false;
-					break;
-				}
-				if (param.getType() != null && param.getType().getName() != null && //null pointer protection
-						parameterTypes.get(i).getName() != null &&
-						!param.getType().getName().toLowerCase().equals(
-								parameterTypes.get(i).getName().toLowerCase())) {
-					parametersMatch = false;
-					break;
-				}
-			}
-			if (parametersMatch == true) {
-				return messageType;
-			}
-		}
-		return null;
-	}
+//	private MessageType findMessageTypeInRepository(
+//			List<String> parameterNames, 
+//			List<Type> parameterTypes) {
+//		if (parameterNames == null) {
+//			parameterNames = new ArrayList<String>();
+//		}
+//		if (parameterTypes == null) {
+//			parameterTypes = new ArrayList<Type>();
+//		}
+//		if (parameterNames.size() != parameterTypes.size()) {
+//			return null;
+//		}
+//		for (MessageType messageType : this.analysisResult.getInternalArchitectureModel().getMessagetype()) {
+//			if (messageType.getParameters().size() != parameterNames.size()) {
+//				continue;
+//			}
+//			boolean parametersMatch = true;
+//			for (int i = 0; i < messageType.getParameters().size(); i++) {
+//				de.uka.ipd.sdq.pcm.repository.Parameter param = messageType.getParameters().get(i);
+//				if (!param.getParameterName().equals(parameterNames.get(i))) {
+//					parametersMatch = false;
+//					break;
+//				}
+//				if (param.getDataType__Parameter() != null && param.getDataType__Parameter().getName() != null && //null pointer protection
+//						parameterTypes.get(i).getName() != null &&
+//						!param.getDataType__Parameter().getName().toLowerCase().equals(
+//								parameterTypes.get(i).getName().toLowerCase())) {
+//					parametersMatch = false;
+//					break;
+//				}
+//			}
+//			if (parametersMatch == true) {
+//				return messageType;
+//			}
+//		}
+//		return null;
+//	}
 
 	/**
 	 * Create a message type
@@ -224,43 +234,43 @@ public class OperationBuilder extends AbstractBuilder {
 	 *         parameterNames does not equal the size of parameterTypes or 
 	 *         if only void parameters are present
 	 */
-	private MessageType createMessageType(List<String> parameterNames,
-			List<Type> parameterTypes) {
-		if (parameterNames == null) {
-			parameterNames = new ArrayList<String>();
-		}
-		if (parameterTypes == null) {
-			parameterTypes = new ArrayList<Type>();
-		}
-		if (parameterNames.size() != parameterTypes.size()) {
-			return null;
-		}
-		MessageType messageType = StaticstructureFactory.eINSTANCE.createMessageType();
-		String messageTypeName = "";
-		if (parameterTypes.size() > 0) {
-			for (int i = 0; i < parameterTypes.size(); i++) {
-				if(!parameterTypes.get(i).getName().equals(voidType)) { //do not create void pointers
-				
-					if (messageTypeName.length() > 0) {
-						messageTypeName += "_";
-					}
-					messageTypeName += parameterTypes.get(i).getName();
-					Parameter param = StaticstructureFactory.eINSTANCE.createParameter();
-					param.setName(parameterNames.get(i));
-					param.setType(getType(parameterTypes.get(i), this.analysisResult.getInternalArchitectureModel()));
-					messageType.getParameters().add(param);
-				}
-			}
-		}
-		if(messageType.getParameters().size() > 0) {
-			messageType.setName(messageTypeName);
-			this.analysisResult.getInternalArchitectureModel().getMessagetype().add(messageType);
-			return messageType;
-		} else {
-			return null; // only void parameters which are omitted
-		}
-
-	}
+//	private MessageType createMessageType(List<String> parameterNames,
+//			List<Type> parameterTypes) {
+//		if (parameterNames == null) {
+//			parameterNames = new ArrayList<String>();
+//		}
+//		if (parameterTypes == null) {
+//			parameterTypes = new ArrayList<Type>();
+//		}
+//		if (parameterNames.size() != parameterTypes.size()) {
+//			return null;
+//		}
+//		MessageType messageType = StaticstructureFactory.eINSTANCE.createMessageType();
+//		String messageTypeName = "";
+//		if (parameterTypes.size() > 0) {
+//			for (int i = 0; i < parameterTypes.size(); i++) {
+//				if(!parameterTypes.get(i).getName().equals(voidType)) { //do not create void pointers
+//				
+//					if (messageTypeName.length() > 0) {
+//						messageTypeName += "_";
+//					}
+//					messageTypeName += parameterTypes.get(i).getName();
+//					Parameter param = RepositoryFactory.eINSTANCE.createParameter();
+//					param.setParameterName(parameterNames.get(i));
+//					param.setDataType__Parameter(getType(parameterTypes.get(i), this.analysisResult.getInternalArchitectureModel()));
+//					messageType.getParameters().add(param);
+//				}
+//			}
+//		}
+//		if(messageType.getParameters().size() > 0) {
+//			messageType.setName(messageTypeName);
+//			this.analysisResult.getInternalArchitectureModel().getMessagetype().add(messageType);
+//			return messageType;
+//		} else {
+//			return null; // only void parameters which are omitted
+//		}
+//
+//	}
 
 	
 	/**
@@ -270,8 +280,8 @@ public class OperationBuilder extends AbstractBuilder {
 	 * @return a new data type for non-existing ones; the existing
 	 * instance else
 	 */
-	private eu.qimpress.samm.datatypes.Type getType(Type gastType, Repository repository) {
-		eu.qimpress.samm.datatypes.Type type = getExistingType(gastType, repository);
+	private DataType getType(Type gastType, de.uka.ipd.sdq.pcm.repository.Repository repository) {
+		DataType type = getExistingType(gastType, repository);
 		
 		if(type == null) {		
 			type = createDataType(repository, gastType);			
@@ -285,66 +295,69 @@ public class OperationBuilder extends AbstractBuilder {
 	 * @param gastType The type to create a SAMM data type for 
 	 * @return
 	 */
-	private eu.qimpress.samm.datatypes.Type createDataType(Repository repository, Type gastType) {				
+	private DataType createDataType(de.uka.ipd.sdq.pcm.repository.Repository repository, Type gastType) {				
 		String typeName = gastType.getName();
 		typeName = getUnifiedTypeName(typeName);
 
-		eu.qimpress.samm.datatypes.Type newType = null;
+		DataType newType = null;
 		if (typeName.toLowerCase().equals(voidType)) {
 			// do nothing
 		} else if (typeName.toLowerCase().equals("integer")) {
-			newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();
-			newType.setName("INTEGER");
-			((PrimitiveDataType) newType).setType(XSDPrimitiveDataTypes.INT);
-			repository.getType().add(newType);
-		} else if (typeName.toLowerCase().equals("float")) {
-			newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();
-			newType.setName("FLOAT");
-			((PrimitiveDataType) newType).setType(XSDPrimitiveDataTypes.FLOAT);
-			repository.getType().add(newType);
+//			newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();
+//			newType.setName("INTEGER");
+//			((PrimitiveDataType) newType).setType(XSDPrimitiveDataTypes.INT);
+			newType = DefaultResourceEnvironment.getPrimitiveDataTypeInteger();
+			repository.getDataTypes__Repository().add(newType);
+		} else if (typeName.toLowerCase().equals("double")) { //Changed to double from float
+//			newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();
+//			newType.setName("FLOAT");
+//			((PrimitiveDataType) newType).setType(XSDPrimitiveDataTypes.FLOAT);
+			newType = DefaultResourceEnvironment.getPrimitiveDataTypeDouble();
+			repository.getDataTypes__Repository().add(newType);
 		} else if (typeName.toLowerCase().equals("string")) {
-			newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();
-			newType.setName("STRING");
-			((PrimitiveDataType) newType).setType(XSDPrimitiveDataTypes.STRING);
-			repository.getType().add(newType);
+//			newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();
+//			newType.setName("STRING");
+//			((PrimitiveDataType) newType).setType(XSDPrimitiveDataTypes.STRING);
+			newType = DefaultResourceEnvironment.getPrimitiveDataTypeString();
+			repository.getDataTypes__Repository().add(newType);
 		} else if (typeName.toLowerCase().equals("boolean")) {
-			newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();
-			newType.setName("BOOLEAN");
-			((PrimitiveDataType) newType).setType(XSDPrimitiveDataTypes.BOOLEAN);
-			repository.getType().add(newType);	
+//			newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();
+//			newType.setName("BOOLEAN");
+//			((PrimitiveDataType) newType).setType(XSDPrimitiveDataTypes.BOOLEAN);
+			newType = DefaultResourceEnvironment.getPrimitiveDataTypeBool();
+			repository.getDataTypes__Repository().add(newType);	
 		} else if (typeName.endsWith("[]")) {
 			// Create a collection data type:			
-			newType = DatatypesFactory.eINSTANCE.createCollectionDataType();
-
-			newType.setName(typeName);
-			repository.getType().add(newType);
+			newType = RepositoryFactory.eINSTANCE.createCollectionDataType();
+//			newType.setName(typeName);//TODO set name
+			repository.getDataTypes__Repository().add(newType);
 			logger.debug("found collection type " + typeName);
 			// set inner type:
 			String tmpInnerTypeName = typeName.substring(0, typeName.length() - 2);
-			((CollectionDataType) newType).setInnertype(getExistingTypeByName(tmpInnerTypeName, repository));			
+			((de.uka.ipd.sdq.pcm.repository.CollectionDataType) newType).setInnerType_CollectionDataType(getExistingTypeByName(tmpInnerTypeName, repository));			
 		} else {		
 			if(KDMHelper.getAllAccessedClasses(gastType).size() > 1) {
 				// create a complex data type:
-				newType = DatatypesFactory.eINSTANCE.createComplexDataType();
-				newType.setName(typeName);
-				repository.getType().add(newType);
+				newType = RepositoryFactory.eINSTANCE.createCompositeDataType();
+				repository.getDataTypes__Repository().add(newType);
 				
 				// set inner types:			
 				for(Type currentClass : KDMHelper.getAllAccessedClasses(gastType)) {
 					// avoid self-references and void as access
 					if(!currentClass.equals(gastType) && !currentClass.getName().equals("void")) {
 						String tmpInnerTypeName = currentClass.getName();;
-						InnerElement innerElement = DatatypesFactory.eINSTANCE.createInnerElement();						
-						innerElement.setType(getType(currentClass, repository));
-						innerElement.setName(tmpInnerTypeName);
-						((ComplexDataType) newType).getElements().add(innerElement);
+						InnerDeclaration innerElement = RepositoryFactory.eINSTANCE.createInnerDeclaration();						
+						innerElement.setDatatype_InnerDeclaration(getType(currentClass, repository));
+						innerElement.setEntityName(tmpInnerTypeName);
+						((CompositeDataType) newType).getInnerDeclaration_CompositeDataType().add(innerElement);
 					}
 				}
 			} else {
 				// create a non-default primitive data type:
-				newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();
-				newType.setName(typeName);
-				repository.getType().add(newType);				
+				//TODO SAMM2PCM removed
+//				newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();
+//				newType.setName(typeName);
+//				repository.getDataTypes__Repository().add(newType);
 			}
 		}
 		
@@ -367,8 +380,8 @@ public class OperationBuilder extends AbstractBuilder {
 			typeName = "boolean";
 		} else if (typeName.toLowerCase().equals("char")) {
 			typeName = "string"; // map char to string
-		} else if (typeName.toLowerCase().equals("double")) {
-			typeName = "float"; // map double to float
+		} else if (typeName.toLowerCase().equals("float")) {
+			typeName = "double"; // map double to float
 		}
 		return typeName;
 	}	
@@ -379,7 +392,7 @@ public class OperationBuilder extends AbstractBuilder {
 	 * @param repository
 	 * @return null if not found
 	 */
-	private eu.qimpress.samm.datatypes.Type getExistingType(Type gastType, Repository repository) {
+	private DataType getExistingType(Type gastType, de.uka.ipd.sdq.pcm.repository.Repository repository) {
 		return getExistingTypeByName(gastType.getName(), repository);
 	}
 	
@@ -389,11 +402,11 @@ public class OperationBuilder extends AbstractBuilder {
 	 * @param repository
 	 * @return null if not found
 	 */
-	private eu.qimpress.samm.datatypes.Type getExistingTypeByName(String gastTypeName, Repository repository) {
+	private DataType getExistingTypeByName(String gastTypeName, de.uka.ipd.sdq.pcm.repository.Repository repository) {
 		gastTypeName = getUnifiedTypeName(gastTypeName);
 		
-		for (eu.qimpress.samm.datatypes.Type currentType : repository.getType()) {
-			if (currentType.getName().toLowerCase().equals(gastTypeName.toLowerCase())) {
+		for (DataType currentType : repository.getDataTypes__Repository()) {
+			if (currentType.getRepository__DataType().getEntityName().toLowerCase().equals(gastTypeName.toLowerCase())) {
 				return currentType;
 			}
 		}
