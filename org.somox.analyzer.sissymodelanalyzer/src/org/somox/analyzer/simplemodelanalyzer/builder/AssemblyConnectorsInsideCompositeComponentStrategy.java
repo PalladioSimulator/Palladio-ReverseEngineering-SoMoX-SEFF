@@ -7,9 +7,11 @@ import org.jgrapht.Graph;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
+import de.uka.ipd.sdq.pcm.core.composition.ComposedStructure;
 import de.uka.ipd.sdq.pcm.core.composition.Connector;
 import de.uka.ipd.sdq.pcm.core.composition.ProvidedDelegationConnector;
 import de.uka.ipd.sdq.pcm.repository.CompositeComponent;
+import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 import de.uka.ipd.sdq.pcm.repository.RequiredRole;
@@ -79,7 +81,6 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 		for(ComponentImplementingClassesLink firstComponent : subComponents) {
  			for(RequiredRole requiredPort : firstComponent.getComponent().getRequiredRoles_InterfaceRequiringEntity()) {
 
- 				// connect only if not yet connected
  				if(!isBoundInConnector(outerComposite.getConnector(), requiredPort)) {
  					
 	 				findMatchingProvidedPortAndCreateAssemblyConnector(
@@ -103,13 +104,13 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 	 */
 	private void findMatchingProvidedPortAndCreateAssemblyConnector(
 			List<ComponentImplementingClassesLink> subComponents,
-			CompositeStructure outerComposite,
+			ComposedStructure outerComposite,
 			ComponentImplementingClassesLink requiringComponent,
-			InterfacePort requiredPort) {
+			RequiredRole requiredRole) {
 		
 		// loop provided ports and search for a match
 		for(ComponentImplementingClassesLink providingComponent : subComponents) {
-			for(InterfacePort providedPort : providingComponent.getComponent().getProvided()) {
+			for(ProvidedRole providedRole : providingComponent.getComponent().getProvidedRoles_InterfaceProvidingEntity()) {
 				if(requiredPort.getInterfaceType().equals(providedPort.getInterfaceType())) {
 					
 					Connector newAssemblyConnector = AssemblyConnectorBuilder.createAssemblyConnector(
@@ -131,15 +132,12 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 	 * @return
 	 */
 	private boolean isBoundInConnector(EList<ProvidedDelegationConnector> connectors,
-			ProvidedRole providedRole) {
-		for(Connector currentConnectors : connectors) {
-			for(EndPoint endpoint : currentConnectors.getEndpoints()) {
-				if(endpoint.getPort().equals(port)) {
-					return true;
-				}
-			}
+			OperationProvidedRole providedRole) {
+		for(ProvidedDelegationConnector currentConnectors : connectors) {
+			if(currentConnectors.getOuterProvidedRole_ProvidedDelegationConnector().equals(providedRole)){
+				return true;
+			}			
 		}
-		
 		return false;
 	}
 

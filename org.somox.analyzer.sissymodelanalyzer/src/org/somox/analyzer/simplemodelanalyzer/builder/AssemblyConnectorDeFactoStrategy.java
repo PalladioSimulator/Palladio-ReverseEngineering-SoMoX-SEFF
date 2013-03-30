@@ -5,11 +5,12 @@ import java.util.List;
 
 import org.jgrapht.Graph;
 import org.somox.metrics.ClusteringRelation;
-
-import eu.qimpress.samm.staticstructure.CompositeComponent;
-import eu.qimpress.samm.staticstructure.CompositeStructure;
-import eu.qimpress.samm.staticstructure.InterfacePort;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+
+import de.uka.ipd.sdq.pcm.repository.CompositeComponent;
+import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
+import de.uka.ipd.sdq.pcm.repository.RequiredRole;
 
 /**
  * Try to add assembly connectors for each edge in the subgraph of relations which formed the
@@ -55,18 +56,26 @@ public class AssemblyConnectorDeFactoStrategy implements IAssemblyConnectorStrat
 			CompositeComponent component,
 			ComponentImplementingClassesLink edgeSource,
 			ComponentImplementingClassesLink edgeTarget) {
-		Collection<InterfacePort> requiredRoles = edgeSource.getComponent().getRequired();
-		Collection<InterfacePort> providedRoles = edgeTarget.getComponent().getProvided();
-		for (InterfacePort requiredRole : requiredRoles) {
-			for (InterfacePort providedRole : providedRoles) {
-				if (requiredRole.getInterfaceType() == providedRole.getInterfaceType()) {
+		Collection<RequiredRole> requiredRoles = edgeSource.getComponent().getRequiredRoles_InterfaceRequiringEntity();
+		Collection<ProvidedRole> providedRoles = edgeTarget.getComponent().getProvidedRoles_InterfaceProvidingEntity();
+		for (RequiredRole requiredRole : requiredRoles) {
+			for (ProvidedRole providedRole : providedRoles) {
+				//TODO: math provided and required role:
+				if(requiredRole.getRequiringEntity_RequiredRole() == providedRole.getProvidingEntity_ProvidedRole()){
+					AssemblyConnectorBuilder.createAssemblyConnector(component, 
+								requiredRole, 
+								providedRole, 
+								edgeSource.getComponent(), 
+								edgeTarget.getComponent());
+				}
+				/*if (requiredRole.getInterfaceType() == providedRole.getInterfaceType()) {
 					AssemblyConnectorBuilder.createAssemblyConnector(
 							component,
 							requiredRole,
 							providedRole,
 							edgeSource.getComponent(),
 							edgeTarget.getComponent());
-				}
+				}*/
 			}
 		}
 		
@@ -77,10 +86,10 @@ public class AssemblyConnectorDeFactoStrategy implements IAssemblyConnectorStrat
 	 * @see org.somox.analyzer.simplemodelanalyzer.builder.IAssemblyConnectorStrategy#buildAssemblyConnectors(eu.qimpress.samm.staticstructure.ServiceArchitectureModel, java.util.List)
 	 */
 	public void buildAssemblyConnectors(
-			CompositeStructure compositeStructure,
+			RepositoryComponent compositeStructure,
 			List<ComponentImplementingClassesLink> subComponents) {
 		
 		throw new RuntimeException("NOT IMPLEMENTED");
 		
-	}	
+	}
 }

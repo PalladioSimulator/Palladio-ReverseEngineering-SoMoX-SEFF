@@ -61,7 +61,7 @@ public class PCMSystemBuilder extends AbstractBuilder {
 			ComponentBuilder componentBuilder) {
 		super(gastModel, somoxConfiguration, analysisResult);		
 	
-		logger.debug("Initialising SAMM system builder");
+		logger.debug("Initialising PCM system builder");
 
 		this.componentBuilder = componentBuilder;
 		this.namingStrategy = componentBuilder.getComponentAndTypeNamingStrategy();
@@ -209,7 +209,6 @@ public class PCMSystemBuilder extends AbstractBuilder {
 		
 		
 		// subcomponent endpoint
-		Provi
 		SubcomponentEndpoint subComponentEndpoint = StaticstructureFactory.eINSTANCE.createSubcomponentEndpoint();
 		subComponentEndpoint.setSubcomponent(subComponentInstance);
 

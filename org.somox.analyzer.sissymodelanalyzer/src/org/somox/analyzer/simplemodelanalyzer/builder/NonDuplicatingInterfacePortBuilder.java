@@ -10,20 +10,20 @@ import org.somox.analyzer.simplemodelanalyzer.builder.util.InterfacePortBuilderH
 import org.somox.analyzer.simplemodelanalyzer.builder.util.SubComponentInformation;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.metamodeladdition.Root;
-
-//import de.fzi.gast.core.Root;
-import eu.qimpress.samm.staticstructure.ComponentEndpoint;
-import eu.qimpress.samm.staticstructure.CompositeComponent;
-import eu.qimpress.samm.staticstructure.CompositeStructure;
-import eu.qimpress.samm.staticstructure.Connector;
-import eu.qimpress.samm.staticstructure.Interface;
-import eu.qimpress.samm.staticstructure.InterfacePort;
-import eu.qimpress.samm.staticstructure.StaticstructureFactory;
-import eu.qimpress.samm.staticstructure.SubcomponentEndpoint;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
+
+import de.uka.ipd.sdq.pcm.core.composition.ComposedStructure;
+import de.uka.ipd.sdq.pcm.core.composition.CompositionFactory;
+import de.uka.ipd.sdq.pcm.core.composition.DelegationConnector;
+import de.uka.ipd.sdq.pcm.repository.CompositeComponent;
+import de.uka.ipd.sdq.pcm.repository.Interface;
+import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
+import de.uka.ipd.sdq.pcm.repository.Role;
+//import de.fzi.gast.core.Root;
 
 /**
  * Idea: All interfaces which are not required by internal interfaces (and consequently captured in
@@ -61,8 +61,8 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 			ComponentImplementingClassesLink componentLink) {
 		assert (componentLink.isCompositeComponent());
 
-		if(componentLink.getComponent() instanceof CompositeStructure) {
-			CompositeStructure resultCompositeComponent = (CompositeStructure) componentLink.getComponent();
+		if(componentLink.getComponent() instanceof ComposedStructure) {
+			ComposedStructure resultCompositeComponent = (ComposedStructure) componentLink.getComponent();
 
 			Iterable<SubComponentInformation> interfaceLinksNotUsedInConnectors = InterfacePortBuilderHelper.collectInformationOnNonBoundInterfaces(
 					componentLink, resultCompositeComponent, this.isProvidedBuilder);
@@ -102,18 +102,17 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 		if(!allRequiredInterfaces.contains(subComponentInformation.getInterfaceSourceCodeLink().getInterface())) { //avoid duplicate interfaces
 
 			// SAMM:
-			InterfacePort newProvidedPort = StaticstructureFactory.eINSTANCE.createInterfacePort();
-			newProvidedPort.setInterfaceType(subComponentInformation.getInterfaceSourceCodeLink().getInterface());
-			newProvidedPort.setName(
+			OperationProvidedRole newProvidedRole = RepositoryFactory.eINSTANCE.createOperationProvidedRole();
+			
+			newProvidedRole.setEntityName(
 					componentTypeNaming.createProvidedPortName(
 							subComponentInformation.getInterfaceSourceCodeLink().getInterface(),
 							compositeComponentLink.getComponent()));
-			newProvidedPort.setDocumentation(subComponentInformation.getInterfaceSourceCodeLink().getInterface().getName());
-			newProvidedPort.setProvidingComponentType(compositeComponentLink.getComponent());
-			compositeComponentLink.getComponent().getProvided().add(newProvidedPort);
+			//newProvidedRole.setDocumentation(subComponentInformation.getInterfaceSourceCodeLink().getInterface().getEntityName());
+			compositeComponentLink.getComponent().getProvidedRoles_InterfaceProvidingEntity().add(newProvidedRole);
 			
 			createDelegationConnector(compositeComponentLink,
-					newProvidedPort, subComponentInformation, true);			
+					newProvidedRole, subComponentInformation, true);			
 			
 			// Source code decorator:				
 			if(subComponentInformation.getInterfaceSourceCodeLink().getInterface() != null && 
@@ -206,24 +205,25 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 	 */
 	private void createDelegationConnector(
 			ComponentImplementingClassesLink compositeComponentLink,
-			InterfacePort newOuterPort,
+			Role newOuterPort,
 			SubComponentInformation subComponentInformation,
 			boolean isProvidedDelegationConnector) {
 		// new provides delegation connector:
-		Connector delegationConnector = StaticstructureFactory.eINSTANCE.createConnector();
-		((CompositeComponent)compositeComponentLink.getComponent()).getConnector().add(delegationConnector);
+		DelegationConnector delegationConnector = CompositionFactory.eINSTANCE.createProvidedDelegationConnector();
+		
+		((CompositeComponent)compositeComponentLink.getComponent()).getConnectors__ComposedStructure().add(delegationConnector);
 
 		//documentation name:
-		String documentation = "";
+		/*String documentation = "";
 		if(isProvidedDelegationConnector) {
 			documentation += "provided";
 		} else {
 			documentation += "required";
 		}
 		documentation += " delegation connector " + 
-			compositeComponentLink.getComponent().getName() + " to " +
+			compositeComponentLink.getComponent().getEntityName() + " to " +
 			subComponentInformation.getSubComponentInstance().getRealizedBy().getName();
-		delegationConnector.setDocumentation(documentation);
+		delegationConnector.setDocumentation(documentation);*/
 
 		//outer:
 		ComponentEndpoint componentEndpoint = StaticstructureFactory.eINSTANCE.createComponentEndpoint(); 

@@ -35,33 +35,6 @@ public class AssemblyConnectorBuilder extends AbstractBuilder {
 	 * @param parentComponent the outer composite component
 	 * @param requiredPort the required port of an inner component
 	 * @param providedPort the provided port of an inner component
-	 * @param requiredComponentType
-	 * @param providedComponentType
-	 */
-	public static Connector createAssemblyConnector(
-			ComposedStructure parentComponent,
-			OperationRequiredRole requiredRole,
-			OperationProvidedRole providedRole,
-			AssemblyContext requiredComponentType,
-			AssemblyContext providedComponentType) {
-		
-		AssemblyConnector newConnector = createAssemblyConnectorEntity(parentComponent, 
-						requiredComponentType, providedComponentType);
-		
-		newConnector.setProvidedRole_AssemblyConnector(providedRole);
-		newConnector.setRequiredRole_AssemblyConnector(requiredRole);
-		newConnector.setProvidingAssemblyContext_AssemblyConnector(providedComponentType);
-		newConnector.setRequiringAssemblyContext_AssemblyConnector(requiredComponentType);
-		
-		return newConnector;
-	}
-	
-	
-	/**
-	 * Create a new instance of an assembly connector.
-	 * @param parentComponent the outer composite component
-	 * @param requiredPort the required port of an inner component
-	 * @param providedPort the provided port of an inner component
 	 * @param requiredComponentInstance
 	 * @param providedComponentInstance
 	 */
@@ -82,6 +55,32 @@ public class AssemblyConnectorBuilder extends AbstractBuilder {
 		
 		return newConnector;		
 	}*/
+	
+	/**
+	 * Create a new instance of an assembly connector.
+	 * @param parentComponent the outer composite component
+	 * @param requiredPort the required port of an inner component
+	 * @param providedPort the provided port of an inner component
+	 * @param requiredComponentType
+	 * @param providedComponentType
+	 */
+	public static Connector createAssemblyConnector(
+			ComposedStructure parentComponent,
+			OperationRequiredRole requiredRole,
+			OperationProvidedRole providedRole,
+			AssemblyContext requiredComponentType,
+			AssemblyContext providedComponentType) {
+		
+		AssemblyConnector newConnector = createAssemblyConnectorEntity(parentComponent, 
+						requiredComponentType, providedComponentType);
+		
+		newConnector.setProvidedRole_AssemblyConnector(providedRole);
+		newConnector.setRequiredRole_AssemblyConnector(requiredRole);
+		newConnector.setProvidingAssemblyContext_AssemblyConnector(providedComponentType);
+		newConnector.setRequiringAssemblyContext_AssemblyConnector(requiredComponentType);
+		
+		return newConnector;
+	}
 
 	private static AssemblyConnector createAssemblyConnectorEntity(
 			ComposedStructure parentComponent,

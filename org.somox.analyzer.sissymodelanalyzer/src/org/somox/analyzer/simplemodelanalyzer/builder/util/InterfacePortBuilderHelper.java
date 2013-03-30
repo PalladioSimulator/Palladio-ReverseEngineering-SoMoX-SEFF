@@ -10,6 +10,7 @@ import org.somox.analyzer.simplemodelanalyzer.builder.InterfacesBoundInConnector
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 
+import de.uka.ipd.sdq.pcm.core.composition.ComposedStructure;
 import de.uka.ipd.sdq.pcm.core.composition.Connector;
 import de.uka.ipd.sdq.pcm.core.entity.Entity;
 import de.uka.ipd.sdq.pcm.repository.CompositeComponent;
@@ -39,7 +40,7 @@ public class InterfacePortBuilderHelper {
 	 */
 	public static Iterable<SubComponentInformation> collectInformationOnNonBoundInterfaces(
 			ComponentImplementingClassesLink componentLink,
-			CompositeStructure outerComponentToCheck, 
+			ComposedStructure outerComponentToCheck, 
 			boolean isProvided) {
 		
 		Collection<SubComponentInformation> allSubComponentInterfaceLinks = 
