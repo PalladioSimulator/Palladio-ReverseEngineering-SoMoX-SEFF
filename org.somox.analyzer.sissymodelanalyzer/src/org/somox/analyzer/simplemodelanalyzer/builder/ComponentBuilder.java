@@ -43,8 +43,7 @@ public class ComponentBuilder extends AbstractBuilder {
 	private InterfaceBuilder interfaceBuilder = null;
 	private IAssemblyConnectorStrategy assemblyConnectorDeFactoBuilder = null;
 	private IAssemblyConnectorStrategy assemblyConnectorInnerBuilder = null;
-	private IProvidedRoleBuilderStrategy providedInterfaceBuilder = null;
-	private IProvidedRoleBuilderStrategy requiredInterfaceBuilder = null;
+	private IRoleBuilderStrategy roleBuilder = null;
 	
 	private static Logger logger = Logger.getLogger(ComponentBuilder.class);
 	
@@ -71,10 +70,8 @@ public class ComponentBuilder extends AbstractBuilder {
 		this.assemblyConnectorInnerBuilder = new AssemblyConnectorsInsideCompositeComponentStrategy();
 		
 		// outdated builder: this.providedInterfaceBuilder = new BasicProvidedInterfaceBuilder(gastModel, somoxConfiguration, analysisResult);
-		this.providedInterfaceBuilder = new NonDuplicatingInterfacePortBuilder(
-				gastModel, somoxConfiguration, analysisResult, true, this.componentNamingStrategy);
-		this.requiredInterfaceBuilder = new NonDuplicatingInterfacePortBuilder(
-				gastModel, somoxConfiguration, analysisResult, false, this.componentNamingStrategy);
+		this.roleBuilder = new NonDuplicatingInterfacePortBuilder(
+				gastModel, somoxConfiguration, analysisResult, this.componentNamingStrategy);
 		
 		// debug-like option for non-assigned interfaces:
 		if(somoxConfiguration.isReverseEngineerInterfacesNotAssignedToComponent()) {
@@ -115,8 +112,8 @@ public class ComponentBuilder extends AbstractBuilder {
 		this.assemblyConnectorDeFactoBuilder.buildAssemblyConnectors(result,compositeComponentSubgraph);
 		this.assemblyConnectorInnerBuilder.buildAssemblyConnectors(result,compositeComponentSubgraph);
 		
-		this.providedInterfaceBuilder.buildProvidedRole(result);
-		this.requiredInterfaceBuilder.buildProvidedRole(result);
+		this.roleBuilder.buildProvidedRole(result);
+		this.roleBuilder.buildRequiredRole(result);
 		
 		return result;		
 	}
@@ -314,8 +311,8 @@ public class ComponentBuilder extends AbstractBuilder {
 			
 		}
 		
-		this.providedInterfaceBuilder.buildProvidedRole(compositeComponentLink);
-		this.requiredInterfaceBuilder.buildProvidedRole(compositeComponentLink);
+		this.roleBuilder.buildProvidedRole(compositeComponentLink);
+		this.roleBuilder.buildRequiredRole(compositeComponentLink);
 		
 		this.assemblyConnectorDeFactoBuilder.buildAssemblyConnectors(compositeComponentLink,compositeComponentSubgraph); 
 		this.assemblyConnectorInnerBuilder.buildAssemblyConnectors(compositeComponentLink,compositeComponentSubgraph);				

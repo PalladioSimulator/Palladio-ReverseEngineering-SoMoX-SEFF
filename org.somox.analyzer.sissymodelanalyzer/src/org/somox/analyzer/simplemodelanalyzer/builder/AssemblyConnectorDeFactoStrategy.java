@@ -8,11 +8,11 @@ import org.jgrapht.Graph;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
+import de.uka.ipd.sdq.pcm.core.entity.ComposedProvidingRequiringEntity;
 import de.uka.ipd.sdq.pcm.repository.CompositeComponent;
 import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
 import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
-import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 import de.uka.ipd.sdq.pcm.repository.RequiredRole;
 
 /**
@@ -88,7 +88,7 @@ public class AssemblyConnectorDeFactoStrategy implements IAssemblyConnectorStrat
 	 * @see org.somox.analyzer.simplemodelanalyzer.builder.IAssemblyConnectorStrategy#buildAssemblyConnectors(eu.qimpress.samm.staticstructure.ServiceArchitectureModel, java.util.List)
 	 */
 	public void buildAssemblyConnectors(
-			RepositoryComponent compositeStructure,
+			ComposedProvidingRequiringEntity compositeStructure,
 			List<ComponentImplementingClassesLink> subComponents) {
 		
 		throw new RuntimeException("NOT IMPLEMENTED");

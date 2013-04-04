@@ -19,7 +19,7 @@ public class TestDefaultResourceEnvironment {
 	@Test
 	public void testCreateDefaultResourceEnvironment() {
 		// only check that something is created. 
-		ResourceEnvironment env = DefaultResourceEnvironment.createDefaultResourceEnvironment();
+		ResourceEnvironment env = DefaultResourceEnvironment.getDefaultResourceEnvironment();
 		assertNotNull(env);
 	}
 

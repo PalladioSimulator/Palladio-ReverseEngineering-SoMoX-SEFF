@@ -26,6 +26,7 @@ import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 
+import de.uka.ipd.sdq.pcm.core.entity.ComposedProvidingRequiringEntity;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.Interface;
 import de.uka.ipd.sdq.pcm.repository.OperationInterface;
@@ -462,8 +463,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 		if(addedANewInterface) {			
 			for(ComponentImplementingClassesLink compLink : analysisResult.getSourceCodeDecoratorRepository().getComponentImplementingClassesLink()) {
 				if(compLink.isCompositeComponent()) {
-					RepositoryComponent composite = compLink.getComponent();
-					
+					ComposedProvidingRequiringEntity composite = (ComposedProvidingRequiringEntity) compLink.getComponent();
 					assemblyConnectorStrategy.buildAssemblyConnectors(composite, compLink.getSubComponents());
 				}
 			}		

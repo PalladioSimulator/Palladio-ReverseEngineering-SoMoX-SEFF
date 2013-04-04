@@ -1,6 +1,8 @@
 package org.somox.analyzer.simplemodelanalyzer.builder;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -24,6 +26,8 @@ import de.uka.ipd.sdq.pcm.repository.Interface;
 import de.uka.ipd.sdq.pcm.repository.OperationInterface;
 import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
+import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
 import de.uka.ipd.sdq.pcm.repository.RequiredRole;
 import de.uka.ipd.sdq.pcm.repository.Role;
@@ -36,22 +40,16 @@ import de.uka.ipd.sdq.pcm.repository.Role;
  * @author Klaus Krogmann
  *
  */
-public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implements IProvidedRoleBuilderStrategy {
+public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implements IRoleBuilderStrategy {
 
 	private static final Logger logger = Logger.getLogger(NonDuplicatingInterfacePortBuilder.class);
 	
 	private ComponentAndTypeNaming componentTypeNaming;
 	
-	/**
-	 * Mode of the builder
-	 */
-	private boolean isProvidedBuilder;
-	
 	public NonDuplicatingInterfacePortBuilder(Root gastModel,
 			SoMoXConfiguration somoxConfiguration, AnalysisResult analysisResult, 
-			boolean isProvidedBuilder, ComponentAndTypeNaming componentTypeNaming) {
+			ComponentAndTypeNaming componentTypeNaming) {
 		super(gastModel, somoxConfiguration, analysisResult);
-		this.isProvidedBuilder = isProvidedBuilder;
 		this.componentTypeNaming = componentTypeNaming;
 	}
 
@@ -60,30 +58,57 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 	 * assembly connectors. Additionally creates provided and required delegation connectors.
 	 * @param componentLink The composite component for which to build interface ports 
 	 */
-	public void buildProvidedRole(
+	public List<OperationProvidedRole> buildProvidedRole(
 			ComponentImplementingClassesLink componentLink) {
 		assert (componentLink.isCompositeComponent());
+
+		List<OperationProvidedRole> roles = new LinkedList<OperationProvidedRole>();
+		
+		if(componentLink.getComponent() instanceof ComposedStructure) {
+			ComposedStructure resultCompositeComponent = (ComposedStructure) componentLink.getComponent();
+
+			Iterable<SubComponentInformation> interfaceLinksNotUsedInConnectors = InterfacePortBuilderHelper.collectInformationOnNonBoundInterfaces(
+					componentLink, resultCompositeComponent, true);
+				
+			// build each interface + connector
+			for(SubComponentInformation currentInterfaceLink : interfaceLinksNotUsedInConnectors) {
+				roles.add(createProvidedRoleAndConnector(componentLink, currentInterfaceLink));
+			}
+			
+		} else {
+			throw new IllegalArgumentException("Only composite components should use this builder.");
+		}
+		
+		return roles;
+	}
+
+	/**
+	 * Strategy: Create a new interface port for all inner interfaces which are not associated in
+	 * assembly connectors. Additionally creates provided and required delegation connectors.
+	 * @param componentLink The composite component for which to build interface ports 
+	 */
+	public List<OperationRequiredRole> buildRequiredRole(
+			ComponentImplementingClassesLink componentLink) {
+		assert (componentLink.isCompositeComponent());
+
+		List<OperationRequiredRole> roles = new LinkedList<OperationRequiredRole>();
 
 		if(componentLink.getComponent() instanceof ComposedStructure) {
 			ComposedStructure resultCompositeComponent = (ComposedStructure) componentLink.getComponent();
 
 			Iterable<SubComponentInformation> interfaceLinksNotUsedInConnectors = InterfacePortBuilderHelper.collectInformationOnNonBoundInterfaces(
-					componentLink, resultCompositeComponent, this.isProvidedBuilder);
+					componentLink, resultCompositeComponent, false);
 				
 			// build each interface + connector
 			for(SubComponentInformation currentInterfaceLink : interfaceLinksNotUsedInConnectors) {
-								
-				// port building
-				if(this.isProvidedBuilder) {
-					createProvidedRoleAndConnector(componentLink, currentInterfaceLink);
-				} else {
-					createRequiredRoleAndConnector(componentLink, currentInterfaceLink); 
-				}
+				roles.add(createRequiredRoleAndConnector(componentLink, currentInterfaceLink)); 
 			}
 			
 		} else {
-			logger.warn("Only composite components should use this builder.");
+			throw new IllegalArgumentException("Only composite components should use this builder.");
 		}
+		
+		return roles;
 	}
 
 
@@ -94,28 +119,30 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 	 * @param compositeComponentLink
 	 * @param subComponentInformation
 	 */
-	private void createProvidedRoleAndConnector(
+	private OperationProvidedRole createProvidedRoleAndConnector(
 			ComponentImplementingClassesLink compositeComponentLink,
 			SubComponentInformation subComponentInformation) {
 		if( !(compositeComponentLink.getComponent() instanceof CompositeComponent) ) {
 			throw new RuntimeException("must be a composite component");
 		}
 		
-		Set<Interface> allRequiredInterfaces = collectInterfacesForComponent(compositeComponentLink, true);
-		if(!allRequiredInterfaces.contains(subComponentInformation.getInterfaceSourceCodeLink().getInterface())) { //avoid duplicate interfaces
+		Interface searchedInterface = subComponentInformation.getInterfaceSourceCodeLink().getInterface();
+		OperationProvidedRole providedRole = findProvidedRoleInComponent(compositeComponentLink.getComponent(), searchedInterface);
+		
+		// add a role for the interface if it does not exist yet
+		if(providedRole == null) { //avoid duplicate interfaces
 
-			// SAMM:
-			OperationProvidedRole newProvidedRole = RepositoryFactory.eINSTANCE.createOperationProvidedRole();
+			providedRole = RepositoryFactory.eINSTANCE.createOperationProvidedRole();
 			
-			newProvidedRole.setEntityName(
+			providedRole.setEntityName(
 					componentTypeNaming.createProvidedPortName(
 							subComponentInformation.getInterfaceSourceCodeLink().getInterface(),
 							compositeComponentLink.getComponent()));
 			//newProvidedRole.setDocumentation(subComponentInformation.getInterfaceSourceCodeLink().getInterface().getEntityName());
-			compositeComponentLink.getComponent().getProvidedRoles_InterfaceProvidingEntity().add(newProvidedRole);
+			compositeComponentLink.getComponent().getProvidedRoles_InterfaceProvidingEntity().add(providedRole);
 			
 			createDelegationConnector(compositeComponentLink,
-					newProvidedRole, subComponentInformation, true);			
+					providedRole, subComponentInformation, true);			
 			
 			// Source code decorator:				
 			if(subComponentInformation.getInterfaceSourceCodeLink().getInterface() != null && 
@@ -132,11 +159,11 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 			} else {
 				logger.warn("Source code decorator: InterfaceLink had no interface or class set.");
 			}
-		} else {
-			//OK: do not add the same interface twice
 		}
+		
+		return providedRole;
 	}
-	
+
 	/**
 	 * Creates required operation role + required delegation connector.<br>
 	 * 
@@ -150,7 +177,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 	 * @param compositeComponentLink
 	 * @param subComponentInformation
 	 */
-	private void createRequiredRoleAndConnector(
+	private OperationRequiredRole createRequiredRoleAndConnector(
 			ComponentImplementingClassesLink compositeComponentLink,
 			SubComponentInformation subComponentInformation) {	
 		
@@ -209,6 +236,8 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 		} else {
 			logger.warn("Could not find a required interface port which should have existed.");
 		}
+		
+		return requiredRole;
 
 	}
 	
@@ -279,6 +308,35 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 		}
 
 		((CompositeComponent)compositeComponentLink.getComponent()).getConnectors__ComposedStructure().add(delegationConnector);
+	}
+	
+	/**
+	 * Try to find a provided role for a specific interface in a component.
+	 * 
+	 * @param component The component to check
+	 * @param searchedInterface The interface to search for.
+	 * @return
+	 */
+	private OperationProvidedRole findProvidedRoleInComponent(
+			RepositoryComponent component,
+			Interface searchedInterface) {
+		
+		
+		for(ProvidedRole existingRole : component.getProvidedRoles_InterfaceProvidingEntity()){
+			
+			if(existingRole instanceof OperationProvidedRole){
+				
+				OperationProvidedRole opProvRole = (OperationProvidedRole) existingRole;
+				if(opProvRole.getProvidedInterface__OperationProvidedRole() != null 
+						&& opProvRole.getProvidedInterface__OperationProvidedRole().equals(searchedInterface)){
+					return opProvRole;
+				}
+				
+			}
+			
+		}
+		
+		return null;
 	}
 
 	/**

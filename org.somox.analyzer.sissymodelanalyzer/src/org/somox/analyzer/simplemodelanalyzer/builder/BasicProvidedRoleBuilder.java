@@ -1,5 +1,6 @@
 package org.somox.analyzer.simplemodelanalyzer.builder;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -14,6 +15,7 @@ import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 import de.uka.ipd.sdq.pcm.repository.OperationInterface;
 import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
 import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
 
 /**
@@ -21,7 +23,7 @@ import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
  * role for all inner interfaces and updates the source code decorator accordingly.
  * @author Klaus Krogmann
  */
-public class BasicProvidedRoleBuilder extends AbstractBuilder implements IProvidedRoleBuilderStrategy {
+public class BasicProvidedRoleBuilder extends AbstractBuilder implements IRoleBuilderStrategy {
 
 	static final Logger logger = Logger.getLogger(BasicProvidedRoleBuilder.class);
 	
@@ -34,10 +36,13 @@ public class BasicProvidedRoleBuilder extends AbstractBuilder implements IProvid
 	 * Current strategy: create a new provided role for all inner interfaces.
 	 * @param result
 	 * @param compositeComponentSubgraph
+	 * @return 
 	 */
-	public void buildProvidedRole(
+	public List<OperationProvidedRole> buildProvidedRole(
 			ComponentImplementingClassesLink result) {
 
+		List<OperationProvidedRole> roles = new LinkedList<OperationProvidedRole>();
+		
 		for(ComponentImplementingClassesLink componentLink : result.getSubComponents()) {
 			List<InterfaceSourceCodeLink> interfaceLinkSubList = componentLink.getProvidedInterfaces();
 			for(InterfaceSourceCodeLink currentInterfaceLinkSub : interfaceLinkSubList) {
@@ -52,6 +57,8 @@ public class BasicProvidedRoleBuilder extends AbstractBuilder implements IProvid
 					newProvidedRole.setProvidingEntity_ProvidedRole(componentLink.getComponent());
 					result.getComponent().getProvidedRoles_InterfaceProvidingEntity().add(newProvidedRole);
 	
+					roles.add(newProvidedRole);
+					
 					// Source code decorator:				
 					if(currentInterfaceLinkSub.getInterface() != null && currentInterfaceLinkSub.getInterface() != null) {
 						InterfaceSourceCodeLink newInterfaceLink = SourceCodeDecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();
@@ -71,6 +78,15 @@ public class BasicProvidedRoleBuilder extends AbstractBuilder implements IProvid
 			}
 		}
 		
+		return roles;
+	}
+
+	@Override
+	public List<OperationRequiredRole> buildRequiredRole(
+			ComponentImplementingClassesLink result) {
+		// Yes we know this is a bloody dirty hack but we want to get this nasty migration run the first time.
+		// if you see this comment in more than 1 year from now (today: 2013-04-04) just shake your had and curse us
+		throw new RuntimeException("this method should not be executed.");
 	}
 
 }

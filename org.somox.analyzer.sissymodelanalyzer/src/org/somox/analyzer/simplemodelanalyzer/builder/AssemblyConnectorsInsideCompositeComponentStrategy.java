@@ -10,11 +10,10 @@ import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 import de.uka.ipd.sdq.pcm.core.composition.ComposedStructure;
 import de.uka.ipd.sdq.pcm.core.composition.Connector;
-import de.uka.ipd.sdq.pcm.repository.CompositeComponent;
+import de.uka.ipd.sdq.pcm.core.entity.ComposedProvidingRequiringEntity;
 import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
 import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
-import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 import de.uka.ipd.sdq.pcm.repository.RequiredRole;
 
 /**
@@ -55,10 +54,10 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 			ComponentImplementingClassesLink compositeComponentCandidate,
 			Graph<ComponentImplementingClassesLink, ClusteringRelation> compositeComponentSubgraph) {
 		
-		if(!(compositeComponentCandidate.getComponent() instanceof CompositeComponent)) {
-			throw new IllegalArgumentException("must be a composite component!");
+		if(!(compositeComponentCandidate.getComponent() instanceof ComposedProvidingRequiringEntity)) {
+			throw new IllegalArgumentException("must be a ComposedProvidingRequiringEntity!");
 		}		
-		CompositeComponent outerComposite = (CompositeComponent)compositeComponentCandidate.getComponent();
+		ComposedProvidingRequiringEntity outerComposite = (ComposedProvidingRequiringEntity)compositeComponentCandidate.getComponent();
 		establishAssemblyConnectorsForNonConnectedPorts(outerComposite, compositeComponentCandidate.getSubComponents());
 	}
 	
@@ -67,11 +66,8 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 	 * (non-Javadoc)
 	 * @see org.somox.analyzer.simplemodelanalyzer.builder.IAssemblyConnectorStrategy#buildAssemblyConnectors(eu.qimpress.samm.staticstructure.ServiceArchitectureModel, java.util.List)
 	 */
-	public void buildAssemblyConnectors(RepositoryComponent compositeStructure, List<ComponentImplementingClassesLink> subComponents) {
-		if(!(compositeStructure instanceof CompositeComponent)){
-			throw new IllegalArgumentException("must be a composite component!");
-		}
-		establishAssemblyConnectorsForNonConnectedPorts((CompositeComponent)compositeStructure, subComponents);
+	public void buildAssemblyConnectors(ComposedProvidingRequiringEntity compositeStructure, List<ComponentImplementingClassesLink> subComponents) {
+		establishAssemblyConnectorsForNonConnectedPorts(compositeStructure, subComponents);
 	}
 	
 	/**
@@ -80,7 +76,7 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 	 * structure.
 	 * @param compositeComponentCandidate
 	 */
-	private void establishAssemblyConnectorsForNonConnectedPorts(CompositeComponent outerComposite,
+	private void establishAssemblyConnectorsForNonConnectedPorts(ComposedProvidingRequiringEntity outerComposite,
 			List<ComponentImplementingClassesLink> subComponents) {
 		
 		// loop required ports

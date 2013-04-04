@@ -6,7 +6,7 @@ import org.jgrapht.Graph;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
-import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
+import de.uka.ipd.sdq.pcm.core.entity.ComposedProvidingRequiringEntity;
 
 public interface IAssemblyConnectorStrategy {
 
@@ -25,7 +25,7 @@ public interface IAssemblyConnectorStrategy {
 	 * @param sammArchitecture The outer system
 	 * @param subComponents The inner components for which to establish the connectors.
 	 */
-	public void buildAssemblyConnectors(RepositoryComponent compositeStructure, 
+	public void buildAssemblyConnectors(ComposedProvidingRequiringEntity compositeStructure, 
 			List<ComponentImplementingClassesLink> subComponents);
 
 }

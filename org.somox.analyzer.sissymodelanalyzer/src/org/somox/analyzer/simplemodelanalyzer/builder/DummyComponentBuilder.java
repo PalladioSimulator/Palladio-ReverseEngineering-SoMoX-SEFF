@@ -3,7 +3,7 @@ package org.somox.analyzer.simplemodelanalyzer.builder;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.somox.analyzer.simplemodelanalyzer.SimpleAnalysisResult;
+import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.InstanceComponentTuple;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.SubComponentInformation;
 
@@ -38,8 +38,8 @@ public class DummyComponentBuilder {
 	 */
 	public static BasicComponent createDummyComponent(
 			Set<SubComponentInformation> subComponentInformationOnNonBoundInterfacePorts,
-			System pcmSystem, ResourceEnvironment resourceEnv, SimpleAnalysisResult simpleAnalysisResult) {
-		InstanceComponentTuple dummyComponentInfo = createDummyComponent(pcmSystem, resourceEnv, simpleAnalysisResult );
+			System pcmSystem, ResourceEnvironment resourceEnv, AnalysisResult analysisResult) {
+		InstanceComponentTuple dummyComponentInfo = createDummyComponent(pcmSystem, resourceEnv, analysisResult );
 		
 		// add all interfaces as provided to component:
 		for(SubComponentInformation subCompInfo : subComponentInformationOnNonBoundInterfacePorts) {
@@ -67,7 +67,7 @@ public class DummyComponentBuilder {
 	}
 	
 	private static InstanceComponentTuple createDummyComponent(
-			System pcmSystem, ResourceEnvironment resourceEnv, SimpleAnalysisResult sar) {
+			System pcmSystem, ResourceEnvironment resourceEnv, AnalysisResult analysisResult) {
 		BasicComponent basicComponent = RepositoryFactory.eINSTANCE.createBasicComponent();
 		basicComponent.setEntityName("SoMoX System-Level Dummy Component");
 		//basicComponent.setDocumentation("Captures calls to system-external services.");
@@ -80,7 +80,7 @@ public class DummyComponentBuilder {
 		
 		// allocate service
 		//Allocation allocation = 
-		Allocation allocation = sar.getAllocation();
+		Allocation allocation = analysisResult.getAllocation();
 		allocation.setTargetResourceEnvironment_Allocation(resourceEnv);
 		
 		InstanceComponentTuple instanceComponentTuple = new InstanceComponentTuple();
