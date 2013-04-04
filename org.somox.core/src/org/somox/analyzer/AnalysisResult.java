@@ -6,6 +6,7 @@ import org.somox.common.Message;
 import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
+import de.uka.ipd.sdq.pcm.allocation.Allocation;
 import de.uka.ipd.sdq.pcm.qosannotations.QoSAnnotations;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.system.System;
@@ -58,6 +59,12 @@ public interface AnalysisResult {
 	public AnalysisResult.ResultStatus getResultStatus();
 
 
+	/**
+	 * Get the PCM allocation model
+	 * @return the PCM allocation
+	 */
+	public Allocation getAllocation();
+	
 	/**
 	 * Get  the Model Analyzer that was performed
 	 * @return The model analyzer that has been executed
