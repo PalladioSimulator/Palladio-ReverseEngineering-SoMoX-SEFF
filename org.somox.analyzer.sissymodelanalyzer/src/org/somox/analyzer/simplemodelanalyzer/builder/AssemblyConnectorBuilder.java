@@ -11,9 +11,9 @@ import de.uka.ipd.sdq.pcm.core.composition.ComposedStructure;
 import de.uka.ipd.sdq.pcm.core.composition.CompositionFactory;
 import de.uka.ipd.sdq.pcm.core.composition.Connector;
 import de.uka.ipd.sdq.pcm.core.entity.NamedElement;
-import de.uka.ipd.sdq.pcm.repository.CompleteComponentType;
 import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 
 
 /**
@@ -48,8 +48,8 @@ public class AssemblyConnectorBuilder extends AbstractBuilder {
 			ComposedStructure parentComponent,
 			OperationRequiredRole requiredPort,
 			OperationProvidedRole providedRole,
-			CompleteComponentType requiredComponentInstance,
-			CompleteComponentType providedComponentInstance) {
+			RepositoryComponent requiredComponentInstance,
+			RepositoryComponent providedComponentInstance) {
 
 		AssemblyConnector newConnector = createAssemblyConnectorEntity(
 				parentComponent, requiredComponentInstance,
@@ -119,7 +119,7 @@ public class AssemblyConnectorBuilder extends AbstractBuilder {
 
 	private static AssemblyContext findAssemblyContext(
 			ComposedStructure parentComponent,
-			CompleteComponentType componentOfRole) {
+			RepositoryComponent componentOfRole) {
 		AssemblyContext resultSubcomponentInstance = null;
 		boolean found = false;
 		for (AssemblyContext subcomponentInstance : parentComponent

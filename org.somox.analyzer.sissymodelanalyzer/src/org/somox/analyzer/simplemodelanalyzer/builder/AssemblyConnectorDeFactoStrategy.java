@@ -3,11 +3,14 @@ package org.somox.analyzer.simplemodelanalyzer.builder;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.jgrapht.Graph;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 import de.uka.ipd.sdq.pcm.repository.CompositeComponent;
+import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
 import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 import de.uka.ipd.sdq.pcm.repository.RequiredRole;
@@ -20,6 +23,8 @@ import de.uka.ipd.sdq.pcm.repository.RequiredRole;
  */
 public class AssemblyConnectorDeFactoStrategy implements IAssemblyConnectorStrategy {
 
+	private static final Logger logger = Logger.getLogger(AssemblyConnectorDeFactoStrategy.class);
+	
 	/**
 	 * Default ctor.
 	 * @param connectorBuilder The builder to use when actually creating instances of
@@ -60,22 +65,19 @@ public class AssemblyConnectorDeFactoStrategy implements IAssemblyConnectorStrat
 		Collection<ProvidedRole> providedRoles = edgeTarget.getComponent().getProvidedRoles_InterfaceProvidingEntity();
 		for (RequiredRole requiredRole : requiredRoles) {
 			for (ProvidedRole providedRole : providedRoles) {
-				//TODO: math provided and required role:
 				if(requiredRole.getRequiringEntity_RequiredRole() == providedRole.getProvidingEntity_ProvidedRole()){
-					AssemblyConnectorBuilder.createAssemblyConnector(component, 
-								requiredRole, 
-								providedRole, 
+					if( requiredRole instanceof OperationRequiredRole && providedRole instanceof OperationRequiredRole ){						
+						AssemblyConnectorBuilder.createAssemblyConnector(component, 
+								(OperationRequiredRole)requiredRole, 
+								(OperationProvidedRole)providedRole,
 								edgeSource.getComponent(), 
 								edgeTarget.getComponent());
+					}
+					else{
+						logger.warn("Role types: " + providedRole.getClass().getSimpleName() + " and " 
+								+ requiredRole.getClass().getSimpleName() + " not yet supported.");
+					}
 				}
-				/*if (requiredRole.getInterfaceType() == providedRole.getInterfaceType()) {
-					AssemblyConnectorBuilder.createAssemblyConnector(
-							component,
-							requiredRole,
-							providedRole,
-							edgeSource.getComponent(),
-							edgeTarget.getComponent());
-				}*/
 			}
 		}
 		

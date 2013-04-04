@@ -2,6 +2,7 @@ package org.somox.analyzer.simplemodelanalyzer.builder;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.jgrapht.Graph;
 import org.somox.metrics.ClusteringRelation;
@@ -9,9 +10,9 @@ import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 import de.uka.ipd.sdq.pcm.core.composition.ComposedStructure;
 import de.uka.ipd.sdq.pcm.core.composition.Connector;
-import de.uka.ipd.sdq.pcm.core.composition.ProvidedDelegationConnector;
 import de.uka.ipd.sdq.pcm.repository.CompositeComponent;
 import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
 import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 import de.uka.ipd.sdq.pcm.repository.RequiredRole;
@@ -27,6 +28,8 @@ import de.uka.ipd.sdq.pcm.repository.RequiredRole;
  */
 public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAssemblyConnectorStrategy {
 
+	private static final Logger logger = Logger.getLogger(AssemblyConnectorsInsideCompositeComponentStrategy.class);
+	
 	/**
 	 * Outdated ctor. Use argument-less ctor instead.
 	 * @param connectorBuilder The builder to use when actually creating instances of
@@ -65,7 +68,10 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 	 * @see org.somox.analyzer.simplemodelanalyzer.builder.IAssemblyConnectorStrategy#buildAssemblyConnectors(eu.qimpress.samm.staticstructure.ServiceArchitectureModel, java.util.List)
 	 */
 	public void buildAssemblyConnectors(RepositoryComponent compositeStructure, List<ComponentImplementingClassesLink> subComponents) {
-		establishAssemblyConnectorsForNonConnectedPorts(compositeStructure, subComponents);
+		if(!(compositeStructure instanceof CompositeComponent)){
+			throw new IllegalArgumentException("must be a composite component!");
+		}
+		establishAssemblyConnectorsForNonConnectedPorts((CompositeComponent)compositeStructure, subComponents);
 	}
 	
 	/**
@@ -74,19 +80,17 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 	 * structure.
 	 * @param compositeComponentCandidate
 	 */
-	private void establishAssemblyConnectorsForNonConnectedPorts(RepositoryComponent outerComposite,
+	private void establishAssemblyConnectorsForNonConnectedPorts(CompositeComponent outerComposite,
 			List<ComponentImplementingClassesLink> subComponents) {
 		
 		// loop required ports
 		for(ComponentImplementingClassesLink firstComponent : subComponents) {
- 			for(RequiredRole requiredPort : firstComponent.getComponent().getRequiredRoles_InterfaceRequiringEntity()) {
-
- 				if(!isBoundInConnector(outerComposite.getConnector(), requiredPort)) {
- 					
-	 				findMatchingProvidedPortAndCreateAssemblyConnector(
-	 						subComponents, outerComposite,
-							firstComponent, requiredPort);
- 				}
+ 			for(RequiredRole requiredRole : firstComponent.getComponent().getRequiredRoles_InterfaceRequiringEntity()) {
+ 				if(!isBoundInConnector(outerComposite.getRequiredRoles_InterfaceRequiringEntity(), requiredRole)) {
+ 	 					findMatchingProvidedPortAndCreateAssemblyConnector(
+ 		 						subComponents, outerComposite,
+ 								firstComponent, requiredRole);
+ 				} 				
  			}
 		}
 	}
@@ -111,15 +115,21 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 		// loop provided ports and search for a match
 		for(ComponentImplementingClassesLink providingComponent : subComponents) {
 			for(ProvidedRole providedRole : providingComponent.getComponent().getProvidedRoles_InterfaceProvidingEntity()) {
-				if(requiredPort.getInterfaceType().equals(providedPort.getInterfaceType())) {
-					
-					Connector newAssemblyConnector = AssemblyConnectorBuilder.createAssemblyConnector(
+				if(requiredRole.getRequiringEntity_RequiredRole().equals(providedRole.getProvidingEntity_ProvidedRole())){
+					if(requiredRole instanceof OperationRequiredRole && providedRole instanceof OperationProvidedRole ){
+						Connector newAssemblyConnector = AssemblyConnectorBuilder.createAssemblyConnector(
 								outerComposite,
-								requiredPort,
-								providedPort,
+								(OperationRequiredRole)requiredRole,
+								(OperationProvidedRole)providedRole,
 								requiringComponent.getComponent(),
 								providingComponent.getComponent());
-					outerComposite.getConnector().add(newAssemblyConnector);
+						outerComposite.getConnectors__ComposedStructure().add(newAssemblyConnector);
+					}else{
+						logger.warn("Provided role type: " + providedRole.getClass().getSimpleName() + 
+								" and required role type: " + requiredRole.getClass().getSimpleName() + 
+								" not yet supported");
+					}
+					
 				}
 			}
 		}
@@ -127,14 +137,14 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 
 	/**
 	 * Checks existing connectors for the involvement of a certain port.
-	 * @param connectors connectors to search in
+	 * @param requiredRoles connectors to search in
 	 * @param port the port to find
 	 * @return
 	 */
-	private boolean isBoundInConnector(EList<ProvidedDelegationConnector> connectors,
-			OperationProvidedRole providedRole) {
-		for(ProvidedDelegationConnector currentConnectors : connectors) {
-			if(currentConnectors.getOuterProvidedRole_ProvidedDelegationConnector().equals(providedRole)){
+	private boolean isBoundInConnector(EList<RequiredRole> requiredRoles,
+			RequiredRole providedRole) {
+		for(RequiredRole currentRole : requiredRoles) {
+			if(currentRole.equals(providedRole)){
 				return true;
 			}			
 		}
