@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.sound.sampled.Port;
+
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.somox.analyzer.AnalysisResult;
@@ -20,7 +22,6 @@ import org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 
 import de.uka.ipd.sdq.pcm.allocation.Allocation;
-import de.uka.ipd.sdq.pcm.allocation.AllocationFactory;
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
 import de.uka.ipd.sdq.pcm.core.composition.CompositionFactory;
 import de.uka.ipd.sdq.pcm.core.composition.Connector;
@@ -42,9 +43,6 @@ import de.uka.ipd.sdq.pcm.system.SystemFactory;
 public class PCMSystemBuilder extends AbstractBuilder {
 		
 	private static Logger logger = Logger.getLogger(PCMSystemBuilder.class);
-
-	private System defaultSystem;
-	private Repository defaultContainer;
 	
 	private ComponentAndTypeNaming namingStrategy;
 	private ComponentBuilder componentBuilder;
@@ -65,9 +63,6 @@ public class PCMSystemBuilder extends AbstractBuilder {
 
 		this.componentBuilder = componentBuilder;
 		this.namingStrategy = componentBuilder.getComponentAndTypeNamingStrategy();
-				
-		this.defaultSystem = SystemFactory.eINSTANCE.createSystem();
-		this.defaultContainer = RepositoryFactory.eINSTANCE.createRepository();
 	}
 	
 	/**
@@ -140,6 +135,8 @@ public class PCMSystemBuilder extends AbstractBuilder {
 			assemblyContext.setEntityName(compLink.getComponent().getEntityName());
 			pcmSystem.eContents().add(assemblyContext);
 			pcmLink.getSubComponents().add(compLink);
+			
+			//TODO: Allocation service for PCM System
 									
 			// replicate provided ports for SAMM system:
 			for(InterfaceSourceCodeLink provIfLink : compLink.getProvidedInterfaces()) {
@@ -209,6 +206,7 @@ public class PCMSystemBuilder extends AbstractBuilder {
 		
 		
 		// subcomponent endpoint
+		
 		SubcomponentEndpoint subComponentEndpoint = StaticstructureFactory.eINSTANCE.createSubcomponentEndpoint();
 		subComponentEndpoint.setSubcomponent(subComponentInstance);
 
