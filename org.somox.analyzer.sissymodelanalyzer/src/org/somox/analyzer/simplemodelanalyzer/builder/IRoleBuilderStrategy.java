@@ -11,6 +11,7 @@ import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
  * Interface for strategies assigning / creating interface providing roles
  * for composite components. Actually interface providing roles are created for 
  * previously existing interfaces. This is a builder strategy.
+ * 
  * @author Klaus Krogmann
  */
 public interface IRoleBuilderStrategy {

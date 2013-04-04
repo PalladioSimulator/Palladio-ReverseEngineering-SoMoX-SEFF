@@ -114,15 +114,15 @@ public class DefaultQosAnnotationsBuilder {
 
 	private void createDefaultLoopCount(de.uka.ipd.sdq.pcm.seff.LoopAction loopAction) {
 		
-		RandomVariable loopCount = StoexFactory.eINSTANCE.createRandomVariable();
+		PCMRandomVariable loopCount = CoreFactory.eINSTANCE.createPCMRandomVariable();
 		loopCount.setSpecification("1");
-		loopAction.setIterationCount_LoopAction((PCMRandomVariable) loopCount);
-//		loopAction.set
+		loopAction.setIterationCount_LoopAction(loopCount);
+		loopAction.setEntityName("SoMoX default loop count value");
 //		ParametricFormula parametricFormula = QosannotationFactory.eINSTANCE.createParametricFormula();
 //		parametricFormula.setSpecification("1"); //constant default
 //		loopCount.setParametricFormula(parametricFormula);
 //		loopCount.setAnnotationType(AnnotationType.REQUIREMENT);
-//		loopCount.setName("SoMoX default loop count value");
+//		loopCount.set("SoMoX default loop count value");
 //		loopCount.setDocumentation("Replace this value with real measured or estimated values");
 //		loopCount.setLoopAction(loopAction);
 

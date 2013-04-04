@@ -14,7 +14,6 @@ import org.somox.analyzer.simplemodelanalyzer.builder.util.SubComponentInformati
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
-import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 
@@ -27,6 +26,7 @@ import de.uka.ipd.sdq.pcm.core.composition.ProvidedDelegationConnector;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.OperationInterface;
 import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
@@ -157,7 +157,7 @@ public class PCMSystemBuilder extends AbstractBuilder {
 					.getComponent());
 			assemblyContext.setEntityName(compLink.getComponent()
 					.getEntityName());
-			pcmSystem.eContents().add(assemblyContext);
+			pcmSystem.getAssemblyContexts__ComposedStructure().add(assemblyContext);
 			pcmLink.getSubComponents().add(compLink);
 
 			// create allocation context for system component
@@ -174,10 +174,16 @@ public class PCMSystemBuilder extends AbstractBuilder {
 
 			// create delegation connectors between system and inner component
 			// provided roles
-			for (InterfaceSourceCodeLink provIfLink : compLink
-					.getProvidedInterfaces()) {
-				createProvidedRoleAndDelegationConnector(pcmSystem, compLink,
-						assemblyContext, provIfLink);
+			for(ProvidedRole role : compLink.getComponent().getProvidedRoles_InterfaceProvidingEntity()){
+				if(role instanceof OperationProvidedRole){
+					OperationProvidedRole opProvRole = (OperationProvidedRole) role;
+					
+						createSystemProvidedRoleAndDelegationConnector(pcmSystem, compLink,
+							assemblyContext, opProvRole);
+					
+				} else {
+					logger.warn("Role type not yet supported: "+role.getClass().getSimpleName());
+				}
 			}
 		}
 
@@ -220,40 +226,37 @@ public class PCMSystemBuilder extends AbstractBuilder {
 	// return set;
 	// }
 
-	private void createProvidedRoleAndDelegationConnector(System pcmSystem,
-			ComponentImplementingClassesLink compLink,
-			AssemblyContext assemblyContext, InterfaceSourceCodeLink ifLink) {
+	private void createSystemProvidedRoleAndDelegationConnector(
+			System pcmSystem, ComponentImplementingClassesLink compLink,
+			AssemblyContext assemblyContext,
+			OperationProvidedRole innerProvidedRole) {
 
-		if(ifLink.getInterface() instanceof OperationInterface){
-			OperationInterface operationInterface = (OperationInterface) ifLink.getInterface();
-		
-			OperationProvidedRole providedRole = RepositoryFactory.eINSTANCE
-					.createOperationProvidedRole();
-			providedRole.setProvidingEntity_ProvidedRole(pcmSystem);
-			providedRole.setEntityName(namingStrategy.createProvidedSystemPortName(
-					ifLink.getInterface(), compLink.getComponent()));
-			providedRole.setProvidedInterface__OperationProvidedRole(operationInterface);
-			
-			// ensure the inner component has a provided role for our interface
-			// theoretically, multiple ones are created internally, but this is assumed to not 
-			// happen in practice, so we just pick up the first one.
-			List<OperationProvidedRole> innerProvidedRoles = providedRoleBuilder.buildProvidedRole(compLink);
-			if(innerProvidedRoles.size() > 1){
-				logger.warn("assumption did not hold ;) ");
-			}
-			OperationProvidedRole innerProvidedRole = innerProvidedRoles.get(0);
-	
-			ProvidedDelegationConnector delegationConnector = CompositionFactory.eINSTANCE.createProvidedDelegationConnector();
-			delegationConnector.setAssemblyContext_ProvidedDelegationConnector(assemblyContext);
-			delegationConnector.setInnerProvidedRole_ProvidedDelegationConnector(innerProvidedRole);
-			delegationConnector.setParentStructure__Connector(pcmSystem);
-			delegationConnector.setEntityName(ifLink.getInterface().getEntityName());
+		OperationInterface opInterface = innerProvidedRole
+				.getProvidedInterface__OperationProvidedRole();
 
-			pcmSystem.getConnectors__ComposedStructure().add(delegationConnector);
-			
-		} else {
-			logger.warn("Interface type not yet supported: "+ifLink.getInterface().getClass().getSimpleName());
+		if (opInterface == null) {
+			logger.error("No interface set for role: "
+					+ innerProvidedRole.getEntityName());
+			return;
 		}
+
+		OperationProvidedRole providedRole = RepositoryFactory.eINSTANCE
+				.createOperationProvidedRole();
+		providedRole.setProvidingEntity_ProvidedRole(pcmSystem);
+		providedRole.setEntityName(namingStrategy.createProvidedSystemPortName(
+				opInterface, compLink.getComponent()));
+		providedRole.setProvidedInterface__OperationProvidedRole(opInterface);
+
+		ProvidedDelegationConnector delegationConnector = CompositionFactory.eINSTANCE
+				.createProvidedDelegationConnector();
+		delegationConnector
+				.setAssemblyContext_ProvidedDelegationConnector(assemblyContext);
+		delegationConnector
+				.setInnerProvidedRole_ProvidedDelegationConnector(innerProvidedRole);
+		delegationConnector.setParentStructure__Connector(pcmSystem);
+		delegationConnector.setEntityName(opInterface.getEntityName());
+
+		pcmSystem.getConnectors__ComposedStructure().add(delegationConnector);
 	}
 
 }

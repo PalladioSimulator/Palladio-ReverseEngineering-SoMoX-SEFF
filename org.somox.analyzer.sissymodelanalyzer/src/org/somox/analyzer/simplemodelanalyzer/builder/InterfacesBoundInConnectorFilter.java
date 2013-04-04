@@ -8,6 +8,7 @@ import org.somox.filter.BaseFilter;
 
 import de.uka.ipd.sdq.pcm.repository.Interface;
 import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
 import de.uka.ipd.sdq.pcm.repository.Role;
 
 /**
@@ -39,6 +40,16 @@ public class InterfacesBoundInConnectorFilter extends
 						.getInterface().equals(interfaceFromConnector)) {
 					return false;
 				}
+
+			} else if (currentRole instanceof OperationRequiredRole) {
+				Interface interfaceFromConnector = ((OperationRequiredRole) currentRole).getRequiredInterface__OperationRequiredRole();
+
+				// if already in connector: remove
+				if (subComponentInformation.getInterfaceSourceCodeLink()
+						.getInterface().equals(interfaceFromConnector)) {
+					return false;
+				}
+				
 			} else {
 				logger.warn("Role type not yet supported: "
 						+ currentRole.getClass().getSimpleName());

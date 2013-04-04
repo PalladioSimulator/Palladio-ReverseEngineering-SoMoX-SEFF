@@ -120,7 +120,13 @@ public class InterfacePortBuilderHelper {
 				}
 				Role role = getInterfacePort(currentSubComponentLink, currentInterfaceLinkSub, collectProvided);
 				
-				allInterfaceLinks.add(new SubComponentInformation(currentInterfaceLinkSub, role, matchingSubComponentInstance));
+				if(role != null){
+					allInterfaceLinks.add(new SubComponentInformation(currentInterfaceLinkSub, role, matchingSubComponentInstance));
+				} else {
+					// if no matching role was found for the component do not try
+					// to create a sub component information for the role.
+					logger.warn("No role found for interface "+currentInterfaceLinkSub.getInterface().getEntityName()+" in Component "+currentSubComponentLink.getComponent().getEntityName());
+				}
 			}
 		}
 		return allInterfaceLinks;

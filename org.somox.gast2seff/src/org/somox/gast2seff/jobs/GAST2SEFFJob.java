@@ -353,49 +353,51 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	
 	/**
 	 * Retrieve the matching GAST behaviour stub from the GAST Behaviour repository
-	 * @param gastBehaviourStub The gast behaviour stub for which a matching GAST behaviour is needed
+	 * @param seff The gast behaviour stub for which a matching GAST behaviour is needed
 	 * @return The GAST behaviour matching the gast behaviour stub
 	 * @throws JobFailedException Thrown if the gast behaviour is missing in the model file
 	 */
-	private Block findBody(ResourceDemandingSEFF gastBehaviourStub) throws JobFailedException {//GAST2SEFFCHANGE
+	private Block findBody(ResourceDemandingSEFF seff) throws JobFailedException {//GAST2SEFFCHANGE
 
-		assert onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getSeff2MethodMappings(), gastBehaviourStub);
-		if(!onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getSeff2MethodMappings(), gastBehaviourStub)){
-			logger.error("Assertion fails - onlyOnceAsGastBehaviour");
-		}
+		assert onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getSeff2MethodMappings(), seff);
 		
 		for (SEFF2MethodMapping behaviour : this.gastBehaviourRepositoryModel.getSeff2MethodMappings()) {
 			//removelater start
-			logger.info("To search for: " + gastBehaviourStub.getId());
+			logger.info("To search for: " + seff.getId() + " - " +seff.getDescribedService__SEFF().getEntityName());
 			logger.info("Iteration ID   " + ((ResourceDemandingSEFF)behaviour.getSeff()).getId());
 			//removelater end
-			if (((ResourceDemandingSEFF)behaviour.getSeff()).getId().equals(gastBehaviourStub.getId())) { 
-				logger.debug("Matching GastBehaviourSub found "+ ((ResourceDemandingSEFF)gastBehaviourStub).getId());
+			if (((ResourceDemandingSEFF)behaviour.getSeff()).getId().equals(seff.getId())) { 
+				logger.debug("Matching GastBehaviourSub found "+ ((ResourceDemandingSEFF)seff).getId());
 				return behaviour.getBlockstatement();		
 			}
 		}
 		//TODO !!!!!!!!!!!! change
-		logger.warn("Checked gastBehaviourRepository for " + gastBehaviourStub.getSeffTypeID() + " " + gastBehaviourStub.getId() + " but found none");
+		logger.warn("Checked gastBehaviourRepository for " + seff.getSeffTypeID() + " " + seff.getId() + " but found none");
 		return null; //FIXME: re-enable: exception 
 		//throw new JobFailedException("Unable to find operation body for given method");	
 	}
 
 	/**
 	 * For assertion only
-	 * @param gastbehaviour
-	 * @param gastBehaviourStub
+	 * @param seff2MethodMappings
+	 * @param seff
 	 * @return
 	 */
-	private boolean onlyOnceAsGastBehaviour(EList<SEFF2MethodMapping> gastbehaviour,
-			ServiceEffectSpecification gastBehaviourStub) {
+	private boolean onlyOnceAsGastBehaviour(EList<SEFF2MethodMapping> seff2MethodMappings,
+			ServiceEffectSpecification seff) {
 		int i = 0;
 		
-		for (SEFF2MethodMapping behaviour : gastbehaviour) {
+		for (SEFF2MethodMapping mapping : seff2MethodMappings) {
 			//TODO change
-			if (behaviour.getSeff().getSeffTypeID().equals(gastBehaviourStub.getSeffTypeID())) { 
+			if (mapping.getSeff().getSeffTypeID().equals(seff.getSeffTypeID())) { 
 				i++;
 			}
 		}
+		
+		if(i != 1){
+			logger.error("Assertion fails - onlyOnceAsGastBehaviour: i="+i+" for "+seff.getSeffTypeID());
+		}
+
 		
 		return i == 1; //must be exactly one
 	}

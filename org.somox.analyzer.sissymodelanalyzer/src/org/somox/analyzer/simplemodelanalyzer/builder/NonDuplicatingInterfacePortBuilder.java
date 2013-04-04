@@ -54,8 +54,9 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 	}
 
 	/**
-	 * Strategy: Create a new interface port for all inner interfaces which are not associated in
+	 * Strategy: Create a new provided role for all inner interfaces which are not associated in
 	 * assembly connectors. Additionally creates provided and required delegation connectors.
+	 * 
 	 * @param componentLink The composite component for which to build interface ports 
 	 */
 	public List<OperationProvidedRole> buildProvidedRole(
@@ -144,9 +145,10 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 			createDelegationConnector(compositeComponentLink,
 					providedRole, subComponentInformation, true);			
 			
-			// Source code decorator:				
-			if(subComponentInformation.getInterfaceSourceCodeLink().getInterface() != null && 
-					subComponentInformation.getInterfaceSourceCodeLink().getInterface() != null) {
+			// Source code decorator:
+			// Create interface source code link for parent class.
+			// TODO: Check if this really makes sense. The method already operates on a SourceCodeLink (see above: subComponentInformation.getInterfaceSourceCodeLink()) 
+			if(subComponentInformation.getInterfaceSourceCodeLink().getInterface() != null) {
 				InterfaceSourceCodeLink newInterfaceLink = SourceCodeDecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();
 				newInterfaceLink.setInterface(subComponentInformation.getInterfaceSourceCodeLink().getInterface());
 				newInterfaceLink.setGastClass(subComponentInformation.getInterfaceSourceCodeLink().getGastClass());

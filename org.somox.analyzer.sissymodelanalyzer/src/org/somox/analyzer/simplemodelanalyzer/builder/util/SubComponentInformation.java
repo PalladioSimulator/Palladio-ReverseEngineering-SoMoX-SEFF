@@ -1,5 +1,6 @@
 package org.somox.analyzer.simplemodelanalyzer.builder.util;
 
+import org.apache.log4j.Logger;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
@@ -10,9 +11,12 @@ import de.uka.ipd.sdq.pcm.repository.Role;
  * creation to inner components.
  */
 public class SubComponentInformation {
-	InterfaceSourceCodeLink interfaceSourceCodeLink;
-	Role role;
-	AssemblyContext assemblyContext;
+	
+	private static Logger logger = Logger.getLogger(SubComponentInformation.class);
+	
+	private InterfaceSourceCodeLink interfaceSourceCodeLink;
+	private Role role;
+	private AssemblyContext assemblyContext;
 	
 	public SubComponentInformation(
 			InterfaceSourceCodeLink interfaceSourceCodeLink,
@@ -20,7 +24,7 @@ public class SubComponentInformation {
 			AssemblyContext assemblyContext) {
 		this.interfaceSourceCodeLink = interfaceSourceCodeLink;
 		this.role = role;
-		this.assemblyContext = assemblyContext;
+		this.assemblyContext = assemblyContext;		
 	}
 
 	public InterfaceSourceCodeLink getInterfaceSourceCodeLink() {

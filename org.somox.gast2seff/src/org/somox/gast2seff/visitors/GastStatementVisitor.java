@@ -211,9 +211,6 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
             final de.uka.ipd.sdq.pcm.seff.BranchAction branch = SeffFactory.eINSTANCE.createBranchAction();
             this.seff.getSteps_Behaviour().add(branch);
             branch.setEntityName(this.positionToString(KDMHelper.getJavaNodeSourceRegion(input))); // GAST2SEFFCHANGE
-            // TODO DONE 
-//             branch.setDocumentation("not yet adapted");
-//             branch.setDocumentation("created from an if statement");
 
             final Statement ifStatement = input.getThenStatement();
             this.handleIfOrElseBranch(input, branch, ifStatement);
