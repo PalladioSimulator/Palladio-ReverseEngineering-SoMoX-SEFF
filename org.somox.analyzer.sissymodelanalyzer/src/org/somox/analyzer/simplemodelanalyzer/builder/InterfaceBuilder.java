@@ -35,6 +35,7 @@ import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
 import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
+import de.uka.ipd.sdq.pcm.repository.RequiredRole;
 import de.uka.ipd.sdq.pcm.repository.Role;
 //import de.fzi.gast.accesses.Access;
 //import de.fzi.gast.accesses.InheritanceTypeAccess;
@@ -230,11 +231,22 @@ public class InterfaceBuilder extends AbstractBuilder {
 	 */
 	private boolean doesComponentAlreadyRequireInterface(
 			Interface theInterface, RepositoryComponent component) {
-		for (ProvidedRole provRole : component.getProvidedRoles_InterfaceProvidingEntity()) {
-			if( provRole.getId().equals(theInterface.getId())){
-				return true;
-			}			
+		
+		for(RequiredRole role : component.getRequiredRoles_InterfaceRequiringEntity()){
+			
+			if(role instanceof OperationRequiredRole){
+				
+				OperationRequiredRole opReqRole = (OperationRequiredRole) role;
+				OperationInterface opInterface = opReqRole.getRequiredInterface__OperationRequiredRole();
+				if(opInterface.equals(theInterface)){
+					return true;
+				}
+				
+			} else {
+				logger.warn("Role type not yet supported: "+role.getClass().getSimpleName());
+			}
 		}
+		
 		return false;
 	}
 

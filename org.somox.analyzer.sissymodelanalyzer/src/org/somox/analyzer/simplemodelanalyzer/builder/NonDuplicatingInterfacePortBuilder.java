@@ -131,14 +131,19 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 		OperationProvidedRole providedRole = findProvidedRoleInComponent(compositeComponentLink.getComponent(), searchedInterface);
 		
 		// add a role for the interface if it does not exist yet
-		if(providedRole == null) { //avoid duplicate interfaces
+		if(providedRole == null) {
 
 			providedRole = RepositoryFactory.eINSTANCE.createOperationProvidedRole();
 			
 			providedRole.setEntityName(
-					componentTypeNaming.createProvidedPortName(
-							subComponentInformation.getInterfaceSourceCodeLink().getInterface(),
-							compositeComponentLink.getComponent()));
+					componentTypeNaming.createProvidedPortName(searchedInterface,compositeComponentLink.getComponent()));
+			
+			if(searchedInterface instanceof OperationInterface){
+				providedRole.setProvidedInterface__OperationProvidedRole((OperationInterface) searchedInterface);
+			} else {
+				logger.error("interface type not yet supported: "+searchedInterface.getClass().getSimpleName());
+			}
+			
 			//newProvidedRole.setDocumentation(subComponentInformation.getInterfaceSourceCodeLink().getInterface().getEntityName());
 			compositeComponentLink.getComponent().getProvidedRoles_InterfaceProvidingEntity().add(providedRole);
 			
@@ -192,10 +197,11 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 		if(!allRequiredInterfaces.contains(linkedInterface)) { //avoid duplicate interfaces
 			
 			requiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
+			
 			if(linkedInterface == null){
 				logger.warn("Source code decorator: InterfaceLink had no interface or class set.");
 			} else if(linkedInterface instanceof OperationInterface){
-				requiredRole.setRequiredInterface__OperationRequiredRole((OperationInterface) linkedInterface);
+					requiredRole.setRequiredInterface__OperationRequiredRole((OperationInterface) linkedInterface);
 				requiredRole.setEntityName(
 						componentTypeNaming.createRequiredPortName(
 								subComponentInformation.getInterfaceSourceCodeLink().getInterface(),
@@ -261,18 +267,6 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 		ProvidedDelegationConnector delegationConnector = CompositionFactory.eINSTANCE.createProvidedDelegationConnector();
 		
 		((CompositeComponent)compositeComponentLink.getComponent()).getConnectors__ComposedStructure().add(delegationConnector);
-
-		//documentation name:
-		/*String documentation = "";
-		if(isProvidedDelegationConnector) {
-			documentation += "provided";
-		} else {
-			documentation += "required";
-		}
-		documentation += " delegation connector " + 
-			compositeComponentLink.getComponent().getEntityName() + " to " +
-			subComponentInformation.getSubComponentInstance().getRealizedBy().getName();
-		delegationConnector.setDocumentation(documentation);*/
 
 		//outer:
 		delegationConnector.setOuterProvidedRole_ProvidedDelegationConnector(outerRole);

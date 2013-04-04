@@ -240,22 +240,26 @@ public class PCMSystemBuilder extends AbstractBuilder {
 			return;
 		}
 
-		OperationProvidedRole providedRole = RepositoryFactory.eINSTANCE
+		// create system provided role
+		OperationProvidedRole outerProvidedRole = RepositoryFactory.eINSTANCE
 				.createOperationProvidedRole();
-		providedRole.setProvidingEntity_ProvidedRole(pcmSystem);
-		providedRole.setEntityName(namingStrategy.createProvidedSystemPortName(
+		outerProvidedRole.setProvidingEntity_ProvidedRole(pcmSystem);
+		outerProvidedRole.setEntityName(namingStrategy.createProvidedSystemPortName(
 				opInterface, compLink.getComponent()));
-		providedRole.setProvidedInterface__OperationProvidedRole(opInterface);
+		outerProvidedRole.setProvidedInterface__OperationProvidedRole(opInterface);
 
+		// create delegation connector for provided role
 		ProvidedDelegationConnector delegationConnector = CompositionFactory.eINSTANCE
 				.createProvidedDelegationConnector();
 		delegationConnector
 				.setAssemblyContext_ProvidedDelegationConnector(assemblyContext);
 		delegationConnector
 				.setInnerProvidedRole_ProvidedDelegationConnector(innerProvidedRole);
+		delegationConnector.setOuterProvidedRole_ProvidedDelegationConnector(outerProvidedRole);
 		delegationConnector.setParentStructure__Connector(pcmSystem);
 		delegationConnector.setEntityName(opInterface.getEntityName());
 
+		// store connector in system
 		pcmSystem.getConnectors__ComposedStructure().add(delegationConnector);
 	}
 
