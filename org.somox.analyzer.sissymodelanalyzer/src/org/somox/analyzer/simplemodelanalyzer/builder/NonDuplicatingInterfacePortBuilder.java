@@ -17,13 +17,16 @@ import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 import de.uka.ipd.sdq.pcm.core.composition.ComposedStructure;
 import de.uka.ipd.sdq.pcm.core.composition.CompositionFactory;
-import de.uka.ipd.sdq.pcm.core.composition.DelegationConnector;
+import de.uka.ipd.sdq.pcm.core.composition.ProvidedDelegationConnector;
+import de.uka.ipd.sdq.pcm.core.composition.RequiredDelegationConnector;
 import de.uka.ipd.sdq.pcm.repository.CompositeComponent;
 import de.uka.ipd.sdq.pcm.repository.Interface;
+import de.uka.ipd.sdq.pcm.repository.OperationInterface;
 import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
 import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
+import de.uka.ipd.sdq.pcm.repository.RequiredRole;
 import de.uka.ipd.sdq.pcm.repository.Role;
-//import de.fzi.gast.core.Root;
 
 /**
  * Idea: All interfaces which are not required by internal interfaces (and consequently captured in
@@ -72,9 +75,9 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 								
 				// port building
 				if(this.isProvidedBuilder) {
-					createProvidedInterfacePortAndConnector(componentLink, currentInterfaceLink);
+					createProvidedRoleAndConnector(componentLink, currentInterfaceLink);
 				} else {
-					createRequiredInterfacePortAndConnector(componentLink, currentInterfaceLink); 
+					createRequiredRoleAndConnector(componentLink, currentInterfaceLink); 
 				}
 			}
 			
@@ -91,7 +94,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 	 * @param compositeComponentLink
 	 * @param subComponentInformation
 	 */
-	private void createProvidedInterfacePortAndConnector(
+	private void createProvidedRoleAndConnector(
 			ComponentImplementingClassesLink compositeComponentLink,
 			SubComponentInformation subComponentInformation) {
 		if( !(compositeComponentLink.getComponent() instanceof CompositeComponent) ) {
@@ -135,35 +138,44 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 	}
 	
 	/**
-	 * Creates required interface port + required delegation connector.
+	 * Creates required operation role + required delegation connector.<br>
+	 * 
+	 * This method produces OperationRequiredRoles only.<br>
+	 * 
 	 * <br>
-	 * ATTENTION: nearly a clone of createProvidedInterfacePortAndConnector() //TODO: clean up CHECK FOR DUPLICATION IN SAMM BUILDER
+	 * ATTENTION: nearly a clone of createProvidedInterfacePortAndConnector()<br>
+	 * TODO: clean up CHECK FOR DUPLICATION IN SAMM BUILDER
+	 * 
+	 * 
 	 * @param compositeComponentLink
 	 * @param subComponentInformation
 	 */
-	private void createRequiredInterfacePortAndConnector(
+	private void createRequiredRoleAndConnector(
 			ComponentImplementingClassesLink compositeComponentLink,
 			SubComponentInformation subComponentInformation) {	
 		
 		
-		InterfacePort requiredPort = null;
+		OperationRequiredRole requiredRole = null;
 		Set<Interface> allRequiredInterfaces = collectInterfacesForComponent(compositeComponentLink, false);
-		if(!allRequiredInterfaces.contains(subComponentInformation.getInterfaceSourceCodeLink().getInterface())) { //avoid duplicate interfaces
+		
+		Interface linkedInterface = subComponentInformation.getInterfaceSourceCodeLink().getInterface();
+		
+		if(!allRequiredInterfaces.contains(linkedInterface)) { //avoid duplicate interfaces
 			
-			// SAMM:
-			requiredPort = StaticstructureFactory.eINSTANCE.createInterfacePort();
-			requiredPort.setInterfaceType(subComponentInformation.getInterfaceSourceCodeLink().getInterface());
-			requiredPort.setName(
-					componentTypeNaming.createRequiredPortName(
-							subComponentInformation.getInterfaceSourceCodeLink().getInterface(),
-							compositeComponentLink.getComponent()));
-			requiredPort.setDocumentation(subComponentInformation.getInterfaceSourceCodeLink().getInterface().getName());
-			requiredPort.setRequiringComponentType(compositeComponentLink.getComponent());
-			compositeComponentLink.getComponent().getRequired().add(requiredPort);
+			requiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
+			if(linkedInterface == null){
+				logger.warn("Source code decorator: InterfaceLink had no interface or class set.");
+			} else if(linkedInterface instanceof OperationInterface){
+				requiredRole.setRequiredInterface__OperationRequiredRole((OperationInterface) linkedInterface);
+				requiredRole.setEntityName(
+						componentTypeNaming.createRequiredPortName(
+								subComponentInformation.getInterfaceSourceCodeLink().getInterface(),
+								compositeComponentLink.getComponent()));
+				// requiredRole.setDocumentation(subComponentInformation.getInterfaceSourceCodeLink().getInterface().getEntityName());
+				requiredRole.setRequiringEntity_RequiredRole(compositeComponentLink.getComponent());
+				compositeComponentLink.getComponent().getRequiredRoles_InterfaceRequiringEntity().add(requiredRole);
 						
-			// Source code decorator:				
-			if(subComponentInformation.getInterfaceSourceCodeLink().getInterface() != null &&
-					subComponentInformation.getInterfaceSourceCodeLink().getInterface() != null) {
+				// add link to source code decorator model
 				InterfaceSourceCodeLink newInterfaceLink = SourceCodeDecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();
 				newInterfaceLink.setInterface(subComponentInformation.getInterfaceSourceCodeLink().getInterface());
 				newInterfaceLink.setGastClass(subComponentInformation.getInterfaceSourceCodeLink().getGastClass());
@@ -173,22 +185,27 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 				SourceCodeDecoratorRepository parentRepository = (SourceCodeDecoratorRepository) compositeComponentLink.eContainer();					
 				parentRepository.getInterfaceSourceCodeLink().add(newInterfaceLink);
 			} else {
-				logger.warn("Source code decorator: InterfaceLink had no interface or class set.");
+				logger.warn("Interface type yet not supported: "+linkedInterface.getClass().getSimpleName());
 			}			
 		} else {
 			// do not add the same interface twice but added a required delegation connector
 			// query existing port
-			for(InterfacePort currentRequiredInterfacePort : compositeComponentLink.getComponent().getRequired()) {
-				if(currentRequiredInterfacePort.getInterfaceType().equals(
-						subComponentInformation.getInterfaceSourceCodeLink().getInterface())) {
-					requiredPort = currentRequiredInterfacePort;
+			for(RequiredRole currentRequiredRole : compositeComponentLink.getComponent().getRequiredRoles_InterfaceRequiringEntity()) {
+				if(currentRequiredRole instanceof OperationRequiredRole){
+					OperationRequiredRole opReqRole = (OperationRequiredRole) currentRequiredRole;
+					if(opReqRole.getRequiredInterface__OperationRequiredRole().equals(linkedInterface)) {
+						requiredRole = opReqRole;
+					}
+					
+				}else {
+					logger.warn("Required role type yet not supported: "+currentRequiredRole.getClass().getSimpleName());
 				}
 			}
 		}		
 		// create required delegation connector -- even for already created required ports (can be used by multiple components)
-		if(requiredPort != null) {
+		if(requiredRole != null) {
 			createDelegationConnector(compositeComponentLink,
-					requiredPort, subComponentInformation, false);
+					requiredRole, subComponentInformation, false);
 		} else {
 			logger.warn("Could not find a required interface port which should have existed.");
 		}
@@ -198,18 +215,19 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 
 	/**
 	 * Creates a new provides delegation connector.
+	 * 
 	 * @param compositeComponentLink Outer Composite component
-	 * @param newOuterPort newly added outer port
+	 * @param outerRole newly added outer port
 	 * @param subComponentInformation information on the inner component instance and its ports
 	 * @param isProvidedDelegationConnector switch provided and required
 	 */
 	private void createDelegationConnector(
 			ComponentImplementingClassesLink compositeComponentLink,
-			Role newOuterPort,
+			OperationProvidedRole outerRole,
 			SubComponentInformation subComponentInformation,
 			boolean isProvidedDelegationConnector) {
 		// new provides delegation connector:
-		DelegationConnector delegationConnector = CompositionFactory.eINSTANCE.createProvidedDelegationConnector();
+		ProvidedDelegationConnector delegationConnector = CompositionFactory.eINSTANCE.createProvidedDelegationConnector();
 		
 		((CompositeComponent)compositeComponentLink.getComponent()).getConnectors__ComposedStructure().add(delegationConnector);
 
@@ -226,15 +244,41 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 		delegationConnector.setDocumentation(documentation);*/
 
 		//outer:
-		ComponentEndpoint componentEndpoint = StaticstructureFactory.eINSTANCE.createComponentEndpoint(); 
-		componentEndpoint.setPort(newOuterPort);
-		delegationConnector.getEndpoints().add(componentEndpoint);
+		delegationConnector.setOuterProvidedRole_ProvidedDelegationConnector(outerRole);
+		Role innerRole = subComponentInformation.getRole();
+		if(innerRole instanceof OperationProvidedRole){
+			delegationConnector.setInnerProvidedRole_ProvidedDelegationConnector((OperationProvidedRole) innerRole);
+		} else {
+			logger.warn("Role not supported yet: "+innerRole.getClass().getSimpleName());
+		}
+	}
+	
+
+	/**
+	 * Creates a new required delegation connector.
+	 * 
+	 * @param compositeComponentLink Outer Composite component
+	 * @param outerRole newly added outer port
+	 * @param subComponentInformation information on the inner component instance and its ports
+	 * @param isProvidedDelegationConnector switch provided and required
+	 */
+	private void createDelegationConnector(
+			ComponentImplementingClassesLink compositeComponentLink,
+			OperationRequiredRole outerRole,
+			SubComponentInformation subComponentInformation,
+			boolean isProvidedDelegationConnector) {
 		
-		//inner:
-		SubcomponentEndpoint subcomponentEndpoint = StaticstructureFactory.eINSTANCE.createSubcomponentEndpoint();
-		subcomponentEndpoint.setPort(subComponentInformation.getInterfacePort());
-		subcomponentEndpoint.setSubcomponent(subComponentInformation.getSubComponentInstance());
-		delegationConnector.getEndpoints().add(subcomponentEndpoint);
+		RequiredDelegationConnector delegationConnector = CompositionFactory.eINSTANCE.createRequiredDelegationConnector();
+		
+		delegationConnector.setOuterRequiredRole_RequiredDelegationConnector(outerRole);
+		Role innerRole = subComponentInformation.getRole();
+		if(innerRole instanceof OperationRequiredRole){
+			delegationConnector.setInnerRequiredRole_RequiredDelegationConnector((OperationRequiredRole) innerRole);
+		} else {
+			logger.warn("Role not supported yet: "+innerRole.getClass().getSimpleName());
+		}
+
+		((CompositeComponent)compositeComponentLink.getComponent()).getConnectors__ComposedStructure().add(delegationConnector);
 	}
 
 	/**
