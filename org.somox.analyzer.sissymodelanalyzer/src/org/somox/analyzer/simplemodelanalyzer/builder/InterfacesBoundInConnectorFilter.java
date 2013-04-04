@@ -2,39 +2,49 @@ package org.somox.analyzer.simplemodelanalyzer.builder;
 
 import java.util.Collection;
 
+import org.apache.log4j.Logger;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.SubComponentInformation;
 import org.somox.filter.BaseFilter;
 
-import eu.qimpress.samm.staticstructure.EndPoint;
-import eu.qimpress.samm.staticstructure.Interface;
-import eu.qimpress.samm.staticstructure.InterfacePort;
+import de.uka.ipd.sdq.pcm.repository.Interface;
+import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.Role;
 
 /**
- * Removes accesses already captured in connector endpoints
+ * Removes role interface accesses already captured in connector
+ * 
  * @author Klaus Krogmann
- *
+ * 
  */
-public class InterfacesBoundInConnectorFilter extends BaseFilter<SubComponentInformation> {
+public class InterfacesBoundInConnectorFilter extends
+		BaseFilter<SubComponentInformation> {
 	
-	private Collection<EndPoint> connectorEndpoints;
-	
-	public InterfacesBoundInConnectorFilter(Collection<EndPoint> connectorEndpoints) {
+	private static Logger logger = Logger.getLogger(InterfacesBoundInConnectorFilter.class);
+
+	private Collection<Role> connectorRoles;
+
+	public InterfacesBoundInConnectorFilter(Collection<Role> connectorRoles) {
 		super();
-		this.connectorEndpoints = connectorEndpoints;		
+		this.connectorRoles = connectorRoles;
 	}
 
 	@Override
 	public boolean passes(SubComponentInformation subComponentInformation) {
-		for(EndPoint currentEndpoint : connectorEndpoints) {
-			if(currentEndpoint.getPort() instanceof InterfacePort) {
-				Interface interfaceFromConnector = ((InterfacePort)currentEndpoint.getPort()).getInterfaceType();
-				if(subComponentInformation.getInterfaceSourceCodeLink().getInterface().equals(interfaceFromConnector)) { // already in connector: remove
+		for (Role currentRole : connectorRoles) {
+			if (currentRole instanceof OperationProvidedRole) {
+				Interface interfaceFromConnector = ((OperationProvidedRole) currentRole).getProvidedInterface__OperationProvidedRole();
+
+				// if already in connector: remove
+				if (subComponentInformation.getInterfaceSourceCodeLink()
+						.getInterface().equals(interfaceFromConnector)) {
 					return false;
 				}
+			} else {
+				logger.warn("Role type not yet supported: "
+						+ currentRole.getClass().getSimpleName());
 			}
-		}			
+		}
 		return true;
 	}
-
 
 }

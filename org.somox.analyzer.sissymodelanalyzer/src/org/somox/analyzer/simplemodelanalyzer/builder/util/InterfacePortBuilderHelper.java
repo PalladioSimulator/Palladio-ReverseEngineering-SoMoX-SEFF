@@ -9,12 +9,17 @@ import org.eclipse.emf.common.util.EList;
 import org.somox.analyzer.simplemodelanalyzer.builder.InterfacesBoundInConnectorFilter;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink;
 
+import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
 import de.uka.ipd.sdq.pcm.core.composition.ComposedStructure;
-import de.uka.ipd.sdq.pcm.core.composition.Connector;
-import de.uka.ipd.sdq.pcm.core.entity.Entity;
 import de.uka.ipd.sdq.pcm.repository.CompositeComponent;
+import de.uka.ipd.sdq.pcm.repository.Interface;
+import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
 import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
+import de.uka.ipd.sdq.pcm.repository.RequiredRole;
 import de.uka.ipd.sdq.pcm.repository.Role;
 
 /**
@@ -33,6 +38,7 @@ public class InterfacePortBuilderHelper {
 	 * Collects information on interfaces which are
 	 * not bound in connectors (in the required case)
 	 * and all interfaces in the provided case.
+	 * 
 	 * @param componentLink fitting to the component argument.
 	 * @param outerComponentToCheck Component to look up non-connected interfaces for.
 	 * @param isProvided Check for provided or required interfaces.
@@ -45,7 +51,7 @@ public class InterfacePortBuilderHelper {
 		
 		Collection<SubComponentInformation> allSubComponentInterfaceLinks = 
 			collectInterfaceLinksOfSubComponents(componentLink, isProvided);						
-		Collection<EndPoint> connectorEndpoints = collectConnectorEndpoints(outerComponentToCheck);
+		Collection<Role> connectorEndpoints = collectConnectorEndpoints(outerComponentToCheck);
 			
 		Iterable<SubComponentInformation> interfaceLinksNotUsedInConnectors;
 		if(isProvided && EXHIBIT_ALL_INNER_PROVIDED_INTERFACES) {
@@ -61,22 +67,25 @@ public class InterfacePortBuilderHelper {
 	}
 	
 	/**
-	 * Collects inner connector endpoints of this composite component 
-	 * (first level no inner containments). 
+	 * Collects inner connector roles of this composite component 
+	 * (first level no inner containments).
+	 *  
 	 * @param compositeComponent Connectors of this component (inner)
 	 * @return
 	 */
-	private static Collection<EndPoint> collectConnectorEndpoints(			
-			CompositeStructure compositeComponent) {
-		Collection<EndPoint> connectorEndpoints = new ArrayList<EndPoint>();
-		for(Connector currentConnector : compositeComponent.getConnector()) { //
-			if(currentConnector.getEndpoints().size() > 2) {
-				throw new RuntimeException("n to m connectors (n/m > 2) not supported!"); //actually could be supported here, but semantics unclear...
+	private static Collection<Role> collectConnectorEndpoints(			
+			ComposedStructure compositeComponent) {
+		Collection<Role> connectorEndpoints = new ArrayList<Role>();
+		for(AssemblyContext context : compositeComponent.getAssemblyContexts__ComposedStructure()){
+			RepositoryComponent component = context.getEncapsulatedComponent__AssemblyContext();
+			for(ProvidedRole providedRole : component.getProvidedRoles_InterfaceProvidingEntity()) { 
+				connectorEndpoints.add(providedRole);
 			}
-			for(EndPoint currentEndPoint : currentConnector.getEndpoints()) {
-				connectorEndpoints.add(currentEndPoint);
+			for(RequiredRole requiredRole : component.getRequiredRoles_InterfaceRequiringEntity()) { 
+				connectorEndpoints.add(requiredRole);
 			}
 		}
+		
 		return connectorEndpoints;
 	}
 
@@ -99,19 +108,19 @@ public class InterfacePortBuilderHelper {
 			}
 			for(InterfaceSourceCodeLink currentInterfaceLinkSub : interfaceLinkSubList) {
 				//collect additional information for connector creation:
-				SubcomponentInstance matchingSubComponentInstance = null;
+				AssemblyContext matchingSubComponentInstance = null;
 				if(componentLink.getComponent() != null) { // regular case: a component link
 					matchingSubComponentInstance = 
 						getSubComponentInstance( (CompositeComponent)componentLink.getComponent(), currentSubComponentLink);
 				} else { // SAMM system architecture case:
-					if(componentLink instanceof SammSystemImplementatingClassesLink) {
+					if(componentLink instanceof PCMSystemImplementatingClassesLink) {
 						matchingSubComponentInstance = 
-							getSubComponentInstance( ((SammSystemImplementatingClassesLink)componentLink).getServiceArchitectureModel(), currentSubComponentLink);
+							getSubComponentInstance( ((PCMSystemImplementatingClassesLink)componentLink).getSystemModel(), currentSubComponentLink);
 					}
 				}
-				InterfacePort interfacePort = getInterfacePort(currentSubComponentLink, currentInterfaceLinkSub, collectProvided);
+				Role role = getInterfacePort(currentSubComponentLink, currentInterfaceLinkSub, collectProvided);
 				
-				allInterfaceLinks.add(new SubComponentInformation(currentInterfaceLinkSub, interfacePort, matchingSubComponentInstance));
+				allInterfaceLinks.add(new SubComponentInformation(currentInterfaceLinkSub, role, matchingSubComponentInstance));
 			}
 		}
 		return allInterfaceLinks;
@@ -120,27 +129,45 @@ public class InterfacePortBuilderHelper {
 
 	
 	/**
-	 * Search matching InterfacePort. Condition:
-	 * The linked subcomponent must provide the given linked interface
+	 * Search matching Role.<br> 
+	 * Condition: The linked subcomponent must provide/require the given linked interface
+	 * 
 	 * @param subComponentLink
 	 * @param interfaceLinkSub
-	 * @param searchProvidedPort switch provided / required search
+	 * @param searchProvidedRoles switch provided / required search
 	 * @return
 	 */
 	public static Role getInterfacePort(
 			ComponentImplementingClassesLink subComponentLink,
 			InterfaceSourceCodeLink interfaceLinkSub,
-			boolean searchProvidedPort) {
-		EList<ProvidedRole> entities;
+			boolean searchProvidedRoles) {
 		
-		if(searchProvidedPort) {
-			entities = subComponentLink.getComponent().getProvidedRoles_InterfaceProvidingEntity();
+		RepositoryComponent linkComponent = subComponentLink.getComponent();
+		
+		if(searchProvidedRoles) {
+			EList<ProvidedRole> roles = linkComponent.getProvidedRoles_InterfaceProvidingEntity();
+			for(ProvidedRole currentRole : roles) {
+				if(currentRole instanceof OperationProvidedRole){
+					Interface componentInterface = ((OperationProvidedRole)currentRole).getProvidedInterface__OperationProvidedRole();
+					if(interfaceLinkSub.getInterface().equals(componentInterface)) {
+						return currentRole;
+					}
+				} else {
+					logger.warn("Role type not supported: "+currentRole.getClass().getSimpleName());
+				}
+			}
+			
 		} else {
-			entities = subComponentLink.getComponent().getRequiredRoles_InterfaceRequiringEntity();
-		}
-		for(Entity currentInterfacePort : entities) {
-			if(interfaceLinkSub.getInterface().equals(currentInterfacePort.getInterfaceType())) {
-				return currentInterfacePort;
+			EList<RequiredRole> roles = linkComponent.getRequiredRoles_InterfaceRequiringEntity();
+			for(RequiredRole currentRole : roles) {
+				if(currentRole instanceof OperationRequiredRole){
+					Interface componentInterface = ((OperationRequiredRole)currentRole).getRequiredInterface__OperationRequiredRole();
+					if(interfaceLinkSub.getInterface().equals(componentInterface)) {
+						return currentRole;
+					}
+				} else {
+					logger.warn("Role type not supported: "+currentRole.getClass().getSimpleName());
+				}
 			}
 		}
 		logger.warn("should find an interface port");
@@ -154,12 +181,12 @@ public class InterfacePortBuilderHelper {
 	 * @param subComponentLink
 	 * @return
 	 */
-	private static SubcomponentInstance getSubComponentInstance(
-			CompositeStructure outerCompositeComponent,
+	private static AssemblyContext getSubComponentInstance(
+			ComposedStructure outerCompositeComponent,
 			ComponentImplementingClassesLink subComponentLink) {
-		for(SubcomponentInstance currentComponentInstance : outerCompositeComponent.getSubcomponents()) {
-			if(currentComponentInstance.getRealizedBy().equals(subComponentLink.getComponent())) {
-				return currentComponentInstance;
+		for(AssemblyContext innerAssemblyContext : outerCompositeComponent.getAssemblyContexts__ComposedStructure()) {
+			if(innerAssemblyContext.getEncapsulatedComponent__AssemblyContext().equals(subComponentLink.getComponent())) {
+				return innerAssemblyContext;
 			}			
 		}
 		logger.warn("no subcomponent instance found");

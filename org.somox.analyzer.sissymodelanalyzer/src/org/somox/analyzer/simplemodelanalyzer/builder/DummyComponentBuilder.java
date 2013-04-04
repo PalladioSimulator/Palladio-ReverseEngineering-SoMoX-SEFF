@@ -2,6 +2,7 @@ package org.somox.analyzer.simplemodelanalyzer.builder;
 
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.somox.analyzer.simplemodelanalyzer.SimpleAnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.InstanceComponentTuple;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.SubComponentInformation;
@@ -11,6 +12,7 @@ import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
 import de.uka.ipd.sdq.pcm.core.composition.CompositionFactory;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
 import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
 import de.uka.ipd.sdq.pcm.system.System;
@@ -21,6 +23,8 @@ import de.uka.ipd.sdq.pcm.system.System;
  *
  */
 public class DummyComponentBuilder {
+	
+	private static Logger logger = Logger.getLogger(DummyComponentBuilder.class);
 	
 	/**
 	 * Creates a single dummy primitive Components and adds it
@@ -41,17 +45,22 @@ public class DummyComponentBuilder {
 		for(SubComponentInformation subCompInfo : subComponentInformationOnNonBoundInterfacePorts) {
 			
 			OperationProvidedRole newProvidedRole = RepositoryFactory.eINSTANCE.createOperationProvidedRole();
-			newProvidedRole.setEntityName(subCompInfo.getOperationRequiredRole().getEntityName() + " (prov dummy)");
-			newProvidedRole.setEntityName(subCompInfo.getOperationRequiredRole().getEntityName() + " (prov dummy)");
+			newProvidedRole.setEntityName(subCompInfo.getRole().getEntityName() + " (prov dummy)");
+			newProvidedRole.setEntityName(subCompInfo.getRole().getEntityName() + " (prov dummy)");
 			//newProvidedInterfacePort.setDocumentation("SoMoX created provided port");
 			dummyComponentInfo.basicComponent.getProvidedRoles_InterfaceProvidingEntity().add(newProvidedRole);
 			
 			
 			// create assembly connector:
-			AssemblyConnectorBuilder.createAssemblyConnector(
-					pcmSystem, 
-					subCompInfo.getOperationRequiredRole(), newProvidedRole, 
-					subCompInfo.getAssemblyContext(), dummyComponentInfo.assemblyContext);
+			if(subCompInfo.getRole() instanceof OperationRequiredRole){
+				AssemblyConnectorBuilder.createAssemblyConnector(
+						pcmSystem, 
+						(OperationRequiredRole) subCompInfo.getRole(), 
+						newProvidedRole, 
+						subCompInfo.getAssemblyContext(), dummyComponentInfo.assemblyContext);
+			} else {
+				logger.warn("Role type not supported yet: "+subCompInfo.getRole().getClass().getSimpleName());
+			}
 		}		
 		
 		return dummyComponentInfo.basicComponent;		
