@@ -33,7 +33,7 @@ public class GetAccessedType extends JavaSwitch<Type> {
 	/**
 	 * Computes the accessed type for an access.
 	 * @param input The input access.
-	 * @return The accessed Type be the access.
+	 * @return The accessed Type from the access.
 	 */
 	public static Type getAccessedType(ASTNode input) {
 		return getInstance.doSwitch(input);
