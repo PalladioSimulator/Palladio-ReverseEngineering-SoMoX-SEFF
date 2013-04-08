@@ -158,14 +158,28 @@ public class KDMHelper {
 		// }
 
 		Type accessedType = GetAccessedType.getAccessedType(element);
-		if (accessedType != null) {
-			result.add(accessedType);
+		if (SISSYMODE) {
+			if (accessedType != null) {
+				result.add(accessedType);
+			}
 		}
-		if(!SISSYMODE){
+		else{//KDM Mode
+			
 //			TODO adopt this
 			if (accessedType instanceof ParameterizedType) {
 				ParameterizedType paramType = (ParameterizedType) accessedType;
-				result.addAll(getAccessedTypesFromParameterizedType(paramType));
+				//1. add main type
+				result.add(paramType.getType().getType());
+				//2. add type arguments
+				for(TypeAccess typeAccess : paramType.getTypeArguments()){
+					if(typeAccess.getType() instanceof ParameterizedType){
+						result.addAll(getAccessedTypes(typeAccess));
+					} else{
+						result.add(GetAccessedType.getAccessedType(typeAccess));
+					}
+				}
+			} else{//if a normal Type
+				result.add(accessedType);
 			}
 		}
 		return result;
@@ -186,7 +200,7 @@ public class KDMHelper {
 		Set<Type> result = new HashSet<Type>();
 		for (TypeAccess typeAccessToAddFromArgumentList : input
 				.getTypeArguments()) {
-			if(typeAccessToAddFromArgumentList instanceof ParameterizedType){
+			if(typeAccessToAddFromArgumentList.getType() instanceof ParameterizedType){
 				result.addAll(getAccessedTypesFromParameterizedType((ParameterizedType) typeAccessToAddFromArgumentList));
 			} else{
 				result.add(typeAccessToAddFromArgumentList.getType());
