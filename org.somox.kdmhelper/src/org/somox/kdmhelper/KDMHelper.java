@@ -47,6 +47,21 @@ import org.eclipse.modisco.java.composition.javaapplication.queries.GetASTNodeSo
  */
 public class KDMHelper {
 
+	/**
+	 * SISSy does not model type parameters.<br>
+	 * For example:
+	 * 
+	 * <pre>
+	 * List &lt;String&gt;
+	 * </pre>
+	 * 
+	 * only detects List as type access. <br>
+	 * If this variable is true, then this class works like SISSy. Else, for the
+	 * example it also returns the String type.
+	 */
+	public static boolean SISSYMODE = true;
+
+	
 	// /**
 	// *
 	// * @param clazz
@@ -146,45 +161,15 @@ public class KDMHelper {
 		if (accessedType != null) {
 			result.add(accessedType);
 		}
-		//TODO adopt this
-		// added after fix
-		// if(accessedType instanceof ParameterizedType){
-		// ParameterizedType paramType =(ParameterizedType) accessedType;
-		// result.addAll(getAccessedTypesFromParameterizedType(paramType));
-		// }else{
-		// result.add(accessedType);
-		// }
+		if(!SISSYMODE){
+//			TODO adopt this
+			if (accessedType instanceof ParameterizedType) {
+				ParameterizedType paramType = (ParameterizedType) accessedType;
+				result.addAll(getAccessedTypesFromParameterizedType(paramType));
+			}
+		}
 		return result;
 
-		// if (element instanceof AbstractMethodInvocation) {
-		// AbstractMethodInvocation temp = (AbstractMethodInvocation) element;
-		// return temp.getMethod().getAbstractTypeDeclaration();
-		// }
-		// if (element instanceof ArrayAccess) {
-		// ArrayAccess temp = (ArrayAccess) element;
-		//
-		// }
-		// if (element instanceof FieldAccess) {
-		// FieldAccess temp = (FieldAccess) element;
-		// EObject result = temp.getField().eContainer();
-		// if (result instanceof Type) {
-		// return (Type) result;
-		// } else {
-		// return null;
-		// }
-		// }
-		// if (element instanceof TypeAccess) {
-		// TypeAccess temp = (TypeAccess) element;
-		// return temp.getType();
-		// }
-		// if (element instanceof SingleVariableAccess) {
-		//
-		// }
-		// if (element instanceof SuperFieldAccess) {
-		// SuperFieldAccess temp = (SuperFieldAccess) element;
-		// return ((SuperFieldAccess) element).getQualifier().getType();
-		// }
-		// return null;
 	}
 
 	/**
@@ -199,10 +184,13 @@ public class KDMHelper {
 	private static Set<Type> getAccessedTypesFromParameterizedType(
 			ParameterizedType input) {
 		Set<Type> result = new HashSet<Type>();
-		result.add(input.getType().getType());
 		for (TypeAccess typeAccessToAddFromArgumentList : input
 				.getTypeArguments()) {
-			result.add(typeAccessToAddFromArgumentList.getType());
+			if(typeAccessToAddFromArgumentList instanceof ParameterizedType){
+				result.addAll(getAccessedTypesFromParameterizedType((ParameterizedType) typeAccessToAddFromArgumentList));
+			} else{
+				result.add(typeAccessToAddFromArgumentList.getType());
+			}
 		}
 		return result;
 	}
@@ -220,10 +208,6 @@ public class KDMHelper {
 
 		for (ASTNode node : accesses) {
 			resultList.addAll(getAccessedTypes(node));
-			// Type accessedType = getAccessedType(node);
-			// if (accessedType != null) {
-			// result.add(accessedType);
-			// }
 		}
 		ArrayList<Type> returnSet = new ArrayList<Type>();
 		returnSet.addAll(resultList);
@@ -335,7 +319,6 @@ public class KDMHelper {
 		try {
 			return query.evaluate(node, null);
 		} catch (ModelQueryExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

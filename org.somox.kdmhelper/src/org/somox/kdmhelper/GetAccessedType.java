@@ -25,6 +25,7 @@ import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
  */
 public class GetAccessedType extends JavaSwitch<Type> {
 
+	
 	/**
 	 * Singleton.
 	 */
@@ -47,6 +48,8 @@ public class GetAccessedType extends JavaSwitch<Type> {
 		return object.getMethod().getAbstractTypeDeclaration();
 	}
 
+	
+	
 	@Override
 	public Type caseTypeAccess(TypeAccess object) {
 		return object.getType();
@@ -121,13 +124,11 @@ public class GetAccessedType extends JavaSwitch<Type> {
 
 	@Override
 	public Type caseAbstractVariablesContainer(AbstractVariablesContainer object) {
-		// TODO Auto-generated method stub
 		return object.getType().getType();
 	}
 
 	@Override
 	public Type caseFieldDeclaration(FieldDeclaration object) {
-		// TODO Auto-generated method stub
 		return object.getAbstractTypeDeclaration();
 	}
 
