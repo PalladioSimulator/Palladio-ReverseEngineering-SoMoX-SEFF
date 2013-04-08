@@ -173,6 +173,7 @@ public class KDMHelper {
 				//2. add type arguments
 				for(TypeAccess typeAccess : paramType.getTypeArguments()){
 					if(typeAccess.getType() instanceof ParameterizedType){
+						//recursive call
 						result.addAll(getAccessedTypes(typeAccess));
 					} else{
 						result.add(GetAccessedType.getAccessedType(typeAccess));
@@ -194,20 +195,6 @@ public class KDMHelper {
 	 * @return a set of the accessed types
 	 */
 
-	//TODO adopt to MoDisco Version
-	private static Set<Type> getAccessedTypesFromParameterizedType(
-			ParameterizedType input) {
-		Set<Type> result = new HashSet<Type>();
-		for (TypeAccess typeAccessToAddFromArgumentList : input
-				.getTypeArguments()) {
-			if(typeAccessToAddFromArgumentList.getType() instanceof ParameterizedType){
-				result.addAll(getAccessedTypesFromParameterizedType((ParameterizedType) typeAccessToAddFromArgumentList));
-			} else{
-				result.add(typeAccessToAddFromArgumentList.getType());
-			}
-		}
-		return result;
-	}
 
 	/**
 	 * Returns all accessed types inside a type.
