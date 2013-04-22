@@ -65,8 +65,12 @@ public class AssemblyConnectorDeFactoStrategy implements IAssemblyConnectorStrat
 		Collection<ProvidedRole> providedRoles = edgeTarget.getComponent().getProvidedRoles_InterfaceProvidingEntity();
 		for (RequiredRole requiredRole : requiredRoles) {
 			for (ProvidedRole providedRole : providedRoles) {
+				logger.debug("compare reqrole.getReqEnt and prorole.getProEnt");
+				logger.debug("reqrole.getReqEnt = " + requiredRole.getRequiringEntity_RequiredRole());
+				logger.debug("prorole.getProEnt = " + providedRole.getProvidingEntity_ProvidedRole());
+				//FIXME burkha 22.04.2013 the condition is never true
 				if(requiredRole.getRequiringEntity_RequiredRole() == providedRole.getProvidingEntity_ProvidedRole()){
-					if( requiredRole instanceof OperationRequiredRole && providedRole instanceof OperationRequiredRole ){						
+					if( requiredRole instanceof OperationRequiredRole && providedRole instanceof OperationProvidedRole){						
 						AssemblyConnectorBuilder.createAssemblyConnector(component, 
 								(OperationRequiredRole)requiredRole, 
 								(OperationProvidedRole)providedRole,
