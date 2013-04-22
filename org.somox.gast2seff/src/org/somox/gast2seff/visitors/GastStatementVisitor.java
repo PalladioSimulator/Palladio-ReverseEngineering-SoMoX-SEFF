@@ -635,7 +635,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
     // TODO
     @Override
     public Object defaultCase(final EObject object) {
-        logger.warn("------------------Not handled object by statement visitor:\n  " + object);
+        logger.warn("Not handled object by statement visitor:\n  " + object);
         return super.defaultCase(object);
     }
 }
