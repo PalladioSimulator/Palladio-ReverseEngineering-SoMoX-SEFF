@@ -303,7 +303,7 @@ public class FunctionCallClassificationVisitor extends JavaSwitch<BitSet> {// GA
 
     @Override
     public BitSet defaultCase(final EObject object) {
-        System.out.println("------------------Not handled object by function call visitor:\n  " + object);
+        logger.warn("------------------Not handled object by function call visitor:\n  " + object);
 
         return super.defaultCase(object);
     }
