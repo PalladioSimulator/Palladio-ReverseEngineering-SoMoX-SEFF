@@ -4,22 +4,21 @@ import org.somox.analyzer.AnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.metamodeladdition.Root;
 
-//import de.fzi.gast.core.Root;
 
 public class AbstractBuilder {
 
 	protected AnalysisResult analysisResult = null;
-	protected Root gastModel = null;
+	protected Root astModel = null;
 	protected SoMoXConfiguration somoxConfiguration;
 
-	public AbstractBuilder (Root gastModel,
+	public AbstractBuilder (Root astModel,
 			SoMoXConfiguration somoxConfiguration, 
 			AnalysisResult analysisResult) {
 		
 		super();
 
 		this.analysisResult = analysisResult;
-		this.gastModel = gastModel;
+		this.astModel = astModel;
 		this.somoxConfiguration = somoxConfiguration;
 	}
 

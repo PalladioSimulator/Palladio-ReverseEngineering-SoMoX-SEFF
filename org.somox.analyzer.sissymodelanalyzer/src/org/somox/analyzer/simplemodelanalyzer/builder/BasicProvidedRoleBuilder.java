@@ -27,9 +27,9 @@ public class BasicProvidedRoleBuilder extends AbstractBuilder implements IRoleBu
 
 	static final Logger logger = Logger.getLogger(BasicProvidedRoleBuilder.class);
 	
-	public BasicProvidedRoleBuilder(Root gastModel,
+	public BasicProvidedRoleBuilder(Root astModel,
 			SoMoXConfiguration somoxConfiguration, AnalysisResult analysisResult) {
-		super(gastModel, somoxConfiguration, analysisResult);
+		super(astModel, somoxConfiguration, analysisResult);
 	}
 
 	/**

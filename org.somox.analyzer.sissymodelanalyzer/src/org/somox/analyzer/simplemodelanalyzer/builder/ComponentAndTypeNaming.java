@@ -40,8 +40,8 @@ public class ComponentAndTypeNaming {
 	}
 
 	@Deprecated
-	public String createSimpleComponentName(int i, Type gastClass) {
-		return "Comp. " + i + ": " + gastClass.getName();
+	public String createSimpleComponentName(int i, Type astClass) {
+		return "Comp. " + i + ": " + astClass.getName();
 	}
 
 	/**
@@ -50,13 +50,13 @@ public class ComponentAndTypeNaming {
 	 * @param shorten true: a short name
 	 * @return
 	 */
-	public String createSimpleComponentName(List<Type> gastClasses, boolean shorten) {
+	public String createSimpleComponentName(List<Type> astClasses, boolean shorten) {
 		StringBuilder nameBuilder = new StringBuilder();
 		nameBuilder.append(" <PC No. "+ primitiveComponentNumber++);
 		
 		StringBuilder subComponentNames = new StringBuilder();
-		for(Type currentGASTclass : gastClasses) { 
-			subComponentNames.append(" " + KDMHelper.computeFullQualifiedName(currentGASTclass));
+		for(Type astClass : astClasses) { 
+			subComponentNames.append(" " + KDMHelper.computeFullQualifiedName(astClass));
 		}
 		
 		if(shorten) {
@@ -70,8 +70,8 @@ public class ComponentAndTypeNaming {
 		return nameBuilder.toString();
 	}
 	
-	public String createSimpleComponentName(Type gastClass) {
-		return KDMHelper.computeFullQualifiedName(gastClass) + " <PC No. "+ primitiveComponentNumber++ + ">";
+	public String createSimpleComponentName(Type astClass) {
+		return KDMHelper.computeFullQualifiedName(astClass) + " <PC No. "+ primitiveComponentNumber++ + ">";
 	}
 	
 	public String createSimpleComponentName(int i, List<ComponentImplementingClassesLink> currentList) {

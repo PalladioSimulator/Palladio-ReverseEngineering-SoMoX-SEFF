@@ -27,9 +27,9 @@ public class AssemblyConnectorBuilder extends AbstractBuilder {
 	private static final Logger logger = Logger
 			.getLogger(AssemblyConnectorBuilder.class);
 
-	public AssemblyConnectorBuilder(Root gastModel,
+	public AssemblyConnectorBuilder(Root astModel,
 			SoMoXConfiguration somoxConfiguration, AnalysisResult analysisResult) {
-		super(gastModel, somoxConfiguration, analysisResult);
+		super(astModel, somoxConfiguration, analysisResult);
 	}
 
 	/**
