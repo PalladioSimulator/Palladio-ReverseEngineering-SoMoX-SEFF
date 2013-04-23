@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.EList;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.InterfacePortBuilderHelper;
@@ -74,8 +75,8 @@ public class PCMSystemBuilder extends AbstractBuilder {
 	}
 
 	/**
-	 * Replicates ports of inner components and establishes delegation
-	 * connectors for them. Updates the SAMM system. Creates a SAMM for the last
+	 * Replicates roles of inner components and establishes delegation
+	 * connectors for them. Updates the PCM system. Creates a PCM for the last
 	 * composite component of the repository model. Creates a default allocation
 	 * with to a default target environment.
 	 */
@@ -90,18 +91,18 @@ public class PCMSystemBuilder extends AbstractBuilder {
 	 * @return List of non-contained components
 	 */
 	private List<ComponentImplementingClassesLink> getNonContainedComponents() {
+
 		ArrayList<ComponentImplementingClassesLink> nonContainedComponents = new ArrayList<ComponentImplementingClassesLink>();
 
-		for (ComponentImplementingClassesLink compLinkToCheckWhetherContained : this.analysisResult
+		EList<ComponentImplementingClassesLink> componentImplementingClassesLinks = this.analysisResult
 				.getSourceCodeDecoratorRepository()
-				.getComponentImplementingClassesLink()) {
+				.getComponentImplementingClassesLink();
+
+		for (ComponentImplementingClassesLink compLinkToCheckWhetherContained : componentImplementingClassesLinks) {
 
 			boolean isComponentLinkToCheckContained = false;
-			for (ComponentImplementingClassesLink potentialOuterCompLink : this.analysisResult
-					.getSourceCodeDecoratorRepository()
-					.getComponentImplementingClassesLink()) {
-				if (potentialOuterCompLink.getSubComponents().contains(
-						compLinkToCheckWhetherContained)) {
+			for (ComponentImplementingClassesLink potentialOuterCompLink : componentImplementingClassesLinks) {
+				if (potentialOuterCompLink.getSubComponents().contains(compLinkToCheckWhetherContained)) {
 					isComponentLinkToCheckContained = true;
 					break; // contained; no more looping required
 				}
@@ -125,8 +126,7 @@ public class PCMSystemBuilder extends AbstractBuilder {
 	 *            List of Component which shall become instances of the SAMM
 	 *            system.
 	 */
-	private void buildSystemModel(
-			List<ComponentImplementingClassesLink> innerComponents) {
+	private void buildSystemModel(List<ComponentImplementingClassesLink> innerComponents) {
 		System pcmSystem = analysisResult.getSystemModel();
 		pcmSystem.setEntityName("SoMoX Reverse Engineered System");
 
@@ -231,8 +231,7 @@ public class PCMSystemBuilder extends AbstractBuilder {
 			AssemblyContext assemblyContext,
 			OperationProvidedRole innerProvidedRole) {
 
-		OperationInterface opInterface = innerProvidedRole
-				.getProvidedInterface__OperationProvidedRole();
+		OperationInterface opInterface = innerProvidedRole.getProvidedInterface__OperationProvidedRole();
 
 		if (opInterface == null) {
 			logger.error("No interface set for role: "
@@ -251,10 +250,11 @@ public class PCMSystemBuilder extends AbstractBuilder {
 		// create delegation connector for provided role
 		ProvidedDelegationConnector delegationConnector = CompositionFactory.eINSTANCE
 				.createProvidedDelegationConnector();
-		delegationConnector
-				.setAssemblyContext_ProvidedDelegationConnector(assemblyContext);
-		delegationConnector
-				.setInnerProvidedRole_ProvidedDelegationConnector(innerProvidedRole);
+		delegationConnector.setAssemblyContext_ProvidedDelegationConnector(assemblyContext);
+		// TODO burkha 23.04.2013 the assembly context is not set correct
+		// delegationConnector.setAssemblyContext_ProvidedDelegationConnector(innerProvidedRole
+		// .getProvidingEntity_ProvidedRole());
+		delegationConnector.setInnerProvidedRole_ProvidedDelegationConnector(innerProvidedRole);
 		delegationConnector.setOuterProvidedRole_ProvidedDelegationConnector(outerProvidedRole);
 		delegationConnector.setParentStructure__Connector(pcmSystem);
 		delegationConnector.setEntityName(opInterface.getEntityName());

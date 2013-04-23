@@ -113,7 +113,7 @@ public class AssemblyConnectorBuilder extends AbstractBuilder {
 		AssemblyConnector newConnector = CompositionFactory.eINSTANCE
 				.createAssemblyConnector();
 		parentComponent.getConnectors__ComposedStructure().add(newConnector);
-		// newConnector.setDocumentation("Assembly Connector from "+requiredComponentType.getEntityName()+" to "+providedComponentType.getEntityName());
+		newConnector.setEntityName("Assembly Connector from " + requiredComponentType.getEntityName() + " to " + providedComponentType.getEntityName());
 		return newConnector;
 	}
 
