@@ -101,13 +101,13 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 
 	/**
 	 * Analyze the given GAST model to find components
-	 * @param gastModel The root of the GAST model to analyze
+	 * @param astModel The root of the GAST model to analyze
 	 * @param preferences Preferences containing the configuration of the analysis
 	 * @param progressMonitor Progress monitor used to indicate detection progress
 	 * @throws ModelAnalyzerException
 	 */
 	private SimpleAnalysisResult analyzeGASTModel(
-			Root gastModel,
+			Root astModel,
 			SoMoXConfiguration somoxConfiguration,
 			IProgressMonitor progressMonitor) throws ModelAnalyzerException {
 		
@@ -116,12 +116,12 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 		analysisResult.setResultStatus(AnalysisResult.ResultStatus.FAILED);
 		
 		// Set up model builder
-		ComponentBuilder sammComponentBuilder = new ComponentBuilder(gastModel, somoxConfiguration, analysisResult);
-		ISoMoXStrategiesFactory strategiesFactory = new BasicSoMoXStrategiesFactory(gastModel, somoxConfiguration);
+		ComponentBuilder pcmComponentBuilder = new ComponentBuilder(astModel, somoxConfiguration, analysisResult);
+		ISoMoXStrategiesFactory strategiesFactory = new BasicSoMoXStrategiesFactory(astModel, somoxConfiguration);
 		
 		// Initial Components
 		List<ComponentImplementingClassesLink> initialComponents = detectInitialComponentCandidates(
-				gastModel, somoxConfiguration, sammComponentBuilder, strategiesFactory,
+				astModel, somoxConfiguration, pcmComponentBuilder, strategiesFactory,
 				progressMonitor);
 		
 		//removelater
@@ -136,14 +136,14 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 //		org.somox.changetest.Helper.sortFile(fileName);
 
 		// Component Detection
-		clusterComponents(initialComponents, somoxConfiguration, sammComponentBuilder,
+		clusterComponents(initialComponents, somoxConfiguration, pcmComponentBuilder,
 				strategiesFactory, progressMonitor);
 
 		// Post Detection Phase
 		postComponentDetection(somoxConfiguration, analysisResult, strategiesFactory, progressMonitor);
 		
-		// Create SAMM System		
-		PCMSystemBuilder pcmSystemBuilder = new PCMSystemBuilder(gastModel, somoxConfiguration, analysisResult, sammComponentBuilder);		
+		// Create PCM System
+		PCMSystemBuilder pcmSystemBuilder = new PCMSystemBuilder(astModel, somoxConfiguration, analysisResult, pcmComponentBuilder);		
 		pcmSystemBuilder.buildSystemModel();
 		
 		analysisResult.setResultStatus(AnalysisResult.ResultStatus.SUCCESS);
