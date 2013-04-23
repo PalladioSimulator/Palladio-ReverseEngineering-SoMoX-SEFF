@@ -68,19 +68,23 @@ public class AssemblyConnectorDeFactoStrategy implements IAssemblyConnectorStrat
 				logger.debug("compare reqrole.getReqEnt and prorole.getProEnt");
 				logger.debug("reqrole.getReqEnt = " + requiredRole.getRequiringEntity_RequiredRole());
 				logger.debug("prorole.getProEnt = " + providedRole.getProvidingEntity_ProvidedRole());
-				//FIXME burkha 22.04.2013 the condition is never true
-				if(requiredRole.getRequiringEntity_RequiredRole() == providedRole.getProvidingEntity_ProvidedRole()){
-					if( requiredRole instanceof OperationRequiredRole && providedRole instanceof OperationProvidedRole){						
-						AssemblyConnectorBuilder.createAssemblyConnector(component, 
-								(OperationRequiredRole)requiredRole, 
-								(OperationProvidedRole)providedRole,
-								edgeSource.getComponent(), 
+				if(requiredRole instanceof OperationRequiredRole && providedRole instanceof OperationProvidedRole){
+					OperationRequiredRole opReqRole = (OperationRequiredRole) requiredRole;
+					OperationProvidedRole opProvRole = (OperationProvidedRole) providedRole;
+					if (opReqRole.getRequiredInterface__OperationRequiredRole().equals(opProvRole.getProvidedInterface__OperationProvidedRole())) {
+						AssemblyConnectorBuilder.createAssemblyConnector(
+								component,
+								opReqRole,
+								opProvRole,
+								edgeSource.getComponent(),
 								edgeTarget.getComponent());
 					}
-					else{
-						logger.warn("Role types: " + providedRole.getClass().getSimpleName() + " and " 
-								+ requiredRole.getClass().getSimpleName() + " not yet supported.");
-					}
+				} else {
+					logger.warn("Role types: "
+							+ providedRole.getClass().getSimpleName()
+							+ " and "
+							+ requiredRole.getClass().getSimpleName()
+							+ " not yet supported.");
 				}
 			}
 		}

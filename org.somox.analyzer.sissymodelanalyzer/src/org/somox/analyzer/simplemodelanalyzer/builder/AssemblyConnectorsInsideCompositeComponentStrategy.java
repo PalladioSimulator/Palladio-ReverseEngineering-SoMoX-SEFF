@@ -111,21 +111,24 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 		// loop provided ports and search for a match
 		for(ComponentImplementingClassesLink providingComponent : subComponents) {
 			for(ProvidedRole providedRole : providingComponent.getComponent().getProvidedRoles_InterfaceProvidingEntity()) {
-				if(requiredRole.getRequiringEntity_RequiredRole().equals(providedRole.getProvidingEntity_ProvidedRole())){
-					if(requiredRole instanceof OperationRequiredRole && providedRole instanceof OperationProvidedRole ){
+				if (requiredRole instanceof OperationRequiredRole && providedRole instanceof OperationProvidedRole) {
+					OperationRequiredRole opReqRole = (OperationRequiredRole) requiredRole;
+					OperationProvidedRole opProvRole = (OperationProvidedRole) providedRole;
+					if (opReqRole.getRequiredInterface__OperationRequiredRole().equals(
+							opProvRole.getProvidedInterface__OperationProvidedRole())) {
 						Connector newAssemblyConnector = AssemblyConnectorBuilder.createAssemblyConnector(
 								outerComposite,
-								(OperationRequiredRole)requiredRole,
-								(OperationProvidedRole)providedRole,
+								opReqRole,
+								opProvRole,
 								requiringComponent.getComponent(),
 								providingComponent.getComponent());
 						outerComposite.getConnectors__ComposedStructure().add(newAssemblyConnector);
-					}else{
-						logger.warn("Provided role type: " + providedRole.getClass().getSimpleName() + 
-								" and required role type: " + requiredRole.getClass().getSimpleName() + 
-								" not yet supported");
+
 					}
-					
+				} else {
+					logger.warn("Provided role type: " + providedRole.getClass().getSimpleName()
+							+ " and required role type: " + requiredRole.getClass().getSimpleName()
+							+ " not yet supported");
 				}
 			}
 		}

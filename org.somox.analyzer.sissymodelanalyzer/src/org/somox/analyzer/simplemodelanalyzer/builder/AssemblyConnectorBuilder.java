@@ -37,7 +37,7 @@ public class AssemblyConnectorBuilder extends AbstractBuilder {
 	 * 
 	 * @param parentComponent
 	 *            the outer composite component
-	 * @param requiredPort
+	 * @param requiredRole
 	 *            the required port of an inner component
 	 * @param providedPort
 	 *            the provided port of an inner component
@@ -46,7 +46,7 @@ public class AssemblyConnectorBuilder extends AbstractBuilder {
 	 */
 	public static Connector createAssemblyConnector(
 			ComposedStructure parentComponent,
-			OperationRequiredRole requiredPort,
+			OperationRequiredRole requiredRole,
 			OperationProvidedRole providedRole,
 			RepositoryComponent requiredComponentInstance,
 			RepositoryComponent providedComponentInstance) {
@@ -56,7 +56,7 @@ public class AssemblyConnectorBuilder extends AbstractBuilder {
 				providedComponentInstance);
 
 		newConnector.setProvidedRole_AssemblyConnector(providedRole);
-		newConnector.setRequiredRole_AssemblyConnector(requiredPort);
+		newConnector.setRequiredRole_AssemblyConnector(requiredRole);
 
 		AssemblyContext providingAssemblyContext = findAssemblyContext(
 				parentComponent, providedComponentInstance);
