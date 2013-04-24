@@ -8,6 +8,7 @@ import org.jgrapht.Graph;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
+import de.uka.ipd.sdq.pcm.core.composition.AssemblyConnector;
 import de.uka.ipd.sdq.pcm.core.composition.ComposedStructure;
 import de.uka.ipd.sdq.pcm.core.composition.Connector;
 import de.uka.ipd.sdq.pcm.core.entity.ComposedProvidingRequiringEntity;
@@ -78,14 +79,14 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 	 */
 	private void establishAssemblyConnectorsForNonConnectedPorts(ComposedProvidingRequiringEntity outerComposite,
 			List<ComponentImplementingClassesLink> subComponents) {
-		
 		// loop required ports
-		for(ComponentImplementingClassesLink firstComponent : subComponents) {
- 			for(RequiredRole requiredRole : firstComponent.getComponent().getRequiredRoles_InterfaceRequiringEntity()) {
- 				if(!isBoundInConnector(outerComposite.getRequiredRoles_InterfaceRequiringEntity(), requiredRole)) {
+		// TODO burkha 24.04.2013 check here for change
+		for(ComponentImplementingClassesLink component : subComponents) {
+ 			for(RequiredRole requiredRole : component.getComponent().getRequiredRoles_InterfaceRequiringEntity()) {
+				if (!isBoundInConnector(outerComposite.getConnectors__ComposedStructure(), requiredRole)) {
  	 					findMatchingProvidedPortAndCreateAssemblyConnector(
  		 						subComponents, outerComposite,
- 								firstComponent, requiredRole);
+ 								component, requiredRole);
  				} 				
  			}
 		}
@@ -136,16 +137,23 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
 
 	/**
 	 * Checks existing connectors for the involvement of a certain port.
-	 * @param requiredRoles connectors to search in
-	 * @param port the port to find
+	 * 
+	 * @param connectors
+	 *            connectors to search in
+	 * @param requiredRole
+	 *            the RequiredRole to find
 	 * @return
 	 */
-	private boolean isBoundInConnector(EList<RequiredRole> requiredRoles,
-			RequiredRole providedRole) {
-		for(RequiredRole currentRole : requiredRoles) {
-			if(currentRole.equals(providedRole)){
-				return true;
-			}			
+	private boolean isBoundInConnector(EList<Connector> connectors, RequiredRole requiredRole) {
+		for (Connector connector : connectors) {
+			if (connector instanceof AssemblyConnector) {
+				AssemblyConnector assemblyConnector = (AssemblyConnector) connector;
+				if (assemblyConnector.getRequiredRole_AssemblyConnector().equals(requiredRole)) {
+					return true;
+				}
+			} else {
+				logger.warn("Connector type " + connector.getClass().getSimpleName() + " not yet supported.");
+			}
 		}
 		return false;
 	}

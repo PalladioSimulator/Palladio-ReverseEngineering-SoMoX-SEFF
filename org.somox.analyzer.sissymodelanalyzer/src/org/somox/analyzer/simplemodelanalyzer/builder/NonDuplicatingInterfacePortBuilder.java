@@ -301,8 +301,11 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 		delegationConnector.setOuterRequiredRole_RequiredDelegationConnector(outerRole);
 		Role innerRole = subComponentInformation.getRole();
 		if(innerRole instanceof OperationRequiredRole){
-			//TODO burkha 23.4.2013 check this if assembly context must be set here too
+			// TODO burkha 23.4.2013 check this if assembly context works
+			// correct here
 			delegationConnector.setInnerRequiredRole_RequiredDelegationConnector((OperationRequiredRole) innerRole);
+			delegationConnector.setAssemblyContext_RequiredDelegationConnector(subComponentInformation
+					.getAssemblyContext());
 		} else {
 			logger.warn("Role not supported yet: "+innerRole.getClass().getSimpleName());
 		}
