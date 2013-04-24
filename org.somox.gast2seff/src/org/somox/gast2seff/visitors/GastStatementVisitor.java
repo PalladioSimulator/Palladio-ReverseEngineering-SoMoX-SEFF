@@ -36,6 +36,8 @@ import de.uka.ipd.sdq.pcm.repository.OperationSignature;
 import de.uka.ipd.sdq.pcm.repository.RequiredRole;
 import de.uka.ipd.sdq.pcm.repository.Role;
 import de.uka.ipd.sdq.pcm.repository.Signature;
+import de.uka.ipd.sdq.pcm.seff.ExternalCallAction;
+import de.uka.ipd.sdq.pcm.seff.InternalAction;
 import de.uka.ipd.sdq.pcm.seff.SeffFactory;
 
 //import eu.qimpress.samm.staticstructure.InterfacePort;
@@ -433,12 +435,12 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
     }
 
     private void createExternalCallAction(final Statement object) {// GAST2SEFFCHANGE
-        final de.uka.ipd.sdq.pcm.seff.ExternalCallAction call = SeffFactory.eINSTANCE.createExternalCallAction();
+		final ExternalCallAction call = SeffFactory.eINSTANCE.createExternalCallAction();
         final AbstractMethodInvocation access = this.getFunctionAccess(object); // GAST2SEFFCHANGE
         call.setEntityName(access.getMethod().getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
         final InterfacePortOperationTuple ifOperationTuple = this.getCalledInterfacePort(access);
-        call.setRole_ExternalService((OperationRequiredRole) ifOperationTuple.interfacePort);
-        call.setCalledService_ExternalService((OperationSignature) ifOperationTuple.operation);
+        call.setRole_ExternalService((OperationRequiredRole) ifOperationTuple.role);
+        call.setCalledService_ExternalService((OperationSignature) ifOperationTuple.signature);
 //        call.setDocumentation(this.positionToString(KDMHelper.getJavaNodeSourceRegion(object))); // GAST2SEFFCHANGE
         this.seff.getSteps_Behaviour().add(call);
     }
@@ -451,23 +453,27 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
      * @return interface port and operation for corresponding to the access.
      */
     private InterfacePortOperationTuple getCalledInterfacePort(final AbstractMethodInvocation access) { // GAST2SEFFCHANGE
-        final InterfacePortOperationTuple interfacePortOperationTuple = new InterfacePortOperationTuple();
 
-        for (final RequiredRole ifPort : this.primitiveComponent.getRequiredRoles_InterfaceRequiringEntity()) {
-            for (final InterfaceSourceCodeLink ifLink : this.sourceCodeDecoratorRepository.getInterfaceSourceCodeLink()) {
-                if (ifPort.getRequiringEntity_RequiredRole().equals(ifLink.getInterface())) {
-                    if (ifLink.getGastClass().equals(GetAccessedType.getAccessedType(access))) { // GAST2SEFFCHANGE
+		final InterfacePortOperationTuple interfacePortOperationTuple = new InterfacePortOperationTuple();
 
-                        logger.trace("accessed interface port " + ifPort.getEntityName());
-                        interfacePortOperationTuple.interfacePort = ifPort;
-                        // query operation:
-                        interfacePortOperationTuple.operation = this.queryInterfaceOperation(access);
+		for (final RequiredRole requiredRole : primitiveComponent.getRequiredRoles_InterfaceRequiringEntity()) {
+			for (final InterfaceSourceCodeLink ifLink : sourceCodeDecoratorRepository.getInterfaceSourceCodeLink()) {
+				if (requiredRole instanceof OperationRequiredRole) {
+					OperationRequiredRole operReqRole = (OperationRequiredRole) requiredRole;
+					if (operReqRole.getRequiredInterface__OperationRequiredRole().equals(ifLink.getInterface())) {
+						if (ifLink.getGastClass().equals(GetAccessedType.getAccessedType(access))) { // GAST2SEFFCHANGE
 
-                        return interfacePortOperationTuple;
-                    }
-                }
-            }
-        }
+							logger.trace("accessed interface port " + operReqRole.getEntityName());
+							interfacePortOperationTuple.role = operReqRole;
+							// query operation:
+							interfacePortOperationTuple.signature = queryInterfaceOperation(access);
+
+							return interfacePortOperationTuple;
+						}
+					}
+				}
+			}
+		}
 
         logger.warn("found no if port for " + GetAccessedType.getAccessedType(access).getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
 
@@ -475,24 +481,25 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
     }
 
     /**
-     * Interface operation query
-     * 
-     * @param access
-     *            The access to find in the SAMM
-     * @return Operation corresponding to function access
-     */
-    private Signature queryInterfaceOperation(final AbstractMethodInvocation access) { // GAST2SEFFCHANGE
-        for (final MethodLevelSourceCodeLink methodLink : this.sourceCodeDecoratorRepository
+	 * Signature query
+	 * 
+	 * @param methodInvocation
+	 *            The method invocation to find in the SAMM
+	 * @return Signature corresponding to function access
+	 */
+    private Signature queryInterfaceOperation(final AbstractMethodInvocation methodInvocation) { // GAST2SEFFCHANGE
+
+		for (final MethodLevelSourceCodeLink methodLink : this.sourceCodeDecoratorRepository
                 .getMethodLevelSourceCodeLink()) {
 
-            if (methodLink.getFunction().equals(access.getMethod())) { // GAST2SEFFCHANGE
+            if (methodLink.getFunction().equals(methodInvocation.getMethod())) { // GAST2SEFFCHANGE
 
                 logger.trace("accessed operation " + methodLink.getOperation().getEntityName());
                 return methodLink.getOperation();
             }
         }
 
-        logger.warn("no accessed operation found for " + access.getMethod().getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+        logger.warn("no accessed operation found for " + methodInvocation.getMethod().getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
         return null;
     }
 
@@ -523,9 +530,9 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
     }
 
     private void createInternalAction(final Statement statement) {
-        final de.uka.ipd.sdq.pcm.seff.InternalAction ia = SeffFactory.eINSTANCE.createInternalAction();
+		final InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
 
-        ia.setEntityName("IA " + this.positionToString(KDMHelper.getJavaNodeSourceRegion(statement))); // GAST2SEFFCHANGE
+        internalAction.setEntityName("IA " + this.positionToString(KDMHelper.getJavaNodeSourceRegion(statement))); // GAST2SEFFCHANGE
         // TODO
 //        if (statement instanceof Block) { // GAST2SEFFADDED
 //            ia.setDocumentation(this.blockToString((Block) statement) + "; Statement SISSyID: "
@@ -533,7 +540,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
 //        } else { // GAST2SEFFADDED
 //            ia.setDocumentation("not a block" + "; Statement SISSyID: " + KDMHelper.getSISSyID(statement)); // GAST2SEFFCHANGE//GAST2SEFFADDED
 //        } // GAST2SEFFADDED
-        this.seff.getSteps_Behaviour().add(ia);
+        this.seff.getSteps_Behaviour().add(internalAction);
     }
 
     private String blockToString(final Block blockstatement) { // GAST2SEFFCHANGE
@@ -628,8 +635,8 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
     }
 
     private class InterfacePortOperationTuple {
-        public Role interfacePort;
-        public Signature operation;
+        public Role role;
+        public Signature signature;
     }
 
     // TODO
