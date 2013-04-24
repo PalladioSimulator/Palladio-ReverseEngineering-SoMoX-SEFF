@@ -603,6 +603,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
                 // KDMHelper.getSourceFile(position).getName());//GAST2SEFFCHANGE
                 positionString.append(KDMHelper.computeFullQualifiedName(position.getJavaNode())); // GAST2SEFFCHANGE
             }
+			// TODO burkha 24.04.2013 If numbers are equal than write only one
             positionString.append(" from " + position.getStartLine());
             positionString.append(" to " + position.getEndLine());
         } else {
