@@ -37,6 +37,8 @@ public class SimpleModelAnalyzerConfigurationDelegate
 			ILaunch launch) throws CoreException {
 		OrderPreservingBlackboardCompositeJob<SoMoXBlackboard> somoxJob = new OrderPreservingBlackboardCompositeJob<SoMoXBlackboard>();
 		somoxJob.setBlackboard(new SoMoXBlackboard());
+		
+		// TODO: Introduce an Workflow extension point here with the latest Palladio Workflow engine
 		somoxJob.add(new SimpleModelAnalyzerJob(config));
 		
 		// Get the project location.

@@ -25,6 +25,7 @@ public class SimpleModelAnalyzerTabGroup extends ModelAnalyzerTabGroup {
 	public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
 		ArrayList<ILaunchConfigurationTab> tabList = getCoreAnalyzerTabs();
 		
+		// TODO: Introduce a Config Tab extension point here with the latest Palladio Workflow engine
 		MetricTabGroup tab = new MetricTabGroup(
 				getModelAnalyzerTabGroupBlackboard(), 
 				getMetricTabs(getModelAnalyzerTabGroupBlackboard()));
