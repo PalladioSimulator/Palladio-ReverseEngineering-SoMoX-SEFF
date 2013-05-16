@@ -181,7 +181,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 			SEFF2MethodMapping gASTBehaviour = iterator.next();
 			ResourceDemandingSEFF stub = (ResourceDemandingSEFF) gASTBehaviour.getSeff();
 			//TODO SAMM2PCM????
-			String name = stub.getSeffTypeID();
+			String name = stub.getId();
 			logger.info("Found GAST behaviour, generating SEFF behaviour for it: " + name);
 			
 			ResourceDemandingSEFF resourceDemandingSEFF = generateSEFFForGASTBehaviour(stub);				
@@ -300,7 +300,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	}
 	
 	/**
-	 * Create a new PCM SEFF based on the given AST Behaviour stub
+	 * Create a new PCM SEFF
 	 * 
 	 * @param seff
 	 *            The SEFF which is filled by this method
@@ -319,7 +319,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 		seff.getSteps_Behaviour().add(start);
 
 		Block body = findBody(seff);// GAST2SEFFCHANGE
-		logger.trace("visiting (seff entry): " + seff.getSeffTypeID());
+		logger.trace("visiting (seff entry): " + seff.getId());
 		if (body != null) {
 
 			// removelater for debug reasons
@@ -336,7 +336,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 					this.sourceCodeDecoratorModel, basicComponent);
 			visitor.doSwitch(body);
 		} else {
-			logger.warn("Found GAST behaviour (" + seff.getSeffTypeID() + ") without a method body... Skipping it...");
+			logger.warn("Found GAST behaviour (" + seff.getId() + ") without a method body... Skipping it...");
 		}
 
 		seff.getSteps_Behaviour().add(stop);
@@ -365,7 +365,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 			}
 		}
 		//TODO !!!!!!!!!!!! change
-		logger.warn("Checked gastBehaviourRepository for " + seff.getSeffTypeID() + " " + seff.getId() + " but found none");
+		logger.warn("Checked gastBehaviourRepository for " + seff.getId() + " but found none");
 		return null; //FIXME: re-enable: exception 
 		//throw new JobFailedException("Unable to find operation body for given method");	
 	}
@@ -388,7 +388,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 		}
 		
 		if(i != 1){
-			logger.error("Assertion fails - onlyOnceAsGastBehaviour: i=" + i + " for " + seff.getSeffTypeID());
+			logger.error("Assertion fails - onlyOnceAsGastBehaviour: i = " + i + " for " + ((ResourceDemandingSEFF)seff).getId());
 		}
 
 		

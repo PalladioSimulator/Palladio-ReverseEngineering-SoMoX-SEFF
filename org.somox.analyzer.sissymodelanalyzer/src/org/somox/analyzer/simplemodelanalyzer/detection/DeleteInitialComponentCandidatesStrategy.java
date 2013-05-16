@@ -23,6 +23,7 @@ import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 import de.uka.ipd.sdq.pcm.repository.Signature;
 import de.uka.ipd.sdq.pcm.repository.SinkRole;
+import de.uka.ipd.sdq.pcm.seff.ResourceDemandingSEFF;
 import de.uka.ipd.sdq.pcm.seff.ServiceEffectSpecification;
 import de.uka.ipd.sdq.workflow.ExecutionTimeLoggingProgressMonitor;
 
@@ -193,8 +194,9 @@ public class DeleteInitialComponentCandidatesStrategy implements
 		}
 		
 		for(SEFF2MethodMapping seff2MethodMapping : mappingsToDelete) {
-			ServiceEffectSpecification seff = seff2MethodMapping.getSeff();
-			logger.trace("deleting Seff2MethodMapping in decorator: " + seff.getSeffTypeID() + ": "+ seff.getDescribedService__SEFF().getEntityName() + " " + seff2MethodMapping);
+			ResourceDemandingSEFF seff = (ResourceDemandingSEFF) seff2MethodMapping.getSeff();
+			//TODO burkha 16.05.2013 check if this make sense in logging
+			logger.trace("deleting Seff2MethodMapping in decorator: " + seff.getId() + ": "+ seff.getDescribedService__SEFF().getEntityName() + " " + seff2MethodMapping);
 			EcoreUtil.delete(seff2MethodMapping, false);
 		}
 	}
