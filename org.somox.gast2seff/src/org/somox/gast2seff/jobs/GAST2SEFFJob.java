@@ -15,7 +15,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -39,8 +38,6 @@ import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 import de.uka.ipd.sdq.pcm.qosannotations.QoSAnnotations;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
-import de.uka.ipd.sdq.pcm.repository.Repository;
-import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
 import de.uka.ipd.sdq.pcm.seff.AbstractAction;
 import de.uka.ipd.sdq.pcm.seff.ResourceDemandingBehaviour;
 import de.uka.ipd.sdq.pcm.seff.ResourceDemandingSEFF;
@@ -49,14 +46,11 @@ import de.uka.ipd.sdq.pcm.seff.ServiceEffectSpecification;
 import de.uka.ipd.sdq.pcm.seff.StartAction;
 import de.uka.ipd.sdq.pcm.seff.StopAction;
 import de.uka.ipd.sdq.pcm.system.System;
-//import de.fzi.gast.statements.BlockStatement;//GAST2SEFFCHANGE
-import de.uka.ipd.sdq.workflow.IJob;
-import de.uka.ipd.sdq.workflow.IBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.IBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.IBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+//import de.fzi.gast.statements.BlockStatement;//GAST2SEFFCHANGE
 //import eu.qimpress.samm.behaviour.Behaviour;
 //import eu.qimpress.samm.behaviour.BehaviourFactory;
 //import eu.qimpress.samm.behaviour.GastBehaviourStub;
@@ -362,10 +356,6 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 		assert onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getSeff2MethodMappings(), seff);
 		
 		for (SEFF2MethodMapping behaviour : this.gastBehaviourRepositoryModel.getSeff2MethodMappings()) {
-			//removelater start
-			logger.info("To search for: " + seff.getId() + " - " +seff.getDescribedService__SEFF().getEntityName());
-			logger.info("Iteration ID   " + ((ResourceDemandingSEFF)behaviour.getSeff()).getId());
-			//removelater end
 			if (((ResourceDemandingSEFF)behaviour.getSeff()).getId().equals(seff.getId())) { 
 				logger.debug("Matching GastBehaviourSub found "+ ((ResourceDemandingSEFF)seff).getId());
 				return behaviour.getBlockstatement();		
