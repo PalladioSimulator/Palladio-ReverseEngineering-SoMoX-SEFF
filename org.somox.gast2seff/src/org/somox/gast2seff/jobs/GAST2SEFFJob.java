@@ -300,49 +300,50 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	}
 	
 	/**
-	 * Create a new SAMM SEFF based on the given GAST Behaviour stub
-	 * @param gastBehaviourStub The GAST Behaviour stub whose behaviour is used in the transformation
-	 * to derive the SAMM SEFF
-	 * @param seff The SEFF which is filled by this method
-	 * @return The completed SEFF, returned for convinience 
-	 * @throws JobFailedException 
+	 * Create a new PCM SEFF based on the given AST Behaviour stub
+	 * 
+	 * @param seff
+	 *            The SEFF which is filled by this method
+	 * @return The completed SEFF, returned for convenience
+	 * @throws JobFailedException
 	 */
-	private ResourceDemandingSEFF createSeff(
-			ResourceDemandingSEFF gastBehaviourStub) throws JobFailedException {		
+	private ResourceDemandingSEFF createSeff(ResourceDemandingSEFF seff) throws JobFailedException {
 		StartAction start = SeffFactory.eINSTANCE.createStartAction();
 		StopAction stop = SeffFactory.eINSTANCE.createStopAction();
 
 		// initialise for new component / seff to reverse engineer:
-		BasicComponent primitiveComponent = (BasicComponent)gastBehaviourStub.eContainer();
+		BasicComponent basicComponent = (BasicComponent) seff.eContainer();
 		typeVisitor = new FunctionCallClassificationVisitor(new BasicFunctionClassificationStrategy(
-				sourceCodeDecoratorModel, primitiveComponent));		
-		
-		gastBehaviourStub.getSteps_Behaviour().add(start);
-		
-		Block body = findBody(gastBehaviourStub);//GAST2SEFFCHANGE
-		logger.trace("visiting (seff entry): " + gastBehaviourStub.getSeffTypeID());
-		if (body != null) {	
-			
-			//removelater
+				sourceCodeDecoratorModel, basicComponent));
+
+		seff.getSteps_Behaviour().add(start);
+
+		Block body = findBody(seff);// GAST2SEFFCHANGE
+		logger.trace("visiting (seff entry): " + seff.getSeffTypeID());
+		if (body != null) {
+
+			// removelater for debug reasons
 			AbstractMethodDeclaration method = (AbstractMethodDeclaration) body.eContainer();
 			if (method.getName().equals("orderProducts")) {
-				int a=0; a=a+1;
-			};
-			//removelater
-			typeVisitor.doSwitch(body); 
-		
-			GastStatementVisitor visitor = new GastStatementVisitor(typeVisitor.getAnnotations(), 
-					gastBehaviourStub, this.sourceCodeDecoratorModel, primitiveComponent);
+				int a = 0;
+				a = a + 1;
+			}
+			;
+			// removelater
+			typeVisitor.doSwitch(body);
+
+			GastStatementVisitor visitor = new GastStatementVisitor(typeVisitor.getAnnotations(), seff,
+					this.sourceCodeDecoratorModel, basicComponent);
 			visitor.doSwitch(body);
 		} else {
-			logger.warn("Found GAST behaviour (" + gastBehaviourStub.getSeffTypeID() + ") without a method body... Skipping it...");
+			logger.warn("Found GAST behaviour (" + seff.getSeffTypeID() + ") without a method body... Skipping it...");
 		}
-			
-		gastBehaviourStub.getSteps_Behaviour().add(stop);
-		
-		connectActions(gastBehaviourStub);
-		
-		return gastBehaviourStub;
+
+		seff.getSteps_Behaviour().add(stop);
+
+		connectActions(seff);
+
+		return seff;
 	}
 	
 	/**
@@ -353,7 +354,9 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	 */
 	private Block findBody(ResourceDemandingSEFF seff) throws JobFailedException {//GAST2SEFFCHANGE
 
-		assert onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getSeff2MethodMappings(), seff);
+//		assert onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getSeff2MethodMappings(), seff);
+		//TODO burkha 16.05.2013 remove this after checking
+		onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getSeff2MethodMappings(), seff);
 		
 		for (SEFF2MethodMapping behaviour : this.gastBehaviourRepositoryModel.getSeff2MethodMappings()) {
 			if (((ResourceDemandingSEFF)behaviour.getSeff()).getId().equals(seff.getId())) { 
@@ -376,16 +379,16 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	private boolean onlyOnceAsGastBehaviour(EList<SEFF2MethodMapping> seff2MethodMappings,
 			ServiceEffectSpecification seff) {
 		int i = 0;
-		
 		for (SEFF2MethodMapping mapping : seff2MethodMappings) {
-			//TODO change
-			if (mapping.getSeff().getSeffTypeID().equals(seff.getSeffTypeID())) { 
+			ResourceDemandingSEFF seffMapping= (ResourceDemandingSEFF) mapping.getSeff();
+			ResourceDemandingSEFF seffInput = (ResourceDemandingSEFF) seff;
+			if (seffMapping.getId().equals(seffInput.getId())) { 
 				i++;
 			}
 		}
 		
 		if(i != 1){
-			logger.error("Assertion fails - onlyOnceAsGastBehaviour: i="+i+" for "+seff.getSeffTypeID());
+			logger.error("Assertion fails - onlyOnceAsGastBehaviour: i=" + i + " for " + seff.getSeffTypeID());
 		}
 
 		
