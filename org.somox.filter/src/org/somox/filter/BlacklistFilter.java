@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
+import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.Type;
 import org.somox.kdmhelper.KDMHelper;
 
@@ -51,9 +52,17 @@ public class BlacklistFilter extends BaseFilter<Type> {
 	 * @return true if the FQN of the class matches the given pattern
 	 */
 	private boolean classMatchesBlacklist(Type currentClass) {
-		boolean result = matchPattern.matcher(KDMHelper.computeFullQualifiedName(currentClass)).matches();
-		if (logger.isTraceEnabled()) {
-			logger.trace("Blacklist filter matches " + KDMHelper.computeFullQualifiedName(currentClass) + ": " + result);
+
+		boolean result = false;
+
+		// use the full qualified name of the container 
+		// which is either a package or a class(in case of an inner class)
+		// anyway, both are ASTNodes
+		if(currentClass.eContainer() instanceof ASTNode){
+			result = matchPattern.matcher(KDMHelper.computeFullQualifiedName((ASTNode) currentClass.eContainer())).matches();
+			if (logger.isTraceEnabled()) {
+				logger.trace("Blacklist filter matches " + KDMHelper.computeFullQualifiedName((ASTNode) currentClass.eContainer()) + ": " + result);
+			}
 		}
 		return result;
 	}

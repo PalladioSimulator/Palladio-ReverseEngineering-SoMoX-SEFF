@@ -16,12 +16,13 @@ public class CheckboxContentProvider implements ITreeContentProvider {
 			return ((Root) parentElement).getPackages().toArray();
 		} else if (parentElement instanceof org.eclipse.gmt.modisco.java.Package) {
 			Object [] packages = ((org.eclipse.gmt.modisco.java.Package) parentElement).getOwnedPackages().toArray();
-			Object [] classes = ((org.eclipse.gmt.modisco.java.Package) parentElement).getOwnedElements().toArray();
-			
-			Object [] elements = new Object [packages.length + classes.length];
-			System.arraycopy(packages, 0, elements, 0, packages.length);
-			System.arraycopy(classes, 0, elements, packages.length, classes.length);
-			return elements;
+			return packages;
+//			Object [] classes = ((org.eclipse.gmt.modisco.java.Package) parentElement).getOwnedElements().toArray();
+//			
+//			Object [] elements = new Object [packages.length + classes.length];
+//			System.arraycopy(packages, 0, elements, 0, packages.length);
+//			System.arraycopy(classes, 0, elements, packages.length, classes.length);
+//			return elements;
 		}
 		return null;
 	}
