@@ -70,13 +70,16 @@ public class OperationBuilder extends AbstractBuilder {
 						VisibilityKind.PUBLIC)) {	
 				MethodDeclaration realMethod = method;
 				if (implementationClass != null) {
-					realMethod = getRealMethod(implementationClass,method);
+					realMethod = getRealMethod(implementationClass, method);
 					if (realMethod == null) {
 						realMethod = method;
-						logger.error("GAST Model misses a method "+method.getName());
+						if(method.getName().equals("refresh")){
+							int a = 0;
+						}
+						logger.error("GAST Model misses a method " + method.getName());
 					}
 				} else {
-					logger.warn("no implementation class for method "+method.getName() + " of interface " + interfaceClass.getName());
+					logger.warn("no implementation class for method " + method.getName() + " of interface " + interfaceClass.getName());
 				}
 				OperationSignature op = createOperationParametersAndMessageType(realMethod);
 				interf.getSignatures__OperationInterface().add(op);
@@ -87,20 +90,20 @@ public class OperationBuilder extends AbstractBuilder {
 	/**
 	 * 
 	 * @param implementationClass
-	 * @param method interface method
+	 * @param inputMethod interface method
 	 * @return null if no implementation method was found; the queried method otherwise
 	 */
-	private MethodDeclaration getRealMethod(Type implementationClass, MethodDeclaration method) {
+	private MethodDeclaration getRealMethod(Type implementationClass, MethodDeclaration inputMethod) {
 		assert implementationClass != null;
  
-		for (MethodDeclaration m : KDMHelper.getMethods(implementationClass)) {
-			if (m == method)
-				return m;
-			if (m.getName().equals(method.getName())) {
-				MethodDeclaration overrideMethod = (MethodDeclaration) KDMHelper.getOverriddenMember(m);
+		for (MethodDeclaration methodFromClass : KDMHelper.getMethods(implementationClass)) {
+			if (methodFromClass == inputMethod)
+				return methodFromClass;
+			if (methodFromClass.getName().equals(inputMethod.getName())) {
+				MethodDeclaration overrideMethod = (MethodDeclaration) KDMHelper.getOverriddenMember(methodFromClass);
 				while (overrideMethod != null) {
-					if (overrideMethod == method)
-						return m;
+					if (overrideMethod == inputMethod)
+						return methodFromClass;
 					else 
 						overrideMethod = (MethodDeclaration) KDMHelper.getOverriddenMember(overrideMethod);
 				}
@@ -108,7 +111,7 @@ public class OperationBuilder extends AbstractBuilder {
 		}
 		for (Type superClass : KDMHelper.getSuperTypes(implementationClass)) {
 			if (! KDMHelper.isAbstract(superClass) && ! KDMHelper.isInterface(superClass)) {
-				MethodDeclaration real = getRealMethod(superClass, method);
+				MethodDeclaration real = getRealMethod(superClass, inputMethod);
 				if (real != null) {
 					return real;
 				}

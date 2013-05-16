@@ -351,7 +351,7 @@ public class KDMHelper {
 		return result;
 	}
 
-	// TODO test
+	// TODO burkha 16.05.2013 test and fix, there is a bug in it
 	/**
 	 * Returns, if exist, the overridden member, else null.
 	 * 
