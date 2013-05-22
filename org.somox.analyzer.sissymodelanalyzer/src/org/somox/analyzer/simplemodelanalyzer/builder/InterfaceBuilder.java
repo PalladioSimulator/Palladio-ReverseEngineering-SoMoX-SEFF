@@ -379,11 +379,11 @@ public class InterfaceBuilder extends AbstractBuilder {
 	private OperationInterface createInterface(Type implementingClass, Type interfaceClass) {	
 		
 		// check for existing interface:
-		OperationInterface result = getExistingInterface(interfaceClass);
+		OperationInterface operationInterface = getExistingInterface(interfaceClass);
 	
 		// new interface
-		if (result == null) {
-			result = RepositoryFactory.eINSTANCE.createOperationInterface();
+		if (operationInterface == null) {
+			operationInterface = RepositoryFactory.eINSTANCE.createOperationInterface();
 			for (TypeAccess inheritanceTypeAccess : KDMHelper.getInheritanceTypeAccesses(interfaceClass)
 					) {
 				Type superType = (Type) inheritanceTypeAccess
@@ -391,19 +391,19 @@ public class InterfaceBuilder extends AbstractBuilder {
 				if (this.somoxConfiguration.getBlacklistFilter().passes(superType) &&
 						interfaceStrategy.isComponentInterface(superType)) {
 					Interface parentInterface = createInterface(implementingClass, (Type) superType);
-					result.getParentInterfaces__Interface().add(parentInterface);
+					operationInterface.getParentInterfaces__Interface().add(parentInterface);
 				}
 			}
-			result.setEntityName(naming.createInterfaceName(interfaceClass));
+			operationInterface.setEntityName(naming.createInterfaceName(interfaceClass));
 			//result.setDocumentation(KDMHelper.computeFullQualifiedName(interfaceClass));
 	
-			operationBuilder.createOperations(implementingClass, interfaceClass, result);  
+			operationBuilder.createOperations(implementingClass, interfaceClass, operationInterface);  
 	
-			this.alreadyCreatedInterfaces.put(interfaceClass, result);
+			this.alreadyCreatedInterfaces.put(interfaceClass, operationInterface);
 			this.analysisResult.getInternalArchitectureModel().getInterfaces__Repository()
-					.add(result);
+					.add(operationInterface);
 		}
-		return result;
+		return operationInterface;
 	}
 
 	/**
