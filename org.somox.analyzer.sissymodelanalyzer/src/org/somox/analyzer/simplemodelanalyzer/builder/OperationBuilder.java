@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.Type;
@@ -73,15 +74,17 @@ public class OperationBuilder extends AbstractBuilder {
 					realMethod = getRealMethod(implementationClass, method);
 					if (realMethod == null) {
 						realMethod = method;
+						//removelater was for debug reason
 						if(method.getName().equals("refresh")){
 							int a = 0;
 						}
+						//removelater
 						logger.error("GAST Model misses a method " + method.getName());
 					}
 				} else {
 					logger.warn("no implementation class for method " + method.getName() + " of interface " + interfaceClass.getName());
 				}
-				OperationSignature op = createOperationParametersAndMessageType(realMethod);
+				OperationSignature op = createOperationSignature(realMethod, interf);
 				interf.getSignatures__OperationInterface().add(op);
 			}
 		}
@@ -124,29 +127,30 @@ public class OperationBuilder extends AbstractBuilder {
 	 * Adds MessageTypes to the resultRepository, set parameter names and types.
 	 * First looks if a MessageType already exists and creates one only if it does not exist in the repository.
 	 * @param method GAST method to add 
-	 * @param resultRepository repository to write to
+	 * @param interf 
 	 * @return a new operation for which parameter names and types already exist in the resultRepository  
 	 */
-	private OperationSignature createOperationParametersAndMessageType(MethodDeclaration method) {
+	private OperationSignature createOperationSignature(MethodDeclaration method, OperationInterface interf) {
 		
 		OperationSignature operation = RepositoryFactory.eINSTANCE.createOperationSignature();
-		operation.setEntityName(method.getName());
+		String nameForMethod = createNonExistingNameInInterface(method, interf);
+		operation.setEntityName(nameForMethod);
 		
-		updateSourceCodeDecorator(operation,method);
+		updateSourceCodeDecorator(operation, method);
 		
-		ArrayList<String> paramNames = new ArrayList<String>();
-		ArrayList<Type> paramTypes = new ArrayList<Type>();
-		for (SingleVariableDeclaration inputParameter : method.getParameters()) {
-				
-			paramNames.add(inputParameter.getName());
-			if(inputParameter.getType() != null && inputParameter.getType().getType() != null) {
-				// derive GASTClass from input parameter:
-				paramTypes.add(GetAccessedType.getAccessedType(inputParameter.getType()));
-			} else {
-				logger.error("Input parameter type was null. Could not set the parameter type \"" +
-						inputParameter.getName() + "\" of method \"" + method.getName() + "\"");
-			}
-		}
+//		ArrayList<String> paramNames = new ArrayList<String>();
+//		ArrayList<Type> paramTypes = new ArrayList<Type>();
+//		for (SingleVariableDeclaration inputParameter : method.getParameters()) {
+//				
+//			paramNames.add(inputParameter.getName());
+//			if(inputParameter.getType() != null && inputParameter.getType().getType() != null) {
+//				// derive GASTClass from input parameter:
+//				paramTypes.add(GetAccessedType.getAccessedType(inputParameter.getType()));
+//			} else {
+//				logger.error("Input parameter type was null. Could not set the parameter type \"" +
+//						inputParameter.getName() + "\" of method \"" + method.getName() + "\"");
+//			}
+//		}
 //		TODO SAMM2PCM removed
 //		if (paramNames.size() > 0) {
 //			MessageType messageType = findMessageTypeInRepository(paramNames, paramTypes);
@@ -159,6 +163,36 @@ public class OperationBuilder extends AbstractBuilder {
 //		}
 		
 		return operation;
+	}
+
+	private String createNonExistingNameInInterface(MethodDeclaration method,
+			OperationInterface interf) {
+		String methodName = method.getName();
+		if(!containsName(interf, methodName)){
+			return methodName;
+		}
+		
+		int counter = 1;
+		
+		while(containsName(interf, createMethodNameWithNumber(methodName, counter))){
+			counter++;
+		}
+		return createMethodNameWithNumber(methodName, counter);
+
+	}
+
+	private String createMethodNameWithNumber(String methodName, int counter) {
+		return methodName + "_" + counter;
+	}
+
+	private boolean containsName(OperationInterface interf, String methodName) {
+		EList<OperationSignature> signatures = interf.getSignatures__OperationInterface();
+		for(OperationSignature signature : signatures){
+			if(signature.getEntityName().equals(methodName)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void updateSourceCodeDecorator(OperationSignature operation, MethodDeclaration method) {
