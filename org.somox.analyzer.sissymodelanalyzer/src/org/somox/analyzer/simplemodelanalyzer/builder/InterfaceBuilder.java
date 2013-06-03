@@ -316,6 +316,10 @@ public class InterfaceBuilder extends AbstractBuilder {
 			ComponentImplementingClassesLink componentCandidate) {
 		logger.debug("Assigning public methods as interfaces");
 
+		//TODO langhammer 3.6.2013 If there are several classes in one basic component
+		// that implement the same interface, then the model is invalid, because several
+		// SEFFs in the compoment reference the same operation signature
+		// In addition multiple provided roles are created
 		List<Type> gastClasses = componentCandidate.getImplementingClasses();
 		
 		if( !gastClasses.isEmpty() ) {

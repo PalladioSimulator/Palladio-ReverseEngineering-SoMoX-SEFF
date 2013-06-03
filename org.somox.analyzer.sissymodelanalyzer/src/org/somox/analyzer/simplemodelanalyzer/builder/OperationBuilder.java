@@ -66,10 +66,13 @@ public class OperationBuilder extends AbstractBuilder {
 	public void createOperations(Type implementationClass, Type interfaceClass, OperationInterface interf) {
 		
 		for (MethodDeclaration method : KDMHelper.getMethods(interfaceClass)) {
+			
 			if ( (KDMHelper.isModifierOfKind(method, VisibilityKind.NONE))
 				|| KDMHelper.isModifierOfKind(method,
 						VisibilityKind.PUBLIC)) {	
+				
 				MethodDeclaration realMethod = method;
+				
 				if (implementationClass != null) {
 					realMethod = getRealMethod(implementationClass, method);
 					if (realMethod == null) {
@@ -100,8 +103,11 @@ public class OperationBuilder extends AbstractBuilder {
 		assert implementationClass != null;
  
 		for (MethodDeclaration methodFromClass : KDMHelper.getMethods(implementationClass)) {
-			if (methodFromClass == inputMethod)
+			
+			if (methodFromClass == inputMethod){
 				return methodFromClass;
+			}
+			
 			if (methodFromClass.getName().equals(inputMethod.getName())) {
 				//TODO burkha 23.5.2013 getOverriddenMember does not work correct in contrast to SISSy
 				MethodDeclaration overrideMethod = (MethodDeclaration) KDMHelper.getOverriddenMember(methodFromClass);

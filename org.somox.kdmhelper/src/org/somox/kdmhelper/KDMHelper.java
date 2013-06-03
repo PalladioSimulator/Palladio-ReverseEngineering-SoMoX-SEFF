@@ -352,6 +352,7 @@ public class KDMHelper {
 	}
 
 	// TODO burkha 16.05.2013 test and fix, there is a bug in it
+	// the MoDisco method getRedefinedMethodDeclaration only works for classes, not for interfaces
 	/**
 	 * Returns, if exist, the overridden member, else null.
 	 * 
@@ -359,10 +360,16 @@ public class KDMHelper {
 	 *            the method object
 	 * @return the overridden method
 	 */
-	public static MethodDeclaration getOverriddenMember(
-			MethodDeclaration methDec) {
+	public static MethodDeclaration getOverriddenMember(MethodDeclaration methDec) {
+
 		if (methDec != null) {
-			return methDec.getRedefinedMethodDeclaration();
+			if (methDec.getAbstractTypeDeclaration() instanceof ClassDeclaration) {
+					return methDec.getRedefinedMethodDeclaration();
+			}
+
+			if (methDec.getAbstractTypeDeclaration() instanceof InterfaceDeclaration) {
+			}
+
 		}
 		return null;
 	}
