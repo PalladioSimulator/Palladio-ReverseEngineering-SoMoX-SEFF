@@ -362,15 +362,14 @@ public class KDMHelper {
 	 */
 	public static MethodDeclaration getOverriddenMember(MethodDeclaration methDec) {
 
-		if (methDec != null) {
-			if (methDec.getAbstractTypeDeclaration() instanceof ClassDeclaration) {
-					return methDec.getRedefinedMethodDeclaration();
-			}
-
-			if (methDec.getAbstractTypeDeclaration() instanceof InterfaceDeclaration) {
-			}
-
+		MethodDeclaration redefinedMethodDeclaration = methDec.getRedefinedMethodDeclaration();
+		if(redefinedMethodDeclaration != null){
+			return redefinedMethodDeclaration;
 		}
+		
+		
+		
+		
 		return null;
 	}
 
