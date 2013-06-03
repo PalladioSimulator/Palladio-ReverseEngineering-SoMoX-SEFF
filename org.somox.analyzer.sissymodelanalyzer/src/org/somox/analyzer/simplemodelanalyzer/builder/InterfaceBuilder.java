@@ -293,7 +293,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 			Type gastClass) {
 		
 		ProvidedRole providedRole = createProvidedPort(providedInterface, componentCandidate.getComponent());
-	
+		//TODO burkha 23.05.2013 why are for CoCoMe 5 Refreshable Operation Provided Roles created
 		updateInterfacesInSourceCodeDecorator(
 				componentCandidate,
 				providedInterface,

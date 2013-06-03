@@ -54,6 +54,12 @@ public class BasicProvidedRoleBuilder extends AbstractBuilder implements IRoleBu
 					OperationProvidedRole newProvidedRole = RepositoryFactory.eINSTANCE.createOperationProvidedRole();
 					newProvidedRole.setProvidedInterface__OperationProvidedRole(operationInterface);
 					newProvidedRole.setEntityName(operationInterface.getEntityName());
+					//removelater start
+					if(operationInterface.getEntityName().contains("Refresh")){
+						int a = 0;
+					}
+					//removelater end
+					
 					newProvidedRole.setProvidingEntity_ProvidedRole(componentLink.getComponent());
 					result.getComponent().getProvidedRoles_InterfaceProvidingEntity().add(newProvidedRole);
 	

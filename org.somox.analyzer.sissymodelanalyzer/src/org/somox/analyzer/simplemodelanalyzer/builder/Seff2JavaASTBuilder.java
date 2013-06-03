@@ -86,6 +86,10 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
 		this.analysisResult.getSourceCodeDecoratorRepository().getMethodLevelSourceCodeLink().add(link);
 	
 		ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+		//TODO burkha 22.05.2013 this can violate a OCL constraint, when there is more than one seff implementing the same signature
+		if(link.getOperation().getEntityName().equals("refresh")){
+			int a = 0;
+		}
 		seff.setDescribedService__SEFF(link.getOperation());
 		SEFF2MethodMapping seff2MethodMapping = Seff2methodFactory.eINSTANCE.createSEFF2MethodMapping();
 		component.getServiceEffectSpecifications__BasicComponent().add(seff);

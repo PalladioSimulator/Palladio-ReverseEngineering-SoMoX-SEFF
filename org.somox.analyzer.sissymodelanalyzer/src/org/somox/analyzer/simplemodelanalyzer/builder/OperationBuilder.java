@@ -103,6 +103,7 @@ public class OperationBuilder extends AbstractBuilder {
 			if (methodFromClass == inputMethod)
 				return methodFromClass;
 			if (methodFromClass.getName().equals(inputMethod.getName())) {
+				//TODO burkha 23.5.2013 getOverriddenMember does not work correct in contrast to SISSy
 				MethodDeclaration overrideMethod = (MethodDeclaration) KDMHelper.getOverriddenMember(methodFromClass);
 				while (overrideMethod != null) {
 					if (overrideMethod == inputMethod)

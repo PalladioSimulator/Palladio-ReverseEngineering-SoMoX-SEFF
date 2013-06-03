@@ -178,13 +178,13 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 //		TreeIterator<EObject> iterator = samm.eAllContents();
 		Iterator<SEFF2MethodMapping> iterator = this.gastBehaviourRepositoryModel.getSeff2MethodMappings().iterator();
 		while (iterator.hasNext()) {
-			SEFF2MethodMapping gASTBehaviour = iterator.next();
-			ResourceDemandingSEFF stub = (ResourceDemandingSEFF) gASTBehaviour.getSeff();
+			SEFF2MethodMapping astBehaviour = iterator.next();
+			ResourceDemandingSEFF seff = (ResourceDemandingSEFF) astBehaviour.getSeff();
 			//TODO SAMM2PCM????
-			String name = stub.getId();
-			logger.info("Found GAST behaviour, generating SEFF behaviour for it: " + name);
+			String name = seff.getId();
+			logger.info("Found AST behaviour, generating SEFF behaviour for it: " + name);
 			
-			ResourceDemandingSEFF resourceDemandingSEFF = generateSEFFForGASTBehaviour(stub);				
+			generateSEFFForGASTBehaviour(seff);				
 //			seffRepository.g .getResourceDemandingSeff().add(resourceDemandingSEFF);
 			monitor.worked(1);
 			
@@ -328,7 +328,6 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 				int a = 0;
 				a = a + 1;
 			}
-			;
 			// removelater
 			typeVisitor.doSwitch(body);
 
@@ -360,7 +359,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 		
 		for (SEFF2MethodMapping behaviour : this.gastBehaviourRepositoryModel.getSeff2MethodMappings()) {
 			if (((ResourceDemandingSEFF)behaviour.getSeff()).getId().equals(seff.getId())) { 
-				logger.debug("Matching GastBehaviourSub found "+ ((ResourceDemandingSEFF)seff).getId());
+				logger.debug("Matching SEFF found "+ ((ResourceDemandingSEFF)seff).getId());
 				return behaviour.getBlockstatement();		
 			}
 		}
