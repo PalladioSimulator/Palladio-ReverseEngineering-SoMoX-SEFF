@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper;
 import org.eclipse.gmt.modisco.infra.query.core.exception.ModelQueryExecutionException;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
@@ -261,22 +262,24 @@ public class KDMHelper {
 	 * Returns all inheritance type accesses: Super classes and super
 	 * interfaces.
 	 * 
-	 * @param clazz
+	 * @param type
 	 *            the input {@link Type}
 	 * @return the list of inheritance type access
 	 */
-	public static List<TypeAccess> getInheritanceTypeAccesses(Type clazz) {
+	public static List<TypeAccess> getInheritanceTypeAccesses(Type type) {
+		
 		List<TypeAccess> result = new ArrayList<TypeAccess>();
-		if (clazz instanceof ClassDeclaration) {
-			ClassDeclaration tempClass = (ClassDeclaration) clazz;
+		
+		if (type instanceof ClassDeclaration) {
+			ClassDeclaration tempClass = (ClassDeclaration) type;
 			result.addAll(tempClass.getSuperInterfaces());
 			if (tempClass.getSuperClass() != null) {
 				result.add(tempClass.getSuperClass());
 			}
 		}
 
-		if (clazz instanceof InterfaceDeclaration) {
-			InterfaceDeclaration tempInterface = (InterfaceDeclaration) clazz;
+		if (type instanceof InterfaceDeclaration) {
+			InterfaceDeclaration tempInterface = (InterfaceDeclaration) type;
 			result.addAll(tempInterface.getSuperInterfaces());
 		}
 
@@ -356,19 +359,29 @@ public class KDMHelper {
 	/**
 	 * Returns, if exist, the overridden member, else null.
 	 * 
-	 * @param methDec
+	 * @param methDecInput
 	 *            the method object
 	 * @return the overridden method
 	 */
-	public static MethodDeclaration getOverriddenMember(MethodDeclaration methDec) {
+	public static MethodDeclaration getOverriddenMember(MethodDeclaration methDecInput) {
 
-		MethodDeclaration redefinedMethodDeclaration = methDec.getRedefinedMethodDeclaration();
+		MethodDeclaration redefinedMethodDeclaration = methDecInput.getRedefinedMethodDeclaration();
+		
 		if(redefinedMethodDeclaration != null){
 			return redefinedMethodDeclaration;
 		}
 		
+		Type typeOfMethod = methDecInput.getAbstractTypeDeclaration();
+		List<Type> superTypes = getSuperTypes(typeOfMethod);
 		
-		
+		for (Type type : superTypes) {
+			List<MethodDeclaration> method = KDMHelper.getMethods(type);
+			for (MethodDeclaration methodDeclaration : method) {
+				if(EqualityChecker.areFunctionsEqual(methDecInput, methodDeclaration)){
+					return methodDeclaration;
+				}
+			}
+		}
 		
 		return null;
 	}
@@ -408,16 +421,19 @@ public class KDMHelper {
 	/**
 	 * Returns all super types of a type.
 	 * 
-	 * @param clazz
+	 * @param type
 	 *            the input {@link Type}
 	 * @return the list of super types
 	 */
-	public static List<Type> getSuperTypes(Type clazz) {
+	public static List<Type> getSuperTypes(Type type) {
+		
 		List<Type> result = new ArrayList<Type>();
-		if (clazz == null) {
+		
+		if (type == null) {
 			return result;
 		}
-		for (TypeAccess typeAccess : getInheritanceTypeAccesses(clazz)) {
+		
+		for (TypeAccess typeAccess : getInheritanceTypeAccesses(type)) {
 			if (typeAccess != null) {
 				result.add(typeAccess.getType());
 			}
