@@ -10,7 +10,7 @@ import org.eclipse.gmt.modisco.java.TypeAccess;
 
 
 //SOMOXTODOCHANGE more precise compare of Type (->Parameterized Type)
-
+//TODO burkha this code was copied because of a cycle. Change the plugin dependency.
 /**
  * Helper class
  * @author Klaus Krogmann
