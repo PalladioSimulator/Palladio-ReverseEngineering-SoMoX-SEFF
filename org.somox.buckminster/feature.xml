@@ -14,11 +14,9 @@
    </copyright>
 
    <url>
-      <discovery label="SISSy" url="http://sdqweb.ipd.kit.edu/eclipse/sissy/releases/1.1/"/>
       <discovery label="Palladio Commons" url="http://sdqweb.ipd.kit.edu/eclipse/commons/releases/1.1/"/>
       <discovery label="Palladio Workflow Engine" url="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/1.4/"/>
-      <discovery label="Q-Impress / SAMM" url="http://q-impress.ow2.org/updatesite_epl/"/>
-      <discovery label="Xtext" url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
+      <discovery label="Palladio" url="http://sdqweb.ipd.kit.edu/eclipse/palladio/releases/3.4/"/>
    </url>
 
    <includes
