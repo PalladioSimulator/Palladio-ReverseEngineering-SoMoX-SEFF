@@ -112,10 +112,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.somox.modisco.feature"
          version="0.0.0"/>
 
-   <requires>
-      <import feature="eu.qimpress.ide.editors.gmf.feature" version="0.0.0" match="greaterOrEqual"/>
-   </requires>
-
    <plugin
          id="org.somox.analyzer.sissymodelanalyzer"
          download-size="0"
