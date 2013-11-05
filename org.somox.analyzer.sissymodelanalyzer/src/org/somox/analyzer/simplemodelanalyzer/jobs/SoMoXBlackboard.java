@@ -2,7 +2,8 @@ package org.somox.analyzer.simplemodelanalyzer.jobs;
 
 import org.somox.analyzer.AnalysisResult;
 
-import de.uka.ipd.sdq.workflow.Blackboard;
+import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
+
 
 /**
  * Blackboard to transfer SoMoX analysis results between jobs of the overall SoMoX run. 

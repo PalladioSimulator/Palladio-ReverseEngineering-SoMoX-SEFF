@@ -14,12 +14,6 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
-import org.somox.gast2seff.jobs.GAST2SEFFJob;
-
-import de.uka.ipd.sdq.workflow.IJob;
-import de.uka.ipd.sdq.workflow.Workflow;
-import de.uka.ipd.sdq.workflow.exceptions.WorkflowExceptionHandler;
-import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflowExceptionHandler;
 
 public class GAST2SEFFAction implements IObjectActionDelegate {
 

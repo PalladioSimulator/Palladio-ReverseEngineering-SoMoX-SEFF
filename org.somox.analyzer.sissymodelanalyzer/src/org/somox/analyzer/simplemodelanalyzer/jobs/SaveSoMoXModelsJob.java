@@ -20,10 +20,10 @@ import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import de.uka.ipd.sdq.pcm.qosannotations.QoSAnnotations;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.system.System;
-import de.uka.ipd.sdq.workflow.IBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.IBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to save the SoMoX models from the SoMoX Blackboard.
@@ -178,8 +178,9 @@ public class SaveSoMoXModelsJob implements
 	}
 
 	@Override
-	public void rollback(IProgressMonitor arg0) throws RollbackFailedException {
-		// nothing reasonable to do here
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

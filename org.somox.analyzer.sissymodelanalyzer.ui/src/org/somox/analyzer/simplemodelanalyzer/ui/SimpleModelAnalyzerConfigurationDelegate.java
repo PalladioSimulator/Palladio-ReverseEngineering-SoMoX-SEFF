@@ -3,7 +3,6 @@ package org.somox.analyzer.simplemodelanalyzer.ui;
 import java.util.ArrayList;
 
 import org.apache.log4j.Level;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -17,9 +16,9 @@ import org.somox.configuration.SoMoXConfiguration;
 import org.somox.gast2seff.jobs.GAST2SEFFJob;
 import org.somox.ui.runconfig.ModelAnalyzerConfiguration;
 
-import de.uka.ipd.sdq.workflow.IJob;
-import de.uka.ipd.sdq.workflow.OrderPreservingBlackboardCompositeJob;
 import de.uka.ipd.sdq.workflow.Workflow;
+import de.uka.ipd.sdq.workflow.jobs.IJob;
+import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.launchconfig.AbstractWorkflowBasedLaunchConfigurationDelegate;
 import de.uka.ipd.sdq.workflow.logging.console.LoggerAppenderStruct;
 
@@ -35,7 +34,8 @@ public class SimpleModelAnalyzerConfigurationDelegate
 	
 	protected IJob createWorkflowJob(final ModelAnalyzerConfiguration config,
 			ILaunch launch) throws CoreException {
-		OrderPreservingBlackboardCompositeJob<SoMoXBlackboard> somoxJob = new OrderPreservingBlackboardCompositeJob<SoMoXBlackboard>();
+		SequentialBlackboardInteractingJob<SoMoXBlackboard> somoxJob = new SequentialBlackboardInteractingJob<SoMoXBlackboard>();
+//		OrderPreservingBlackboardCompositeJob<SoMoXBlackboard> somoxJob = new OrderPreservingBlackboardCompositeJob<SoMoXBlackboard>();
 		somoxJob.setBlackboard(new SoMoXBlackboard());
 		
 		// TODO: Introduce an Workflow extension point here with the latest Palladio Workflow engine

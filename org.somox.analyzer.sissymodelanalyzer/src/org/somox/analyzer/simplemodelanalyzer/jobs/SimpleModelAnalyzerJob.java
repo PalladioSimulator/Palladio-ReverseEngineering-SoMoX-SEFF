@@ -17,10 +17,11 @@ import org.somox.configuration.SoMoXConfiguration;
 import org.somox.ui.GUISoMoXCoreController;
 import org.somox.ui.runconfig.ModelAnalyzerConfiguration;
 
-import de.uka.ipd.sdq.workflow.IBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.IBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
+
 
 /**
  * @author  Snowball
@@ -100,16 +101,16 @@ public class SimpleModelAnalyzerJob implements IBlackboardInteractingJob<SoMoXBl
 	public String getName() {
 		return "SoMoX Analyzer Job";
 	}
-
-	public void rollback(IProgressMonitor monitor)
-			throws RollbackFailedException {
-		// Not needed.
-	}
-
 	/**
 	 * @param blackBoard the blackBoard to set
 	 */
 	public void setBlackboard(SoMoXBlackboard blackBoard) {
 		this.blackboard = blackBoard;
+	}
+
+	@Override
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -6,8 +6,8 @@ import java.util.StringTokenizer;
 
 import org.somox.filter.BlacklistFilter;
 
-import de.uka.ipd.sdq.workflow.AbstractComposedJobConfiguration;
-import de.uka.ipd.sdq.workflow.IJobConfiguration;
+import de.uka.ipd.sdq.workflow.configuration.AbstractComposedJobConfiguration;
+import de.uka.ipd.sdq.workflow.configuration.IJobConfiguration;
 
 public class SoMoXConfiguration extends AbstractComposedJobConfiguration
 		implements IJobConfiguration {

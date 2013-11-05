@@ -2,22 +2,18 @@
  */
 package org.somox.seff2javaast.impl;
 
-import de.uka.ipd.sdq.pcm.PcmPackage;
-
-import de.uka.ipd.sdq.pcm.seff.SeffPackage;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.gmt.modisco.java.emf.JavaPackage;
-
 import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.seff2javaast.SEFF2MethodMapping;
 import org.somox.seff2javaast.Seff2methodFactory;
 import org.somox.seff2javaast.Seff2methodPackage;
+
+import de.uka.ipd.sdq.pcm.PcmPackage;
+import de.uka.ipd.sdq.pcm.seff.SeffPackage;
 
 /**
  * <!-- begin-user-doc -->

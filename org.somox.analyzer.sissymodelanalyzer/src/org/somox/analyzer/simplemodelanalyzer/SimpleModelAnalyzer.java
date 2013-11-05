@@ -66,7 +66,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 	/* (non-Javadoc)
 	 * @see org.somox.analyzer.ModelAnalyzer#analyze(java.util.HashMap, eu.qimpress.samm.staticstructure.Repository, java.util.HashMap, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	 public AnalysisResult analyze(
+	public AnalysisResult analyze(
 			SoMoXConfiguration somoxConfiguration,
 			HashMap<String, ExtractionResult> extractionResultMap,
 			IProgressMonitor progressMonitor) throws ModelAnalyzerException {

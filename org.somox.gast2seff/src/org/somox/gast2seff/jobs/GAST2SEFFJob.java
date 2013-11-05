@@ -46,10 +46,10 @@ import de.uka.ipd.sdq.pcm.seff.ServiceEffectSpecification;
 import de.uka.ipd.sdq.pcm.seff.StartAction;
 import de.uka.ipd.sdq.pcm.seff.StopAction;
 import de.uka.ipd.sdq.pcm.system.System;
-import de.uka.ipd.sdq.workflow.IBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.IBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 //import de.fzi.gast.statements.BlockStatement;//GAST2SEFFCHANGE
 //import eu.qimpress.samm.behaviour.Behaviour;
 //import eu.qimpress.samm.behaviour.BehaviourFactory;
@@ -234,16 +234,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 		return "GAST2SEFF Transformation Job";
 	}
 
-	/* (non-Javadoc)
-	 * @see de.uka.ipd.sdq.workflow.IJob#rollback(org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	@Override
-	public void rollback(IProgressMonitor monitor)
-			throws RollbackFailedException {
-		// Not needed
-	}
-
-	/**
+		/**
 	 * Load an existing resource in this class' resource set
 	 * @param uri
 	 * @return
@@ -460,5 +451,10 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	 */
 	public void setBlackboard(SoMoXBlackboard blackBoard) {
 		this.blackboard = blackBoard;
+	}
+
+	@Override
+	public void cleanup(IProgressMonitor monitor) throws CleanupFailedException {
+		logger.warn("cleanup  called. Should not happen - nothing done.");
 	}
 }
