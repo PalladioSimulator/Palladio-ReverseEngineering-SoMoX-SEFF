@@ -25,14 +25,7 @@
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/palladio/releases/3.4/"/>
-    </rm:provider>
-  </rm:searchPath>
-  <rm:searchPath name="SISSy">
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
-   	  <rm:property key="buckminster.source" value="false"/>
-      <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/sissy/releases/1.1/" />
+      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/palladio/releases/3.4.1/"/>
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="Palladio_Commons">
@@ -46,7 +39,7 @@
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
    	  <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/1.4/" />
+      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/2.0.2/" />
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="xtext">

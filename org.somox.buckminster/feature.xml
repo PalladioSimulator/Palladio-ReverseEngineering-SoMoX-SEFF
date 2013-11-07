@@ -15,8 +15,8 @@
 
    <url>
       <discovery label="Palladio Commons" url="http://sdqweb.ipd.kit.edu/eclipse/commons/releases/1.2/"/>
-      <discovery label="Palladio Workflow Engine" url="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/1.4/"/>
-      <discovery label="Palladio" url="http://sdqweb.ipd.kit.edu/eclipse/palladio/releases/3.4/"/>
+      <discovery label="Palladio Workflow Engine" url="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/2.0.2/"/>
+      <discovery label="Palladio" url="http://sdqweb.ipd.kit.edu/eclipse/palladio/releases/3.4.1/"/>
    </url>
 
    <includes
