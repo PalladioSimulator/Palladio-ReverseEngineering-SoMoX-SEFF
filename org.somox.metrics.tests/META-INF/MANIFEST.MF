@@ -13,14 +13,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.query;bundle-version="1.2.0",
  org.eclipse.emf.edit;bundle-version="2.4.1",
  org.eclipse.emf.edit.ui;bundle-version="2.4.1",
- de.fzi.gast;bundle-version="1.0.0",
- de.fzi.gast.edit;bundle-version="1.0.0",
- de.fzi.gast.editor;bundle-version="1.0.0",
- eu.qimpress.identifier;bundle-version="1.0.0",
  org.somox.analyzer.sissymodelanalyzer;bundle-version="1.0.0",
  org.somox.core;bundle-version="1.0.0",
- de.fzi.gast.helpers;bundle-version="1.0.0",
- eu.qimpress.sourcecodedecorator;bundle-version="1.0.0",
- org.somox.filter;bundle-version="1.0.0"
+ org.somox.filter;bundle-version="1.0.0",
+ org.somox.kdmhelper
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

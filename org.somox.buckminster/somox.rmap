@@ -2,8 +2,6 @@
 <rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
 
   <rm:locator searchPathRef="localresources" failOnError="false"/>
-  <rm:locator searchPathRef="qimpress" failOnError="false" />
-  <rm:locator searchPathRef="SISSy" failOnError="false"/>
   <rm:locator searchPathRef="Palladio_Commons" failOnError="false"/>
   <rm:locator searchPathRef="Palladio_WorkflowEngine" failOnError="false" pattern="^de\.uka\.ipd\.sdq\..*" />
   <rm:locator searchPathRef="palladio-core" failOnError="false"/>
@@ -53,13 +51,6 @@
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
       <rm:uri format="http://download.eclipse.org/releases/juno/"/>
-    </rm:provider>
-  </rm:searchPath>
-  <rm:searchPath name="qimpress">
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
-      <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://q-impress.ow2.org/updatesite_epl/"/>
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="localresources">
