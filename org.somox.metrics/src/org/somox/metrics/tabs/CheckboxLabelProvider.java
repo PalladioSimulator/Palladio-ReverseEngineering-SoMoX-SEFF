@@ -1,6 +1,6 @@
 package org.somox.metrics.tabs;
 
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.types.Type;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
@@ -18,10 +18,10 @@ public class CheckboxLabelProvider implements ILabelProvider {
 	public String getText(Object element) {
 		if (element instanceof Root) {
 			return ("Root");
-		} else if (element instanceof org.eclipse.gmt.modisco.java.Package) {
-			return ((org.eclipse.gmt.modisco.java.Package) element).getName();
+		} else if (element instanceof Package) {
+			return ((Package) element).getName();
 		} else if (element instanceof Type) {
-			return ((Type) element).getName();
+			return ((Type) element).toString();
 		}
 		return null;
 	}
