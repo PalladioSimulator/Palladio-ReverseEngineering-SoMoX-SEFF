@@ -1,7 +1,6 @@
 package org.somox.filter;
 
-import org.eclipse.gmt.modisco.java.ASTNode;
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.members.Member;
 import org.somox.kdmhelper.GetAccessedType;
 
 //import de.fzi.gast.accesses.Access;
@@ -13,7 +12,7 @@ import org.somox.kdmhelper.GetAccessedType;
  * 
  * @author Steffen Becker
  */
-public class AccessedTargetBlacklistFilter extends BaseFilter<ASTNode> {
+public class AccessedTargetBlacklistFilter extends BaseFilter<Member> {
 	private BlacklistFilter blacklistFilter = null;
 	
 	public AccessedTargetBlacklistFilter(BlacklistFilter blacklistFilter) {
@@ -25,8 +24,8 @@ public class AccessedTargetBlacklistFilter extends BaseFilter<ASTNode> {
 	}
 
 	@Override
-	public boolean passes(ASTNode access) {
-		Type accessedClass = GetAccessedType.getAccessedType(access);
+	public boolean passes(Member access) {
+		org.emftext.language.java.types.Type accessedClass = GetAccessedType.getAccessedType(access);
 		if (accessedClass == null)
 			return false;
 		return blacklistFilter.passes(accessedClass);

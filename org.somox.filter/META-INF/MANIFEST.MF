@@ -8,7 +8,8 @@ Bundle-Vendor: SDQ, KIT + FZI Karlsruhe + EU Q-ImPrESS
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.apache.log4j;bundle-version="1.2.13",
- org.somox.kdmhelper
+ org.somox.kdmhelper,
+ org.emftext.language.java;bundle-version="1.4.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.somox.filter

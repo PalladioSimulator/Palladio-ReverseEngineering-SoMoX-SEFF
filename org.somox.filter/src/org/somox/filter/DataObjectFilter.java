@@ -3,10 +3,13 @@ package org.somox.filter;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.eclipse.gmt.modisco.java.EnumDeclaration;
-import org.eclipse.gmt.modisco.java.MethodDeclaration;
-import org.eclipse.gmt.modisco.java.Type;
-import org.eclipse.gmt.modisco.java.VisibilityKind;
+import org.emftext.language.java.members.EnumConstant;
+import org.emftext.language.java.members.Method;
+import org.emftext.language.java.types.Type;
+//import org.eclipse.gmt.modisco.java.EnumDeclaration;
+//import org.eclipse.gmt.modisco.java.MethodDeclaration;
+//import org.eclipse.gmt.modisco.java.Type;
+//import org.eclipse.gmt.modisco.java.VisibilityKind;
 import org.somox.kdmhelper.KDMHelper;
 
 //import de.fzi.gast.functions.Method;
@@ -25,18 +28,18 @@ public class DataObjectFilter extends BaseFilter<Type> {
 	
 	@Override
 	public boolean passes(Type object) {
-		if(object instanceof EnumDeclaration){//REALLYADDED
+		if(object instanceof EnumConstant){//REALLYADDED
 			return true;                      //REALLYADDED
 		}                                     //REALLYADDED
-		List<MethodDeclaration> allMethods = KDMHelper.getMethods(object);
-		for (MethodDeclaration m : allMethods) {
-			if (KDMHelper.isModifierOfKind(m, VisibilityKind.PUBLIC)) {
+		List<Method> allMethods = KDMHelper.getMethods(object);
+		for (Method m : allMethods) {
+			if (m.isPublic()) {
 				if (isNotGetterOrSetter(m)) {
 					return true;
 				}
 			}
 		}
-		logger.debug("Removed GAST Class "+object.getName()+" from component candidates as it is a datatype");
+		logger.debug("Removed GAST Class "+object.toString()+" from component candidates as it is a datatype");
 		return false;
 	}
 	
@@ -44,7 +47,7 @@ public class DataObjectFilter extends BaseFilter<Type> {
 			"is", "get", "set", "equals", "hashcode"
 	};
 	
-	private boolean isNotGetterOrSetter(MethodDeclaration m) {
+	private boolean isNotGetterOrSetter(Method m) {
 		boolean result = false;
 		String simpleMethodName = m.getName().toLowerCase();
 		for (String prefix : filteredPrefixes) {
