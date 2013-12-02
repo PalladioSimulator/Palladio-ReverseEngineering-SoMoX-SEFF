@@ -11,7 +11,8 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.types.Type;
+
 import org.jgrapht.Graph;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.metrics.helper.ComponentToImplementingClassesHelper;

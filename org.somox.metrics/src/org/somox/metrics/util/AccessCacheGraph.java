@@ -1,10 +1,11 @@
 package org.somox.metrics.util;
 
+
 import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.types.Type;
 import org.jgrapht.DirectedGraph;
 import org.somox.filter.BaseFilter;
 import org.somox.filter.NotFilter;
@@ -114,7 +115,7 @@ public class AccessCacheGraph {
 			Set<Type> sourceClasses) {
 
 		BaseFilter<ClassAccessGraphEdge> filter = 
-			new TargetClassEdgeFilter(sourceClasses);		
+			new TargetClassEdgeFilter (sourceClasses);		
 
 		long result = getNumberOfFilteredOutgoingAccesses(sourceClasses, filter);
 		
@@ -152,7 +153,7 @@ public class AccessCacheGraph {
 		long numberOfReferences = 0;
 		for(Type clazz : sourceClasses) {
 			try {
-				if(clazz.getName().startsWith("I")) {
+				if(clazz.toString().startsWith("I")) {
 					int i = 0; // debug
 				}
 
