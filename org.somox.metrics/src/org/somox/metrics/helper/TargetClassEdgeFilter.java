@@ -2,7 +2,7 @@ package org.somox.metrics.helper;
 
 import java.util.Set;
 
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.types.Type;
 import org.somox.filter.BaseFilter;
 
 //import de.fzi.gast.types.GASTClass;

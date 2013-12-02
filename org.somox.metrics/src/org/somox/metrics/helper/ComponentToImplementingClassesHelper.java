@@ -1,12 +1,13 @@
 package org.somox.metrics.helper;
 
 import java.util.HashMap;
+import org.emftext.language.java.types.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.gmt.modisco.java.Type;
+
 
 //import de.fzi.gast.types.GASTClass;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
