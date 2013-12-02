@@ -9,10 +9,18 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.somox.seff2javaast,
  org.somox.seff2javaast.impl,
- org.somox.seff2javaast.util
+ org.somox.seff2javaast.util,
+ seff2javaast,
+ seff2javaast.impl,
+ seff2javaast.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.eclipse.gmt.modisco.java;bundle-version="0.9.2",
- de.uka.ipd.sdq.pcm;bundle-version="3.2.0"
+ de.uka.ipd.sdq.identifier;visibility:=reexport,
+ de.uka.ipd.sdq.pcm;bundle-version="3.2.0",
+ de.uka.ipd.sdq.probfunction;visibility:=reexport,
+ de.uka.ipd.sdq.stoex;visibility:=reexport,
+ de.uka.ipd.sdq.units;visibility:=reexport,
+ org.emftext.language.java;bundle-version="1.4.0",
+ org.emftext.commons.layout;visibility:=reexport
 Bundle-ActivationPolicy: lazy
