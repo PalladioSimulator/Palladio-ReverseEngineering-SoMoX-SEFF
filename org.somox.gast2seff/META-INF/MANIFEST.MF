@@ -11,13 +11,13 @@ Require-Bundle: org.eclipse.ui,
  de.uka.ipd.sdq.workflow;bundle-version="1.1.0",
  de.uka.ipd.sdq.workflow.mdsd;bundle-version="1.0.0",
  org.eclipse.emf;bundle-version="2.5.0",
- org.eclipse.gmt.modisco.java;bundle-version="0.10.1",
  org.somox.sourcecodedecorator;bundle-version="1.0.1",
  org.somox.seff2javaast;bundle-version="1.0.0",
  org.somox.kdmhelper;bundle-version="1.0.0",
  org.somox.analyzer.sissymodelanalyzer;bundle-version="1.0.0",
  org.somox.core;bundle-version="1.0.0",
- de.uka.ipd.sdq.pcm;bundle-version="3.2.0"
+ de.uka.ipd.sdq.pcm;bundle-version="3.2.0",
+ org.emftext.language.java;bundle-version="1.4.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.somox.gast2seff.jobs

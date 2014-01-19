@@ -5,23 +5,33 @@ import java.util.BitSet;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.internal.resources.VariableDescription;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmt.modisco.java.ASTNode;
-import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
-import org.eclipse.gmt.modisco.java.AssertStatement;
-import org.eclipse.gmt.modisco.java.Block;
-import org.eclipse.gmt.modisco.java.EnhancedForStatement;
-import org.eclipse.gmt.modisco.java.ExpressionStatement;
-import org.eclipse.gmt.modisco.java.ForStatement;
-import org.eclipse.gmt.modisco.java.IfStatement;
-import org.eclipse.gmt.modisco.java.Statement;
-import org.eclipse.gmt.modisco.java.SwitchStatement;
-import org.eclipse.gmt.modisco.java.TryStatement;
-import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
-import org.eclipse.gmt.modisco.java.WhileStatement;
-import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
-import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
+import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.references.MethodCall;
+import org.emftext.language.java.statements.Block;
+import org.emftext.language.java.statements.Switch;
+//import org.eclipse.gmt.modisco.java.ASTNode;
+import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.statements.impl.*;
+import org.emftext.language.java.statements.*;
+import org.emftext.language.java.util.JavaSwitch;
+//import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
+//import org.eclipse.gmt.modisco.java.AssertStatement;
+//import org.emftext.language.java.statements.Block;
+//import org.eclipse.gmt.modisco.java.EnhancedForStatement;
+//import org.eclipse.gmt.modisco.java.ExpressionStatement;
+//import org.eclipse.gmt.modisco.java.ForStatement;
+//import org.eclipse.gmt.modisco.java.IfStatement;
+//
+//import org.eclipse.gmt.modisco.java.SwitchStatement;
+//import org.eclipse.gmt.modisco.java.TryStatement;
+//import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
+//import org.eclipse.gmt.modisco.java.WhileStatement;
+//import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
+//
+//import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
 import org.somox.gast2seff.jobs.GAST2SEFFJob;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
 import org.somox.kdmhelper.GetAccessedType;
@@ -126,7 +136,6 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
         this.primitiveComponent = primitiveComponent;
     }
 
-    @Override
     public Object caseBlock(final Block object) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
         for (final Statement s : object.getStatements()) {
             final BitSet thisType = this.functionClassificationAnnotation.get(s);
@@ -144,8 +153,8 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
         return null;
     }
 
-    @Override
-    public Object caseSwitchStatement(final SwitchStatement switchStatement) {
+   // @Override
+    public Object caseSwitchStatement(final Switch switchStatement) {
         if (this.containsExternalCall(switchStatement)) {
             final de.uka.ipd.sdq.pcm.seff.BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
             this.seff.getSteps_Behaviour().add(branchAction);
@@ -207,14 +216,15 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
     }
 
 
-    @Override
-    public Object caseIfStatement(final IfStatement input) {
+   // @Override
+    //Condition statt IfStatement
+    public Object caseIfStatement(final Condition input) {
         if (this.containsExternalCall(input)) {
             final de.uka.ipd.sdq.pcm.seff.BranchAction branch = SeffFactory.eINSTANCE.createBranchAction();
             this.seff.getSteps_Behaviour().add(branch);
             branch.setEntityName(this.positionToString(KDMHelper.getJavaNodeSourceRegion(input))); // GAST2SEFFCHANGE
 
-            final Statement ifStatement = input.getThenStatement();
+            final Statement ifStatement = input.getStatement();
             this.handleIfOrElseBranch(input, branch, ifStatement);
 
             final Statement elseStatement = input.getElseStatement();
@@ -237,7 +247,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
      * @param ifElseStatement
      *            the if or else Statement/Block
      */
-    private void handleIfOrElseBranch(final IfStatement input, final de.uka.ipd.sdq.pcm.seff.BranchAction branch,
+    private void handleIfOrElseBranch(final Condition input, final de.uka.ipd.sdq.pcm.seff.BranchAction branch,
             final Statement ifElseStatement) {
         final de.uka.ipd.sdq.pcm.seff.AbstractBranchTransition bt = SeffFactory.eINSTANCE.createProbabilisticBranchTransition();
         bt.setBranchBehaviour_BranchTransition(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
@@ -254,19 +264,19 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
         GAST2SEFFJob.connectActions(bt.getBranchBehaviour_BranchTransition());
     }
 
-    @Override
-    public Object caseEnhancedForStatement(final EnhancedForStatement object) {
-        return this.handleLoopStatement(object, object.getBody());
+    //@Override
+    public Object caseEnhancedForStatement(final ForLoop object) {
+        return this.handleLoopStatement(object, object.getStatement());
     }
 
-    @Override
-    public Object caseForStatement(final ForStatement object) {
-        return this.handleLoopStatement(object, object.getBody());
+   // @Override
+    public Object caseForStatement(final ForLoop object) {//getStatement() statt getBody
+        return this.handleLoopStatement(object, object.getStatement());
     }
 
-    @Override
-    public Object caseWhileStatement(final WhileStatement object) {
-        return this.handleLoopStatement(object, object.getBody());
+   // @Override
+    public Object caseWhileStatement(final WhileLoop object) {
+        return this.handleLoopStatement(object, object.getStatement());
     }
 
     /**
@@ -301,18 +311,18 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
         return null;
     }
 
-    @Override
-    public Object caseTryStatement(final TryStatement object) { // GAST2SEFFCHANGE
+   // @Override
+    public Object caseTryStatement(final TryBlock object) { // GAST2SEFFCHANGE
         if (this.containsExternalCall(object)) {
 
             // visit guarded block
             new GastStatementVisitor(this.functionClassificationAnnotation, this.seff,
-                    this.sourceCodeDecoratorRepository, this.primitiveComponent).doSwitch(object.getBody()); // GAST2SEFFCHANGE
+                    this.sourceCodeDecoratorRepository, this.primitiveComponent).doSwitch((EObject) object.getStatements()); // GAST2SEFFCHANGE
 
             // visit finally block if exists
-            if (object.getFinally() != null) { // GAST2SEFFCHANGE
+            if (object.getFinallyBlock()!= null) { // GAST2SEFFCHANGE
                 new GastStatementVisitor(this.functionClassificationAnnotation, this.seff,
-                        this.sourceCodeDecoratorRepository, this.primitiveComponent).doSwitch(object.getFinally()); // GAST2SEFFCHANGE
+                        this.sourceCodeDecoratorRepository, this.primitiveComponent).doSwitch(object.getFinallyBlock()); // GAST2SEFFCHANGE
             }
 
         } else {
@@ -360,8 +370,8 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
     // return null;
     // }
 
-    @Override
-    public Object caseAssertStatement(final AssertStatement object) {
+    //@Override
+    public Object caseAssertStatement(final Assert object) {
         return this.handleFormerSimpleStatement(object);
     }
 
@@ -371,7 +381,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
         if (this.isExternalCall(statementAnnotation)) {
             this.createExternalCallAction(object);
         } else if (this.isInternalCall(statementAnnotation)) {
-            final AbstractMethodInvocation functionAccess = this.getFunctionAccess(object); // GAST2SEFFCHANGE
+            final MethodCall functionAccess = this.getFunctionAccess(object); // GAST2SEFFCHANGE
             final Block body = functionAccess.getMethod().getBody(); // GAST2SEFFCHANGE//GAST2SEFFCHANGE//GAST2SEFFCHANGE
             if (body != null) {
 
@@ -399,13 +409,13 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
         return null;
     }
 
-    @Override
+    //@Override
     public Object caseExpressionStatement(final ExpressionStatement object) {
         return this.handleFormerSimpleStatement(object);
     }
 
-    @Override
-    public Object caseVariableDeclarationStatement(final VariableDeclarationStatement object) {
+    //@Override
+    public Object caseVariableDeclarationStatement(final LocalVariableStatement object) {
         return this.handleFormerSimpleStatement(object);
     }
 
@@ -436,7 +446,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
 
     private void createExternalCallAction(final Statement object) {// GAST2SEFFCHANGE
 		final ExternalCallAction call = SeffFactory.eINSTANCE.createExternalCallAction();
-        final AbstractMethodInvocation access = this.getFunctionAccess(object); // GAST2SEFFCHANGE
+        final MethodCall access = this.getFunctionAccess(object); // GAST2SEFFCHANGE
         call.setEntityName(access.getMethod().getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
         final InterfacePortOperationTuple ifOperationTuple = this.getCalledInterfacePort(access);
         call.setRole_ExternalService((OperationRequiredRole) ifOperationTuple.role);
@@ -452,7 +462,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
      *            The access to find in the SAMM
      * @return interface port and operation for corresponding to the access.
      */
-    private InterfacePortOperationTuple getCalledInterfacePort(final AbstractMethodInvocation access) { // GAST2SEFFCHANGE
+    private InterfacePortOperationTuple getCalledInterfacePort(final MethodCall access) { // GAST2SEFFCHANGE
 
 		final InterfacePortOperationTuple interfacePortOperationTuple = new InterfacePortOperationTuple();
 
@@ -475,7 +485,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
 			}
 		}
 
-        logger.warn("found no if port for " + GetAccessedType.getAccessedType(access).getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+        logger.warn("found no if port for " + GetAccessedType.getAccessedType(access).toString()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
 
         return interfacePortOperationTuple;
     }
@@ -487,7 +497,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
 	 *            The method invocation to find in the SAMM
 	 * @return Signature corresponding to function access
 	 */
-    private Signature queryInterfaceOperation(final AbstractMethodInvocation methodInvocation) { // GAST2SEFFCHANGE
+    private Signature queryInterfaceOperation(final MethodCall methodInvocation) { // GAST2SEFFCHANGE
 
 		for (final MethodLevelSourceCodeLink methodLink : this.sourceCodeDecoratorRepository
                 .getMethodLevelSourceCodeLink()) {
@@ -520,10 +530,10 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
 
     }
 
-    private AbstractMethodInvocation getFunctionAccess(final Statement object) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
-        for (final ASTNode a : KDMHelper.getAllAccesses(object)) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
-            if (a instanceof AbstractMethodInvocation) { // GAST2SEFFCHANGE
-                return (AbstractMethodInvocation) a; // GAST2SEFFCHANGE
+    private MethodCall getFunctionAccess(final Statement object) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+        for (final Commentable a : KDMHelper.getAllAccesses(object)) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+            if (a instanceof MethodCall) { // GAST2SEFFCHANGE
+                return (MethodCall) a; // GAST2SEFFCHANGE
             }
         }
         return null;
@@ -550,9 +560,9 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
             if (KDMHelper.getAllAccesses(blockstatement) != null && // GAST2SEFFCHANGE
                     KDMHelper.getAllAccesses(blockstatement).size() >= 1// GAST2SEFFCHANGE
             ) {
-                final ASTNode firstAccess = KDMHelper.getAllAccesses(blockstatement).get(0); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
-                if (firstAccess instanceof ASTNode) { // GAST2SEFFCHANGE
-                    final ASTNode access = firstAccess; // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                final Commentable firstAccess = KDMHelper.getAllAccesses(blockstatement).get(0); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                if (firstAccess instanceof Commentable) { // GAST2SEFFCHANGE
+                    final Commentable access = firstAccess; // GAST2SEFFCHANGE//GAST2SEFFCHANGE
 
                     if (GetAccessedType.getAccessedType(access) != null) { // GAST2SEFFCHANGE
                         blockString.append(" " + GetAccessedType.getAccessedType(access).getName() + "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
@@ -575,12 +585,13 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
                 if (KDMHelper.getAllAccesses(statement) != null && // GAST2SEFFCHANGE
                         KDMHelper.getAllAccesses(statement).size() >= 1// GAST2SEFFCHANGE
                         ) {
-                    final ASTNode firstAccess = KDMHelper.getAllAccesses(statement).get(0); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
-                    if (firstAccess instanceof ASTNode) { // GAST2SEFFCHANGE
-                        final ASTNode access = firstAccess; // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                    final Commentable firstAccess = KDMHelper.getAllAccesses(statement).get(0); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                    if (firstAccess instanceof Commentable) { // GAST2SEFFCHANGE
+                        final Commentable access = firstAccess; // GAST2SEFFCHANGE//GAST2SEFFCHANGE
 
                         if (GetAccessedType.getAccessedType(access) != null) { // GAST2SEFFCHANGE
-                            blockString.append(" " + GetAccessedType.getAccessedType(access).getName() + "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                        	//toString() statt getName
+                            blockString.append(" " + GetAccessedType.getAccessedType(access).toString()+ "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                         }
                         return blockString.toString();
                     }
