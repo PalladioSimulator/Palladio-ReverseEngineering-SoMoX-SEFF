@@ -9,10 +9,15 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.gmt.modisco.java.ASTNode;
-import org.eclipse.gmt.modisco.java.Type;
-import org.eclipse.gmt.modisco.java.TypeAccess;
-import org.eclipse.gmt.modisco.java.emf.JavaPackage;
+//import org.eclipse.gmt.modisco.java.ASTNode;
+//Commentable statt AstNode
+
+import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.types.Type;
+import org.emftext.language.java.JavaPackage;
+import org.emftext.language.java.types.TypeReference;
+//import org.eclipse.gmt.modisco.java.TypeReference;
+//import org.eclipse.gmt.modisco.java.emf.JavaPackage;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.InterfacePortBuilderHelper;
 import org.somox.analyzer.simplemodelanalyzer.detection.ComponentInterfaceStrategy;
@@ -126,11 +131,11 @@ public class InterfaceBuilder extends AbstractBuilder {
 		boolean addedARequiredInterface = false;
 		
 		// Filter used to remove inheritance type relations from the list of accesses
-		EClassBasedFilter<ASTNode> accessFilter = new EClassBasedFilter<ASTNode>(
+		EClassBasedFilter<Commentable > accessFilter = new EClassBasedFilter<Commentable>(
 				new EClass[] { 
 						/**accessesPackage.eINSTANCE.getInheritanceTypeAccess()**///SOMOXTODOCHANGE
-						JavaPackage.eINSTANCE.getThisExpression(), //remove class-internal accesses//SOMOXTODOCHANGE
-						JavaPackage.eINSTANCE.getSuperFieldAccess()//REALLYADDED//SOMOXTODOCHANGE
+						((Object) JavaPackage.eINSTANCE).getThisExpression(), //remove class-internal accesses//SOMOXTODOCHANGE
+						((Object) JavaPackage.eINSTANCE).getSuperFieldAccess()//REALLYADDED//SOMOXTODOCHANGE
 						});	
 		
 		// Get all accessed classes from all implementation classes of this
@@ -388,10 +393,10 @@ public class InterfaceBuilder extends AbstractBuilder {
 		// new interface
 		if (operationInterface == null) {
 			operationInterface = RepositoryFactory.eINSTANCE.createOperationInterface();
-			for (TypeAccess inheritanceTypeAccess : KDMHelper.getInheritanceTypeAccesses(interfaceClass)
+			for (TypeReference inheritanceTypeAccess : KDMHelper.getInheritanceTypeAccesses(interfaceClass)
 					) {
 				Type superType = (Type) inheritanceTypeAccess
-						.getType();
+						.getTarget();
 				if (this.somoxConfiguration.getBlacklistFilter().passes(superType) &&
 						interfaceStrategy.isComponentInterface(superType)) {
 					Interface parentInterface = createInterface(implementingClass, (Type) superType);

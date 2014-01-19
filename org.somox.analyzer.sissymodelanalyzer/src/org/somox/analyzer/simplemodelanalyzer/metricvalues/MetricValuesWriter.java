@@ -22,7 +22,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.types.Type;
+
 import org.jgrapht.DirectedGraph;
 import org.somox.analyzer.simplemodelanalyzer.Activator;
 import org.somox.configuration.SoMoXConfiguration;
@@ -218,7 +219,7 @@ public class MetricValuesWriter
       component.setId(comp.getId());
       component.setName(comp.getEntityName());
 
-      List<Type> classes = compCand.getImplementingClasses();
+      List<Type  > classes = compCand.getImplementingClasses();
       for (Type gastClass : classes)
       {
          component.getClassesList().add(gastClass);//REALLYCHANGEMF

@@ -4,8 +4,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.Category;
 import org.apache.log4j.Logger;
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.types.Type;
+import org.emftext.language.java.*;
+
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
 
@@ -41,7 +46,8 @@ public class ComponentAndTypeNaming {
 
 	@Deprecated
 	public String createSimpleComponentName(int i, Type astClass) {
-		return "Comp. " + i + ": " + astClass.getName();
+		// astClass.getName? => (Category)
+		return "Comp. " + i + ": " + ((Category) astClass).getName();
 	}
 
 	/**
@@ -55,8 +61,9 @@ public class ComponentAndTypeNaming {
 		nameBuilder.append(" <PC No. "+ primitiveComponentNumber++);
 		
 		StringBuilder subComponentNames = new StringBuilder();
-		for(Type astClass : astClasses) { 
-			subComponentNames.append(" " + KDMHelper.computeFullQualifiedName(astClass));
+		for(Type  astClass : astClasses) { 
+			// use (CompilationUnit) casting for Type
+			subComponentNames.append(" " + KDMHelper.computeFullQualifiedName((Type)astClass));
 		}
 		
 		if(shorten) {
@@ -157,7 +164,7 @@ public class ComponentAndTypeNaming {
 							maxNumberPackageId = Root.getIdForPackage(KDMHelper.getSurroundingPackage(currentClass));
 						}
 					}
-				} else if (KDMHelper.getJavaNodeSourceRegion(currentClass) != null && KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(currentClass)) != null){			
+				} else if (KDMHelper.getJavaNodeSourceRegion(currentClass) != null && KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion((Commentable)currentClass)) != null){			
 					directoryName = KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(currentClass)).getPath();				
 				} else {
 					logger.warn("found neither packages nor directories for GAST class " + KDMHelper.computeFullQualifiedName(currentClass));

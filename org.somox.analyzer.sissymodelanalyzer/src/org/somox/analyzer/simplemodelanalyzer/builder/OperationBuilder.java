@@ -1,13 +1,28 @@
 package org.somox.analyzer.simplemodelanalyzer.builder;
 
+import org.apache.log4j.Category;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.gmt.modisco.java.ArrayType;
-import org.eclipse.gmt.modisco.java.MethodDeclaration;
-import org.eclipse.gmt.modisco.java.PrimitiveTypeVoid;
-import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
-import org.eclipse.gmt.modisco.java.Type;
-import org.eclipse.gmt.modisco.java.VisibilityKind;
+//import org.eclipse.gmt.modisco.java.ArrayType;
+//import org.eclipse.gmt.modisco.java.MethodDeclaration;
+//import org.eclipse.gmt.modisco.java.PrimitiveTypeVoid;
+//import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
+//import org.eclipse.gmt.modisco.java.Type;
+//import org.eclipse.gmt.modisco.java.VisibilityKind;
+
+import org.emftext.language.java.members.Method;
+import org.emftext.language.java.types.Type;
+import org.emftext.language.java.*;
+import org.emftext.language.java.arrays.ArrayTypeable;
+import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.classifiers.Class;
+import org.emftext.language.java.classifiers.Enumeration;
+import org.emftext.language.java.types.PrimitiveType;
+import org.emftext.language.java.variables.Variable;
+
+
+
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
 import org.somox.configuration.SoMoXConfiguration;
@@ -63,13 +78,12 @@ public class OperationBuilder extends AbstractBuilder {
 	public void createOperations(Type implementationClass, Type interfaceClass,
 			OperationInterface interf) {
 
-		for (MethodDeclaration method : KDMHelper.getMethods(interfaceClass)) {
+		for (Method method : KDMHelper.getMethods(interfaceClass)) {
 
-			if ((KDMHelper.isModifierOfKind(method, VisibilityKind.NONE))
-					|| KDMHelper
-							.isModifierOfKind(method, VisibilityKind.PUBLIC)) {
+			if (method.isPublic())// (KDMHelper.isModifierOfKind(method, VisibilityKind.NONE)) || KDMHelper .isModifierOfKind(method, VisibilityKind.PUBLIC)) 
+				{
 
-				MethodDeclaration realMethod = method;
+				Method realMethod = method;
 
 				if (implementationClass != null) {
 					realMethod = getRealMethod(implementationClass, method);
@@ -86,7 +100,7 @@ public class OperationBuilder extends AbstractBuilder {
 				} else {
 					logger.warn("no implementation class for method "
 							+ method.getName() + " of interface "
-							+ interfaceClass.getName());
+							+ interfaceClass());
 				}
 				OperationSignature op = createOperationSignature(realMethod,
 						interf);
@@ -103,11 +117,11 @@ public class OperationBuilder extends AbstractBuilder {
 	 * @return null if no implementation method was found; the queried method
 	 *         otherwise
 	 */
-	private MethodDeclaration getRealMethod(Type implementationClass,
-			MethodDeclaration inputMethod) {
+	private Method getRealMethod(Type implementationClass,
+			Method inputMethod) {
 		assert implementationClass != null;
 
-		for (MethodDeclaration methodFromClass : KDMHelper
+		for (Method methodFromClass : KDMHelper
 				.getMethods(implementationClass)) {
 
 			if (methodFromClass == inputMethod) {
@@ -117,21 +131,21 @@ public class OperationBuilder extends AbstractBuilder {
 			if (methodFromClass.getName().equals(inputMethod.getName())) {
 				// TODO burkha 23.5.2013 getOverriddenMember does not work
 				// correct in contrast to SISSy
-				MethodDeclaration overrideMethod = (MethodDeclaration) KDMHelper
-						.getOverriddenMember(methodFromClass);
+				Method overrideMethod = (Method) KDMHelper
+						.getOverriddenASTNode(methodFromClass);
 				while (overrideMethod != null) {
 					if (overrideMethod == inputMethod)
 						return methodFromClass;
 					else
-						overrideMethod = (MethodDeclaration) KDMHelper
-								.getOverriddenMember(overrideMethod);
+						overrideMethod = (Method) KDMHelper
+								.getOverriddenASTNode(overrideMethod);
 				}
 			}
 		}
 		for (Type superClass : KDMHelper.getSuperTypes(implementationClass)) {
 			if (!KDMHelper.isAbstract(superClass)
 					&& !KDMHelper.isInterface(superClass)) {
-				MethodDeclaration real = getRealMethod(superClass, inputMethod);
+				Method real = getRealMethod(superClass, inputMethod);
 				if (real != null) {
 					return real;
 				}
@@ -151,20 +165,21 @@ public class OperationBuilder extends AbstractBuilder {
 	 * @return a new operation for which parameter names and types already exist
 	 *         in the resultRepository
 	 */
-	private OperationSignature createOperationSignature(MethodDeclaration method, OperationInterface interf) {
+	private OperationSignature createOperationSignature(Method method, OperationInterface interf) {
 		
 		OperationSignature operation = RepositoryFactory.eINSTANCE.createOperationSignature();
 		String nameForMethod = createNonExistingNameInInterface(method, interf);
 		operation.setEntityName(nameForMethod);
 		
 		updateSourceCodeDecorator(operation, method);
-		
-		for (SingleVariableDeclaration inputParameter : method.getParameters()) {
+		// Variable statt SingleVariableDeclaration
+		for (Variable inputParameter : method.getParameters()) {
 			Parameter opSigParam = RepositoryFactory.eINSTANCE.createParameter();
 			opSigParam.setParameterName(inputParameter.getName());
-			if(inputParameter.getType() != null && inputParameter.getType().getType() != null) {
+			if(inputParameter.getTypeReference() != null && inputParameter.getTypeReference()!= null) {
 				opSigParam.setDataType__Parameter(
-						getType(GetAccessedType.getAccessedType(inputParameter.getType()), 
+						//inputParameter.getTypeReference() statt inputParameter.getType()
+						getType(GetAccessedType.getAccessedType(inputParameter.getTypeReference()), 
 						this.analysisResult.getInternalArchitectureModel()));				
 			} else {
 				logger.error("Input parameter type was null. Could not set the parameter type \"" +
@@ -173,10 +188,11 @@ public class OperationBuilder extends AbstractBuilder {
 			}
 			opSigParam.setOperationSignature__Parameter(operation);
 		}
-		if(null != method.getReturnType() && null != method.getReturnType().getType() &&
-				!(method.getReturnType().getType() instanceof PrimitiveTypeVoid)){
+		
+		if(null != method.getTypeReference() && null != method.getReturnType().getType() &&
+				!(method.getTypeReference() instanceof org.emftext.language.java.types.Void)){
 			operation.setReturnType__OperationSignature(
-					getType(GetAccessedType.getAccessedType(method.getReturnType()), 
+					getType(GetAccessedType.getAccessedType(method.getTypeReference()), 
 							this.analysisResult.getInternalArchitectureModel()));				
 		}
 		
@@ -195,7 +211,7 @@ public class OperationBuilder extends AbstractBuilder {
 		return operation;
 	}
 
-	private String createNonExistingNameInInterface(MethodDeclaration method,
+	private String createNonExistingNameInInterface(Method method,
 			OperationInterface interf) {
 		String methodName = method.getName();
 		if (!containsName(interf, methodName)) {
@@ -228,7 +244,7 @@ public class OperationBuilder extends AbstractBuilder {
 	}
 
 	private void updateSourceCodeDecorator(OperationSignature operation,
-			MethodDeclaration method) {
+			Method method) {
 		// assert method.getStatus() == Status.NORMAL; //TODO: check re-enabling
 		// other status implies empty method body and causes trouble during
 		// later stages
@@ -439,8 +455,16 @@ public class OperationBuilder extends AbstractBuilder {
 //																			// ADDEDD
 //			repository.getDataTypes__Repository().add(newType); // TODO PCM2SAMM
 																// ADDEDD
-		} else if (gastType instanceof ArrayType) {
-			ArrayType arrayType = (ArrayType) gastType;
+			
+			
+			
+		}
+		
+		
+		
+		//ArrayTypeable statt ArrayType
+		else if (gastType instanceof ArrayTypeable) {
+			ArrayTypeable  arrayType = (ArrayTypeable) gastType;
 			// Create a collection data type:
 			newType = RepositoryFactory.eINSTANCE.createCollectionDataType();
 			repository.getDataTypes__Repository().add(newType);

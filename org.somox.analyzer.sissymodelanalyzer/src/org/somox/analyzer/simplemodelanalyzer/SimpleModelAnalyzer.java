@@ -20,7 +20,7 @@ import org.somox.extractor.ExtractionResult;
 import org.somox.kdmhelper.KDMReader;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.seff2javaast.SEFF2JavaAST;
-import org.somox.seff2javaast.Seff2methodFactory;
+import org.somox.seff2javaast.Seff2javaastFactory;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
@@ -67,6 +67,8 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 	 * @see org.somox.analyzer.ModelAnalyzer#analyze(java.util.HashMap, eu.qimpress.samm.staticstructure.Repository, java.util.HashMap, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public AnalysisResult analyze(
+			// jamopp xmi generieren 
+			
 			SoMoXConfiguration somoxConfiguration,
 			HashMap<String, ExtractionResult> extractionResultMap,
 			IProgressMonitor progressMonitor) throws ModelAnalyzerException {
@@ -83,6 +85,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 		if (platformPath != null) {
 			URI fileURI = URI.createPlatformResourceURI(platformPath, true);
 			if (fileURI.fileExtension().toLowerCase().equals("xmi")) { 
+				
 				KDMReader modelReader;
 				try {
 					modelReader = new KDMReader();
@@ -228,7 +231,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 	private SimpleAnalysisResult initializeAnalysisResult() {
 		SimpleAnalysisResult analysisResult = new SimpleAnalysisResult(this);
 		SourceCodeDecoratorRepository sourceCodeDecoratorRepository = SourceCodeDecoratorFactory.eINSTANCE.createSourceCodeDecoratorRepository();
-		SEFF2JavaAST seff2JavaAST = Seff2methodFactory.eINSTANCE.createSEFF2JavaAST();
+		SEFF2JavaAST seff2JavaAST = Seff2javaastFactory.eINSTANCE.createSEFF2JavaAST();
 		de.uka.ipd.sdq.pcm.system.System system = SystemFactory.eINSTANCE.createSystem();
 		QoSAnnotations qosAnnotationModel = QosannotationsFactory.eINSTANCE.createQoSAnnotations();
 		Repository newInternalArchitectureModel = RepositoryFactory.eINSTANCE.createRepository();
