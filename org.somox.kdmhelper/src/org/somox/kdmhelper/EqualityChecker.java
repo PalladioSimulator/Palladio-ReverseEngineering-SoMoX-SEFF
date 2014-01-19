@@ -5,6 +5,7 @@ import org.eclipse.gmt.modisco.java.ConstructorDeclaration;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
+import org.emftext.language.java.members.Method;
 
 //import de.fzi.gast.functions.Function;
 
@@ -25,7 +26,7 @@ public class EqualityChecker {
 	 * @param function2
 	 * @return true if both functions are equal; false else
 	 */
-	public static boolean areFunctionsEqual(AbstractMethodDeclaration function1, AbstractMethodDeclaration function2) {
+	public static boolean areFunctionsEqual(Method function1, Method function2) {
 		//preconditions
 		
 		

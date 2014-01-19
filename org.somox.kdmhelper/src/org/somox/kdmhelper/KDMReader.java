@@ -12,28 +12,36 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
-import org.eclipse.gmt.modisco.infra.common.core.internal.utils.ModelUtils;
-import org.eclipse.gmt.modisco.java.Model;
-import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+//import org.emftext.ecore.xmi.XMLResource;
+import org.emftext.language.*;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.containers.JavaRoot;
+import org.emftext.language.java.types.Type;
+//import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
+//import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+//import org.eclipse.gmt.modisco.infra.common.core.internal.utils.ModelUtils;
+//import Model;
+//import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
+
 import org.somox.kdmhelper.metamodeladdition.Root;
+import  org.emftext.language.xml.resource.xml;
 
 //@SuppressWarnings("restriction")
 public class KDMReader {
 
 	private Root root;
+	//Resource 
+
 
 	private final static Logger logger = Logger.getLogger(KDMReader.class
 			.getName());
 
 	public KDMReader() {
 		root = new Root();
-		org.eclipse.gmt.modisco.java.emf.JavaPackage.eINSTANCE.eClass();
-		org.eclipse.gmt.modisco.omg.kdm.kdm.KdmPackage.eINSTANCE.eClass();
-		org.eclipse.modisco.java.composition.javaapplication.JavaapplicationPackage.eINSTANCE
-				.eClass();
+		
 	}
 
 	public Root getRoot() {
@@ -46,7 +54,10 @@ public class KDMReader {
 			File file = new File(fileLocation);
 			URI URIfile = URI.createFileURI(file.getAbsolutePath());
 
-			Resource resource = ModelUtils.loadModel(URIfile);
+			//Resource resource = ModelUtils.loadModel(URIfile);
+			
+			ResourceSet rs= new ResourceSetImpl();
+			Resource resource = rs.getResource(URIfile,true);
 			// TODO fix
 			Map<Object, Object> loadOptions = setupLoadOptions(resource);
 			addModelToRoot(resource);
@@ -56,8 +67,11 @@ public class KDMReader {
 
 	// TODO test
 	public void loadFile(URI file) throws IOException {
-		Resource resource;
-		resource = ModelUtils.loadModel(file);
+		
+		ResourceSet rs= new ResourceSetImpl();
+		Resource resource = rs.getResource(file,true);
+		
+//		resource = ModelUtils.loadModel(file);
 		addModelToRoot(resource);
 
 	}
@@ -65,15 +79,17 @@ public class KDMReader {
 	private void addModelToRoot(Resource resource) {
 		root.addModels(getModelsFromResource(resource));
 	}
-
-	private Collection<Model> getModelsFromResource(Resource resource) {
-		List<Model> modelList = new ArrayList<Model>();
+	
+//CompilationUnit statt Model 
+	// JavaRoot statt JavaAplication
+	private Collection<CompilationUnit> getModelsFromResource(Resource resource) { 
+		List<CompilationUnit> modelList = new ArrayList<CompilationUnit>();
 		for (EObject obj : resource.getContents()) {
-			if (obj instanceof JavaApplication) {
-				JavaApplication javaApp = (JavaApplication) obj;
+			if (obj instanceof JavaRoot) {
+				JavaRoot javaApp = (JavaRoot) obj;
 				for (Object ref : javaApp.eCrossReferences()) {
-					if (ref instanceof Model) {
-						Model model = (Model) ref;
+					if (ref instanceof CompilationUnit) {
+						CompilationUnit model = (CompilationUnit) ref;
 						modelList.add(model);
 					}
 				}

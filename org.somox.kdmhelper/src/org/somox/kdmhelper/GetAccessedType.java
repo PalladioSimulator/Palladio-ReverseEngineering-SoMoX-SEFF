@@ -1,22 +1,29 @@
 package org.somox.kdmhelper;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmt.modisco.java.ASTNode;
-import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
-import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
-import org.eclipse.gmt.modisco.java.AbstractVariablesContainer;
-import org.eclipse.gmt.modisco.java.ArrayAccess;
-import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
-import org.eclipse.gmt.modisco.java.EnumConstantDeclaration;
-import org.eclipse.gmt.modisco.java.FieldAccess;
-import org.eclipse.gmt.modisco.java.FieldDeclaration;
-import org.eclipse.gmt.modisco.java.SingleVariableAccess;
-import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
-import org.eclipse.gmt.modisco.java.SuperFieldAccess;
-import org.eclipse.gmt.modisco.java.ThisExpression;
-import org.eclipse.gmt.modisco.java.Type;
-import org.eclipse.gmt.modisco.java.TypeAccess;
-import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
+import org.eclipse.jdt.internal.compiler.ast.ArrayReference;
+//import org.eclipse.gmt.modisco.javCommentablede;
+//import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
+//import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
+//import org.eclipse.gmt.modisco.java.AbstractVariablesContainer;
+//import org.eclipse.gmt.modisco.java.ArrayAccess;
+//import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
+//import org.eclipse.gmt.modisco.java.EnumConstantDeclaration;
+//import org.eclipse.gmt.modisco.java.FieldAccess;
+//import org.eclipse.gmt.modisco.java.FieldDeclaration;
+//import org.eclipse.gmt.modisco.java.SingleVariableAccess;
+//import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
+//import org.eclipse.gmt.modisco.java.SuperFieldAccess;
+//import org.eclipse.gmt.modisco.java.ThisExpression;
+//import org.eclipse.gmt.modisco.java.Type;
+//import org.eclipse.gmt.modisco.java.TypeAccess;
+//import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
+import org.emftext.language.java.types.Type;
+import org.emftext.language.java.types.TypeReference;
+import org.emftext.language.java.util.JavaSwitch;
+import org.emftext.language.java.*;
+import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.containers.CompilationUnit;
 
 /**
  * A EMF-Switch to get the accessed type of an access.
@@ -36,7 +43,7 @@ public class GetAccessedType extends JavaSwitch<Type> {
 	 * @param input The input access.
 	 * @return The accessed Type from the access.
 	 */
-	public static Type getAccessedType(ASTNode input) {
+	public static Type getAccessedType(Commentable input) {
 		return getInstance.doSwitch(input);
 	}
 
@@ -51,12 +58,12 @@ public class GetAccessedType extends JavaSwitch<Type> {
 	
 	
 	@Override
-	public Type caseTypeAccess(TypeAccess object) {
-		return object.getType();
+	public Type caseTypeAccess(TypeReference        object) {
+		return object.getType ();
 	}
 
 	@Override
-	public Type caseArrayAccess(ArrayAccess object) {
+	public Type caseArrayAccess(ArrayReference object) {
 		return getInstance.doSwitch(object.getArray());
 	}
 
@@ -71,10 +78,10 @@ public class GetAccessedType extends JavaSwitch<Type> {
 	 * @param input
 	 * @return
 	 */
-	private static Type getAbstractTypeDeclarationContainer(ASTNode input) {
-		ASTNode node = input;
+	private static Type getAbstractTypeDeclarationContainer(Commentable input) {
+		Commentable node = input;
 		while (!(node.eContainer() instanceof AbstractTypeDeclaration)) {
-			node = (ASTNode) node.eContainer();
+			node = (Commentable) node.eContainer();
 		}
 		return (Type) node.eContainer();
 	}

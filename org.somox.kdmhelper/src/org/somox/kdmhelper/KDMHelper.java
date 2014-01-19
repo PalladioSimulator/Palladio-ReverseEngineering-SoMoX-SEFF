@@ -6,38 +6,55 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.text.html.parser.TagElement;
+
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper;
-import org.eclipse.gmt.modisco.infra.query.core.exception.ModelQueryExecutionException;
-import org.eclipse.gmt.modisco.java.ASTNode;
-import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
-import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
-import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
-import org.eclipse.gmt.modisco.java.ArrayAccess;
-import org.eclipse.gmt.modisco.java.BodyDeclaration;
-import org.eclipse.gmt.modisco.java.ClassDeclaration;
-import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
-import org.eclipse.gmt.modisco.java.FieldAccess;
-import org.eclipse.gmt.modisco.java.InheritanceKind;
-import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
-import org.eclipse.gmt.modisco.java.MethodDeclaration;
-import org.eclipse.gmt.modisco.java.Modifier;
-import org.eclipse.gmt.modisco.java.NamedElement;
-import org.eclipse.gmt.modisco.java.Package;
-import org.eclipse.gmt.modisco.java.ParameterizedType;
-import org.eclipse.gmt.modisco.java.PrimitiveType;
-import org.eclipse.gmt.modisco.java.SingleVariableAccess;
-import org.eclipse.gmt.modisco.java.SuperFieldAccess;
-import org.eclipse.gmt.modisco.java.TagElement;
-import org.eclipse.gmt.modisco.java.ThisExpression;
-import org.eclipse.gmt.modisco.java.Type;
-import org.eclipse.gmt.modisco.java.TypeAccess;
-import org.eclipse.gmt.modisco.java.VisibilityKind;
-import org.eclipse.gmt.modisco.omg.kdm.source.SourceFile;
-import org.eclipse.modisco.java.composition.javaapplication.Java2File;
-import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
-import org.eclipse.modisco.java.composition.javaapplication.queries.GetASTNodeSourceRegion;
+import org.emftext.language.java.arrays.ArraysPackage;
+import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.commons.NamedElement;
+import org.emftext.language.java.containers.Package;
+//import org.eclipse.gmt.modisco.infra.query.core.exception.ModelQueryExecutionException;
+//import ASTNode;
+//import AbstractMethodDeclaration;
+//import AbstractMethodInvocation;
+//import AbstractTypeDeclaration;
+//import ArrayAccess;
+//import BodyDeclaration;
+//import ClassDeclaration;
+//import ClassInstanceCreation;
+//import FieldAccess;
+//import InheritanceKind;
+//import InterfaceDeclaration;
+//import MethodDeclaration;
+//import Modifier;
+//import NamedElement;
+//import Package;
+//import ParameterizedType;
+//import PrimitiveType;
+//import SingleVariableAccess;
+//import SuperFieldAccess;
+//import TagElement;
+//import ThisExpression;
+//import Type;
+//import TypeAccess;
+//import VisibilityKind;
+//import org.eclipse.gmt.modisco.omg.kdm.source.SourceFile;
+//import org.eclipse.modisco.java.composition.javaapplication.Java2File;
+//import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
+//import org.eclipse.modisco.java.composition.javaapplication.queries.GetASTNodeSourceRegion;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.members.Field;
+import org.emftext.language.java.members.Method;
+import org.emftext.language.java.members.impl.ExceptionThrowerImpl;
+import org.emftext.language.java.references.SelfReference;
+import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
+import org.emftext.language.java.types.Type;
+import org.emftext.language.java.classifiers.Class;
+//CompilationUnit statt Model 
+//Commentable statt AstNode
+import org.emftext.language.java.types.TypeReference;
 
 /**
  * This class contains a set of methods that are missing in the MoDisco Java
@@ -85,12 +102,12 @@ public class KDMHelper {
 	/**
 	 * Returns the qualified name for a type.
 	 * 
-	 * @param input
+	 * @param astClass
 	 *            the {@link ASTNode} object
 	 * @return the full qualified name of the input object
 	 */
-	public static String computeFullQualifiedName(ASTNode input) {
-		EObject pack = input;
+	public static String computeFullQualifiedName(Type astClass) {
+		EObject pack = astClass;
 
 		String result = "";
 
@@ -142,7 +159,7 @@ public class KDMHelper {
 	 *            an access element
 	 * @return the set of accessed types
 	 */
-	private static Set<Type> getAccessedTypes(ASTNode element) {
+	private static Set<Type> getAccessedTypes(CompilationUnit element) {
 		Set<Type> result = new HashSet<Type>();
 		// if(!isAccess(element)){
 		// throw new IllegalArgumentException(element + " is not an access.");
@@ -206,9 +223,9 @@ public class KDMHelper {
 	 */
 	public static List<Type> getAllAccessedClasses(Type input) {
 		Set<Type> resultList = new HashSet<Type>();
-		List<ASTNode> accesses = getAllAccesses(input);
+		List<CompilationUnit> accesses = getAllAccesses(input);
 
-		for (ASTNode node : accesses) {
+		for (CompilationUnit node : accesses) {
 			resultList.addAll(getAccessedTypes(node));
 		}
 		ArrayList<Type> returnSet = new ArrayList<Type>();
@@ -225,19 +242,19 @@ public class KDMHelper {
 	 * @param input an {@link ASTNode} object
 	 * @return all accesses inside the ASTNode object
 	 */
-	public static List<ASTNode> getAllAccesses(ASTNode input) {
-		List<ASTNode> result = new ArrayList<ASTNode>();
+	public static List<Commentable> getAllAccesses(Commentable input) {
+		List<Commentable > result = new ArrayList<Commentable >();
 		TreeIterator<EObject> iterator = input.eAllContents();
 
 		while (iterator.hasNext()) {
 			EObject element = iterator.next();
-			if (element instanceof ASTNode) {
-				if (isAccess((ASTNode) element)) {
+			if (element instanceof Commentable ) {
+				if (isAccess((Commentable ) element)) {
 					// remove accesses in java doc tags
 					if (element.eContainer() instanceof TagElement) {
 						continue;
 					}
-					result.add((ASTNode) element);
+					result.add((Commentable ) element);
 
 					// TODO removlater add access to enum constant again to
 					// assimiliate to SISSy results
@@ -266,13 +283,13 @@ public class KDMHelper {
 	 *            the input {@link Type}
 	 * @return the list of inheritance type access
 	 */
-	public static List<TypeAccess> getInheritanceTypeAccesses(Type type) {
+	public static List<TypeReference> getInheritanceTypeAccesses(Type type) {
 		
-		List<TypeAccess> result = new ArrayList<TypeAccess>();
+		List<TypeReference> result = new ArrayList<TypeReference>();
 		
-		if (type instanceof ClassDeclaration) {
-			ClassDeclaration tempClass = (ClassDeclaration) type;
-			result.addAll(tempClass.getSuperInterfaces());
+		if (type instanceof Class) {
+			Class tempClass = (ClassDeclaration) type;
+			result.addAll(  tempClass.getSuperInterfaces());
 			if (tempClass.getSuperClass() != null) {
 				result.add(tempClass.getSuperClass());
 			}
@@ -318,11 +335,14 @@ public class KDMHelper {
 	 *            the ASTNode object
 	 * @return the {@link JavaNodeSourceRegion}
 	 */
-	public static JavaNodeSourceRegion getJavaNodeSourceRegion(ASTNode node) {
+	//JavaNodeSourceRegion
+	//Commentable statt
+	public static JavaNodeSourceRegion getJavaNodeSourceRegion(Commentable node) {
 		GetASTNodeSourceRegion query = new GetASTNodeSourceRegion();
 		try {
 			return query.evaluate(node, null);
-		} catch (ModelQueryExecutionException e) {
+		} catch (ExceptionThrower e) {
+			
 			e.printStackTrace();
 		}
 		return null;
@@ -336,8 +356,8 @@ public class KDMHelper {
 	 *            the
 	 * @return the real methods (not constructors) of a Class
 	 */
-	public static List<MethodDeclaration> getMethods(Type input) {
-		List<MethodDeclaration> result = new ArrayList<MethodDeclaration>();
+	public static List<Method> getMethods(Type input) {
+		List<Method> result = new ArrayList<Method>();
 		// FIXEDMYBUG used ClassDecl instead of AbstractTypeDeclaration, missed
 		// InterfaceDeclaration
 
@@ -363,20 +383,20 @@ public class KDMHelper {
 	 *            the method object
 	 * @return the overridden method
 	 */
-	public static MethodDeclaration getOverriddenMember(MethodDeclaration methDecInput) {
+	public static Method getOverriddenASTNode(Method methDecInput) {
 
-		MethodDeclaration redefinedMethodDeclaration = methDecInput.getRedefinedMethodDeclaration();
+		Method redefinedMethodDeclaration = methDecInput.getRedefinedMethodDeclaration();
 		
 		if(redefinedMethodDeclaration != null){
 			return redefinedMethodDeclaration;
 		}
 		
-		Type typeOfMethod = methDecInput.getAbstractTypeDeclaration();
+		Type typeOfMethod = ((Object) methDecInput).getAbstractTypeDeclaration();
 		List<Type> superTypes = getSuperTypes(typeOfMethod);
 		
 		for (Type type : superTypes) {
-			List<MethodDeclaration> method = KDMHelper.getMethods(type);
-			for (MethodDeclaration methodDeclaration : method) {
+			List<Method> method = KDMHelper.getMethods(type);
+			for (Method methodDeclaration : method) {
 				if(EqualityChecker.areFunctionsEqual(methDecInput, methodDeclaration)){
 					return methodDeclaration;
 				}
@@ -388,13 +408,13 @@ public class KDMHelper {
 
 	// TODO implement
 	/**
-	 * Returns a string representing the {@link ASTNode} object.
+	 * Returns a string representing the {@link Commentable} object.
 	 * 
 	 * @param node
 	 *            the {@link ASTNode} object
 	 * @return the toString string of the input object
 	 */
-	public static String getSISSyID(ASTNode node) {
+	public static String getSISSyID(Commentable node) {
 		return node.toString();
 	}
 
@@ -407,8 +427,8 @@ public class KDMHelper {
 	 * @return the {@link SourceFile} object
 	 */
 	//TODO refactor return
-	public static SourceFile getSourceFile(JavaNodeSourceRegion sourceRegion) {
-		SourceFile result = null;
+	public static JavaSourceOrClassFileResource getSourceFile(JavaNodeSourceRegion sourceRegion) {
+		JavaSourceOrClassFileResource result = null;
 		if (sourceRegion != null) {
 			if (sourceRegion.eContainer() instanceof Java2File) {
 				Java2File java2file = (Java2File) sourceRegion.eContainer();
@@ -448,14 +468,10 @@ public class KDMHelper {
 	 *            the input {@link Type}
 	 * @return the {@link Package} containing the type
 	 */
-	public static org.eclipse.gmt.modisco.java.Package getSurroundingPackage(
+	public static Package getSurroundingPackage(
 			Type input) {
-		if (input instanceof AbstractTypeDeclaration) {
-			AbstractTypeDeclaration type = (AbstractTypeDeclaration) input;
-			return type.getPackage();
-		} else {
-			return null;
-		}
+		//input.getChildrenByType((Type)Package);// input.getContainingPackageName()
+	
 	}
 
 	// TODO test
@@ -488,32 +504,31 @@ public class KDMHelper {
 	 * @param element
 	 * @return true or false
 	 */
-	public static boolean isAccess(ASTNode element) {
+	public static boolean isAccess(Commentable  element) {
 
 		// is an AbstractMethodInvocation, but contains a type access, would
 		// else create the TypeAccess twice
-		if (element instanceof ClassInstanceCreation) {
+		if(element instanceof TypeReference)
+		if (element instanceof Class) {
 			return false;
 		}
-		if (element instanceof AbstractMethodInvocation) {
+		if (element instanceof Method) {
 			return true;
 		}
-		if (element instanceof ArrayAccess) {
+		if (element instanceof ArraysPackage) {
 			return true;
 		}
-		if (element instanceof FieldAccess) {
+		if (element instanceof Field) {
 			return true;
 		}
-		if (element instanceof TypeAccess) {
+		if (element instanceof TypeReference) {
 			return true;
 		}
-		if (element instanceof ThisExpression) {
+		if (element instanceof SelfReference) {
 			return true;
 		}
-		if (element instanceof SingleVariableAccess) {
-			return true;
-		}
-		if (element instanceof SuperFieldAccess) {
+	
+		if (element instanceof Field) {
 			return true;
 		}
 		return false;
@@ -558,7 +573,7 @@ public class KDMHelper {
 	 *            the input object
 	 * @return true or false
 	 */
-	public static boolean isInterface(ASTNode input) {
+	public static boolean isInterface(Commentable input) {
 		return (input instanceof InterfaceDeclaration);
 	}
 
@@ -570,8 +585,9 @@ public class KDMHelper {
 	 *            the visibility kind to compare with
 	 * @return true or false
 	 */
-	public static boolean isModifierOfKind(MethodDeclaration method,
+	public static boolean isModifierOfKind(Method method,
 			VisibilityKind inputVisKind) {
+		
 		Modifier modifier = method.getModifier();
 		if (modifier == null) {
 			return false;

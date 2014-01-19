@@ -8,32 +8,40 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.gmt.modisco.java.ASTNode;
-import org.eclipse.gmt.modisco.java.ClassDeclaration;
-import org.eclipse.gmt.modisco.java.EnumDeclaration;
-import org.eclipse.gmt.modisco.java.Model;
-import org.eclipse.gmt.modisco.java.Package;
-import org.eclipse.gmt.modisco.java.PrimitiveType;
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.resource.*;
+import org.emftext.language.java.types.Type;
+import org.emftext.language.java.*;
 import org.somox.kdmhelper.KDMHelper;
+import org.emftext.language.java.classifiers.Class;
 
+import org.emftext.language.java.classifiers.Enumeration;
+import org.emftext.language.java.types.PrimitiveType;
+
+//CompilationUnit statt Model 
+//Commentable statt AstNode
 public class Root {
 
-	private List<Model> models = new ArrayList<Model>();
+	private List<CompilationUnit> models = new ArrayList<CompilationUnit>();
 
-	public List<Model> getModels() {
+	public List<CompilationUnit> getCompilationUnits() {
 		return models;
 	}
+	
+	//CompilationUnit statt AstNode 
+		// JavaRoot statt JavaAplication
+	//CompilationUnit   statt Model
 
-	public void addModels(Collection<Model> modelsFromResource) {
+	public void addCompilationUnits(Collection<CompilationUnit> modelsFromResource) {
 		models.addAll(modelsFromResource);
 		addPackagesToIDMapping(modelsFromResource);
 	}
 
-	private static HashMap<ASTNode, String> nodeToIDMap = new HashMap<ASTNode, String>();
+	private static HashMap<Commentable, String> nodeToIDMap = new HashMap<Commentable, String>();
 
 	// TODO test
-	public static String getIdForPackage(ASTNode pack) {
+	public static String getIdForPackage(Commentable pack) {
 		if (nodeToIDMap.containsKey(pack)) {
 			return nodeToIDMap.get(pack);
 		} else {
@@ -41,13 +49,13 @@ public class Root {
 		}
 	}
 
-	private void addPackagesToIDMapping(Collection<Model> modelsFromResource) {
-		for (Model model : modelsFromResource) {
+	private void addPackagesToIDMapping(Collection<CompilationUnit> modelsFromResource) {
+		for (CompilationUnit model : modelsFromResource) {
 			for (Iterator<EObject> it = model.eAllContents(); it.hasNext();) {
 				EObject element = it.next();
-				if (element instanceof org.eclipse.gmt.modisco.java.Package) {
+				if (element instanceof Package) {
 					if (!nodeToIDMap.containsKey(element)) {
-						nodeToIDMap.put((ASTNode) element,
+						nodeToIDMap.put((Commentable) element,
 								EcoreUtil.generateUUID());
 					}
 				}
@@ -56,13 +64,14 @@ public class Root {
 	}
 
 	// TODO fix for UI
-	public Collection<org.eclipse.gmt.modisco.java.Package> getPackages() {
+	public Collection<Package> getPackages() {
 		Collection<Package> result = new ArrayList<Package>();
-		for (Model model : models) {
-			result.addAll(model.getOwnedElements());
+		for (CompilationUnit model : models) {
+			// (Collection<? extends Package>) added
+			result.addAll((Collection<? extends Package>) model.eResource().getAllContents());//getOwnedElements
 //			for (Iterator<EObject> it = model.eAllContents(); it.hasNext();) {
 //				EObject element = it.next();
-//				if (element instanceof org.eclipse.gmt.modisco.java.Package) {
+//				if (element instanceof Package) {
 //					result.add((Package) element);
 //				}
 //			}
@@ -77,15 +86,15 @@ public class Root {
 	 */
 	public List<Type> getNormalClasses() {
 		List<Type> result = new ArrayList<Type>();
-		for (Model model : models) {
+		for (CompilationUnit model : models) {
 			for (Iterator<EObject> it = model.eAllContents(); it.hasNext();) {
 				EObject element = it.next();
-				if (element instanceof ClassDeclaration) {
-					ClassDeclaration clazz = (ClassDeclaration) element;
+				if (element instanceof Class) {
+					Class clazz = (Class) element;
 					if (!KDMHelper.isInnerClass(clazz)) {
-						result.add((ClassDeclaration) element);
+						result.add((Class) element);
 					}
-				} else if (element instanceof EnumDeclaration) {
+				} else if (element instanceof Enumeration) {
 					result.add((Type) element);
 				} else if (element instanceof PrimitiveType) {
 					result.add((Type) element);
