@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 
 import org.somox.kdmhelper.KDMHelper;
+import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.types.*;
 //import de.fzi.gast.types.GASTClass;
@@ -59,9 +60,9 @@ public class BlacklistFilter extends BaseFilter<Type> {
 		// which is either a package or a class(in case of an inner class)
 		// anyway, both are ASTNodes
 		if(currentClass.eContainer() instanceof Member){
-			result = matchPattern.matcher(KDMHelper.computeFullQualifiedName((Member) currentClass.eContainer())).matches();
+			result = matchPattern.matcher(KDMHelper.computeFullQualifiedName((Type) currentClass.eContainer())).matches();
 			if (logger.isTraceEnabled()) {
-				logger.trace("Blacklist filter matches " + KDMHelper.computeFullQualifiedName((Member) currentClass.eContainer()) + ": " + result);
+				logger.trace("Blacklist filter matches " + KDMHelper.computeFullQualifiedName((Type) currentClass.eContainer()) + ": " + result);
 			}
 		}
 		return result;
