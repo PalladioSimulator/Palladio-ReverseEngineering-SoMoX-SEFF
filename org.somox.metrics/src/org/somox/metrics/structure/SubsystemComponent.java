@@ -5,7 +5,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.types.Type;
+
 import org.jgrapht.DirectedGraph;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.KDMHelper;
@@ -16,6 +17,8 @@ import org.somox.metrics.IMetric;
 import org.somox.metrics.MetricID;
 import org.somox.metrics.helper.ClassAccessGraphEdge;
 import org.somox.metrics.helper.ComponentToImplementingClassesHelper;
+import org.emftext.language.java.containers.*;
+import org.emftext.language.java.containers.Package;
 
 //import de.fzi.gast.core.Package;
 //import de.fzi.gast.core.Root;
@@ -52,6 +55,7 @@ public class SubsystemComponent extends AbstractMetric{
 	 */
 	protected ClusteringRelation internalComputeDirected (
 			ClusteringRelation relationToCompute) {
+		 
 
 		//removelater
 //		java.util.List<Type> type1 = relationToCompute.getComponentA().getImplementingClasses();
@@ -69,23 +73,24 @@ public class SubsystemComponent extends AbstractMetric{
 		Set<Type> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentB());
 
 		//compute overall prefix
-		org.eclipse.gmt.modisco.java.Package prefixPackage = computePrefix(classes1, classes2);
+		Package prefixPackage = computePrefix(classes1, classes2);
 		
 		if (prefixPackage == null) {
 			relationToCompute.setResultMetric(getMID(), 0.0);
 			return relationToCompute;
 		}
 		
-		EList<org.eclipse.gmt.modisco.java.Package> slices = prefixPackage.getOwnedPackages();
-		EList<org.eclipse.gmt.modisco.java.Package> layers = null;
+		EList<Package> slices = prefixPackage.getChildrenByType(Package.class);
+		//check if is same getOwnedPackages()
+		EList<Package> layers = null;
 		
 		String subLayer = null;
 		
 		//compute the maximum number of layers in a slice
 		int max = 0;
-		for (org.eclipse.gmt.modisco.java.Package current : slices) {
-			if (current.getOwnedPackages().size()>=max) {
-				layers = current.getOwnedPackages();
+		for (Package current : slices) {
+			if (current.getChildrenByType(Package.class).size()>=max) {
+				layers = current.getChildrenByType(Package.class);
 				max = layers.size();
 			}
 		}
@@ -95,15 +100,15 @@ public class SubsystemComponent extends AbstractMetric{
 			relationToCompute.setResultMetric(getMID(), 0.0);
 			return relationToCompute;
 		}
-		org.eclipse.gmt.modisco.java.Package currentPackage = null;
+		Package currentPackage = null;
 		for (Type currentElement : classes1) {
-			currentPackage = KDMHelper.getSurroundingPackage(currentElement);
-
+			//currentPackage = KDMHelper.getSurroundingPackage(currentElement);
+			//.getChildrenByType(Package.class)
 			if (currentPackage != null) {
 				if (subLayer == null) {
-					for (org.eclipse.gmt.modisco.java.Package slicePackage : slices) {
-						if (KDMHelper.computeFullQualifiedName(currentPackage).startsWith(KDMHelper.computeFullQualifiedName(slicePackage))) {
-							for (org.eclipse.gmt.modisco.java.Package layerPackage : layers) {
+					for (Package slicePackage : slices) {
+						if (KDMHelper.computeFullQualifiedName(type).startsWith(KDMHelper.computeFullQualifiedName(slicePackage))) {
+							for (Package layerPackage : layers) {
 								if (KDMHelper.computeFullQualifiedName(currentPackage).startsWith(KDMHelper.computeFullQualifiedName(slicePackage) + "." + layerPackage.getName())) {
 									subLayer = KDMHelper.computeFullQualifiedName(slicePackage) + "." + layerPackage.getName();
 									break;
@@ -125,9 +130,9 @@ public class SubsystemComponent extends AbstractMetric{
 			currentPackage = KDMHelper.getSurroundingPackage(currentElement);
 			if (currentPackage != null) {
 				if (subLayer == null) {
-					for (org.eclipse.gmt.modisco.java.Package slicePackage : slices) {
+					for (Package slicePackage : slices) {
 						if (KDMHelper.computeFullQualifiedName(currentPackage).startsWith(KDMHelper.computeFullQualifiedName(slicePackage))) {
-							for (org.eclipse.gmt.modisco.java.Package layerPackage : layers) {
+							for (Package layerPackage : layers) {
 								if (KDMHelper.computeFullQualifiedName(currentPackage).startsWith(KDMHelper.computeFullQualifiedName(slicePackage) + "." + layerPackage.getName())) {
 									subLayer = KDMHelper.computeFullQualifiedName(slicePackage) + "." + layerPackage.getName();
 									break;
@@ -172,9 +177,9 @@ public class SubsystemComponent extends AbstractMetric{
 	 * @param packages a given package-hierarchy
 	 * @return the last package in the package-hierarchy in which all non-blacklisted elements are included
 	 */
-	private org.eclipse.gmt.modisco.java.Package computePrefix (Set<Type> elements1, Set<Type> elements2) {
+	private Package computePrefix (Set<Type> elements1, Set<Type> elements2) {
 		
-		org.eclipse.gmt.modisco.java.Package prefix = null;
+		Package prefix = null;
 		
 		LinkedList<Type> elementsLeft = new LinkedList<Type>();
 		
@@ -189,7 +194,8 @@ public class SubsystemComponent extends AbstractMetric{
 				prefix = KDMHelper.getSurroundingPackage(current);
 			}
 			
-			if (prefix != null && KDMHelper.getSurroundingPackage(current) != null && !KDMHelper.computeFullQualifiedName(current).startsWith(KDMHelper.computeFullQualifiedName(prefix))) {
+			if (prefix != null && KDMHelper.getSurroundingPackage(current) != null && 
+					!KDMHelper.computeFullQualifiedName(current).startsWith(KDMHelper.computeFullQualifiedName(prefix))) {
 				prefix = prefix.getPackage();
 				if (prefix == null) {
 					return null;
