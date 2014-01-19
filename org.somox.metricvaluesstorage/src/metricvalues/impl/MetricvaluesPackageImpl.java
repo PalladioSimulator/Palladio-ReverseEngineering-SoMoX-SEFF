@@ -19,7 +19,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.eclipse.gmt.modisco.java.emf.JavaPackage;
+//import org.eclipse.gmt.modisco.java.emf.JavaPackage;
+import org.emftext.language.java.JavaPackage;
 
 /**
  * <!-- begin-user-doc -->

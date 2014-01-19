@@ -22,7 +22,9 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.types.Type;
+import org.emftext.language.java.*;
+
 
 /**
  * <!-- begin-user-doc -->

@@ -8,7 +8,9 @@ package metricvalues;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.types.Type;
+import org.emftext.language.java.*;
+
 
 /**
  * <!-- begin-user-doc -->
