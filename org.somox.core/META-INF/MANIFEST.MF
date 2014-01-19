@@ -21,4 +21,5 @@ Export-Package: org.somox.analyzer,
  org.somox.extractor;uses:="org.somox.extractor"
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: SDQ, KIT + FZI Karlsruhe + EU Q-ImPrESS
+Import-Package: org.eclipse.core.resources
 
