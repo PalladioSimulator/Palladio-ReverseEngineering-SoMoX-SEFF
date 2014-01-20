@@ -1,12 +1,9 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package metricvalues;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -17,8 +14,8 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link metricvalues.Iteration#getComponentCandidatesList <em>Component Candidates</em>}</li>
- *   <li>{@link metricvalues.Iteration#getComponentsList <em>Components</em>}</li>
+ *   <li>{@link metricvalues.Iteration#getComponentCandidates <em>Component Candidates</em>}</li>
+ *   <li>{@link metricvalues.Iteration#getComponents <em>Components</em>}</li>
  *   <li>{@link metricvalues.Iteration#getNumber <em>Number</em>}</li>
  *   <li>{@link metricvalues.Iteration#getCurCompThreshold <em>Cur Comp Threshold</em>}</li>
  *   <li>{@link metricvalues.Iteration#getCurMergeThreshold <em>Cur Merge Threshold</em>}</li>
@@ -30,212 +27,141 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Iteration extends EObject
-{
-   /**
-	 * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-	 * @generated
-	 */
-   ComponentCandidate[] getComponentCandidates();
-
-   /**
-	 * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-	 * @generated
-	 */
-   ComponentCandidate getComponentCandidates(int index);
-
-   /**
-	 * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-	 * @generated
-	 */
-   int getComponentCandidatesLength();
-
-   /**
-	 * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-	 * @generated
-	 */
-   void setComponentCandidates(ComponentCandidate[] newComponentCandidates);
-
-   /**
-	 * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-	 * @generated
-	 */
-   void setComponentCandidates(int index, ComponentCandidate element);
-
-   /**
+public interface Iteration extends EObject {
+	/**
 	 * Returns the value of the '<em><b>Component Candidates</b></em>' containment reference list.
 	 * The list contents are of type {@link metricvalues.ComponentCandidate}.
 	 * <!-- begin-user-doc -->
-    * <p>
-    * If the meaning of the '<em>Component Candidates</em>' containment reference list isn't clear,
-    * there really should be more of a description here...
-    * </p>
-    * <!-- end-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Component Candidates</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Component Candidates</em>' containment reference list.
 	 * @see metricvalues.MetricvaluesPackage#getIteration_ComponentCandidates()
 	 * @model containment="true"
 	 * @generated
 	 */
-   EList<ComponentCandidate> getComponentCandidatesList();
+	EList<ComponentCandidate> getComponentCandidates();
 
-   /**
-	 * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-	 * @generated
-	 */
-   Component[] getComponents();
-
-   /**
-	 * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-	 * @generated
-	 */
-   Component getComponents(int index);
-
-   /**
-	 * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-	 * @generated
-	 */
-   int getComponentsLength();
-
-   /**
-	 * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-	 * @generated
-	 */
-   void setComponents(Component[] newComponents);
-
-   /**
-	 * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-	 * @generated
-	 */
-   void setComponents(int index, Component element);
-
-   /**
+	/**
 	 * Returns the value of the '<em><b>Components</b></em>' containment reference list.
 	 * The list contents are of type {@link metricvalues.Component}.
 	 * <!-- begin-user-doc -->
-    * <p>
-    * If the meaning of the '<em>Components</em>' containment reference list isn't clear,
-    * there really should be more of a description here...
-    * </p>
-    * <!-- end-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Components</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Components</em>' containment reference list.
 	 * @see metricvalues.MetricvaluesPackage#getIteration_Components()
 	 * @model containment="true"
 	 * @generated
 	 */
-   EList<Component> getComponentsList();
+	EList<Component> getComponents();
 
-   /**
+	/**
 	 * Returns the value of the '<em><b>Number</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-    * <p>
-    * If the meaning of the '<em>Number</em>' attribute isn't clear,
-    * there really should be more of a description here...
-    * </p>
-    * <!-- end-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Number</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Number</em>' attribute.
 	 * @see #setNumber(int)
 	 * @see metricvalues.MetricvaluesPackage#getIteration_Number()
 	 * @model
 	 * @generated
 	 */
-   int getNumber();
+	int getNumber();
 
-   /**
+	/**
 	 * Sets the value of the '{@link metricvalues.Iteration#getNumber <em>Number</em>}' attribute.
 	 * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Number</em>' attribute.
 	 * @see #getNumber()
 	 * @generated
 	 */
-   void setNumber(int value);
+	void setNumber(int value);
 
-   /**
+	/**
 	 * Returns the value of the '<em><b>Cur Comp Threshold</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-    * <p>
-    * If the meaning of the '<em>Cur Comp Threshold</em>' attribute isn't clear,
-    * there really should be more of a description here...
-    * </p>
-    * <!-- end-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Cur Comp Threshold</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Cur Comp Threshold</em>' attribute.
 	 * @see #setCurCompThreshold(double)
 	 * @see metricvalues.MetricvaluesPackage#getIteration_CurCompThreshold()
 	 * @model
 	 * @generated
 	 */
-   double getCurCompThreshold();
+	double getCurCompThreshold();
 
-   /**
+	/**
 	 * Sets the value of the '{@link metricvalues.Iteration#getCurCompThreshold <em>Cur Comp Threshold</em>}' attribute.
 	 * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Cur Comp Threshold</em>' attribute.
 	 * @see #getCurCompThreshold()
 	 * @generated
 	 */
-   void setCurCompThreshold(double value);
+	void setCurCompThreshold(double value);
 
-   /**
+	/**
 	 * Returns the value of the '<em><b>Cur Merge Threshold</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-    * <p>
-    * If the meaning of the '<em>Cur Merge Threshold</em>' attribute isn't clear,
-    * there really should be more of a description here...
-    * </p>
-    * <!-- end-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Cur Merge Threshold</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Cur Merge Threshold</em>' attribute.
 	 * @see #setCurMergeThreshold(double)
 	 * @see metricvalues.MetricvaluesPackage#getIteration_CurMergeThreshold()
 	 * @model
 	 * @generated
 	 */
-   double getCurMergeThreshold();
+	double getCurMergeThreshold();
 
-   /**
+	/**
 	 * Sets the value of the '{@link metricvalues.Iteration#getCurMergeThreshold <em>Cur Merge Threshold</em>}' attribute.
 	 * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Cur Merge Threshold</em>' attribute.
 	 * @see #getCurMergeThreshold()
 	 * @generated
 	 */
-   void setCurMergeThreshold(double value);
+	void setCurMergeThreshold(double value);
 
-   /**
+	/**
 	 * Returns the value of the '<em><b>Is Merge Iteration</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-    * <p>
-    * If the meaning of the '<em>Is Merge Iteration</em>' attribute isn't clear,
-    * there really should be more of a description here...
-    * </p>
-    * <!-- end-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Is Merge Iteration</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Is Merge Iteration</em>' attribute.
 	 * @see #setIsMergeIteration(boolean)
 	 * @see metricvalues.MetricvaluesPackage#getIteration_IsMergeIteration()
 	 * @model
 	 * @generated
 	 */
-   boolean isIsMergeIteration();
+	boolean isIsMergeIteration();
 
-   /**
+	/**
 	 * Sets the value of the '{@link metricvalues.Iteration#isIsMergeIteration <em>Is Merge Iteration</em>}' attribute.
 	 * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Is Merge Iteration</em>' attribute.
 	 * @see #isIsMergeIteration()
 	 * @generated
 	 */
-   void setIsMergeIteration(boolean value);
+	void setIsMergeIteration(boolean value);
 
 } // Iteration

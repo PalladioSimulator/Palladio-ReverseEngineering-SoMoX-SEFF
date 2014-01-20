@@ -11,5 +11,7 @@ Export-Package: metricvalues,
  metricvalues.impl,
  metricvalues.util
 Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="2.7.0",
- org.emftext.language.java;bundle-version="1.4.0"
+ org.emftext.language.java;bundle-version="1.4.0",
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport
 Bundle-ActivationPolicy: lazy

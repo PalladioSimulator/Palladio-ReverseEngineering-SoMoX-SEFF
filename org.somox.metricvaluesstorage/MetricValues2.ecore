@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metricvalues"
-    nsURI="http://metricvalues/1.0" nsPrefix="metricvalues">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metricvalues" nsURI="http://metricvalues/1.0" nsPrefix="metricvalues">
   <eClassifiers xsi:type="ecore:EClass" name="Component">
     <eStructuralFeatures xsi:type="ecore:EReference" name="subComponents" upperBound="-1"
         eType="#//Component" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
-        eType="ecore:EClass platform:/plugin/de.fzi.gast/model/gast.ecore#//types/GASTClass"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ComponentCandidate">
     <eStructuralFeatures xsi:type="ecore:EReference" name="metricValues" upperBound="-1"
