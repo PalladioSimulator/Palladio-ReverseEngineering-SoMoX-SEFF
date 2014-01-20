@@ -15,7 +15,7 @@ package org.somox.sourcecodedecorator;
  * </ul>
  * </p>
  *
- * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getPCMSystemImplementatingClassesLink()
+ * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getPCMSystemImplementatingClassesLink()
  * @model
  * @generated
  */
@@ -30,7 +30,7 @@ public interface PCMSystemImplementatingClassesLink extends ComponentImplementin
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>System Model</em>' reference.
 	 * @see #setSystemModel(de.uka.ipd.sdq.pcm.system.System)
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getPCMSystemImplementatingClassesLink_SystemModel()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getPCMSystemImplementatingClassesLink_SystemModel()
 	 * @model ordered="false"
 	 * @generated
 	 */

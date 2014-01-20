@@ -10,9 +10,24 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.somox.sourcecodedecorator,
  org.somox.sourcecodedecorator.impl,
  org.somox.sourcecodedecorator.util
-Require-Bundle: de.uka.ipd.sdq.identifier;visibility:=reexport,
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ de.uka.ipd.sdq.identifier;visibility:=reexport,
  de.uka.ipd.sdq.stoex;visibility:=reexport,
- org.eclipse.gmt.modisco.java,
- org.eclipse.gmt.modisco.omg.kdm,
- de.uka.ipd.sdq.pcm;bundle-version="3.2.0"
+ de.uka.ipd.sdq.units;visibility:=reexport,
+ de.uka.ipd.sdq.pcm;bundle-version="3.2.0",
+ de.uka.ipd.sdq.probfunction;visibility:=reexport,
+ org.emftext.language.java;bundle-version="1.4.0",
+ org.emftext.commons.layout;visibility:=reexport,
+ org.emftext.commons.jdt;bundle-version="1.4.1",
+ org.emftext.language.java.resource.java;bundle-version="1.4.0",
+ org.emftext.commons.antlr3_4_0;bundle-version="3.4.0",
+ org.emftext.commons.jdt.edit;bundle-version="1.4.1",
+ org.emftext.commons.layout.edit;bundle-version="1.4.1",
+ org.emftext.language.java.edit;bundle-version="1.4.0",
+ org.emftext.language.java.resource;bundle-version="1.4.0",
+ org.emftext.language.java.resource.bcel;bundle-version="1.4.0",
+ org.emftext.language.java.resource.java.ui;bundle-version="1.4.0",
+ org.emftext.language.java.resource.jdt;bundle-version="1.4.0"
 Bundle-ActivationPolicy: lazy

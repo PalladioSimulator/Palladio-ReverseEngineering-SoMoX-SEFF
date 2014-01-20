@@ -2,10 +2,11 @@
  */
 package org.somox.sourcecodedecorator;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmt.modisco.omg.kdm.source.SourceFile;
-
 import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
+
+import org.eclipse.emf.ecore.EObject;
+
+import org.emftext.language.java.containers.CompilationUnit;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +25,7 @@ import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
  * </ul>
  * </p>
  *
- * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getFileLevelSourceCodeLink()
+ * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getFileLevelSourceCodeLink()
  * @model
  * @generated
  */
@@ -39,7 +40,7 @@ public interface FileLevelSourceCodeLink extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Repository Component</em>' reference.
 	 * @see #setRepositoryComponent(RepositoryComponent)
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getFileLevelSourceCodeLink_RepositoryComponent()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getFileLevelSourceCodeLink_RepositoryComponent()
 	 * @model ordered="false"
 	 * @generated
 	 */
@@ -64,12 +65,12 @@ public interface FileLevelSourceCodeLink extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>File</em>' reference.
-	 * @see #setFile(SourceFile)
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getFileLevelSourceCodeLink_File()
+	 * @see #setFile(CompilationUnit)
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getFileLevelSourceCodeLink_File()
 	 * @model ordered="false"
 	 * @generated
 	 */
-	SourceFile getFile();
+	CompilationUnit getFile();
 
 	/**
 	 * Sets the value of the '{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getFile <em>File</em>}' reference.
@@ -79,6 +80,6 @@ public interface FileLevelSourceCodeLink extends EObject {
 	 * @see #getFile()
 	 * @generated
 	 */
-	void setFile(SourceFile value);
+	void setFile(CompilationUnit value);
 
 } // FileLevelSourceCodeLink

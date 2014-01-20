@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Repository</b></em>'.
+ * A representation of the model object '<em><b>Source Code Decorator Repository</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  * </p>
  *
- * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getSourceCodeDecoratorRepository()
+ * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getSourceCodeDecoratorRepository()
  * @model
  * @generated
  */
@@ -37,7 +37,7 @@ public interface SourceCodeDecoratorRepository extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>File Level Source Code Link</em>' containment reference list.
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getSourceCodeDecoratorRepository_FileLevelSourceCodeLink()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getSourceCodeDecoratorRepository_FileLevelSourceCodeLink()
 	 * @model containment="true" ordered="false"
 	 * @generated
 	 */
@@ -53,7 +53,7 @@ public interface SourceCodeDecoratorRepository extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Method Level Source Code Link</em>' containment reference list.
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getSourceCodeDecoratorRepository_MethodLevelSourceCodeLink()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getSourceCodeDecoratorRepository_MethodLevelSourceCodeLink()
 	 * @model containment="true" ordered="false"
 	 * @generated
 	 */
@@ -69,7 +69,7 @@ public interface SourceCodeDecoratorRepository extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Control Flow Level Source Code Link</em>' containment reference list.
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getSourceCodeDecoratorRepository_ControlFlowLevelSourceCodeLink()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getSourceCodeDecoratorRepository_ControlFlowLevelSourceCodeLink()
 	 * @model containment="true" ordered="false"
 	 * @generated
 	 */
@@ -85,7 +85,7 @@ public interface SourceCodeDecoratorRepository extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Interface Source Code Link</em>' containment reference list.
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getSourceCodeDecoratorRepository_InterfaceSourceCodeLink()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getSourceCodeDecoratorRepository_InterfaceSourceCodeLink()
 	 * @model containment="true" ordered="false"
 	 * @generated
 	 */
@@ -101,7 +101,7 @@ public interface SourceCodeDecoratorRepository extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Component Implementing Classes Link</em>' containment reference list.
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getSourceCodeDecoratorRepository_ComponentImplementingClassesLink()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getSourceCodeDecoratorRepository_ComponentImplementingClassesLink()
 	 * @model containment="true" ordered="false"
 	 * @generated
 	 */

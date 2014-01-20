@@ -2,9 +2,9 @@
  */
 package org.somox.sourcecodedecorator;
 
-import org.eclipse.gmt.modisco.java.Statement;
-
 import de.uka.ipd.sdq.pcm.seff.AbstractAction;
+
+import org.emftext.language.java.statements.Statement;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +19,7 @@ import de.uka.ipd.sdq.pcm.seff.AbstractAction;
  * </ul>
  * </p>
  *
- * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getControlFlowLevelSourceCodeLink()
+ * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getControlFlowLevelSourceCodeLink()
  * @model
  * @generated
  */
@@ -34,7 +34,7 @@ public interface ControlFlowLevelSourceCodeLink extends MethodLevelSourceCodeLin
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Abstract Action</em>' reference.
 	 * @see #setAbstractAction(AbstractAction)
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getControlFlowLevelSourceCodeLink_AbstractAction()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getControlFlowLevelSourceCodeLink_AbstractAction()
 	 * @model ordered="false"
 	 * @generated
 	 */
@@ -60,7 +60,7 @@ public interface ControlFlowLevelSourceCodeLink extends MethodLevelSourceCodeLin
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Statement</em>' reference.
 	 * @see #setStatement(Statement)
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getControlFlowLevelSourceCodeLink_Statement()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getControlFlowLevelSourceCodeLink_Statement()
 	 * @model ordered="false"
 	 * @generated
 	 */

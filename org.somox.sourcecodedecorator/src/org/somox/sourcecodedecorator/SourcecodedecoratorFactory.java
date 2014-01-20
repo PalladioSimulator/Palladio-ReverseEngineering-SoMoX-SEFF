@@ -9,17 +9,17 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage
+ * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage
  * @generated
  */
-public interface SourceCodeDecoratorFactory extends EFactory {
+public interface SourcecodedecoratorFactory extends EFactory {
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	SourceCodeDecoratorFactory eINSTANCE = org.somox.sourcecodedecorator.impl.SourceCodeDecoratorFactoryImpl.init();
+	SourcecodedecoratorFactory eINSTANCE = org.somox.sourcecodedecorator.impl.SourcecodedecoratorFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>File Level Source Code Link</em>'.
@@ -49,10 +49,10 @@ public interface SourceCodeDecoratorFactory extends EFactory {
 	ControlFlowLevelSourceCodeLink createControlFlowLevelSourceCodeLink();
 
 	/**
-	 * Returns a new object of class '<em>Repository</em>'.
+	 * Returns a new object of class '<em>Source Code Decorator Repository</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Repository</em>'.
+	 * @return a new object of class '<em>Source Code Decorator Repository</em>'.
 	 * @generated
 	 */
 	SourceCodeDecoratorRepository createSourceCodeDecoratorRepository();
@@ -91,6 +91,6 @@ public interface SourceCodeDecoratorFactory extends EFactory {
 	 * @return the package supported by this factory.
 	 * @generated
 	 */
-	SourceCodeDecoratorPackage getSourceCodeDecoratorPackage();
+	SourcecodedecoratorPackage getSourcecodedecoratorPackage();
 
-} //SourceCodeDecoratorFactory
+} //SourcecodedecoratorFactory

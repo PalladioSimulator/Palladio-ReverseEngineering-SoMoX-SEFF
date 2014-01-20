@@ -3,9 +3,10 @@
 package org.somox.sourcecodedecorator;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmt.modisco.java.Type;
 
-import de.uka.ipd.sdq.pcm.repository.Interface;
+import org.emftext.language.java.classifiers.Interface;
+
+import org.emftext.language.java.types.Type;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,7 +21,7 @@ import de.uka.ipd.sdq.pcm.repository.Interface;
  * </ul>
  * </p>
  *
- * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getInterfaceSourceCodeLink()
+ * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getInterfaceSourceCodeLink()
  * @model
  * @generated
  */
@@ -35,7 +36,7 @@ public interface InterfaceSourceCodeLink extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Interface</em>' reference.
 	 * @see #setInterface(Interface)
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getInterfaceSourceCodeLink_Interface()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getInterfaceSourceCodeLink_Interface()
 	 * @model ordered="false"
 	 * @generated
 	 */
@@ -61,7 +62,7 @@ public interface InterfaceSourceCodeLink extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Gast Class</em>' reference.
 	 * @see #setGastClass(Type)
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getInterfaceSourceCodeLink_GastClass()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getInterfaceSourceCodeLink_GastClass()
 	 * @model ordered="false"
 	 * @generated
 	 */

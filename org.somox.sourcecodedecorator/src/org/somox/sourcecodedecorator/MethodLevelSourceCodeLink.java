@@ -2,9 +2,9 @@
  */
 package org.somox.sourcecodedecorator;
 
-import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
-
 import de.uka.ipd.sdq.pcm.repository.Signature;
+
+import org.emftext.language.java.classifiers.Classifier;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +19,7 @@ import de.uka.ipd.sdq.pcm.repository.Signature;
  * </ul>
  * </p>
  *
- * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getMethodLevelSourceCodeLink()
+ * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getMethodLevelSourceCodeLink()
  * @model
  * @generated
  */
@@ -34,7 +34,7 @@ public interface MethodLevelSourceCodeLink extends FileLevelSourceCodeLink {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Operation</em>' reference.
 	 * @see #setOperation(Signature)
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getMethodLevelSourceCodeLink_Operation()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getMethodLevelSourceCodeLink_Operation()
 	 * @model ordered="false"
 	 * @generated
 	 */
@@ -59,12 +59,12 @@ public interface MethodLevelSourceCodeLink extends FileLevelSourceCodeLink {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Function</em>' reference.
-	 * @see #setFunction(AbstractMethodDeclaration)
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getMethodLevelSourceCodeLink_Function()
+	 * @see #setFunction(Classifier)
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getMethodLevelSourceCodeLink_Function()
 	 * @model ordered="false"
 	 * @generated
 	 */
-	AbstractMethodDeclaration getFunction();
+	Classifier getFunction();
 
 	/**
 	 * Sets the value of the '{@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink#getFunction <em>Function</em>}' reference.
@@ -74,6 +74,6 @@ public interface MethodLevelSourceCodeLink extends FileLevelSourceCodeLink {
 	 * @see #getFunction()
 	 * @generated
 	 */
-	void setFunction(AbstractMethodDeclaration value);
+	void setFunction(Classifier value);
 
 } // MethodLevelSourceCodeLink

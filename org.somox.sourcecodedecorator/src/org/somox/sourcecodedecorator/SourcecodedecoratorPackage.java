@@ -14,15 +14,16 @@ import org.eclipse.emf.ecore.EReference;
  * <ul>
  *   <li>each class,</li>
  *   <li>each feature of each class,</li>
+ *   <li>each operation of each class,</li>
  *   <li>each enum,</li>
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see org.somox.sourcecodedecorator.SourceCodeDecoratorFactory
+ * @see org.somox.sourcecodedecorator.SourcecodedecoratorFactory
  * @model kind="package"
  * @generated
  */
-public interface SourceCodeDecoratorPackage extends EPackage {
+public interface SourcecodedecoratorPackage extends EPackage {
 	/**
 	 * The package name.
 	 * <!-- begin-user-doc -->
@@ -53,14 +54,14 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	SourceCodeDecoratorPackage eINSTANCE = org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl.init();
+	SourcecodedecoratorPackage eINSTANCE = org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl.init();
 
 	/**
 	 * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.FileLevelSourceCodeLinkImpl <em>File Level Source Code Link</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.somox.sourcecodedecorator.impl.FileLevelSourceCodeLinkImpl
-	 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getFileLevelSourceCodeLink()
+	 * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getFileLevelSourceCodeLink()
 	 * @generated
 	 */
 	int FILE_LEVEL_SOURCE_CODE_LINK = 0;
@@ -93,11 +94,20 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	int FILE_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT = 2;
 
 	/**
+	 * The number of operations of the '<em>File Level Source Code Link</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FILE_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.MethodLevelSourceCodeLinkImpl <em>Method Level Source Code Link</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.somox.sourcecodedecorator.impl.MethodLevelSourceCodeLinkImpl
-	 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getMethodLevelSourceCodeLink()
+	 * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getMethodLevelSourceCodeLink()
 	 * @generated
 	 */
 	int METHOD_LEVEL_SOURCE_CODE_LINK = 1;
@@ -148,11 +158,20 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	int METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT = FILE_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 2;
 
 	/**
+	 * The number of operations of the '<em>Method Level Source Code Link</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT = FILE_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl <em>Control Flow Level Source Code Link</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl
-	 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getControlFlowLevelSourceCodeLink()
+	 * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getControlFlowLevelSourceCodeLink()
 	 * @generated
 	 */
 	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK = 2;
@@ -221,11 +240,20 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT = METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl <em>Repository</em>}' class.
+	 * The number of operations of the '<em>Control Flow Level Source Code Link</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT = METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl <em>Source Code Decorator Repository</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl
-	 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getSourceCodeDecoratorRepository()
+	 * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getSourceCodeDecoratorRepository()
 	 * @generated
 	 */
 	int SOURCE_CODE_DECORATOR_REPOSITORY = 3;
@@ -276,7 +304,7 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	int SOURCE_CODE_DECORATOR_REPOSITORY__COMPONENT_IMPLEMENTING_CLASSES_LINK = 4;
 
 	/**
-	 * The number of structural features of the '<em>Repository</em>' class.
+	 * The number of structural features of the '<em>Source Code Decorator Repository</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -285,11 +313,20 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	int SOURCE_CODE_DECORATOR_REPOSITORY_FEATURE_COUNT = 5;
 
 	/**
+	 * The number of operations of the '<em>Source Code Decorator Repository</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOURCE_CODE_DECORATOR_REPOSITORY_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.InterfaceSourceCodeLinkImpl <em>Interface Source Code Link</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.somox.sourcecodedecorator.impl.InterfaceSourceCodeLinkImpl
-	 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getInterfaceSourceCodeLink()
+	 * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getInterfaceSourceCodeLink()
 	 * @generated
 	 */
 	int INTERFACE_SOURCE_CODE_LINK = 4;
@@ -322,11 +359,20 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	int INTERFACE_SOURCE_CODE_LINK_FEATURE_COUNT = 2;
 
 	/**
+	 * The number of operations of the '<em>Interface Source Code Link</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTERFACE_SOURCE_CODE_LINK_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl <em>Component Implementing Classes Link</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl
-	 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getComponentImplementingClassesLink()
+	 * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getComponentImplementingClassesLink()
 	 * @generated
 	 */
 	int COMPONENT_IMPLEMENTING_CLASSES_LINK = 5;
@@ -404,11 +450,20 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	int COMPONENT_IMPLEMENTING_CLASSES_LINK_FEATURE_COUNT = 7;
 
 	/**
+	 * The number of operations of the '<em>Component Implementing Classes Link</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_IMPLEMENTING_CLASSES_LINK_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl <em>PCM System Implementating Classes Link</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl
-	 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getPCMSystemImplementatingClassesLink()
+	 * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getPCMSystemImplementatingClassesLink()
 	 * @generated
 	 */
 	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK = 6;
@@ -493,6 +548,16 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	 * @ordered
 	 */
 	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK_FEATURE_COUNT = COMPONENT_IMPLEMENTING_CLASSES_LINK_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>PCM System Implementating Classes Link</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK_OPERATION_COUNT = COMPONENT_IMPLEMENTING_CLASSES_LINK_OPERATION_COUNT + 0;
+
 
 	/**
 	 * Returns the meta object for class '{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink <em>File Level Source Code Link</em>}'.
@@ -591,10 +656,10 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	EReference getControlFlowLevelSourceCodeLink_Statement();
 
 	/**
-	 * Returns the meta object for class '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository <em>Repository</em>}'.
+	 * Returns the meta object for class '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository <em>Source Code Decorator Repository</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Repository</em>'.
+	 * @return the meta object for class '<em>Source Code Decorator Repository</em>'.
 	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorRepository
 	 * @generated
 	 */
@@ -698,11 +763,11 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	EClass getComponentImplementingClassesLink();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isCompositeComponent <em>Is Composite Component</em>}'.
+	 * Returns the meta object for the attribute '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsCompositeComponent <em>Is Composite Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Is Composite Component</em>'.
-	 * @see org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isCompositeComponent()
+	 * @see org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsCompositeComponent()
 	 * @see #getComponentImplementingClassesLink()
 	 * @generated
 	 */
@@ -764,11 +829,11 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	EReference getComponentImplementingClassesLink_RequiredInterfaces();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isInitialComponent <em>Is Initial Component</em>}'.
+	 * Returns the meta object for the attribute '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsInitialComponent <em>Is Initial Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Is Initial Component</em>'.
-	 * @see org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isInitialComponent()
+	 * @see org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsInitialComponent()
 	 * @see #getComponentImplementingClassesLink()
 	 * @generated
 	 */
@@ -802,7 +867,7 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	 * @return the factory that creates the instances of the model.
 	 * @generated
 	 */
-	SourceCodeDecoratorFactory getSourceCodeDecoratorFactory();
+	SourcecodedecoratorFactory getSourcecodedecoratorFactory();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -810,6 +875,7 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 	 * <ul>
 	 *   <li>each class,</li>
 	 *   <li>each feature of each class,</li>
+	 *   <li>each operation of each class,</li>
 	 *   <li>each enum,</li>
 	 *   <li>and each data type</li>
 	 * </ul>
@@ -822,7 +888,7 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see org.somox.sourcecodedecorator.impl.FileLevelSourceCodeLinkImpl
-		 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getFileLevelSourceCodeLink()
+		 * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getFileLevelSourceCodeLink()
 		 * @generated
 		 */
 		EClass FILE_LEVEL_SOURCE_CODE_LINK = eINSTANCE.getFileLevelSourceCodeLink();
@@ -848,7 +914,7 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see org.somox.sourcecodedecorator.impl.MethodLevelSourceCodeLinkImpl
-		 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getMethodLevelSourceCodeLink()
+		 * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getMethodLevelSourceCodeLink()
 		 * @generated
 		 */
 		EClass METHOD_LEVEL_SOURCE_CODE_LINK = eINSTANCE.getMethodLevelSourceCodeLink();
@@ -874,7 +940,7 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl
-		 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getControlFlowLevelSourceCodeLink()
+		 * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getControlFlowLevelSourceCodeLink()
 		 * @generated
 		 */
 		EClass CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK = eINSTANCE.getControlFlowLevelSourceCodeLink();
@@ -896,11 +962,11 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 		EReference CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT = eINSTANCE.getControlFlowLevelSourceCodeLink_Statement();
 
 		/**
-		 * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl <em>Repository</em>}' class.
+		 * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl <em>Source Code Decorator Repository</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl
-		 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getSourceCodeDecoratorRepository()
+		 * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getSourceCodeDecoratorRepository()
 		 * @generated
 		 */
 		EClass SOURCE_CODE_DECORATOR_REPOSITORY = eINSTANCE.getSourceCodeDecoratorRepository();
@@ -950,7 +1016,7 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see org.somox.sourcecodedecorator.impl.InterfaceSourceCodeLinkImpl
-		 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getInterfaceSourceCodeLink()
+		 * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getInterfaceSourceCodeLink()
 		 * @generated
 		 */
 		EClass INTERFACE_SOURCE_CODE_LINK = eINSTANCE.getInterfaceSourceCodeLink();
@@ -976,7 +1042,7 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl
-		 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getComponentImplementingClassesLink()
+		 * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getComponentImplementingClassesLink()
 		 * @generated
 		 */
 		EClass COMPONENT_IMPLEMENTING_CLASSES_LINK = eINSTANCE.getComponentImplementingClassesLink();
@@ -1042,7 +1108,7 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl
-		 * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorPackageImpl#getPCMSystemImplementatingClassesLink()
+		 * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getPCMSystemImplementatingClassesLink()
 		 * @generated
 		 */
 		EClass PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK = eINSTANCE.getPCMSystemImplementatingClassesLink();
@@ -1057,4 +1123,4 @@ public interface SourceCodeDecoratorPackage extends EPackage {
 
 	}
 
-} //SourceCodeDecoratorPackage
+} //SourcecodedecoratorPackage

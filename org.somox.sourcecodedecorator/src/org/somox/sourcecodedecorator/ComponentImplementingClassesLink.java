@@ -3,9 +3,12 @@
 package org.somox.sourcecodedecorator;
 
 import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmt.modisco.java.Type;
+
+import org.emftext.language.java.types.Type;
 
 /**
  * <!-- begin-user-doc -->
@@ -15,17 +18,17 @@ import org.eclipse.gmt.modisco.java.Type;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isCompositeComponent <em>Is Composite Component</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsCompositeComponent <em>Is Composite Component</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getComponent <em>Component</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getImplementingClasses <em>Implementing Classes</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getSubComponents <em>Sub Components</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getProvidedInterfaces <em>Provided Interfaces</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getRequiredInterfaces <em>Required Interfaces</em>}</li>
- *   <li>{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isInitialComponent <em>Is Initial Component</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsInitialComponent <em>Is Initial Component</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getComponentImplementingClassesLink()
+ * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getComponentImplementingClassesLink()
  * @model
  * @generated
  */
@@ -40,18 +43,18 @@ public interface ComponentImplementingClassesLink extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Is Composite Component</em>' attribute.
 	 * @see #isSetIsCompositeComponent()
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getComponentImplementingClassesLink_IsCompositeComponent()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getComponentImplementingClassesLink_IsCompositeComponent()
 	 * @model unique="false" unsettable="true" required="true" transient="true" changeable="false" volatile="true" derived="true" ordered="false"
 	 * @generated
 	 */
-	boolean isCompositeComponent();
+	boolean isIsCompositeComponent();
 
 	/**
-	 * Returns whether the value of the '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isCompositeComponent <em>Is Composite Component</em>}' attribute is set.
+	 * Returns whether the value of the '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsCompositeComponent <em>Is Composite Component</em>}' attribute is set.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Is Composite Component</em>' attribute is set.
-	 * @see #isCompositeComponent()
+	 * @see #isIsCompositeComponent()
 	 * @generated
 	 */
 	boolean isSetIsCompositeComponent();
@@ -66,7 +69,7 @@ public interface ComponentImplementingClassesLink extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Component</em>' reference.
 	 * @see #setComponent(RepositoryComponent)
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getComponentImplementingClassesLink_Component()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getComponentImplementingClassesLink_Component()
 	 * @model required="true" ordered="false"
 	 * @generated
 	 */
@@ -84,7 +87,7 @@ public interface ComponentImplementingClassesLink extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Implementing Classes</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.gmt.modisco.java.Type}.
+	 * The list contents are of type {@link org.emftext.language.java.types.Type}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Implementing Classes</em>' reference list isn't clear,
@@ -92,7 +95,7 @@ public interface ComponentImplementingClassesLink extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Implementing Classes</em>' reference list.
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getComponentImplementingClassesLink_ImplementingClasses()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getComponentImplementingClassesLink_ImplementingClasses()
 	 * @model required="true" ordered="false"
 	 * @generated
 	 */
@@ -108,7 +111,7 @@ public interface ComponentImplementingClassesLink extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Sub Components</em>' reference list.
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getComponentImplementingClassesLink_SubComponents()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getComponentImplementingClassesLink_SubComponents()
 	 * @model ordered="false"
 	 * @generated
 	 */
@@ -124,7 +127,7 @@ public interface ComponentImplementingClassesLink extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Provided Interfaces</em>' reference list.
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getComponentImplementingClassesLink_ProvidedInterfaces()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getComponentImplementingClassesLink_ProvidedInterfaces()
 	 * @model ordered="false"
 	 * @generated
 	 */
@@ -140,7 +143,7 @@ public interface ComponentImplementingClassesLink extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Required Interfaces</em>' reference list.
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getComponentImplementingClassesLink_RequiredInterfaces()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getComponentImplementingClassesLink_RequiredInterfaces()
 	 * @model ordered="false"
 	 * @generated
 	 */
@@ -156,18 +159,18 @@ public interface ComponentImplementingClassesLink extends EObject {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Is Initial Component</em>' attribute.
 	 * @see #setIsInitialComponent(boolean)
-	 * @see org.somox.sourcecodedecorator.SourceCodeDecoratorPackage#getComponentImplementingClassesLink_IsInitialComponent()
+	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getComponentImplementingClassesLink_IsInitialComponent()
 	 * @model required="true" ordered="false"
 	 * @generated
 	 */
-	boolean isInitialComponent();
+	boolean isIsInitialComponent();
 
 	/**
-	 * Sets the value of the '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isInitialComponent <em>Is Initial Component</em>}' attribute.
+	 * Sets the value of the '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsInitialComponent <em>Is Initial Component</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Is Initial Component</em>' attribute.
-	 * @see #isInitialComponent()
+	 * @see #isIsInitialComponent()
 	 * @generated
 	 */
 	void setIsInitialComponent(boolean value);
