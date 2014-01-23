@@ -1,11 +1,12 @@
 package org.somox.metrics.hierarchy;
 
-import org.eclipse.gmt.modisco.java.Type;
-import org.eclipse.gmt.modisco.omg.kdm.source.Directory;
+//package org.somox.metrics.hierarchy;
+
+import org.emftext.language.java.types.Type;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.metrics.MetricID;
 
-//import de.fzi.gast.core.Directory;
+import de.fzi.gast.core.Directory;
 //import de.fzi.gast.types.GASTClass;
 
 /**
