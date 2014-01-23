@@ -8,6 +8,7 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.somox.seff2javaast,
+ org.somox.seff2javaast.impl,
  org.somox.seff2javaast.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
@@ -18,5 +19,15 @@ Require-Bundle: org.eclipse.core.runtime,
  de.uka.ipd.sdq.stoex;visibility:=reexport,
  de.uka.ipd.sdq.units;visibility:=reexport,
  org.emftext.language.java;bundle-version="1.4.0",
- org.emftext.commons.layout;visibility:=reexport
+ org.emftext.commons.layout;visibility:=reexport,
+ org.emftext.commons.antlr3_4_0;bundle-version="3.4.0",
+ org.emftext.commons.jdt;bundle-version="1.4.1",
+ org.emftext.commons.jdt.edit;bundle-version="1.4.1",
+ org.emftext.commons.layout.edit;bundle-version="1.4.1",
+ org.emftext.language.java.edit;bundle-version="1.4.0",
+ org.emftext.language.java.resource;bundle-version="1.4.0",
+ org.emftext.language.java.resource.bcel;bundle-version="1.4.0",
+ org.emftext.language.java.resource.java;bundle-version="1.4.0",
+ org.emftext.language.java.resource.java.ui;bundle-version="1.4.0",
+ org.emftext.language.java.resource.jdt;bundle-version="1.4.0"
 Bundle-ActivationPolicy: lazy
