@@ -100,7 +100,7 @@ public class OperationBuilder extends AbstractBuilder {
 				} else {
 					logger.warn("no implementation class for method "
 							+ method.getName() + " of interface "
-							+ interfaceClass());
+							+KDMHelper.getName(interfaceClass));
 				}
 				OperationSignature op = createOperationSignature(realMethod,
 						interf);
@@ -189,7 +189,7 @@ public class OperationBuilder extends AbstractBuilder {
 			opSigParam.setOperationSignature__Parameter(operation);
 		}
 		
-		if(null != method.getTypeReference() && null != method.getReturnType().getType() &&
+		if(null != method.getTypeReference() && null != method.getTypeReference() &&
 				!(method.getTypeReference() instanceof org.emftext.language.java.types.Void)){
 			operation.setReturnType__OperationSignature(
 					getType(GetAccessedType.getAccessedType(method.getTypeReference()), 
@@ -256,10 +256,8 @@ public class OperationBuilder extends AbstractBuilder {
 		link.setOperation(operation);
 
 		if (KDMHelper.getJavaNodeSourceRegion(method) != null
-				&& KDMHelper.getSourceFile(KDMHelper
-						.getJavaNodeSourceRegion(method)) != null) {
-			link.setFile(KDMHelper.getSourceFile(KDMHelper
-					.getJavaNodeSourceRegion(method)));
+				&& KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(method)) != null) {
+			link.setFile(KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(method)));
 		}
 
 		this.analysisResult.getSourceCodeDecoratorRepository()
@@ -401,7 +399,7 @@ public class OperationBuilder extends AbstractBuilder {
 	 */
 	private DataType createDataType(
 			de.uka.ipd.sdq.pcm.repository.Repository repository, Type gastType) {
-		String typeName = gastType.getName();
+		String typeName = KDMHelper.getName(gastType);
 		typeName = getUnifiedTypeName(typeName);
 
 		DataType newType = null;
@@ -488,8 +486,8 @@ public class OperationBuilder extends AbstractBuilder {
 						.getAllAccessedClasses(gastType)) {
 					// avoid self-references and void as access
 					if (!currentClass.equals(gastType)
-							&& !currentClass.getName().equals("void")) {
-						String tmpInnerTypeName = currentClass.getName();
+							&& !KDMHelper.getName(currentClass).equals("void")) {
+						String tmpInnerTypeName = KDMHelper.getName(currentClass);
 						;
 						InnerDeclaration innerElement = RepositoryFactory.eINSTANCE
 								.createInnerDeclaration();
@@ -550,7 +548,7 @@ public class OperationBuilder extends AbstractBuilder {
 	 */
 	private DataType getExistingType(Type gastType,
 			de.uka.ipd.sdq.pcm.repository.Repository repository) {
-		return getExistingTypeByName(gastType.getName(), repository);
+		return getExistingTypeByName(KDMHelper.getName(gastType), repository);
 	}
 
 	/**
