@@ -1,5 +1,7 @@
 package org.somox.metrics.tests;
 
+//package org.somox.metrics.tests;
+
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;

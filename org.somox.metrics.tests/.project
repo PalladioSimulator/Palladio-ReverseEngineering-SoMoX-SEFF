@@ -3,6 +3,8 @@
 	<name>org.somox.metrics.tests</name>
 	<comment></comment>
 	<projects>
+		<project>org.somox.analyzer.sissymodelanalyzer</project>
+		<project>org.somox.metrics</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
