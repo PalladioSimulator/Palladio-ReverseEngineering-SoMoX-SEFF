@@ -1,5 +1,7 @@
 package org.somox.gast2seff.visitors;
 
+
+
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Map;
@@ -565,7 +567,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
                     final Commentable access = firstAccess; // GAST2SEFFCHANGE//GAST2SEFFCHANGE
 
                     if (GetAccessedType.getAccessedType(access) != null) { // GAST2SEFFCHANGE
-                        blockString.append(" " + GetAccessedType.getAccessedType(access).getName() + "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                        blockString.append(" " + KDMHelper.getName(GetAccessedType.getAccessedType(access)) + "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                     }
                 }
             }
