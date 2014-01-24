@@ -27,7 +27,7 @@ import org.emftext.language.java.types.Type;
 //import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 
 import org.somox.kdmhelper.metamodeladdition.Root;
-import  org.emftext.language.xml.resource.xml;
+
 
 //@SuppressWarnings("restriction")
 public class KDMReader {

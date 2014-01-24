@@ -1,5 +1,6 @@
 package org.somox.kdmhelper;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -48,10 +49,13 @@ import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.members.impl.ExceptionThrowerImpl;
+import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.references.SelfReference;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.classifiers.Class;
+import org.emftext.language.java.classifiers.Classifier;
+import org.emftext.language.java.classifiers.Interface;
 //CompilationUnit statt Model 
 //Commentable statt AstNode
 import org.emftext.language.java.types.TypeReference;
@@ -96,6 +100,24 @@ public class KDMHelper {
 	// }
 	// return result;
 	// }
+	public static String getName(Type type) {
+		if (type instanceof Classifier)
+			return ((Classifier)type).getName();
+		else if (type instanceof Package)
+			return ((Package)type).getName();
+		else if (type instanceof CompilationUnit)
+			return ((CompilationUnit)type).getName();
+		else if (type instanceof Method)
+			return ((Method)type).getName();
+		else if (type instanceof Parameter)
+			return ((Parameter)type).getName();
+		else if (type instanceof Member)
+			return ((Member)type).getName();
+
+		if (type instanceof Interface)
+			return ((Interface)type).getName();
+			return type.toString();
+	}
 
 	// TODO test
 
@@ -110,12 +132,14 @@ public class KDMHelper {
 		EObject pack = astClass;
 
 		String result = "";
+		
 
 		if (pack instanceof NamedElement) {
 			result = getNameOfNamedElement((NamedElement) pack);
 		}
 
 		while (pack != null) {
+			
 			if (pack.eContainer() != null
 					&& pack.eContainer() instanceof NamedElement) {
 				pack = pack.eContainer();
@@ -142,7 +166,7 @@ public class KDMHelper {
 
     private static String getNameOfNamedElement(NamedElement input){
 		String result ="";
-		if(input instanceof AbstractMethodDeclaration){
+		if(input instanceof Method){
 			result = input.getName() + "()";
 		}else{
 			result = input.getName();
@@ -184,13 +208,13 @@ public class KDMHelper {
 		else{//KDM Mode
 			
 //			TODO adopt this
-			if (accessedType instanceof ParameterizedType) {
-				ParameterizedType paramType = (ParameterizedType) accessedType;
+			if (accessedType instanceof Parameter) {
+				Parameter paramType = (Parameter) accessedType;
 				//1. add main type
-				result.add(paramType.getType().getType());
+				result.add(paramType.getTypeReference().getTarget());
 				//2. add type arguments
-				for(TypeAccess typeAccess : paramType.getTypeArguments()){
-					if(typeAccess.getType() instanceof ParameterizedType){
+				for(TypeReference typeAccess : paramType.getTypeArguments()){
+					if(typeAccess.getTarget() instanceof Parameter){
 						//recursive call
 						result.addAll(getAccessedTypes(typeAccess));
 					} else{
@@ -295,8 +319,8 @@ public class KDMHelper {
 			}
 		}
 
-		if (type instanceof InterfaceDeclaration) {
-			InterfaceDeclaration tempInterface = (InterfaceDeclaration) type;
+		if (type instanceof Interface) {
+			Interface tempInterface = (Interface) type;
 			result.addAll(tempInterface.getSuperInterfaces());
 		}
 
@@ -361,14 +385,14 @@ public class KDMHelper {
 		// FIXEDMYBUG used ClassDecl instead of AbstractTypeDeclaration, missed
 		// InterfaceDeclaration
 
-		if (!(input instanceof AbstractTypeDeclaration)) {
+		if (!(input instanceof Type)) {
 			return result;
 		}
 
-		AbstractTypeDeclaration clazz = (AbstractTypeDeclaration) input;
+		Type clazz = (Type) input;
 		for (BodyDeclaration body : clazz.getBodyDeclarations()) {
-			if (body instanceof MethodDeclaration) {
-				result.add((MethodDeclaration) body);
+			if (body instanceof Method) {
+				result.add((Method) body);
 			}
 		}
 		return result;
@@ -453,9 +477,9 @@ public class KDMHelper {
 			return result;
 		}
 		
-		for (TypeAccess typeAccess : getInheritanceTypeAccesses(type)) {
+		for (TypeReference typeAccess : getInheritanceTypeAccesses(type)) {
 			if (typeAccess != null) {
-				result.add(typeAccess.getType());
+				result.add(typeAccess.getTarget());
 			}
 		}
 		return result;
@@ -541,12 +565,12 @@ public class KDMHelper {
 	 *            The type access to verify.
 	 * @return true or false.
 	 */
-	public static boolean isInheritanceTypeAccess(TypeAccess inputTypeAccess) {
-		if (inputTypeAccess.eContainer() instanceof AbstractTypeDeclaration) {
-
-			AbstractTypeDeclaration atd = (AbstractTypeDeclaration) inputTypeAccess
+	public static boolean isInheritanceTypeAccess(TypeReference inputTypeAccess) {
+		if (inputTypeAccess.eContainer() instanceof Type) {
+//Type statt AbstractTypeDeclaration
+			Type atd = (Type) inputTypeAccess
 					.eContainer();
-			for (TypeAccess ta : getInheritanceTypeAccesses(atd)) {
+			for (TypeReference ta : getInheritanceTypeAccesses(atd)) {
 				if (ta == inputTypeAccess) {
 					return true;
 				}
@@ -574,7 +598,7 @@ public class KDMHelper {
 	 * @return true or false
 	 */
 	public static boolean isInterface(Commentable input) {
-		return (input instanceof InterfaceDeclaration);
+		return (input instanceof Interface);
 	}
 
 	/**
