@@ -11,7 +11,9 @@ import org.eclipse.core.internal.resources.VariableDescription;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.members.Method;
 import org.emftext.language.java.references.MethodCall;
+import org.emftext.language.java.references.ReferenceableElement;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Switch;
 //import org.eclipse.gmt.modisco.java.ASTNode;
@@ -384,7 +386,13 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
             this.createExternalCallAction(object);
         } else if (this.isInternalCall(statementAnnotation)) {
             final MethodCall functionAccess = this.getFunctionAccess(object); // GAST2SEFFCHANGE
-            final Block body = functionAccess.getMethod().getBody(); // GAST2SEFFCHANGE//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+            ReferenceableElement re = functionAccess.getTarget()
+                    if (!( re instanceof Method )){
+                    	 //TODO: log error
+                    }else{
+                    	 Method method = (Method)re;
+                    
+            final Block body = method.getBody(); // GAST2SEFFCHANGE//GAST2SEFFCHANGE//GAST2SEFFCHANGE
             if (body != null) {
 
                 // avoid infinite recursion
@@ -399,13 +407,17 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
                         && KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object)) != null
                         && (KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object))).getPath() != null) { // GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
                     msg += ". Tried to call from "
-                            + (KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object))).getPath() + "."; // GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
-                } else {
+           
+                    		
+                    		+ (KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object))).getPath() + "."; // GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
+                }
+            
+                else {
                     msg += ". (caller position unknown)";
                 }
                 logger.warn(msg);
             }
-        } else {
+        } }else {
             this.createInternalAction(object);
         }
         return null;
