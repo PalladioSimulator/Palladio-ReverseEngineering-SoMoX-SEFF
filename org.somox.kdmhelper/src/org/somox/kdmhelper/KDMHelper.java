@@ -50,6 +50,8 @@ import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.members.impl.ExceptionThrowerImpl;
 import org.emftext.language.java.parameters.Parameter;
+import org.emftext.language.java.references.MethodCall;
+import org.emftext.language.java.references.ReferenceableElement;
 import org.emftext.language.java.references.SelfReference;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
 import org.emftext.language.java.types.Type;
@@ -128,7 +130,7 @@ public class KDMHelper {
 	 *            the {@link ASTNode} object
 	 * @return the full qualified name of the input object
 	 */
-	public static String computeFullQualifiedName(Type astClass) {
+	public static String computeFullQualifiedName(Commentable astClass) {
 		EObject pack = astClass;
 
 		String result = "";
@@ -151,7 +153,18 @@ public class KDMHelper {
 		result = removeLastPoint(result);
 		return result;
 	}
-	
+	public static Method getMethod(MethodCall methodCall) {
+		ReferenceableElement re = methodCall.getTarget();
+		        if( re instanceof Method ){
+		                Method method = (Method)re;
+		                return method;
+		        }else{
+		        	return null;
+		                //TODO: log error
+		        }
+	    
+    }
+
 	public static String removeLastPoint(String result) {
 	    if(result != null){
 	        if(result.charAt(result.length()-1) == '.'){
@@ -361,16 +374,10 @@ public class KDMHelper {
 	 */
 	//JavaNodeSourceRegion
 	//Commentable statt
-	public static JavaNodeSourceRegion getJavaNodeSourceRegion(Commentable node) {
-		GetASTNodeSourceRegion query = new GetASTNodeSourceRegion();
-		try {
-			return query.evaluate(node, null);
-		} catch (ExceptionThrower e) {
-			
-			e.printStackTrace();
-		}
-		return null;
-
+	public static CompilationUnit getJavaNodeSourceRegion(Commentable node) {
+		
+			return node.getContainingCompilationUnit();
+		
 	}
 
 	/**
@@ -451,10 +458,12 @@ public class KDMHelper {
 	 * @return the {@link SourceFile} object
 	 */
 	//TODO refactor return
-	public static JavaSourceOrClassFileResource getSourceFile(JavaNodeSourceRegion sourceRegion) {
+	public static JavaSourceOrClassFileResource getSourceFile(CompilationUnit compulitaionUnit) {
 		JavaSourceOrClassFileResource result = null;
-		if (sourceRegion != null) {
-			if (sourceRegion.eContainer() instanceof Java2File) {
+		
+		if (compulitaionUnit != null) {
+			compulitaionUnit.get
+			if (compulitaionUnit.eContainer() instanceof Java2File) {
 				Java2File java2file = (Java2File) sourceRegion.eContainer();
 				return java2file.getFile();
 			}

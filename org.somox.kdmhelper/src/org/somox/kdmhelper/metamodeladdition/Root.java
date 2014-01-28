@@ -33,7 +33,7 @@ public class Root {
 		// JavaRoot statt JavaAplication
 	//CompilationUnit   statt Model
 
-	public void addCompilationUnits(Collection<CompilationUnit> modelsFromResource) {
+	public void addModels(Collection<CompilationUnit> modelsFromResource) {
 		models.addAll(modelsFromResource);
 		addPackagesToIDMapping(modelsFromResource);
 	}

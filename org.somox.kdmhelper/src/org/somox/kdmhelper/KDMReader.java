@@ -77,7 +77,7 @@ public class KDMReader {
 	}
 
 	private void addModelToRoot(Resource resource) {
-		root.addModels(getModelsFromResource(resource));
+		root.addCompilationUnits(modelsFromResource);addModels(getModelsFromResource(resource));
 	}
 	
 //CompilationUnit statt Model 

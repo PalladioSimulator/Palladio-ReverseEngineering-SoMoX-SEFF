@@ -5,6 +5,7 @@ package org.somox.metrics.hierarchy;
 import org.emftext.language.java.types.Type;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.metrics.MetricID;
+import org.emftext.language.java.containers.Package;
 
 //import de.fzi.gast.core.Package;
 //import de.fzi.gast.types.GASTClass;
@@ -25,16 +26,16 @@ public class DirectoryMapping extends AbstractHierarchyMapping<Package> {
 
 	@Override
 	protected Package getPath(Type clazz) {
-		if (KDMHelper.getJavaNodeSourceRegion(clazz) == null || KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(clazz)) == null)
+		if (KDMHelper.getJavaNodeSourceRegion(clazz) == null || KDMHelper.getJavaNodeSourceRegion(clazz) == null)
 			return null;
-		return (Package) KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(clazz)).eContainer();
+		return (Package) (KDMHelper.getJavaNodeSourceRegion(clazz)).eContainer();
 	}
 
 	@Override
 	protected Package getPath(Package element) {
 		//return (Package) element.eContainer();//FIXEDMYBUG getOwner()
 		//if(element.eContainer() instanceof Package){ //REALLYADDED
-			return element.getContainer(); //REALLYADDED
+			return element.getParentByType(Package.class); //REALLYADDED
 		//} //REALLYADDED
 		//return null; //REALLYADDED
 	}
