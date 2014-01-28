@@ -6,14 +6,14 @@ import org.emftext.language.java.types.Type;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.metrics.MetricID;
 
-import de.fzi.gast.core.Directory;
+//import de.fzi.gast.core.Package;
 //import de.fzi.gast.types.GASTClass;
 
 /**
  * DirectoryMapping metric: Checks how well are component candidates are arranged in the same or at least comparable directory.
  * @author Klaus Krogmann
  */
-public class DirectoryMapping extends AbstractHierarchyMapping<Directory> { 
+public class DirectoryMapping extends AbstractHierarchyMapping<Package> { 
 	public static final MetricID METRIC_ID = new MetricID("org.somox.metrics.DirectoryMapping");
 
 	/**
@@ -24,19 +24,19 @@ public class DirectoryMapping extends AbstractHierarchyMapping<Directory> {
 	}
 
 	@Override
-	protected Directory getPath(Type clazz) {
+	protected Package getPath(Type clazz) {
 		if (KDMHelper.getJavaNodeSourceRegion(clazz) == null || KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(clazz)) == null)
 			return null;
-		return (Directory) KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(clazz)).eContainer();
+		return (Package) KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(clazz)).eContainer();
 	}
 
 	@Override
-	protected Directory getPath(Directory element) {
-		//return (Directory) element.eContainer();//FIXEDMYBUG getOwner()
-		if(element.eContainer() instanceof Directory){ //REALLYADDED
-			return (Directory) element.eContainer(); //REALLYADDED
-		} //REALLYADDED
-		return null; //REALLYADDED
+	protected Package getPath(Package element) {
+		//return (Package) element.eContainer();//FIXEDMYBUG getOwner()
+		//if(element.eContainer() instanceof Package){ //REALLYADDED
+			return element.getContainer(); //REALLYADDED
+		//} //REALLYADDED
+		//return null; //REALLYADDED
 	}
 }
 

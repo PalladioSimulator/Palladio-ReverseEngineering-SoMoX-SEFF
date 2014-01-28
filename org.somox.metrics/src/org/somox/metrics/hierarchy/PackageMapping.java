@@ -1,9 +1,10 @@
 package org.somox.metrics.hierarchy;
 
-import org.eclipse.gmt.modisco.java.Type;
+//import Type;
+import org.emftext.language.java.types.Type;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.metrics.MetricID;
-
+import org.emftext.language.java.containers.Package;
 //import de.fzi.gast.core.Package;
 //import de.fzi.gast.types.GASTClass;
 
@@ -12,7 +13,7 @@ import org.somox.metrics.MetricID;
  * @author Klaus Krogmann
  *
  */
-public class PackageMapping extends AbstractHierarchyMapping<org.eclipse.gmt.modisco.java.Package> {
+public class PackageMapping extends AbstractHierarchyMapping<Package> {
 	public static final MetricID METRIC_ID = new MetricID("org.somox.metrics.PackageMapping");
 
 	/**
@@ -23,14 +24,14 @@ public class PackageMapping extends AbstractHierarchyMapping<org.eclipse.gmt.mod
 	}
 
 	@Override
-	protected org.eclipse.gmt.modisco.java.Package getPath(Type clazz) {
+	protected Package getPath(Type clazz) {
 
 		return KDMHelper.getSurroundingPackage(clazz);
 	}
 
 	@Override
-	protected org.eclipse.gmt.modisco.java.Package getPath(org.eclipse.gmt.modisco.java.Package element) {
-		return element.getPackage();
+	protected Package getPath(Package element) {
+		return element;
 	}
 	
 }

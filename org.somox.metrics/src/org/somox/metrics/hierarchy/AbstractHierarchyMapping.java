@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.eclipse.gmt.modisco.java.ASTNode;
-import org.eclipse.gmt.modisco.java.Type;
-import org.eclipse.gmt.modisco.omg.kdm.source.AbstractInventoryElement;
+import org.emftext.language.java.types.Type;
+//import org.eclipse.gmt.modisco.java.ASTNode;
+//import org.eclipse.gmt.modisco.java.Type;
+//import org.eclipse.gmt.modisco.omg.kdm.source.AbstractInventoryElement;
 import org.somox.metrics.AbstractMetric;
 import org.somox.metrics.ClusteringRelation;
 
