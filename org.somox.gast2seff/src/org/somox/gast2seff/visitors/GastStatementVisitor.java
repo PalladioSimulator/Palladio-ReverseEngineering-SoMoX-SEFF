@@ -4,6 +4,7 @@ package org.somox.gast2seff.visitors;
 
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -11,6 +12,8 @@ import org.eclipse.core.internal.resources.VariableDescription;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferenceableElement;
@@ -162,7 +165,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
         if (this.containsExternalCall(switchStatement)) {
             final de.uka.ipd.sdq.pcm.seff.BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
             this.seff.getSteps_Behaviour().add(branchAction);
-            branchAction.setEntityName(this.positionToString(KDMHelper.getJavaNodeSourceRegion(switchStatement)));
+            branchAction.setEntityName(this.positionToString(switchStatement));
             // TODO DONE TEST
 //            branchAction.setDocumentation(statementsToString(switchStatement.getStatements()));
 //            branchAction.set("created from a switch statement");
@@ -175,7 +178,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
                 bt.setBranchBehaviour_BranchTransition(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
                 bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStartAction());
                 bt.setEntityName("parent "
-                        + this.positionToString(KDMHelper.getJavaNodeSourceRegion(switchStatement))
+                        + this.positionToString(switchStatement)
                         + "/"
                         + (branch.size() > 0 ? this.positionToLineNumber(KDMHelper.getJavaNodeSourceRegion(branch
                                 .get(0)))
@@ -226,7 +229,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
         if (this.containsExternalCall(input)) {
             final de.uka.ipd.sdq.pcm.seff.BranchAction branch = SeffFactory.eINSTANCE.createBranchAction();
             this.seff.getSteps_Behaviour().add(branch);
-            branch.setEntityName(this.positionToString(KDMHelper.getJavaNodeSourceRegion(input))); // GAST2SEFFCHANGE
+            branch.setEntityName(this.positionToString(input)); // GAST2SEFFCHANGE
 
             final Statement ifStatement = input.getStatement();
             this.handleIfOrElseBranch(input, branch, ifStatement);
@@ -299,7 +302,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
             loop.setBodyBehaviour_Loop(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
             this.seff.getSteps_Behaviour().add(loop);
             loop.getBodyBehaviour_Loop().getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStartAction());
-            loop.setEntityName(this.positionToString(KDMHelper.getJavaNodeSourceRegion(loopStatement))); // GAST2SEFFCHANGE
+            loop.setEntityName(this.positionToString(loopStatement)); // GAST2SEFFCHANGE
             // TODO DONE
 //            loop.setDocumentation(blockToString(body));
 //            loop.setDocumentation("created from a loop statement");
@@ -380,36 +383,35 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
     }
 
     // TODO add path and name for "tried to call" line
-    private Object handleFormerSimpleStatement(final Statement object) {
+	private Object handleFormerSimpleStatement(final Statement object) {
         final BitSet statementAnnotation = this.functionClassificationAnnotation.get(object);
         if (this.isExternalCall(statementAnnotation)) {
             this.createExternalCallAction(object);
         } else if (this.isInternalCall(statementAnnotation)) {
             final MethodCall functionAccess = this.getFunctionAccess(object); // GAST2SEFFCHANGE
-            ReferenceableElement re = functionAccess.getTarget()
-                    if (!( re instanceof Method )){
+            ReferenceableElement re = functionAccess.getTarget();
+                    if (!( re instanceof ClassMethod )){
                     	 //TODO: log error
                     }else{
-                    	 Method method = (Method)re;
+                    	 ClassMethod method = (ClassMethod)re;
                     
-            final Block body = method.getBody(); // GAST2SEFFCHANGE//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+            final EList<Statement> body = method.getStatements(); // GAST2SEFFCHANGE//GAST2SEFFCHANGE//GAST2SEFFCHANGE
             if (body != null) {
 
                 // avoid infinite recursion
                 final BitSet thisType = this.functionClassificationAnnotation.get(object);
                 if (!this.isVisitedStatement(thisType)) {
                     this.setVisited(thisType);
-                    this.doSwitch(body);
+                  //  this.doSwitch(body);
                 }
             } else {
-                String msg = "Behaviour not set in GAST for " + functionAccess.getMethod().getName(); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                String msg = "Behaviour not set in GAST for " + method.getName(); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                 if (KDMHelper.getJavaNodeSourceRegion(object) != null
-                        && KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object)) != null
-                        && (KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object))).getPath() != null) { // GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
+                       
+                        && ((KDMHelper.getJavaNodeSourceRegion(object))).getNamespacesAsString() != null) { // GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
                     msg += ". Tried to call from "
-           
-                    		
-                    		+ (KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object))).getPath() + "."; // GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
+                             		
+                    		+ ((KDMHelper.getJavaNodeSourceRegion(object))).getNamespacesAsString() + "."; // GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
                 }
             
                 else {
@@ -515,7 +517,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
 
 		for (final MethodLevelSourceCodeLink methodLink : this.sourceCodeDecoratorRepository
                 .getMethodLevelSourceCodeLink()) {
-
+				
             if (methodLink.getFunction().equals(methodInvocation.getMethod())) { // GAST2SEFFCHANGE
 
                 logger.trace("accessed operation " + methodLink.getOperation().getEntityName());
@@ -556,7 +558,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
     private void createInternalAction(final Statement statement) {
 		final InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
 
-        internalAction.setEntityName("IA " + this.positionToString(KDMHelper.getJavaNodeSourceRegion(statement))); // GAST2SEFFCHANGE
+        internalAction.setEntityName("IA " + this.positionToString(statement)); // GAST2SEFFCHANGE
         // TODO
 //        if (statement instanceof Block) { // GAST2SEFFADDED
 //            ia.setDocumentation(this.blockToString((Block) statement) + "; Statement SISSyID: "
@@ -619,28 +621,28 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
         }
     }
 
-    private String positionToString(final JavaNodeSourceRegion position) { // GAST2SEFFCHANGE
+    private String positionToString(final Statement position) { // GAST2SEFFCHANGE
         final StringBuilder positionString = new StringBuilder("position: ");
         if (position != null) {
-            if (KDMHelper.getSourceFile(position) != null && KDMHelper.getSourceFile(position).getClass() != null) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+            if ((position) != null && (position).getClass() != null) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                 // TODO change name of class; question: is fqnName of Class better than path?
                 // positionString.append(KDMHelper.getSourceFile(position).getPath() +
                 // KDMHelper.getSourceFile(position).getName());//GAST2SEFFCHANGE
-                positionString.append(KDMHelper.computeFullQualifiedName(position.getJavaNode())); // GAST2SEFFCHANGE
+                positionString.append(KDMHelper.computeFullQualifiedName(position)); // GAST2SEFFCHANGE
             }
 			// TODO burkha 24.04.2013 If numbers are equal than write only one
-            positionString.append(" from " + position.getStartLine());
-            positionString.append(" to " + position.getEndLine());
+            positionString.append(" from " + position.getLayoutInformations().get(0).getStartOffset() );
+            positionString.append(" to " + position.getLayoutInformations().get(position.getLayoutInformations().size()).getStartOffset());
         } else {
             positionString.append("no position information available");
         }
         return positionString.toString();
     }
 
-    private String positionToLineNumber(final JavaNodeSourceRegion position)  {// GAST2SEFFCHANGE
+    private String positionToLineNumber(final CompilationUnit position)  {// GAST2SEFFCHANGE
         final StringBuilder positionString = new StringBuilder("line ");
         if (position != null) {
-            positionString.append(position.getStartLine());
+            positionString.append(position.getLayoutInformations().get(0).getStartOffset() );
         } else {
             positionString.append("no position information available");
         }

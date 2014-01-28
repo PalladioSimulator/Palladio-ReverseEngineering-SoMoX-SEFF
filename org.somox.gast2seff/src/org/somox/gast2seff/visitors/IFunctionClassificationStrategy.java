@@ -2,9 +2,8 @@ package org.somox.gast2seff.visitors;
 
 import java.util.BitSet;
 
-import org.eclipse.gmt.modisco.java.Statement;//GAST2SEFFCHANGE
+import org.emftext.language.java.statements.Statement;
 
-//import de.fzi.gast.statements.SimpleStatement;
 
 /**
  * Interface for the function call classification strategy. Implementing classes are used by the {@link FunctionCallClassificationVisitor}

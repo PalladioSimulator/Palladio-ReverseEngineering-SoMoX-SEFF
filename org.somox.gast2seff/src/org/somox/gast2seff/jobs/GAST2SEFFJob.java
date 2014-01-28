@@ -24,8 +24,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
-import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
-import org.eclipse.gmt.modisco.java.Block;
+import org.emftext.language.java.members.Method;
+import org.emftext.language.java.statements.Block;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
 import org.somox.configuration.SoMoXConfiguration;
@@ -314,13 +314,13 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 		if (body != null) {
 
 			// removelater for debug reasons
-			AbstractMethodDeclaration method = (AbstractMethodDeclaration) body.eContainer();
+			Method method = (Method) body.eContainer();
 			if (method.getName().equals("orderProducts")) {
 				int a = 0;
 				a = a + 1;
 			}
 			// removelater
-			typeVisitor.doSwitch(body);
+			//typeVisitor.doSwitch(body);
 
 			GastStatementVisitor visitor = new GastStatementVisitor(typeVisitor.getAnnotations(), seff,
 					this.sourceCodeDecoratorModel, basicComponent);
