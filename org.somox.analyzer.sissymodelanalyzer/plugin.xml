@@ -2,25 +2,10 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension
-         point="org.somox.core.modelanalyzer">
-      <modelanalyzer
-            class="org.somox.analyzer.simplemodelanalyzer.SimpleModelAnalyzer"
-            id="org.somox.analyzer.simplemodelanalyzer"
-            name="SoMoX Simple Model Analyzer">
-      </modelanalyzer>
-   </extension>
-   <extension
          point="org.somox.core.metric">
       <metric
             class="org.somox.analyzer.simplemodelanalyzer.metrics.DefaultCompositionIndicatingMetric"
             id="org.somox.analyzer.simplemodelanalyzer.metrics.DefaultCompositionIndicatingMetric">
       </metric>
    </extension>
-   <extension
-         point="org.somox.core.metric">
-      <metric
-            class="org.somox.analyzer.simplemodelanalyzer.metrics.DefaultMergeIndicatingMetric"
-            id="org.somox.analyzer.simplemodelanalyzer.metrics.DefaultMergeIndicatingMetric">
-      </metric>
-   </extension>   
 </plugin>

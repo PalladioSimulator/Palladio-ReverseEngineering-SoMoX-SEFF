@@ -255,9 +255,8 @@ public class OperationBuilder extends AbstractBuilder {
 		link.setFunction(method);
 		link.setOperation(operation);
 
-		if (KDMHelper.getJavaNodeSourceRegion(method) != null
-				&& KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(method)) != null) {
-			link.setFile(KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(method)));
+		if (KDMHelper.getJavaNodeSourceRegion(method) != null){
+			link.setFile(KDMHelper.getJavaNodeSourceRegion(method));
 		}
 
 		this.analysisResult.getSourceCodeDecoratorRepository()

@@ -85,7 +85,7 @@ public class ComponentAndTypeNaming {
 		StringBuilder sb = new StringBuilder();
 		for(ComponentImplementingClassesLink currentClassesLinkList : currentList) {
 			for (Type currentClass : currentClassesLinkList.getImplementingClasses()) {
-				sb.append(currentClass.getName() + " ");
+				sb.append(KDMHelper.getName(currentClass ) + " ");
 			}
 		}
 		String name = "Comp No. " + i + " " + sb.toString();		
@@ -164,8 +164,8 @@ public class ComponentAndTypeNaming {
 							maxNumberPackageId = Root.getIdForPackage(KDMHelper.getSurroundingPackage(currentClass));
 						}
 					}
-				} else if (KDMHelper.getJavaNodeSourceRegion(currentClass) != null && KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion((Commentable)currentClass)) != null){			
-					directoryName = KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(currentClass)).getPath();				
+				} else if (KDMHelper.getJavaNodeSourceRegion(currentClass) != null ){			
+					directoryName = (KDMHelper.getJavaNodeSourceRegion(currentClass)).getNamespacesAsString();				
 				} else {
 					logger.warn("found neither packages nor directories for GAST class " + KDMHelper.computeFullQualifiedName(currentClass));
 				}

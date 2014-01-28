@@ -423,8 +423,8 @@ public class ComponentBuilder extends AbstractBuilder {
 		//TODO inner classes?
 		FileLevelSourceCodeLink link = SourceCodeDecoratorFactory.eINSTANCE.createFileLevelSourceCodeLink();
 		link.setRepositoryComponent(newComponent);
-		if(KDMHelper.getJavaNodeSourceRegion(gastClass) != null && KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(gastClass)) != null) { // can be null for C code
-			link.setFile(KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(gastClass)));
+		if(KDMHelper.getJavaNodeSourceRegion(gastClass) != null ) { // can be null for C code
+			link.setFile(KDMHelper.getJavaNodeSourceRegion(gastClass));
 		}
 		this.analysisResult.getSourceCodeDecoratorRepository().getFileLevelSourceCodeLink().add(link);
 	}
