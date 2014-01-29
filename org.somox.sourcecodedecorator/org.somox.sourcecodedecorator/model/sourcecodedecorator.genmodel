@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/uml2/2.2.0/GenModel"
+    modelDirectory="/org.somox.sourcecodedecorator/src" editDirectory="/org.somox.sourcecodedecorator.edit/src"
+    editorDirectory="/org.somox.sourcecodedecorator.editor/src" modelPluginID="org.somox.sourcecodedecorator"
+    modelName="Sourcecodedecorator" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
+    copyrightFields="false" editPluginID="org.somox.sourcecodedecorator.edit" editorPluginID="org.somox.sourcecodedecorator.editor"
+    usedGenPackages="platform:/plugin/de.uka.ipd.sdq.identifier/model/identifier.genmodel#//identifier platform:/plugin/org.eclipse.gmt.modisco.java/model/java.genmodel#//java platform:/plugin/org.eclipse.gmt.modisco.omg.kdm/model/kdm.genmodel#//kdm platform:/plugin/de.uka.ipd.sdq.pcm/model/pcm.genmodel#//pcm platform:/plugin/de.uka.ipd.sdq.probfunction/model/ProbabilityFunction.genmodel#//probfunction platform:/plugin/de.uka.ipd.sdq.stoex/model/stoex.genmodel#//stoex platform:/plugin/de.uka.ipd.sdq.units/model/Units.genmodel#//units">
+  <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/importer/org.eclipse.uml2.uml.ecore.importer">
+    <details key="ECORE_TAGGED_VALUES" value="PROCESS"/>
+    <details key="UNION_PROPERTIES" value="REPORT"/>
+    <details key="DUPLICATE_FEATURES" value="DISCARD"/>
+    <details key="SUBSETTING_PROPERTIES" value="REPORT"/>
+    <details key="COMMENTS" value="PROCESS"/>
+    <details key="DUPLICATE_FEATURE_INHERITANCE" value="DISCARD"/>
+    <details key="DUPLICATE_OPERATIONS" value="DISCARD"/>
+    <details key="INVARIANT_CONSTRAINTS" value="IGNORE"/>
+    <details key="REDEFINING_PROPERTIES" value="REPORT"/>
+    <details key="ANNOTATION_DETAILS" value="PROCESS"/>
+    <details key="DUPLICATE_OPERATION_INHERITANCE" value="DISCARD"/>
+    <details key="REDEFINING_OPERATIONS" value="REPORT"/>
+    <details key="DERIVED_FEATURES" value="PROCESS"/>
+    <details key="OPERATION_BODIES" value="IGNORE"/>
+    <details key="CAMEL_CASE_NAMES" value="IGNORE"/>
+    <details key="SUPER_CLASS_ORDER" value="PROCESS"/>
+  </genAnnotations>
+  <foreignModel>sourcecodedecorator.ecore</foreignModel>
+  <genPackages xsi:type="genmodel:GenPackage" prefix="SourceCodeDecorator" basePackage="org.somox"
+      resource="XMI" disposableProviderFactory="true" ecorePackage="sourcecodedecorator.ecore#/">
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="sourcecodedecorator.ecore#//FileLevelSourceCodeLink">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//FileLevelSourceCodeLink/repositoryComponent"/>
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//FileLevelSourceCodeLink/file"/>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="sourcecodedecorator.ecore#//MethodLevelSourceCodeLink">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//MethodLevelSourceCodeLink/operation"/>
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//MethodLevelSourceCodeLink/function"/>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink/abstractAction"/>
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink/statement"/>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository">
+      <genFeatures xsi:type="genmodel:GenFeature" property="None" children="true"
+          createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/fileLevelSourceCodeLink"/>
+      <genFeatures xsi:type="genmodel:GenFeature" property="None" children="true"
+          createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/methodLevelSourceCodeLink"/>
+      <genFeatures xsi:type="genmodel:GenFeature" property="None" children="true"
+          createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/controlFlowLevelSourceCodeLink"/>
+      <genFeatures xsi:type="genmodel:GenFeature" property="None" children="true"
+          createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/interfaceSourceCodeLink"/>
+      <genFeatures xsi:type="genmodel:GenFeature" property="None" children="true"
+          createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/componentImplementingClassesLink"/>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="sourcecodedecorator.ecore#//InterfaceSourceCodeLink">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//InterfaceSourceCodeLink/interface"/>
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//InterfaceSourceCodeLink/gastClass"/>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="sourcecodedecorator.ecore#//ComponentImplementingClassesLink">
+      <genFeatures xsi:type="genmodel:GenFeature" createChild="false" ecoreFeature="ecore:EAttribute sourcecodedecorator.ecore#//ComponentImplementingClassesLink/isCompositeComponent"/>
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//ComponentImplementingClassesLink/component"/>
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//ComponentImplementingClassesLink/implementingClasses"/>
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//ComponentImplementingClassesLink/subComponents"/>
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//ComponentImplementingClassesLink/providedInterfaces"/>
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//ComponentImplementingClassesLink/requiredInterfaces"/>
+      <genFeatures xsi:type="genmodel:GenFeature" createChild="false" ecoreFeature="ecore:EAttribute sourcecodedecorator.ecore#//ComponentImplementingClassesLink/isInitialComponent"/>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="sourcecodedecorator.ecore#//PCMSystemImplementatingClassesLink">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//PCMSystemImplementatingClassesLink/systemModel"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
