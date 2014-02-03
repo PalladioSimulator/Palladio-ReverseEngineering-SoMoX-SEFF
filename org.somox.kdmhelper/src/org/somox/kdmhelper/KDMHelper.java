@@ -1,6 +1,7 @@
 package org.somox.kdmhelper;
 
-import java.lang.reflect.Member;
+import org.emftext.language.java.members.Member;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,9 +10,11 @@ import java.util.Set;
 
 import javax.swing.text.html.parser.TagElement;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper;
+import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.emftext.language.java.arrays.ArraysPackage;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.commons.NamedElement;
@@ -23,7 +26,7 @@ import org.emftext.language.java.containers.Package;
 //import AbstractTypeDeclaration;
 //import ArrayAccess;
 //import BodyDeclaration;
-//import ClassDeclaration;
+//import Class;
 //import ClassInstanceCreation;
 //import FieldAccess;
 //import InheritanceKind;
@@ -49,18 +52,24 @@ import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.members.impl.ExceptionThrowerImpl;
+import org.emftext.language.java.modifiers.Modifier;
 import org.emftext.language.java.parameters.Parameter;
+import org.emftext.language.java.references.ElementReference;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferenceableElement;
 import org.emftext.language.java.references.SelfReference;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
+import org.emftext.language.java.statements.Block;
+import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.classifiers.Interface;
+import org.emftext.language.java.generics.TypeArgument;
 //CompilationUnit statt Model 
 //Commentable statt AstNode
 import org.emftext.language.java.types.TypeReference;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
  * This class contains a set of methods that are missing in the MoDisco Java
@@ -196,7 +205,7 @@ public class KDMHelper {
 	 *            an access element
 	 * @return the set of accessed types
 	 */
-	private static Set<Type> getAccessedTypes(CompilationUnit element) {
+	private static Set<Type> getAccessedTypes(Commentable element) {
 		Set<Type> result = new HashSet<Type>();
 		// if(!isAccess(element)){
 		// throw new IllegalArgumentException(element + " is not an access.");
@@ -226,8 +235,8 @@ public class KDMHelper {
 				//1. add main type
 				result.add(paramType.getTypeReference().getTarget());
 				//2. add type arguments
-				for(TypeReference typeAccess : paramType.getTypeArguments()){
-					if(typeAccess.getTarget() instanceof Parameter){
+				for(TypeArgument typeAccess : paramType.getTypeArguments()){
+					if(((TypeReference) typeAccess).getTarget() instanceof Parameter){
 						//recursive call
 						result.addAll(getAccessedTypes(typeAccess));
 					} else{
@@ -260,9 +269,9 @@ public class KDMHelper {
 	 */
 	public static List<Type> getAllAccessedClasses(Type input) {
 		Set<Type> resultList = new HashSet<Type>();
-		List<CompilationUnit> accesses = getAllAccesses(input);
+		List<Commentable> accesses = getAllAccesses(input);
 
-		for (CompilationUnit node : accesses) {
+		for (Commentable node : accesses) {
 			resultList.addAll(getAccessedTypes(node));
 		}
 		ArrayList<Type> returnSet = new ArrayList<Type>();
@@ -325,16 +334,16 @@ public class KDMHelper {
 		List<TypeReference> result = new ArrayList<TypeReference>();
 		
 		if (type instanceof Class) {
-			Class tempClass = (ClassDeclaration) type;
-			result.addAll(  tempClass.getSuperInterfaces());
+			Class tempClass = (Class) type;
+			result.addAll(tempClass.getSuperTypeReferences());//getSuperTypeReferences statt  getSuperInterfaces
 			if (tempClass.getSuperClass() != null) {
-				result.add(tempClass.getSuperClass());
+				result.add(tempClass.getExtends());//getExtends statt superClass
 			}
 		}
 
 		if (type instanceof Interface) {
 			Interface tempInterface = (Interface) type;
-			result.addAll(tempInterface.getSuperInterfaces());
+			result.addAll(tempInterface.getSuperTypeReferences());
 		}
 
 		return result;
@@ -350,15 +359,15 @@ public class KDMHelper {
 	// SOMOXTODOCHANGE inner classes in inner classes???
 	public static List<Type> getInnerClasses(Type clazz) {
 		List<Type> result = new ArrayList<Type>();
-		if (!(clazz instanceof ClassDeclaration)) {
+		if (!(clazz instanceof Class)) {
 			return result;
 		}
 		for (Iterator<EObject> iterator = clazz.eAllContents(); iterator
 				.hasNext();) {
 			EObject element = iterator.next();
-			if (element instanceof ClassDeclaration) {
+			if (element instanceof Class) {
 				if (isInnerClass((Type) element)) { // TODO unnecessary
-					result.add((ClassDeclaration) element);
+					result.add((Class) element);
 				}
 			}
 		}
@@ -397,7 +406,7 @@ public class KDMHelper {
 		}
 
 		Type clazz = (Type) input;
-		for (BodyDeclaration body : clazz.getBodyDeclarations()) {
+		for (Member body : clazz.getAllMembers(input)) {
 			if (body instanceof Method) {
 				result.add((Method) body);
 			}
@@ -596,7 +605,7 @@ public class KDMHelper {
 	 * @return true or false
 	 */
 	public static boolean isInnerClass(Type clazz) {
-		return (clazz instanceof ClassDeclaration & clazz.eContainer() instanceof ClassDeclaration);
+		return (clazz instanceof Class & clazz.eContainer() instanceof Class);
 	}
 
 	/**
@@ -618,23 +627,23 @@ public class KDMHelper {
 	 *            the visibility kind to compare with
 	 * @return true or false
 	 */
-	public static boolean isModifierOfKind(Method method,
-			VisibilityKind inputVisKind) {
-		
-		Modifier modifier = method.getModifier();
-		if (modifier == null) {
-			return false;
-		} else {
-			VisibilityKind kind = method.getModifier().getVisibility();
-			if (kind == null) {
-				return false;
-			} else {
-				return kind.equals(inputVisKind);
-			}
-
-		}
-	}
-
+//	public static boolean isModifierOfKind(Method method,
+//			VisibilityKind inputVisKind) {
+//		
+//		Modifier modifier = method.getModifier();
+//		if (modifier == null) {
+//			return false;
+//		} else {
+//			VisibilityKind kind = method.getModifier().getVisibility();
+//			if (kind == null) {
+//				return false;
+//			} else {
+//				return kind.equals(inputVisKind);
+//			}
+//
+//		}
+//	}
+//
 	// TODO test
 	/**
 	 * Returns whether the type is primitive or not.
@@ -655,7 +664,7 @@ public class KDMHelper {
 	 *            the {@link BodyDeclaration} object
 	 * @return true or false
 	 */
-	public static boolean isVirtual(BodyDeclaration bodyDec) {
+	public static boolean isVirtual(Method bodyDec) {
 		if (bodyDec == null || bodyDec.getModifier() == null) {
 			return false;
 		}
@@ -677,4 +686,21 @@ public class KDMHelper {
 		}
 		return true;
 	}
+	
+	public static Block getBody(Method method) {
+		// TODO
+		return null;
+	}
+
+	public static boolean isInitialComponent(
+			ComponentImplementingClassesLink currentComponent) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public static EList<Package> getOwnedPackages(Package prefixPackage) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }

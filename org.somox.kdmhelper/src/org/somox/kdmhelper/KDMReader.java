@@ -15,6 +15,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 //import org.emftext.ecore.xmi.XMLResource;
 import org.emftext.language.*;
 import org.emftext.language.java.containers.CompilationUnit;
@@ -77,7 +79,9 @@ public class KDMReader {
 	}
 
 	private void addModelToRoot(Resource resource) {
-		root.addCompilationUnits(modelsFromResource);addModels(getModelsFromResource(resource));
+		
+		
+		root.addModels(getModelsFromResource(resource));
 	}
 	
 //CompilationUnit statt Model 
@@ -99,7 +103,7 @@ public class KDMReader {
 	}
 
 	private Map<Object, Object> setupLoadOptions(Resource resource) {
-		Map<Object, Object> loadOptions = ((XMLResourceImpl) resource)
+		Map<Object, Object> loadOptions = ((XMLResource) resource)
 				.getDefaultLoadOptions();
 		loadOptions.put(XMLResource.OPTION_DEFER_ATTACHMENT, Boolean.TRUE);
 		loadOptions
