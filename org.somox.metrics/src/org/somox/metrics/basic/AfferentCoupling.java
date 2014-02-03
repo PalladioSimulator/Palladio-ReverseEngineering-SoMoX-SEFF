@@ -2,7 +2,9 @@ package org.somox.metrics.basic;
 
 import java.util.Set;
 
-import org.eclipse.gmt.modisco.java.Type;
+
+
+import org.emftext.language.java.types.Type;
 import org.somox.metrics.AbstractCountingMetric;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.MetricID;

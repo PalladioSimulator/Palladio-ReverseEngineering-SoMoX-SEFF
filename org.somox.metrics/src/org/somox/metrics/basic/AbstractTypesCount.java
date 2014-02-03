@@ -2,7 +2,7 @@ package org.somox.metrics.basic;
 
 import java.util.Set;
 
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.types.Type;
 import org.somox.filter.BaseFilter;
 import org.somox.filter.FilteredCollectionsFactory;
 import org.somox.kdmhelper.KDMHelper;

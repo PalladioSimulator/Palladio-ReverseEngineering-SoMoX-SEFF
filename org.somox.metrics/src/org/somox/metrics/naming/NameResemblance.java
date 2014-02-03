@@ -8,9 +8,10 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.types.Type;
 import org.jgrapht.DirectedGraph;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.metrics.AbstractMetric;
 import org.somox.metrics.ClusteringRelation;
@@ -115,7 +116,7 @@ public class NameResemblance extends AbstractMetric {
 			for (Type class2 : accessGraph.vertexSet()) {
 				Float resemblance = nameResemblanceMap.get(new NamePair(class1,class2));
 				if (resemblance == null) {
-					resemblance = resemblanceMetric.getSimilarity(trimString(class1.getName()), trimString(class2.getName()));
+					resemblance = resemblanceMetric.getSimilarity(trimString(KDMHelper.getName( class1)), trimString(KDMHelper.getName( class2)));
 					nameResemblanceMap.put(new NamePair(class1, class2), resemblance);
 				}
 			}
@@ -234,7 +235,7 @@ public class NameResemblance extends AbstractMetric {
 	private Set<String> collectAllSimpleNames(Set<Type> classes) {
 		Set<String> allSimpleTrimmedNames = new HashSet<String>();
 		for (Type clazz : classes) {
-			allSimpleTrimmedNames.add(trimString(clazz.getName()));
+			allSimpleTrimmedNames.add(trimString(KDMHelper.getName( clazz)));
 		}
 		return allSimpleTrimmedNames;
 	}

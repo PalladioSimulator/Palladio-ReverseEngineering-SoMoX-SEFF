@@ -6,6 +6,7 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
+import org.emftext.language.java.containers.Package;
 
 //import de.fzi.gast.core.Root;
 //import de.fzi.gast.types.GASTClass;
@@ -16,7 +17,7 @@ public class CheckboxContentProvider implements ITreeContentProvider {
 		if (parentElement instanceof Root) {
 			return ((Root) parentElement).getPackages().toArray();
 		} else if (parentElement instanceof Package) {
-			Object [] packages = ((Package) parentElement).getOwnedPackages().toArray();
+			Object [] packages = KDMHelper.getOwnedPackages((org.emftext.language.java.containers.Package) parentElement).toArray();
 			return packages;
 //			Object [] classes = ((Package) parentElement).getOwnedElements().toArray();
 //			
@@ -32,7 +33,7 @@ public class CheckboxContentProvider implements ITreeContentProvider {
 		if (element instanceof Type) {
 			return KDMHelper.getSurroundingPackage(((Type) element));
 		} else if (element instanceof Package) {
-			return ((Package)element).getPackage();
+			return KDMHelper.getPackage((Package)element);
 		}
 		return null;
 	}
@@ -42,8 +43,8 @@ public class CheckboxContentProvider implements ITreeContentProvider {
 			//return ((Root) element).getPackages().size()>0;
 			return true;
 		} else if (element instanceof Package) {			
-			return (((Package) element).getOwnedPackages().size()
-					+((Package) element).getOwnedElements().size()) > 0;
+			return KDMHelper.getOwnedPackages(((Package) element)).size()
+					+KDMHelper.getOwnedElements ((Package) element)  .size() > 0;
 		}
 		return false;
 	}

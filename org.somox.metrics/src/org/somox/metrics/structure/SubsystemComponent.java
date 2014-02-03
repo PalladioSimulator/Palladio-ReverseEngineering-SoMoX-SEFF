@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.types.Type;
-
 import org.jgrapht.DirectedGraph;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.KDMHelper;
@@ -17,6 +16,7 @@ import org.somox.metrics.IMetric;
 import org.somox.metrics.MetricID;
 import org.somox.metrics.helper.ClassAccessGraphEdge;
 import org.somox.metrics.helper.ComponentToImplementingClassesHelper;
+import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.*;
 import org.emftext.language.java.containers.Package;
 
@@ -107,7 +107,7 @@ public class SubsystemComponent extends AbstractMetric{
 			if (currentPackage != null) {
 				if (subLayer == null) {
 					for (Package slicePackage : slices) {
-						if (KDMHelper.computeFullQualifiedName(type).startsWith(KDMHelper.computeFullQualifiedName(slicePackage))) {
+						if (KDMHelper.computeFullQualifiedName((Commentable) currentPackage).startsWith(KDMHelper.computeFullQualifiedName(slicePackage))) {
 							for (Package layerPackage : layers) {
 								if (KDMHelper.computeFullQualifiedName(currentPackage).startsWith(KDMHelper.computeFullQualifiedName(slicePackage) + "." + layerPackage.getName())) {
 									subLayer = KDMHelper.computeFullQualifiedName(slicePackage) + "." + layerPackage.getName();
@@ -196,7 +196,7 @@ public class SubsystemComponent extends AbstractMetric{
 			
 			if (prefix != null && KDMHelper.getSurroundingPackage(current) != null && 
 					!KDMHelper.computeFullQualifiedName(current).startsWith(KDMHelper.computeFullQualifiedName(prefix))) {
-				prefix = prefix.getPackage();
+				//prefix = prefix.getPackage();
 				if (prefix == null) {
 					return null;
 				} else {

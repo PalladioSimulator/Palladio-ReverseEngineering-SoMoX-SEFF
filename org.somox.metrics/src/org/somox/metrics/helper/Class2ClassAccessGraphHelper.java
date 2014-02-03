@@ -1,13 +1,15 @@
 package org.somox.metrics.helper;
 
+import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmt.modisco.java.ASTNode;
-import org.eclipse.gmt.modisco.java.Type;
-import org.eclipse.gmt.modisco.java.TypeAccess;
+import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.members.Member;
+import org.emftext.language.java.types.Type;
+import org.emftext.language.java.types.TypeReference;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.EdgeFactory;
 import org.jgrapht.Graph;
@@ -93,12 +95,12 @@ public class Class2ClassAccessGraphHelper {
 		return result;
 	}
 
-	private static final EClassBasedFilter<ASTNode> accessFilter = new EClassBasedFilter<ASTNode>(){
+	private static final EClassBasedFilter<Commentable> accessFilter = new EClassBasedFilter<Commentable>(){
 			//new EClass[]{/**accessesPackage.eINSTANCE.getInheritanceTypeAccess()**/});//SOMOXTODOCHANGE
 		@Override//REALLYADDED
 		public boolean passes(EObject object) {//REALLYADDED
-			if(object != null && object instanceof TypeAccess){//REALLYADDED
-				if(KDMHelper.isInheritanceTypeAccess((TypeAccess) object)){//REALLYADDED
+			if(object != null && object instanceof TypeReference){//REALLYADDED
+				if(KDMHelper.isInheritanceTypeAccess((TypeReference) object)){//REALLYADDED
 					return false;//REALLYADDED
 				}//REALLYADDED
 			}//REALLYADDED
@@ -116,7 +118,7 @@ public class Class2ClassAccessGraphHelper {
 			AccessedTargetBlacklistFilter filter,
 			Type clazz) {
 				
-		for (ASTNode singleAccess : accessFilter.filter(filter.filter(KDMHelper.getAllAccesses(clazz)))) {
+		for (Commentable singleAccess : accessFilter.filter(( KDMHelper.getAllAccesses(clazz)))) {//TODO Check
 			
 //			if(singleAccess != null & singleAccess instanceof TypeAccess){ //SOMOXTODOCHANGE was added here because removed in accessFilter creation
 //				if(GASTClassHelper.isInheritanceTypeAccess((TypeAccess) singleAccess)){

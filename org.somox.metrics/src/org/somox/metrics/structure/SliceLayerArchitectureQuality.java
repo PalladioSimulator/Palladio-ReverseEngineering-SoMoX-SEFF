@@ -3,7 +3,7 @@ package org.somox.metrics.structure;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.types.Type;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.metrics.AbstractMetric;
 import org.somox.metrics.ClusteringRelation;
@@ -42,20 +42,20 @@ public class SliceLayerArchitectureQuality extends AbstractMetric {
 		Set<Type> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentB());
 		
 		//compute overall prefix
-		org.eclipse.gmt.modisco.java.Package prefixPackage = computePrefix(classes1, classes2);
+		org.emftext.language.java.containers.Package prefixPackage = computePrefix(classes1, classes2);
 		
 		if (prefixPackage == null) {
 			relationToCompute.setResultMetric(getMID(), 0.0);
 			return relationToCompute;
 		}
-		EList<org.eclipse.gmt.modisco.java.Package> slices = prefixPackage.getOwnedPackages();
-		EList<org.eclipse.gmt.modisco.java.Package> layers = null;
+		EList<org.emftext.language.java.containers.Package> slices =KDMHelper.getOwnedPackages(prefixPackage);
+		EList<org.emftext.language.java.containers.Package > layers = null;
 
 		//compute the maximum number of layers in a slice
 		int max = 0;
-		for (org.eclipse.gmt.modisco.java.Package current : slices) {
-			if (current.getOwnedPackages().size()>=max) {
-				layers = current.getOwnedPackages();
+		for (org.emftext.language.java.containers.Package current : slices) {
+			if (KDMHelper.getOwnedPackages(current).size()>=max) {
+				layers = KDMHelper.getOwnedPackages(current);
 				max = layers.size();
 			}
 		}
@@ -68,10 +68,10 @@ public class SliceLayerArchitectureQuality extends AbstractMetric {
 			int expectedSubsystems = slices.size()*layers.size();
 			int existingSubsystems = 0;
 			
-			for (org.eclipse.gmt.modisco.java.Package currentSlice : slices) {
-				EList<org.eclipse.gmt.modisco.java.Package> currentLayers = currentSlice.getOwnedPackages();
-				for (org.eclipse.gmt.modisco.java.Package currentReferencePackage : layers) {
-					for (org.eclipse.gmt.modisco.java.Package currentLayer : currentLayers) {
+			for (org.emftext.language.java.containers.Package currentSlice : slices) {
+				EList<org.emftext.language.java.containers.Package> currentLayers =KDMHelper.getOwnedPackages( currentSlice);
+				for (org.emftext.language.java.containers.Package currentReferencePackage : layers) {
+					for (org.emftext.language.java.containers.Package currentLayer : currentLayers) {
 						if (currentLayer.getName().equals(currentReferencePackage.getName())) {
 							existingSubsystems++;
 							break;
@@ -111,10 +111,10 @@ public class SliceLayerArchitectureQuality extends AbstractMetric {
 	 * @param elements2 second list of elements
 	 * @return the last package in the package-hierarchy in which all elements are included
 	 */
-	private org.eclipse.gmt.modisco.java.Package computePrefix(Set<Type> elements1, Set<Type> elements2) {
+	private org.emftext.language.java.containers.Package computePrefix(Set<Type> elements1, Set<Type> elements2) {
 		String prefix = "";
 		boolean prefixFound = false;
-		org.eclipse.gmt.modisco.java.Package currentPackage = null;
+		org.emftext.language.java.containers.Package currentPackage = null;
 		
 		for (Type current : elements1) {
 			if (KDMHelper.getSurroundingPackage(current) != null) {
@@ -153,7 +153,7 @@ public class SliceLayerArchitectureQuality extends AbstractMetric {
 			}
 			
 			if (!prefixFound) {
-				currentPackage = currentPackage.getPackage();
+				//currentPackage = currentPackage.getPackage();
 				if (currentPackage == null) {
 					return null;
 				} else {
@@ -178,7 +178,7 @@ public class SliceLayerArchitectureQuality extends AbstractMetric {
 			}
 
 			if (!prefixFound) {
-				currentPackage = currentPackage.getPackage();
+				//currentPackage = currentPackage.getPackage();
 				if (currentPackage == null) {
 					return null;
 				} else {

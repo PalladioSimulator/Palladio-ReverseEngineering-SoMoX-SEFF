@@ -1,6 +1,7 @@
 package org.somox.metrics.helper;
 
 import org.emftext.language.java.types.Type;
+import org.somox.kdmhelper.KDMHelper;
 
 //import de.fzi.gast.types.GASTClass;
 
@@ -52,7 +53,7 @@ public class ClassAccessGraphEdge {
 	 */
 	@Override
 	public String toString() {
-		return "From: "+sourceClazz.getName()+" To: "+targetClazz.getName()+" Count: "+count;
+		return "From: "+KDMHelper.getName(sourceClazz )+" To: "+KDMHelper.getName( targetClazz)+" Count: "+count;
 	}
 	
 	
