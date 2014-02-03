@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.Block;
+import org.emftext.language.java.statements.StatementListContainer;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
 import org.somox.configuration.SoMoXConfiguration;
@@ -309,7 +310,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 
 		seff.getSteps_Behaviour().add(start);
 
-		Block body = findBody(seff);// GAST2SEFFCHANGE
+		StatementListContainer body = findBody(seff);// GAST2SEFFCHANGE
 		logger.trace("visiting (seff entry): " + seff.getId());
 		if (body != null) {
 
@@ -342,7 +343,7 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 	 * @return The GAST behaviour matching the gast behaviour stub
 	 * @throws JobFailedException Thrown if the gast behaviour is missing in the model file
 	 */
-	private Block findBody(ResourceDemandingSEFF seff) throws JobFailedException {//GAST2SEFFCHANGE
+	private StatementListContainer findBody(ResourceDemandingSEFF seff) throws JobFailedException {//GAST2SEFFCHANGE
 
 //		assert onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getSeff2MethodMappings(), seff);
 		//TODO burkha 16.05.2013 remove this after checking

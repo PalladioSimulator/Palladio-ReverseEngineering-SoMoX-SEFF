@@ -259,8 +259,8 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
         final de.uka.ipd.sdq.pcm.seff.AbstractBranchTransition bt = SeffFactory.eINSTANCE.createProbabilisticBranchTransition();
         bt.setBranchBehaviour_BranchTransition(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
         bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStartAction());
-        bt.setEntityName("parent " + this.positionToString(KDMHelper.getJavaNodeSourceRegion(input)) + "/"
-                + this.positionToString(KDMHelper.getJavaNodeSourceRegion(ifElseStatement))); 
+        bt.setEntityName("parent " + this.positionToString((input)) + "/"
+                + this.positionToString((ifElseStatement))); 
 		// use parent position since branch position is empty//GAST2SEFFCHANGE//GAST2SEFFCHANGE
         branch.getBranches_Branch().add(bt);
         final GastStatementVisitor visitor = new GastStatementVisitor(this.functionClassificationAnnotation,
@@ -463,7 +463,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
     private void createExternalCallAction(final Statement object) {// GAST2SEFFCHANGE
 		final ExternalCallAction call = SeffFactory.eINSTANCE.createExternalCallAction();
         final MethodCall access = this.getFunctionAccess(object); // GAST2SEFFCHANGE
-        call.setEntityName(access.getMethod().getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+        call.setEntityName(KDMHelper.getMethod(access).getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
         final InterfacePortOperationTuple ifOperationTuple = this.getCalledInterfacePort(access);
         call.setRole_ExternalService((OperationRequiredRole) ifOperationTuple.role);
         call.setCalledService_ExternalService((OperationSignature) ifOperationTuple.signature);
@@ -518,14 +518,14 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
 		for (final MethodLevelSourceCodeLink methodLink : this.sourceCodeDecoratorRepository
                 .getMethodLevelSourceCodeLink()) {
 				
-            if (methodLink.getFunction().equals(methodInvocation.getMethod())) { // GAST2SEFFCHANGE
+            if (methodLink.getFunction().equals(KDMHelper.getMethod(methodInvocation))) { // GAST2SEFFCHANGE
 
                 logger.trace("accessed operation " + methodLink.getOperation().getEntityName());
                 return methodLink.getOperation();
             }
         }
 
-        logger.warn("no accessed operation found for " + methodInvocation.getMethod().getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+        logger.warn("no accessed operation found for " + KDMHelper.getMethod(methodInvocation).getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
         return null;
     }
 

@@ -231,7 +231,7 @@ public class FunctionCallClassificationVisitor extends JavaSwitch<BitSet> {// GA
         if (myType.get(getIndex(FunctionCallType.INTERNAL))) {
             // Also annotate the internal method
             final MethodCall functionAccess = this.getFunctionAccess(statement); // GAST2SEFFCHANGE
-            final Block targetFunctionBody =   KDMHelper.getMethod(functionAccess).getBody(); // GAST2SEFFCHANGE//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+           final Block targetFunctionBody =  KDMHelper.getBody( KDMHelper.getMethod(functionAccess)); // GAST2SEFFCHANGE//GAST2SEFFCHANGE//GAST2SEFFCHANGE
             if (targetFunctionBody != null) {
                 logger.trace("visiting internal call. accessed class: "
                         + GetAccessedType.getAccessedType(functionAccess)); // GAST2SEFFCHANGE
