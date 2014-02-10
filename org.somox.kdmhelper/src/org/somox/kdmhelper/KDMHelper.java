@@ -3,6 +3,7 @@ package org.somox.kdmhelper;
 import org.emftext.language.java.members.Member;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.swing.text.html.parser.TagElement;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
@@ -53,6 +55,7 @@ import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.members.impl.ExceptionThrowerImpl;
 import org.emftext.language.java.modifiers.Modifier;
+import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.references.ElementReference;
 import org.emftext.language.java.references.MethodCall;
@@ -69,7 +72,7 @@ import org.emftext.language.java.generics.TypeArgument;
 //CompilationUnit statt Model 
 //Commentable statt AstNode
 import org.emftext.language.java.types.TypeReference;
-import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+
 
 /**
  * This class contains a set of methods that are missing in the MoDisco Java
@@ -425,13 +428,13 @@ public class KDMHelper {
 	 */
 	public static Method getOverriddenASTNode(Method methDecInput) {
 
-		Method redefinedMethodDeclaration = methDecInput.getRedefinedMethodDeclaration();
+		Method redefinedMethodDeclaration = getRedefinedMethodDeclaration(methDecInput);
 		
 		if(redefinedMethodDeclaration != null){
 			return redefinedMethodDeclaration;
 		}
 		
-		Type typeOfMethod = ((Object) methDecInput).getAbstractTypeDeclaration();
+		Type typeOfMethod = getAbstractTypeDeclaration(((Object) methDecInput));
 		List<Type> superTypes = getSuperTypes(typeOfMethod);
 		
 		for (Type type : superTypes) {
@@ -443,6 +446,16 @@ public class KDMHelper {
 			}
 		}
 		
+		return null;
+	}
+
+	private static Method getRedefinedMethodDeclaration(Method methDecInput) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private static Type getAbstractTypeDeclaration(Object object) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -466,19 +479,7 @@ public class KDMHelper {
 	 *            the input object
 	 * @return the {@link SourceFile} object
 	 */
-	//TODO refactor return
-	public static JavaSourceOrClassFileResource getSourceFile(CompilationUnit compulitaionUnit) {
-		JavaSourceOrClassFileResource result = null;
-		
-		if (compulitaionUnit != null) {
-			compulitaionUnit.get
-			if (compulitaionUnit.eContainer() instanceof Java2File) {
-				Java2File java2file = (Java2File) sourceRegion.eContainer();
-				return java2file.getFile();
-			}
-		}
-		return result;
-	}
+
 
 	/**
 	 * Returns all super types of a type.
@@ -512,6 +513,7 @@ public class KDMHelper {
 	 */
 	public static Package getSurroundingPackage(
 			Type input) {
+				return null;
 		//input.getChildrenByType((Type)Package);// input.getContainingPackageName()
 	
 	}
@@ -525,19 +527,11 @@ public class KDMHelper {
 	 * @return true or false
 	 */
 	public static boolean isAbstract(Type input) {
-		if (input instanceof BodyDeclaration) {
-			BodyDeclaration body = (BodyDeclaration) input;
-			Modifier modifier = body.getModifier();
-			if (modifier != null) {
-				InheritanceKind inhKind = modifier.getInheritance();
-				if (inhKind != null) {
-					return body.getModifier().getInheritance()
-							.equals(InheritanceKind.ABSTRACT);
-				}
-			}
-		}
-		return false;
-	}
+
+		if (input instanceof Method) 
+			return ((Method) input).getModifiers().contains(ModifiersFactory.eINSTANCE.createAbstract());
+				 
+			return false;}
 
 	// TODO check refactor switch class
 	// is fast, no refactoring needed
@@ -665,25 +659,26 @@ public class KDMHelper {
 	 * @return true or false
 	 */
 	public static boolean isVirtual(Method bodyDec) {
-		if (bodyDec == null || bodyDec.getModifier() == null) {
-			return false;
-		}
-
-		if (bodyDec.getModifier().getVisibility() != null) {
-			if (bodyDec.getModifier().getVisibility()
-					.equals(VisibilityKind.PRIVATE)) {
-				return false;
-			}
-		}
-
-		if (bodyDec.getModifier().isStatic()) {
-			return false;
-		}
 		
-		InheritanceKind inherKind = bodyDec.getModifier().getInheritance(); 
-		if (inherKind != null && inherKind.equals(InheritanceKind.FINAL)) {
-			return false;
-		}
+//		if (bodyDec == null || bodyDec.getModifier() == null) {
+//			return false;
+//		}
+//
+//		if (bodyDec.getModifier().getVisibility() != null) {
+//			if (bodyDec.getModifier().getVisibility()
+//					.equals(VisibilityKind.PRIVATE)) {
+//				return false;
+//			}
+//		}
+//
+//		if (bodyDec.getModifier().isStatic()) {
+//			return false;
+//		}
+//		
+//		InheritanceKind inherKind = bodyDec.getModifier().getInheritance(); 
+//		if (inherKind != null && inherKind.equals(InheritanceKind.FINAL)) {
+//			return false;
+//		}
 		return true;
 	}
 	
@@ -692,15 +687,28 @@ public class KDMHelper {
 		return null;
 	}
 
-	public static boolean isInitialComponent(
-			ComponentImplementingClassesLink currentComponent) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 	public static EList<Package> getOwnedPackages(Package prefixPackage) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public static Object getPackage(Package element) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static Collection<java.lang.Package> getOwnedElements(Package element) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static EClass getNewEClassEnumeration() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 	
 }
