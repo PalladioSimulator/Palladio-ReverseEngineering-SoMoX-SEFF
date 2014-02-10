@@ -37,7 +37,7 @@ public class VertexTypeAndEdgeThresholdFilter extends BaseFilter<ClusteringRelat
 	private boolean onlyPrimitiveComponents(List<ComponentImplementingClassesLink> componentLinks) {
 		
 		for(ComponentImplementingClassesLink compLink : componentLinks) {
-			if(!compLink.isInitialComponent()) {
+			if(!compLink.isIsCompositeComponent()) {
 				return false;
 			}
 		}

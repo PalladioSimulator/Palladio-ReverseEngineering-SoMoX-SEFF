@@ -1,10 +1,9 @@
 package org.somox.analyzer.simplemodelanalyzer.detection.util;
 
-import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
-import org.eclipse.gmt.modisco.java.ConstructorDeclaration;
-import org.eclipse.gmt.modisco.java.MethodDeclaration;
-import org.eclipse.gmt.modisco.java.Type;
-import org.eclipse.gmt.modisco.java.TypeAccess;
+import org.emftext.language.java.members.Method;
+import org.emftext.language.java.types.TypeReference;
+
+
 
 //import de.fzi.gast.functions.Function;
 
@@ -25,7 +24,7 @@ public class EqualityChecker {
 	 * @param function2
 	 * @return true if both functions are equal; false else
 	 */
-	public static boolean areFunctionsEqual(AbstractMethodDeclaration function1, AbstractMethodDeclaration function2) {
+	public static boolean areFunctionsEqual(Method function1, Method function2) {
 		//preconditions
 		
 		
@@ -36,9 +35,8 @@ public class EqualityChecker {
 		
 		//checks
 		if(! ( function1.getName().equals(function2.getName()) && //name				
-				getReturnTypeAccess(function1).getType() == getReturnTypeAccess(function2).getType() //return type
-			) ) {
-			return false;
+				getReturnTypeAccess(function1).getTarget() == getReturnTypeAccess(function2).getTarget() //return type
+			) ) {		return false;
 		}
 		
 		if(function1.getParameters() != null &&  function2.getParameters() != null) { //parameter size (faster than directly checking parameter types)
@@ -48,7 +46,7 @@ public class EqualityChecker {
 		}					
 		
 		for(int i = 0; i < function1.getParameters().size(); i++) { //parameter types
-			if(! function1.getParameters().get(i).getType().getType().equals(function2.getParameters().get(i).getType().getType()) ) {
+			if(! function1.getParameters().get(i).getTypeReference().getTarget().equals(function2.getParameters().get(i).getTypeReference().getTarget()) ) {
 				return false;
 			}
 			
@@ -58,10 +56,10 @@ public class EqualityChecker {
 	}
 	
 	
-	private static TypeAccess getReturnTypeAccess(AbstractMethodDeclaration function){//REALLYADDED
-		if(function instanceof MethodDeclaration){//REALLYADDED
-			MethodDeclaration method = (MethodDeclaration) function;//REALLYADDED
-			return method.getReturnType();//REALLYADDED
+	private static TypeReference getReturnTypeAccess(Method function){//REALLYADDED
+		if(function instanceof Method){//REALLYADDED
+			Method method = (Method) function;//REALLYADDED
+			return method.getTypeReference();//REALLYADDED
 		} else {//REALLYADDED
 			return null;//REALLYADDED
 		}//REALLYADDED

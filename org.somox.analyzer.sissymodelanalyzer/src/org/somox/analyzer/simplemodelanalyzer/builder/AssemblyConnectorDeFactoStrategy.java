@@ -39,7 +39,7 @@ public class AssemblyConnectorDeFactoStrategy implements IAssemblyConnectorStrat
 	public void buildAssemblyConnectors(
 			ComponentImplementingClassesLink compositeComponentCandidate,
 			Graph<ComponentImplementingClassesLink, ClusteringRelation> compositeComponentSubgraph) {
-		if (!compositeComponentCandidate.isCompositeComponent()) {
+		if (!compositeComponentCandidate.isIsCompositeComponent()) {
 			throw new IllegalArgumentException("Add assembly connectors not allowed for primitive components");
 		}
 		for (ClusteringRelation edge : compositeComponentSubgraph.edgeSet()) {

@@ -67,7 +67,7 @@ public class DeleteInitialComponentCandidatesStrategy implements
 		
 		for(ComponentImplementingClassesLink componentLinkToCheck : analysisResult.getSourceCodeDecoratorRepository().getComponentImplementingClassesLink()) {
 
-			if(componentLinkToCheck.isInitialComponent()) {
+			if(componentLinkToCheck.isIsInitialComponent()) {
 				for(ComponentImplementingClassesLink innerComponentLink : analysisResult.getSourceCodeDecoratorRepository().getComponentImplementingClassesLink()) {
 					if(innerComponentLink != componentLinkToCheck &&
 							innerComponentLink.getImplementingClasses().containsAll(componentLinkToCheck.getImplementingClasses()) ) {

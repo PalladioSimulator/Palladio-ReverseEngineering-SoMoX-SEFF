@@ -13,6 +13,8 @@ import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.*;
+import org.emftext.language.java.arrays.ArrayDimension;
+import org.emftext.language.java.arrays.ArrayInstantiationByValuesTyped;
 import org.emftext.language.java.arrays.ArrayTypeable;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
@@ -47,7 +49,7 @@ import org.somox.kdmhelper.metamodeladdition.Root;
 //import eu.qimpress.samm.staticstructure.Repository;
 //import eu.qimpress.samm.staticstructure.StaticstructureFactory;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
 import de.uka.ipd.sdq.pcm.repository.CompositeDataType;
 import de.uka.ipd.sdq.pcm.repository.DataType;
@@ -249,7 +251,7 @@ public class OperationBuilder extends AbstractBuilder {
 		// other status implies empty method body and causes trouble during
 		// later stages
 
-		MethodLevelSourceCodeLink link = SourceCodeDecoratorFactory.eINSTANCE
+		MethodLevelSourceCodeLink link = SourcecodedecoratorFactory.eINSTANCE
 				.createMethodLevelSourceCodeLink();
 
 		link.setFunction(method);
@@ -460,16 +462,16 @@ public class OperationBuilder extends AbstractBuilder {
 		
 		
 		//ArrayTypeable statt ArrayType
-		else if (gastType instanceof ArrayTypeable) {
-			ArrayTypeable  arrayType = (ArrayTypeable) gastType;
+		else if (gastType instanceof ArrayInstantiationByValuesTyped) {
+			ArrayInstantiationByValuesTyped  arrayType = (ArrayInstantiationByValuesTyped) gastType;
 			// Create a collection data type:
 			newType = RepositoryFactory.eINSTANCE.createCollectionDataType();
 			repository.getDataTypes__Repository().add(newType);
 			logger.debug("found collection type " + typeName);
 			// set inner type:
-			DataType innerType = getType(arrayType.getElementType().getType(), repository);
+			DataType innerType = getType(arrayType.getReferencedType(), repository);
 			if(innerType == null){
-				logger.error("Unsupported inner type: " + arrayType.getElementType().getType());
+				logger.error("Unsupported inner type: " + arrayType.getReferencedType());
 				// TODO switch to real type checks!!!‚
 			}
 			((de.uka.ipd.sdq.pcm.repository.CollectionDataType) newType)

@@ -22,7 +22,7 @@ import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.seff2javaast.Seff2javaastFactory;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 import de.uka.ipd.sdq.pcm.allocation.Allocation;
@@ -230,7 +230,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 	 */
 	private SimpleAnalysisResult initializeAnalysisResult() {
 		SimpleAnalysisResult analysisResult = new SimpleAnalysisResult(this);
-		SourceCodeDecoratorRepository sourceCodeDecoratorRepository = SourceCodeDecoratorFactory.eINSTANCE.createSourceCodeDecoratorRepository();
+		SourceCodeDecoratorRepository sourceCodeDecoratorRepository = SourcecodedecoratorFactory.eINSTANCE.createSourceCodeDecoratorRepository();
 		SEFF2JavaAST seff2JavaAST = Seff2javaastFactory.eINSTANCE.createSEFF2JavaAST();
 		de.uka.ipd.sdq.pcm.system.System system = SystemFactory.eINSTANCE.createSystem();
 		QoSAnnotations qosAnnotationModel = QosannotationsFactory.eINSTANCE.createQoSAnnotations();

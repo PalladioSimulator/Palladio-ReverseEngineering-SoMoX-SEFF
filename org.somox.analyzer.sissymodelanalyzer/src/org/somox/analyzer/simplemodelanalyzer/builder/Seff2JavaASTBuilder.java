@@ -1,17 +1,18 @@
 package org.somox.analyzer.simplemodelanalyzer.builder;
 
 import org.apache.log4j.Logger;
-import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
-import org.eclipse.gmt.modisco.java.Block;
-import org.eclipse.gmt.modisco.java.MethodDeclaration;
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.members.Method;
+import org.emftext.language.java.statements.Block;
+import org.emftext.language.java.types.Type;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.detection.util.EqualityChecker;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
+import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.seff2javaast.SEFF2MethodMapping;
-import org.somox.seff2javaast.Seff2methodFactory;
+import org.somox.seff2javaast.Seff2javaastFactory;
+//import org.somox.seff2javaast.Seff2methodFactory;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 
@@ -91,11 +92,11 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
 			int a = 0;
 		}
 		seff.setDescribedService__SEFF(link.getOperation());
-		SEFF2MethodMapping seff2MethodMapping = Seff2methodFactory.eINSTANCE.createSEFF2MethodMapping();
+		SEFF2MethodMapping seff2MethodMapping = Seff2javaastFactory.eINSTANCE.createSEFF2MethodMapping();
 		component.getServiceEffectSpecifications__BasicComponent().add(seff);
 		
 		// links steems from interface; thus get component-specific implementation:
-		Block methodBody = getFunctionImplementation(link.getFunction(), findComponenentLink(component));
+		Block methodBody = getFunctionImplementation((Method) link.getFunction(), findComponenentLink(component));
 		
 		seff2MethodMapping.setBlockstatement(methodBody); 
 		if (seff2MethodMapping.getBlockstatement() == null || seff2MethodMapping.getBlockstatement().getStatements().size() == 0) {
@@ -114,14 +115,14 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
 	 * @param component The component to find the method implementation for
 	 * @return The block statement realising the function for the component; null in a case of error.
 	 */
-	private Block getFunctionImplementation(AbstractMethodDeclaration function,
+	private Block getFunctionImplementation(Method function,
 			ComponentImplementingClassesLink component) {		
 		
 		for(Type implementingClass : component.getImplementingClasses()) {
-			for(MethodDeclaration implementedMethod : KDMHelper.getMethods(implementingClass)) {				
+			for(Method implementedMethod : KDMHelper.getMethods(implementingClass)) {				
 				if(EqualityChecker.areFunctionsEqual(function, implementedMethod)) { //FIXME: check why equal fails 
 				//if(implementedMethod.equals(function)) {
-					return implementedMethod.getBody();
+					return KDMHelper.getBody( implementedMethod);
 				}				
 			}
 		}

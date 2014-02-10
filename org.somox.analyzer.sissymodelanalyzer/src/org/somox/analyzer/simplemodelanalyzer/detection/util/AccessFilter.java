@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.eclipse.gmt.modisco.java.ASTNode;
-import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
-import org.eclipse.gmt.modisco.java.EnumConstantDeclaration;
-import org.eclipse.gmt.modisco.java.SingleVariableAccess;
-import org.eclipse.gmt.modisco.java.Type;
-import org.eclipse.gmt.modisco.java.TypeAccess;
+import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.types.Type;
+import org.emftext.language.java.types.TypeReference;
+//import org.eclipse.gmt.modisco.java.Commentable;
+//import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
+//import org.eclipse.gmt.modisco.java.EnumConstantDeclaration;
+//import org.eclipse.gmt.modisco.java.SingleVariableAccess;
+//import org.eclipse.gmt.modisco.java.Type;
+//import org.eclipse.gmt.modisco.java.TypeAccess;
 import org.somox.filter.EClassBasedFilter;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.GetAccessedType;
@@ -34,16 +37,16 @@ public class AccessFilter {
 	 * @return List of accessed GASTClasses after filtering blacklisted access types 
 	 */
 	public static List<Type> filterAccessList(
-			List<ASTNode> allAccesses,
-			EClassBasedFilter<ASTNode> filter) {
+			List<Commentable> allAccesses,
+			EClassBasedFilter<Commentable> filter) {
 		
 		ArrayList<Type> returnAccessedClasses = new ArrayList<Type>();
 
-		for (ASTNode access : filter.filter(allAccesses)) {
+		for (Commentable access : filter.filter(allAccesses)) {
 			
 			
-			if(access instanceof TypeAccess){//REALLYADDED//SOMOXTODOCHANGE ugly hack, should be an own filter, filterAccessList is referenced only once
-				if(KDMHelper.isInheritanceTypeAccess((TypeAccess) access)){//REALLYADDED//SOMOXTODOCHANGE
+			if(access instanceof TypeReference){//REALLYADDED//SOMOXTODOCHANGE ugly hack, should be an own filter, filterAccessList is referenced only once
+				if(KDMHelper.isInheritanceTypeAccess((TypeReference) access)){//REALLYADDED//SOMOXTODOCHANGE
 					//logger.warn("found Inheritance type access, will not be considered");
 					continue;//REALLYADDED//SOMOXTODOCHANGE
 				}//REALLYADDED//SOMOXTODOCHANGE

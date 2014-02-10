@@ -3,12 +3,17 @@ package org.somox.analyzer.simplemodelanalyzer.detection;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.gmt.modisco.java.Type;
-import org.eclipse.gmt.modisco.java.emf.JavaPackage;
+import org.eclipse.emf.ecore.EClass;
+import org.emftext.language.java.JavaFactory;
+import org.emftext.language.java.JavaPackage;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.classifiers.Enumeration;
+import org.emftext.language.java.types.Type;
 import org.somox.analyzer.simplemodelanalyzer.builder.ComponentBuilder;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.filter.ComposedFilter;
 import org.somox.filter.EClassBasedFilter;
+import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
 
 //import de.fzi.gast.core.Root;
@@ -33,10 +38,8 @@ public class NoGastClassToPrimitiveComponentInitializationStrategy extends Abstr
 		List<ComponentImplementingClassesLink> result = new ArrayList<ComponentImplementingClassesLink>();
 		List<Type> classList = root.getNormalClasses();
 		
-		ComposedFilter<Type> gastClassFilter = new ComposedFilter<Type>(
-				config.getBlacklistFilter(),
-				new EClassBasedFilter<Type>(
-						JavaPackage.eINSTANCE.getEnumDeclaration()),//SOMOXTODOCHANGE
+		ComposedFilter<Type> gastClassFilter = new ComposedFilter<Type>(config.getBlacklistFilter(),
+				new EClassBasedFilter<Type>(KDMHelper.getNewEClassEnumeration()),//TODO SOMOXTODOCHANGE 
 						//typesPackage.eINSTANCE.getGASTUnion()),//SOMOXTODOCHANGE
 				primitiveClassesFilter,
 				improperStructFilter,

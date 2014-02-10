@@ -80,7 +80,7 @@ public class MetricValuesWriter
       Iteration currentIteration = createCurrentIteration(metricsGraph, iteration, currentComposeThreshold,
             currentMergeThreshold, componentCandidates, isMergeIteration);
 
-      model.getIterationsList().add(currentIteration);//REALLYCHANGEMF
+      model.getIterations().add(currentIteration);//REALLYCHANGEMF
 
       if (iteration == 1)
       {
@@ -183,7 +183,7 @@ public class MetricValuesWriter
 
          createMetricValue(clusteringRelation, compCandidate);
 
-         currentIteration.getComponentCandidatesList().add(compCandidate);//REALLYCHANGEMF
+         currentIteration.getComponentCandidates().add( compCandidate);//REALLYCHANGEMF
       }
    }
 
@@ -196,7 +196,7 @@ public class MetricValuesWriter
          MetricValue metricValue = MetricvaluesFactory.eINSTANCE.createMetricValue();
          metricValue.setMetricID(entry.getKey().getMetricID());
          metricValue.setValue(entry.getValue().doubleValue());
-         compCandidate.getMetricValuesList().add(metricValue);//REALLYCHANGEMF
+         compCandidate.getMetricValues().add(metricValue);//REALLYCHANGEMF
       }
    }
 
@@ -207,7 +207,7 @@ public class MetricValuesWriter
       {
          Component component = createComponent(currentIteration, compLink);
 
-         currentIteration.getComponentsList().add(component);//REALLYCHANGEMF
+         currentIteration.getComponents().add(component);//REALLYCHANGEMF
       }
    }
 
@@ -222,14 +222,14 @@ public class MetricValuesWriter
       List<Type  > classes = compCand.getImplementingClasses();
       for (Type gastClass : classes)
       {
-         component.getClassesList().add(gastClass);//REALLYCHANGEMF
+         component.getClasses().add(gastClass);//REALLYCHANGEMF
       }
 
       List<ComponentImplementingClassesLink> subComponents = compCand.getSubComponents();
       for (ComponentImplementingClassesLink componentImplementingClassesLink : subComponents)
       {
          Component subComponent = createComponent(currentIteration, componentImplementingClassesLink);
-         component.getSubComponentsList().add(subComponent);//REALLYCHANGEMF
+         component.getSubComponents().add(subComponent);//REALLYCHANGEMF
       }
 
       return component;

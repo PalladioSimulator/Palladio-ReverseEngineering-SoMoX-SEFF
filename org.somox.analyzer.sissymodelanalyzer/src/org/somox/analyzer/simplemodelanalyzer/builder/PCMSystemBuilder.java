@@ -16,7 +16,7 @@ import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
 import de.uka.ipd.sdq.pcm.allocation.Allocation;
 import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
@@ -130,7 +130,7 @@ public class PCMSystemBuilder extends AbstractBuilder {
 		System pcmSystem = analysisResult.getSystemModel();
 		pcmSystem.setEntityName("SoMoX Reverse Engineered System");
 
-		PCMSystemImplementatingClassesLink pcmLink = SourceCodeDecoratorFactory.eINSTANCE
+		PCMSystemImplementatingClassesLink pcmLink = SourcecodedecoratorFactory.eINSTANCE
 				.createPCMSystemImplementatingClassesLink();
 		pcmLink.setSystemModel(pcmSystem);
 		// FIXME: currently saving results in invalid serialisation

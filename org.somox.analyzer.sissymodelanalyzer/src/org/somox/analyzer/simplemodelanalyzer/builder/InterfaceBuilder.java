@@ -29,7 +29,7 @@ import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
 import de.uka.ipd.sdq.pcm.core.entity.ComposedProvidingRequiringEntity;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
@@ -134,8 +134,8 @@ public class InterfaceBuilder extends AbstractBuilder {
 		EClassBasedFilter<Commentable > accessFilter = new EClassBasedFilter<Commentable>(
 				new EClass[] { 
 						/**accessesPackage.eINSTANCE.getInheritanceTypeAccess()**///SOMOXTODOCHANGE
-						((Object) JavaPackage.eINSTANCE).getThisExpression(), //remove class-internal accesses//SOMOXTODOCHANGE
-						((Object) JavaPackage.eINSTANCE).getSuperFieldAccess()//REALLYADDED//SOMOXTODOCHANGE
+//						 JavaPackage.eINSTANCE.getThisExpression(), //remove class-internal accesses//SOMOXTODOCHANGE
+//						JavaPackage.eINSTANCE.getSuperFieldAccess()//REALLYADDED//SOMOXTODOCHANGE
 						});	
 		
 		// Get all accessed classes from all implementation classes of this
@@ -174,7 +174,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 		
 		// for potentially existing interfaces of the component: avoid self accesses
 		// to interfaces provided by the component		
-		if(!componentCandidate.isCompositeComponent()) {
+		if(!componentCandidate.isIsCompositeComponent()) {
 			removeInterfaceSelfAccesses(componentCandidate);
 		}
 		
@@ -190,7 +190,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 			ComponentImplementingClassesLink componentCandidate) {
 	
 		// Check precondition
-		if (componentCandidate.isCompositeComponent())
+		if (componentCandidate.isIsCompositeComponent())
 			throw new IllegalArgumentException("This method can only be called on primitive components");
 		
 		for (Type gastClass : componentCandidate.getImplementingClasses()) {
@@ -306,7 +306,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 				true //provided interface
 				);
 
-		if (!componentCandidate.isCompositeComponent()) {
+		if (!componentCandidate.isIsCompositeComponent()) {
 			// add behaviour
 			behaviourBuilder.addSeffsToPrimitiveComponent((BasicComponent) componentCandidate.getComponent(), providedRole);
 		}
@@ -448,7 +448,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 			Interface interf,
 			Type gastClass,
 			boolean isProvidedInterface) {
-		InterfaceSourceCodeLink interfaceLink = SourceCodeDecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();
+		InterfaceSourceCodeLink interfaceLink = SourcecodedecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();
 		if (gastClass != null) {
 			interfaceLink.setGastClass(gastClass);
 		}
@@ -473,7 +473,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 		boolean addedANewInterface = false;
 		
 		for(ComponentImplementingClassesLink compLink : analysisResult.getSourceCodeDecoratorRepository().getComponentImplementingClassesLink()) {
-			if(!compLink.isCompositeComponent()) {
+			if(!compLink.isIsCompositeComponent()) {
 				addedANewInterface = findAndAddRequiredInterfaces(compLink);
 				addedANewInterface = true;
 			}
@@ -483,7 +483,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 		IAssemblyConnectorStrategy assemblyConnectorStrategy = new AssemblyConnectorsInsideCompositeComponentStrategy();
 		if(addedANewInterface) {			
 			for(ComponentImplementingClassesLink compLink : analysisResult.getSourceCodeDecoratorRepository().getComponentImplementingClassesLink()) {
-				if(compLink.isCompositeComponent()) {
+				if(compLink.isIsCompositeComponent()) {
 					ComposedProvidingRequiringEntity composite = (ComposedProvidingRequiringEntity) compLink.getComponent();
 					assemblyConnectorStrategy.buildAssemblyConnectors(composite, compLink.getSubComponents());
 				}
@@ -511,7 +511,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 				analysisResult.getInternalArchitectureModel().getInterfaces__Repository().add(newInterface);
 				
 				//update source code decorator
-				InterfaceSourceCodeLink ifLink = SourceCodeDecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();
+				InterfaceSourceCodeLink ifLink = SourcecodedecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();
 				ifLink.setGastClass(currentClass);
 				analysisResult.getSourceCodeDecoratorRepository().getInterfaceSourceCodeLink().add(ifLink);
 			}

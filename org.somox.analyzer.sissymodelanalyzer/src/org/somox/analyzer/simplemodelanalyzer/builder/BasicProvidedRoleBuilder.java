@@ -7,12 +7,10 @@ import org.apache.log4j.Logger;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.metamodeladdition.Root;
-
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
-
 import de.uka.ipd.sdq.pcm.repository.OperationInterface;
 import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
@@ -56,7 +54,7 @@ public class BasicProvidedRoleBuilder extends AbstractBuilder implements IRoleBu
 					newProvidedRole.setEntityName(operationInterface.getEntityName());
 					//removelater start
 					if(operationInterface.getEntityName().contains("Refresh")){
-						int a = 0;
+						
 					}
 					//removelater end
 					
@@ -67,7 +65,7 @@ public class BasicProvidedRoleBuilder extends AbstractBuilder implements IRoleBu
 					
 					// Source code decorator:				
 					if(currentInterfaceLinkSub.getInterface() != null && currentInterfaceLinkSub.getInterface() != null) {
-						InterfaceSourceCodeLink newInterfaceLink = SourceCodeDecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();
+						InterfaceSourceCodeLink newInterfaceLink = SourcecodedecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();
 						newInterfaceLink.setInterface(currentInterfaceLinkSub.getInterface());
 						newInterfaceLink.setGastClass(currentInterfaceLinkSub.getGastClass());
 						result.getProvidedInterfaces().add(newInterfaceLink);

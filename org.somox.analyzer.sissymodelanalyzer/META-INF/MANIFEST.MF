@@ -10,19 +10,19 @@ Require-Bundle: org.somox.core;bundle-version="1.0.0",
  org.eclipse.ui;bundle-version="3.4.1",
  org.somox.metrics;bundle-version="1.0.0",
  de.uka.ipd.sdq.workflow.launchconfig;bundle-version="1.1.0",
- org.emftext.language.java;bundle-version="1.4.0",
  org.eclipse.gmf.runtime.emf.core;bundle-version="1.1.1",
  org.somox.filter;bundle-version="1.0.0",
  org.jgrapht;bundle-version="0.8.1",
  org.eclipse.debug.ui;bundle-version="3.5.0",
  org.somox.metricvaluesstorage;bundle-version="1.0.0",
  org.somox.kdmhelper;bundle-version="1.0.0",
+ org.somox.sourcecodedecorator;bundle-version="1.0.1",
  org.somox.seff2javaast,
  de.uka.ipd.sdq.pcm;bundle-version="3.2.0",
  org.junit,
  de.uka.ipd.sdq.pcm.resources;bundle-version="1.0.0",
- org.eclipse.emf.common,
- org.somox.sourcecodedecorator;bundle-version="1.0.1"
+ org.emftext.language.java;bundle-version="1.4.0",
+ org.eclipse.emf.common
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.somox.analyzer.simplemodelanalyzer,

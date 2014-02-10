@@ -8,7 +8,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.types.Type;
 import org.jgrapht.Graph;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
@@ -17,7 +17,7 @@ import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.FileLevelSourceCodeLink;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
 import de.uka.ipd.sdq.pcm.core.composition.ComposedStructure;
@@ -90,7 +90,7 @@ public class ComponentBuilder extends AbstractBuilder {
 			Graph<ComponentImplementingClassesLink, ClusteringRelation> compositeComponentSubgraph) {
 
 		// For the found pair of component candidates: merge them into a new component candidate
-		ComponentImplementingClassesLink result = SourceCodeDecoratorFactory.eINSTANCE.createComponentImplementingClassesLink();
+		ComponentImplementingClassesLink result = SourcecodedecoratorFactory.eINSTANCE.createComponentImplementingClassesLink();
 		CompositeComponent newComponentType = RepositoryFactory.eINSTANCE.createCompositeComponent();
 
 		String componentName = this.componentNamingStrategy.createCompositeComponentName(compositeComponentSubgraph.vertexSet());
@@ -194,7 +194,7 @@ public class ComponentBuilder extends AbstractBuilder {
 	public ComponentImplementingClassesLink createSinglePrimitiveComponentFromGASTClasses(
 			List<Type> gastClasses) {
 		ComponentImplementingClassesLink newPrimitiveComponent = 
-			SourceCodeDecoratorFactory.eINSTANCE.createComponentImplementingClassesLink();
+			SourcecodedecoratorFactory.eINSTANCE.createComponentImplementingClassesLink();
 	
 		return createSinglePrimitiveComponentFromGASTClasses(gastClasses, newPrimitiveComponent);
 	}
@@ -248,7 +248,7 @@ public class ComponentBuilder extends AbstractBuilder {
 			Type gastClass) {
 		
 		ComponentImplementingClassesLink newPrimitiveComponent = 
-			SourceCodeDecoratorFactory.eINSTANCE.createComponentImplementingClassesLink();
+			SourcecodedecoratorFactory.eINSTANCE.createComponentImplementingClassesLink();
 		this.analysisResult.getSourceCodeDecoratorRepository().getComponentImplementingClassesLink().add(newPrimitiveComponent);
 				
 		newPrimitiveComponent.getImplementingClasses().addAll(getInnerClasses(gastClass));
@@ -266,12 +266,11 @@ public class ComponentBuilder extends AbstractBuilder {
 		logger.trace("creating single primitive component (merge)");
 		EList<Type> classesOfPrimitiveComponent = new BasicEList<Type>();
 		for(ComponentImplementingClassesLink currentComponent : compositeComponentSubgraph.vertexSet()) {	
-			assert(currentComponent.isInitialComponent()); 
-			
+			assert(currentComponent.isIsInitialComponent());
 			classesOfPrimitiveComponent.addAll(currentComponent.getImplementingClasses());
 		}
 		//Create a single large primitive component comprising multiple classes:
-		ComponentImplementingClassesLink result = SourceCodeDecoratorFactory.eINSTANCE.createComponentImplementingClassesLink();
+		ComponentImplementingClassesLink result = SourcecodedecoratorFactory.eINSTANCE.createComponentImplementingClassesLink();
 		result = 
 			createSinglePrimitiveComponentFromGASTClasses(classesOfPrimitiveComponent); 
 		return result;
@@ -291,7 +290,7 @@ public class ComponentBuilder extends AbstractBuilder {
 		for(ComponentImplementingClassesLink innerComponent : compositeComponentSubgraph.vertexSet()) {							
 			
 			// create primitive components for empty component links: 
-			if(innerComponent.isInitialComponent()) { //a component from the initialisation phase
+			if(innerComponent.isIsInitialComponent()) { //a component from the initialisation phase
 				//Create a single large primitive component comprising multiple classes / handle the new :				
 				ComponentImplementingClassesLink newInnerPrimitiveComponent = 
 					createSinglePrimitiveComponentFromGASTClasses(innerComponent.getImplementingClasses());
@@ -331,7 +330,7 @@ public class ComponentBuilder extends AbstractBuilder {
 	
 		// find a composite component for which to add the classes to merge as a primitive component
 		for(ComponentImplementingClassesLink innerComponent : componentLinks) {
-			if(innerComponent.isCompositeComponent()) {
+			if(innerComponent.isIsCompositeComponent()) {
 				return innerComponent;
 			}
 		}
@@ -421,7 +420,7 @@ public class ComponentBuilder extends AbstractBuilder {
 	private void storeFileLocationInSourceCodeDecorator(
 			Type gastClass, RepositoryComponent newComponent) {
 		//TODO inner classes?
-		FileLevelSourceCodeLink link = SourceCodeDecoratorFactory.eINSTANCE.createFileLevelSourceCodeLink();
+		FileLevelSourceCodeLink link = SourcecodedecoratorFactory.eINSTANCE.createFileLevelSourceCodeLink();
 		link.setRepositoryComponent(newComponent);
 		if(KDMHelper.getJavaNodeSourceRegion(gastClass) != null ) { // can be null for C code
 			link.setFile(KDMHelper.getJavaNodeSourceRegion(gastClass));

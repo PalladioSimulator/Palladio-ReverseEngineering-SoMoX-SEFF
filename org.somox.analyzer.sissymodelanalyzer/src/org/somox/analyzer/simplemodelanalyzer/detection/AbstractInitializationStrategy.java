@@ -1,7 +1,8 @@
 package org.somox.analyzer.simplemodelanalyzer.detection;
 
-import org.eclipse.gmt.modisco.java.MethodDeclaration;
-import org.eclipse.gmt.modisco.java.Type;
+
+import org.emftext.language.java.members.Method;
+import org.emftext.language.java.types.Type;
 import org.somox.filter.BaseFilter;
 import org.somox.filter.DataObjectFilter;
 import org.somox.kdmhelper.KDMHelper;
@@ -29,7 +30,7 @@ public abstract class AbstractInitializationStrategy implements IInitializationS
 	protected static final BaseFilter<Type> unknownClassTypeFilter = new BaseFilter<Type>() {
 			@Override
 			public boolean passes(Type object) {			 
-				return !object.getName().equals("<unknownClassType>");
+				return !  KDMHelper.getName(object).equals("<unknownClassType>");
 			}
 		};
 	protected static final BaseFilter<Type> improperStructFilter = new BaseFilter<Type>() {
@@ -44,7 +45,7 @@ public abstract class AbstractInitializationStrategy implements IInitializationS
 			 */
 			private boolean hasVirtualMethod(Type clazz) {
 				boolean hasVirtualMethod = false;
-				for (MethodDeclaration method : KDMHelper.getMethods(clazz)) {
+				for (Method method : KDMHelper.getMethods(clazz)) {
 					if (KDMHelper.isVirtual(method)) {
 						hasVirtualMethod = true;
 						break;

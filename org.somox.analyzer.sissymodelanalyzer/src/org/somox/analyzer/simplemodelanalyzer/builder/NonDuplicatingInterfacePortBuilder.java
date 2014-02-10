@@ -14,7 +14,7 @@ import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorFactory;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 import de.uka.ipd.sdq.pcm.core.composition.ComposedStructure;
@@ -61,7 +61,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 	 */
 	public List<OperationProvidedRole> buildProvidedRole(
 			ComponentImplementingClassesLink componentLink) {
-		assert (componentLink.isCompositeComponent());
+		assert (componentLink.isIsCompositeComponent());
 
 		List<OperationProvidedRole> roles = new LinkedList<OperationProvidedRole>();
 		
@@ -90,7 +90,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 	 */
 	public List<OperationRequiredRole> buildRequiredRole(
 			ComponentImplementingClassesLink componentLink) {
-		assert (componentLink.isCompositeComponent());
+		assert (componentLink.isIsCompositeComponent());
 
 		List<OperationRequiredRole> roles = new LinkedList<OperationRequiredRole>();
 
@@ -154,7 +154,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 			// Create interface source code link for parent class.
 			// TODO: Check if this really makes sense. The method already operates on a SourceCodeLink (see above: subComponentInformation.getInterfaceSourceCodeLink()) 
 			if(subComponentInformation.getInterfaceSourceCodeLink().getInterface() != null) {
-				InterfaceSourceCodeLink newInterfaceLink = SourceCodeDecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();
+				InterfaceSourceCodeLink newInterfaceLink = SourcecodedecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();
 				newInterfaceLink.setInterface(subComponentInformation.getInterfaceSourceCodeLink().getInterface());
 				newInterfaceLink.setGastClass(subComponentInformation.getInterfaceSourceCodeLink().getGastClass());
 				compositeComponentLink.getProvidedInterfaces().add(newInterfaceLink);
@@ -211,7 +211,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
 				compositeComponentLink.getComponent().getRequiredRoles_InterfaceRequiringEntity().add(requiredRole);
 						
 				// add link to source code decorator model
-				InterfaceSourceCodeLink newInterfaceLink = SourceCodeDecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();
+				InterfaceSourceCodeLink newInterfaceLink = SourcecodedecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();
 				newInterfaceLink.setInterface(subComponentInformation.getInterfaceSourceCodeLink().getInterface());
 				newInterfaceLink.setGastClass(subComponentInformation.getInterfaceSourceCodeLink().getGastClass());
 				compositeComponentLink.getRequiredInterfaces().add(newInterfaceLink);

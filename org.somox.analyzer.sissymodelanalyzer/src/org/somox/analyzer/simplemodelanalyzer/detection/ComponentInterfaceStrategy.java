@@ -1,7 +1,8 @@
 package org.somox.analyzer.simplemodelanalyzer.detection;
 
-import org.eclipse.gmt.modisco.java.MethodDeclaration;
-import org.eclipse.gmt.modisco.java.Type;
+
+import org.emftext.language.java.members.Method;
+import org.emftext.language.java.types.Type;
 import org.somox.kdmhelper.KDMHelper;
 
 //import de.fzi.gast.functions.Method;
@@ -79,11 +80,11 @@ public class ComponentInterfaceStrategy implements IComponentInterfaceStrategy {
 		if(KDMHelper.getMethods(classToCheck).size() == 0) {
 			return false;
 		}
-		for(MethodDeclaration method : KDMHelper.getMethods(classToCheck)) {
+		for(Method method : KDMHelper.getMethods(classToCheck)) {
 			if(!KDMHelper.isVirtual(method)) {
 				return false;
 			}
-			if (method.getBody() != null) {
+			if (KDMHelper.getBody(method) != null) {
 				return false;
 			}
 		}

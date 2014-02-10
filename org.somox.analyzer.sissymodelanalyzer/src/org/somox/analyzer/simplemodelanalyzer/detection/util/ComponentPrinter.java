@@ -3,7 +3,7 @@ package org.somox.analyzer.simplemodelanalyzer.detection.util;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.eclipse.gmt.modisco.java.Type;
+import org.emftext.language.java.types.Type;
 import org.somox.kdmhelper.KDMHelper;
 
 //import de.fzi.gast.types.GASTClass;
@@ -31,7 +31,7 @@ public class ComponentPrinter {
 				logger.debug(KDMHelper.computeFullQualifiedName(clazz));
 //				org.somox.changetest.Helper.writeToFile(fileName, GASTClassHelper.computeFullQualifiedName(clazz));//removelater
 			}
-			if (currentComponent.isCompositeComponent()) {
+			if (currentComponent.isIsCompositeComponent()) {
 				logger.debug("Inner Components:");
 //				org.somox.changetest.Helper.writeToFile(fileName, " Inner Components:");//removelater
 				printComponents(currentComponent.getSubComponents(), logger);

@@ -3,8 +3,7 @@ package org.somox.analyzer.simplemodelanalyzer.detection;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.gmt.modisco.java.Type;
-import org.eclipse.gmt.modisco.java.emf.JavaPackage;
+import org.emftext.language.java.types.Type;
 import org.somox.analyzer.simplemodelanalyzer.builder.ComponentBuilder;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.filter.ComposedFilter;
