@@ -6,6 +6,8 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
 
+import org.emftext.language.java.types.Type;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Component</b></em>'.
@@ -17,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link metricvalues.Component#getSubComponents <em>Sub Components</em>}</li>
  *   <li>{@link metricvalues.Component#getName <em>Name</em>}</li>
  *   <li>{@link metricvalues.Component#getId <em>Id</em>}</li>
+ *   <li>{@link metricvalues.Component#getClasses <em>Classes</em>}</li>
  * </ul>
  * </p>
  *
@@ -92,5 +95,21 @@ public interface Component extends EObject {
 	 * @generated
 	 */
 	void setId(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Classes</b></em>' reference list.
+	 * The list contents are of type {@link org.emftext.language.java.types.Type}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Classes</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Classes</em>' reference list.
+	 * @see metricvalues.MetricvaluesPackage#getComponent_Classes()
+	 * @model
+	 * @generated
+	 */
+	EList<Type> getClasses();
 
 } // Component

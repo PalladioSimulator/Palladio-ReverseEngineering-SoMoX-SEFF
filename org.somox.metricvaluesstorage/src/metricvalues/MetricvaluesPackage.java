@@ -94,13 +94,22 @@ public interface MetricvaluesPackage extends EPackage {
 	int COMPONENT__ID = 2;
 
 	/**
+	 * The feature id for the '<em><b>Classes</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__CLASSES = 3;
+
+	/**
 	 * The number of structural features of the '<em>Component</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_FEATURE_COUNT = 3;
+	int COMPONENT_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Component</em>' class.
@@ -583,6 +592,17 @@ public interface MetricvaluesPackage extends EPackage {
 	EAttribute getComponent_Id();
 
 	/**
+	 * Returns the meta object for the reference list '{@link metricvalues.Component#getClasses <em>Classes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Classes</em>'.
+	 * @see metricvalues.Component#getClasses()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EReference getComponent_Classes();
+
+	/**
 	 * Returns the meta object for class '{@link metricvalues.ComponentCandidate <em>Component Candidate</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1063,6 +1083,14 @@ public interface MetricvaluesPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute COMPONENT__ID = eINSTANCE.getComponent_Id();
+
+		/**
+		 * The meta object literal for the '<em><b>Classes</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT__CLASSES = eINSTANCE.getComponent_Classes();
 
 		/**
 		 * The meta object literal for the '{@link metricvalues.impl.ComponentCandidateImpl <em>Component Candidate</em>}' class.

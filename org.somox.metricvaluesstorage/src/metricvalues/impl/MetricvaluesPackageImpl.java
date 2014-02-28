@@ -17,6 +17,42 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import org.emftext.language.java.annotations.AnnotationsPackage;
+
+import org.emftext.language.java.arrays.ArraysPackage;
+
+import org.emftext.language.java.classifiers.ClassifiersPackage;
+
+import org.emftext.language.java.commons.CommonsPackage;
+
+import org.emftext.language.java.containers.ContainersPackage;
+
+import org.emftext.language.java.expressions.ExpressionsPackage;
+
+import org.emftext.language.java.generics.GenericsPackage;
+
+import org.emftext.language.java.imports.ImportsPackage;
+
+import org.emftext.language.java.instantiations.InstantiationsPackage;
+
+import org.emftext.language.java.literals.LiteralsPackage;
+
+import org.emftext.language.java.members.MembersPackage;
+
+import org.emftext.language.java.modifiers.ModifiersPackage;
+
+import org.emftext.language.java.operators.OperatorsPackage;
+
+import org.emftext.language.java.parameters.ParametersPackage;
+
+import org.emftext.language.java.references.ReferencesPackage;
+
+import org.emftext.language.java.statements.StatementsPackage;
+
+import org.emftext.language.java.types.TypesPackage;
+
+import org.emftext.language.java.variables.VariablesPackage;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Package</b>.
@@ -105,6 +141,26 @@ public class MetricvaluesPackageImpl extends EPackageImpl implements Metricvalue
 
 		isInited = true;
 
+		// Initialize simple dependencies
+		AnnotationsPackage.eINSTANCE.eClass();
+		ArraysPackage.eINSTANCE.eClass();
+		ClassifiersPackage.eINSTANCE.eClass();
+		CommonsPackage.eINSTANCE.eClass();
+		ContainersPackage.eINSTANCE.eClass();
+		ExpressionsPackage.eINSTANCE.eClass();
+		GenericsPackage.eINSTANCE.eClass();
+		ImportsPackage.eINSTANCE.eClass();
+		InstantiationsPackage.eINSTANCE.eClass();
+		LiteralsPackage.eINSTANCE.eClass();
+		MembersPackage.eINSTANCE.eClass();
+		ModifiersPackage.eINSTANCE.eClass();
+		OperatorsPackage.eINSTANCE.eClass();
+		ParametersPackage.eINSTANCE.eClass();
+		ReferencesPackage.eINSTANCE.eClass();
+		StatementsPackage.eINSTANCE.eClass();
+		TypesPackage.eINSTANCE.eClass();
+		VariablesPackage.eINSTANCE.eClass();
+
 		// Create package meta-data objects
 		theMetricvaluesPackage.createPackageContents();
 
@@ -154,6 +210,15 @@ public class MetricvaluesPackageImpl extends EPackageImpl implements Metricvalue
 	 */
 	public EAttribute getComponent_Id() {
 		return (EAttribute)componentEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComponent_Classes() {
+		return (EReference)componentEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -539,6 +604,7 @@ public class MetricvaluesPackageImpl extends EPackageImpl implements Metricvalue
 		createEReference(componentEClass, COMPONENT__SUB_COMPONENTS);
 		createEAttribute(componentEClass, COMPONENT__NAME);
 		createEAttribute(componentEClass, COMPONENT__ID);
+		createEReference(componentEClass, COMPONENT__CLASSES);
 
 		componentCandidateEClass = createEClass(COMPONENT_CANDIDATE);
 		createEReference(componentCandidateEClass, COMPONENT_CANDIDATE__METRIC_VALUES);
@@ -607,6 +673,9 @@ public class MetricvaluesPackageImpl extends EPackageImpl implements Metricvalue
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
+		// Obtain other dependent packages
+		TypesPackage theTypesPackage = (TypesPackage)EPackage.Registry.INSTANCE.getEPackage(TypesPackage.eNS_URI);
+
 		// Create type parameters
 
 		// Set bounds for type parameters
@@ -618,6 +687,7 @@ public class MetricvaluesPackageImpl extends EPackageImpl implements Metricvalue
 		initEReference(getComponent_SubComponents(), this.getComponent(), null, "subComponents", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_Name(), ecorePackage.getEString(), "name", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_Id(), ecorePackage.getEString(), "id", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponent_Classes(), theTypesPackage.getType(), null, "classes", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(componentCandidateEClass, ComponentCandidate.class, "ComponentCandidate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getComponentCandidate_MetricValues(), this.getMetricValue(), null, "metricValues", null, 0, -1, ComponentCandidate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

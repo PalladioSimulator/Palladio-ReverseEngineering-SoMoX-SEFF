@@ -19,7 +19,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+
+import org.emftext.language.java.types.Type;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,6 +34,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link metricvalues.impl.ComponentImpl#getSubComponents <em>Sub Components</em>}</li>
  *   <li>{@link metricvalues.impl.ComponentImpl#getName <em>Name</em>}</li>
  *   <li>{@link metricvalues.impl.ComponentImpl#getId <em>Id</em>}</li>
+ *   <li>{@link metricvalues.impl.ComponentImpl#getClasses <em>Classes</em>}</li>
  * </ul>
  * </p>
  *
@@ -86,6 +90,16 @@ public class ComponentImpl extends MinimalEObjectImpl.Container implements Compo
 	 * @ordered
 	 */
 	protected String id = ID_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getClasses() <em>Classes</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getClasses()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Type> classes;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -165,6 +179,18 @@ public class ComponentImpl extends MinimalEObjectImpl.Container implements Compo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Type> getClasses() {
+		if (classes == null) {
+			classes = new EObjectResolvingEList<Type>(Type.class, this, MetricvaluesPackage.COMPONENT__CLASSES);
+		}
+		return classes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -188,6 +214,8 @@ public class ComponentImpl extends MinimalEObjectImpl.Container implements Compo
 				return getName();
 			case MetricvaluesPackage.COMPONENT__ID:
 				return getId();
+			case MetricvaluesPackage.COMPONENT__CLASSES:
+				return getClasses();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -211,6 +239,10 @@ public class ComponentImpl extends MinimalEObjectImpl.Container implements Compo
 			case MetricvaluesPackage.COMPONENT__ID:
 				setId((String)newValue);
 				return;
+			case MetricvaluesPackage.COMPONENT__CLASSES:
+				getClasses().clear();
+				getClasses().addAll((Collection<? extends Type>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -232,6 +264,9 @@ public class ComponentImpl extends MinimalEObjectImpl.Container implements Compo
 			case MetricvaluesPackage.COMPONENT__ID:
 				setId(ID_EDEFAULT);
 				return;
+			case MetricvaluesPackage.COMPONENT__CLASSES:
+				getClasses().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -250,6 +285,8 @@ public class ComponentImpl extends MinimalEObjectImpl.Container implements Compo
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case MetricvaluesPackage.COMPONENT__ID:
 				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+			case MetricvaluesPackage.COMPONENT__CLASSES:
+				return classes != null && !classes.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
