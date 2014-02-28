@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated sourcecodedecorator -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.somox.sourcecodedecorator.presentation.SourcecodedecoratorModelWizardID"
+            name="%_UI_SourcecodedecoratorModelWizard_label"
+            class="org.somox.sourcecodedecorator.presentation.SourcecodedecoratorModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/SourcecodedecoratorModelFile.gif">
+         <description>%_UI_SourcecodedecoratorModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated sourcecodedecorator -->
+      <editor
+            id="org.somox.sourcecodedecorator.presentation.SourcecodedecoratorEditorID"
+            name="%_UI_SourcecodedecoratorEditor_label"
+            icon="icons/full/obj16/SourcecodedecoratorModelFile.gif"
+            extensions="sourcecodedecorator"
+            class="org.somox.sourcecodedecorator.presentation.SourcecodedecoratorEditor"
+            contributorClass="org.somox.sourcecodedecorator.presentation.SourcecodedecoratorActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
