@@ -57,27 +57,6 @@ import de.uka.ipd.sdq.pcm.seff.ExternalCallAction;
 import de.uka.ipd.sdq.pcm.seff.InternalAction;
 import de.uka.ipd.sdq.pcm.seff.SeffFactory;
 
-//import eu.qimpress.samm.staticstructure.InterfacePort;
-//import eu.qimpress.samm.staticstructure.Operation;
-//import eu.qimpress.samm.staticstructure.PrimitiveComponent;
-//import eu.qimpress.seff.AbstractBranchTransition;
-//import eu.qimpress.seff.BranchAction;
-//import eu.qimpress.seff.ExternalCallAction;
-//import eu.qimpress.seff.InternalAction;
-//import eu.qimpress.seff.LoopAction;
-//import eu.qimpress.seff.ResourceDemandingBehaviour;
-//import eu.qimpress.seff.seffFactory;
-//import de.fzi.gast.accesses.Access;//GAST2SEFFCHANGE
-//import de.fzi.gast.accesses.BaseAccess;//GAST2SEFFCHANGE
-//import de.fzi.gast.accesses.FunctionAccess;//GAST2SEFFCHANGE
-//import de.fzi.gast.core.Position;//GAST2SEFFCHANGE
-//import de.fzi.gast.statements.BlockStatement;//GAST2SEFFCHANGE
-//import de.fzi.gast.statements.Branch;//GAST2SEFFCHANGE
-//import de.fzi.gast.statements.BranchStatement;//GAST2SEFFCHANGE
-//import de.fzi.gast.statements.LoopStatement;//GAST2SEFFCHANGE
-//import de.fzi.gast.statements.SimpleStatement;//GAST2SEFFCHANGE
-//import de.fzi.gast.statements.Statement;//GAST2SEFFCHANGE
-//import de.fzi.gast.statements.util.statementsSwitch;//GAST2SEFFCHANGE
 
 /**
  * A visitor which traverses a GAST behaviour and creates a SEFF matching the traversed behaviour.
@@ -277,7 +256,8 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
     }
 
    // @Override
-    public Object caseForStatement(final ForLoop object) {//getStatement() statt getBody
+    public Object caseForStatement(final ForLoop object) {//
+
         return this.handleLoopStatement(object, object.getStatement());
     }
 
@@ -606,8 +586,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
                         final Commentable access = firstAccess; // GAST2SEFFCHANGE//GAST2SEFFCHANGE
 
                         if (GetAccessedType.getAccessedType(access) != null) { // GAST2SEFFCHANGE
-                        	//toString() statt getName
-                            blockString.append(" " + GetAccessedType.getAccessedType(access).toString()+ "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                        	blockString.append(" " + KDMHelper.getName(GetAccessedType.getAccessedType(access))+ "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                         }
                         return blockString.toString();
                     }
