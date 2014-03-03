@@ -409,12 +409,12 @@ public class KDMHelper {
 	}
 
 	private static Method getRedefinedMethodDeclaration(Method methDecInput) {
-		// TODO implement
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	private static Type getAbstractTypeDeclaration(Object object) {
-		// TODO implement
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -638,21 +638,26 @@ public class KDMHelper {
 
 	public static EList<Package> getOwnedPackages(Package prefixPackage) {
 		// TODO Test
-				
-				//( (Object) prefixPackage).getSubpackages();
-				//		EList<Package> ownedPackages=null;
-				//		org.emftext.language.java.containers.Package p;
-				//		
-				//		for (CompilationUnit comUnit :prefixPackage.getCompilationUnits())
-				//		{
-				//			comUnit.getNamespaces();
-				//			if(comUnit.getContainingPackageName())
-				//		}
-				//		return null;
-		return null;
+				return null;//( (Object) prefixPackage).getSubpackages();
+		
+		
+//		EList<Package> ownedPackages=null;
+//		org.emftext.language.java.containers.Package p;
+//		
+//		for (CompilationUnit comUnit :prefixPackage.getCompilationUnits())
+//		{
+//			comUnit.getNamespaces();
+//			if(comUnit.getContainingPackageName())
+//		}
+//		return null;
 	}
 
 	public static Object getPackage(Package element) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static Collection<Package> getOwnedElements(Package element) {
 		// TODO Auto-generated method stub
 		return null;
 	}
