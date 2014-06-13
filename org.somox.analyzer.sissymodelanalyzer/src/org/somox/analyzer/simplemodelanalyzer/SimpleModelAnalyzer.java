@@ -80,6 +80,13 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 
 		AnalysisResult analysisResult = null;
 		
+//		String projectName = somoxConfiguration.getFileLocations().getProjectName();
+//		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+//	    IWorkspaceRoot workspaceRoot = workspace.getRoot();
+//	    IProject project = workspaceRoot.getProject(projectName);
+//	    KDMReader modelReader = new KDMReader();
+//		modelReader.loadProject(project);
+		
 		// TODO: This should be an "extractor" in the SoMoX terminology
 		String platformPath = somoxConfiguration.getFileLocations().getAnalyserInputFile(); 
 		if (platformPath != null) {

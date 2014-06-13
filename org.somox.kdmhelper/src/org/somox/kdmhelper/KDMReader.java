@@ -49,6 +49,51 @@ public class KDMReader {
 	public Root getRoot() {
 		return root;
 	}
+	
+//	public void loadProject(IProject project) throws IOException {
+//		try {
+//			if (!project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
+//				throw new ModelAnalyzerException("Given project is no Java project.");
+//			}
+//		} catch (CoreException e) {
+//			throw new ModelAnalyzerException("", e);
+//		}
+//		IJavaProject javaProject = JavaCore.create(project);
+//		List<IPackageFragmentRoot> sourceFolders = new ArrayList<IPackageFragmentRoot>();
+//		try {
+//			IPackageFragmentRoot[] packageFragmentRoots = javaProject.getAllPackageFragmentRoots();
+//			for (IPackageFragmentRoot pfr : packageFragmentRoots) {
+//				if (pfr.getKind() == IPackageFragmentRoot.K_SOURCE) {
+//					sourceFolders.add(pfr);
+//				}
+//			}
+//		} catch (JavaModelException e1) {
+//			e1.printStackTrace();
+//		}
+//
+//		ResourceSet rs = new ResourceSetImpl();
+//		for (IPackageFragmentRoot src : sourceFolders) {
+//			
+//			List<Resource> resources = new ArrayList<Resource>();
+//	        Collection<File> javaFiles = FileUtils.listFiles(src.getPath().toFile(), new String[] { "java" }, true);
+//	        for (File javaFile : javaFiles) {
+//	            Resource resource = null;
+//				try {
+//					resource = rs.getResource(URI.createFileURI(javaFile.getCanonicalPath()), true);
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//	            if (resource != null) {
+//	                resources.add(resource);
+//	            } else {
+//	                logger.warn("Failed to load resource: " + javaFile);
+//	            }
+//	        }
+//		}
+//		
+//		// addModelToRoot(resource);
+//
+//	}
 
 	public void loadFiles(Collection<String> filesLocationList)
 			throws IOException {
