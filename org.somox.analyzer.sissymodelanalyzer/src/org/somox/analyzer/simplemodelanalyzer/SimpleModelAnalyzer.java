@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.URI;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.ModelAnalyzer;
 import org.somox.analyzer.ModelAnalyzerException;
@@ -22,8 +25,8 @@ import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.seff2javaast.Seff2javaastFactory;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
-import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
 import de.uka.ipd.sdq.pcm.allocation.Allocation;
 import de.uka.ipd.sdq.pcm.allocation.AllocationFactory;
@@ -80,31 +83,19 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 
 		AnalysisResult analysisResult = null;
 		
-//		String projectName = somoxConfiguration.getFileLocations().getProjectName();
-//		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-//	    IWorkspaceRoot workspaceRoot = workspace.getRoot();
-//	    IProject project = workspaceRoot.getProject(projectName);
-//	    KDMReader modelReader = new KDMReader();
-//		modelReader.loadProject(project);
-		
-		// TODO: This should be an "extractor" in the SoMoX terminology
-		String platformPath = somoxConfiguration.getFileLocations().getAnalyserInputFile(); 
-		if (platformPath != null) {
-			URI fileURI = URI.createPlatformResourceURI(platformPath, true);
-			if (fileURI.fileExtension().toLowerCase().equals("xmi")) { 
-				
-				KDMReader modelReader;
-				try {
-					modelReader = new KDMReader();
-					modelReader.loadFile(fileURI);
-				} catch (IOException e) {
-					logger.error("Failed to load GAST Model",e);
-					throw new ModelAnalyzerException("Failed to load GAST model",e);
-				}
-				Root root = modelReader.getRoot();
-				analysisResult = analyzeGASTModel(root, somoxConfiguration, progressMonitor);
-			}
+		String projectName = somoxConfiguration.getFileLocations().getProjectName();
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+	    IWorkspaceRoot workspaceRoot = workspace.getRoot();
+	    IProject project = workspaceRoot.getProject(projectName);
+	    KDMReader modelReader = new KDMReader();
+	    try {
+	    	modelReader.loadProject(project);
+		} catch (IOException e) {
+			logger.error("Failed to load GAST Model",e);
+			throw new ModelAnalyzerException("Failed to load GAST model",e);
 		}
+		Root root = modelReader.getRoot();
+		analysisResult = analyzeGASTModel(root, somoxConfiguration, progressMonitor);
 		this.status = ModelAnalyzer.Status.FINISHED;
 		return analysisResult;
 	}

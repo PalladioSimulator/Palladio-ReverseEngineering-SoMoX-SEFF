@@ -8,27 +8,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
-//import org.emftext.ecore.xmi.XMLResource;
-import org.emftext.language.*;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.JavaRoot;
-import org.emftext.language.java.types.Type;
+import org.somox.kdmhelper.metamodeladdition.Root;
+//import org.emftext.ecore.xmi.XMLResource;
 //import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 //import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 //import org.eclipse.gmt.modisco.infra.common.core.internal.utils.ModelUtils;
 //import Model;
 //import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
-
-import org.somox.kdmhelper.metamodeladdition.Root;
 
 
 //@SuppressWarnings("restriction")
@@ -50,50 +53,51 @@ public class KDMReader {
 		return root;
 	}
 	
-//	public void loadProject(IProject project) throws IOException {
-//		try {
-//			if (!project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
-//				throw new ModelAnalyzerException("Given project is no Java project.");
-//			}
-//		} catch (CoreException e) {
-//			throw new ModelAnalyzerException("", e);
-//		}
-//		IJavaProject javaProject = JavaCore.create(project);
-//		List<IPackageFragmentRoot> sourceFolders = new ArrayList<IPackageFragmentRoot>();
-//		try {
-//			IPackageFragmentRoot[] packageFragmentRoots = javaProject.getAllPackageFragmentRoots();
-//			for (IPackageFragmentRoot pfr : packageFragmentRoots) {
-//				if (pfr.getKind() == IPackageFragmentRoot.K_SOURCE) {
-//					sourceFolders.add(pfr);
-//				}
-//			}
-//		} catch (JavaModelException e1) {
-//			e1.printStackTrace();
-//		}
-//
-//		ResourceSet rs = new ResourceSetImpl();
-//		for (IPackageFragmentRoot src : sourceFolders) {
-//			
-//			List<Resource> resources = new ArrayList<Resource>();
-//	        Collection<File> javaFiles = FileUtils.listFiles(src.getPath().toFile(), new String[] { "java" }, true);
-//	        for (File javaFile : javaFiles) {
-//	            Resource resource = null;
-//				try {
-//					resource = rs.getResource(URI.createFileURI(javaFile.getCanonicalPath()), true);
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//	            if (resource != null) {
-//	                resources.add(resource);
-//	            } else {
-//	                logger.warn("Failed to load resource: " + javaFile);
-//	            }
-//	        }
-//		}
-//		
-//		// addModelToRoot(resource);
-//
-//	}
+	public void loadProject(IProject project) throws IOException {
+		try {
+			if (!project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
+				throw new IOException("Given project is no Java project.");
+			}
+		} catch (CoreException e) {
+			throw new IOException("Checking nature of project failed.", e);
+		}
+		IJavaProject javaProject = JavaCore.create(project);
+		List<IPackageFragmentRoot> sourceFolders = new ArrayList<IPackageFragmentRoot>();
+		try {
+			IPackageFragmentRoot[] packageFragmentRoots = javaProject.getAllPackageFragmentRoots();
+			for (IPackageFragmentRoot pfr : packageFragmentRoots) {
+				if (pfr.getKind() == IPackageFragmentRoot.K_SOURCE) {
+					sourceFolders.add(pfr);
+				}
+			}
+		} catch (JavaModelException e1) {
+			e1.printStackTrace();
+		}
+
+		ResourceSet rs = new ResourceSetImpl();
+		for (IPackageFragmentRoot src : sourceFolders) {
+			
+			List<Resource> resources = new ArrayList<Resource>();
+	        Collection<File> javaFiles = FileUtils.listFiles(src.getPath().toFile(), new String[] { "java" }, true);
+	        for (File javaFile : javaFiles) {
+	            Resource resource = null;
+				try {
+					resource = rs.getResource(URI.createFileURI(javaFile.getCanonicalPath()), true);
+					resource.load(null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	            if (resource != null) {
+	                resources.add(resource);
+	            } else {
+	                logger.warn("Failed to load resource: " + javaFile);
+	            }
+	        }
+		}
+		
+		// addModelToRoot(resource);
+
+	}
 
 	public void loadFiles(Collection<String> filesLocationList)
 			throws IOException {
