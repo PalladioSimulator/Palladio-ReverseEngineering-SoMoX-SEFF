@@ -9,6 +9,13 @@
       </metric>
    </extension>
    <extension
+         point="org.somox.core.metric">
+      <metric
+            class="org.somox.analyzer.simplemodelanalyzer.metrics.DefaultMergeIndicatingMetric"
+            id="org.somox.analyzer.simplemodelanalyzer.metrics.DefaultMergeIndicatingMetric">
+      </metric>
+   </extension>
+   <extension
          point="org.somox.core.modelanalyzer">
       <modelanalyzer
             class="org.somox.analyzer.simplemodelanalyzer.SimpleModelAnalyzer"

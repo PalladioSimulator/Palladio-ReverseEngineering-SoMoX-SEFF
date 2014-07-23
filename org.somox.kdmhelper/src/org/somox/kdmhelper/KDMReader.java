@@ -78,7 +78,7 @@ public class KDMReader {
 		for (IPackageFragmentRoot src : sourceFolders) {
 			
 			List<Resource> resources = new ArrayList<Resource>();
-	        Collection<File> javaFiles = FileUtils.listFiles(src.getPath().toFile(), new String[] { "java" }, true);
+	        Collection<File> javaFiles = FileUtils.listFiles(project.getLocation().toFile(), new String[] { "java" }, true);
 	        for (File javaFile : javaFiles) {
 	            Resource resource = null;
 				try {
