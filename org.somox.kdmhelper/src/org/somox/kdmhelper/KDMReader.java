@@ -78,11 +78,14 @@ public class KDMReader {
 		for (IPackageFragmentRoot src : sourceFolders) {
 			
 			List<Resource> resources = new ArrayList<Resource>();
-	        Collection<File> javaFiles = FileUtils.listFiles(project.getLocation().toFile(), new String[] { "java" }, true);
+			String path = project.getLocation().toString() + "/.." + src.getPath().toString();
+			File directory = new File(path);
+	        Collection<File> javaFiles = FileUtils.listFiles(directory, new String[] { "java" }, true);
 	        for (File javaFile : javaFiles) {
 	            Resource resource = null;
 				try {
 					resource = rs.getResource(URI.createFileURI(javaFile.getCanonicalPath()), true);
+					Map<Object, Object> loadOptions = setupLoadOptions(resource);
 					resource.load(null);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -94,9 +97,6 @@ public class KDMReader {
 	            }
 	        }
 		}
-		
-		// addModelToRoot(resource);
-
 	}
 
 	public void loadFiles(Collection<String> filesLocationList)
@@ -109,8 +109,8 @@ public class KDMReader {
 			
 			ResourceSet rs= new ResourceSetImpl();
 			Resource resource = rs.getResource(URIfile,true);
-			// TODO fix
 			Map<Object, Object> loadOptions = setupLoadOptions(resource);
+			resource.load(null);
 			addModelToRoot(resource);
 
 		}
@@ -128,8 +128,6 @@ public class KDMReader {
 	}
 
 	private void addModelToRoot(Resource resource) {
-		
-		
 		root.addModels(getModelsFromResource(resource));
 	}
 	
