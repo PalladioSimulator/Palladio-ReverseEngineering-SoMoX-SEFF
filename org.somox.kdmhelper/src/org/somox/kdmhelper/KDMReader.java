@@ -26,27 +26,18 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.JavaRoot;
 import org.somox.kdmhelper.metamodeladdition.Root;
-//import org.emftext.ecore.xmi.XMLResource;
-//import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
-//import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
-//import org.eclipse.gmt.modisco.infra.common.core.internal.utils.ModelUtils;
-//import Model;
-//import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 
 
-//@SuppressWarnings("restriction")
 public class KDMReader {
 
 	private Root root;
 	//Resource 
 
 
-	private final static Logger logger = Logger.getLogger(KDMReader.class
-			.getName());
+	private final static Logger logger = Logger.getLogger(KDMReader.class.getName());
 
 	public KDMReader() {
 		root = new Root();
-		
 	}
 
 	public Root getRoot() {
@@ -85,7 +76,8 @@ public class KDMReader {
 	            Resource resource = null;
 				try {
 					resource = rs.getResource(URI.createFileURI(javaFile.getCanonicalPath()), true);
-					Map<Object, Object> loadOptions = setupLoadOptions(resource);
+					// TODO fix: execution of following statement leads to ClassCastException
+					// Map<Object, Object> loadOptions = setupLoadOptions(resource);
 					resource.load(null);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -131,7 +123,7 @@ public class KDMReader {
 		root.addModels(getModelsFromResource(resource));
 	}
 	
-//CompilationUnit statt Model 
+	//CompilationUnit statt Model 
 	// JavaRoot statt JavaAplication
 	private Collection<CompilationUnit> getModelsFromResource(Resource resource) { 
 		List<CompilationUnit> modelList = new ArrayList<CompilationUnit>();
