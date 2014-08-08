@@ -77,14 +77,11 @@ public class KDMReader {
 					// TODO fix: execution of following statement leads to ClassCastException
 					// Map<Object, Object> loadOptions = setupLoadOptions(resource);
 					resource.load(null);
+	        		addModelToRoot(resource);
 				} catch (IOException e) {
 					e.printStackTrace();
+	                logger.warn("Failed to load resource: " + javaFile + "\n Reason: " + e);
 				}
-	            if (resource != null) {
-	        		addModelToRoot(resource);
-	            } else {
-	                logger.warn("Failed to load resource: " + javaFile);
-	            }
 	        }
 		}
 	}
@@ -121,19 +118,14 @@ public class KDMReader {
 		root.addModels(getModelsFromResource(resource));
 	}
 	
-	//CompilationUnit statt Model 
+	// CompilationUnit statt Model 
 	// JavaRoot statt JavaAplication
 	private Collection<CompilationUnit> getModelsFromResource(Resource resource) { 
 		List<CompilationUnit> modelList = new ArrayList<CompilationUnit>();
 		for (EObject obj : resource.getContents()) {
-			if (obj instanceof JavaRoot) {
-				JavaRoot javaApp = (JavaRoot) obj;
-				for (Object ref : javaApp.eCrossReferences()) {
-					if (ref instanceof CompilationUnit) {
-						CompilationUnit model = (CompilationUnit) ref;
-						modelList.add(model);
-					}
-				}
+			if (obj instanceof CompilationUnit) {
+				CompilationUnit model = (CompilationUnit) obj;
+				modelList.add(model);
 			}
 		}
 		return modelList;

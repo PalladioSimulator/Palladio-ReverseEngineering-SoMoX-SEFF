@@ -146,12 +146,10 @@ public class ComponentImplementingClassesLinkImpl extends MinimalEObjectImpl.Con
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated not
 	 */
 	public boolean isIsCompositeComponent() {
-		// TODO: implement this method to return the 'Is Composite Component' attribute
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		return this.getSubComponents().size() > 0;
 	}
 
 	/**
