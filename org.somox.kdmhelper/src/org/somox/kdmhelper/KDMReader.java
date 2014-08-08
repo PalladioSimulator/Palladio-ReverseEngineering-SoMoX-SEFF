@@ -67,8 +67,6 @@ public class KDMReader {
 
 		ResourceSet rs = new ResourceSetImpl();
 		for (IPackageFragmentRoot src : sourceFolders) {
-			
-			List<Resource> resources = new ArrayList<Resource>();
 			String path = project.getLocation().toString() + "/.." + src.getPath().toString();
 			File directory = new File(path);
 	        Collection<File> javaFiles = FileUtils.listFiles(directory, new String[] { "java" }, true);
@@ -83,7 +81,7 @@ public class KDMReader {
 					e.printStackTrace();
 				}
 	            if (resource != null) {
-	                resources.add(resource);
+	        		addModelToRoot(resource);
 	            } else {
 	                logger.warn("Failed to load resource: " + javaFile);
 	            }
