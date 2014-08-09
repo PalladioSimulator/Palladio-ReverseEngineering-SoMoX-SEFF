@@ -30,34 +30,16 @@ public class ModelAnalyzerInputTab extends AbstractLaunchConfigurationTab {
 	 */
 	private ModelAnalyzerTabGroupBlackboard blackboard = null;
 
-	public void setModelAnalyzerTabGroupBlackboard(
-			ModelAnalyzerTabGroupBlackboard blackboard) {
+	// Input fields
+	private Text projectName = null;
+
+	public void setModelAnalyzerTabGroupBlackboard(ModelAnalyzerTabGroupBlackboard blackboard) {
 		this.blackboard = blackboard;
-		if (inputFile == null) {
-			updateBlackboard(null);
-			return;
-		}
-		if ((inputFile.getText() == null) || (inputFile.getText().equals(""))) {
-			updateBlackboard(null);
-			return;
-		}
-		if (!ResourcesPlugin.getWorkspace().getRoot().exists(new Path(
-				inputFile.getText()))) {
-			updateBlackboard(null);
-		} else {
-			updateBlackboard(inputFile.getText());
-		}
 	}
 
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-
 		configuration.setAttribute(SoMoXProjectPreferences.SOMOX_PROJECT_NAME, projectName.getText());
-		configuration.setAttribute(SoMoXProjectPreferences.SOMOX_ANALYZER_INPUT_FILE, inputFile.getText());
 	}
-
-	// Input fields
-	Text projectName = null;
-	Text inputFile = null;
 
 	/*
 	 * (non-Javadoc)
@@ -104,35 +86,6 @@ public class ModelAnalyzerInputTab extends AbstractLaunchConfigurationTab {
 		projectworkspaceButton.addSelectionListener(new WorkspaceButtonSelectionListener(
 				projectName, true, true, true));
 
-		Group inputFileTypeGroup = new Group(container, SWT.NONE);
-		GridLayout glInputFileTypeGroup = new GridLayout();
-		glInputFileTypeGroup.numColumns = 2;
-		inputFileTypeGroup.setLayout(glInputFileTypeGroup);
-		inputFileTypeGroup.setText("Input file:");
-		inputFileTypeGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-				true, false));
-
-		inputFile = new Text(inputFileTypeGroup, SWT.SINGLE | SWT.BORDER);
-		final GridData gd_inputFile = new GridData(SWT.FILL, SWT.CENTER, true,
-				false);
-		gd_inputFile.widthHint = 200;
-		inputFile.setLayoutData(gd_inputFile);
-		inputFile.addModifyListener(modifyListener);
-		inputFile.addModifyListener(new ModifyListener() {
-
-			@Override
-			public void modifyText(ModifyEvent e) {
-				updateBlackboard(inputFile.getText());
-			}
-
-		});
-
-		Button inputFileWorkspaceButton = new Button(inputFileTypeGroup,
-				SWT.NONE);
-		inputFileWorkspaceButton.setText("Workspace...");
-		inputFileWorkspaceButton.addSelectionListener(new WorkspaceButtonSelectionListener(
-				inputFile, false, true, true));
-
 		Composite composite = new Composite(container, SWT.NONE);
 		composite.setLayout(new GridLayout(2, false));
 		{
@@ -158,12 +111,6 @@ public class ModelAnalyzerInputTab extends AbstractLaunchConfigurationTab {
 		} catch (CoreException e) {
 			projectName.setText("");
 		}
-		try {
-			inputFile.setText(configuration.getAttribute(SoMoXProjectPreferences.SOMOX_ANALYZER_INPUT_FILE, ""));
-			//updateBlackboard(inputFile.getText());
-		} catch (CoreException e) {
-			inputFile.setText("");
-		}
 	}
 
 	/*
@@ -186,19 +133,7 @@ public class ModelAnalyzerInputTab extends AbstractLaunchConfigurationTab {
 			setErrorMessage("Project " + projectName.getText() + " does not exist");
 			return false;
 		}
-		if (inputFile.getText().equals("")) {
-			setErrorMessage("Input file not specified");
-			updateBlackboard(null);
-			return false;
-		}
-
-		if (!ResourcesPlugin.getWorkspace().getRoot().exists(new Path(
-				inputFile.getText()))) {
-			setErrorMessage("Input file " + inputFile.getText() + " does not exist");
-			updateBlackboard(null);
-			return false;
-		}
-		//updateBlackboard(inputFile.getText());
+		
 		return true;
 	}
 
