@@ -178,11 +178,11 @@ public class OperationBuilder extends AbstractBuilder {
 		for (Variable inputParameter : method.getParameters()) {
 			Parameter opSigParam = RepositoryFactory.eINSTANCE.createParameter();
 			opSigParam.setParameterName(inputParameter.getName());
-			Type accessdType = GetAccessedType.getAccessedType(inputParameter.getTypeReference());
-			if(inputParameter.getTypeReference() != null && null != accessdType) {
+			Type accessedType = GetAccessedType.getAccessedType(inputParameter.getTypeReference());
+			if(inputParameter.getTypeReference() != null && null != accessedType) {
 				opSigParam.setDataType__Parameter(
 						//inputParameter.getTypeReference() statt inputParameter.getType()
-						getType(accessdType, 
+						getType(accessedType, 
 						this.analysisResult.getInternalArchitectureModel()));				
 			} else {
 				logger.error("Input parameter type was null. Could not set the parameter type \"" +
