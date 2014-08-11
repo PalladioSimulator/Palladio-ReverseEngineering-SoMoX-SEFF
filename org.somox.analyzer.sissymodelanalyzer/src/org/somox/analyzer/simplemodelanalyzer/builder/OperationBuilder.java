@@ -178,10 +178,11 @@ public class OperationBuilder extends AbstractBuilder {
 		for (Variable inputParameter : method.getParameters()) {
 			Parameter opSigParam = RepositoryFactory.eINSTANCE.createParameter();
 			opSigParam.setParameterName(inputParameter.getName());
-			if(inputParameter.getTypeReference() != null && inputParameter.getTypeReference()!= null) {
+			Type accessdType = GetAccessedType.getAccessedType(inputParameter.getTypeReference());
+			if(inputParameter.getTypeReference() != null && null != accessdType) {
 				opSigParam.setDataType__Parameter(
 						//inputParameter.getTypeReference() statt inputParameter.getType()
-						getType(GetAccessedType.getAccessedType(inputParameter.getTypeReference()), 
+						getType(accessdType, 
 						this.analysisResult.getInternalArchitectureModel()));				
 			} else {
 				logger.error("Input parameter type was null. Could not set the parameter type \"" +
@@ -191,7 +192,7 @@ public class OperationBuilder extends AbstractBuilder {
 			opSigParam.setOperationSignature__Parameter(operation);
 		}
 		
-		if(null != method.getTypeReference() && null != method.getTypeReference() &&
+		if(null != method.getTypeReference() && null != GetAccessedType.getAccessedType(method.getTypeReference()) &&
 				!(method.getTypeReference() instanceof org.emftext.language.java.types.Void)){
 			operation.setReturnType__OperationSignature(
 					getType(GetAccessedType.getAccessedType(method.getTypeReference()), 
@@ -472,7 +473,7 @@ public class OperationBuilder extends AbstractBuilder {
 			DataType innerType = getType(arrayType.getReferencedType(), repository);
 			if(innerType == null){
 				logger.error("Unsupported inner type: " + arrayType.getReferencedType());
-				// TODO switch to real type checks!!!‚
+				// TODO switch to real type checks!!!���
 			}
 			((de.uka.ipd.sdq.pcm.repository.CollectionDataType) newType)
 					.setInnerType_CollectionDataType(innerType);

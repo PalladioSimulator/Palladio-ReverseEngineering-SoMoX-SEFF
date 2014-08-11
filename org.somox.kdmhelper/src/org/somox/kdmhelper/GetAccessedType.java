@@ -1,9 +1,13 @@
 package org.somox.kdmhelper;
 
+import java.util.List;
+
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
 import org.eclipse.jdt.internal.compiler.ast.ArrayReference;
 import org.emftext.language.java.members.Method;
+import org.emftext.language.java.types.ClassifierReference;
 //import org.eclipse.gmt.modisco.javCommentablede;
 //import org.eclipse.gmt.modisco.java.Method;
 //import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
@@ -49,6 +53,10 @@ public class GetAccessedType extends JavaSwitch<Type> {
 		return getInstance.doSwitch(input);
 	}
 	//TODO Override the methods in JavaSwitch
+	
+	protected Type doSwitch(EClass theEClass, ClassifierReference classifierReference) {
+		return null;
+	}
 
 //	@Override
 //	public Type caseAbstractMethodInvocation(Method object) {

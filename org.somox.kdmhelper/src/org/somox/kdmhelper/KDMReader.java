@@ -25,6 +25,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.JavaRoot;
+import org.emftext.language.java.resource.java.util.JavaResourceUtil;
 import org.somox.kdmhelper.metamodeladdition.Root;
 
 
@@ -77,7 +78,11 @@ public class KDMReader {
 					// TODO fix: execution of following statement leads to ClassCastException
 					// Map<Object, Object> loadOptions = setupLoadOptions(resource);
 					resource.load(null);
-	        		addModelToRoot(resource);
+					boolean resolvedAll = JavaResourceUtil.resolveAll(resource);
+					if(!resolvedAll){
+						logger.info("Could not resolve all proxies in resource " + resource.getURI());
+					}
+					addModelToRoot(resource);
 				} catch (IOException e) {
 					e.printStackTrace();
 	                logger.warn("Failed to load resource: " + javaFile + "\n Reason: " + e);
