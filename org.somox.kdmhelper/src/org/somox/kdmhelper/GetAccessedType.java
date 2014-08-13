@@ -8,6 +8,7 @@ import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
 import org.eclipse.jdt.internal.compiler.ast.ArrayReference;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.types.ClassifierReference;
+import org.emftext.language.java.types.NamespaceClassifierReference;
 //import org.eclipse.gmt.modisco.javCommentablede;
 //import org.eclipse.gmt.modisco.java.Method;
 //import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
@@ -50,14 +51,17 @@ public class GetAccessedType extends JavaSwitch<Type> {
 	 * @return The accessed Type from the access.
 	 */
 	public static Type getAccessedType(Commentable input) {
+		if (input instanceof NamespaceClassifierReference) {
+			return getAccessedType((NamespaceClassifierReference) input);
+		}
 		return getInstance.doSwitch(input);
 	}
-	//TODO Override the methods in JavaSwitch
-	
-	protected Type doSwitch(EClass theEClass, ClassifierReference classifierReference) {
+
+	private static Type getAccessedType(NamespaceClassifierReference reference) {
 		return null;
 	}
 
+	//TODO Override the methods in JavaSwitch
 //	@Override
 //	public Type caseAbstractMethodInvocation(Method object) {
 //		if (object instanceof ClassInstanceCreation) {

@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -17,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.jdt.core.IJavaProject;
@@ -81,6 +83,12 @@ public class KDMReader {
 					boolean resolvedAll = JavaResourceUtil.resolveAll(resource);
 					if(!resolvedAll){
 						logger.info("Could not resolve all proxies in resource " + resource.getURI());
+						Set<EObject> proxies = JavaResourceUtil.findUnresolvedProxies(resource);
+						List<String> identifiers = new ArrayList<String>();
+						for (EObject proxy : proxies) {
+							identifiers.add(JavaResourceUtil.getProxyIdentifier(proxy));
+						}
+						logger.info("Unresolved proxies: " + identifiers);
 					}
 					addModelToRoot(resource);
 				} catch (IOException e) {
