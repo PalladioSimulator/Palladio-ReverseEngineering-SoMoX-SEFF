@@ -68,8 +68,6 @@ import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
  */
 public class OperationBuilder extends AbstractBuilder {
 
-	public static final String voidType = "void";
-
 	private static Logger logger = Logger.getLogger(OperationBuilder.class);
 
 	public OperationBuilder(Root gastModel,
@@ -405,7 +403,7 @@ public class OperationBuilder extends AbstractBuilder {
 		typeName = getUnifiedTypeName(typeName);
 
 		DataType newType = null;
-		if (typeName.toLowerCase().equals(voidType)) {
+		if (typeName.toLowerCase().equals("void")) {
 			// do nothing
 		} else if (typeName.toLowerCase().equals("integer")) {
 			// newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();

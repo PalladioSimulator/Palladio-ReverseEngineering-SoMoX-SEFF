@@ -135,7 +135,7 @@ public class KDMHelper {
 		} else if (type instanceof org.emftext.language.java.types.Short) {
 			return "short";
 		} else if (type instanceof org.emftext.language.java.types.Void) {
-			return "voidType";
+			return "void";
 		} else {
 			return type.toString();
 		}
