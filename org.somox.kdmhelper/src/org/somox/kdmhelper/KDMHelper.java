@@ -261,10 +261,12 @@ public class KDMHelper {
 	public static List<Commentable> getAllAccesses(Commentable input) {
 		List<Commentable> result = new ArrayList<Commentable>();
 		TreeIterator<EObject> iterator = input.eAllContents();
+		List<EObject> test = new ArrayList<EObject>();
 
 		while (iterator.hasNext()) {
 			EObject element = iterator.next();
 			if (element instanceof Commentable) {
+				test.add(element);
 				if (isAccess((Commentable) element)) {
 					// remove accesses in java doc tags
 					if (element.eContainer() instanceof TagElement) {
@@ -521,10 +523,6 @@ public class KDMHelper {
 			return true;
 		}
 		if (element instanceof SelfReference) {
-			return true;
-		}
-
-		if (element instanceof Field) {
 			return true;
 		}
 		return false;
