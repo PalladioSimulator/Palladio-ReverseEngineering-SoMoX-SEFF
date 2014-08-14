@@ -96,22 +96,49 @@ public class KDMHelper {
 	// return result;
 	// }
 	public static String getName(Type type) {
-		if (type instanceof Classifier)
+		if (type instanceof Classifier) {
 			return ((Classifier) type).getName();
-		else if (type instanceof Package)
+		} else if (type instanceof Package) {
 			return ((Package) type).getName();
-		else if (type instanceof CompilationUnit)
+		} else if (type instanceof CompilationUnit) {
 			return ((CompilationUnit) type).getName();
-		else if (type instanceof Method)
+		} else if (type instanceof Method) {
 			return ((Method) type).getName();
-		else if (type instanceof Parameter)
+		} else if (type instanceof Parameter) {
 			return ((Parameter) type).getName();
-		else if (type instanceof Member)
+		} else if (type instanceof Member) {
 			return ((Member) type).getName();
-
-		if (type instanceof Interface)
+		} else if (type instanceof Interface) {
 			return ((Interface) type).getName();
-		return type.toString();
+		} else if (type instanceof PrimitiveType) {
+			return getName((PrimitiveType) type);
+		} else {
+			return type.toString();
+		}
+	}
+	
+	public static String getName(PrimitiveType type) {
+		if (type instanceof org.emftext.language.java.types.Boolean) {
+			return "bool";
+		} else if (type instanceof org.emftext.language.java.types.Byte) {
+			return "byte";
+		} else if (type instanceof org.emftext.language.java.types.Char) {
+			return "char";
+		} else if (type instanceof org.emftext.language.java.types.Double) {
+			return "double";
+		} else if (type instanceof org.emftext.language.java.types.Float) {
+			return "float";
+		} else if (type instanceof org.emftext.language.java.types.Int) {
+			return "int";
+		} else if (type instanceof org.emftext.language.java.types.Long) {
+			return "long";
+		} else if (type instanceof org.emftext.language.java.types.Short) {
+			return "short";
+		} else if (type instanceof org.emftext.language.java.types.Void) {
+			return "voidType";
+		} else {
+			return type.toString();
+		}
 	}
 
 	// TODO test
