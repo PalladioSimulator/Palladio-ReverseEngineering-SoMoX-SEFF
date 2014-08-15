@@ -43,12 +43,14 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.modifiers.Private;
 import org.emftext.language.java.modifiers.Static;
 import org.emftext.language.java.parameters.Parameter;
+import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferenceableElement;
 import org.emftext.language.java.references.SelfReference;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementsFactory;
+import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.references.impl.SelfReferenceImpl;
@@ -530,28 +532,39 @@ public class KDMHelper {
 	 * @return true or false
 	 */
 	public static boolean isAccess(Commentable element) {
+		
+		if (element instanceof MethodCall) {
+			return true;
+		}
+		if (element instanceof ClassifierReference) {
+			return true;
+		}
+		if (element instanceof IdentifierReference) {
+			return true;
+		}
 
+		// TODO check if handles all accesses
 		// is an AbstractMethodInvocation, but contains a type access, would
 		// else create the TypeAccess twice
-		if (element instanceof TypeReference)
-			if (element instanceof Class) {
-				return false;
-			}
-		if (element instanceof Method) {
-			return true;
-		}
-		if (element instanceof ArraysPackage) {
-			return true;
-		}
-		if (element instanceof Field) {
-			return true;
-		}
-		if (element instanceof TypeReference) {
-			return true;
-		}
-		if (element instanceof SelfReference) {
-			return true;
-		}
+//		if (element instanceof TypeReference)
+//			if (element instanceof Class) {
+//				return false;
+//			}
+//		if (element instanceof Method) {
+//			return true;
+//		}
+//		if (element instanceof ArraysPackage) {
+//			return true;
+//		}
+//		if (element instanceof Field) {
+//			return true;
+//		}
+//		if (element instanceof TypeReference) {
+//			return true;
+//		}
+//		if (element instanceof SelfReference) {
+//			return true;
+//		}
 		return false;
 	}
 

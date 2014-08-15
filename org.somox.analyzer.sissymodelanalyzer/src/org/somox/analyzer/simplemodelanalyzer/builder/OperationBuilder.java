@@ -476,6 +476,7 @@ public class OperationBuilder extends AbstractBuilder {
 			((de.uka.ipd.sdq.pcm.repository.CollectionDataType) newType)
 					.setInnerType_CollectionDataType(innerType);
 		} else {
+			// TODO Florian: ergibt einen Zyklus
 			if (KDMHelper.getAllAccessedClasses(gastType).size() > 1) {
 				// create a complex data type:
 				newType = RepositoryFactory.eINSTANCE.createCompositeDataType();
