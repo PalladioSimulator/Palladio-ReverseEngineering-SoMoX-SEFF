@@ -13,47 +13,30 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
-import org.emftext.language.java.arrays.ArrayInitializer;
-import org.emftext.language.java.arrays.ArrayInstantiationByValues;
-import org.emftext.language.java.arrays.ArraysFactory;
-import org.emftext.language.java.arrays.ArraysPackage;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.Classifier;
-import org.emftext.language.java.classifiers.ClassifiersFactory;
-import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.containers.CompilationUnit;
-import org.emftext.language.java.containers.ContainersPackage;
 import org.emftext.language.java.containers.Package;
-import org.emftext.language.java.containers.impl.PackageImpl;
-import org.emftext.language.java.containers.*;
 import org.emftext.language.java.generics.TypeArgument;
 import org.emftext.language.java.members.ClassMethod;
-import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.Method;
-import org.emftext.language.java.modifiers.Final;
-import org.emftext.language.java.modifiers.Modifier;
 import org.emftext.language.java.modifiers.ModifiersFactory;
-import org.emftext.language.java.modifiers.Private;
-import org.emftext.language.java.modifiers.Static;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferenceableElement;
-import org.emftext.language.java.references.SelfReference;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.Type;
-import org.emftext.language.java.references.impl.SelfReferenceImpl;
 //CompilationUnit statt Model 
 //Commentable statt AstNode
 import org.emftext.language.java.types.TypeReference;
@@ -317,24 +300,31 @@ public class KDMHelper {
 	 *            the input {@link Type}
 	 * @return the list of inheritance type access
 	 */
-	public static List<TypeReference> getInheritanceTypeAccesses(Type type) {
+	public static Collection<TypeReference> getInheritanceTypeAccesses(Type type) {
 
-		List<TypeReference> result = new ArrayList<TypeReference>();
+		Set<TypeReference> result = new HashSet<TypeReference>();
 
 		if (type instanceof Class) {
 			Class tempClass = (Class) type;
-			result.addAll(tempClass.getSuperTypeReferences());// getSuperTypeReferences
-																// statt
-																// getSuperInterfaces
-			if (tempClass.getSuperClass() != null) {
-				result.add(tempClass.getExtends());// getExtends statt
-													// superClass
+			result.addAll(tempClass.getImplements());
+			if (tempClass.getExtends() != null) {
+				result.add(tempClass.getExtends());
 			}
 		}
 
 		if (type instanceof Interface) {
 			Interface tempInterface = (Interface) type;
 			result.addAll(tempInterface.getSuperTypeReferences());
+		}
+		
+		// remove self references (otherwise would cause an infinity loop)
+		// TODO check if that is correct
+		Iterator<TypeReference> it = result.iterator();
+		while (it.hasNext()) {
+			TypeReference ref = it.next();
+			if (ref.getTarget().equals(type)) {
+				it.remove();
+			}
 		}
 
 		return result;
