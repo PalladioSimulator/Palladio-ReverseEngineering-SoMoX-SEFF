@@ -139,35 +139,17 @@ public class KDMReader {
 			return true;
 		}
 
-		logger.info("Resolving cross-references of " + eobjects.size() + " EObjects.");
-		int resolved = 0;
-		int notResolved = 0;
-		int eobjectCnt = 0;
 		for (EObject next : eobjects) {
-			eobjectCnt++;
-			if (eobjectCnt % 1000 == 0) {
-				logger.info(eobjectCnt + "/" + eobjects.size()
-						+ " done: Resolved " + resolved + " crossrefs, "
-						+ notResolved + " crossrefs could not be resolved.");
-			}
-
 			InternalEObject nextElement = (InternalEObject) next;
 			for (EObject crElement : nextElement.eCrossReferences()) {
 				crElement = EcoreUtil.resolve(crElement, rs);
 				if (crElement.eIsProxy()) {
 					failure = true;
-					notResolved++;
-					logger.info("Can not find referenced element in classpath: "
+					logger.warn("Can not find referenced element in classpath: "
 									+ ((InternalEObject) crElement).eProxyURI());
-				} else {
-					resolved++;
 				}
 			}
 		}
-
-		logger.info(eobjectCnt + "/" + eobjects.size()
-				+ " done: Resolved " + resolved + " crossrefs, " + notResolved
-				+ " crossrefs could not be resolved.");
 		
 		//call this method again, because the resolving might have triggered loading
 		//of additional resources that may also contain references that need to be resolved.

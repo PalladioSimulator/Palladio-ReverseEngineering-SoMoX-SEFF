@@ -66,6 +66,7 @@ public class BlacklistFilter extends BaseFilter<Type> {
 			if (logger.isTraceEnabled()) {
 				logger.trace("Blacklist filter matches " + fqn + ": " + result);
 			}
+		
 		}
 		return result;
 	}

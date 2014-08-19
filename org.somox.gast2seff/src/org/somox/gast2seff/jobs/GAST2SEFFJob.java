@@ -314,13 +314,6 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 		logger.trace("visiting (seff entry): " + seff.getId());
 		if (body != null) {
 
-			// removelater for debug reasons
-			Method method = (Method) body.eContainer();
-			if (method.getName().equals("orderProducts")) {
-				int a = 0;
-				a = a + 1;
-			}
-			// removelater
 			//typeVisitor.doSwitch(body);
 
 			GastStatementVisitor visitor = new GastStatementVisitor(typeVisitor.getAnnotations(), seff,
