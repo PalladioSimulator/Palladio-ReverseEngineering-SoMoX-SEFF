@@ -68,6 +68,7 @@ public class KDMReader {
 			for (IPackageFragmentRoot pfr : packageFragmentRoots) {
 				String path = pfr.getPath().toString();
 				if (!pfr.isExternal()) {
+					// every internal path starts with "/ProjectName"
 					path = javaProject.getProject().getLocation().toString() + "/.." + path;
 				}
 				if (pfr.getKind() == IPackageFragmentRoot.K_SOURCE) {
@@ -87,7 +88,7 @@ public class KDMReader {
 	private void loadSourceFolder(String absolutePath, ResourceSet rs) throws IOException {
 		File directory = new File(absolutePath);
 		if (!directory.isDirectory()) {
-			throw new IOException("Given path is not a directory.");
+			throw new IOException("Given path is not a directory: " + absolutePath);
 		}
 		loadSourceFolder(directory, rs);
 	}
@@ -100,7 +101,6 @@ public class KDMReader {
 				resource = rs.getResource(URI.createFileURI(javaFile.getCanonicalPath()), true);
 				// TODO fix: execution of following statement leads to ClassCastException
 				// Map<Object, Object> loadOptions = setupLoadOptions(resource);
-				logger.info("Parsing resource: " + javaFile);
 				resource.load(null);
 				addModelToRoot(resource);
 			} catch (IOException e) {
@@ -117,7 +117,6 @@ public class KDMReader {
 	
 	private void registerJarFile(File jarPath, ResourceSet rs) throws IOException {
 		JavaClasspath cp = JavaClasspath.get(rs);
-		logger.info("Registering JAR " + jarPath.getCanonicalPath());
 		cp.registerClassifierJar(URI.createFileURI(jarPath.getCanonicalPath()));
 	}
 	
