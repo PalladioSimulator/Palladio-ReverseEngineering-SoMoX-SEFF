@@ -406,62 +406,19 @@ public class OperationBuilder extends AbstractBuilder {
 		if (typeName.toLowerCase().equals("void")) {
 			// do nothing
 		} else if (typeName.toLowerCase().equals("integer")) {
-			// newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();
-			// newType.setName("INTEGER");
-			// ((PrimitiveDataType) newType).setType(XSDPrimitiveDataTypes.INT);
 			return DefaultResourceEnvironment.getPrimitiveDataTypeInteger();
-//			newType = DefaultResourceEnvironment.getPrimitiveDataTypeInteger();
-//			repository.getDataTypes__Repository().add(newType);
-		} else if (typeName.toLowerCase().equals("double")) { // Changed to
-																// double from
-																// float
-		// newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();
-		// newType.setName("FLOAT");
-		// ((PrimitiveDataType) newType).setType(XSDPrimitiveDataTypes.FLOAT);
+		} else if (typeName.toLowerCase().equals("double")) {
 			return DefaultResourceEnvironment.getPrimitiveDataTypeDouble();
-//			newType = DefaultResourceEnvironment.getPrimitiveDataTypeDouble();
-//			repository.getDataTypes__Repository().add(newType);
 		} else if (typeName.toLowerCase().equals("string")) {
-			// newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();
-			// newType.setName("STRING");
-			// ((PrimitiveDataType)
-			// newType).setType(XSDPrimitiveDataTypes.STRING);
 			return DefaultResourceEnvironment.getPrimitiveDataTypeString();
-//			newType = DefaultResourceEnvironment.getPrimitiveDataTypeString();
-//			repository.getDataTypes__Repository().add(newType);
 		} else if (typeName.toLowerCase().equals("boolean")) {
-			// newType = DatatypesFactory.eINSTANCE.createPrimitiveDataType();
-			// newType.setName("BOOLEAN");
-			// ((PrimitiveDataType)
-			// newType).setType(XSDPrimitiveDataTypes.BOOLEAN);
 			return DefaultResourceEnvironment.getPrimitiveDataTypeBool();
-//			newType = DefaultResourceEnvironment.getPrimitiveDataTypeBool();
-//			repository.getDataTypes__Repository().add(newType);
-		} else if (typeName.toLowerCase().equals("char")) {// TODO PCM2SAMM
-															// ADDEDD
+		} else if (typeName.toLowerCase().equals("char")) {
 			return DefaultResourceEnvironment.getPrimitiveDataTypeChar();
-//			newType = DefaultResourceEnvironment.getPrimitiveDataTypeChar();// TODO
-//																			// PCM2SAMM
-//																			// ADDEDD
-//			repository.getDataTypes__Repository().add(newType); // TODO PCM2SAMM
-																// ADDEDD
-		} else if (typeName.toLowerCase().equals("byte")) {// TODO PCM2SAMM
-															// ADDEDD
+		} else if (typeName.toLowerCase().equals("byte")) {
 			return DefaultResourceEnvironment.getPrimitiveDataTypeByte();
-//			newType = DefaultResourceEnvironment.getPrimitiveDataTypeByte();// TODO
-//																			// PCM2SAMM
-//																			// ADDEDD
-//			repository.getDataTypes__Repository().add(newType); // TODO PCM2SAMM
-																// ADDEDD
-			
-			
-			
-		}
-		
-		
-		
-		//ArrayTypeable statt ArrayType
-		else if (gastType instanceof ArrayInstantiationByValuesTyped) {
+		} else if (gastType instanceof ArrayInstantiationByValuesTyped) {
+			// ArrayTypeable statt ArrayType
 			ArrayInstantiationByValuesTyped  arrayType = (ArrayInstantiationByValuesTyped) gastType;
 			// Create a collection data type:
 			newType = RepositoryFactory.eINSTANCE.createCollectionDataType();
@@ -471,7 +428,7 @@ public class OperationBuilder extends AbstractBuilder {
 			DataType innerType = getType(arrayType.getReferencedType(), repository);
 			if(innerType == null){
 				logger.error("Unsupported inner type: " + arrayType.getReferencedType());
-				// TODO switch to real type checks!!!���
+				// TODO switch to real type checks!!!
 			}
 			((de.uka.ipd.sdq.pcm.repository.CollectionDataType) newType)
 					.setInnerType_CollectionDataType(innerType);
@@ -503,19 +460,8 @@ public class OperationBuilder extends AbstractBuilder {
 										innerElement);
 					}
 				}
-			} else {
-				// create a non-default primitive data type:
-				// TODO SAMM2PCM removed; could lead to a NPE... what to create
-				// here?
-				// newType =
-				// DatatypesFactory.eINSTANCE.createPrimitiveDataType();
-				// newType.setName(typeName);
-				// repository.getDataTypes__Repository().add(newType);
-				throw new UnsupportedOperationException(
-						"Operation Builder: Should implement something here.");
 			}
 		}
-
 		return newType;
 	}
 
@@ -572,7 +518,7 @@ public class OperationBuilder extends AbstractBuilder {
 			}
 		}
 
-		logger.info("no type found for " + gastTypeName);
+		logger.info("no type found for " + gastTypeName + ". Type will be created.");
 		return null;
 	}
 
