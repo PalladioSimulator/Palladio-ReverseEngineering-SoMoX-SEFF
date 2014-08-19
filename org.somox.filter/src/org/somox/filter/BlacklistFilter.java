@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.somox.kdmhelper.KDMHelper;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.types.*;
 //import de.fzi.gast.types.GASTClass;
@@ -61,12 +62,14 @@ public class BlacklistFilter extends BaseFilter<Type> {
 		// anyway, both are ASTNodes
 		EObject container = currentClass.eContainer();
 		if(container instanceof Member) {
+			if (container instanceof ClassMethod) {
+				container = container.eContainer();
+			}
 			String fqn = KDMHelper.computeFullQualifiedName((Type) container);
 			result = matchPattern.matcher(fqn).matches();
 			if (logger.isTraceEnabled()) {
 				logger.trace("Blacklist filter matches " + fqn + ": " + result);
 			}
-		
 		}
 		return result;
 	}
