@@ -83,6 +83,7 @@ public class KDMReader {
 		if (!resolveAllProxies(rs)) {
 			logger.error("Resolution of some Proxies failed...");
 		}
+		addModelsToRoot(rs);
 	}
 	
 	private void loadSourceFolder(String absolutePath, ResourceSet rs) throws IOException {
@@ -102,7 +103,6 @@ public class KDMReader {
 				// TODO fix: execution of following statement leads to ClassCastException
 				// Map<Object, Object> loadOptions = setupLoadOptions(resource);
 				resource.load(null);
-				addModelToRoot(resource);
 			} catch (IOException e) {
 				e.printStackTrace();
 				logger.warn("Failed to load resource: " + javaFile + "\n Reason: " + e);
@@ -167,24 +167,18 @@ public class KDMReader {
 			Resource resource = rs.getResource(URIfile, true);
 			Map<Object, Object> loadOptions = setupLoadOptions(resource);
 			resource.load(null);
-			addModelToRoot(resource);
-
 		}
 	}
 
-	// TODO test
+	// TODO remove
 	public void loadFile(URI file) throws IOException {
-
-		ResourceSet rs = new ResourceSetImpl();
-		Resource resource = rs.getResource(file, true);
-
-		// resource = ModelUtils.loadModel(file);
-		addModelToRoot(resource);
-
 	}
 
-	private void addModelToRoot(Resource resource) {
-		root.addModels(getModelsFromResource(resource));
+	private void addModelsToRoot(ResourceSet rs) {
+		Collection<Resource> resources = rs.getResources();
+		for(Resource resource : resources) {
+			root.addModels(getModelsFromResource(resource));
+		}
 	}
 
 	// CompilationUnit statt Model
