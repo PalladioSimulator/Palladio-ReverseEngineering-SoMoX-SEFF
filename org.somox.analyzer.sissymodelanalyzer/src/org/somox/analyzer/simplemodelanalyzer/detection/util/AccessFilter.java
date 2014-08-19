@@ -52,8 +52,9 @@ public class AccessFilter {
 				}//REALLYADDED//SOMOXTODOCHANGE
 			}//REALLYADDED//SOMOXTODOCHANGE
 			
-			if(GetAccessedType.getAccessedType(access) != null) { // composite accesses are not considered
-				returnAccessedClasses.add(GetAccessedType.getAccessedType(access));
+			Type accessedType = GetAccessedType.getAccessedType(access);
+			if(accessedType != null) { // composite accesses are not considered
+				returnAccessedClasses.add(accessedType);
 			} else {					
 				logger.warn("found empty access: accessed class null, "+ KDMHelper.getSISSyID(access));
 //				//removelater
