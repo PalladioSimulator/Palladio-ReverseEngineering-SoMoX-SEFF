@@ -17,6 +17,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.Classifier;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.commons.NamedElement;
@@ -382,12 +383,12 @@ public class KDMHelper {
 		// FIXEDMYBUG used ClassDecl instead of AbstractTypeDeclaration, missed
 		// InterfaceDeclaration
 
-		if (!(input instanceof Type)) {
+		if (!(input instanceof ConcreteClassifier)) {
 			return result;
 		}
 
-		Type clazz = (Type) input;
-		for (Member body : clazz.getAllMembers(input)) {
+		ConcreteClassifier clazz = (ConcreteClassifier) input;
+		for (Member body : clazz.getMembers()) {
 			if (body instanceof Method) {
 				result.add((Method) body);
 			}
