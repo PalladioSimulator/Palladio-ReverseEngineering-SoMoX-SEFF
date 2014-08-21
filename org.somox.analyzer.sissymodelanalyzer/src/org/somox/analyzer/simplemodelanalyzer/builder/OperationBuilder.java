@@ -1,5 +1,7 @@
 package org.somox.analyzer.simplemodelanalyzer.builder;
 
+import java.util.List;
+
 import org.apache.log4j.Category;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
@@ -77,8 +79,8 @@ public class OperationBuilder extends AbstractBuilder {
 
 	public void createOperations(Type implementationClass, Type interfaceClass,
 			OperationInterface interf) {
-
-		for (Method method : KDMHelper.getMethods(interfaceClass)) {
+		List<Method> methods = KDMHelper.getMethods(interfaceClass);
+		for (Method method : methods) {
 
 			if (method.isPublic())// (KDMHelper.isModifierOfKind(method, VisibilityKind.NONE)) || KDMHelper .isModifierOfKind(method, VisibilityKind.PUBLIC)) 
 				{
@@ -89,11 +91,6 @@ public class OperationBuilder extends AbstractBuilder {
 					realMethod = getRealMethod(implementationClass, method);
 					if (realMethod == null) {
 						realMethod = method;
-						// removelater was for debug reason
-						if (method.getName().equals("refresh")) {
-							int a = 0;
-						}
-						// removelater
 						logger.error("GAST Model misses a method "
 								+ method.getName());
 					}
@@ -176,12 +173,11 @@ public class OperationBuilder extends AbstractBuilder {
 		for (Variable inputParameter : method.getParameters()) {
 			Parameter opSigParam = RepositoryFactory.eINSTANCE.createParameter();
 			opSigParam.setParameterName(inputParameter.getName());
+			//inputParameter.getTypeReference() statt inputParameter.getType()
 			Type accessedType = GetAccessedType.getAccessedType(inputParameter.getTypeReference());
 			if(inputParameter.getTypeReference() != null && null != accessedType) {
-				opSigParam.setDataType__Parameter(
-						//inputParameter.getTypeReference() statt inputParameter.getType()
-						getType(accessedType, 
-						this.analysisResult.getInternalArchitectureModel()));				
+				DataType type = getType(accessedType, this.analysisResult.getInternalArchitectureModel());
+				opSigParam.setDataType__Parameter(type);				
 			} else {
 				logger.error("Input parameter type was null. Could not set the parameter type \"" +
 						inputParameter.getName() + "\" of method \"" + method.getName() + "\"");
@@ -403,19 +399,19 @@ public class OperationBuilder extends AbstractBuilder {
 		typeName = getUnifiedTypeName(typeName);
 
 		DataType newType = null;
-		if (typeName.toLowerCase().equals("void")) {
+		if (typeName.equalsIgnoreCase("void")) {
 			// do nothing
-		} else if (typeName.toLowerCase().equals("integer")) {
+		} else if (typeName.equalsIgnoreCase("integer")) {
 			return DefaultResourceEnvironment.getPrimitiveDataTypeInteger();
-		} else if (typeName.toLowerCase().equals("double")) {
+		} else if (typeName.equalsIgnoreCase("double")) {
 			return DefaultResourceEnvironment.getPrimitiveDataTypeDouble();
-		} else if (typeName.toLowerCase().equals("string")) {
+		} else if (typeName.equalsIgnoreCase("string")) {
 			return DefaultResourceEnvironment.getPrimitiveDataTypeString();
-		} else if (typeName.toLowerCase().equals("boolean")) {
+		} else if (typeName.equalsIgnoreCase("boolean")) {
 			return DefaultResourceEnvironment.getPrimitiveDataTypeBool();
-		} else if (typeName.toLowerCase().equals("char")) {
+		} else if (typeName.equalsIgnoreCase("char")) {
 			return DefaultResourceEnvironment.getPrimitiveDataTypeChar();
-		} else if (typeName.toLowerCase().equals("byte")) {
+		} else if (typeName.equalsIgnoreCase("byte")) {
 			return DefaultResourceEnvironment.getPrimitiveDataTypeByte();
 		} else if (gastType instanceof ArrayInstantiationByValuesTyped) {
 			// ArrayTypeable statt ArrayType
