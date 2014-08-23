@@ -4,13 +4,12 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
-import org.somox.kdmhelper.KDMHelper;
 import org.eclipse.emf.ecore.EObject;
-import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.ClassMethod;
+import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Member;
-import org.emftext.language.java.types.*;
-//import de.fzi.gast.types.GASTClass;
+import org.emftext.language.java.types.Type;
+import org.somox.kdmhelper.KDMHelper;
 
 public class BlacklistFilter extends BaseFilter<Type> {
 
@@ -63,6 +62,8 @@ public class BlacklistFilter extends BaseFilter<Type> {
 		EObject container = currentClass.eContainer();
 		if(container instanceof Member) {
 			if (container instanceof ClassMethod) {
+				container = container.eContainer();
+			} else if (container instanceof Field) {
 				container = container.eContainer();
 			}
 			String fqn = KDMHelper.computeFullQualifiedName((Type) container);

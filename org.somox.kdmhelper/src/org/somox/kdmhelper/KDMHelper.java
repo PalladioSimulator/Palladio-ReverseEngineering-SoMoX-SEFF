@@ -658,7 +658,7 @@ public class KDMHelper {
 			EList<Statement> statements = ((ClassMethod)method).getStatements();
 			if (statements != null)
 			{
-			block.getStatements().addAll(statements);
+			block.getStatements().addAll(statements); // FIXME causes method to loose statements
 			}
 		}
 		

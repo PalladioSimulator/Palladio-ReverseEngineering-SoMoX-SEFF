@@ -80,9 +80,9 @@ public class KDMReader {
 		} catch (JavaModelException e1) {
 			e1.printStackTrace();
 		}
-		if (!resolveAllProxies(rs)) {
-			logger.error("Resolution of some Proxies failed...");
-		}
+		//if (!resolveAllProxies(rs)) {
+		//	logger.error("Resolution of some Proxies failed...");
+		//}
 		addModelsToRoot(rs);
 	}
 	
