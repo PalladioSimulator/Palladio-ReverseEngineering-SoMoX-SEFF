@@ -653,12 +653,10 @@ public class KDMHelper {
 
 	public static Block getBody(Method method) {
 		Block block= StatementsFactory.eINSTANCE.createBlock();
-		if(method instanceof ClassMethod)
-		{
+		if(method instanceof ClassMethod) {
 			EList<Statement> statements = ((ClassMethod)method).getStatements();
-			if (statements != null)
-			{
-			block.getStatements().addAll(statements); // FIXME causes method to loose statements
+			if (statements != null) {
+				block.getStatements().addAll(statements); // FIXME causes method to loose statements
 			}
 		}
 		
