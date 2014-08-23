@@ -194,7 +194,8 @@ public class InterfaceBuilder extends AbstractBuilder {
 			throw new IllegalArgumentException("This method can only be called on primitive components");
 		
 		for (Type gastClass : componentCandidate.getImplementingClasses()) {
-			for (Type superType : this.somoxConfiguration.getBlacklistFilter().filter(KDMHelper.getSuperTypes(gastClass))) {
+			List<Type> superTypes = KDMHelper.getSuperTypes(gastClass);
+			for (Type superType : this.somoxConfiguration.getBlacklistFilter().filter(superTypes)) {
 				createInterfaceForSupertype(componentCandidate, gastClass,
 						superType);
 			}

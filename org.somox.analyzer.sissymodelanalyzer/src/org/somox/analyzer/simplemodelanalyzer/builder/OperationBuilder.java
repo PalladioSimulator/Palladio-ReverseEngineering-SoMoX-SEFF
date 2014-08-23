@@ -429,10 +429,6 @@ public class OperationBuilder extends AbstractBuilder {
 			((de.uka.ipd.sdq.pcm.repository.CollectionDataType) newType)
 					.setInnerType_CollectionDataType(innerType);
 		} else {
-			// TODO handling of class causes an infinity loop -> abort
-			if (KDMHelper.getName(gastType).equalsIgnoreCase("class")) {
-				return null;
-			}
 			if (KDMHelper.getAllAccessedClasses(gastType).size() > 1) {
 				// create a complex data type:
 				newType = RepositoryFactory.eINSTANCE.createCompositeDataType();
