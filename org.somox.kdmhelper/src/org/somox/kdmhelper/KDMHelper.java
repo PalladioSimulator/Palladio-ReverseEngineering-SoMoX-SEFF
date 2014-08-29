@@ -27,7 +27,11 @@ import org.emftext.language.java.generics.TypeArgument;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.Method;
+import org.emftext.language.java.modifiers.Final;
+import org.emftext.language.java.modifiers.Modifier;
 import org.emftext.language.java.modifiers.ModifiersFactory;
+import org.emftext.language.java.modifiers.Private;
+import org.emftext.language.java.modifiers.Static;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.MethodCall;
@@ -629,25 +633,23 @@ public class KDMHelper {
 	 * A virtual method can be overridden. In Java 1. Static methods cannot be
 	 * overridden. 2. Non static private and final methods cannot be overridden.
 	 * 
-	 * @param bodyDec
+	 * @param method
 	 *            the {@link BodyDeclaration} object
 	 * @return true or false
 	 */
-	public static boolean isVirtual(Method bodyDec) {
-		
-		 if (bodyDec == null || bodyDec.getModifiers() == null) {
-		 return false;
-		 }
-		
-		 if (bodyDec.getModifiers().get(0) != null) {
-			 if ((bodyDec.getModifiers().contains(ModifiersFactory.eINSTANCE.createPrivate()))|| 
-					 (bodyDec.getModifiers().contains(ModifiersFactory.eINSTANCE.createStatic())) || 
-					 (bodyDec.getModifiers().contains(ModifiersFactory.eINSTANCE.createFinal()))) 
-			 {
-				 return false;
-			 }
-		 }
-	
+	public static boolean isVirtual(Method method) {
+		if (method == null || method.getModifiers() == null) {
+			return false;
+		}
+
+		for (Modifier modifier : method.getModifiers()) {
+			if (modifier instanceof Private
+					|| modifier instanceof Static
+					|| modifier instanceof Final) {
+				return false;
+			}
+		}
+
 		return true;
 	}
 

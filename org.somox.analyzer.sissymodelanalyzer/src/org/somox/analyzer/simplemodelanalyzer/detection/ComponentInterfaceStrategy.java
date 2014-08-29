@@ -1,6 +1,7 @@
 package org.somox.analyzer.simplemodelanalyzer.detection;
 
 
+import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.types.Type;
 import org.somox.kdmhelper.KDMHelper;
@@ -75,7 +76,6 @@ public class ComponentInterfaceStrategy implements IComponentInterfaceStrategy {
 	 * @return true if all methods are declared virtual; false else
 	 */
 	private boolean isPureVirtualClass(Type classToCheck) {
-		
 		// do not consider "empty" classes with no methods as interface
 		if(KDMHelper.getMethods(classToCheck).size() == 0) {
 			return false;
@@ -84,8 +84,12 @@ public class ComponentInterfaceStrategy implements IComponentInterfaceStrategy {
 			if(!KDMHelper.isVirtual(method)) {
 				return false;
 			}
-			if (KDMHelper.getBody(method) != null) {
-				return false;
+			if (method instanceof ClassMethod) {
+				ClassMethod classMethod = (ClassMethod) method;
+				int size = classMethod.getStatements().size();
+				if (size > 0) {
+					return false;
+				}
 			}
 		}
 		return true;
