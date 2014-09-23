@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:javaapplication="http://www.eclipse.org/MoDisco/Java/Composition/0.1.incubation/javaApplication">
+  <javaapplication:Java2Directory>
+    <javaPackage href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0"/>
+    <directory href="../org.somox.tests.SoMoXCCTest_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.14/@inventoryElement.0/@inventoryElement.0"/>
+    <parent href="../org.somox.tests.SoMoXCCTest_java2kdm.xmi#/"/>
+    <java2FileChildren href="org.somox_java2kdm.xmi#/"/>
+  </javaapplication:Java2Directory>
+  <javaapplication:Java2Directory>
+    <javaPackage href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0"/>
+    <directory href="../org.somox.tests.SoMoXCCTest_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.14/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0"/>
+    <parent href="../org.somox.tests.SoMoXCCTest_java2kdm.xmi#/"/>
+    <java2FileChildren href="org.somox.core_java2kdm.xmi#/0"/>
+    <java2FileChildren href="org.somox.core_java2kdm.xmi#/1"/>
+    <java2FileChildren href="org.somox.core_java2kdm.xmi#/2"/>
+    <java2FileChildren href="org.somox.core_java2kdm.xmi#/3"/>
+    <java2FileChildren href="org.somox.core_java2kdm.xmi#/4"/>
+    <java2FileChildren href="org.somox.core_java2kdm.xmi#/5"/>
+    <java2FileChildren href="org.somox.core_java2kdm.xmi#/6"/>
+    <java2FileChildren href="org.somox.core_java2kdm.xmi#/7"/>
+  </javaapplication:Java2Directory>
+  <javaapplication:Java2Directory>
+    <javaPackage href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0"/>
+    <directory href="../org.somox.tests.SoMoXCCTest_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.14/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.1"/>
+    <parent href="../org.somox.tests.SoMoXCCTest_java2kdm.xmi#/"/>
+    <java2FileChildren href="org.somox.core.furtherRequired_java2kdm.xmi#/0"/>
+    <java2FileChildren href="org.somox.core.furtherRequired_java2kdm.xmi#/1"/>
+  </javaapplication:Java2Directory>
+  <javaapplication:Java2Directory>
+    <javaPackage href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1"/>
+    <directory href="../org.somox.tests.SoMoXCCTest_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.14/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.8"/>
+    <parent href="../org.somox.tests.SoMoXCCTest_java2kdm.xmi#/"/>
+    <java2FileChildren href="org.somox.core.subcore_java2kdm.xmi#/0"/>
+    <java2FileChildren href="org.somox.core.subcore_java2kdm.xmi#/1"/>
+  </javaapplication:Java2Directory>
+  <javaapplication:Java2Directory>
+    <javaPackage href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedPackages.0"/>
+    <directory href="../org.somox.tests.SoMoXCCTest_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.14/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.8/@inventoryElement.2"/>
+    <parent href="../org.somox.tests.SoMoXCCTest_java2kdm.xmi#/"/>
+    <java2FileChildren href="org.somox.core.subcore.sub2_java2kdm.xmi#/"/>
+  </javaapplication:Java2Directory>
+  <javaapplication:Java2Directory>
+    <javaPackage href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.2"/>
+    <directory href="../org.somox.tests.SoMoXCCTest_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.14/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.9"/>
+    <parent href="../org.somox.tests.SoMoXCCTest_java2kdm.xmi#/"/>
+    <java2FileChildren href="org.somox.core.subcore2_java2kdm.xmi#/"/>
+  </javaapplication:Java2Directory>
+  <javaapplication:Java2Directory>
+    <javaPackage href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.1"/>
+    <directory href="../org.somox.tests.SoMoXCCTest_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.14/@inventoryElement.0/@inventoryElement.0/@inventoryElement.1"/>
+    <parent href="../org.somox.tests.SoMoXCCTest_java2kdm.xmi#/"/>
+    <java2FileChildren href="org.somox.data_java2kdm.xmi#/0"/>
+    <java2FileChildren href="org.somox.data_java2kdm.xmi#/1"/>
+    <java2FileChildren href="org.somox.data_java2kdm.xmi#/2"/>
+    <java2FileChildren href="org.somox.data_java2kdm.xmi#/3"/>
+    <java2FileChildren href="org.somox.data_java2kdm.xmi#/4"/>
+  </javaapplication:Java2Directory>
+  <javaapplication:Java2Directory>
+    <javaPackage href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.2"/>
+    <directory href="../org.somox.tests.SoMoXCCTest_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.14/@inventoryElement.0/@inventoryElement.0/@inventoryElement.3"/>
+    <parent href="../org.somox.tests.SoMoXCCTest_java2kdm.xmi#/"/>
+    <java2FileChildren href="org.somox.ui_java2kdm.xmi#/0"/>
+    <java2FileChildren href="org.somox.ui_java2kdm.xmi#/1"/>
+    <java2FileChildren href="org.somox.ui_java2kdm.xmi#/2"/>
+  </javaapplication:Java2Directory>
+</xmi:XMI>

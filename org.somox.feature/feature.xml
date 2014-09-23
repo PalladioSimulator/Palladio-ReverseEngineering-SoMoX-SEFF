@@ -112,6 +112,78 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.somox.modisco.feature"
          version="0.0.0"/>
 
+   <requires>
+      <import plugin="org.somox.core" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.somox.ui" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui" version="3.4.1" match="greaterOrEqual"/>
+      <import plugin="org.somox.metrics" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="de.uka.ipd.sdq.workflow.launchconfig" version="1.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.gmf.runtime.emf.core" version="1.1.1" match="greaterOrEqual"/>
+      <import plugin="org.somox.filter" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.jgrapht" version="0.8.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.debug.ui" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.somox.kdmhelper" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.somox.sourcecodedecorator" version="1.0.1" match="greaterOrEqual"/>
+      <import plugin="de.uka.ipd.sdq.pcm" version="3.2.0" match="greaterOrEqual"/>
+      <import plugin="org.junit"/>
+      <import plugin="de.uka.ipd.sdq.pcm.resources" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="de.uka.ipd.sdq.workflow" version="1.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.edit" version="2.7.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.debug.ui" version="3.4.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.common.ui" version="2.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.edit.ui" version="2.4.1" match="greaterOrEqual"/>
+      <import plugin="org.somox.metrics.dsl" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="net.sourceforge.secondstring" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.somox.analyzer.sissymodelanalyzer" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.somox.gast2seff" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.common" version="2.8.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.log4j" version="1.2.13" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.gmt.modisco.java" version="0.9.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore.xmi" version="2.7.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.modisco.java.composition" version="0.9.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.gmt.modisco.infra.common.core" version="0.9.2" match="greaterOrEqual"/>
+      <import plugin="org.apache.log4j" version="1.2.15" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.gmt.modisco.infra.query.core" version="0.9.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.modisco.kdm.source.extension" version="0.9.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="de.uka.ipd.sdq.identifier"/>
+      <import plugin="de.uka.ipd.sdq.stoex"/>
+      <import plugin="de.uka.ipd.sdq.units"/>
+      <import plugin="org.eclipse.gmt.modisco.omg.kdm"/>
+      <import plugin="de.uka.ipd.sdq.probfunction"/>
+      <import plugin="org.eclipse.gmt.modisco.java.edit"/>
+      <import plugin="org.eclipse.gmt.modisco.omg.kdm.edit"/>
+      <import plugin="de.uka.ipd.sdq.pcm.edit" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime" version="3.8.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="de.uka.ipd.sdq.identifier.edit"/>
+      <import plugin="de.uka.ipd.sdq.probfunction.edit"/>
+      <import plugin="de.uka.ipd.sdq.stoex.edit"/>
+      <import plugin="de.uka.ipd.sdq.units.edit"/>
+      <import plugin="de.uka.ipd.sdq.workflow.mdsd" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf" version="2.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.gmt.modisco.java" version="0.10.1" match="greaterOrEqual"/>
+      <import plugin="org.somox.seff2javaast" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.uml2.common.edit"/>
+      <import plugin="org.eclipse.xtext"/>
+      <import plugin="org.eclipse.xtext.util"/>
+      <import plugin="org.antlr.runtime"/>
+      <import plugin="org.eclipse.xtext.common.types"/>
+      <import plugin="org.eclipse.xtext.xbase.lib"/>
+      <import plugin="org.eclipse.xtext.ui"/>
+      <import plugin="org.eclipse.ui.editors" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.ide" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.ui.shared"/>
+      <import plugin="org.eclipse.xtext.builder"/>
+      <import plugin="org.eclipse.xtext.common.types.ui"/>
+      <import plugin="org.eclipse.xtext.ui.codetemplates.ui"/>
+      <import plugin="org.eclipse.compare"/>
+      <import plugin="org.somox.metricvaluesstorage" version="1.1.0" match="greaterOrEqual"/>
+   </requires>
+
    <plugin
          id="org.somox.analyzer.sissymodelanalyzer"
          download-size="0"
@@ -159,12 +231,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <plugin
-         id="uk.ac.shef.dcs.simmetrics"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
    <plugin
          id="org.somox.metricvaluesstorage"
@@ -228,5 +294,25 @@ This Agreement is governed by the laws of the State of New York and the intellec
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
+   <plugin
+         id="org.somox.metrics.dsl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.somox.metrics.dsl.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.secondstring"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
 
 </feature>

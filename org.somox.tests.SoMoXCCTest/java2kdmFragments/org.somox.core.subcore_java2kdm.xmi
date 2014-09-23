@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:javaapplication="http://www.eclipse.org/MoDisco/Java/Composition/0.1.incubation/javaApplication">
+  <javaapplication:Java2File>
+    <file href="../org.somox.tests.SoMoXCCTest_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.14/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.8/@inventoryElement.1"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="3" startPosition="35" endLine="3" endPosition="64">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@compilationUnits.11/@imports.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="68" endLine="13" endPosition="191">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="96" endLine="7" endPosition="125">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="96" endLine="7" endPosition="104">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="96" endLine="7" endPosition="104">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="105" endLine="7" endPosition="124">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.0/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="110" endLine="7" endPosition="124">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.0/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="114" endLine="7" endPosition="122">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.0/@fragments.0/@initializer/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="114" endLine="7" endPosition="122">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.0/@fragments.0/@initializer/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="128" endLine="8" endPosition="152">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="128" endLine="8" endPosition="134">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.1/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="128" endLine="8" endPosition="134">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.1/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="135" endLine="8" endPosition="151">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.1/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="139" endLine="8" endPosition="151">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.1/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="143" endLine="8" endPosition="149">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.1/@fragments.0/@initializer/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="143" endLine="8" endPosition="149">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.1/@fragments.0/@initializer/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="158" endLine="12" endPosition="187">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.2"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="165" endLine="10" endPosition="169">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.2/@returnType"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="178" endLine="12" endPosition="187">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.2/@body"/>
+    </children>
+    <unit href="../org.somox.tests.SoMoXCCTest_java.xmi#//@compilationUnits.11"/>
+    <parent href="Package2Directory_java2kdm.xmi#/3"/>
+  </javaapplication:Java2File>
+  <javaapplication:Java2File>
+    <file href="../org.somox.tests.SoMoXCCTest_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.14/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.8/@inventoryElement.0"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="3" startPosition="35" endLine="3" endPosition="64">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@compilationUnits.12/@imports.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="68" endLine="12" endPosition="188">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="94" endLine="6" endPosition="123">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="94" endLine="6" endPosition="102">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="94" endLine="6" endPosition="102">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="103" endLine="6" endPosition="122">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.0/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="108" endLine="6" endPosition="122">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.0/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="112" endLine="6" endPosition="120">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.0/@fragments.0/@initializer/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="112" endLine="6" endPosition="120">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.0/@fragments.0/@initializer/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="126" endLine="7" endPosition="150">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="126" endLine="7" endPosition="132">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.1/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="126" endLine="7" endPosition="132">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.1/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="133" endLine="7" endPosition="149">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.1/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="137" endLine="7" endPosition="149">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.1/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="141" endLine="7" endPosition="147">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.1/@fragments.0/@initializer/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="141" endLine="7" endPosition="147">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.1/@fragments.0/@initializer/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="156" endLine="11" endPosition="185">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.2"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="163" endLine="9" endPosition="167">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.2/@returnType"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="176" endLine="11" endPosition="185">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.2/@body"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="251" endLine="11" endPosition="256">
+      <node href="../org.somox.tests.SoMoXCCTest_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.1/@ownedElements.1/@bodyDeclarations.2"/>
+    </children>
+    <unit href="../org.somox.tests.SoMoXCCTest_java.xmi#//@compilationUnits.12"/>
+    <parent href="Package2Directory_java2kdm.xmi#/3"/>
+  </javaapplication:Java2File>
+</xmi:XMI>

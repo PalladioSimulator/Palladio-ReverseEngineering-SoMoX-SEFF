@@ -13,7 +13,7 @@ import org.jgrapht.DirectedGraph;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
-import org.somox.metrics.AbstractMetric;
+import org.somox.metrics.abstractmetrics.AbstractMetric;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.IMetric;
 import org.somox.metrics.MetricID;
@@ -127,7 +127,7 @@ public class NameResemblance extends AbstractMetric {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected ClusteringRelation internalComputeDirected (
+	protected void internalComputeDirected (
 			ClusteringRelation relationToCompute) {
 
 		// TODO: Klaus, check for plausibility. Rationale is that the inner classes' names of a composite component 
@@ -136,8 +136,8 @@ public class NameResemblance extends AbstractMetric {
 		// if (componentCandidate1.isCompositeComponent() || componentCandidate2.isCompositeComponent())
 		//	return 0.0;
 		
-		Set<Type> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentA());
-		Set<Type> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentB());
+		Set<Type> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getSourceComponent());
+		Set<Type> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getTargetComponent());
 
 		int totalCompares = classes1.size() * classes2.size();
 		
@@ -154,13 +154,11 @@ public class NameResemblance extends AbstractMetric {
 		if (totalCompares == 0) {
 			logger.debug("Resemblance Map had a size of 0");
 			relationToCompute.setResultMetric(getMID(), 0.0);
-			return relationToCompute;
+			return;
 		}
 
 		relationToCompute.setResultMetric(getMID(), 
 				(double)nameResemblance / (double)totalCompares);
-		
-		return relationToCompute;
 	}
 
 	/**

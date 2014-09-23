@@ -5,7 +5,7 @@ import java.util.Set;
 import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.types.Type;
 import org.somox.kdmhelper.KDMHelper;
-import org.somox.metrics.AbstractMetric;
+import org.somox.metrics.abstractmetrics.AbstractMetric;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.MetricID;
 
@@ -25,7 +25,7 @@ public class SliceLayerArchitectureQuality extends AbstractMetric {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected ClusteringRelation internalComputeDirected (
+	protected void internalComputeDirected (
 			ClusteringRelation relationToCompute) {
 
 		//removelater
@@ -38,15 +38,15 @@ public class SliceLayerArchitectureQuality extends AbstractMetric {
 //			}
 //		}
 		
-		Set<Type> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentA());
-		Set<Type> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentB());
+		Set<Type> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getSourceComponent());
+		Set<Type> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getTargetComponent());
 		
 		//compute overall prefix
 		org.emftext.language.java.containers.Package prefixPackage = computePrefix(classes1, classes2);
 		
 		if (prefixPackage == null) {
 			relationToCompute.setResultMetric(getMID(), 0.0);
-			return relationToCompute;
+			return;
 		}
 		EList<org.emftext.language.java.containers.Package> slices =KDMHelper.getOwnedPackages(prefixPackage);
 		EList<org.emftext.language.java.containers.Package > layers = null;
@@ -63,7 +63,7 @@ public class SliceLayerArchitectureQuality extends AbstractMetric {
 		//check how many of the computed layers exist in every slice 
 		if (max == 0) {
 			relationToCompute.setResultMetric(getMID(), 1.0);
-			return relationToCompute;
+			return;
 		} else {
 			int expectedSubsystems = slices.size()*layers.size();
 			int existingSubsystems = 0;
@@ -82,10 +82,8 @@ public class SliceLayerArchitectureQuality extends AbstractMetric {
 			
 			if (expectedSubsystems == 0) {
 				relationToCompute.setResultMetric(getMID(), 1.0);
-				return relationToCompute;
 			} else {
 				relationToCompute.setResultMetric(getMID(), (double)existingSubsystems/(double)expectedSubsystems);
-				return relationToCompute;
 			}
 		}
 	}

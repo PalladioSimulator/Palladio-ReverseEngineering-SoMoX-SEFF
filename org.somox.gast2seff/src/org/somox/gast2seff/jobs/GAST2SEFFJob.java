@@ -318,7 +318,9 @@ public class GAST2SEFFJob  implements IBlackboardInteractingJob<SoMoXBlackboard>
 
 			GastStatementVisitor visitor = new GastStatementVisitor(typeVisitor.getAnnotations(), seff,
 					this.sourceCodeDecoratorModel, basicComponent);
+			
 			visitor.doSwitch(body);
+			
 		} else {
 			logger.warn("Found GAST behaviour (" + seff.getId() + ") without a method body... Skipping it...");
 		}

@@ -1,8 +1,10 @@
-package org.somox.metrics;
+package org.somox.metrics.abstractmetrics;
 
 import java.util.Map;
 
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.metrics.ICompositionFunction;
+import org.somox.metrics.MetricID;
 
 
 public abstract class AbstractStepwiseMetric extends AbstractComposedMetric {

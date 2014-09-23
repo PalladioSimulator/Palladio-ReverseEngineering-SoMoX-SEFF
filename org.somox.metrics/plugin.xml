@@ -137,6 +137,13 @@
             name="AfferentCoupling">
       </metric>
    </extension>
+   <extension
+         point="org.somox.core.metric">
+      <metricformula
+            id="org.somox.metrics.dsltest"
+            metric_definition="metricformulas/test.metrics">
+      </metricformula>
+   </extension>
 
 <!--
    <extension

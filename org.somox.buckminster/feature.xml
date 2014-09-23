@@ -14,13 +14,34 @@
    </copyright>
 
    <url>
-      <discovery label="Palladio Commons" url="http://sdqweb.ipd.kit.edu/eclipse/commons/releases/1.2/"/>
-      <discovery label="Palladio Workflow Engine" url="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/2.0.2/"/>
-      <discovery label="Palladio" url="http://sdqweb.ipd.kit.edu/eclipse/palladio/releases/3.4.1/"/>
+      <discovery label="Palladio" url="http://sdqweb.ipd.kit.edu/eclipse/palladio/nightly"/>
+      <discovery label="Luna" url="http://download.eclipse.org/releases/luna"/>
    </url>
 
    <includes
          id="org.somox.feature"
          version="0.0.0"/>
+
+   <requires>
+      <import plugin="org.somox.metrics.dsl"/>
+      <import plugin="org.somox.metrics.dsl.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.xtext.junit4"/>
+      <import plugin="org.apache.log4j"/>
+      <import plugin="org.junit"/>
+      <import plugin="org.hamcrest.core"/>
+      <import feature="de.uka.ipd.sdq.pcm.diagram.feature" version="3.5.0.201408191624" match="greaterOrEqual"/>
+      <import feature="de.uka.ipd.sdq.pcm.feature" version="3.6.0.201408191624" match="greaterOrEqual"/>
+      <import feature="org.somox.modisco.feature" version="1.0.0.qualifier" match="greaterOrEqual"/>
+      <import feature="org.eclipse.modisco.infrastructure.feature" version="0.12.0.201405261503"/>
+      <import feature="org.eclipse.modisco.java.feature" version="0.12.0.201405261503"/>
+   </requires>
+
+   <plugin
+         id="org.somox.metrics.dsl.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>

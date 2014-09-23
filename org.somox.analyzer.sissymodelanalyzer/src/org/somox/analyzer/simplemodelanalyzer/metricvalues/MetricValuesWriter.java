@@ -29,7 +29,6 @@ import org.somox.analyzer.simplemodelanalyzer.Activator;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.MetricID;
-
 //import de.fzi.gast.types.GASTClass;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
@@ -39,149 +38,155 @@ import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 public class MetricValuesWriter
 {
 
-   private static final String CONFIG_METRIC_VALUES_MODEL_PROPERTIES_FILE = "/config/MetricValuesModel.properties";
+    private static final String CONFIG_METRIC_VALUES_MODEL_PROPERTIES_FILE = "/config/MetricValuesModel.properties";
 
-   private static final String CONFIG_METRIC_VALUES_MODEL_PATH = "metricvaluesmodel.path";
+    private static final String CONFIG_METRIC_VALUES_MODEL_PATH = "metricvaluesmodel.path";
 
-   private SoMoXConfiguration somoxConfiguration;
-
-
-   public MetricValuesWriter(SoMoXConfiguration somoxConfiguration)
-   {
-      this.somoxConfiguration = somoxConfiguration;
-   }
+    private final SoMoXConfiguration somoxConfiguration;
 
 
-   public void saveMetricValuesModel(DirectedGraph<ComponentImplementingClassesLink, ClusteringRelation> metricsGraph,
-         int iteration, double currentComposeThreshold, double currentMergeThreshold,
-         List<ComponentImplementingClassesLink> componentCandidates, boolean isMergeIteration)
-   {
+    public MetricValuesWriter(final SoMoXConfiguration somoxConfiguration)
+    {
+        this.somoxConfiguration = somoxConfiguration;
+    }
 
-      URI resourceURI = getMetricValuesPlatformResourceURI();
 
-      ResourceSet resourceSet = new ResourceSetImpl();
-      URI normalized = resourceSet.getURIConverter().normalize(resourceURI);
-      Resource resource = null;
-      MetricValuesModel model = null;
+    public void saveMetricValuesModel(
+            final DirectedGraph<ComponentImplementingClassesLink, ClusteringRelation> metricsGraph,
+            final int iteration,
+            final double currentThreshold,
+            final List<ComponentImplementingClassesLink> componentCandidates, final boolean isMergeIteration)
+    {
 
-      if (iteration == 1)
-      {
-         resource = resourceSet.createResource(normalized);
-         model = MetricvaluesFactory.eINSTANCE.createMetricValuesModel();
-         setModelAttributes(model);
-      }
-      else
-      {
-         resource = resourceSet.getResource(normalized, true);
+        final URI resourceURI = getMetricValuesPlatformResourceURI();
 
-         model = (MetricValuesModel) resource.getContents().get(0);
-      }
+        final ResourceSet resourceSet = new ResourceSetImpl();
+        final URI normalized = resourceSet.getURIConverter().normalize(resourceURI);
+        Resource resource = null;
+        MetricValuesModel model = null;
 
-      Iteration currentIteration = createCurrentIteration(metricsGraph, iteration, currentComposeThreshold,
-            currentMergeThreshold, componentCandidates, isMergeIteration);
+        if (iteration == 1)
+        {
+            resource = resourceSet.createResource(normalized);
+            model = MetricvaluesFactory.eINSTANCE.createMetricValuesModel();
+            setModelAttributes(model);
+        }
+        else
+        {
+            resource = resourceSet.getResource(normalized, true);
+
+            model = (MetricValuesModel) resource.getContents().get(0);
+        }
+
+        final Iteration currentIteration = createCurrentIteration(metricsGraph, iteration,
+                currentThreshold, componentCandidates, isMergeIteration);
 
       model.getIterations().add(currentIteration);//REALLYCHANGEMF
 
-      if (iteration == 1)
-      {
-         resource.getContents().add(model);
-      }
+        if (iteration == 1)
+        {
+            resource.getContents().add(model);
+        }
 
-      try
-      {
-         resource.save(Collections.EMPTY_MAP);
+        try
+        {
+            resource.save(Collections.EMPTY_MAP);
 
-      }
-      catch (IOException e)
-      {
-      }
+        }
+        catch (final IOException e)
+        {
+        }
 
-      Activator.getDefault().getLog()
-            .log(new Status(Status.INFO, Activator.PLUGIN_ID, "Saved metric values of iteration " + iteration));
-   }
-
-
-   private void setModelAttributes(MetricValuesModel model)
-   {
-      model.setMinCompThreshold(this.somoxConfiguration.getClusteringConfig().getMinComposeClusteringThreshold());
-      model.setMaxMergeThreshold(this.somoxConfiguration.getClusteringConfig().getMaxMergeClusteringThreshold());
-      model.setWeightDirectoryMapping(this.somoxConfiguration.getWeightDirectoryMapping());
-      model.setWeightDMS(this.somoxConfiguration.getWeightDMS());
-      model.setWeightHighCoupling(this.somoxConfiguration.getWeightHighCoupling());
-      model.setWeightHighNameResemblance(this.somoxConfiguration.getWeightHighNameResemblance());
-      model.setWeightHighSLAQ(this.somoxConfiguration.getWeightHighSLAQ());
-      model.setWeightHighestNameResemblance(this.somoxConfiguration.getWeightHighestNameResemblance());
-      model.setWeightInterfaceViolationIrrelevant(this.somoxConfiguration.getWeightInterfaceViolationIrrelevant());
-      model.setWeightInterfaceViolationRelevant(this.somoxConfiguration.getWeightInterfaceViolationRelevant());
-      model.setWeightLowCoupling(this.somoxConfiguration.getWeightLowCoupling());
-      model.setWeightLowNameResemblance(this.somoxConfiguration.getWeightLowNameResemblance());
-      model.setWeightLowSLAQ(this.somoxConfiguration.getWeightLowSLAQ());
-      model.setWeightMidNameResemblance(this.somoxConfiguration.getWeightMidNameResemblance());
-      model.setWeightPackageMapping(this.somoxConfiguration.getWeightPackageMapping());
-      model.setWildcardKey(getBlacklistString(this.somoxConfiguration.getBlacklist()));
-      model.setMinMergeThreshold(this.somoxConfiguration.getClusteringConfig().getMinMergeClusteringThreshold());
-      model.setMaxComposeThreshold(this.somoxConfiguration.getClusteringConfig().getMaxComposeClusteringThreshold());
-      model.setComposeThresholdDecrement(this.somoxConfiguration.getClusteringConfig()
-            .getClusteringComposeThresholdDecrement());
-      model.setMergeThresholdDecrement(this.somoxConfiguration.getClusteringConfig()
-            .getClusteringMergeThresholdDecrement());
-      model.setExcludedPrefixesForNameResemblance(this.somoxConfiguration.getExcludedPrefixesForNameResemblance());
-      model.setExcludedSuffixesForNameResemblance(this.somoxConfiguration.getExcludedSuffixesForNameResemblance());
-   }
+        Activator.getDefault().getLog()
+        .log(new Status(Status.INFO, Activator.PLUGIN_ID, "Saved metric values of iteration " + iteration));
+    }
 
 
-   private String getBlacklistString(Set<String> blacklist)
-   {
-      StringBuilder blacklistString = new StringBuilder();
-      for (String string : blacklist)
-      {
-         blacklistString.append(string + SoMoXConfiguration.SOMOX_WILDCARD_DELIMITER);
-      }
-      return blacklistString.toString();
-   }
+    private void setModelAttributes(final MetricValuesModel model)
+    {
+        model.setMinCompThreshold(this.somoxConfiguration.getClusteringConfig().getMinComposeClusteringThreshold());
+        model.setMaxMergeThreshold(this.somoxConfiguration.getClusteringConfig().getMaxMergeClusteringThreshold());
+        model.setWeightDirectoryMapping(this.somoxConfiguration.getWeightDirectoryMapping());
+        model.setWeightDMS(this.somoxConfiguration.getWeightDMS());
+        model.setWeightHighCoupling(this.somoxConfiguration.getWeightHighCoupling());
+        model.setWeightHighNameResemblance(this.somoxConfiguration.getWeightHighNameResemblance());
+        model.setWeightHighSLAQ(this.somoxConfiguration.getWeightHighSLAQ());
+        model.setWeightHighestNameResemblance(this.somoxConfiguration.getWeightHighestNameResemblance());
+        model.setWeightInterfaceViolationIrrelevant(this.somoxConfiguration.getWeightInterfaceViolationIrrelevant());
+        model.setWeightInterfaceViolationRelevant(this.somoxConfiguration.getWeightInterfaceViolationRelevant());
+        model.setWeightLowCoupling(this.somoxConfiguration.getWeightLowCoupling());
+        model.setWeightLowNameResemblance(this.somoxConfiguration.getWeightLowNameResemblance());
+        model.setWeightLowSLAQ(this.somoxConfiguration.getWeightLowSLAQ());
+        model.setWeightMidNameResemblance(this.somoxConfiguration.getWeightMidNameResemblance());
+        model.setWeightPackageMapping(this.somoxConfiguration.getWeightPackageMapping());
+        model.setWildcardKey(getBlacklistString(this.somoxConfiguration.getBlacklist()));
+        model.setMinMergeThreshold(this.somoxConfiguration.getClusteringConfig().getMinMergeClusteringThreshold());
+        model.setMaxComposeThreshold(this.somoxConfiguration.getClusteringConfig().getMaxComposeClusteringThreshold());
+        model.setComposeThresholdDecrement(this.somoxConfiguration.getClusteringConfig()
+                .getClusteringComposeThresholdDecrement());
+        model.setMergeThresholdDecrement(this.somoxConfiguration.getClusteringConfig()
+                .getClusteringMergeThresholdDecrement());
+        model.setExcludedPrefixesForNameResemblance(this.somoxConfiguration.getExcludedPrefixesForNameResemblance());
+        model.setExcludedSuffixesForNameResemblance(this.somoxConfiguration.getExcludedSuffixesForNameResemblance());
+    }
 
 
-   private Iteration createCurrentIteration(
-         DirectedGraph<ComponentImplementingClassesLink, ClusteringRelation> metricsGraph, int iteration,
-         double currentComposeThreshold, double currentMergeThreshold,
-         List<ComponentImplementingClassesLink> componentCandidates, boolean isMergeIteration)
-   {
-      Iteration currentIteration = MetricvaluesFactory.eINSTANCE.createIteration();
-      currentIteration.setNumber(iteration);
-      currentIteration.setCurCompThreshold(currentComposeThreshold);
-      currentIteration.setCurMergeThreshold(currentMergeThreshold);
-      currentIteration.setIsMergeIteration(isMergeIteration);
-
-      createComponents(componentCandidates, currentIteration);
-      createComponentCandidates(metricsGraph, currentIteration);
-
-      return currentIteration;
-   }
+    private String getBlacklistString(final Set<String> blacklist)
+    {
+        final StringBuilder blacklistString = new StringBuilder();
+        for (final String string : blacklist)
+        {
+            blacklistString.append(string + SoMoXConfiguration.SOMOX_WILDCARD_DELIMITER);
+        }
+        return blacklistString.toString();
+    }
 
 
-   private void createComponentCandidates(
-         DirectedGraph<ComponentImplementingClassesLink, ClusteringRelation> metricsGraph, Iteration currentIteration)
-   {
-      Set<ClusteringRelation> edges = metricsGraph.edgeSet();
-      for (ClusteringRelation clusteringRelation : edges)
-      {
-         ComponentCandidate compCandidate = MetricvaluesFactory.eINSTANCE.createComponentCandidate();
-         RepositoryComponent compA = clusteringRelation.getComponentA().getComponent();
-         RepositoryComponent compB = clusteringRelation.getComponentB().getComponent();
+    private Iteration createCurrentIteration(
+            final DirectedGraph<ComponentImplementingClassesLink, ClusteringRelation> metricsGraph,
+            final int iteration,
+            final double currentThreshold,
+            final List<ComponentImplementingClassesLink> componentCandidates,
+            final boolean isMergeIteration)
+    {
+        final Iteration currentIteration = MetricvaluesFactory.eINSTANCE.createIteration();
+        currentIteration.setNumber(iteration);
+        // TODO FIXME: Depending on the isMergeIteration in any case only one of the values makes sense...
+        // so only current should be stored
+        currentIteration.setCurCompThreshold(currentThreshold);
+        currentIteration.setCurMergeThreshold(currentThreshold);
+        currentIteration.setIsMergeIteration(isMergeIteration);
 
-         for (Component component : currentIteration.getComponents())//REALLYCHANGEMF
-         {
-            if (component.getId().equals(compA.getId()))
+        createComponents(componentCandidates, currentIteration);
+        createComponentCandidates(metricsGraph, currentIteration);
+
+        return currentIteration;
+    }
+
+
+    private void createComponentCandidates(
+            final DirectedGraph<ComponentImplementingClassesLink, ClusteringRelation> metricsGraph, final Iteration currentIteration)
+    {
+        final Set<ClusteringRelation> edges = metricsGraph.edgeSet();
+        for (final ClusteringRelation clusteringRelation : edges)
+        {
+            final ComponentCandidate compCandidate = MetricvaluesFactory.eINSTANCE.createComponentCandidate();
+            final RepositoryComponent compA = clusteringRelation.getSourceComponent().getComponent();
+            final RepositoryComponent compB = clusteringRelation.getTargetComponent().getComponent();
+
+            for (final Component component : currentIteration.getComponents())//REALLYCHANGEMF
             {
-               compCandidate.setFirstComponent(component);
+                if (component.getId().equals(compA.getId()))
+                {
+                    compCandidate.setFirstComponent(component);
+                }
+                else if (component.getId().equals(compB.getId()))
+                {
+                    compCandidate.setSecondComponent(component);
+                }
             }
-            else if (component.getId().equals(compB.getId()))
-            {
-               compCandidate.setSecondComponent(component);
-            }
-         }
 
-         createMetricValue(clusteringRelation, compCandidate);
+            createMetricValue(clusteringRelation, compCandidate);
 
          currentIteration.getComponentCandidates().add( compCandidate);//REALLYCHANGEMF
       }
@@ -201,23 +206,23 @@ public class MetricValuesWriter
    }
 
 
-   private void createComponents(List<ComponentImplementingClassesLink> components, Iteration currentIteration)
-   {
-      for (ComponentImplementingClassesLink compLink : components)
-      {
-         Component component = createComponent(currentIteration, compLink);
+    private void createComponents(final List<ComponentImplementingClassesLink> components, final Iteration currentIteration)
+    {
+        for (final ComponentImplementingClassesLink compLink : components)
+        {
+            final Component component = createComponent(currentIteration, compLink);
 
          currentIteration.getComponents().add(component);//REALLYCHANGEMF
       }
    }
 
 
-   private Component createComponent(Iteration currentIteration, ComponentImplementingClassesLink compCand)
-   {
-      Component component = MetricvaluesFactory.eINSTANCE.createComponent();
-      RepositoryComponent comp = compCand.getComponent();
-      component.setId(comp.getId());
-      component.setName(comp.getEntityName());
+    private Component createComponent(final Iteration currentIteration, final ComponentImplementingClassesLink compCand)
+    {
+        final Component component = MetricvaluesFactory.eINSTANCE.createComponent();
+        final RepositoryComponent comp = compCand.getComponent();
+        component.setId(comp.getId());
+        component.setName(comp.getEntityName());
 
       List<Type  > classes = compCand.getImplementingClasses();
       for (Type gastClass : classes)
@@ -232,47 +237,47 @@ public class MetricValuesWriter
          component.getSubComponents().add(subComponent);//REALLYCHANGEMF
       }
 
-      return component;
-   }
+        return component;
+    }
 
 
-   // private Component createComponent(ComponentType comp)
-   // {
-   // Component component = MetricvaluesFactory.eINSTANCE.createComponent();
-   // if (comp instanceof CompositeComponent)
-   // {
-   // List<SubcomponentInstance> subcomponents = ((CompositeComponent) comp).getSubcomponents();
-   // for (SubcomponentInstance subcomponentInstance : subcomponents)
-   // {
-   // ComponentType subcomponent = subcomponentInstance.getRealizedBy();
-   // Component newComponent = createComponent(subcomponent);
-   // component.getSubComponentsList().add(newComponent);
-   // }
-   // }
-   //
-   // return component;
-   // }
+    // private Component createComponent(ComponentType comp)
+    // {
+    // Component component = MetricvaluesFactory.eINSTANCE.createComponent();
+    // if (comp instanceof CompositeComponent)
+    // {
+    // List<SubcomponentInstance> subcomponents = ((CompositeComponent) comp).getSubcomponents();
+    // for (SubcomponentInstance subcomponentInstance : subcomponents)
+    // {
+    // ComponentType subcomponent = subcomponentInstance.getRealizedBy();
+    // Component newComponent = createComponent(subcomponent);
+    // component.getSubComponentsList().add(newComponent);
+    // }
+    // }
+    //
+    // return component;
+    // }
 
 
-   private URI getMetricValuesPlatformResourceURI()
-   {
-      Properties properties = new Properties();
-      try
-      {
-         InputStream inStream = Activator.getDefault().getBundle().getEntry(CONFIG_METRIC_VALUES_MODEL_PROPERTIES_FILE)
-               .openStream();
-         properties.load(inStream);
-      }
-      catch (IOException e)
-      {
-         e.printStackTrace();
-      }
-      URI fileURI = URI.createPlatformResourceURI(
-            new File(this.somoxConfiguration.getFileLocations().getProjectName() + "/"
-                  + this.somoxConfiguration.getFileLocations().getOutputFolder() + "/"
-                  + properties.getProperty(CONFIG_METRIC_VALUES_MODEL_PATH)).getPath(), true);
-      return fileURI;
-   }
+    private URI getMetricValuesPlatformResourceURI()
+    {
+        final Properties properties = new Properties();
+        try
+        {
+            final InputStream inStream = Activator.getDefault().getBundle().getEntry(CONFIG_METRIC_VALUES_MODEL_PROPERTIES_FILE)
+                    .openStream();
+            properties.load(inStream);
+        }
+        catch (final IOException e)
+        {
+            e.printStackTrace();
+        }
+        final URI fileURI = URI.createPlatformResourceURI(
+                new File(this.somoxConfiguration.getFileLocations().getProjectName() + "/"
+                        + this.somoxConfiguration.getFileLocations().getOutputFolder() + "/"
+                        + properties.getProperty(CONFIG_METRIC_VALUES_MODEL_PATH)).getPath(), true);
+        return fileURI;
+    }
 
 
 }

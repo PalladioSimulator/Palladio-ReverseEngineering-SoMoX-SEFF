@@ -1,7 +1,7 @@
 package org.somox.metrics.ratio;
 
-import org.somox.metrics.AbstractRatioMetric;
 import org.somox.metrics.MetricID;
+import org.somox.metrics.abstractmetrics.AbstractRatioMetric;
 import org.somox.metrics.basic.InterfaceAccessesCount;
 import org.somox.metrics.basic.InternalAccessesCount;
 
@@ -15,29 +15,24 @@ import org.somox.metrics.basic.InternalAccessesCount;
  *
  */
 public class AdherenceToInterfaceCommunication extends AbstractRatioMetric {
-	public static final MetricID METRIC_ID = new MetricID("org.somox.metrics.AdherenceToInterfaceCommunication");
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isCommutative () {
-		return false;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public MetricID getMID () {
-		return METRIC_ID;
-	}
 
-	@Override
-	protected MetricID getNumeratorMetricID() {
-		return InterfaceAccessesCount.METRIC_ID;
-	}
+    public static final MetricID METRIC_ID = new MetricID("org.somox.metrics.AdherenceToInterfaceCommunication");
 
-	@Override
-	protected MetricID getDenominatorMetricID() {
-		return InternalAccessesCount.METRIC_ID;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MetricID getMID () {
+        return METRIC_ID;
+    }
+
+    @Override
+    protected MetricID getNumeratorMetricID() {
+        return InterfaceAccessesCount.METRIC_ID;
+    }
+
+    @Override
+    protected MetricID getDenominatorMetricID() {
+        return InternalAccessesCount.METRIC_ID;
+    }
 }

@@ -5,20 +5,19 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
+import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.types.Type;
 import org.jgrapht.DirectedGraph;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
-import org.somox.metrics.AbstractMetric;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.IMetric;
 import org.somox.metrics.MetricID;
+import org.somox.metrics.abstractmetrics.AbstractMetric;
 import org.somox.metrics.helper.ClassAccessGraphEdge;
 import org.somox.metrics.helper.ComponentToImplementingClassesHelper;
-import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.containers.*;
-import org.emftext.language.java.containers.Package;
 
 //import de.fzi.gast.core.Package;
 //import de.fzi.gast.core.Root;
@@ -53,7 +52,7 @@ public class SubsystemComponent extends AbstractMetric{
 	/**
 	 * {@inheritDoc}
 	 */
-	protected ClusteringRelation internalComputeDirected (
+	protected void internalComputeDirected (
 			ClusteringRelation relationToCompute) {
 		 
 
@@ -69,15 +68,15 @@ public class SubsystemComponent extends AbstractMetric{
 //		}
 		
 		//TODO: Refactor me!!!!
-		Set<Type> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentA());
-		Set<Type> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getComponentB());
+		Set<Type> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getSourceComponent());
+		Set<Type> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getTargetComponent());
 
 		//compute overall prefix
 		Package prefixPackage = computePrefix(classes1, classes2);
 		
 		if (prefixPackage == null) {
 			relationToCompute.setResultMetric(getMID(), 0.0);
-			return relationToCompute;
+			return;
 		}
 		
 		EList<Package> slices = prefixPackage.getChildrenByType(Package.class);
@@ -98,7 +97,7 @@ public class SubsystemComponent extends AbstractMetric{
 		//0 expected Subsystems, return 0.0
 		if (max == 0 || layers.size() == 0 || layers == null) {
 			relationToCompute.setResultMetric(getMID(), 0.0);
-			return relationToCompute;
+			return;
 		}
 		Package currentPackage = null;
 		for (Type currentElement : classes1) {
@@ -120,7 +119,7 @@ public class SubsystemComponent extends AbstractMetric{
 				} else {
 					if (! KDMHelper.computeFullQualifiedName(currentPackage).startsWith(subLayer)) {
 						relationToCompute.setResultMetric(getMID(), 0.0);
-						return relationToCompute;
+						return;
 					}
 				}
 			}
@@ -144,17 +143,16 @@ public class SubsystemComponent extends AbstractMetric{
 				} else {
 					if (! KDMHelper.computeFullQualifiedName(currentPackage).startsWith(subLayer)) {
 						relationToCompute.setResultMetric(getMID(), 0.0);
-						return relationToCompute;
+						return;
 					}
 				}
 			}
 
 		}
-		relationToCompute = sliceArchitectureMetric.computeDirected(relationToCompute);
-		assert relationToCompute.getResult().containsKey(sliceArchitectureMetric.getMID());
-		double slaq = relationToCompute.getResult().get(sliceArchitectureMetric.getMID());
-		relationToCompute.setResultMetric(getMID(), slaq);
-		return relationToCompute;
+        sliceArchitectureMetric.computeDirected(relationToCompute);
+        assert relationToCompute.getResult().containsKey(sliceArchitectureMetric.getMID());
+        final double slaq = relationToCompute.getResult().get(sliceArchitectureMetric.getMID());
+        relationToCompute.setResultMetric(getMID(), slaq);
 	}
 	
 	/**

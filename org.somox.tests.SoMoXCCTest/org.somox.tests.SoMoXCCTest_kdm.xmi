@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="ASCII"?>
+<kdm:Segment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:kdm="http://www.eclipse.org/MoDisco/kdm/kdm" xmlns:source="http://www.eclipse.org/MoDisco/kdm/source">
+  <model xsi:type="source:InventoryModel" name="org.somox.tests.SoMoXCCTest">
+    <inventoryElement xsi:type="source:Project" name="org.somox.tests.SoMoXCCTest">
+      <inventoryElement xsi:type="source:Configuration" name=".classpath" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.classpath"/>
+      <inventoryElement xsi:type="source:Configuration" name=".project" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.project"/>
+      <inventoryElement xsi:type="source:Directory" name=".settings" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.settings">
+        <inventoryElement xsi:type="source:Configuration" name="org.eclipse.jdt.core.prefs" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.settings/org.eclipse.jdt.core.prefs"/>
+      </inventoryElement>
+      <inventoryElement xsi:type="source:Directory" name=".svn" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn">
+        <inventoryElement xsi:type="source:SourceFile" name="entries" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/entries"/>
+        <inventoryElement xsi:type="source:SourceFile" name="format" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/format"/>
+        <inventoryElement xsi:type="source:Directory" name="pristine" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine">
+          <inventoryElement xsi:type="source:Directory" name="03" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/03">
+            <inventoryElement xsi:type="source:SourceFile" name="03e15fc09f27a00aab76f2307859220ea378f2f3.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/03/03e15fc09f27a00aab76f2307859220ea378f2f3.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="05" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/05">
+            <inventoryElement xsi:type="source:SourceFile" name="051ef75ba7e37225c4a78ceaf04ba08969e69e98.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/05/051ef75ba7e37225c4a78ceaf04ba08969e69e98.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="09" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/09">
+            <inventoryElement xsi:type="source:SourceFile" name="0967488c7657544dbee805c575283fa58db85908.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/09/0967488c7657544dbee805c575283fa58db85908.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="0e" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/0e">
+            <inventoryElement xsi:type="source:SourceFile" name="0ef1db05a85cfe5b3d3987d73f70b50e53750b00.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/0e/0ef1db05a85cfe5b3d3987d73f70b50e53750b00.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="1d" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/1d">
+            <inventoryElement xsi:type="source:SourceFile" name="1d283f6e721132f485b0c9580ac33925195eec9b.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/1d/1d283f6e721132f485b0c9580ac33925195eec9b.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="22" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/22">
+            <inventoryElement xsi:type="source:SourceFile" name="22ee0b0199b648be411c198a200daba33043ce39.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/22/22ee0b0199b648be411c198a200daba33043ce39.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="23" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/23">
+            <inventoryElement xsi:type="source:SourceFile" name="231e3707cce73140900fd9dd54d385e7319009d7.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/23/231e3707cce73140900fd9dd54d385e7319009d7.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="2e" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/2e">
+            <inventoryElement xsi:type="source:SourceFile" name="2ea714a03fbba3c3acf86a5bf4bad6d2d94804bf.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/2e/2ea714a03fbba3c3acf86a5bf4bad6d2d94804bf.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="38" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/38">
+            <inventoryElement xsi:type="source:SourceFile" name="388cd6cb70a5eb5fc413ba9e74c4d48c1d6de64b.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/38/388cd6cb70a5eb5fc413ba9e74c4d48c1d6de64b.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="45" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/45">
+            <inventoryElement xsi:type="source:SourceFile" name="450f3ad5760a18b9539ac6d03d6175e2b6720040.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/45/450f3ad5760a18b9539ac6d03d6175e2b6720040.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="4f" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/4f">
+            <inventoryElement xsi:type="source:SourceFile" name="4ff86e46df10198b8618e41556d1c1b83425454b.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/4f/4ff86e46df10198b8618e41556d1c1b83425454b.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="56" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/56">
+            <inventoryElement xsi:type="source:SourceFile" name="569a7edc6ebdd393a4ca6a23db818670f029aafe.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/56/569a7edc6ebdd393a4ca6a23db818670f029aafe.svn-base"/>
+            <inventoryElement xsi:type="source:SourceFile" name="56d3583566c09f80a5e49ed1a8d10c2005ad48de.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/56/56d3583566c09f80a5e49ed1a8d10c2005ad48de.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="5a" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/5a">
+            <inventoryElement xsi:type="source:SourceFile" name="5a8806bac92744052a70e62817dc57a45149639b.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/5a/5a8806bac92744052a70e62817dc57a45149639b.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="60" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/60">
+            <inventoryElement xsi:type="source:SourceFile" name="605c704bdd457fa9b3ee755b41919b11efd3a65b.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/60/605c704bdd457fa9b3ee755b41919b11efd3a65b.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="68" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/68">
+            <inventoryElement xsi:type="source:SourceFile" name="687a2c629efd06cb3ce42494d79c0c3996575d52.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/68/687a2c629efd06cb3ce42494d79c0c3996575d52.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="73" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/73">
+            <inventoryElement xsi:type="source:SourceFile" name="737cf0d21fcdeca7129ff8ba44b2539152353ae2.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/73/737cf0d21fcdeca7129ff8ba44b2539152353ae2.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="75" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/75">
+            <inventoryElement xsi:type="source:SourceFile" name="75d4ebeff3c16e7fcb3934a2c3316ca91fa4d812.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/75/75d4ebeff3c16e7fcb3934a2c3316ca91fa4d812.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="89" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/89">
+            <inventoryElement xsi:type="source:SourceFile" name="897ec363f30e908b2c1080026c496472cbc5683c.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/89/897ec363f30e908b2c1080026c496472cbc5683c.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="8c" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/8c">
+            <inventoryElement xsi:type="source:SourceFile" name="8cebd7ecc7e2ccc40f111172205577de84e10a88.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/8c/8cebd7ecc7e2ccc40f111172205577de84e10a88.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="92" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/92">
+            <inventoryElement xsi:type="source:SourceFile" name="9267648a6666dc763154a8b572e79c68cc0f87f4.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/92/9267648a6666dc763154a8b572e79c68cc0f87f4.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="ad" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/ad">
+            <inventoryElement xsi:type="source:SourceFile" name="adb91c4e19dd444e61e93b75e05b1128af6b428c.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/ad/adb91c4e19dd444e61e93b75e05b1128af6b428c.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="b0" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/b0">
+            <inventoryElement xsi:type="source:SourceFile" name="b04a3fa446568c834b73f05ec092c519d2fdd42b.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/b0/b04a3fa446568c834b73f05ec092c519d2fdd42b.svn-base"/>
+            <inventoryElement xsi:type="source:SourceFile" name="b0969478a84b3d5c5edc7df960d4f61c622f1fff.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/b0/b0969478a84b3d5c5edc7df960d4f61c622f1fff.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="b4" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/b4">
+            <inventoryElement xsi:type="source:SourceFile" name="b42166e3c1fa543ff22f9faa5955fec89b1e1e24.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/b4/b42166e3c1fa543ff22f9faa5955fec89b1e1e24.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="b5" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/b5">
+            <inventoryElement xsi:type="source:SourceFile" name="b58fdc00ee17c865f8481562ff74d4091c4cabdb.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/b5/b58fdc00ee17c865f8481562ff74d4091c4cabdb.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="b8" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/b8">
+            <inventoryElement xsi:type="source:SourceFile" name="b871a406b31b850f5e1d7251f9c8e368fe6972be.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/b8/b871a406b31b850f5e1d7251f9c8e368fe6972be.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="b9" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/b9">
+            <inventoryElement xsi:type="source:SourceFile" name="b91f5cf947ac686fcba75e9471487c16c4058bb6.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/b9/b91f5cf947ac686fcba75e9471487c16c4058bb6.svn-base"/>
+            <inventoryElement xsi:type="source:SourceFile" name="b9bceb8f6f82f4efd738746fedad9ce8455a4c0c.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/b9/b9bceb8f6f82f4efd738746fedad9ce8455a4c0c.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="bc" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/bc">
+            <inventoryElement xsi:type="source:SourceFile" name="bceab6842b215aa2a8ded29f8e8e9b6ff4b39c0e.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/bc/bceab6842b215aa2a8ded29f8e8e9b6ff4b39c0e.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="bf" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/bf">
+            <inventoryElement xsi:type="source:SourceFile" name="bf98c270e3309e5c3481b9b5ba06241f2a8933f2.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/bf/bf98c270e3309e5c3481b9b5ba06241f2a8933f2.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="c1" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/c1">
+            <inventoryElement xsi:type="source:SourceFile" name="c1a5eae56af47564e539abec96dc930df0ff0629.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/c1/c1a5eae56af47564e539abec96dc930df0ff0629.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="c8" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/c8">
+            <inventoryElement xsi:type="source:SourceFile" name="c8e61e613f8c5c5e91027c300f0912ff37a4e0f5.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/c8/c8e61e613f8c5c5e91027c300f0912ff37a4e0f5.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="d3" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/d3">
+            <inventoryElement xsi:type="source:SourceFile" name="d3e78a78163662e2c4a89a361faf2533a68bbf30.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/d3/d3e78a78163662e2c4a89a361faf2533a68bbf30.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="da" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/da">
+            <inventoryElement xsi:type="source:SourceFile" name="da16b1145331b3937317267395cfa6139124b13f.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/da/da16b1145331b3937317267395cfa6139124b13f.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="e0" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/e0">
+            <inventoryElement xsi:type="source:SourceFile" name="e0036e29e96f4850cf3598a9f4a6e9ff405daaae.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/e0/e0036e29e96f4850cf3598a9f4a6e9ff405daaae.svn-base"/>
+          </inventoryElement>
+          <inventoryElement xsi:type="source:Directory" name="e2" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/e2">
+            <inventoryElement xsi:type="source:SourceFile" name="e2e2a03ffea7e11a3d04b48c93f8fba0a1d6e3b9.svn-base" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/pristine/e2/e2e2a03ffea7e11a3d04b48c93f8fba0a1d6e3b9.svn-base"/>
+          </inventoryElement>
+        </inventoryElement>
+        <inventoryElement xsi:type="source:Directory" name="tmp" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/tmp"/>
+        <inventoryElement xsi:type="source:BinaryFile" name="wc.db" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/.svn/wc.db"/>
+      </inventoryElement>
+      <inventoryElement xsi:type="source:Directory" name="bin" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin">
+        <inventoryElement xsi:type="source:Directory" name="org" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org">
+          <inventoryElement xsi:type="source:Directory" name="somox" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox">
+            <inventoryElement xsi:type="source:Directory" name="core" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core">
+              <inventoryElement xsi:type="source:BinaryFile" name="Core.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/Core.class"/>
+              <inventoryElement xsi:type="source:Directory" name="furtherRequired" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/furtherRequired">
+                <inventoryElement xsi:type="source:BinaryFile" name="IRequiredExt1.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/furtherRequired/IRequiredExt1.class"/>
+                <inventoryElement xsi:type="source:BinaryFile" name="IRequiredExt2.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/furtherRequired/IRequiredExt2.class"/>
+              </inventoryElement>
+              <inventoryElement xsi:type="source:BinaryFile" name="Helper.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/Helper.class"/>
+              <inventoryElement xsi:type="source:BinaryFile" name="ICore.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/ICore.class"/>
+              <inventoryElement xsi:type="source:BinaryFile" name="ICoreParent.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/ICoreParent.class"/>
+              <inventoryElement xsi:type="source:BinaryFile" name="IProvided.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/IProvided.class"/>
+              <inventoryElement xsi:type="source:BinaryFile" name="IRequired1.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/IRequired1.class"/>
+              <inventoryElement xsi:type="source:BinaryFile" name="IRequired2.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/IRequired2.class"/>
+              <inventoryElement xsi:type="source:Directory" name="subcore" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/subcore">
+                <inventoryElement xsi:type="source:BinaryFile" name="MyClass1.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/subcore/MyClass1.class"/>
+                <inventoryElement xsi:type="source:BinaryFile" name="MyClass2.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/subcore/MyClass2.class"/>
+                <inventoryElement xsi:type="source:Directory" name="sub2" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/subcore/sub2">
+                  <inventoryElement xsi:type="source:BinaryFile" name="SubSubClass.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/subcore/sub2/SubSubClass.class"/>
+                </inventoryElement>
+              </inventoryElement>
+              <inventoryElement xsi:type="source:Directory" name="subcore2" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/subcore2">
+                <inventoryElement xsi:type="source:BinaryFile" name="MySingleClass.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/subcore2/MySingleClass.class"/>
+              </inventoryElement>
+              <inventoryElement xsi:type="source:BinaryFile" name="WithCore.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/core/WithCore.class"/>
+            </inventoryElement>
+            <inventoryElement xsi:type="source:Directory" name="data" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/data">
+              <inventoryElement xsi:type="source:BinaryFile" name="Data.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/data/Data.class"/>
+              <inventoryElement xsi:type="source:BinaryFile" name="Data2.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/data/Data2.class"/>
+              <inventoryElement xsi:type="source:BinaryFile" name="Data3.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/data/Data3.class"/>
+              <inventoryElement xsi:type="source:BinaryFile" name="Data4.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/data/Data4.class"/>
+              <inventoryElement xsi:type="source:BinaryFile" name="Data5.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/data/Data5.class"/>
+            </inventoryElement>
+            <inventoryElement xsi:type="source:BinaryFile" name="Main.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/Main.class"/>
+            <inventoryElement xsi:type="source:Directory" name="ui" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/ui">
+              <inventoryElement xsi:type="source:BinaryFile" name="SomoXUI1.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/ui/SomoXUI1.class"/>
+              <inventoryElement xsi:type="source:BinaryFile" name="SoMoXUI2.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/ui/SoMoXUI2.class"/>
+              <inventoryElement xsi:type="source:BinaryFile" name="UI.class" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/bin/org/somox/ui/UI.class"/>
+            </inventoryElement>
+          </inventoryElement>
+        </inventoryElement>
+      </inventoryElement>
+      <inventoryElement xsi:type="source:Directory" name="model" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/model">
+        <inventoryElement xsi:type="source:SourceFile" name="internal_architecture_model.samm_gastbehaviour" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/model/internal_architecture_model.samm_gastbehaviour"/>
+        <inventoryElement xsi:type="source:SourceFile" name="internal_architecture_model.samm_repository" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/model/internal_architecture_model.samm_repository"/>
+        <inventoryElement xsi:type="source:SourceFile" name="internal_architecture_model.samm_seff" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/model/internal_architecture_model.samm_seff"/>
+        <inventoryElement xsi:type="source:SourceFile" name="internal_architecture_model.sourcecodedecorator" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/model/internal_architecture_model.sourcecodedecorator"/>
+      </inventoryElement>
+      <inventoryElement xsi:type="source:SourceFile" name="org.somox.tests.SoMoXCCTest_java.xmi" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/org.somox.tests.SoMoXCCTest_java.xmi"/>
+      <inventoryElement xsi:type="source:SourceFile" name="PCM.repository" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/PCM.repository"/>
+      <inventoryElement xsi:type="source:SourceFile" name="SISSyRun - org.somox.tests.SoMoXCCTest.launch" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/SISSyRun - org.somox.tests.SoMoXCCTest.launch"/>
+      <inventoryElement xsi:type="source:SourceFile" name="SoMoX-launch.launch" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/SoMoX-launch.launch"/>
+      <inventoryElement xsi:type="source:SourceFile" name="SoMoXCCTest-exp.gast" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/SoMoXCCTest-exp.gast"/>
+      <inventoryElement xsi:type="source:SourceFile" name="SoMoXCCTest-out.gast" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/SoMoXCCTest-out.gast"/>
+      <inventoryElement xsi:type="source:SourceFile" name="SoMoXCCTest.gast" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/SoMoXCCTest.gast"/>
+      <inventoryElement xsi:type="source:SourceFile" name="SoMoXCCTest.provreqid" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/SoMoXCCTest.provreqid"/>
+      <inventoryElement xsi:type="source:Directory" name="src" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src">
+        <inventoryElement xsi:type="source:Directory" name="org" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org">
+          <inventoryElement xsi:type="source:Directory" name="somox" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox">
+            <inventoryElement xsi:type="source:Directory" name="core" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core">
+              <inventoryElement xsi:type="source:SourceFile" name="Core.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/Core.java"/>
+              <inventoryElement xsi:type="source:Directory" name="furtherRequired" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/furtherRequired">
+                <inventoryElement xsi:type="source:SourceFile" name="IRequiredExt1.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/furtherRequired/IRequiredExt1.java"/>
+                <inventoryElement xsi:type="source:SourceFile" name="IRequiredExt2.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/furtherRequired/IRequiredExt2.java"/>
+              </inventoryElement>
+              <inventoryElement xsi:type="source:SourceFile" name="Helper.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/Helper.java"/>
+              <inventoryElement xsi:type="source:SourceFile" name="ICore.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/ICore.java"/>
+              <inventoryElement xsi:type="source:SourceFile" name="ICoreParent.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/ICoreParent.java"/>
+              <inventoryElement xsi:type="source:SourceFile" name="IProvided.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/IProvided.java"/>
+              <inventoryElement xsi:type="source:SourceFile" name="IRequired1.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/IRequired1.java"/>
+              <inventoryElement xsi:type="source:SourceFile" name="IRequired2.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/IRequired2.java"/>
+              <inventoryElement xsi:type="source:Directory" name="subcore" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/subcore">
+                <inventoryElement xsi:type="source:SourceFile" name="MyClass1.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/subcore/MyClass1.java"/>
+                <inventoryElement xsi:type="source:SourceFile" name="MyClass2.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/subcore/MyClass2.java"/>
+                <inventoryElement xsi:type="source:Directory" name="sub2" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/subcore/sub2">
+                  <inventoryElement xsi:type="source:SourceFile" name="SubSubClass.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/subcore/sub2/SubSubClass.java"/>
+                </inventoryElement>
+              </inventoryElement>
+              <inventoryElement xsi:type="source:Directory" name="subcore2" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/subcore2">
+                <inventoryElement xsi:type="source:SourceFile" name="MySingleClass.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/subcore2/MySingleClass.java"/>
+              </inventoryElement>
+              <inventoryElement xsi:type="source:SourceFile" name="WithCore.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/core/WithCore.java"/>
+            </inventoryElement>
+            <inventoryElement xsi:type="source:Directory" name="data" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/data">
+              <inventoryElement xsi:type="source:SourceFile" name="Data.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/data/Data.java"/>
+              <inventoryElement xsi:type="source:SourceFile" name="Data2.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/data/Data2.java"/>
+              <inventoryElement xsi:type="source:SourceFile" name="Data3.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/data/Data3.java"/>
+              <inventoryElement xsi:type="source:SourceFile" name="Data4.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/data/Data4.java"/>
+              <inventoryElement xsi:type="source:SourceFile" name="Data5.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/data/Data5.java"/>
+            </inventoryElement>
+            <inventoryElement xsi:type="source:SourceFile" name="Main.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/Main.java"/>
+            <inventoryElement xsi:type="source:Directory" name="ui" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/ui">
+              <inventoryElement xsi:type="source:SourceFile" name="SomoXUI1.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/ui/SomoXUI1.java"/>
+              <inventoryElement xsi:type="source:SourceFile" name="SoMoXUI2.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/ui/SoMoXUI2.java"/>
+              <inventoryElement xsi:type="source:SourceFile" name="UI.java" path="/Users/snowball_ssd/Documents/workspaces/workspace_pcmindigo/org.somox.tests.SoMoXCCTest/src/org/somox/ui/UI.java"/>
+            </inventoryElement>
+          </inventoryElement>
+        </inventoryElement>
+      </inventoryElement>
+    </inventoryElement>
+  </model>
+</kdm:Segment>

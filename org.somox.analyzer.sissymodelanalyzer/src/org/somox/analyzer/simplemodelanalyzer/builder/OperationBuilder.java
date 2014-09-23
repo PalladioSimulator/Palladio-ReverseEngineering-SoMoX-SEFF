@@ -33,32 +33,17 @@ import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.GetAccessedType;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
-//import de.fzi.gast.core.Root;
-//import de.fzi.gast.functions.Method;
-//import de.fzi.gast.types.GASTClass;
-//import de.fzi.gast.types.Visibilities;
-//import de.fzi.gast.variables.FormalParameter;
-//import eu.qimpress.samm.datatypes.CollectionDataType;
-//import eu.qimpress.samm.datatypes.ComplexDataType;
-//import eu.qimpress.samm.datatypes.DatatypesFactory;
-//import eu.qimpress.samm.datatypes.InnerElement;
-//import eu.qimpress.samm.datatypes.PrimitiveDataType;
-//import eu.qimpress.samm.datatypes.XSDPrimitiveDataTypes;
-//import eu.qimpress.samm.staticstructure.Interface;
-//import eu.qimpress.samm.staticstructure.MessageType;
-//import eu.qimpress.samm.staticstructure.Operation;
-//import eu.qimpress.samm.staticstructure.Parameter;
-//import eu.qimpress.samm.staticstructure.Repository;
-//import eu.qimpress.samm.staticstructure.StaticstructureFactory;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
+import de.uka.ipd.sdq.pcm.repository.CollectionDataType;
 import de.uka.ipd.sdq.pcm.repository.CompositeDataType;
 import de.uka.ipd.sdq.pcm.repository.DataType;
 import de.uka.ipd.sdq.pcm.repository.InnerDeclaration;
 import de.uka.ipd.sdq.pcm.repository.OperationInterface;
 import de.uka.ipd.sdq.pcm.repository.OperationSignature;
 import de.uka.ipd.sdq.pcm.repository.Parameter;
+import de.uka.ipd.sdq.pcm.repository.PrimitiveDataType;
 import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
 
 /**
@@ -167,11 +152,12 @@ public class OperationBuilder extends AbstractBuilder {
 		OperationSignature operation = RepositoryFactory.eINSTANCE.createOperationSignature();
 		String nameForMethod = createNonExistingNameInInterface(method, interf);
 		operation.setEntityName(nameForMethod);
-		
+
 		updateSourceCodeDecorator(operation, method);
 		// Variable statt SingleVariableDeclaration
 		for (Variable inputParameter : method.getParameters()) {
-			Parameter opSigParam = RepositoryFactory.eINSTANCE.createParameter();
+			Parameter opSigParam = RepositoryFactory.eINSTANCE
+					.createParameter();
 			opSigParam.setParameterName(inputParameter.getName());
 			//inputParameter.getTypeReference() statt inputParameter.getType()
 			Type accessedType = GetAccessedType.getAccessedType(inputParameter.getTypeReference());
@@ -179,8 +165,10 @@ public class OperationBuilder extends AbstractBuilder {
 				DataType type = getType(accessedType, this.analysisResult.getInternalArchitectureModel());
 				opSigParam.setDataType__Parameter(type);				
 			} else {
-				logger.error("Input parameter type was null. Could not set the parameter type \"" +
-						inputParameter.getName() + "\" of method \"" + method.getName() + "\"");
+				logger.error("Input parameter type was null. Could not set the parameter type \""
+						+ inputParameter.getName()
+						+ "\" of method \""
+						+ method.getName() + "\"");
 				continue;
 			}
 			opSigParam.setOperationSignature__Parameter(operation);
@@ -192,19 +180,7 @@ public class OperationBuilder extends AbstractBuilder {
 					getType(GetAccessedType.getAccessedType(method.getTypeReference()), 
 							this.analysisResult.getInternalArchitectureModel()));				
 		}
-		
-		
-//		TODO SAMM2PCM removed
-//		if (paramNames.size() > 0) {
-//			MessageType messageType = findMessageTypeInRepository(paramNames, paramTypes);
-//			if (messageType == null) {
-//				messageType = createMessageType(paramNames, paramTypes);
-//			}
-//			if(messageType != null) { //newly created message type can still be null
-//				operation.setInput(messageType);
-//			}
-//		}
-		
+
 		return operation;
 	}
 
@@ -416,9 +392,9 @@ public class OperationBuilder extends AbstractBuilder {
 		} else if (gastType instanceof ArrayInstantiationByValuesTyped) {
 			// ArrayTypeable statt ArrayType
 			ArrayInstantiationByValuesTyped  arrayType = (ArrayInstantiationByValuesTyped) gastType;
-			// Create a collection data type:
 			newType = RepositoryFactory.eINSTANCE.createCollectionDataType();
-			repository.getDataTypes__Repository().add(newType);
+			((CollectionDataType)newType).setEntityName(typeName);
+			repository.getDataTypes__Repository().add(newType); 
 			logger.debug("found collection type " + typeName);
 			// set inner type:
 			DataType innerType = getType(arrayType.getReferencedType(), repository);
@@ -433,7 +409,6 @@ public class OperationBuilder extends AbstractBuilder {
 				// create a complex data type:
 				newType = RepositoryFactory.eINSTANCE.createCompositeDataType();
 				repository.getDataTypes__Repository().add(newType);
-
 				// set inner types:
 				for (Type currentClass : KDMHelper
 						.getAllAccessedClasses(gastType)) {
@@ -497,21 +472,26 @@ public class OperationBuilder extends AbstractBuilder {
 	 * 
 	 * @param gastTypeName
 	 * @param repository
-	 * @return null if not found
+	 * @return the found data type null if not found
 	 */
 	private DataType getExistingTypeByName(String gastTypeName,
 			de.uka.ipd.sdq.pcm.repository.Repository repository) {
 		gastTypeName = getUnifiedTypeName(gastTypeName);
-
+		//TODO: use hash map to look up instead of iterating over all datatypes
 		for (DataType currentType : repository.getDataTypes__Repository()) {
-			if (currentType.getRepository__DataType().getEntityName()
-					.toLowerCase().equals(gastTypeName.toLowerCase())) {
+			String pcmTypeName = null;
+			if(currentType instanceof CompositeDataType){
+				pcmTypeName = ((CompositeDataType)currentType).getEntityName();
+			}else if(currentType instanceof CollectionDataType){
+				pcmTypeName = ((CollectionDataType)currentType).getEntityName();
+			}else if(currentType instanceof PrimitiveDataType){
+				pcmTypeName = ((PrimitiveDataType)currentType).getType().getName();
+			}
+			if (gastTypeName.equals(pcmTypeName)){
 				return currentType;
 			}
 		}
-
 		logger.info("no type found for " + gastTypeName + ". Type will be created.");
 		return null;
 	}
-
 }

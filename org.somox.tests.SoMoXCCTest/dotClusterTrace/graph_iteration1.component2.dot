@@ -1,0 +1,6 @@
+digraph G {
+"org.somox.core.subcore.MyClass2";
+"org.somox.core.subcore.MyClass1";
+"org.somox.core.subcore.MyClass1" -> "org.somox.core.subcore.MyClass2" [label="AfferentCoupling = 7,00\nDefaultMergeIndicatingMetric = ,46\nSubsystemComponent = ,00\nAbstractness = ,00\nPackageMapping = 1,00\nExternalAccessesCount = 4,00\nAbstractTypesCount = ,00\nInstability = ,36\nDMS = ,64\nAdherenceToInterfaceCommunication = ,00\nCoupling = ,50\nSliceLayerArchitectureQuality = 1,00\nTotalTypesCount = 2,00\nEfferentCoupling = 4,00\nInternalAccessesCount = 2,00\nNameResemblance = ,97\nDirectoryMapping = 1,00\nDefaultCompositionIndicatingMetric = ,42\nInterfaceAccessesCount = ,00\n"];
+"org.somox.core.subcore.MyClass2" -> "org.somox.core.subcore.MyClass1" [label="AfferentCoupling = 7,00\nDefaultMergeIndicatingMetric = ,46\nSubsystemComponent = ,00\nAbstractness = ,00\nPackageMapping = 1,00\nExternalAccessesCount = 4,00\nAbstractTypesCount = ,00\nInstability = ,36\nAdherenceToInterfaceCommunication = ,00\nDMS = ,64\nCoupling = ,50\nSliceLayerArchitectureQuality = 1,00\nTotalTypesCount = 2,00\nEfferentCoupling = 4,00\nInternalAccessesCount = 2,00\nNameResemblance = ,97\nDirectoryMapping = 1,00\nDefaultCompositionIndicatingMetric = ,42\nInterfaceAccessesCount = ,00\n"];
+}

@@ -3,10 +3,10 @@ package org.somox.metrics.ratio;
 import java.util.Map;
 
 import org.somox.configuration.SoMoXConfiguration;
-import org.somox.metrics.AbstractComposedMetric;
 import org.somox.metrics.ICompositionFunction;
 import org.somox.metrics.IMetric;
 import org.somox.metrics.MetricID;
+import org.somox.metrics.abstractmetrics.AbstractComposedMetric;
 
 /**
  * DMS metric, calculated by using Abstractness and Instability

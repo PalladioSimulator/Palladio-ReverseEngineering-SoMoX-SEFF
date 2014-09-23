@@ -4,10 +4,10 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.somox.configuration.SoMoXConfiguration;
-import org.somox.metrics.AbstractComposedMetric;
 import org.somox.metrics.ICompositionFunction;
 import org.somox.metrics.IMetric;
 import org.somox.metrics.MetricID;
+import org.somox.metrics.abstractmetrics.AbstractComposedMetric;
 import org.somox.metrics.hierarchy.DirectoryMapping;
 import org.somox.metrics.hierarchy.PackageMapping;
 import org.somox.metrics.naming.NameResemblance;

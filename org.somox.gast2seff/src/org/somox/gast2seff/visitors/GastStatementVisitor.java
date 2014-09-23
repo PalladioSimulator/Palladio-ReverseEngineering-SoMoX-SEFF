@@ -4,41 +4,27 @@ package org.somox.gast2seff.visitors;
 
 import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.internal.resources.VariableDescription;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.ClassMethod;
-import org.emftext.language.java.members.Method;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferenceableElement;
+import org.emftext.language.java.statements.Assert;
 import org.emftext.language.java.statements.Block;
-import org.emftext.language.java.statements.Switch;
-//import org.eclipse.gmt.modisco.java.ASTNode;
+import org.emftext.language.java.statements.Condition;
+import org.emftext.language.java.statements.ExpressionStatement;
+import org.emftext.language.java.statements.ForLoop;
+import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Statement;
-import org.emftext.language.java.statements.impl.*;
-import org.emftext.language.java.statements.*;
+import org.emftext.language.java.statements.Switch;
+import org.emftext.language.java.statements.TryBlock;
+import org.emftext.language.java.statements.WhileLoop;
 import org.emftext.language.java.util.JavaSwitch;
-//import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
-//import org.eclipse.gmt.modisco.java.AssertStatement;
-//import org.emftext.language.java.statements.Block;
-//import org.eclipse.gmt.modisco.java.EnhancedForStatement;
-//import org.eclipse.gmt.modisco.java.ExpressionStatement;
-//import org.eclipse.gmt.modisco.java.ForStatement;
-//import org.eclipse.gmt.modisco.java.IfStatement;
-//
-//import org.eclipse.gmt.modisco.java.SwitchStatement;
-//import org.eclipse.gmt.modisco.java.TryStatement;
-//import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
-//import org.eclipse.gmt.modisco.java.WhileStatement;
-//import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
-//
-//import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
 import org.somox.gast2seff.jobs.GAST2SEFFJob;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
 import org.somox.kdmhelper.GetAccessedType;
@@ -415,6 +401,7 @@ public class GastStatementVisitor extends JavaSwitch<Object> {// GAST2SEFFCHANGE
         return this.handleFormerSimpleStatement(object);
     }
 
+    
     /**
      * Returns true if the statement with thisType should not generate an action in the newly
      * generated SEFF.
