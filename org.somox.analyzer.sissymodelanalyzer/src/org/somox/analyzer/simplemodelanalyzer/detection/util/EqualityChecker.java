@@ -46,7 +46,13 @@ public class EqualityChecker {
 		}					
 		
 		for(int i = 0; i < function1.getParameters().size(); i++) { //parameter types
+			//PDF24.11.14: handles null-references (avoids some errors)
+			if(function1.getParameters().get(i).getTypeReference().getTarget() == null && function2.getParameters().get(i).getTypeReference().getTarget() == null ) continue;
+			if(function1.getParameters().get(i).getTypeReference().getTarget() == null) return false;
+			if(function2.getParameters().get(i).getTypeReference().getTarget() == null) return false;
+			//PDF END
 			if(! function1.getParameters().get(i).getTypeReference().getTarget().equals(function2.getParameters().get(i).getTypeReference().getTarget()) ) {
+
 				return false;
 			}
 			

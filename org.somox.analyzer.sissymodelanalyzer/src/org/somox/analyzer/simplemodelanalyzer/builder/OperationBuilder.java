@@ -373,8 +373,8 @@ public class OperationBuilder extends AbstractBuilder {
 			de.uka.ipd.sdq.pcm.repository.Repository repository, Type gastType) {
 		String typeName = KDMHelper.getName(gastType);
 		typeName = getUnifiedTypeName(typeName);
-
 		DataType newType = null;
+		System.out.println("-----------------------" + typeName);
 		if (typeName.equalsIgnoreCase("void")) {
 			// do nothing
 		} else if (typeName.equalsIgnoreCase("integer")) {
@@ -389,6 +389,9 @@ public class OperationBuilder extends AbstractBuilder {
 			return DefaultResourceEnvironment.getPrimitiveDataTypeChar();
 		} else if (typeName.equalsIgnoreCase("byte")) {
 			return DefaultResourceEnvironment.getPrimitiveDataTypeByte();
+			//PDF27.11: added java String data type as PCM-Repo composite datatype	TODO: not working
+		} else if (typeName.equalsIgnoreCase("String")) {
+			return DefaultResourceEnvironment.getPrimitiveDataTypeString();
 		} else if (gastType instanceof ArrayInstantiationByValuesTyped) {
 			// ArrayTypeable statt ArrayType
 			ArrayInstantiationByValuesTyped  arrayType = (ArrayInstantiationByValuesTyped) gastType;
@@ -409,7 +412,28 @@ public class OperationBuilder extends AbstractBuilder {
 				// create a complex data type:
 				newType = RepositoryFactory.eINSTANCE.createCompositeDataType();
 				repository.getDataTypes__Repository().add(newType);
-				// set inner types:
+				
+				
+				// set inner types: //TODO PDF23.11.14: disabled due to stackoverflow error
+//				for (Type currentClass : KDMHelper
+//						.getAllAccessedClasses(gastType)) {
+//					// avoid self-references and void as access
+//					if (!currentClass.equals(gastType)
+//							&& !KDMHelper.getName(currentClass).equals("void")) {
+//						String tmpInnerTypeName = KDMHelper.getName(currentClass);
+//						;
+//						InnerDeclaration innerElement = RepositoryFactory.eINSTANCE
+//								.createInnerDeclaration();
+//						innerElement.setDatatype_InnerDeclaration(getType(
+//								currentClass, repository));
+//						innerElement.setEntityName(tmpInnerTypeName);
+//						((CompositeDataType) newType)
+//								.getInnerDeclaration_CompositeDataType().add(
+//										innerElement);
+//					}
+//				}
+				
+				//TODO: PDF 23.11.14: modified version of above with dirty hack that avoids a stackoverflow error
 				for (Type currentClass : KDMHelper
 						.getAllAccessedClasses(gastType)) {
 					// avoid self-references and void as access
@@ -419,13 +443,16 @@ public class OperationBuilder extends AbstractBuilder {
 						;
 						InnerDeclaration innerElement = RepositoryFactory.eINSTANCE
 								.createInnerDeclaration();
-						innerElement.setDatatype_InnerDeclaration(getType(
-								currentClass, repository));
+						//PDF23.11: sets the type of the inner elements to Integer (AVOIDS ERRORS; NOT CORRECT!)
+						innerElement.setDatatype_InnerDeclaration(DefaultResourceEnvironment.getPrimitiveDataTypeInteger());
 						innerElement.setEntityName(tmpInnerTypeName);
 						((CompositeDataType) newType)
 								.getInnerDeclaration_CompositeDataType().add(
 										innerElement);
+						//PDF24.11: sets Datatype name; visible in PCM repo files
+						((CompositeDataType) newType).setEntityName(typeName);
 					}
+		
 				}
 			}
 		}
@@ -482,6 +509,7 @@ public class OperationBuilder extends AbstractBuilder {
 			String pcmTypeName = null;
 			if(currentType instanceof CompositeDataType){
 				pcmTypeName = ((CompositeDataType)currentType).getEntityName();
+
 			}else if(currentType instanceof CollectionDataType){
 				pcmTypeName = ((CollectionDataType)currentType).getEntityName();
 			}else if(currentType instanceof PrimitiveDataType){
