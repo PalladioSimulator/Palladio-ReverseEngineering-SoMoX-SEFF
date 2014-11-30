@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Field;
+import org.emftext.language.java.members.InterfaceMethod;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.types.Type;
 import org.somox.kdmhelper.KDMHelper;
@@ -65,7 +66,12 @@ public class BlacklistFilter extends BaseFilter<Type> {
 				container = container.eContainer();
 			} else if (container instanceof Field) {
 				container = container.eContainer();
-			}
+			}//PDF24.11.14: check for interface methods (avoids errors)
+			else if(container instanceof InterfaceMethod)
+            {
+                   container = container.eContainer();
+            }
+
 			String fqn = KDMHelper.computeFullQualifiedName((Type) container);
 			result = matchPattern.matcher(fqn).matches();
 			if (logger.isTraceEnabled()) {
