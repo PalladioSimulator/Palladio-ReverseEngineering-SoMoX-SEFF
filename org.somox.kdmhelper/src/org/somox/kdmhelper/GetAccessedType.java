@@ -44,10 +44,15 @@ public class GetAccessedType {
 		}
 	}
 
+	//PDF24.11.14: changed if-statements to avoid classcastexception in some cases
 	public static Type getAccessedType(MethodCall methodCall) {
 		if (methodCall != null) {
-			ClassMethod method = (ClassMethod) methodCall.getTarget();
-			return getAccessedType(method.getTypeReference());
+			if(methodCall instanceof ClassMethod)
+			{
+				ClassMethod method = (ClassMethod) methodCall.getTarget();
+				return getAccessedType(method.getTypeReference());
+			}
+			return null; //TODO: shouldn't there be even more cases? is null correct for all !methodCall instances?
 		} else {
 			return null;
 		}
