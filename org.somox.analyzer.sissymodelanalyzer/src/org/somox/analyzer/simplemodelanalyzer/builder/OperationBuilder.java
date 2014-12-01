@@ -374,7 +374,6 @@ public class OperationBuilder extends AbstractBuilder {
 		String typeName = KDMHelper.getName(gastType);
 		typeName = getUnifiedTypeName(typeName);
 		DataType newType = null;
-		System.out.println("-----------------------" + typeName);
 		if (typeName.equalsIgnoreCase("void")) {
 			// do nothing
 		} else if (typeName.equalsIgnoreCase("integer")) {
