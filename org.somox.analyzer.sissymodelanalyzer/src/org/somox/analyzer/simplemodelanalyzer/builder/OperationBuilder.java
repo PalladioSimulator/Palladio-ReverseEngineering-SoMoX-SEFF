@@ -13,6 +13,8 @@ import org.eclipse.emf.common.util.EList;
 //import org.eclipse.gmt.modisco.java.VisibilityKind;
 
 import org.emftext.language.java.members.Method;
+import org.emftext.language.java.types.ClassifierReference;
+import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.*;
 import org.emftext.language.java.arrays.ArrayDimension;
@@ -23,6 +25,7 @@ import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.types.PrimitiveType;
+import org.emftext.language.java.types.impl.ClassifierReferenceImpl;
 import org.emftext.language.java.variables.Variable;
 
 
@@ -155,20 +158,42 @@ public class OperationBuilder extends AbstractBuilder {
 
 		updateSourceCodeDecorator(operation, method);
 		// Variable statt SingleVariableDeclaration
+		logger.info("processing input params for " + method.getName() + "; #params: " + method.getParameters().size()); //PDF
 		for (Variable inputParameter : method.getParameters()) {
 			Parameter opSigParam = RepositoryFactory.eINSTANCE
 					.createParameter();
 			opSigParam.setParameterName(inputParameter.getName());
 			//inputParameter.getTypeReference() statt inputParameter.getType()
+			
 			Type accessedType = GetAccessedType.getAccessedType(inputParameter.getTypeReference());
 			if(inputParameter.getTypeReference() != null && null != accessedType) {
 				DataType type = getType(accessedType, this.analysisResult.getInternalArchitectureModel());
-				opSigParam.setDataType__Parameter(type);				
-			} else {
+				opSigParam.setDataType__Parameter(type);	
+				logger.info("type to build for variable: " + inputParameter +":"+type );//PDF
+			}
+			else if( inputParameter.getTypeReference() != null) //PDF02.12.14: intent: find string datatype in JaMoPP and add to PCM as PCM-internal primitive datatype
+			{
+				
+//				logger.info("set standard datatype for"+inputParameter.getTypeReference() + " \n"
+//						+ inputParameter.eContents() + "\n" + inputParameter.getTypeReference().eContents().get(0));
+				if(inputParameter.getTypeReference().eContents().get(0) instanceof ClassifierReference)
+				{
+					ClassifierReferenceImpl cr = (ClassifierReferenceImpl) inputParameter.getTypeReference().eContents().get(0);
+					accessedType = GetAccessedType.getAccessedType(cr);
+					DataType type = getType(accessedType, this.analysisResult.getInternalArchitectureModel());
+					opSigParam.setDataType__Parameter(type);
+					//logger.info("found type " + accessedType + " real type" + type);
+				}
+
+			}
+			else {
 				logger.error("Input parameter type was null. Could not set the parameter type \""
 						+ inputParameter.getName()
 						+ "\" of method \""
 						+ method.getName() + "\"");
+				//if(inputParameter.getTypeReference() == null) logger.error("Reason: type reference is null");//PDF
+				//if(accessedType == null) logger.error("Reason: accessed type is null ");//PDF
+				//logger.error(inputParameter.getTypeReference() + " and " + inputParameter.getTypeReference().getTarget()); //PDF
 				continue;
 			}
 			opSigParam.setOperationSignature__Parameter(operation);
@@ -179,6 +204,24 @@ public class OperationBuilder extends AbstractBuilder {
 			operation.setReturnType__OperationSignature(
 					getType(GetAccessedType.getAccessedType(method.getTypeReference()), 
 							this.analysisResult.getInternalArchitectureModel()));				
+		}//PDF02.12.14: intent: find string datatype in JaMoPP and add to PCM as PCM-internal primitive datatype
+		else if(null != method.getTypeReference() &&
+				!(method.getTypeReference() instanceof org.emftext.language.java.types.Void))
+		{
+			
+			if(method.getTypeReference().eContents().get(0) instanceof ClassifierReferenceImpl)
+			{
+				
+				ClassifierReferenceImpl cr = (ClassifierReferenceImpl) method.getTypeReference().eContents().get(0);
+				Type accessedType = GetAccessedType.getAccessedType(cr);
+				DataType type = getType(accessedType, this.analysisResult.getInternalArchitectureModel());
+				operation.setReturnType__OperationSignature(type);
+			}
+
+		}
+		else
+		{
+			//logger.info("no fitting return type found " + method.getName() + "-- ret type" + method.getTypeReference());
 		}
 
 		return operation;
@@ -388,7 +431,7 @@ public class OperationBuilder extends AbstractBuilder {
 			return DefaultResourceEnvironment.getPrimitiveDataTypeChar();
 		} else if (typeName.equalsIgnoreCase("byte")) {
 			return DefaultResourceEnvironment.getPrimitiveDataTypeByte();
-			//PDF27.11: added java String data type as PCM-Repo composite datatype	TODO: not working
+			//PDF27.11: added java String data type as PCM-Repo composite datatype	TODO: not working?
 		} else if (typeName.equalsIgnoreCase("String")) {
 			return DefaultResourceEnvironment.getPrimitiveDataTypeString();
 		} else if (gastType instanceof ArrayInstantiationByValuesTyped) {
