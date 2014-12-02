@@ -1,9 +1,12 @@
 package org.somox.kdmhelper;
 
+import org.apache.log4j.Logger;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.MethodCall;
+import org.emftext.language.java.references.impl.MethodCallImpl;
+import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
 
@@ -17,13 +20,18 @@ public class GetAccessedType {
 	 * @return The accessed Type from the access.
 	 */
 	public static Type getAccessedType(Commentable input) {
+
 		if (input instanceof IdentifierReference) {
+
 			return getAccessedType((IdentifierReference) input);
 		} else if (input instanceof TypeReference) {
+
 			return getAccessedType((TypeReference) input);
 		} else if (input instanceof MethodCall) {
+
 			return getAccessedType((MethodCall) input);
 		} else {
+
 			return null;
 		}
 	}
@@ -51,6 +59,13 @@ public class GetAccessedType {
 			{
 				ClassMethod method = (ClassMethod) methodCall.getTarget();
 				return getAccessedType(method.getTypeReference());
+			}
+			else if(methodCall instanceof MethodCallImpl)
+			{
+				if(methodCall.getType() != null)
+				{
+					return methodCall.getType();
+				}
 			}
 			return null; //TODO: shouldn't there be even more cases? is null correct for all !methodCall instances?
 		} else {
