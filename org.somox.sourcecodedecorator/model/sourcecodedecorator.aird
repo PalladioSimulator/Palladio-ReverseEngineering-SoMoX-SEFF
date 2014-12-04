@@ -1,0 +1,888 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<viewpoint:DAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:diagram="http://www.eclipse.org/sirius/diagram/1.1.0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/style/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description/style" xmi:id="_eAraEHu9EeSSg-DdBPSleA" selectedViews="_fZ5PwHu9EeSSg-DdBPSleA _fzsP0Hu9EeSSg-DdBPSleA _fz_KwHu9EeSSg-DdBPSleA _f2XwYHu9EeSSg-DdBPSleA" version="8.1.1">
+  <models xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+  <models xmi:type="ecore:EPackage" href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <ownedViews xmi:type="viewpoint:DRepresentationContainer" xmi:id="_fZ5PwHu9EeSSg-DdBPSleA" initialized="true">
+    <ownedRepresentations xmi:type="diagram:DSemanticDiagram" xmi:id="_fnK2wHu9EeSSg-DdBPSleA" name="sourcecodedecorator class diagram">
+      <ownedAnnotationEntries xmi:type="description:AnnotationEntry" xmi:id="_fnxTsHu9EeSSg-DdBPSleA" source="GMF_DIAGRAMS">
+        <data xmi:type="notation:Diagram" xmi:id="_fnxTsXu9EeSSg-DdBPSleA" type="Sirius" element="_fnK2wHu9EeSSg-DdBPSleA" measurementUnit="Pixel">
+          <children xmi:type="notation:Node" xmi:id="_foN_oHu9EeSSg-DdBPSleA" type="2001" element="_fnK2wXu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_foz1gHu9EeSSg-DdBPSleA" type="5002">
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_foz1gXu9EeSSg-DdBPSleA" y="5"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_fzFy4Hu9EeSSg-DdBPSleA" type="3005" element="_fnK2wnu9EeSSg-DdBPSleA">
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_fzFy4Xu9EeSSg-DdBPSleA" fontName="Segoe UI"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_fzFy4nu9EeSSg-DdBPSleA"/>
+            </children>
+            <styles xmi:type="notation:ShapeStyle" xmi:id="_foN_oXu9EeSSg-DdBPSleA" fontName="Segoe UI" fontHeight="8"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_foN_onu9EeSSg-DdBPSleA" width="672" height="67"/>
+          </children>
+          <styles xmi:type="notation:DiagramStyle" xmi:id="_fnxTsnu9EeSSg-DdBPSleA"/>
+        </data>
+      </ownedAnnotationEntries>
+      <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_fnK2wXu9EeSSg-DdBPSleA" width="-1" height="-1">
+        <target xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+        <semanticElements xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+        <ownedStyle xmi:type="diagram:WorkspaceImage" xmi:id="_fnK2wnu9EeSSg-DdBPSleA" showIcon="false" labelPosition="node" workspacePath="/org.eclipse.emf.ecoretools.design/icons/full/back/empty.svg">
+          <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_fnK2w3u9EeSSg-DdBPSleA"/>
+          <description xmi:type="style:WorkspaceImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@nodeMappings[name='Empty%20Diagram']/@style"/>
+          <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_fnK2xHu9EeSSg-DdBPSleA"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@nodeMappings[name='Empty%20Diagram']"/>
+      </ownedDiagramElements>
+      <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
+      <filterVariableHistory xmi:type="diagram:FilterVariableHistory" xmi:id="_fnK2xXu9EeSSg-DdBPSleA"/>
+      <activatedLayers xmi:type="description_1:Layer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer"/>
+      <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@additionalLayers[name='Package']"/>
+      <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@additionalLayers[name='Validation']"/>
+      <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Archetype']/@ownedRepresentationExtensions[name='Entities%20With%20Archetypes']/@layers[name='Archetypes']"/>
+      <target xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+    </ownedRepresentations>
+    <ownedRepresentations xmi:type="diagram:DSemanticDiagram" xmi:id="_fzZU4Hu9EeSSg-DdBPSleA" name="ecore class diagram">
+      <ownedAnnotationEntries xmi:type="description:AnnotationEntry" xmi:id="_fzZU5nu9EeSSg-DdBPSleA" source="GMF_DIAGRAMS">
+        <data xmi:type="notation:Diagram" xmi:id="_fzZU53u9EeSSg-DdBPSleA" type="Sirius" element="_fzZU4Hu9EeSSg-DdBPSleA" measurementUnit="Pixel">
+          <children xmi:type="notation:Node" xmi:id="_fzZU6Xu9EeSSg-DdBPSleA" type="2001" element="_fzZU4Xu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_fzZU7Hu9EeSSg-DdBPSleA" type="5002">
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_fzZU7Xu9EeSSg-DdBPSleA" y="5"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_fzie0Hu9EeSSg-DdBPSleA" type="3005" element="_fzZU4nu9EeSSg-DdBPSleA">
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_fzie0Xu9EeSSg-DdBPSleA" fontName="Segoe UI"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_fzie0nu9EeSSg-DdBPSleA"/>
+            </children>
+            <styles xmi:type="notation:ShapeStyle" xmi:id="_fzZU6nu9EeSSg-DdBPSleA" fontName="Segoe UI" fontHeight="8"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_fzZU63u9EeSSg-DdBPSleA" width="672" height="67"/>
+          </children>
+          <styles xmi:type="notation:DiagramStyle" xmi:id="_fzZU6Hu9EeSSg-DdBPSleA"/>
+        </data>
+      </ownedAnnotationEntries>
+      <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_fzZU4Xu9EeSSg-DdBPSleA" width="-1" height="-1">
+        <target xmi:type="ecore:EPackage" href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+        <semanticElements xmi:type="ecore:EPackage" href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+        <ownedStyle xmi:type="diagram:WorkspaceImage" xmi:id="_fzZU4nu9EeSSg-DdBPSleA" showIcon="false" labelPosition="node" workspacePath="/org.eclipse.emf.ecoretools.design/icons/full/back/empty.svg">
+          <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_fzZU43u9EeSSg-DdBPSleA"/>
+          <description xmi:type="style:WorkspaceImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@nodeMappings[name='Empty%20Diagram']/@style"/>
+          <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_fzZU5Hu9EeSSg-DdBPSleA"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@nodeMappings[name='Empty%20Diagram']"/>
+      </ownedDiagramElements>
+      <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
+      <filterVariableHistory xmi:type="diagram:FilterVariableHistory" xmi:id="_fzZU5Xu9EeSSg-DdBPSleA"/>
+      <activatedLayers xmi:type="description_1:Layer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer"/>
+      <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@additionalLayers[name='Package']"/>
+      <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@additionalLayers[name='Validation']"/>
+      <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Archetype']/@ownedRepresentationExtensions[name='Entities%20With%20Archetypes']/@layers[name='Archetypes']"/>
+      <target xmi:type="ecore:EPackage" href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+    </ownedRepresentations>
+    <ownedRepresentations xmi:type="diagram:DSemanticDiagram" xmi:id="_g3yxIHu9EeSSg-DdBPSleA" name="sourcecodedecorator class diagram">
+      <ownedAnnotationEntries xmi:type="description:AnnotationEntry" xmi:id="_g3yxJnu9EeSSg-DdBPSleA" source="GMF_DIAGRAMS">
+        <data xmi:type="notation:Diagram" xmi:id="_g3yxJ3u9EeSSg-DdBPSleA" type="Sirius" element="_g3yxIHu9EeSSg-DdBPSleA" measurementUnit="Pixel">
+          <children xmi:type="notation:Node" xmi:id="_jDPVAHu9EeSSg-DdBPSleA" type="2003" element="_jAQScHu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jDZGAHu9EeSSg-DdBPSleA" type="5007"/>
+            <children xmi:type="notation:Node" xmi:id="_jDZGAXu9EeSSg-DdBPSleA" type="7004">
+              <children xmi:type="notation:Node" xmi:id="_jDiP_nu9EeSSg-DdBPSleA" type="3010" element="_jCDCMHu9EeSSg-DdBPSleA">
+                <layoutConstraint xmi:type="notation:Location" xmi:id="_jDiP_3u9EeSSg-DdBPSleA"/>
+              </children>
+              <children xmi:type="notation:Node" xmi:id="_jDiQAHu9EeSSg-DdBPSleA" type="3010" element="_jCMzN3u9EeSSg-DdBPSleA">
+                <layoutConstraint xmi:type="notation:Location" xmi:id="_jDiQAXu9EeSSg-DdBPSleA"/>
+              </children>
+              <styles xmi:type="notation:SortingStyle" xmi:id="_jDZGAnu9EeSSg-DdBPSleA"/>
+              <styles xmi:type="notation:FilteringStyle" xmi:id="_jDZGA3u9EeSSg-DdBPSleA"/>
+            </children>
+            <styles xmi:type="notation:ShapeStyle" xmi:id="_jDPVAXu9EeSSg-DdBPSleA" fontColor="2697711" fontName="Segoe UI" fontHeight="8"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jDPVAnu9EeSSg-DdBPSleA" x="720" y="290"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_jDZGBHu9EeSSg-DdBPSleA" type="2003" element="_jBJqVXu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jDZGB3u9EeSSg-DdBPSleA" type="5007"/>
+            <children xmi:type="notation:Node" xmi:id="_jDZGCHu9EeSSg-DdBPSleA" type="7004">
+              <styles xmi:type="notation:SortingStyle" xmi:id="_jDZGCXu9EeSSg-DdBPSleA"/>
+              <styles xmi:type="notation:FilteringStyle" xmi:id="_jDZGCnu9EeSSg-DdBPSleA"/>
+            </children>
+            <styles xmi:type="notation:ShapeStyle" xmi:id="_jDZGBXu9EeSSg-DdBPSleA" fontColor="2697711" fontName="Segoe UI" fontHeight="8"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jDZGBnu9EeSSg-DdBPSleA" y="320"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_jDZGC3u9EeSSg-DdBPSleA" type="2003" element="_jBTbUHu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jDZGDnu9EeSSg-DdBPSleA" type="5007"/>
+            <children xmi:type="notation:Node" xmi:id="_jDZGD3u9EeSSg-DdBPSleA" type="7004">
+              <styles xmi:type="notation:SortingStyle" xmi:id="_jDZGEHu9EeSSg-DdBPSleA"/>
+              <styles xmi:type="notation:FilteringStyle" xmi:id="_jDZGEXu9EeSSg-DdBPSleA"/>
+            </children>
+            <styles xmi:type="notation:ShapeStyle" xmi:id="_jDZGDHu9EeSSg-DdBPSleA" fontColor="2697711" fontName="Segoe UI" fontHeight="8"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jDZGDXu9EeSSg-DdBPSleA" x="420"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_jDZGEnu9EeSSg-DdBPSleA" type="2003" element="_jBTbWnu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jDZGFXu9EeSSg-DdBPSleA" type="5007"/>
+            <children xmi:type="notation:Node" xmi:id="_jDZGFnu9EeSSg-DdBPSleA" type="7004">
+              <styles xmi:type="notation:SortingStyle" xmi:id="_jDZGF3u9EeSSg-DdBPSleA"/>
+              <styles xmi:type="notation:FilteringStyle" xmi:id="_jDZGGHu9EeSSg-DdBPSleA"/>
+            </children>
+            <styles xmi:type="notation:ShapeStyle" xmi:id="_jDZGE3u9EeSSg-DdBPSleA" fontColor="2697711" fontName="Segoe UI" fontHeight="8"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jDZGFHu9EeSSg-DdBPSleA" x="610" y="65"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_jDZGGXu9EeSSg-DdBPSleA" type="2003" element="_jBTbZHu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jDZGHHu9EeSSg-DdBPSleA" type="5007"/>
+            <children xmi:type="notation:Node" xmi:id="_jDZGHXu9EeSSg-DdBPSleA" type="7004">
+              <styles xmi:type="notation:SortingStyle" xmi:id="_jDZGHnu9EeSSg-DdBPSleA"/>
+              <styles xmi:type="notation:FilteringStyle" xmi:id="_jDZGH3u9EeSSg-DdBPSleA"/>
+            </children>
+            <styles xmi:type="notation:ShapeStyle" xmi:id="_jDZGGnu9EeSSg-DdBPSleA" fontColor="2697711" fontName="Segoe UI" fontHeight="8"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jDZGG3u9EeSSg-DdBPSleA" x="205" y="160"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_jDiP8Hu9EeSSg-DdBPSleA" type="2003" element="_jBTbbnu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jDiP83u9EeSSg-DdBPSleA" type="5007"/>
+            <children xmi:type="notation:Node" xmi:id="_jDiP9Hu9EeSSg-DdBPSleA" type="7004">
+              <styles xmi:type="notation:SortingStyle" xmi:id="_jDiP9Xu9EeSSg-DdBPSleA"/>
+              <styles xmi:type="notation:FilteringStyle" xmi:id="_jDiP9nu9EeSSg-DdBPSleA"/>
+            </children>
+            <styles xmi:type="notation:ShapeStyle" xmi:id="_jDiP8Xu9EeSSg-DdBPSleA" fontColor="2697711" fontName="Segoe UI" fontHeight="8"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jDiP8nu9EeSSg-DdBPSleA" x="630" y="480"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_jDiP93u9EeSSg-DdBPSleA" type="2003" element="_jBclSXu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jDiP-nu9EeSSg-DdBPSleA" type="5007"/>
+            <children xmi:type="notation:Node" xmi:id="_jDiP-3u9EeSSg-DdBPSleA" type="7004">
+              <styles xmi:type="notation:SortingStyle" xmi:id="_jDiP_Hu9EeSSg-DdBPSleA"/>
+              <styles xmi:type="notation:FilteringStyle" xmi:id="_jDiP_Xu9EeSSg-DdBPSleA"/>
+            </children>
+            <styles xmi:type="notation:ShapeStyle" xmi:id="_jDiP-Hu9EeSSg-DdBPSleA" fontName="Segoe UI" fontHeight="8"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jDiP-Xu9EeSSg-DdBPSleA" x="400" y="565"/>
+          </children>
+          <styles xmi:type="notation:DiagramStyle" xmi:id="_g3yxKHu9EeSSg-DdBPSleA"/>
+          <edges xmi:type="notation:Edge" xmi:id="_jDsA8Hu9EeSSg-DdBPSleA" type="4001" element="_jCV9IHu9EeSSg-DdBPSleA" source="_jDPVAHu9EeSSg-DdBPSleA" target="_jDPVAHu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jDsA9Hu9EeSSg-DdBPSleA" type="6001">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jDsA9Xu9EeSSg-DdBPSleA" y="-10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jDsA9nu9EeSSg-DdBPSleA" type="6002">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jDsA93u9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jD1K4Hu9EeSSg-DdBPSleA" type="6003">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jD1K4Xu9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <styles xmi:type="notation:ConnectorStyle" xmi:id="_jDsA8Xu9EeSSg-DdBPSleA" routing="Rectilinear" jumpLinkStatus="Above"/>
+            <styles xmi:type="notation:FontStyle" xmi:id="_jDsA8nu9EeSSg-DdBPSleA" fontColor="7490599" fontName="Segoe UI" fontHeight="8"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jDsA83u9EeSSg-DdBPSleA" points="[133, 24, 133, 24]$[195, 24, 195, 24]$[195, 131, 195, 131]$[67, 131, 67, 131]$[67, 49, 67, 49]"/>
+            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jD-74Hu9EeSSg-DdBPSleA" id="(0.5,0.5)"/>
+            <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jD-74Xu9EeSSg-DdBPSleA" id="(0.5,0.5)"/>
+          </edges>
+          <edges xmi:type="notation:Edge" xmi:id="_jD-74nu9EeSSg-DdBPSleA" type="4001" element="_jCfuJnu9EeSSg-DdBPSleA" source="_jDPVAHu9EeSSg-DdBPSleA" target="_jDZGEnu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jD-75nu9EeSSg-DdBPSleA" type="6001">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jD-753u9EeSSg-DdBPSleA" y="-10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jD-76Hu9EeSSg-DdBPSleA" type="6002">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jD-76Xu9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jD-76nu9EeSSg-DdBPSleA" type="6003">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jD-763u9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <styles xmi:type="notation:ConnectorStyle" xmi:id="_jD-743u9EeSSg-DdBPSleA" routing="Rectilinear" jumpLinkStatus="Above"/>
+            <styles xmi:type="notation:FontStyle" xmi:id="_jD-75Hu9EeSSg-DdBPSleA" fontColor="7490599" fontName="Segoe UI" fontHeight="8"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jD-75Xu9EeSSg-DdBPSleA" points="[0, 0, 169, 127]$[0, -60, 169, 67]$[-108, -60, 61, 67]$[-108, -127, 61, 0]"/>
+            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jD-77Hu9EeSSg-DdBPSleA" id="(0.5,0.0)"/>
+            <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jD-77Xu9EeSSg-DdBPSleA" id="(0.4966887417218543,1.0)"/>
+          </edges>
+          <edges xmi:type="notation:Edge" xmi:id="_jD-77nu9EeSSg-DdBPSleA" type="4001" element="_jCfuLXu9EeSSg-DdBPSleA" source="_jDPVAHu9EeSSg-DdBPSleA" target="_jDZGEnu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jD-78nu9EeSSg-DdBPSleA" type="6001">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jD-783u9EeSSg-DdBPSleA" y="-10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jD-79Hu9EeSSg-DdBPSleA" type="6002">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jD-79Xu9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jD-79nu9EeSSg-DdBPSleA" type="6003">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jD-793u9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <styles xmi:type="notation:ConnectorStyle" xmi:id="_jD-773u9EeSSg-DdBPSleA" routing="Rectilinear" jumpLinkStatus="Above"/>
+            <styles xmi:type="notation:FontStyle" xmi:id="_jD-78Hu9EeSSg-DdBPSleA" fontColor="7490599" fontName="Segoe UI" fontHeight="8"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jD-78Xu9EeSSg-DdBPSleA" points="[2, 0, 171, 127]$[2, -175, 171, -48]$[-94, -175, 75, -48]"/>
+            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jD-7-Hu9EeSSg-DdBPSleA" id="(0.5,0.0)"/>
+            <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jD-7-Xu9EeSSg-DdBPSleA" id="(0.4966887417218543,1.0)"/>
+          </edges>
+          <edges xmi:type="notation:Edge" xmi:id="_jD-7-nu9EeSSg-DdBPSleA" type="4001" element="_jCfuNHu9EeSSg-DdBPSleA" source="_jDiP93u9EeSSg-DdBPSleA" target="_jDZGC3u9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jD-7_nu9EeSSg-DdBPSleA" type="6001">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jD-7_3u9EeSSg-DdBPSleA" y="-10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jD-8AHu9EeSSg-DdBPSleA" type="6002">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jD-8AXu9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jD-8Anu9EeSSg-DdBPSleA" type="6003">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jD-8A3u9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <styles xmi:type="notation:ConnectorStyle" xmi:id="_jD-7-3u9EeSSg-DdBPSleA" routing="Rectilinear" jumpLinkStatus="Above"/>
+            <styles xmi:type="notation:FontStyle" xmi:id="_jD-7_Hu9EeSSg-DdBPSleA" fontColor="7490599" fontName="Segoe UI" fontHeight="8"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jD-7_Xu9EeSSg-DdBPSleA" points="[-29, 0, -28, 467]$[-29, -467, -28, 0]"/>
+            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jD-8BHu9EeSSg-DdBPSleA" id="(0.4973821989528796,0.0)"/>
+            <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jD-8BXu9EeSSg-DdBPSleA" id="(0.4966442953020134,1.0)"/>
+          </edges>
+          <edges xmi:type="notation:Edge" xmi:id="_jD-8Bnu9EeSSg-DdBPSleA" type="4001" element="_jCfuQnu9EeSSg-DdBPSleA" source="_jDiP93u9EeSSg-DdBPSleA" target="_jDZGGXu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jEIs4Hu9EeSSg-DdBPSleA" type="6001">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEIs4Xu9EeSSg-DdBPSleA" y="-10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jEIs4nu9EeSSg-DdBPSleA" type="6002">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEIs43u9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jEIs5Hu9EeSSg-DdBPSleA" type="6003">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEIs5Xu9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <styles xmi:type="notation:ConnectorStyle" xmi:id="_jD-8B3u9EeSSg-DdBPSleA" routing="Rectilinear" jumpLinkStatus="Above"/>
+            <styles xmi:type="notation:FontStyle" xmi:id="_jD-8CHu9EeSSg-DdBPSleA" fontColor="7490599" fontName="Segoe UI" fontHeight="8"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jD-8CXu9EeSSg-DdBPSleA" points="[0, 0, 206, 220]$[-180, -61, 26, 159]$[-182, -160, 24, 60]$[-206, -220, 0, 0]"/>
+            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jEIs5nu9EeSSg-DdBPSleA" id="(0.4973821989528796,0.0)"/>
+            <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jEIs53u9EeSSg-DdBPSleA" id="(0.5,1.0)"/>
+          </edges>
+          <edges xmi:type="notation:Edge" xmi:id="_jEIs6Hu9EeSSg-DdBPSleA" type="4001" element="_jCfuT3u9EeSSg-DdBPSleA" source="_jDiP93u9EeSSg-DdBPSleA" target="_jDZGBHu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jEIs7Hu9EeSSg-DdBPSleA" type="6001">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEIs7Xu9EeSSg-DdBPSleA" y="-10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jEIs7nu9EeSSg-DdBPSleA" type="6002">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEIs73u9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jEIs8Hu9EeSSg-DdBPSleA" type="6003">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEIs8Xu9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <styles xmi:type="notation:ConnectorStyle" xmi:id="_jEIs6Xu9EeSSg-DdBPSleA" routing="Rectilinear" jumpLinkStatus="Above"/>
+            <styles xmi:type="notation:FontStyle" xmi:id="_jEIs6nu9EeSSg-DdBPSleA" fontColor="7490599" fontName="Segoe UI" fontHeight="8"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jEIs63u9EeSSg-DdBPSleA" points="[-64, 0, 334, 147]$[-64, -40, 334, 107]$[-398, -40, 0, 107]$[-398, -147, 0, 0]"/>
+            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jEIs8nu9EeSSg-DdBPSleA" id="(0.4973821989528796,0.0)"/>
+            <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jEIs83u9EeSSg-DdBPSleA" id="(0.49743589743589745,1.0)"/>
+          </edges>
+          <edges xmi:type="notation:Edge" xmi:id="_jEIs9Hu9EeSSg-DdBPSleA" type="4001" element="_jCo4HHu9EeSSg-DdBPSleA" source="_jDiP93u9EeSSg-DdBPSleA" target="_jDZGEnu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jEIs-Hu9EeSSg-DdBPSleA" type="6001">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEIs-Xu9EeSSg-DdBPSleA" y="-10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jEIs-nu9EeSSg-DdBPSleA" type="6002">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEIs-3u9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jEIs_Hu9EeSSg-DdBPSleA" type="6003">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEIs_Xu9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <styles xmi:type="notation:ConnectorStyle" xmi:id="_jEIs9Xu9EeSSg-DdBPSleA" routing="Rectilinear" jumpLinkStatus="Above"/>
+            <styles xmi:type="notation:FontStyle" xmi:id="_jEIs9nu9EeSSg-DdBPSleA" fontColor="7490599" fontName="Segoe UI" fontHeight="8"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jEIs93u9EeSSg-DdBPSleA" points="[26, 0, -164, 402]$[26, -115, -164, 287]$[103, -115, -87, 287]$[103, -282, -87, 120]$[190, -282, 0, 120]$[190, -402, 0, 0]"/>
+            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jEIs_nu9EeSSg-DdBPSleA" id="(0.4973821989528796,0.0)"/>
+            <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jEIs_3u9EeSSg-DdBPSleA" id="(0.4966887417218543,1.0)"/>
+          </edges>
+          <edges xmi:type="notation:Edge" xmi:id="_jEItAHu9EeSSg-DdBPSleA" type="4001" element="_jCo4KXu9EeSSg-DdBPSleA" source="_jDiP93u9EeSSg-DdBPSleA" target="_jDPVAHu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jEItBHu9EeSSg-DdBPSleA" type="6001">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEItBXu9EeSSg-DdBPSleA" y="-10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jEItBnu9EeSSg-DdBPSleA" type="6002">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEItB3u9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jEItCHu9EeSSg-DdBPSleA" type="6003">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEItCXu9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <styles xmi:type="notation:ConnectorStyle" xmi:id="_jEItAXu9EeSSg-DdBPSleA" routing="Rectilinear" jumpLinkStatus="Above"/>
+            <styles xmi:type="notation:FontStyle" xmi:id="_jEItAnu9EeSSg-DdBPSleA" fontColor="7490599" fontName="Segoe UI" fontHeight="8"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jEItA3u9EeSSg-DdBPSleA" points="[56, 0, -303, 177]$[56, -95, -303, 82]$[359, -95, 0, 82]$[359, -177, 0, 0]"/>
+            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jEItCnu9EeSSg-DdBPSleA" id="(0.4973821989528796,0.0)"/>
+            <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jEItC3u9EeSSg-DdBPSleA" id="(0.5,1.0)"/>
+          </edges>
+          <edges xmi:type="notation:Edge" xmi:id="_jEItDHu9EeSSg-DdBPSleA" type="4001" element="_jCo4Nnu9EeSSg-DdBPSleA" source="_jDZGBHu9EeSSg-DdBPSleA" target="_jDZGGXu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jEItEHu9EeSSg-DdBPSleA" type="6001">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEItEXu9EeSSg-DdBPSleA" y="-10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jEItEnu9EeSSg-DdBPSleA" type="6002">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEItE3u9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jEItFHu9EeSSg-DdBPSleA" type="6003">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEItFXu9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <styles xmi:type="notation:ConnectorStyle" xmi:id="_jEItDXu9EeSSg-DdBPSleA" routing="Tree"/>
+            <styles xmi:type="notation:FontStyle" xmi:id="_jEItDnu9EeSSg-DdBPSleA" fontColor="2697711" fontName="Segoe UI" fontHeight="8"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jEItD3u9EeSSg-DdBPSleA" points="[0, 0, -193, 60]$[193, -60, 0, 0]"/>
+            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jEItFnu9EeSSg-DdBPSleA" id="(0.49743589743589745,0.0)"/>
+            <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jEItF3u9EeSSg-DdBPSleA" id="(0.5,1.0)"/>
+          </edges>
+          <edges xmi:type="notation:Edge" xmi:id="_jEItGHu9EeSSg-DdBPSleA" type="4001" element="_jCo4RHu9EeSSg-DdBPSleA" source="_jDZGGXu9EeSSg-DdBPSleA" target="_jDZGC3u9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jEItHHu9EeSSg-DdBPSleA" type="6001">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEItHXu9EeSSg-DdBPSleA" y="-10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jEItHnu9EeSSg-DdBPSleA" type="6002">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEItH3u9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jEItIHu9EeSSg-DdBPSleA" type="6003">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEItIXu9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <styles xmi:type="notation:ConnectorStyle" xmi:id="_jEItGXu9EeSSg-DdBPSleA" routing="Tree"/>
+            <styles xmi:type="notation:FontStyle" xmi:id="_jEItGnu9EeSSg-DdBPSleA" fontColor="2697711" fontName="Segoe UI" fontHeight="8"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jEItG3u9EeSSg-DdBPSleA" points="[0, 0, -206, 60]$[206, -60, 0, 0]"/>
+            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jEItInu9EeSSg-DdBPSleA" id="(0.5,0.0)"/>
+            <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jEItI3u9EeSSg-DdBPSleA" id="(0.4966442953020134,1.0)"/>
+          </edges>
+          <edges xmi:type="notation:Edge" xmi:id="_jEItJHu9EeSSg-DdBPSleA" type="4001" element="_jCypEHu9EeSSg-DdBPSleA" source="_jDiP8Hu9EeSSg-DdBPSleA" target="_jDPVAHu9EeSSg-DdBPSleA">
+            <children xmi:type="notation:Node" xmi:id="_jEItKHu9EeSSg-DdBPSleA" type="6001">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEItKXu9EeSSg-DdBPSleA" y="-10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jEItKnu9EeSSg-DdBPSleA" type="6002">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEItK3u9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_jEItLHu9EeSSg-DdBPSleA" type="6003">
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jEItLXu9EeSSg-DdBPSleA" y="10"/>
+            </children>
+            <styles xmi:type="notation:ConnectorStyle" xmi:id="_jEItJXu9EeSSg-DdBPSleA" routing="Tree"/>
+            <styles xmi:type="notation:FontStyle" xmi:id="_jEItJnu9EeSSg-DdBPSleA" fontColor="2697711" fontName="Segoe UI" fontHeight="8"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jEItJ3u9EeSSg-DdBPSleA" points="[0, 0, 0, 60]$[0, -60, 0, 0]"/>
+            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jEItLnu9EeSSg-DdBPSleA" id="(0.5,0.0)"/>
+            <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_jEItL3u9EeSSg-DdBPSleA" id="(0.5,1.0)"/>
+          </edges>
+        </data>
+      </ownedAnnotationEntries>
+      <ownedAnnotationEntries xmi:type="description:AnnotationEntry" xmi:id="_jBAgYHu9EeSSg-DdBPSleA" source="DANNOTATION_CUSTOMIZATION_KEY">
+        <data xmi:type="diagram:ComputedStyleDescriptionRegistry" xmi:id="_jBAgYXu9EeSSg-DdBPSleA">
+          <computedStyleDescriptions xmi:type="style:FlatContainerStyleDescription" xmi:id="_jBAgZXu9EeSSg-DdBPSleA" arcWidth="8" arcHeight="8" tooltipExpression="service:renderTooltip" roundedCorner="true" widthComputationExpression="12" heightComputationExpression="10" backgroundStyle="Liquid">
+            <borderColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            <backgroundColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xmi:type="description:UserFixedColor" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@userColorsPalettes[name='Ecore%20Palette']/@entries[name='EClass']"/>
+          </computedStyleDescriptions>
+          <computedStyleDescriptions xmi:type="style:FlatContainerStyleDescription" xmi:id="_jBJqWHu9EeSSg-DdBPSleA" arcWidth="8" arcHeight="8" tooltipExpression="service:renderTooltip" roundedCorner="true" widthComputationExpression="12" heightComputationExpression="10" backgroundStyle="Liquid">
+            <borderColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            <backgroundColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xmi:type="description:UserFixedColor" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@userColorsPalettes[name='Ecore%20Palette']/@entries[name='EClass']"/>
+          </computedStyleDescriptions>
+          <computedStyleDescriptions xmi:type="style:FlatContainerStyleDescription" xmi:id="_jBTbU3u9EeSSg-DdBPSleA" arcWidth="8" arcHeight="8" tooltipExpression="service:renderTooltip" roundedCorner="true" widthComputationExpression="12" heightComputationExpression="10" backgroundStyle="Liquid">
+            <borderColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            <backgroundColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xmi:type="description:UserFixedColor" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@userColorsPalettes[name='Ecore%20Palette']/@entries[name='EClass']"/>
+          </computedStyleDescriptions>
+          <computedStyleDescriptions xmi:type="style:FlatContainerStyleDescription" xmi:id="_jBTbXXu9EeSSg-DdBPSleA" arcWidth="8" arcHeight="8" tooltipExpression="service:renderTooltip" roundedCorner="true" widthComputationExpression="12" heightComputationExpression="10" backgroundStyle="Liquid">
+            <borderColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            <backgroundColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xmi:type="description:UserFixedColor" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@userColorsPalettes[name='Ecore%20Palette']/@entries[name='EClass']"/>
+          </computedStyleDescriptions>
+          <computedStyleDescriptions xmi:type="style:FlatContainerStyleDescription" xmi:id="_jBTbZ3u9EeSSg-DdBPSleA" arcWidth="8" arcHeight="8" tooltipExpression="service:renderTooltip" roundedCorner="true" widthComputationExpression="12" heightComputationExpression="10" backgroundStyle="Liquid">
+            <borderColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            <backgroundColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xmi:type="description:UserFixedColor" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@userColorsPalettes[name='Ecore%20Palette']/@entries[name='EClass']"/>
+          </computedStyleDescriptions>
+          <computedStyleDescriptions xmi:type="style:FlatContainerStyleDescription" xmi:id="_jBclQnu9EeSSg-DdBPSleA" arcWidth="8" arcHeight="8" tooltipExpression="service:renderTooltip" roundedCorner="true" widthComputationExpression="12" heightComputationExpression="10" backgroundStyle="Liquid">
+            <borderColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            <backgroundColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xmi:type="description:UserFixedColor" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@userColorsPalettes[name='Ecore%20Palette']/@entries[name='EClass']"/>
+          </computedStyleDescriptions>
+          <computedStyleDescriptions xmi:type="style:BundledImageDescription" xmi:id="_jCMzMXu9EeSSg-DdBPSleA" labelFormat="bold" labelExpression="service:render" labelAlignment="LEFT" tooltipExpression="service:renderTooltip" sizeComputationExpression="1">
+            <borderColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            <color xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+          </computedStyleDescriptions>
+          <computedStyleDescriptions xmi:type="style:BundledImageDescription" xmi:id="_jCMzOnu9EeSSg-DdBPSleA" labelFormat="bold" labelExpression="service:render" labelAlignment="LEFT" tooltipExpression="service:renderTooltip" sizeComputationExpression="1">
+            <borderColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+          </computedStyleDescriptions>
+          <computedStyleDescriptions xmi:type="style:EdgeStyleDescription" xmi:id="_jCfuOHu9EeSSg-DdBPSleA" sourceArrow="FillDiamond" sizeComputationExpression="1" routingStyle="manhattan">
+            <strokeColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <centerLabelStyleDescription xmi:type="style:CenterLabelStyleDescription" xmi:id="_jCfuOXu9EeSSg-DdBPSleA" showIcon="false" labelExpression="service:render">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+            <endLabelStyleDescription xmi:type="style:EndLabelStyleDescription" xmi:id="_jCfuOnu9EeSSg-DdBPSleA" labelSize="6" showIcon="false" labelExpression="service:eKeysLabel">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            </endLabelStyleDescription>
+          </computedStyleDescriptions>
+          <computedStyleDescriptions xmi:type="style:EdgeStyleDescription" xmi:id="_jCfuRXu9EeSSg-DdBPSleA" sourceArrow="FillDiamond" sizeComputationExpression="1" routingStyle="manhattan">
+            <strokeColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <centerLabelStyleDescription xmi:type="style:CenterLabelStyleDescription" xmi:id="_jCfuRnu9EeSSg-DdBPSleA" showIcon="false" labelExpression="service:render">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+            <endLabelStyleDescription xmi:type="style:EndLabelStyleDescription" xmi:id="_jCfuR3u9EeSSg-DdBPSleA" labelSize="6" showIcon="false" labelExpression="service:eKeysLabel">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            </endLabelStyleDescription>
+          </computedStyleDescriptions>
+          <computedStyleDescriptions xmi:type="style:EdgeStyleDescription" xmi:id="_jCo4Enu9EeSSg-DdBPSleA" sourceArrow="FillDiamond" sizeComputationExpression="1" routingStyle="manhattan">
+            <strokeColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <centerLabelStyleDescription xmi:type="style:CenterLabelStyleDescription" xmi:id="_jCo4E3u9EeSSg-DdBPSleA" showIcon="false" labelExpression="service:render">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+            <endLabelStyleDescription xmi:type="style:EndLabelStyleDescription" xmi:id="_jCo4FHu9EeSSg-DdBPSleA" labelSize="6" showIcon="false" labelExpression="service:eKeysLabel">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            </endLabelStyleDescription>
+          </computedStyleDescriptions>
+          <computedStyleDescriptions xmi:type="style:EdgeStyleDescription" xmi:id="_jCo4H3u9EeSSg-DdBPSleA" sourceArrow="FillDiamond" sizeComputationExpression="1" routingStyle="manhattan">
+            <strokeColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <centerLabelStyleDescription xmi:type="style:CenterLabelStyleDescription" xmi:id="_jCo4IHu9EeSSg-DdBPSleA" showIcon="false" labelExpression="service:render">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+            <endLabelStyleDescription xmi:type="style:EndLabelStyleDescription" xmi:id="_jCo4IXu9EeSSg-DdBPSleA" labelSize="6" showIcon="false" labelExpression="service:eKeysLabel">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            </endLabelStyleDescription>
+          </computedStyleDescriptions>
+          <computedStyleDescriptions xmi:type="style:EdgeStyleDescription" xmi:id="_jCo4LHu9EeSSg-DdBPSleA" sourceArrow="FillDiamond" sizeComputationExpression="1" routingStyle="manhattan">
+            <strokeColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <centerLabelStyleDescription xmi:type="style:CenterLabelStyleDescription" xmi:id="_jCo4LXu9EeSSg-DdBPSleA" showIcon="false" labelExpression="service:render">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+            <endLabelStyleDescription xmi:type="style:EndLabelStyleDescription" xmi:id="_jCo4Lnu9EeSSg-DdBPSleA" labelSize="6" showIcon="false" labelExpression="service:eKeysLabel">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_blue']"/>
+            </endLabelStyleDescription>
+          </computedStyleDescriptions>
+          <computedStyleDescriptions xmi:type="style:EdgeStyleDescription" xmi:id="_jCo4Onu9EeSSg-DdBPSleA" targetArrow="InputClosedArrow" sizeComputationExpression="1" routingStyle="tree">
+            <strokeColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <beginLabelStyleDescription xmi:type="style:BeginLabelStyleDescription" xmi:id="_jCo4O3u9EeSSg-DdBPSleA" labelFormat="italic" showIcon="false" labelExpression="service:superTypesLabel">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </beginLabelStyleDescription>
+            <centerLabelStyleDescription xmi:type="style:CenterLabelStyleDescription" xmi:id="_jCo4PHu9EeSSg-DdBPSleA" showIcon="false">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            </centerLabelStyleDescription>
+          </computedStyleDescriptions>
+          <computedStyleDescriptions xmi:type="style:EdgeStyleDescription" xmi:id="_jCo4R3u9EeSSg-DdBPSleA" targetArrow="InputClosedArrow" sizeComputationExpression="1" routingStyle="tree">
+            <strokeColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <beginLabelStyleDescription xmi:type="style:BeginLabelStyleDescription" xmi:id="_jCo4SHu9EeSSg-DdBPSleA" labelFormat="italic" showIcon="false" labelExpression="service:superTypesLabel">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </beginLabelStyleDescription>
+            <centerLabelStyleDescription xmi:type="style:CenterLabelStyleDescription" xmi:id="_jCo4SXu9EeSSg-DdBPSleA" showIcon="false">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            </centerLabelStyleDescription>
+          </computedStyleDescriptions>
+          <computedStyleDescriptions xmi:type="style:EdgeStyleDescription" xmi:id="_jCypE3u9EeSSg-DdBPSleA" targetArrow="InputClosedArrow" sizeComputationExpression="1" routingStyle="tree">
+            <strokeColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <beginLabelStyleDescription xmi:type="style:BeginLabelStyleDescription" xmi:id="_jCypFHu9EeSSg-DdBPSleA" labelFormat="italic" showIcon="false" labelExpression="service:superTypesLabel">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </beginLabelStyleDescription>
+            <centerLabelStyleDescription xmi:type="style:CenterLabelStyleDescription" xmi:id="_jCypFXu9EeSSg-DdBPSleA" showIcon="false">
+              <labelColor xmi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            </centerLabelStyleDescription>
+          </computedStyleDescriptions>
+          <cache xmi:type="diagram:DiagramElementMapping2ModelElement" xmi:id="_jBAgYnu9EeSSg-DdBPSleA">
+            <key xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jBAgY3u9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jBAgZHu9EeSSg-DdBPSleA" key="_jAQScHu9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jBAgZnu9EeSSg-DdBPSleA" value="_jBAgZXu9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+                </value>
+              </value>
+            </value>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jBJqVnu9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jBJqV3u9EeSSg-DdBPSleA" key="_jBJqVXu9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jBJqWXu9EeSSg-DdBPSleA" value="_jBJqWHu9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+                </value>
+              </value>
+            </value>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jBTbUXu9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//FileLevelSourceCodeLink"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jBTbUnu9EeSSg-DdBPSleA" key="_jBTbUHu9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jBTbVHu9EeSSg-DdBPSleA" value="_jBTbU3u9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+                </value>
+              </value>
+            </value>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jBTbW3u9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//InterfaceSourceCodeLink"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jBTbXHu9EeSSg-DdBPSleA" key="_jBTbWnu9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jBTbXnu9EeSSg-DdBPSleA" value="_jBTbXXu9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+                </value>
+              </value>
+            </value>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jBTbZXu9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//MethodLevelSourceCodeLink"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jBTbZnu9EeSSg-DdBPSleA" key="_jBTbZHu9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jBTbaHu9EeSSg-DdBPSleA" value="_jBTbZ3u9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+                </value>
+              </value>
+            </value>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jBclQHu9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//PCMSystemImplementatingClassesLink"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jBclQXu9EeSSg-DdBPSleA" key="_jBTbbnu9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jBclQ3u9EeSSg-DdBPSleA" value="_jBclQnu9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+                </value>
+              </value>
+            </value>
+          </cache>
+          <cache xmi:type="diagram:DiagramElementMapping2ModelElement" xmi:id="_jCDCMXu9EeSSg-DdBPSleA">
+            <key xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jCDCMnu9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EAttribute" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink/isCompositeComponent"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jCMzMHu9EeSSg-DdBPSleA" key="_jCDCMHu9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jCMzMnu9EeSSg-DdBPSleA" value="_jCMzMXu9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink"/>
+                </value>
+              </value>
+            </value>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jCMzOHu9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EAttribute" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink/isInitialComponent"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jCMzOXu9EeSSg-DdBPSleA" key="_jCMzN3u9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jCMzO3u9EeSSg-DdBPSleA" value="_jCMzOnu9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink"/>
+                </value>
+              </value>
+            </value>
+          </cache>
+          <cache xmi:type="diagram:DiagramElementMapping2ModelElement" xmi:id="_jCfuNXu9EeSSg-DdBPSleA">
+            <key xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jCfuNnu9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/fileLevelSourceCodeLink"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jCfuN3u9EeSSg-DdBPSleA" key="_jCfuNHu9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jCfuO3u9EeSSg-DdBPSleA" value="_jCfuOHu9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+                </value>
+              </value>
+            </value>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jCfuQ3u9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/methodLevelSourceCodeLink"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jCfuRHu9EeSSg-DdBPSleA" key="_jCfuQnu9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jCfuSHu9EeSSg-DdBPSleA" value="_jCfuRXu9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+                </value>
+              </value>
+            </value>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jCo4EHu9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/controlFlowLevelSourceCodeLink"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jCo4EXu9EeSSg-DdBPSleA" key="_jCfuT3u9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jCo4FXu9EeSSg-DdBPSleA" value="_jCo4Enu9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+                </value>
+              </value>
+            </value>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jCo4HXu9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/interfaceSourceCodeLink"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jCo4Hnu9EeSSg-DdBPSleA" key="_jCo4HHu9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jCo4Inu9EeSSg-DdBPSleA" value="_jCo4H3u9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+                </value>
+              </value>
+            </value>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jCo4Knu9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/componentImplementingClassesLink"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jCo4K3u9EeSSg-DdBPSleA" key="_jCo4KXu9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jCo4L3u9EeSSg-DdBPSleA" value="_jCo4LHu9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+                </value>
+              </value>
+            </value>
+          </cache>
+          <cache xmi:type="diagram:DiagramElementMapping2ModelElement" xmi:id="_jCo4N3u9EeSSg-DdBPSleA">
+            <key xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC%20ESupertypes']"/>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jCo4OHu9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jCo4OXu9EeSSg-DdBPSleA" key="_jCo4Nnu9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jCo4PXu9EeSSg-DdBPSleA" value="_jCo4Onu9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+                </value>
+              </value>
+            </value>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jCo4RXu9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//MethodLevelSourceCodeLink"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jCo4Rnu9EeSSg-DdBPSleA" key="_jCo4RHu9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jCo4Snu9EeSSg-DdBPSleA" value="_jCo4R3u9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+                </value>
+              </value>
+            </value>
+            <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_jCypEXu9EeSSg-DdBPSleA">
+              <key xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//PCMSystemImplementatingClassesLink"/>
+              <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_jCypEnu9EeSSg-DdBPSleA" key="_jCypEHu9EeSSg-DdBPSleA">
+                <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_jCypFnu9EeSSg-DdBPSleA" value="_jCypE3u9EeSSg-DdBPSleA">
+                  <key xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+                </value>
+              </value>
+            </value>
+          </cache>
+        </data>
+      </ownedAnnotationEntries>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_jAQScHu9EeSSg-DdBPSleA" name="ComponentImplementingClassesLink" tooltipText="&#xA;ERROR : The feature 'eType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@4d8c683c{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ComponentImplementingClassesLink/component}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@4f486d2e{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/RepositoryComponent}'&#xA;ERROR : The feature 'eReferenceType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@4d8c683c{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ComponentImplementingClassesLink/component}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@4f486d2e{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/RepositoryComponent}'&#xA;ERROR : The feature 'eRawType' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@7314e400{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ComponentImplementingClassesLink/component/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@4f486d2e{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/RepositoryComponent}'&#xA;ERROR : The feature 'eClassifier' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@7314e400{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ComponentImplementingClassesLink/component/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@4f486d2e{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/RepositoryComponent}'&#xA;ERROR : The feature 'eType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@73e3d9de{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ComponentImplementingClassesLink/implementingClasses}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@59c1dde8{platform:/resource/org.emftext.language.java/metamodel/java.ecore#_Wo2ZO9z1Ed2bJ_pQViWxFg}'&#xA;ERROR : The feature 'eReferenceType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@73e3d9de{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ComponentImplementingClassesLink/implementingClasses}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@59c1dde8{platform:/resource/org.emftext.language.java/metamodel/java.ecore#_Wo2ZO9z1Ed2bJ_pQViWxFg}'&#xA;ERROR : The feature 'eRawType' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@5ffb314{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ComponentImplementingClassesLink/implementingClasses/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@59c1dde8{platform:/resource/org.emftext.language.java/metamodel/java.ecore#_Wo2ZO9z1Ed2bJ_pQViWxFg}'&#xA;ERROR : The feature 'eClassifier' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@5ffb314{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ComponentImplementingClassesLink/implementingClasses/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@59c1dde8{platform:/resource/org.emftext.language.java/metamodel/java.ecore#_Wo2ZO9z1Ed2bJ_pQViWxFg}'" outgoingEdges="_jCV9IHu9EeSSg-DdBPSleA _jCfuJnu9EeSSg-DdBPSleA _jCfuLXu9EeSSg-DdBPSleA" incomingEdges="_jCV9IHu9EeSSg-DdBPSleA _jCo4KXu9EeSSg-DdBPSleA _jCypEHu9EeSSg-DdBPSleA" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink"/>
+        <semanticElements xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink"/>
+        <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+        <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+        <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_jBJqUHu9EeSSg-DdBPSleA" description="_jBAgZXu9EeSSg-DdBPSleA" backgroundStyle="Liquid">
+          <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jBJqUXu9EeSSg-DdBPSleA" red="239" green="41" blue="41"/>
+          <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_jBJqUnu9EeSSg-DdBPSleA" red="239" green="41" blue="41"/>
+          <backgroundColor xmi:type="viewpoint:RGBValues" xmi:id="_jBJqU3u9EeSSg-DdBPSleA" red="255" green="255" blue="255"/>
+          <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_jBJqVHu9EeSSg-DdBPSleA" red="255" green="252" blue="216"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_jCDCMHu9EeSSg-DdBPSleA" name="/isCompositeComponent : EBoolean = false" tooltipText="">
+          <target xmi:type="ecore:EAttribute" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink/isCompositeComponent"/>
+          <semanticElements xmi:type="ecore:EAttribute" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink/isCompositeComponent"/>
+          <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_jCMzM3u9EeSSg-DdBPSleA" labelFormat="bold" labelAlignment="LEFT" description="_jCMzMXu9EeSSg-DdBPSleA">
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCMzNHu9EeSSg-DdBPSleA" red="39" green="76" blue="114"/>
+            <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_jCMzNXu9EeSSg-DdBPSleA"/>
+            <color xmi:type="viewpoint:RGBValues" xmi:id="_jCMzNnu9EeSSg-DdBPSleA"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_jCMzN3u9EeSSg-DdBPSleA" name="isInitialComponent : EBoolean = false" tooltipText="">
+          <target xmi:type="ecore:EAttribute" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink/isInitialComponent"/>
+          <semanticElements xmi:type="ecore:EAttribute" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink/isInitialComponent"/>
+          <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_jCMzPHu9EeSSg-DdBPSleA" labelFormat="bold" labelAlignment="LEFT" description="_jCMzOnu9EeSSg-DdBPSleA">
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCMzPXu9EeSSg-DdBPSleA"/>
+            <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_jCMzPnu9EeSSg-DdBPSleA"/>
+            <color xmi:type="viewpoint:RGBValues" xmi:id="_jCMzP3u9EeSSg-DdBPSleA"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
+        </ownedElements>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_jBJqVXu9EeSSg-DdBPSleA" name="ControlFlowLevelSourceCodeLink" tooltipText="&#xA;ERROR : The feature 'eType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@4f099535{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink/abstractAction}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@2717fa32{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//seff/AbstractAction}'&#xA;ERROR : The feature 'eReferenceType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@4f099535{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink/abstractAction}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@2717fa32{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//seff/AbstractAction}'&#xA;ERROR : The feature 'eRawType' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@4b88d2a{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink/abstractAction/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@2717fa32{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//seff/AbstractAction}'&#xA;ERROR : The feature 'eClassifier' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@4b88d2a{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink/abstractAction/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@2717fa32{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//seff/AbstractAction}'&#xA;ERROR : The feature 'eType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@45393b58{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink/statement}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@5e2ad29e{platform:/resource/org.emftext.language.java/metamodel/java.ecore#_Wo2YzNz1Ed2bJ_pQViWxFg}'&#xA;ERROR : The feature 'eReferenceType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@45393b58{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink/statement}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@5e2ad29e{platform:/resource/org.emftext.language.java/metamodel/java.ecore#_Wo2YzNz1Ed2bJ_pQViWxFg}'&#xA;ERROR : The feature 'eRawType' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@79b10b5{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink/statement/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@5e2ad29e{platform:/resource/org.emftext.language.java/metamodel/java.ecore#_Wo2YzNz1Ed2bJ_pQViWxFg}'&#xA;ERROR : The feature 'eClassifier' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@79b10b5{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink/statement/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@5e2ad29e{platform:/resource/org.emftext.language.java/metamodel/java.ecore#_Wo2YzNz1Ed2bJ_pQViWxFg}'" outgoingEdges="_jCo4Nnu9EeSSg-DdBPSleA" incomingEdges="_jCfuT3u9EeSSg-DdBPSleA" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink"/>
+        <semanticElements xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_jBJqWnu9EeSSg-DdBPSleA" description="_jBJqWHu9EeSSg-DdBPSleA" backgroundStyle="Liquid">
+          <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jBJqW3u9EeSSg-DdBPSleA" red="239" green="41" blue="41"/>
+          <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_jBJqXHu9EeSSg-DdBPSleA" red="239" green="41" blue="41"/>
+          <backgroundColor xmi:type="viewpoint:RGBValues" xmi:id="_jBJqXXu9EeSSg-DdBPSleA" red="255" green="255" blue="255"/>
+          <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_jBJqXnu9EeSSg-DdBPSleA" red="255" green="252" blue="216"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_jBTbUHu9EeSSg-DdBPSleA" name="FileLevelSourceCodeLink" tooltipText="&#xA;ERROR : The feature 'eType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@76560df1{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//FileLevelSourceCodeLink/repositoryComponent}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@7d1275a5{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/RepositoryComponent}'&#xA;ERROR : The feature 'eReferenceType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@76560df1{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//FileLevelSourceCodeLink/repositoryComponent}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@7d1275a5{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/RepositoryComponent}'&#xA;ERROR : The feature 'eRawType' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@448be378{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//FileLevelSourceCodeLink/repositoryComponent/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@7d1275a5{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/RepositoryComponent}'&#xA;ERROR : The feature 'eClassifier' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@448be378{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//FileLevelSourceCodeLink/repositoryComponent/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@7d1275a5{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/RepositoryComponent}'&#xA;ERROR : The feature 'eType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@1e128501{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//FileLevelSourceCodeLink/file}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@7ae4849c{platform:/resource/org.emftext.language.java/metamodel/java.ecore#//containers/CompilationUnit}'&#xA;ERROR : The feature 'eReferenceType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@1e128501{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//FileLevelSourceCodeLink/file}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@7ae4849c{platform:/resource/org.emftext.language.java/metamodel/java.ecore#//containers/CompilationUnit}'&#xA;ERROR : The feature 'eRawType' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@1a4c54ad{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//FileLevelSourceCodeLink/file/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@7ae4849c{platform:/resource/org.emftext.language.java/metamodel/java.ecore#//containers/CompilationUnit}'&#xA;ERROR : The feature 'eClassifier' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@1a4c54ad{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//FileLevelSourceCodeLink/file/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@7ae4849c{platform:/resource/org.emftext.language.java/metamodel/java.ecore#//containers/CompilationUnit}'" incomingEdges="_jCfuNHu9EeSSg-DdBPSleA _jCo4RHu9EeSSg-DdBPSleA" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//FileLevelSourceCodeLink"/>
+        <semanticElements xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//FileLevelSourceCodeLink"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_jBTbVXu9EeSSg-DdBPSleA" description="_jBTbU3u9EeSSg-DdBPSleA" backgroundStyle="Liquid">
+          <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jBTbVnu9EeSSg-DdBPSleA" red="239" green="41" blue="41"/>
+          <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_jBTbV3u9EeSSg-DdBPSleA" red="239" green="41" blue="41"/>
+          <backgroundColor xmi:type="viewpoint:RGBValues" xmi:id="_jBTbWHu9EeSSg-DdBPSleA" red="255" green="255" blue="255"/>
+          <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_jBTbWXu9EeSSg-DdBPSleA" red="255" green="252" blue="216"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_jBTbWnu9EeSSg-DdBPSleA" name="InterfaceSourceCodeLink" tooltipText="&#xA;ERROR : The feature 'eType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@26ff67b5{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//InterfaceSourceCodeLink/interface}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@65b15b28{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/Interface}'&#xA;ERROR : The feature 'eReferenceType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@26ff67b5{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//InterfaceSourceCodeLink/interface}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@65b15b28{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/Interface}'&#xA;ERROR : The feature 'eRawType' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@4f35c0d5{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//InterfaceSourceCodeLink/interface/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@65b15b28{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/Interface}'&#xA;ERROR : The feature 'eClassifier' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@4f35c0d5{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//InterfaceSourceCodeLink/interface/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@65b15b28{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/Interface}'&#xA;ERROR : The feature 'eType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@1ed20244{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//InterfaceSourceCodeLink/gastClass}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@4deb7e99{platform:/resource/org.emftext.language.java/metamodel/java.ecore#_Wo2ZO9z1Ed2bJ_pQViWxFg}'&#xA;ERROR : The feature 'eReferenceType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@1ed20244{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//InterfaceSourceCodeLink/gastClass}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@4deb7e99{platform:/resource/org.emftext.language.java/metamodel/java.ecore#_Wo2ZO9z1Ed2bJ_pQViWxFg}'&#xA;ERROR : The feature 'eRawType' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@2e9391b1{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//InterfaceSourceCodeLink/gastClass/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@4deb7e99{platform:/resource/org.emftext.language.java/metamodel/java.ecore#_Wo2ZO9z1Ed2bJ_pQViWxFg}'&#xA;ERROR : The feature 'eClassifier' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@2e9391b1{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//InterfaceSourceCodeLink/gastClass/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@4deb7e99{platform:/resource/org.emftext.language.java/metamodel/java.ecore#_Wo2ZO9z1Ed2bJ_pQViWxFg}'" incomingEdges="_jCfuJnu9EeSSg-DdBPSleA _jCfuLXu9EeSSg-DdBPSleA _jCo4HHu9EeSSg-DdBPSleA" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//InterfaceSourceCodeLink"/>
+        <semanticElements xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//InterfaceSourceCodeLink"/>
+        <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+        <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+        <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_jBTbX3u9EeSSg-DdBPSleA" description="_jBTbXXu9EeSSg-DdBPSleA" backgroundStyle="Liquid">
+          <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jBTbYHu9EeSSg-DdBPSleA" red="239" green="41" blue="41"/>
+          <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_jBTbYXu9EeSSg-DdBPSleA" red="239" green="41" blue="41"/>
+          <backgroundColor xmi:type="viewpoint:RGBValues" xmi:id="_jBTbYnu9EeSSg-DdBPSleA" red="255" green="255" blue="255"/>
+          <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_jBTbY3u9EeSSg-DdBPSleA" red="255" green="252" blue="216"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_jBTbZHu9EeSSg-DdBPSleA" name="MethodLevelSourceCodeLink" tooltipText="&#xA;ERROR : The feature 'eType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@21fb01d5{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//MethodLevelSourceCodeLink/operation}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@738148b6{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/Signature}'&#xA;ERROR : The feature 'eReferenceType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@21fb01d5{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//MethodLevelSourceCodeLink/operation}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@738148b6{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/Signature}'&#xA;ERROR : The feature 'eRawType' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@56f6782c{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//MethodLevelSourceCodeLink/operation/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@738148b6{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/Signature}'&#xA;ERROR : The feature 'eClassifier' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@56f6782c{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//MethodLevelSourceCodeLink/operation/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@738148b6{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/Signature}'&#xA;ERROR : The feature 'eType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@976386f{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//MethodLevelSourceCodeLink/function}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@610ed3f4{platform:/resource/org.emftext.language.java/metamodel/java.ecore#//members/Method}'&#xA;ERROR : The feature 'eReferenceType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@976386f{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//MethodLevelSourceCodeLink/function}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@610ed3f4{platform:/resource/org.emftext.language.java/metamodel/java.ecore#//members/Method}'&#xA;ERROR : The feature 'eRawType' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@7919c21{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//MethodLevelSourceCodeLink/function/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@610ed3f4{platform:/resource/org.emftext.language.java/metamodel/java.ecore#//members/Method}'&#xA;ERROR : The feature 'eClassifier' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@7919c21{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//MethodLevelSourceCodeLink/function/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@610ed3f4{platform:/resource/org.emftext.language.java/metamodel/java.ecore#//members/Method}'" outgoingEdges="_jCo4RHu9EeSSg-DdBPSleA" incomingEdges="_jCfuQnu9EeSSg-DdBPSleA _jCo4Nnu9EeSSg-DdBPSleA" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//MethodLevelSourceCodeLink"/>
+        <semanticElements xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//MethodLevelSourceCodeLink"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_jBTbaXu9EeSSg-DdBPSleA" description="_jBTbZ3u9EeSSg-DdBPSleA" backgroundStyle="Liquid">
+          <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jBTbanu9EeSSg-DdBPSleA" red="239" green="41" blue="41"/>
+          <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_jBTba3u9EeSSg-DdBPSleA" red="239" green="41" blue="41"/>
+          <backgroundColor xmi:type="viewpoint:RGBValues" xmi:id="_jBTbbHu9EeSSg-DdBPSleA" red="255" green="255" blue="255"/>
+          <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_jBTbbXu9EeSSg-DdBPSleA" red="255" green="252" blue="216"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_jBTbbnu9EeSSg-DdBPSleA" name="PCMSystemImplementatingClassesLink" tooltipText="&#xA;ERROR : The feature 'eType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@5f7f74d3{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//PCMSystemImplementatingClassesLink/systemModel}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@232f4790{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//system/System}'&#xA;ERROR : The feature 'eReferenceType' of 'org.eclipse.emf.ecore.impl.EReferenceImpl@5f7f74d3{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//PCMSystemImplementatingClassesLink/systemModel}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@232f4790{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//system/System}'&#xA;ERROR : The feature 'eRawType' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@728d0f41{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//PCMSystemImplementatingClassesLink/systemModel/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@232f4790{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//system/System}'&#xA;ERROR : The feature 'eClassifier' of 'org.eclipse.emf.ecore.impl.EGenericTypeImpl@728d0f41{platform:/resource/org.somox.sourcecodedecorator/model/sourcecodedecorator.ecore#//PCMSystemImplementatingClassesLink/systemModel/@eGenericType}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EClassImpl@232f4790{platform:/resource/de.uka.ipd.sdq.pcm/model/pcm.ecore#//system/System}'" outgoingEdges="_jCypEHu9EeSSg-DdBPSleA" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//PCMSystemImplementatingClassesLink"/>
+        <semanticElements xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//PCMSystemImplementatingClassesLink"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_jBclRHu9EeSSg-DdBPSleA" description="_jBclQnu9EeSSg-DdBPSleA" backgroundStyle="Liquid">
+          <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jBclRXu9EeSSg-DdBPSleA" red="239" green="41" blue="41"/>
+          <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_jBclRnu9EeSSg-DdBPSleA" red="239" green="41" blue="41"/>
+          <backgroundColor xmi:type="viewpoint:RGBValues" xmi:id="_jBclR3u9EeSSg-DdBPSleA" red="255" green="255" blue="255"/>
+          <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_jBclSHu9EeSSg-DdBPSleA" red="255" green="252" blue="216"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_jBclSXu9EeSSg-DdBPSleA" name="SourceCodeDecoratorRepository" tooltipText="" outgoingEdges="_jCfuNHu9EeSSg-DdBPSleA _jCfuQnu9EeSSg-DdBPSleA _jCfuT3u9EeSSg-DdBPSleA _jCo4HHu9EeSSg-DdBPSleA _jCo4KXu9EeSSg-DdBPSleA" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository"/>
+        <semanticElements xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository"/>
+        <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+        <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+        <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_jBclSnu9EeSSg-DdBPSleA" backgroundStyle="Liquid">
+          <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jBclS3u9EeSSg-DdBPSleA"/>
+          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@style"/>
+          <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_jBclTHu9EeSSg-DdBPSleA"/>
+          <backgroundColor xmi:type="viewpoint:RGBValues" xmi:id="_jBclTXu9EeSSg-DdBPSleA" red="255" green="255" blue="255"/>
+          <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_jBclTnu9EeSSg-DdBPSleA" red="255" green="252" blue="216"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_jCV9IHu9EeSSg-DdBPSleA" name="[0..*] subComponents" sourceNode="_jAQScHu9EeSSg-DdBPSleA" targetNode="_jAQScHu9EeSSg-DdBPSleA">
+        <target xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink/subComponents"/>
+        <semanticElements xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink/subComponents"/>
+        <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_jCfuIHu9EeSSg-DdBPSleA" routingStyle="manhattan">
+          <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']/@style"/>
+          <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_jCfuIXu9EeSSg-DdBPSleA"/>
+          <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_jCfuInu9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCfuI3u9EeSSg-DdBPSleA"/>
+          </centerLabelStyle>
+          <endLabelStyle xmi:type="diagram:EndLabelStyle" xmi:id="_jCfuJHu9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCfuJXu9EeSSg-DdBPSleA" red="39" green="76" blue="114"/>
+          </endLabelStyle>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_jCfuJnu9EeSSg-DdBPSleA" name="[0..*] providedInterfaces" sourceNode="_jAQScHu9EeSSg-DdBPSleA" targetNode="_jBTbWnu9EeSSg-DdBPSleA">
+        <target xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink/providedInterfaces"/>
+        <semanticElements xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink/providedInterfaces"/>
+        <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_jCfuJ3u9EeSSg-DdBPSleA" routingStyle="manhattan">
+          <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']/@style"/>
+          <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_jCfuKHu9EeSSg-DdBPSleA"/>
+          <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_jCfuKXu9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCfuKnu9EeSSg-DdBPSleA"/>
+          </centerLabelStyle>
+          <endLabelStyle xmi:type="diagram:EndLabelStyle" xmi:id="_jCfuK3u9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCfuLHu9EeSSg-DdBPSleA" red="39" green="76" blue="114"/>
+          </endLabelStyle>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_jCfuLXu9EeSSg-DdBPSleA" name="[0..*] requiredInterfaces" sourceNode="_jAQScHu9EeSSg-DdBPSleA" targetNode="_jBTbWnu9EeSSg-DdBPSleA">
+        <target xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink/requiredInterfaces"/>
+        <semanticElements xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//ComponentImplementingClassesLink/requiredInterfaces"/>
+        <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_jCfuLnu9EeSSg-DdBPSleA" routingStyle="manhattan">
+          <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']/@style"/>
+          <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_jCfuL3u9EeSSg-DdBPSleA"/>
+          <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_jCfuMHu9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCfuMXu9EeSSg-DdBPSleA"/>
+          </centerLabelStyle>
+          <endLabelStyle xmi:type="diagram:EndLabelStyle" xmi:id="_jCfuMnu9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCfuM3u9EeSSg-DdBPSleA" red="39" green="76" blue="114"/>
+          </endLabelStyle>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_jCfuNHu9EeSSg-DdBPSleA" name="[0..*] fileLevelSourceCodeLink" sourceNode="_jBclSXu9EeSSg-DdBPSleA" targetNode="_jBTbUHu9EeSSg-DdBPSleA">
+        <target xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/fileLevelSourceCodeLink"/>
+        <semanticElements xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/fileLevelSourceCodeLink"/>
+        <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_jCfuPHu9EeSSg-DdBPSleA" description="_jCfuOHu9EeSSg-DdBPSleA" sourceArrow="FillDiamond" routingStyle="manhattan">
+          <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_jCfuPXu9EeSSg-DdBPSleA"/>
+          <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_jCfuPnu9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCfuP3u9EeSSg-DdBPSleA"/>
+          </centerLabelStyle>
+          <endLabelStyle xmi:type="diagram:EndLabelStyle" xmi:id="_jCfuQHu9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCfuQXu9EeSSg-DdBPSleA" red="39" green="76" blue="114"/>
+          </endLabelStyle>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_jCfuQnu9EeSSg-DdBPSleA" name="[0..*] methodLevelSourceCodeLink" sourceNode="_jBclSXu9EeSSg-DdBPSleA" targetNode="_jBTbZHu9EeSSg-DdBPSleA">
+        <target xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/methodLevelSourceCodeLink"/>
+        <semanticElements xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/methodLevelSourceCodeLink"/>
+        <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_jCfuSXu9EeSSg-DdBPSleA" description="_jCfuRXu9EeSSg-DdBPSleA" sourceArrow="FillDiamond" routingStyle="manhattan">
+          <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_jCfuSnu9EeSSg-DdBPSleA"/>
+          <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_jCfuS3u9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCfuTHu9EeSSg-DdBPSleA"/>
+          </centerLabelStyle>
+          <endLabelStyle xmi:type="diagram:EndLabelStyle" xmi:id="_jCfuTXu9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCfuTnu9EeSSg-DdBPSleA" red="39" green="76" blue="114"/>
+          </endLabelStyle>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_jCfuT3u9EeSSg-DdBPSleA" name="[0..*] controlFlowLevelSourceCodeLink" sourceNode="_jBclSXu9EeSSg-DdBPSleA" targetNode="_jBJqVXu9EeSSg-DdBPSleA">
+        <target xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/controlFlowLevelSourceCodeLink"/>
+        <semanticElements xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/controlFlowLevelSourceCodeLink"/>
+        <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_jCo4Fnu9EeSSg-DdBPSleA" description="_jCo4Enu9EeSSg-DdBPSleA" sourceArrow="FillDiamond" routingStyle="manhattan">
+          <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_jCo4F3u9EeSSg-DdBPSleA"/>
+          <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_jCo4GHu9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCo4GXu9EeSSg-DdBPSleA"/>
+          </centerLabelStyle>
+          <endLabelStyle xmi:type="diagram:EndLabelStyle" xmi:id="_jCo4Gnu9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCo4G3u9EeSSg-DdBPSleA" red="39" green="76" blue="114"/>
+          </endLabelStyle>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_jCo4HHu9EeSSg-DdBPSleA" name="[0..*] interfaceSourceCodeLink" sourceNode="_jBclSXu9EeSSg-DdBPSleA" targetNode="_jBTbWnu9EeSSg-DdBPSleA">
+        <target xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/interfaceSourceCodeLink"/>
+        <semanticElements xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/interfaceSourceCodeLink"/>
+        <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_jCo4I3u9EeSSg-DdBPSleA" description="_jCo4H3u9EeSSg-DdBPSleA" sourceArrow="FillDiamond" routingStyle="manhattan">
+          <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_jCo4JHu9EeSSg-DdBPSleA"/>
+          <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_jCo4JXu9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCo4Jnu9EeSSg-DdBPSleA"/>
+          </centerLabelStyle>
+          <endLabelStyle xmi:type="diagram:EndLabelStyle" xmi:id="_jCo4J3u9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCo4KHu9EeSSg-DdBPSleA" red="39" green="76" blue="114"/>
+          </endLabelStyle>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_jCo4KXu9EeSSg-DdBPSleA" name="[0..*] componentImplementingClassesLink" sourceNode="_jBclSXu9EeSSg-DdBPSleA" targetNode="_jAQScHu9EeSSg-DdBPSleA">
+        <target xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/componentImplementingClassesLink"/>
+        <semanticElements xmi:type="ecore:EReference" href="sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/componentImplementingClassesLink"/>
+        <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_jCo4MHu9EeSSg-DdBPSleA" description="_jCo4LHu9EeSSg-DdBPSleA" sourceArrow="FillDiamond" routingStyle="manhattan">
+          <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_jCo4MXu9EeSSg-DdBPSleA"/>
+          <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_jCo4Mnu9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCo4M3u9EeSSg-DdBPSleA"/>
+          </centerLabelStyle>
+          <endLabelStyle xmi:type="diagram:EndLabelStyle" xmi:id="_jCo4NHu9EeSSg-DdBPSleA" showIcon="false">
+            <customFeatures>labelSize</customFeatures>
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCo4NXu9EeSSg-DdBPSleA" red="39" green="76" blue="114"/>
+          </endLabelStyle>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_jCo4Nnu9EeSSg-DdBPSleA" sourceNode="_jBJqVXu9EeSSg-DdBPSleA" targetNode="_jBTbZHu9EeSSg-DdBPSleA">
+        <target xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink"/>
+        <semanticElements xmi:type="ecore:EGenericType" href="sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink/@eGenericSuperTypes.0"/>
+        <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_jCo4Pnu9EeSSg-DdBPSleA" description="_jCo4Onu9EeSSg-DdBPSleA" targetArrow="InputClosedArrow" routingStyle="tree">
+          <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_jCo4P3u9EeSSg-DdBPSleA" red="136" green="136" blue="136"/>
+          <beginLabelStyle xmi:type="diagram:BeginLabelStyle" xmi:id="_jCo4QHu9EeSSg-DdBPSleA" labelFormat="italic" showIcon="false">
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCo4QXu9EeSSg-DdBPSleA"/>
+          </beginLabelStyle>
+          <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_jCo4Qnu9EeSSg-DdBPSleA" showIcon="false">
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCo4Q3u9EeSSg-DdBPSleA" red="239" green="41" blue="41"/>
+          </centerLabelStyle>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC%20ESupertypes']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_jCo4RHu9EeSSg-DdBPSleA" sourceNode="_jBTbZHu9EeSSg-DdBPSleA" targetNode="_jBTbUHu9EeSSg-DdBPSleA">
+        <target xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//MethodLevelSourceCodeLink"/>
+        <semanticElements xmi:type="ecore:EGenericType" href="sourcecodedecorator.ecore#//MethodLevelSourceCodeLink/@eGenericSuperTypes.0"/>
+        <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_jCo4S3u9EeSSg-DdBPSleA" description="_jCo4R3u9EeSSg-DdBPSleA" targetArrow="InputClosedArrow" routingStyle="tree">
+          <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_jCo4THu9EeSSg-DdBPSleA" red="136" green="136" blue="136"/>
+          <beginLabelStyle xmi:type="diagram:BeginLabelStyle" xmi:id="_jCo4TXu9EeSSg-DdBPSleA" labelFormat="italic" showIcon="false">
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCo4Tnu9EeSSg-DdBPSleA"/>
+          </beginLabelStyle>
+          <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_jCo4T3u9EeSSg-DdBPSleA" showIcon="false">
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCo4UHu9EeSSg-DdBPSleA" red="239" green="41" blue="41"/>
+          </centerLabelStyle>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC%20ESupertypes']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_jCypEHu9EeSSg-DdBPSleA" sourceNode="_jBTbbnu9EeSSg-DdBPSleA" targetNode="_jAQScHu9EeSSg-DdBPSleA">
+        <target xmi:type="ecore:EClass" href="sourcecodedecorator.ecore#//PCMSystemImplementatingClassesLink"/>
+        <semanticElements xmi:type="ecore:EGenericType" href="sourcecodedecorator.ecore#//PCMSystemImplementatingClassesLink/@eGenericSuperTypes.0"/>
+        <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_jCypF3u9EeSSg-DdBPSleA" description="_jCypE3u9EeSSg-DdBPSleA" targetArrow="InputClosedArrow" routingStyle="tree">
+          <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_jCypGHu9EeSSg-DdBPSleA" red="136" green="136" blue="136"/>
+          <beginLabelStyle xmi:type="diagram:BeginLabelStyle" xmi:id="_jCypGXu9EeSSg-DdBPSleA" labelFormat="italic" showIcon="false">
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCypGnu9EeSSg-DdBPSleA"/>
+          </beginLabelStyle>
+          <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_jCypG3u9EeSSg-DdBPSleA" showIcon="false">
+            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_jCypHHu9EeSSg-DdBPSleA" red="239" green="41" blue="41"/>
+          </centerLabelStyle>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC%20ESupertypes']"/>
+      </ownedDiagramElements>
+      <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
+      <filterVariableHistory xmi:type="diagram:FilterVariableHistory" xmi:id="_g3yxJXu9EeSSg-DdBPSleA"/>
+      <activatedLayers xmi:type="description_1:Layer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer"/>
+      <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@additionalLayers[name='Package']"/>
+      <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@additionalLayers[name='Validation']"/>
+      <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Archetype']/@ownedRepresentationExtensions[name='Entities%20With%20Archetypes']/@layers[name='Archetypes']"/>
+      <target xmi:type="ecore:EPackage" href="sourcecodedecorator.ecore#/"/>
+    </ownedRepresentations>
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']"/>
+  </ownedViews>
+  <ownedViews xmi:type="viewpoint:DRepresentationContainer" xmi:id="_fzsP0Hu9EeSSg-DdBPSleA" initialized="true">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Review']"/>
+  </ownedViews>
+  <ownedViews xmi:type="viewpoint:DRepresentationContainer" xmi:id="_fz_KwHu9EeSSg-DdBPSleA" initialized="true">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Archetype']"/>
+  </ownedViews>
+  <ownedViews xmi:type="viewpoint:DRepresentationContainer" xmi:id="_f2XwYHu9EeSSg-DdBPSleA" initialized="true">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Generation']"/>
+  </ownedViews>
+</viewpoint:DAnalysis>
