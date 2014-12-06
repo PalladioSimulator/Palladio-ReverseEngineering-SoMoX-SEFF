@@ -24,157 +24,157 @@ import de.uka.ipd.sdq.pcm.resourcetype.ResourceRepository;
 import de.uka.ipd.sdq.pcm.resourcetype.SchedulingPolicy;
 
 /**
- * Utility method for creating an empty resource environment where the reconstructed components can be put. 
- * Only static access via {@link #getDefaultResourceEnvironment()}
- * 
+ * Utility method for creating an empty resource environment where the reconstructed components can
+ * be put. Only static access via {@link #getDefaultResourceEnvironment()}
+ *
  * @author kuester
  *
  */
 public class DefaultResourceEnvironment {
 
-	private static final String RESOURCETYPE_URI = "platform:/plugin/de.uka.ipd.sdq.pcm.resources/defaultModels/Palladio.resourcetype";
+    public static final String RESOURCETYPE_URI = "platform:/plugin/de.uka.ipd.sdq.pcm.resources/defaultModels/Palladio.resourcetype";
 
-	private static final String PRIMITIVETYPES_URI = "platform:/plugin/de.uka.ipd.sdq.pcm.resources/defaultModels/PrimitiveTypes.repository";
+    public static final String PRIMITIVETYPES_URI = "platform:/plugin/de.uka.ipd.sdq.pcm.resources/defaultModels/PrimitiveTypes.repository";
 
-	
-	/** cached instance of default resource environment.  */
-	private static ResourceEnvironment resourceEnvironment;
-	
-	private static ResourceRepository resourceRepository; 
+    /** cached instance of default resource environment. */
+    private static ResourceEnvironment resourceEnvironment;
 
-	private static Repository primitiveTypesRepository; 
-	
-	/** Prohibited. Only static access to class. */
-	private DefaultResourceEnvironment() {
-		// prohibited.
-	}
-	
-	/**
-	 * Retrieves a cached instance of {@link de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment} 
-	 * as created by {@link #createDefaultResourceEnvironment()}.
-	 * 
-	 * @return 
-	 * 		A cached instance of resource environment with default values. . 
-	 */
-	public static ResourceEnvironment getDefaultResourceEnvironment() {
-		if (resourceEnvironment == null) {
-			resourceEnvironment = createDefaultResourceEnvironment();	
-		}
-		return resourceEnvironment;
-	}
-	
-	/**
-	 * Retrieves a map of {@link de.uka.ipd.sdq.pcm.repository.PrimitiveDataType}s as defined in the standard PCM resource repository. 
-	 * @return
-	 * 		A cached map of primitive data types.
-	 */
-	private static Map<String, PrimitiveDataType> getPrimitiveDataTypes() {
-		Map<String, PrimitiveDataType> primitives = new HashMap<String, PrimitiveDataType>();
-		if (primitiveTypesRepository == null) {
-			primitiveTypesRepository = getPrimitiveTypesRepository();	
-		}
-		for (DataType d : primitiveTypesRepository.getDataTypes__Repository()) {
-			if (d instanceof PrimitiveDataType){
-				PrimitiveDataType pdt = (PrimitiveDataType) d;
-				primitives.put(pdt.getType().getName(), pdt);
-			}
-		}
-		return primitives;
-	}
-	
-	public static PrimitiveDataType getPrimitiveDataTypeInteger() {
-		return getPrimitiveDataTypes().get("INT");
-	}
+    private static ResourceRepository resourceRepository;
 
-	public static PrimitiveDataType getPrimitiveDataTypeDouble() {
-		return getPrimitiveDataTypes().get("DOUBLE");
-	}
+    private static Repository primitiveTypesRepository;
 
-	public static PrimitiveDataType getPrimitiveDataTypeBool() {
-		return getPrimitiveDataTypes().get("BOOL");
-	}
+    /** Prohibited. Only static access to class. */
+    private DefaultResourceEnvironment() {
+        // prohibited.
+    }
 
-	public static PrimitiveDataType getPrimitiveDataTypeChar() {
-		return getPrimitiveDataTypes().get("CHAR");
-	}
+    /**
+     * Retrieves a cached instance of
+     * {@link de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment} as created by
+     * {@link #createDefaultResourceEnvironment()}.
+     *
+     * @return A cached instance of resource environment with default values. .
+     */
+    public static ResourceEnvironment getDefaultResourceEnvironment() {
+        if (resourceEnvironment == null) {
+            resourceEnvironment = createDefaultResourceEnvironment();
+        }
+        return resourceEnvironment;
+    }
 
-	public static PrimitiveDataType getPrimitiveDataTypeByte() {
-		return getPrimitiveDataTypes().get("BYTE");
-	}
+    /**
+     * Retrieves a map of {@link de.uka.ipd.sdq.pcm.repository.PrimitiveDataType}s as defined in the
+     * standard PCM resource repository.
+     *
+     * @return A cached map of primitive data types.
+     */
+    private static Map<String, PrimitiveDataType> getPrimitiveDataTypes() {
+        final Map<String, PrimitiveDataType> primitives = new HashMap<String, PrimitiveDataType>();
+        if (primitiveTypesRepository == null) {
+            primitiveTypesRepository = getPrimitiveTypesRepository();
+        }
+        for (final DataType d : primitiveTypesRepository.getDataTypes__Repository()) {
+            if (d instanceof PrimitiveDataType) {
+                final PrimitiveDataType pdt = (PrimitiveDataType) d;
+                primitives.put(pdt.getType().getName(), pdt);
+            }
+        }
+        return primitives;
+    }
 
-	public static PrimitiveDataType getPrimitiveDataTypeString() {
-		return getPrimitiveDataTypes().get("STRING");
-	}
-	
-	
-	
-	/**
-	 * Creates and returns a new instance of {@link de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment} 
-	 * with initial values. 
-	 * 
-	 * @return
-	 * 		A new instance of resource environment with default values. 
-	 */
-	public static ResourceEnvironment createDefaultResourceEnvironment() {
-		ResourceenvironmentFactory factory = ResourceenvironmentPackage.eINSTANCE.getResourceenvironmentFactory();
-		ResourceEnvironment resourceEnvironment = factory.createResourceEnvironment();
-		resourceEnvironment.setEntityName("SoMoX Default ResourceEnvironment");
-		
-		ResourceContainer container = factory.createResourceContainer();
-		container.setEntityName("SoMoX Default ResourceContainer");
-		
-		ProcessingResourceSpecification spec = factory.createProcessingResourceSpecification();
-		spec.setActiveResourceType_ActiveResourceSpecification(getCPUProcessingResourceType());
-		spec.setNumberOfReplicas(1);
-		spec.setSchedulingPolicy(getProcessorSharingSchedulingPolicy());
-		PCMRandomVariable processingRate = CoreFactory.eINSTANCE.createPCMRandomVariable();
-		processingRate.setSpecification("1");
-		spec.setProcessingRate_ProcessingResourceSpecification(processingRate);
-		
-		container.getActiveResourceSpecifications_ResourceContainer().add(spec);
-		resourceEnvironment.getResourceContainer_ResourceEnvironment().add(container);
-		return resourceEnvironment;
-		
-	}
+    public static PrimitiveDataType getPrimitiveDataTypeInteger() {
+        return getPrimitiveDataTypes().get("INT");
+    }
 
-	protected static SchedulingPolicy getProcessorSharingSchedulingPolicy() {
-		return getResourceRepository().getSchedulingPolicies__ResourceRepository().get(0);
-	}
+    public static PrimitiveDataType getPrimitiveDataTypeDouble() {
+        return getPrimitiveDataTypes().get("DOUBLE");
+    }
 
-	public static ProcessingResourceType getCPUProcessingResourceType() {
-		return (ProcessingResourceType)getResourceRepository().getAvailableResourceTypes_ResourceRepository().get(0);
-	}
-	
-	protected static Repository getPrimitiveTypesRepository() {
-		if (primitiveTypesRepository != null) return primitiveTypesRepository;
-		
-		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-	    Map<String, Object> m = reg.getExtensionToFactoryMap();
-	    m.put("repository", new XMIResourceFactoryImpl());
+    public static PrimitiveDataType getPrimitiveDataTypeBool() {
+        return getPrimitiveDataTypes().get("BOOL");
+    }
 
-	    URI uri = URI.createURI(PRIMITIVETYPES_URI);
-	    
-		ResourceSet resSet = new ResourceSetImpl();
-		Resource resource = resSet.getResource(uri, true);
-		
-		primitiveTypesRepository = (Repository)resource.getContents().get(0);
-		return primitiveTypesRepository;
-	}
+    public static PrimitiveDataType getPrimitiveDataTypeChar() {
+        return getPrimitiveDataTypes().get("CHAR");
+    }
 
-	protected static ResourceRepository getResourceRepository() {
-		if (resourceRepository != null) return resourceRepository;
-		
-		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-	    Map<String, Object> m = reg.getExtensionToFactoryMap();
-	    m.put("resourcetype", new XMIResourceFactoryImpl());
+    public static PrimitiveDataType getPrimitiveDataTypeByte() {
+        return getPrimitiveDataTypes().get("BYTE");
+    }
 
-	    URI uri = URI.createURI(RESOURCETYPE_URI);
-	    
-		ResourceSet resSet = new ResourceSetImpl();
-		Resource resource = resSet.getResource(uri, true);
-		
-		resourceRepository = (ResourceRepository)resource.getContents().get(0);
-		return resourceRepository;
-	}
+    public static PrimitiveDataType getPrimitiveDataTypeString() {
+        return getPrimitiveDataTypes().get("STRING");
+    }
 
+    /**
+     * Creates and returns a new instance of
+     * {@link de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment} with initial values.
+     *
+     * @return A new instance of resource environment with default values.
+     */
+    public static ResourceEnvironment createDefaultResourceEnvironment() {
+        final ResourceenvironmentFactory factory = ResourceenvironmentPackage.eINSTANCE.getResourceenvironmentFactory();
+        final ResourceEnvironment resourceEnvironment = factory.createResourceEnvironment();
+        resourceEnvironment.setEntityName("SoMoX Default ResourceEnvironment");
+
+        final ResourceContainer container = factory.createResourceContainer();
+        container.setEntityName("SoMoX Default ResourceContainer");
+
+        final ProcessingResourceSpecification spec = factory.createProcessingResourceSpecification();
+        spec.setActiveResourceType_ActiveResourceSpecification(getCPUProcessingResourceType());
+        spec.setNumberOfReplicas(1);
+        spec.setSchedulingPolicy(getProcessorSharingSchedulingPolicy());
+        final PCMRandomVariable processingRate = CoreFactory.eINSTANCE.createPCMRandomVariable();
+        processingRate.setSpecification("1");
+        spec.setProcessingRate_ProcessingResourceSpecification(processingRate);
+
+        container.getActiveResourceSpecifications_ResourceContainer().add(spec);
+        resourceEnvironment.getResourceContainer_ResourceEnvironment().add(container);
+        return resourceEnvironment;
+
+    }
+
+    protected static SchedulingPolicy getProcessorSharingSchedulingPolicy() {
+        return getResourceRepository().getSchedulingPolicies__ResourceRepository().get(0);
+    }
+
+    public static ProcessingResourceType getCPUProcessingResourceType() {
+        return (ProcessingResourceType) getResourceRepository().getAvailableResourceTypes_ResourceRepository().get(0);
+    }
+
+    protected static Repository getPrimitiveTypesRepository() {
+        if (primitiveTypesRepository != null) {
+            return primitiveTypesRepository;
+        }
+
+        final Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+        final Map<String, Object> m = reg.getExtensionToFactoryMap();
+        m.put("repository", new XMIResourceFactoryImpl());
+
+        final URI uri = URI.createURI(PRIMITIVETYPES_URI);
+
+        final ResourceSet resSet = new ResourceSetImpl();
+        final Resource resource = resSet.getResource(uri, true);
+
+        primitiveTypesRepository = (Repository) resource.getContents().get(0);
+        return primitiveTypesRepository;
+    }
+
+    protected static ResourceRepository getResourceRepository() {
+        if (resourceRepository != null) {
+            return resourceRepository;
+        }
+
+        final Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+        final Map<String, Object> m = reg.getExtensionToFactoryMap();
+        m.put("resourcetype", new XMIResourceFactoryImpl());
+
+        final URI uri = URI.createURI(RESOURCETYPE_URI);
+
+        final ResourceSet resSet = new ResourceSetImpl();
+        final Resource resource = resSet.getResource(uri, true);
+        resourceRepository = (ResourceRepository) resource.getContents().get(0);
+
+        return resourceRepository;
+    }
 }

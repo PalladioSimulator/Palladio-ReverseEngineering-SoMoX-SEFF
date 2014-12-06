@@ -3,8 +3,6 @@ package org.somox.analyzer.simplemodelanalyzer.ui;
 import java.util.ArrayList;
 
 import org.apache.log4j.Level;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -23,52 +21,51 @@ import de.uka.ipd.sdq.workflow.launchconfig.AbstractWorkflowBasedLaunchConfigura
 import de.uka.ipd.sdq.workflow.logging.console.LoggerAppenderStruct;
 
 /**
- * The class is defined by the delegate attribute of a launchConfigurationType
- * extension and performs launching for a Model Analyzer launch configuration.
- * 
+ * The class is defined by the delegate attribute of a launchConfigurationType extension and
+ * performs launching for a Model Analyzer launch configuration.
+ *
  * @author Michael Hauck
  */
-public class SimpleModelAnalyzerConfigurationDelegate
-		extends
-		AbstractWorkflowBasedLaunchConfigurationDelegate<ModelAnalyzerConfiguration, Workflow> {
-	
-	protected IJob createWorkflowJob(final ModelAnalyzerConfiguration config,
-			ILaunch launch) throws CoreException {
-		SequentialBlackboardInteractingJob<SoMoXBlackboard> somoxJob = new SequentialBlackboardInteractingJob<SoMoXBlackboard>();
-//		OrderPreservingBlackboardCompositeJob<SoMoXBlackboard> somoxJob = new OrderPreservingBlackboardCompositeJob<SoMoXBlackboard>();
-		somoxJob.setBlackboard(new SoMoXBlackboard());
-		
-		// TODO: Introduce an Workflow extension point here with the latest Palladio Workflow engine
-		somoxJob.add(new SimpleModelAnalyzerJob(config));
-		
-		// Get the project location.
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		somoxJob.add(new GAST2SEFFJob(config.getSomoxConfiguration()));
-		
-		somoxJob.add(new SaveSoMoXModelsJob(config.getSomoxConfiguration()));
-		
-		
-		return somoxJob;
-	}
+public class SimpleModelAnalyzerConfigurationDelegate extends
+AbstractWorkflowBasedLaunchConfigurationDelegate<ModelAnalyzerConfiguration, Workflow> {
 
-	protected ModelAnalyzerConfiguration deriveConfiguration(
-			ILaunchConfiguration launchconfiguration, String mode)
-			throws CoreException {
-		ModelAnalyzerConfiguration config = new ModelAnalyzerConfiguration();
-		
-		SoMoXConfiguration somoxConfiguration = (new SOMOXConfigurationBuilderByPreferences()).createSOMOXConfiguration(launchconfiguration.getAttributes());
-		config.setSomoxConfiguration(somoxConfiguration);
-		
-		return config;
-	}
+    @Override
+    protected IJob createWorkflowJob(final ModelAnalyzerConfiguration config, final ILaunch launch)
+            throws CoreException {
+        final SequentialBlackboardInteractingJob<SoMoXBlackboard> somoxJob = new SequentialBlackboardInteractingJob<SoMoXBlackboard>();
+        // OrderPreservingBlackboardCompositeJob<SoMoXBlackboard> somoxJob = new
+        // OrderPreservingBlackboardCompositeJob<SoMoXBlackboard>();
+        somoxJob.setBlackboard(new SoMoXBlackboard());
 
-	@Override
-	protected ArrayList<LoggerAppenderStruct> setupLogging(Level logLevel) throws CoreException {
-		ArrayList<LoggerAppenderStruct> loggerList = super.setupLogging(logLevel); 
-		loggerList.add(setupLogger("org.somox", logLevel, logLevel
-				.isGreaterOrEqual(Level.DEBUG) ? DETAILED_LOG_PATTERN
-				: SHORT_LOG_PATTERN));
-		return loggerList;
-	}
+        // TODO: Introduce an Workflow extension point here with the latest Palladio Workflow engine
+        somoxJob.add(new SimpleModelAnalyzerJob(config));
+
+        // Get the project location.
+        somoxJob.add(new GAST2SEFFJob());
+
+        somoxJob.add(new SaveSoMoXModelsJob(config.getSomoxConfiguration()));
+
+        return somoxJob;
+    }
+
+    @Override
+    protected ModelAnalyzerConfiguration deriveConfiguration(final ILaunchConfiguration launchconfiguration,
+            final String mode) throws CoreException {
+        final ModelAnalyzerConfiguration config = new ModelAnalyzerConfiguration();
+
+        final SoMoXConfiguration somoxConfiguration = new SOMOXConfigurationBuilderByPreferences()
+        .createSOMOXConfiguration(launchconfiguration.getAttributes());
+        config.setSomoxConfiguration(somoxConfiguration);
+
+        return config;
+    }
+
+    @Override
+    protected ArrayList<LoggerAppenderStruct> setupLogging(final Level logLevel) throws CoreException {
+        final ArrayList<LoggerAppenderStruct> loggerList = super.setupLogging(logLevel);
+        loggerList.add(this.setupLogger("org.somox", logLevel,
+                logLevel.isGreaterOrEqual(Level.DEBUG) ? DETAILED_LOG_PATTERN : SHORT_LOG_PATTERN));
+        return loggerList;
+    }
 
 }
