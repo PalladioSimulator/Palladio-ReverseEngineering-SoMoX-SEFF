@@ -2,7 +2,6 @@ package org.somox.analyzer.simplemodelanalyzer.builder;
 
 import java.util.List;
 
-import org.apache.log4j.Category;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 //import org.eclipse.gmt.modisco.java.ArrayType;
@@ -11,25 +10,12 @@ import org.eclipse.emf.common.util.EList;
 //import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 //import org.eclipse.gmt.modisco.java.Type;
 //import org.eclipse.gmt.modisco.java.VisibilityKind;
-
+import org.emftext.language.java.arrays.ArrayInstantiationByValuesTyped;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.types.ClassifierReference;
-import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.Type;
-import org.emftext.language.java.*;
-import org.emftext.language.java.arrays.ArrayDimension;
-import org.emftext.language.java.arrays.ArrayInstantiationByValuesTyped;
-import org.emftext.language.java.arrays.ArrayTypeable;
-import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.containers.CompilationUnit;
-import org.emftext.language.java.classifiers.Class;
-import org.emftext.language.java.classifiers.Enumeration;
-import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.impl.ClassifierReferenceImpl;
 import org.emftext.language.java.variables.Variable;
-
-
-
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
 import org.somox.configuration.SoMoXConfiguration;
@@ -50,518 +36,496 @@ import de.uka.ipd.sdq.pcm.repository.PrimitiveDataType;
 import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
 
 /**
- * Builder for operations, parameters, message types, and data types. Keeps the
- * source code decorator updated.
- * 
+ * Builder for operations, parameters, message types, and data types. Keeps the source code
+ * decorator updated.
+ *
  * @author Michael Hauck, Steffen Becker, Klaus Krogmann
- * 
+ *
  */
 public class OperationBuilder extends AbstractBuilder {
 
-	private static Logger logger = Logger.getLogger(OperationBuilder.class);
+    private static Logger logger = Logger.getLogger(OperationBuilder.class);
 
-	public OperationBuilder(Root gastModel,
-			SoMoXConfiguration somoxConfiguration, AnalysisResult analysisResult) {
-		super(gastModel, somoxConfiguration, analysisResult);
-	}
+    public OperationBuilder(final Root gastModel, final SoMoXConfiguration somoxConfiguration,
+            final AnalysisResult analysisResult) {
+        super(gastModel, somoxConfiguration, analysisResult);
+    }
 
-	public void createOperations(Type implementationClass, Type interfaceClass,
-			OperationInterface interf) {
-		List<Method> methods = KDMHelper.getMethods(interfaceClass);
-		for (Method method : methods) {
+    public void createOperations(final Type implementationClass, final Type interfaceClass,
+            final OperationInterface interf) {
+        final List<Method> methods = KDMHelper.getMethods(interfaceClass);
+        for (final Method method : methods) {
 
-			if (method.isPublic())// (KDMHelper.isModifierOfKind(method, VisibilityKind.NONE)) || KDMHelper .isModifierOfKind(method, VisibilityKind.PUBLIC)) 
-				{
+            if (method.isPublic())// (KDMHelper.isModifierOfKind(method, VisibilityKind.NONE)) ||
+                                  // KDMHelper .isModifierOfKind(method, VisibilityKind.PUBLIC))
+            {
 
-				Method realMethod = method;
+                Method realMethod = method;
 
-				if (implementationClass != null) {
-					realMethod = getRealMethod(implementationClass, method);
-					if (realMethod == null) {
-						realMethod = method;
-						logger.error("GAST Model misses a method "
-								+ method.getName());
-					}
-				} else {
-					logger.warn("no implementation class for method "
-							+ method.getName() + " of interface "
-							+KDMHelper.getName(interfaceClass));
-				}
-				OperationSignature op = createOperationSignature(realMethod,
-						interf);
-				interf.getSignatures__OperationInterface().add(op);
-			}
-		}
-	}
+                if (implementationClass != null) {
+                    realMethod = this.getRealMethod(implementationClass, method);
+                    if (realMethod == null) {
+                        realMethod = method;
+                        logger.error("GAST Model misses a method " + method.getName());
+                    }
+                } else {
+                    logger.warn("no implementation class for method " + method.getName() + " of interface "
+                            + KDMHelper.getName(interfaceClass));
+                }
+                final OperationSignature op = this.createOperationSignature(realMethod, interf);
+                interf.getSignatures__OperationInterface().add(op);
+            }
+        }
+    }
 
-	/**
-	 * 
-	 * @param implementationClass
-	 * @param inputMethod
-	 *            interface method
-	 * @return null if no implementation method was found; the queried method
-	 *         otherwise
-	 */
-	private Method getRealMethod(Type implementationClass,
-			Method inputMethod) {
-		assert implementationClass != null;
+    /**
+     * 
+     * @param implementationClass
+     * @param inputMethod
+     *            interface method
+     * @return null if no implementation method was found; the queried method otherwise
+     */
+    private Method getRealMethod(final Type implementationClass, final Method inputMethod) {
+        assert implementationClass != null;
 
-		for (Method methodFromClass : KDMHelper
-				.getMethods(implementationClass)) {
+        for (final Method methodFromClass : KDMHelper.getMethods(implementationClass)) {
 
-			if (methodFromClass == inputMethod) {
-				return methodFromClass;
-			}
+            if (methodFromClass == inputMethod) {
+                return methodFromClass;
+            }
 
-			if (methodFromClass.getName().equals(inputMethod.getName())) {
-				// TODO burkha 23.5.2013 getOverriddenMember does not work
-				// correct in contrast to SISSy
-				Method overrideMethod = (Method) KDMHelper
-						.getOverriddenASTNode(methodFromClass);
-				while (overrideMethod != null) {
-					if (overrideMethod == inputMethod)
-						return methodFromClass;
-					else
-						overrideMethod = (Method) KDMHelper
-								.getOverriddenASTNode(overrideMethod);
-				}
-			}
-		}
-		for (Type superClass : KDMHelper.getSuperTypes(implementationClass)) {
-			if (!KDMHelper.isAbstract(superClass)
-					&& !KDMHelper.isInterface(superClass)) {
-				Method real = getRealMethod(superClass, inputMethod);
-				if (real != null) {
-					return real;
-				}
-			}
-		}
-		return null;
-	}
+            if (methodFromClass.getName().equals(inputMethod.getName())) {
+                // TODO burkha 23.5.2013 getOverriddenMember does not work
+                // correct in contrast to SISSy
+                Method overrideMethod = KDMHelper.getOverriddenASTNode(methodFromClass);
+                while (overrideMethod != null) {
+                    if (overrideMethod == inputMethod) {
+                        return methodFromClass;
+                    } else {
+                        overrideMethod = KDMHelper.getOverriddenASTNode(overrideMethod);
+                    }
+                }
+            }
+        }
+        for (final Type superClass : KDMHelper.getSuperTypes(implementationClass)) {
+            if (!KDMHelper.isAbstract(superClass) && !KDMHelper.isInterface(superClass)) {
+                final Method real = this.getRealMethod(superClass, inputMethod);
+                if (real != null) {
+                    return real;
+                }
+            }
+        }
+        return null;
+    }
 
-	/**
-	 * Adds MessageTypes to the resultRepository, set parameter names and types.
-	 * First looks if a MessageType already exists and creates one only if it
-	 * does not exist in the repository.
-	 * 
-	 * @param method
-	 *            GAST method to add
-	 * @param interf
-	 * @return a new operation for which parameter names and types already exist
-	 *         in the resultRepository
-	 */
-	private OperationSignature createOperationSignature(Method method, OperationInterface interf) {
-		
-		OperationSignature operation = RepositoryFactory.eINSTANCE.createOperationSignature();
-		String nameForMethod = createNonExistingNameInInterface(method, interf);
-		operation.setEntityName(nameForMethod);
+    /**
+     * Adds MessageTypes to the resultRepository, set parameter names and types. First looks if a
+     * MessageType already exists and creates one only if it does not exist in the repository.
+     * 
+     * @param method
+     *            GAST method to add
+     * @param interf
+     * @return a new operation for which parameter names and types already exist in the
+     *         resultRepository
+     */
+    private OperationSignature createOperationSignature(final Method method, final OperationInterface interf) {
 
-		updateSourceCodeDecorator(operation, method);
-		// Variable statt SingleVariableDeclaration
-		logger.info("processing input params for " + method.getName() + "; #params: " + method.getParameters().size()); //PDF
-		for (Variable inputParameter : method.getParameters()) {
-			Parameter opSigParam = RepositoryFactory.eINSTANCE
-					.createParameter();
-			opSigParam.setParameterName(inputParameter.getName());
-			//inputParameter.getTypeReference() statt inputParameter.getType()
-			
-			Type accessedType = GetAccessedType.getAccessedType(inputParameter.getTypeReference());
-			if(inputParameter.getTypeReference() != null && null != accessedType) {
-				DataType type = getType(accessedType, this.analysisResult.getInternalArchitectureModel());
-				opSigParam.setDataType__Parameter(type);	
-				logger.info("type to build for variable: " + inputParameter +":"+type );//PDF
-			}
-			else if( inputParameter.getTypeReference() != null) //PDF02.12.14: intent: find string datatype in JaMoPP and add to PCM as PCM-internal primitive datatype
-			{
-				
-//				logger.info("set standard datatype for"+inputParameter.getTypeReference() + " \n"
-//						+ inputParameter.eContents() + "\n" + inputParameter.getTypeReference().eContents().get(0));
-				if(inputParameter.getTypeReference().eContents().get(0) instanceof ClassifierReference)
-				{
-					ClassifierReferenceImpl cr = (ClassifierReferenceImpl) inputParameter.getTypeReference().eContents().get(0);
-					accessedType = GetAccessedType.getAccessedType(cr);
-					DataType type = getType(accessedType, this.analysisResult.getInternalArchitectureModel());
-					opSigParam.setDataType__Parameter(type);
-					//logger.info("found type " + accessedType + " real type" + type);
-				}
+        final OperationSignature operation = RepositoryFactory.eINSTANCE.createOperationSignature();
+        final String nameForMethod = this.createNonExistingNameInInterface(method, interf);
+        operation.setEntityName(nameForMethod);
 
-			}
-			else {
-				logger.error("Input parameter type was null. Could not set the parameter type \""
-						+ inputParameter.getName()
-						+ "\" of method \""
-						+ method.getName() + "\"");
-				//if(inputParameter.getTypeReference() == null) logger.error("Reason: type reference is null");//PDF
-				//if(accessedType == null) logger.error("Reason: accessed type is null ");//PDF
-				//logger.error(inputParameter.getTypeReference() + " and " + inputParameter.getTypeReference().getTarget()); //PDF
-				continue;
-			}
-			opSigParam.setOperationSignature__Parameter(operation);
-		}
-		
-		if(null != method.getTypeReference() && null != GetAccessedType.getAccessedType(method.getTypeReference()) &&
-				!(method.getTypeReference() instanceof org.emftext.language.java.types.Void)){
-			operation.setReturnType__OperationSignature(
-					getType(GetAccessedType.getAccessedType(method.getTypeReference()), 
-							this.analysisResult.getInternalArchitectureModel()));				
-		}//PDF02.12.14: intent: find string datatype in JaMoPP and add to PCM as PCM-internal primitive datatype
-		else if(null != method.getTypeReference() &&
-				!(method.getTypeReference() instanceof org.emftext.language.java.types.Void))
-		{
-			
-			if(method.getTypeReference().eContents().get(0) instanceof ClassifierReferenceImpl)
-			{
-				
-				ClassifierReferenceImpl cr = (ClassifierReferenceImpl) method.getTypeReference().eContents().get(0);
-				Type accessedType = GetAccessedType.getAccessedType(cr);
-				DataType type = getType(accessedType, this.analysisResult.getInternalArchitectureModel());
-				operation.setReturnType__OperationSignature(type);
-			}
+        this.updateSourceCodeDecorator(operation, method);
+        // Variable statt SingleVariableDeclaration
+        logger.info("processing input params for " + method.getName() + "; #params: " + method.getParameters().size()); // PDF
+        for (final Variable inputParameter : method.getParameters()) {
+            final Parameter opSigParam = RepositoryFactory.eINSTANCE.createParameter();
+            opSigParam.setParameterName(inputParameter.getName());
+            // inputParameter.getTypeReference() statt inputParameter.getType()
 
-		}
-		else
-		{
-			//logger.info("no fitting return type found " + method.getName() + "-- ret type" + method.getTypeReference());
-		}
+            Type accessedType = GetAccessedType.getAccessedType(inputParameter.getTypeReference());
+            if (inputParameter.getTypeReference() != null && null != accessedType) {
+                final DataType type = this.getType(accessedType, this.analysisResult.getInternalArchitectureModel());
+                opSigParam.setDataType__Parameter(type);
+                logger.info("type to build for variable: " + inputParameter + ":" + type);// PDF
+            } else if (inputParameter.getTypeReference() != null) // PDF02.12.14: intent: find
+                                                                  // string datatype in JaMoPP and
+                                                                  // add to PCM as PCM-internal
+                                                                  // primitive datatype
+            {
 
-		return operation;
-	}
+                // logger.info("set standard datatype for"+inputParameter.getTypeReference() + " \n"
+                // + inputParameter.eContents() + "\n" +
+                // inputParameter.getTypeReference().eContents().get(0));
+                if (inputParameter.getTypeReference().eContents().get(0) instanceof ClassifierReference) {
+                    final ClassifierReferenceImpl cr = (ClassifierReferenceImpl) inputParameter.getTypeReference()
+                            .eContents().get(0);
+                    accessedType = GetAccessedType.getAccessedType(cr);
+                    final DataType type = this
+                            .getType(accessedType, this.analysisResult.getInternalArchitectureModel());
+                    opSigParam.setDataType__Parameter(type);
+                    // logger.info("found type " + accessedType + " real type" + type);
+                }
 
-	private String createNonExistingNameInInterface(Method method,
-			OperationInterface interf) {
-		String methodName = method.getName();
-		if (!containsName(interf, methodName)) {
-			return methodName;
-		}
+            } else {
+                logger.error("Input parameter type was null. Could not set the parameter type \""
+                        + inputParameter.getName() + "\" of method \"" + method.getName() + "\"");
+                // if(inputParameter.getTypeReference() == null)
+                // logger.error("Reason: type reference is null");//PDF
+                // if(accessedType == null) logger.error("Reason: accessed type is null ");//PDF
+                // logger.error(inputParameter.getTypeReference() + " and " +
+                // inputParameter.getTypeReference().getTarget()); //PDF
+                continue;
+            }
+            opSigParam.setOperationSignature__Parameter(operation);
+        }
 
-		int counter = 1;
+        if (null != method.getTypeReference() && null != GetAccessedType.getAccessedType(method.getTypeReference())
+                && !(method.getTypeReference() instanceof org.emftext.language.java.types.Void)) {
+            operation.setReturnType__OperationSignature(this.getType(
+                    GetAccessedType.getAccessedType(method.getTypeReference()),
+                    this.analysisResult.getInternalArchitectureModel()));
+        }// PDF02.12.14: intent: find string datatype in JaMoPP and add to PCM as PCM-internal
+         // primitive datatype
+        else if (null != method.getTypeReference()
+                && !(method.getTypeReference() instanceof org.emftext.language.java.types.Void)) {
 
-		while (containsName(interf,
-				createMethodNameWithNumber(methodName, counter))) {
-			counter++;
-		}
-		return createMethodNameWithNumber(methodName, counter);
+            if (method.getTypeReference().eContents().get(0) instanceof ClassifierReferenceImpl) {
 
-	}
+                final ClassifierReferenceImpl cr = (ClassifierReferenceImpl) method.getTypeReference().eContents()
+                        .get(0);
+                final Type accessedType = GetAccessedType.getAccessedType(cr);
+                final DataType type = this.getType(accessedType, this.analysisResult.getInternalArchitectureModel());
+                operation.setReturnType__OperationSignature(type);
+            }
 
-	private String createMethodNameWithNumber(String methodName, int counter) {
-		return methodName + "_" + counter;
-	}
+        } else {
+            // logger.info("no fitting return type found " + method.getName() + "-- ret type" +
+            // method.getTypeReference());
+        }
 
-	private boolean containsName(OperationInterface interf, String methodName) {
-		EList<OperationSignature> signatures = interf
-				.getSignatures__OperationInterface();
-		for (OperationSignature signature : signatures) {
-			if (signature.getEntityName().equals(methodName)) {
-				return true;
-			}
-		}
-		return false;
-	}
+        return operation;
+    }
 
-	private void updateSourceCodeDecorator(OperationSignature operation,
-			Method method) {
-		// assert method.getStatus() == Status.NORMAL; //TODO: check re-enabling
-		// other status implies empty method body and causes trouble during
-		// later stages
+    private String createNonExistingNameInInterface(final Method method, final OperationInterface interf) {
+        final String methodName = method.getName();
+        if (!this.containsName(interf, methodName)) {
+            return methodName;
+        }
 
-		MethodLevelSourceCodeLink link = SourcecodedecoratorFactory.eINSTANCE
-				.createMethodLevelSourceCodeLink();
+        int counter = 1;
 
-		link.setFunction(method);
-		link.setOperation(operation);
+        while (this.containsName(interf, this.createMethodNameWithNumber(methodName, counter))) {
+            counter++;
+        }
+        return this.createMethodNameWithNumber(methodName, counter);
 
-		if (KDMHelper.getJavaNodeSourceRegion(method) != null){
-			link.setFile(KDMHelper.getJavaNodeSourceRegion(method));
-		}
+    }
 
-		this.analysisResult.getSourceCodeDecoratorRepository()
-				.getMethodLevelSourceCodeLink().add(link);
-	}
+    private String createMethodNameWithNumber(final String methodName, final int counter) {
+        return methodName + "_" + counter;
+    }
 
-	/**
-	 * Look if a message type that contains the parameters specified by name and
-	 * type already exists in the repository
-	 * 
-	 * @return the MessageType. Returns null, if no message type is found, or if
-	 *         the size of parameterNames does not equal the size of
-	 *         parameterTypes.
-	 */
-	// private MessageType findMessageTypeInRepository(
-	// List<String> parameterNames,
-	// List<Type> parameterTypes) {
-	// if (parameterNames == null) {
-	// parameterNames = new ArrayList<String>();
-	// }
-	// if (parameterTypes == null) {
-	// parameterTypes = new ArrayList<Type>();
-	// }
-	// if (parameterNames.size() != parameterTypes.size()) {
-	// return null;
-	// }
-	// for (MessageType messageType :
-	// this.analysisResult.getInternalArchitectureModel().getMessagetype()) {
-	// if (messageType.getParameters().size() != parameterNames.size()) {
-	// continue;
-	// }
-	// boolean parametersMatch = true;
-	// for (int i = 0; i < messageType.getParameters().size(); i++) {
-	// de.uka.ipd.sdq.pcm.repository.Parameter param =
-	// messageType.getParameters().get(i);
-	// if (!param.getParameterName().equals(parameterNames.get(i))) {
-	// parametersMatch = false;
-	// break;
-	// }
-	// if (param.getDataType__Parameter() != null &&
-	// param.getDataType__Parameter().getName() != null && //null pointer
-	// protection
-	// parameterTypes.get(i).getName() != null &&
-	// !param.getDataType__Parameter().getName().toLowerCase().equals(
-	// parameterTypes.get(i).getName().toLowerCase())) {
-	// parametersMatch = false;
-	// break;
-	// }
-	// }
-	// if (parametersMatch == true) {
-	// return messageType;
-	// }
-	// }
-	// return null;
-	// }
+    private boolean containsName(final OperationInterface interf, final String methodName) {
+        final EList<OperationSignature> signatures = interf.getSignatures__OperationInterface();
+        for (final OperationSignature signature : signatures) {
+            if (signature.getEntityName().equals(methodName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	/**
-	 * Create a message type
-	 * 
-	 * @param parameterNames
-	 *            the names of the parameters
-	 * @param parameterTypes
-	 *            the type names of the parameter. SAMM types are created (if
-	 *            they do not already exist) for these types
-	 * @param repository
-	 *            the Repository in which the MessageType has to be stored
-	 * @return the created message type. Returns null if the size of
-	 *         parameterNames does not equal the size of parameterTypes or if
-	 *         only void parameters are present
-	 */
-	// private MessageType createMessageType(List<String> parameterNames,
-	// List<Type> parameterTypes) {
-	// if (parameterNames == null) {
-	// parameterNames = new ArrayList<String>();
-	// }
-	// if (parameterTypes == null) {
-	// parameterTypes = new ArrayList<Type>();
-	// }
-	// if (parameterNames.size() != parameterTypes.size()) {
-	// return null;
-	// }
-	// MessageType messageType =
-	// StaticstructureFactory.eINSTANCE.createMessageType();
-	// String messageTypeName = "";
-	// if (parameterTypes.size() > 0) {
-	// for (int i = 0; i < parameterTypes.size(); i++) {
-	// if(!parameterTypes.get(i).getName().equals(voidType)) { //do not create
-	// void pointers
-	//
-	// if (messageTypeName.length() > 0) {
-	// messageTypeName += "_";
-	// }
-	// messageTypeName += parameterTypes.get(i).getName();
-	// Parameter param = RepositoryFactory.eINSTANCE.createParameter();
-	// param.setParameterName(parameterNames.get(i));
-	// param.setDataType__Parameter(getType(parameterTypes.get(i),
-	// this.analysisResult.getInternalArchitectureModel()));
-	// messageType.getParameters().add(param);
-	// }
-	// }
-	// }
-	// if(messageType.getParameters().size() > 0) {
-	// messageType.setName(messageTypeName);
-	// this.analysisResult.getInternalArchitectureModel().getMessagetype().add(messageType);
-	// return messageType;
-	// } else {
-	// return null; // only void parameters which are omitted
-	// }
-	//
-	// }
+    private void updateSourceCodeDecorator(final OperationSignature operation, final Method method) {
+        // assert method.getStatus() == Status.NORMAL; //TODO: check re-enabling
+        // other status implies empty method body and causes trouble during
+        // later stages
 
-	/**
-	 * Data type creation or look up for existing data types.
-	 * 
-	 * @param typeName
-	 *            type name to create
-	 * @param repository
-	 *            repository containing all present types
-	 * @return a new data type for non-existing ones; the existing instance else
-	 */
-	private DataType getType(Type gastType,
-			de.uka.ipd.sdq.pcm.repository.Repository repository) {
-		DataType type = getExistingType(gastType, repository);
+        final MethodLevelSourceCodeLink link = SourcecodedecoratorFactory.eINSTANCE.createMethodLevelSourceCodeLink();
 
-		if (type == null) {
-			type = createDataType(repository, gastType);
-		}
-		return type;
-	}
+        link.setFunction(method);
+        link.setOperation(operation);
 
-	/**
-	 * Creates a new data type for the given gastType.
-	 * 
-	 * @param repository
-	 *            The repository to add the new data type to
-	 * @param gastType
-	 *            The type to create a SAMM data type for
-	 * @return
-	 */
-	private DataType createDataType(
-			de.uka.ipd.sdq.pcm.repository.Repository repository, Type gastType) {
-		String typeName = KDMHelper.getName(gastType);
-		typeName = getUnifiedTypeName(typeName);
-		DataType newType = null;
-		if (typeName.equalsIgnoreCase("void")) {
-			// do nothing
-		} else if (typeName.equalsIgnoreCase("integer")) {
-			return DefaultResourceEnvironment.getPrimitiveDataTypeInteger();
-		} else if (typeName.equalsIgnoreCase("double")) {
-			return DefaultResourceEnvironment.getPrimitiveDataTypeDouble();
-		} else if (typeName.equalsIgnoreCase("string")) {
-			return DefaultResourceEnvironment.getPrimitiveDataTypeString();
-		} else if (typeName.equalsIgnoreCase("boolean")) {
-			return DefaultResourceEnvironment.getPrimitiveDataTypeBool();
-		} else if (typeName.equalsIgnoreCase("char")) {
-			return DefaultResourceEnvironment.getPrimitiveDataTypeChar();
-		} else if (typeName.equalsIgnoreCase("byte")) {
-			return DefaultResourceEnvironment.getPrimitiveDataTypeByte();
-			//PDF27.11: added java String data type as PCM-Repo composite datatype	TODO: not working?
-		} else if (typeName.equalsIgnoreCase("String")) {
-			return DefaultResourceEnvironment.getPrimitiveDataTypeString();
-		} else if (gastType instanceof ArrayInstantiationByValuesTyped) {
-			// ArrayTypeable statt ArrayType
-			ArrayInstantiationByValuesTyped  arrayType = (ArrayInstantiationByValuesTyped) gastType;
-			newType = RepositoryFactory.eINSTANCE.createCollectionDataType();
-			((CollectionDataType)newType).setEntityName(typeName);
-			repository.getDataTypes__Repository().add(newType); 
-			logger.debug("found collection type " + typeName);
-			// set inner type:
-			DataType innerType = getType(arrayType.getReferencedType(), repository);
-			if(innerType == null){
-				logger.error("Unsupported inner type: " + arrayType.getReferencedType());
-				// TODO switch to real type checks!!!
-			}
-			((de.uka.ipd.sdq.pcm.repository.CollectionDataType) newType)
-					.setInnerType_CollectionDataType(innerType);
-		} else {
-			if (KDMHelper.getAllAccessedClasses(gastType).size() > 1) {
-				// create a complex data type:
-				newType = RepositoryFactory.eINSTANCE.createCompositeDataType();
-				repository.getDataTypes__Repository().add(newType);
-				
-				
-				// set inner types: //TODO PDF23.11.14: disabled due to stackoverflow error
-//				for (Type currentClass : KDMHelper
-//						.getAllAccessedClasses(gastType)) {
-//					// avoid self-references and void as access
-//					if (!currentClass.equals(gastType)
-//							&& !KDMHelper.getName(currentClass).equals("void")) {
-//						String tmpInnerTypeName = KDMHelper.getName(currentClass);
-//						;
-//						InnerDeclaration innerElement = RepositoryFactory.eINSTANCE
-//								.createInnerDeclaration();
-//						innerElement.setDatatype_InnerDeclaration(getType(
-//								currentClass, repository));
-//						innerElement.setEntityName(tmpInnerTypeName);
-//						((CompositeDataType) newType)
-//								.getInnerDeclaration_CompositeDataType().add(
-//										innerElement);
-//					}
-//				}
-				
-				//TODO: PDF 23.11.14: modified version of above with dirty hack that avoids a stackoverflow error
-				for (Type currentClass : KDMHelper
-						.getAllAccessedClasses(gastType)) {
-					// avoid self-references and void as access
-					if (!currentClass.equals(gastType)
-							&& !KDMHelper.getName(currentClass).equals("void")) {
-						String tmpInnerTypeName = KDMHelper.getName(currentClass);
-						;
-						InnerDeclaration innerElement = RepositoryFactory.eINSTANCE
-								.createInnerDeclaration();
-						//PDF23.11: sets the type of the inner elements to Integer (AVOIDS ERRORS; NOT CORRECT!)
-						innerElement.setDatatype_InnerDeclaration(DefaultResourceEnvironment.getPrimitiveDataTypeInteger());
-						innerElement.setEntityName(tmpInnerTypeName);
-						((CompositeDataType) newType)
-								.getInnerDeclaration_CompositeDataType().add(
-										innerElement);
-						//PDF24.11: sets Datatype name; visible in PCM repo files
-						((CompositeDataType) newType).setEntityName(typeName);
-					}
-		
-				}
-			}
-		}
-		return newType;
-	}
+        if (KDMHelper.getJavaNodeSourceRegion(method) != null) {
+            link.setFile(KDMHelper.getJavaNodeSourceRegion(method));
+        }
 
-	/**
-	 * Reduces comparable types to a single type and copes with potentially
-	 * different naming of the same type.
-	 * 
-	 * @param typeName
-	 * @return
-	 */
-	private String getUnifiedTypeName(String typeName) {
-		if (typeName.toLowerCase().equals("int")
-				|| typeName.toLowerCase().equals("long")) {
-			// Do not create 2 datatypes for int and integer
-			// maps int and long to integer
-			typeName = "integer";
-		} else if (typeName.toLowerCase().equals("bool")) {
-			// Do not create 2 datatypes for bool and boolean
-			typeName = "boolean";
-			// } else if (typeName.toLowerCase().equals("char")) {//TODO
-			// SAMM2PCM removed
-			// typeName = "string"; // map char to string
-		} else if (typeName.toLowerCase().equals("float")) {
-			typeName = "double"; // map double to float
-		}
-		return typeName;
-	}
+        this.analysisResult.getSourceCodeDecoratorRepository().getMethodLevelSourceCodeLink().add(link);
+    }
 
-	/**
-	 * 
-	 * @param gastType
-	 * @param repository
-	 * @return null if not found
-	 */
-	private DataType getExistingType(Type gastType,
-			de.uka.ipd.sdq.pcm.repository.Repository repository) {
-		return getExistingTypeByName(KDMHelper.getName(gastType), repository);
-	}
+    /**
+     * Look if a message type that contains the parameters specified by name and type already exists
+     * in the repository
+     * 
+     * @return the MessageType. Returns null, if no message type is found, or if the size of
+     *         parameterNames does not equal the size of parameterTypes.
+     */
+    // private MessageType findMessageTypeInRepository(
+    // List<String> parameterNames,
+    // List<Type> parameterTypes) {
+    // if (parameterNames == null) {
+    // parameterNames = new ArrayList<String>();
+    // }
+    // if (parameterTypes == null) {
+    // parameterTypes = new ArrayList<Type>();
+    // }
+    // if (parameterNames.size() != parameterTypes.size()) {
+    // return null;
+    // }
+    // for (MessageType messageType :
+    // this.analysisResult.getInternalArchitectureModel().getMessagetype()) {
+    // if (messageType.getParameters().size() != parameterNames.size()) {
+    // continue;
+    // }
+    // boolean parametersMatch = true;
+    // for (int i = 0; i < messageType.getParameters().size(); i++) {
+    // de.uka.ipd.sdq.pcm.repository.Parameter param =
+    // messageType.getParameters().get(i);
+    // if (!param.getParameterName().equals(parameterNames.get(i))) {
+    // parametersMatch = false;
+    // break;
+    // }
+    // if (param.getDataType__Parameter() != null &&
+    // param.getDataType__Parameter().getName() != null && //null pointer
+    // protection
+    // parameterTypes.get(i).getName() != null &&
+    // !param.getDataType__Parameter().getName().toLowerCase().equals(
+    // parameterTypes.get(i).getName().toLowerCase())) {
+    // parametersMatch = false;
+    // break;
+    // }
+    // }
+    // if (parametersMatch == true) {
+    // return messageType;
+    // }
+    // }
+    // return null;
+    // }
 
-	/**
-	 * 
-	 * @param gastTypeName
-	 * @param repository
-	 * @return the found data type null if not found
-	 */
-	private DataType getExistingTypeByName(String gastTypeName,
-			de.uka.ipd.sdq.pcm.repository.Repository repository) {
-		gastTypeName = getUnifiedTypeName(gastTypeName);
-		//TODO: use hash map to look up instead of iterating over all datatypes
-		for (DataType currentType : repository.getDataTypes__Repository()) {
-			String pcmTypeName = null;
-			if(currentType instanceof CompositeDataType){
-				pcmTypeName = ((CompositeDataType)currentType).getEntityName();
+    /**
+     * Create a message type
+     * 
+     * @param parameterNames
+     *            the names of the parameters
+     * @param parameterTypes
+     *            the type names of the parameter. SAMM types are created (if they do not already
+     *            exist) for these types
+     * @param repository
+     *            the Repository in which the MessageType has to be stored
+     * @return the created message type. Returns null if the size of parameterNames does not equal
+     *         the size of parameterTypes or if only void parameters are present
+     */
+    // private MessageType createMessageType(List<String> parameterNames,
+    // List<Type> parameterTypes) {
+    // if (parameterNames == null) {
+    // parameterNames = new ArrayList<String>();
+    // }
+    // if (parameterTypes == null) {
+    // parameterTypes = new ArrayList<Type>();
+    // }
+    // if (parameterNames.size() != parameterTypes.size()) {
+    // return null;
+    // }
+    // MessageType messageType =
+    // StaticstructureFactory.eINSTANCE.createMessageType();
+    // String messageTypeName = "";
+    // if (parameterTypes.size() > 0) {
+    // for (int i = 0; i < parameterTypes.size(); i++) {
+    // if(!parameterTypes.get(i).getName().equals(voidType)) { //do not create
+    // void pointers
+    //
+    // if (messageTypeName.length() > 0) {
+    // messageTypeName += "_";
+    // }
+    // messageTypeName += parameterTypes.get(i).getName();
+    // Parameter param = RepositoryFactory.eINSTANCE.createParameter();
+    // param.setParameterName(parameterNames.get(i));
+    // param.setDataType__Parameter(getType(parameterTypes.get(i),
+    // this.analysisResult.getInternalArchitectureModel()));
+    // messageType.getParameters().add(param);
+    // }
+    // }
+    // }
+    // if(messageType.getParameters().size() > 0) {
+    // messageType.setName(messageTypeName);
+    // this.analysisResult.getInternalArchitectureModel().getMessagetype().add(messageType);
+    // return messageType;
+    // } else {
+    // return null; // only void parameters which are omitted
+    // }
+    //
+    // }
 
-			}else if(currentType instanceof CollectionDataType){
-				pcmTypeName = ((CollectionDataType)currentType).getEntityName();
-			}else if(currentType instanceof PrimitiveDataType){
-				pcmTypeName = ((PrimitiveDataType)currentType).getType().getName();
-			}
-			if (gastTypeName.equals(pcmTypeName)){
-				return currentType;
-			}
-		}
-		logger.info("no type found for " + gastTypeName + ". Type will be created.");
-		return null;
-	}
+    /**
+     * Data type creation or look up for existing data types.
+     * 
+     * @param typeName
+     *            type name to create
+     * @param repository
+     *            repository containing all present types
+     * @return a new data type for non-existing ones; the existing instance else
+     */
+    private DataType getType(final Type gastType, final de.uka.ipd.sdq.pcm.repository.Repository repository) {
+        DataType type = this.getExistingType(gastType, repository);
+
+        if (type == null) {
+            type = this.createDataType(repository, gastType);
+        }
+        return type;
+    }
+
+    /**
+     * Creates a new data type for the given gastType.
+     * 
+     * @param repository
+     *            The repository to add the new data type to
+     * @param gastType
+     *            The type to create a SAMM data type for
+     * @return
+     */
+    private DataType createDataType(final de.uka.ipd.sdq.pcm.repository.Repository repository, final Type gastType) {
+        String typeName = KDMHelper.getName(gastType);
+        typeName = this.getUnifiedTypeName(typeName);
+        DataType newType = null;
+        if (typeName.equalsIgnoreCase("void")) {
+            // do nothing
+        } else if (typeName.equalsIgnoreCase("integer")) {
+            return DefaultResourceEnvironment.getPrimitiveDataTypeInteger();
+        } else if (typeName.equalsIgnoreCase("double")) {
+            return DefaultResourceEnvironment.getPrimitiveDataTypeDouble();
+        } else if (typeName.equalsIgnoreCase("string")) {
+            return DefaultResourceEnvironment.getPrimitiveDataTypeString();
+        } else if (typeName.equalsIgnoreCase("boolean")) {
+            return DefaultResourceEnvironment.getPrimitiveDataTypeBool();
+        } else if (typeName.equalsIgnoreCase("char")) {
+            return DefaultResourceEnvironment.getPrimitiveDataTypeChar();
+        } else if (typeName.equalsIgnoreCase("byte")) {
+            return DefaultResourceEnvironment.getPrimitiveDataTypeByte();
+            // PDF27.11: added java String data type as PCM-Repo composite datatype TODO: not
+            // working?
+        } else if (typeName.equalsIgnoreCase("String")) {
+            return DefaultResourceEnvironment.getPrimitiveDataTypeString();
+        } else if (gastType instanceof ArrayInstantiationByValuesTyped) {
+            // ArrayTypeable statt ArrayType
+            final ArrayInstantiationByValuesTyped arrayType = (ArrayInstantiationByValuesTyped) gastType;
+            newType = RepositoryFactory.eINSTANCE.createCollectionDataType();
+            ((CollectionDataType) newType).setEntityName(typeName);
+            repository.getDataTypes__Repository().add(newType);
+            logger.debug("found collection type " + typeName);
+            // set inner type:
+            final DataType innerType = this.getType(arrayType.getReferencedType(), repository);
+            if (innerType == null) {
+                logger.error("Unsupported inner type: " + arrayType.getReferencedType());
+                // TODO switch to real type checks!!!
+            }
+            ((de.uka.ipd.sdq.pcm.repository.CollectionDataType) newType).setInnerType_CollectionDataType(innerType);
+        } else {
+            if (KDMHelper.getAllAccessedClasses(gastType).size() > 1) {
+                // create a complex data type:
+                newType = RepositoryFactory.eINSTANCE.createCompositeDataType();
+                repository.getDataTypes__Repository().add(newType);
+
+                // set inner types: //TODO PDF23.11.14: disabled due to stackoverflow error
+                // for (Type currentClass : KDMHelper
+                // .getAllAccessedClasses(gastType)) {
+                // // avoid self-references and void as access
+                // if (!currentClass.equals(gastType)
+                // && !KDMHelper.getName(currentClass).equals("void")) {
+                // String tmpInnerTypeName = KDMHelper.getName(currentClass);
+                // ;
+                // InnerDeclaration innerElement = RepositoryFactory.eINSTANCE
+                // .createInnerDeclaration();
+                // innerElement.setDatatype_InnerDeclaration(getType(
+                // currentClass, repository));
+                // innerElement.setEntityName(tmpInnerTypeName);
+                // ((CompositeDataType) newType)
+                // .getInnerDeclaration_CompositeDataType().add(
+                // innerElement);
+                // }
+                // }
+
+                // TODO: PDF 23.11.14: modified version of above with dirty hack that avoids a
+                // stackoverflow error
+                for (final Type currentClass : KDMHelper.getAllAccessedClasses(gastType)) {
+                    // avoid self-references and void as access
+                    if (!currentClass.equals(gastType) && !KDMHelper.getName(currentClass).equals("void")) {
+                        final String tmpInnerTypeName = KDMHelper.getName(currentClass);
+                        ;
+                        final InnerDeclaration innerElement = RepositoryFactory.eINSTANCE.createInnerDeclaration();
+                        // PDF23.11: sets the type of the inner elements to Integer (AVOIDS ERRORS;
+                        // NOT CORRECT!)
+                        innerElement.setDatatype_InnerDeclaration(DefaultResourceEnvironment
+                                .getPrimitiveDataTypeInteger());
+                        innerElement.setEntityName(tmpInnerTypeName);
+                        ((CompositeDataType) newType).getInnerDeclaration_CompositeDataType().add(innerElement);
+                        // PDF24.11: sets Datatype name; visible in PCM repo files
+                        ((CompositeDataType) newType).setEntityName(typeName);
+                    }
+
+                }
+            }
+        }
+        return newType;
+    }
+
+    /**
+     * Reduces comparable types to a single type and copes with potentially different naming of the
+     * same type.
+     * 
+     * @param typeName
+     * @return
+     */
+    private String getUnifiedTypeName(String typeName) {
+        if (typeName.toLowerCase().equals("int") || typeName.toLowerCase().equals("long")) {
+            // Do not create 2 datatypes for int and integer
+            // maps int and long to integer
+            typeName = "integer";
+        } else if (typeName.toLowerCase().equals("bool")) {
+            // Do not create 2 datatypes for bool and boolean
+            typeName = "boolean";
+            // } else if (typeName.toLowerCase().equals("char")) {//TODO
+            // SAMM2PCM removed
+            // typeName = "string"; // map char to string
+        } else if (typeName.toLowerCase().equals("float")) {
+            typeName = "double"; // map double to float
+        }
+        return typeName;
+    }
+
+    /**
+     * 
+     * @param gastType
+     * @param repository
+     * @return null if not found
+     */
+    private DataType getExistingType(final Type gastType, final de.uka.ipd.sdq.pcm.repository.Repository repository) {
+        return this.getExistingTypeByName(KDMHelper.getName(gastType), repository);
+    }
+
+    /**
+     * 
+     * @param gastTypeName
+     * @param repository
+     * @return the found data type null if not found
+     */
+    private DataType getExistingTypeByName(String gastTypeName,
+            final de.uka.ipd.sdq.pcm.repository.Repository repository) {
+        gastTypeName = this.getUnifiedTypeName(gastTypeName);
+        // TODO: use hash map to look up instead of iterating over all datatypes
+        for (final DataType currentType : repository.getDataTypes__Repository()) {
+            String pcmTypeName = null;
+            if (currentType instanceof CompositeDataType) {
+                pcmTypeName = ((CompositeDataType) currentType).getEntityName();
+
+            } else if (currentType instanceof CollectionDataType) {
+                pcmTypeName = ((CollectionDataType) currentType).getEntityName();
+            } else if (currentType instanceof PrimitiveDataType) {
+                pcmTypeName = ((PrimitiveDataType) currentType).getType().getName();
+            }
+            if (gastTypeName.equals(pcmTypeName)) {
+                return currentType;
+            }
+        }
+        logger.info("no type found for " + gastTypeName + ". Type will be created.");
+        return null;
+    }
 }
