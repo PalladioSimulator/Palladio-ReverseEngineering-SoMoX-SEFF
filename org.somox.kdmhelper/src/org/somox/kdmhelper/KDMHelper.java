@@ -33,6 +33,7 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.modifiers.Private;
 import org.emftext.language.java.modifiers.Static;
 import org.emftext.language.java.parameters.Parameter;
+import org.emftext.language.java.parameters.VariableLengthParameter;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferenceableElement;
@@ -67,7 +68,7 @@ public class KDMHelper {
      * If this variable is true, then this class works like SISSy. Else, for the example it also
      * returns the String type.
      */
-    public static boolean SISSYMODE = true;
+    private static boolean SISSYMODE = false;
 
     // /**
     // *
@@ -214,8 +215,7 @@ public class KDMHelper {
             }
         } else {// KDM Mode
 
-            // TODO adopt this
-            if (accessedType instanceof Parameter) {
+            if (accessedType instanceof VariableLengthParameter) {
                 final Parameter paramType = (Parameter) accessedType;
                 // 1. add main type
                 result.add(paramType.getTypeReference().getTarget());
@@ -649,7 +649,7 @@ public class KDMHelper {
      * retruns the body of a method Since we use jamopp we return the class method itself since the
      * ClassMethod is a StatementListContainer If the method is not a class method we just return an
      * empty block (which is also a StatementListContainer)
-     * 
+     *
      * @param method
      * @return
      */
