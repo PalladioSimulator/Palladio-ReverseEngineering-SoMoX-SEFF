@@ -20,142 +20,164 @@ import org.somox.sourcecodedecorator.*;
  */
 public class SourcecodedecoratorFactoryImpl extends EFactoryImpl implements SourcecodedecoratorFactory {
 	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
+     * Creates the default factory implementation.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public static SourcecodedecoratorFactory init() {
-		try {
-			SourcecodedecoratorFactory theSourcecodedecoratorFactory = (SourcecodedecoratorFactory)EPackage.Registry.INSTANCE.getEFactory(SourcecodedecoratorPackage.eNS_URI);
-			if (theSourcecodedecoratorFactory != null) {
-				return theSourcecodedecoratorFactory;
-			}
-		}
-		catch (Exception exception) {
-			EcorePlugin.INSTANCE.log(exception);
-		}
-		return new SourcecodedecoratorFactoryImpl();
-	}
+        try {
+            SourcecodedecoratorFactory theSourcecodedecoratorFactory = (SourcecodedecoratorFactory)EPackage.Registry.INSTANCE.getEFactory(SourcecodedecoratorPackage.eNS_URI);
+            if (theSourcecodedecoratorFactory != null) {
+                return theSourcecodedecoratorFactory;
+            }
+        }
+        catch (Exception exception) {
+            EcorePlugin.INSTANCE.log(exception);
+        }
+        return new SourcecodedecoratorFactoryImpl();
+    }
 
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
+     * Creates an instance of the factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public SourcecodedecoratorFactoryImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case SourcecodedecoratorPackage.FILE_LEVEL_SOURCE_CODE_LINK: return createFileLevelSourceCodeLink();
-			case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK: return createMethodLevelSourceCodeLink();
-			case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK: return createControlFlowLevelSourceCodeLink();
-			case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY: return createSourceCodeDecoratorRepository();
-			case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK: return createInterfaceSourceCodeLink();
-			case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK: return createComponentImplementingClassesLink();
-			case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK: return createPCMSystemImplementatingClassesLink();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eClass.getClassifierID()) {
+            case SourcecodedecoratorPackage.FILE_LEVEL_SOURCE_CODE_LINK: return createFileLevelSourceCodeLink();
+            case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK: return createMethodLevelSourceCodeLink();
+            case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK: return createControlFlowLevelSourceCodeLink();
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY: return createSourceCodeDecoratorRepository();
+            case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK: return createInterfaceSourceCodeLink();
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK: return createComponentImplementingClassesLink();
+            case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK: return createPCMSystemImplementatingClassesLink();
+            case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK: return createDataTypeSourceCodeLink();
+            case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK: return createInnerDatatypeSourceCodeLink();
+            default:
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        }
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public FileLevelSourceCodeLink createFileLevelSourceCodeLink() {
-		FileLevelSourceCodeLinkImpl fileLevelSourceCodeLink = new FileLevelSourceCodeLinkImpl();
-		return fileLevelSourceCodeLink;
-	}
+        FileLevelSourceCodeLinkImpl fileLevelSourceCodeLink = new FileLevelSourceCodeLinkImpl();
+        return fileLevelSourceCodeLink;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public MethodLevelSourceCodeLink createMethodLevelSourceCodeLink() {
-		MethodLevelSourceCodeLinkImpl methodLevelSourceCodeLink = new MethodLevelSourceCodeLinkImpl();
-		return methodLevelSourceCodeLink;
-	}
+        MethodLevelSourceCodeLinkImpl methodLevelSourceCodeLink = new MethodLevelSourceCodeLinkImpl();
+        return methodLevelSourceCodeLink;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public ControlFlowLevelSourceCodeLink createControlFlowLevelSourceCodeLink() {
-		ControlFlowLevelSourceCodeLinkImpl controlFlowLevelSourceCodeLink = new ControlFlowLevelSourceCodeLinkImpl();
-		return controlFlowLevelSourceCodeLink;
-	}
+        ControlFlowLevelSourceCodeLinkImpl controlFlowLevelSourceCodeLink = new ControlFlowLevelSourceCodeLinkImpl();
+        return controlFlowLevelSourceCodeLink;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public SourceCodeDecoratorRepository createSourceCodeDecoratorRepository() {
-		SourceCodeDecoratorRepositoryImpl sourceCodeDecoratorRepository = new SourceCodeDecoratorRepositoryImpl();
-		return sourceCodeDecoratorRepository;
-	}
+        SourceCodeDecoratorRepositoryImpl sourceCodeDecoratorRepository = new SourceCodeDecoratorRepositoryImpl();
+        return sourceCodeDecoratorRepository;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public InterfaceSourceCodeLink createInterfaceSourceCodeLink() {
-		InterfaceSourceCodeLinkImpl interfaceSourceCodeLink = new InterfaceSourceCodeLinkImpl();
-		return interfaceSourceCodeLink;
-	}
+        InterfaceSourceCodeLinkImpl interfaceSourceCodeLink = new InterfaceSourceCodeLinkImpl();
+        return interfaceSourceCodeLink;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public ComponentImplementingClassesLink createComponentImplementingClassesLink() {
-		ComponentImplementingClassesLinkImpl componentImplementingClassesLink = new ComponentImplementingClassesLinkImpl();
-		return componentImplementingClassesLink;
-	}
+        ComponentImplementingClassesLinkImpl componentImplementingClassesLink = new ComponentImplementingClassesLinkImpl();
+        return componentImplementingClassesLink;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public PCMSystemImplementatingClassesLink createPCMSystemImplementatingClassesLink() {
-		PCMSystemImplementatingClassesLinkImpl pcmSystemImplementatingClassesLink = new PCMSystemImplementatingClassesLinkImpl();
-		return pcmSystemImplementatingClassesLink;
-	}
+        PCMSystemImplementatingClassesLinkImpl pcmSystemImplementatingClassesLink = new PCMSystemImplementatingClassesLinkImpl();
+        return pcmSystemImplementatingClassesLink;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public DataTypeSourceCodeLink createDataTypeSourceCodeLink() {
+        DataTypeSourceCodeLinkImpl dataTypeSourceCodeLink = new DataTypeSourceCodeLinkImpl();
+        return dataTypeSourceCodeLink;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public InnerDatatypeSourceCodeLink createInnerDatatypeSourceCodeLink() {
+        InnerDatatypeSourceCodeLinkImpl innerDatatypeSourceCodeLink = new InnerDatatypeSourceCodeLinkImpl();
+        return innerDatatypeSourceCodeLink;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public SourcecodedecoratorPackage getSourcecodedecoratorPackage() {
-		return (SourcecodedecoratorPackage)getEPackage();
-	}
+        return (SourcecodedecoratorPackage)getEPackage();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
+     * @deprecated
+     * @generated
+     */
 	@Deprecated
 	public static SourcecodedecoratorPackage getPackage() {
-		return SourcecodedecoratorPackage.eINSTANCE;
-	}
+        return SourcecodedecoratorPackage.eINSTANCE;
+    }
 
 } //SourcecodedecoratorFactoryImpl

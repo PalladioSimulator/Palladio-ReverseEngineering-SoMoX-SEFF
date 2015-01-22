@@ -3,16 +3,12 @@
 package org.somox.sourcecodedecorator.impl;
 
 import de.uka.ipd.sdq.pcm.repository.Signature;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.emftext.language.java.members.Method;
-
+import org.emftext.language.java.members.Member;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
 
@@ -32,188 +28,188 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  */
 public class MethodLevelSourceCodeLinkImpl extends FileLevelSourceCodeLinkImpl implements MethodLevelSourceCodeLink {
 	/**
-	 * The cached value of the '{@link #getOperation() <em>Operation</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getOperation() <em>Operation</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getOperation()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getOperation()
+     * @generated
+     * @ordered
+     */
 	protected Signature operation;
 
 	/**
-	 * The cached value of the '{@link #getFunction() <em>Function</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getFunction() <em>Function</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getFunction()
-	 * @generated
-	 * @ordered
-	 */
-	protected Method function;
+     * @see #getFunction()
+     * @generated
+     * @ordered
+     */
+	protected Member function;
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected MethodLevelSourceCodeLinkImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return SourcecodedecoratorPackage.Literals.METHOD_LEVEL_SOURCE_CODE_LINK;
-	}
+        return SourcecodedecoratorPackage.Literals.METHOD_LEVEL_SOURCE_CODE_LINK;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Signature getOperation() {
-		if (operation != null && operation.eIsProxy()) {
-			InternalEObject oldOperation = (InternalEObject)operation;
-			operation = (Signature)eResolveProxy(oldOperation);
-			if (operation != oldOperation) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION, oldOperation, operation));
-			}
-		}
-		return operation;
-	}
+        if (operation != null && ((EObject)operation).eIsProxy()) {
+            InternalEObject oldOperation = (InternalEObject)operation;
+            operation = (Signature)eResolveProxy(oldOperation);
+            if (operation != oldOperation) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION, oldOperation, operation));
+            }
+        }
+        return operation;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Signature basicGetOperation() {
-		return operation;
-	}
+        return operation;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setOperation(Signature newOperation) {
-		Signature oldOperation = operation;
-		operation = newOperation;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION, oldOperation, operation));
-	}
+        Signature oldOperation = operation;
+        operation = newOperation;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION, oldOperation, operation));
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Method getFunction() {
-		if (function != null && function.eIsProxy()) {
-			InternalEObject oldFunction = (InternalEObject)function;
-			function = (Method)eResolveProxy(oldFunction);
-			if (function != oldFunction) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION, oldFunction, function));
-			}
-		}
-		return function;
-	}
+     * @generated
+     */
+	public Member getFunction() {
+        if (function != null && function.eIsProxy()) {
+            InternalEObject oldFunction = (InternalEObject)function;
+            function = (Member)eResolveProxy(oldFunction);
+            if (function != oldFunction) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION, oldFunction, function));
+            }
+        }
+        return function;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Method basicGetFunction() {
-		return function;
-	}
+     * @generated
+     */
+	public Member basicGetFunction() {
+        return function;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setFunction(Method newFunction) {
-		Method oldFunction = function;
-		function = newFunction;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION, oldFunction, function));
-	}
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setFunction(Member newFunction) {
+        Member oldFunction = function;
+        function = newFunction;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION, oldFunction, function));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION:
-				if (resolve) return getOperation();
-				return basicGetOperation();
-			case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
-				if (resolve) return getFunction();
-				return basicGetFunction();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION:
+                if (resolve) return getOperation();
+                return basicGetOperation();
+            case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
+                if (resolve) return getFunction();
+                return basicGetFunction();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION:
-				setOperation((Signature)newValue);
-				return;
-			case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
-				setFunction((Method)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION:
+                setOperation((Signature)newValue);
+                return;
+            case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
+                setFunction((Member)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION:
-				setOperation((Signature)null);
-				return;
-			case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
-				setFunction((Method)null);
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION:
+                setOperation((Signature)null);
+                return;
+            case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
+                setFunction((Member)null);
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION:
-				return operation != null;
-			case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
-				return function != null;
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION:
+                return operation != null;
+            case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
+                return function != null;
+        }
+        return super.eIsSet(featureID);
+    }
 
 } //MethodLevelSourceCodeLinkImpl

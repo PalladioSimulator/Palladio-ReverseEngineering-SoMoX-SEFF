@@ -2,7 +2,7 @@ package org.somox.metrics;
 
 import java.util.Map;
 
-import org.emftext.language.java.types.Type;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.jgrapht.DirectedGraph;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.metamodeladdition.Root;
@@ -55,7 +55,7 @@ public interface IMetric {
             Root gastModel,
             SoMoXConfiguration somoxConfiguration,
             Map<MetricID, IMetric> allMetrics,
-            DirectedGraph<Type, ClassAccessGraphEdge> accessGraph,
+            DirectedGraph<ConcreteClassifier, ClassAccessGraphEdge> accessGraph,
             ComponentToImplementingClassesHelper componentToClassHelper);
 
     /**

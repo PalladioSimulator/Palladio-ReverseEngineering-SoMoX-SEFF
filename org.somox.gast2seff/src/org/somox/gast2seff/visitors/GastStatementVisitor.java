@@ -132,7 +132,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
                 }
                 GastStatementVisitor.this.lastType = thisType;
             }
-            return null;
+            return new Object();
         }
     }
 
@@ -144,9 +144,6 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
                 final de.uka.ipd.sdq.pcm.seff.BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
                 GastStatementVisitor.this.seff.getSteps_Behaviour().add(branchAction);
                 branchAction.setEntityName(GastStatementVisitor.this.positionToString(switchStatement));
-                // TODO DONE TEST
-                // branchAction.setDocumentation(statementsToString(switchStatement.getStatements()));
-                // branchAction.set("created from a switch statement");
 
                 final ArrayList<ArrayList<Statement>> branches = SwitchStatementHelper
                         .createBlockListFromSwitchStatement(switchStatement);
@@ -215,7 +212,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
             } else {
                 GastStatementVisitor.this.createInternalAction(switchStatement);
             }
-            return null;
+            return new Object();
         }
 
         @Override
@@ -235,7 +232,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
             } else {
                 GastStatementVisitor.this.createInternalAction(input);
             }
-            return null;
+            return new Object();
         }
 
         @Override
@@ -276,7 +273,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
             } else {
                 GastStatementVisitor.this.createInternalAction(object);
             }
-            return null;
+            return new Object();
         }
 
         @Override
@@ -292,6 +289,16 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
         @Override
         public Object caseAssert(final Assert object) {
             return GastStatementVisitor.this.handleFormerSimpleStatement(object);
+        }
+
+        @Override
+        public Object caseStatement(final Statement statement) {
+            return GastStatementVisitor.this.handleFormerSimpleStatement(statement);
+        }
+
+        @Override
+        public Object defaultCase(final EObject object) {
+            return GastStatementVisitor.this.defaultCase(object);
         }
     }
 
@@ -330,7 +337,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
      *            the loop statement
      * @param body
      *            the body of the loop statement
-     * @return
+     * @returnpr
      */
     private Object handleLoopStatement(final Statement loopStatement, final Statement body) {
         if (this.containsExternalCall(loopStatement)) {
@@ -339,9 +346,6 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
             this.seff.getSteps_Behaviour().add(loop);
             loop.getBodyBehaviour_Loop().getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStartAction());
             loop.setEntityName(this.positionToString(loopStatement)); // GAST2SEFFCHANGE
-            // TODO DONE
-            // loop.setDocumentation(blockToString(body));
-            // loop.setDocumentation("created from a loop statement");
 
             new GastStatementVisitor(this.functionClassificationAnnotation, loop.getBodyBehaviour_Loop(),
                     this.sourceCodeDecoratorRepository, this.primitiveComponent).doSwitch(body);
@@ -351,7 +355,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
         } else {
             this.createInternalAction(loopStatement);
         }
-        return null;
+        return new Object();
     }
 
     // @Override
@@ -402,7 +406,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
             final MethodCall functionAccess = this.getFunctionAccess(object); // GAST2SEFFCHANGE
             final ReferenceableElement re = functionAccess.getTarget();
             if (!(re instanceof ClassMethod)) {
-                // TODO: log error
+                logger.error("Referenceable element must be a method call");
             } else {
                 final ClassMethod method = (ClassMethod) re;
 
@@ -419,7 +423,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
                     String msg = "Behaviour not set in GAST for " + method.getName(); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                     if (KDMHelper.getJavaNodeSourceRegion(object) != null
 
-                            && KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() != null) { // GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
+                    && KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() != null) { // GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
                         msg += ". Tried to call from "
 
                         + KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() + "."; // GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
@@ -434,7 +438,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
         } else {
             this.createInternalAction(object);
         }
-        return null;
+        return new Object();
     }
 
     /**
@@ -467,9 +471,13 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
         final MethodCall access = this.getFunctionAccess(object); // GAST2SEFFCHANGE
         call.setEntityName(KDMHelper.getMethod(access).getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
         final InterfacePortOperationTuple ifOperationTuple = this.getCalledInterfacePort(access);
-        call.setRole_ExternalService((OperationRequiredRole) ifOperationTuple.role);
-        call.setCalledService_ExternalService((OperationSignature) ifOperationTuple.signature);
-        // call.setDocumentation(this.positionToString(KDMHelper.getJavaNodeSourceRegion(object)));
+        if (null == ifOperationTuple) {
+            logger.warn("ifOperationTuple == null");
+        } else {
+            call.setRole_ExternalService((OperationRequiredRole) ifOperationTuple.role);
+            call.setCalledService_ExternalService((OperationSignature) ifOperationTuple.signature);
+            // call.setDocumentation(this.positionToString(KDMHelper.getJavaNodeSourceRegion(object)));
+        }
         // // GAST2SEFFCHANGE
         this.seff.getSteps_Behaviour().add(call);
     }
@@ -604,14 +612,14 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
 
                 if (KDMHelper.getAllAccesses(statement) != null && // GAST2SEFFCHANGE
                         KDMHelper.getAllAccesses(statement).size() >= 1// GAST2SEFFCHANGE
-                        ) {
+                ) {
                     final Commentable firstAccess = KDMHelper.getAllAccesses(statement).get(0); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                     if (firstAccess instanceof Commentable) { // GAST2SEFFCHANGE
                         final Commentable access = firstAccess; // GAST2SEFFCHANGE//GAST2SEFFCHANGE
 
                         if (GetAccessedType.getAccessedType(access) != null) { // GAST2SEFFCHANGE
                             blockString
-                            .append(" " + KDMHelper.getName(GetAccessedType.getAccessedType(access)) + "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                                    .append(" " + KDMHelper.getName(GetAccessedType.getAccessedType(access)) + "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                         }
                         return blockString.toString();
                     }
@@ -624,7 +632,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
         }
     }
 
-    private String positionToString(final Statement position) { // GAST2SEFFCHANGE
+    private String positionToString(final Commentable position) { // GAST2SEFFCHANGE
         final StringBuilder positionString = new StringBuilder("position: ");
         if (position != null) {
             if (position != null && position.getClass() != null) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
@@ -633,7 +641,8 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
                 // KDMHelper.getSourceFile(position).getName());//GAST2SEFFCHANGE
                 positionString.append(KDMHelper.computeFullQualifiedName(position)); // GAST2SEFFCHANGE
             }
-            if (null != position.getLayoutInformations() && null != position.getLayoutInformations().get(0)) {
+            if (null != position.getLayoutInformations() && 0 < position.getLayoutInformations().size()
+                    && null != position.getLayoutInformations().get(0)) {
                 final int startPos = position.getLayoutInformations().get(0).getStartOffset();
                 final int layoutSize = position.getLayoutInformations().size();
                 final int endPos = position.getLayoutInformations().get(layoutSize - 1).getStartOffset();
@@ -680,7 +689,6 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
         public Signature signature;
     }
 
-    // TODO
     @Override
     public Object defaultCase(final EObject object) {
         logger.warn("Not handled object by statement visitor:\n  " + object);

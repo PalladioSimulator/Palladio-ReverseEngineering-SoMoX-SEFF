@@ -21,30 +21,30 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
 public class SourcecodedecoratorXMLProcessor extends XMLProcessor {
 
 	/**
-	 * Public constructor to instantiate the helper.
-	 * <!-- begin-user-doc -->
+     * Public constructor to instantiate the helper.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public SourcecodedecoratorXMLProcessor() {
-		super((EPackage.Registry.INSTANCE));
-		SourcecodedecoratorPackage.eINSTANCE.eClass();
-	}
+        super((EPackage.Registry.INSTANCE));
+        SourcecodedecoratorPackage.eINSTANCE.eClass();
+    }
 	
 	/**
-	 * Register for "*" and "xml" file extensions the SourcecodedecoratorResourceFactoryImpl factory.
-	 * <!-- begin-user-doc -->
+     * Register for "*" and "xml" file extensions the SourcecodedecoratorResourceFactoryImpl factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected Map<String, Resource.Factory> getRegistrations() {
-		if (registrations == null) {
-			super.getRegistrations();
-			registrations.put(XML_EXTENSION, new SourcecodedecoratorResourceFactoryImpl());
-			registrations.put(STAR_EXTENSION, new SourcecodedecoratorResourceFactoryImpl());
-		}
-		return registrations;
-	}
+        if (registrations == null) {
+            super.getRegistrations();
+            registrations.put(XML_EXTENSION, new SourcecodedecoratorResourceFactoryImpl());
+            registrations.put(STAR_EXTENSION, new SourcecodedecoratorResourceFactoryImpl());
+        }
+        return registrations;
+    }
 
 } //SourcecodedecoratorXMLProcessor

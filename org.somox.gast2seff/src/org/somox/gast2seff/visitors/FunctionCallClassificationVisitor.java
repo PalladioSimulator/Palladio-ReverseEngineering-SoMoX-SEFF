@@ -29,16 +29,6 @@ import org.emftext.language.java.statements.util.StatementsSwitch;
 import org.somox.kdmhelper.GetAccessedType;
 import org.somox.kdmhelper.KDMHelper;
 
-//import de.fzi.gast.accesses.BaseAccess;//GAST2SEFFCHANGE
-//import de.fzi.gast.accesses.FunctionAccess;//GAST2SEFFCHANGE
-//import de.fzi.gast.statements.BlockStatement;//GAST2SEFFCHANGE
-//import de.fzi.gast.statements.Branch;//GAST2SEFFCHANGE
-//import de.fzi.gast.statements.BranchStatement;//GAST2SEFFCHANGE
-//import de.fzi.gast.statements.LoopStatement;//GAST2SEFFCHANGE
-//import de.fzi.gast.statements.SimpleStatement;//GAST2SEFFCHANGE
-//import de.fzi.gast.statements.Statement;//GAST2SEFFCHANGE
-//import de.fzi.gast.statements.util.statementsSwitch;//GAST2SEFFCHANGE
-
 /**
  * Classifies function calls are internal, library, or external calls. Transitively assigns that
  * type to outer statements like loops or branches.
@@ -279,13 +269,17 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
     private BitSet computeChildAnnotations(final BitSet initalValue, final List<Statement> childStatements) {
         // 1. visit all sub statements
         for (final Statement s : childStatements) {
-            this.doSwitch(s);
+            if (null != s) {
+                this.doSwitch(s);
+            }
         }
 
         // 2. compute own type iteratively
         final BitSet myType = initalValue;
         for (final Statement s : childStatements) {
-            this.myStrategy.mergeFunctionCallType(myType, this.annotations.get(s));
+            if (null != s) {
+                this.myStrategy.mergeFunctionCallType(myType, this.annotations.get(s));
+            }
         }
 
         return myType;

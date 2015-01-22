@@ -26,7 +26,6 @@ import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.seff2javaast.SEFF2MethodMapping;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
-import de.uka.ipd.sdq.pcm.qosannotations.QoSAnnotations;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.seff.AbstractAction;
 import de.uka.ipd.sdq.pcm.seff.ResourceDemandingBehaviour;
@@ -39,21 +38,6 @@ import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
 import de.uka.ipd.sdq.workflow.jobs.IBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
-//import de.fzi.gast.statements.BlockStatement;//GAST2SEFFCHANGE
-//import eu.qimpress.samm.behaviour.Behaviour;
-//import eu.qimpress.samm.behaviour.BehaviourFactory;
-//import eu.qimpress.samm.behaviour.GastBehaviourStub;
-//import eu.qimpress.samm.behaviour.SeffBehaviourStub;
-//import eu.qimpress.samm.qosannotation.QosAnnotations;
-//import eu.qimpress.samm.staticstructure.PrimitiveComponent;
-//import eu.qimpress.samm.staticstructure.ServiceArchitectureModel;
-//import eu.qimpress.seff.AbstractAction;
-//import eu.qimpress.seff.ResourceDemandingBehaviour;
-//import eu.qimpress.seff.ResourceDemandingSEFF;
-//import eu.qimpress.seff.SeffRepository;
-//import eu.qimpress.seff.StartAction;
-//import eu.qimpress.seff.StopAction;
-//import eu.qimpress.seff.seffFactory;
 
 /**
  * Transformation Job transforming a SAM instance with GAST Behaviours into a SAM instance with SEFF
@@ -66,7 +50,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
     private final Logger logger = Logger.getLogger(GAST2SEFFJob.class);
 
     /** The SoMoX blackboard to interact with. */
-    private SoMoXBlackboard blackboard = null;
+    private SoMoXBlackboard blackboard;
 
     /**
      * The resource set used to load and store all resources needed for the transformation
@@ -76,11 +60,10 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
     /**
      * Resources containing the models
      */
-    private SEFF2JavaAST gastBehaviourRepositoryModel = null;
-    private SourceCodeDecoratorRepository sourceCodeDecoratorModel = null;
-    private QoSAnnotations sammQosAnnotationsModel = null;
+    private SEFF2JavaAST gastBehaviourRepositoryModel;
+    private SourceCodeDecoratorRepository sourceCodeDecoratorModel;
 
-    private FunctionCallClassificationVisitor typeVisitor = null;
+    private FunctionCallClassificationVisitor typeVisitor;
 
     public GAST2SEFFJob() {
         super();
@@ -91,7 +74,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.uka.ipd.sdq.workflow.IJob#execute(org.eclipse.core.runtime.IProgressMonitor)
      */
     @Override
@@ -101,7 +84,6 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
 
         final AnalysisResult result = this.blackboard.getAnalysisResult();
         this.gastBehaviourRepositoryModel = result.getSeff2JavaAST();
-        this.sammQosAnnotationsModel = result.getQosAnnotationModel();
         this.sourceCodeDecoratorModel = result.getSourceCodeDecoratorRepository();
 
         final IProgressMonitor subMonitor = new SubProgressMonitor(monitor, IProgressMonitor.UNKNOWN);
@@ -120,8 +102,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
         }
 
         // Create default annotations
-        final DefaultQosAnnotationsBuilder qosAnnotationBuilder = new DefaultQosAnnotationsBuilder(
-                this.sammQosAnnotationsModel);
+        final DefaultQosAnnotationsBuilder qosAnnotationBuilder = new DefaultQosAnnotationsBuilder();
         qosAnnotationBuilder.buildDefaultQosAnnotations(this.gastBehaviourRepositoryModel.getSeff2MethodMappings());
 
         subMonitor.done();
@@ -129,7 +110,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.uka.ipd.sdq.workflow.IJob#getName()
      */
     @Override
@@ -152,8 +133,9 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
 
         // initialise for new component / seff to reverse engineer:
         final BasicComponent basicComponent = (BasicComponent) seff.eContainer();
-        this.typeVisitor = new FunctionCallClassificationVisitor(new BasicFunctionClassificationStrategy(
-                this.sourceCodeDecoratorModel, basicComponent));
+        final BasicFunctionClassificationStrategy basicFunctionClassifierStrategy = new BasicFunctionClassificationStrategy(
+                this.sourceCodeDecoratorModel, basicComponent);
+        this.typeVisitor = new FunctionCallClassificationVisitor(basicFunctionClassifierStrategy);
 
         seff.getSteps_Behaviour().add(start);
 

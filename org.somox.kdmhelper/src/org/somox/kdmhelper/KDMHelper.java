@@ -2,6 +2,7 @@ package org.somox.kdmhelper;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -24,9 +25,10 @@ import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.generics.TypeArgument;
-import org.emftext.language.java.members.ClassMethod;
+import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.Method;
+import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.Final;
 import org.emftext.language.java.modifiers.Modifier;
 import org.emftext.language.java.modifiers.ModifiersFactory;
@@ -87,7 +89,12 @@ public class KDMHelper {
     // return result;
     // }
     public static String getName(final Type type) {
-        if (type instanceof Classifier) {
+        if (null == type) {
+            return null;
+        }
+        if (type instanceof NamedElement) {
+            return ((NamedElement) type).getName();
+        } else if (type instanceof Classifier) {
             return ((Classifier) type).getName();
         } else if (type instanceof Package) {
             return ((Package) type).getName();
@@ -131,8 +138,6 @@ public class KDMHelper {
             return type.toString();
         }
     }
-
-    // TODO test
 
     /**
      * Returns the qualified name for a type.
@@ -253,7 +258,7 @@ public class KDMHelper {
      */
     public static List<Type> getAllAccessedClasses(final Type input) {
         final Set<Type> resultList = new HashSet<Type>();
-        final List<Commentable> accesses = getAllAccesses(input);
+        final List<TypeReference> accesses = getAllAccesses(input);
 
         for (final Commentable node : accesses) {
             resultList.addAll(getAccessedTypes(node));
@@ -272,62 +277,19 @@ public class KDMHelper {
      *            an {@link ASTNode} object
      * @return all accesses inside the ASTNode object
      */
-    public static List<Commentable> getAllAccesses(final Commentable input) {
-        final List<Commentable> result = new ArrayList<Commentable>();
+    public static List<TypeReference> getAllAccesses(final Commentable input) {
+        final List<TypeReference> result = new ArrayList<TypeReference>();
         final TreeIterator<EObject> iterator = input.eAllContents();
-        final List<EObject> test = new ArrayList<EObject>();
 
         while (iterator.hasNext()) {
             final EObject element = iterator.next();
-            if (element instanceof Commentable) {
-                test.add(element);
-                if (isAccess((Commentable) element)) {
-                    // remove accesses in java doc tags
-                    if (element.eContainer() instanceof TagElement) {
-                        continue;
-                    }
-                    result.add((Commentable) element);
+            if (element instanceof TypeReference) {
+                if (isAccess((TypeReference) element)) {
+                    result.add((TypeReference) element);
 
                 }
             }
         }
-        return result;
-    }
-
-    /**
-     * Returns all inheritance type accesses: Super classes and super interfaces.
-     *
-     * @param type
-     *            the input {@link Type}
-     * @return the list of inheritance type access
-     */
-    public static Collection<TypeReference> getInheritanceTypeAccesses(final Type type) {
-
-        final Set<TypeReference> result = new HashSet<TypeReference>();
-
-        if (type instanceof Class) {
-            final Class tempClass = (Class) type;
-            result.addAll(tempClass.getImplements());
-            if (tempClass.getExtends() != null) {
-                result.add(tempClass.getExtends());
-            }
-        }
-
-        if (type instanceof Interface) {
-            final Interface tempInterface = (Interface) type;
-            result.addAll(tempInterface.getSuperTypeReferences());
-        }
-
-        // remove self references (otherwise would cause an infinity loop)
-        // TODO check if that is correct
-        final Iterator<TypeReference> it = result.iterator();
-        while (it.hasNext()) {
-            final TypeReference ref = it.next();
-            if (ref.getTarget().equals(type)) {
-                it.remove();
-            }
-        }
-
         return result;
     }
 
@@ -339,15 +301,15 @@ public class KDMHelper {
      * @return the list of inner classes
      */
     // SOMOXTODOCHANGE inner classes in inner classes???
-    public static List<Type> getInnerClasses(final Type clazz) {
-        final List<Type> result = new ArrayList<Type>();
+    public static List<ConcreteClassifier> getInnerClasses(final ConcreteClassifier clazz) {
+        final List<ConcreteClassifier> result = new ArrayList<ConcreteClassifier>();
         if (!(clazz instanceof Class)) {
             return result;
         }
         for (final Iterator<EObject> iterator = clazz.eAllContents(); iterator.hasNext();) {
             final EObject element = iterator.next();
             if (element instanceof Class) {
-                if (isInnerClass((Type) element)) {
+                if (isInnerClass((ConcreteClassifier) element)) {
                     result.add((Class) element);
                 }
             }
@@ -377,27 +339,10 @@ public class KDMHelper {
      *            the
      * @return the real methods (not constructors) of a Class
      */
-    public static List<Method> getMethods(final Type input) {
-        final List<Method> result = new ArrayList<Method>();
-        // FIXEDMYBUG used ClassDecl instead of AbstractTypeDeclaration, missed
-        // InterfaceDeclaration
-
-        if (!(input instanceof ConcreteClassifier)) {
-            return result;
-        }
-
-        final ConcreteClassifier clazz = (ConcreteClassifier) input;
-        for (final Member body : clazz.getMembers()) {
-            if (body instanceof Method) {
-                result.add((Method) body);
-            }
-        }
-        return result;
+    public static List<Method> getMethods(final ConcreteClassifier input) {
+        return input.getMethods();
     }
 
-    // TODO burkha 16.05.2013 test and fix, there is a bug in it
-    // the MoDisco method getRedefinedMethodDeclaration only works for classes,
-    // not for interfaces
     /**
      * Returns, if exist, the overridden member, else null.
      *
@@ -407,17 +352,11 @@ public class KDMHelper {
      */
     public static Method getOverriddenASTNode(final Method methDecInput) {
 
-        final Method redefinedMethodDeclaration = getRedefinedMethodDeclaration(methDecInput);
+        final ConcreteClassifier classifierOfMethod = methDecInput.getContainingConcreteClassifier();
+        final Collection<ConcreteClassifier> superTypes = getSuperTypes(classifierOfMethod);
 
-        if (redefinedMethodDeclaration != null) {
-            return redefinedMethodDeclaration;
-        }
-
-        final Type typeOfMethod = getAbstractTypeDeclaration(methDecInput);
-        final List<Type> superTypes = getSuperTypes(typeOfMethod);
-
-        for (final Type type : superTypes) {
-            final List<Method> method = KDMHelper.getMethods(type);
+        for (final ConcreteClassifier concreteClassifier : superTypes) {
+            final List<Method> method = KDMHelper.getMethods(concreteClassifier);
             for (final Method methodDeclaration : method) {
                 if (EqualityChecker.areFunctionsEqual(methDecInput, methodDeclaration)) {
                     return methodDeclaration;
@@ -428,17 +367,6 @@ public class KDMHelper {
         return null;
     }
 
-    private static Method getRedefinedMethodDeclaration(final Method methDecInput) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    private static Type getAbstractTypeDeclaration(final Object object) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    // TODO implement
     /**
      * Returns a string representing the {@link Commentable} object.
      *
@@ -461,24 +389,15 @@ public class KDMHelper {
     /**
      * Returns all super types of a type.
      *
-     * @param type
-     *            the input {@link Type}
+     * @param concreteClassifier
+     *            the input {@link ConcreteClassifier}
      * @return the list of super types
      */
-    public static List<Type> getSuperTypes(final Type type) {
-
-        final List<Type> result = new ArrayList<Type>();
-
-        if (type == null) {
-            return result;
+    public static List<ConcreteClassifier> getSuperTypes(final ConcreteClassifier concreteClassifier) {
+        if (concreteClassifier == null) {
+            return Collections.emptyList();
         }
-
-        for (final TypeReference typeAccess : getInheritanceTypeAccesses(type)) {
-            if (typeAccess != null) {
-                result.add(typeAccess.getTarget());
-            }
-        }
-        return result;
+        return concreteClassifier.getAllSuperClassifiers();
     }
 
     /**
@@ -495,21 +414,15 @@ public class KDMHelper {
 
     }
 
-    // TODO test
     /**
-     * Returns whether the type is abstract.
+     * Returns whether the AnnotableAndModifiable object is abstract.
      *
      * @param input
      *            the {@link Type} object
      * @return true or false
      */
-    public static boolean isAbstract(final Type input) {
-
-        if (input instanceof Method) {
-            return ((Method) input).getModifiers().contains(ModifiersFactory.eINSTANCE.createAbstract());
-        }
-
-        return false;
+    public static boolean isAbstract(final AnnotableAndModifiable input) {
+        return input.getModifiers().contains(ModifiersFactory.eINSTANCE.createAbstract());
     }
 
     // TODO check refactor switch class
@@ -564,16 +477,20 @@ public class KDMHelper {
      * @return true or false.
      */
     public static boolean isInheritanceTypeAccess(final TypeReference inputTypeAccess) {
-        if (inputTypeAccess.eContainer() instanceof Type) {
+        if (inputTypeAccess.eContainer() instanceof ConcreteClassifier) {
             // Type statt AbstractTypeDeclaration
-            final Type atd = (Type) inputTypeAccess.eContainer();
-            for (final TypeReference ta : getInheritanceTypeAccesses(atd)) {
+            final ConcreteClassifier concreteClassifier = (ConcreteClassifier) inputTypeAccess.eContainer();
+            for (final TypeReference ta : getInheritanceTypeAccesses(concreteClassifier)) {
                 if (ta == inputTypeAccess) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    public static List<ClassifierReference> getInheritanceTypeAccesses(final ConcreteClassifier concreteClassifier) {
+        return concreteClassifier.getSuperTypeReferences();
     }
 
     /**
@@ -583,8 +500,8 @@ public class KDMHelper {
      *            the input {@link Type}
      * @return true or false
      */
-    public static boolean isInnerClass(final Type clazz) {
-        return clazz instanceof Class & clazz.eContainer() instanceof Class;
+    public static boolean isInnerClass(final ConcreteClassifier clazz) {
+        return clazz.eContainer() instanceof Class;
     }
 
     public static EClass[] getNewEClassEnumeration() {
@@ -650,13 +567,12 @@ public class KDMHelper {
      * ClassMethod is a StatementListContainer If the method is not a class method we just return an
      * empty block (which is also a StatementListContainer)
      *
-     * @param method
+     * @param member
      * @return
      */
-    public static StatementListContainer getBody(final Method method) {
-        if (method instanceof ClassMethod) {
-            final ClassMethod classMethod = (ClassMethod) method;
-            return classMethod;
+    public static StatementListContainer getBody(final Member member) {
+        if (member instanceof StatementListContainer) {
+            return (StatementListContainer) member;
         }
         final Block emptyBlock = StatementsFactory.eINSTANCE.createBlock();
         return emptyBlock;
@@ -685,6 +601,19 @@ public class KDMHelper {
     public static Collection<Package> getOwnedElements(final Package element) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public static List<Constructor> getConstructors(final Type implementingClass) {
+        final List<Constructor> constructors = new ArrayList<Constructor>();
+        if (implementingClass instanceof ConcreteClassifier) {
+            final ConcreteClassifier concreteClassifier = (ConcreteClassifier) implementingClass;
+            for (final Member member : concreteClassifier.getMembers()) {
+                if (member instanceof Constructor) {
+                    constructors.add((Constructor) member);
+                }
+            }
+        }
+        return constructors;
     }
 
 }

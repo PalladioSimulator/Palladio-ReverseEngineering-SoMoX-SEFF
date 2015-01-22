@@ -24,217 +24,260 @@ import org.somox.sourcecodedecorator.*;
  */
 public class SourcecodedecoratorSwitch<T> extends Switch<T> {
 	/**
-	 * The cached model package
-	 * <!-- begin-user-doc -->
+     * The cached model package
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected static SourcecodedecoratorPackage modelPackage;
 
 	/**
-	 * Creates an instance of the switch.
-	 * <!-- begin-user-doc -->
+     * Creates an instance of the switch.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public SourcecodedecoratorSwitch() {
-		if (modelPackage == null) {
-			modelPackage = SourcecodedecoratorPackage.eINSTANCE;
-		}
-	}
+        if (modelPackage == null) {
+            modelPackage = SourcecodedecoratorPackage.eINSTANCE;
+        }
+    }
 
 	/**
-	 * Checks whether this is a switch for the given package.
-	 * <!-- begin-user-doc -->
+     * Checks whether this is a switch for the given package.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @parameter ePackage the package in question.
-	 * @return whether this is a switch for the given package.
-	 * @generated
-	 */
+     * @parameter ePackage the package in question.
+     * @return whether this is a switch for the given package.
+     * @generated
+     */
 	@Override
 	protected boolean isSwitchFor(EPackage ePackage) {
-		return ePackage == modelPackage;
-	}
+        return ePackage == modelPackage;
+    }
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-	 * <!-- begin-user-doc -->
+     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
-	 * @generated
-	 */
+     * @return the first non-null result returned by a <code>caseXXX</code> call.
+     * @generated
+     */
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
-		switch (classifierID) {
-			case SourcecodedecoratorPackage.FILE_LEVEL_SOURCE_CODE_LINK: {
-				FileLevelSourceCodeLink fileLevelSourceCodeLink = (FileLevelSourceCodeLink)theEObject;
-				T result = caseFileLevelSourceCodeLink(fileLevelSourceCodeLink);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK: {
-				MethodLevelSourceCodeLink methodLevelSourceCodeLink = (MethodLevelSourceCodeLink)theEObject;
-				T result = caseMethodLevelSourceCodeLink(methodLevelSourceCodeLink);
-				if (result == null) result = caseFileLevelSourceCodeLink(methodLevelSourceCodeLink);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK: {
-				ControlFlowLevelSourceCodeLink controlFlowLevelSourceCodeLink = (ControlFlowLevelSourceCodeLink)theEObject;
-				T result = caseControlFlowLevelSourceCodeLink(controlFlowLevelSourceCodeLink);
-				if (result == null) result = caseMethodLevelSourceCodeLink(controlFlowLevelSourceCodeLink);
-				if (result == null) result = caseFileLevelSourceCodeLink(controlFlowLevelSourceCodeLink);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY: {
-				SourceCodeDecoratorRepository sourceCodeDecoratorRepository = (SourceCodeDecoratorRepository)theEObject;
-				T result = caseSourceCodeDecoratorRepository(sourceCodeDecoratorRepository);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK: {
-				InterfaceSourceCodeLink interfaceSourceCodeLink = (InterfaceSourceCodeLink)theEObject;
-				T result = caseInterfaceSourceCodeLink(interfaceSourceCodeLink);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK: {
-				ComponentImplementingClassesLink componentImplementingClassesLink = (ComponentImplementingClassesLink)theEObject;
-				T result = caseComponentImplementingClassesLink(componentImplementingClassesLink);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK: {
-				PCMSystemImplementatingClassesLink pcmSystemImplementatingClassesLink = (PCMSystemImplementatingClassesLink)theEObject;
-				T result = casePCMSystemImplementatingClassesLink(pcmSystemImplementatingClassesLink);
-				if (result == null) result = caseComponentImplementingClassesLink(pcmSystemImplementatingClassesLink);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			default: return defaultCase(theEObject);
-		}
-	}
+        switch (classifierID) {
+            case SourcecodedecoratorPackage.FILE_LEVEL_SOURCE_CODE_LINK: {
+                FileLevelSourceCodeLink fileLevelSourceCodeLink = (FileLevelSourceCodeLink)theEObject;
+                T result = caseFileLevelSourceCodeLink(fileLevelSourceCodeLink);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK: {
+                MethodLevelSourceCodeLink methodLevelSourceCodeLink = (MethodLevelSourceCodeLink)theEObject;
+                T result = caseMethodLevelSourceCodeLink(methodLevelSourceCodeLink);
+                if (result == null) result = caseFileLevelSourceCodeLink(methodLevelSourceCodeLink);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK: {
+                ControlFlowLevelSourceCodeLink controlFlowLevelSourceCodeLink = (ControlFlowLevelSourceCodeLink)theEObject;
+                T result = caseControlFlowLevelSourceCodeLink(controlFlowLevelSourceCodeLink);
+                if (result == null) result = caseMethodLevelSourceCodeLink(controlFlowLevelSourceCodeLink);
+                if (result == null) result = caseFileLevelSourceCodeLink(controlFlowLevelSourceCodeLink);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY: {
+                SourceCodeDecoratorRepository sourceCodeDecoratorRepository = (SourceCodeDecoratorRepository)theEObject;
+                T result = caseSourceCodeDecoratorRepository(sourceCodeDecoratorRepository);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK: {
+                InterfaceSourceCodeLink interfaceSourceCodeLink = (InterfaceSourceCodeLink)theEObject;
+                T result = caseInterfaceSourceCodeLink(interfaceSourceCodeLink);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK: {
+                ComponentImplementingClassesLink componentImplementingClassesLink = (ComponentImplementingClassesLink)theEObject;
+                T result = caseComponentImplementingClassesLink(componentImplementingClassesLink);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK: {
+                PCMSystemImplementatingClassesLink pcmSystemImplementatingClassesLink = (PCMSystemImplementatingClassesLink)theEObject;
+                T result = casePCMSystemImplementatingClassesLink(pcmSystemImplementatingClassesLink);
+                if (result == null) result = caseComponentImplementingClassesLink(pcmSystemImplementatingClassesLink);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK: {
+                DataTypeSourceCodeLink dataTypeSourceCodeLink = (DataTypeSourceCodeLink)theEObject;
+                T result = caseDataTypeSourceCodeLink(dataTypeSourceCodeLink);
+                if (result == null) result = caseFileLevelSourceCodeLink(dataTypeSourceCodeLink);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK: {
+                InnerDatatypeSourceCodeLink innerDatatypeSourceCodeLink = (InnerDatatypeSourceCodeLink)theEObject;
+                T result = caseInnerDatatypeSourceCodeLink(innerDatatypeSourceCodeLink);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            default: return defaultCase(theEObject);
+        }
+    }
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>File Level Source Code Link</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns the result of interpreting the object as an instance of '<em>File Level Source Code Link</em>'.
+     * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>File Level Source Code Link</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>File Level Source Code Link</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
 	public T caseFileLevelSourceCodeLink(FileLevelSourceCodeLink object) {
-		return null;
-	}
+        return null;
+    }
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Method Level Source Code Link</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns the result of interpreting the object as an instance of '<em>Method Level Source Code Link</em>'.
+     * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Method Level Source Code Link</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Method Level Source Code Link</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
 	public T caseMethodLevelSourceCodeLink(MethodLevelSourceCodeLink object) {
-		return null;
-	}
+        return null;
+    }
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Control Flow Level Source Code Link</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns the result of interpreting the object as an instance of '<em>Control Flow Level Source Code Link</em>'.
+     * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Control Flow Level Source Code Link</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Control Flow Level Source Code Link</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
 	public T caseControlFlowLevelSourceCodeLink(ControlFlowLevelSourceCodeLink object) {
-		return null;
-	}
+        return null;
+    }
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Source Code Decorator Repository</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns the result of interpreting the object as an instance of '<em>Source Code Decorator Repository</em>'.
+     * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Source Code Decorator Repository</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Source Code Decorator Repository</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
 	public T caseSourceCodeDecoratorRepository(SourceCodeDecoratorRepository object) {
-		return null;
-	}
+        return null;
+    }
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Interface Source Code Link</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns the result of interpreting the object as an instance of '<em>Interface Source Code Link</em>'.
+     * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Interface Source Code Link</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Interface Source Code Link</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
 	public T caseInterfaceSourceCodeLink(InterfaceSourceCodeLink object) {
-		return null;
-	}
+        return null;
+    }
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Component Implementing Classes Link</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns the result of interpreting the object as an instance of '<em>Component Implementing Classes Link</em>'.
+     * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Component Implementing Classes Link</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Component Implementing Classes Link</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
 	public T caseComponentImplementingClassesLink(ComponentImplementingClassesLink object) {
-		return null;
-	}
+        return null;
+    }
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>PCM System Implementating Classes Link</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns the result of interpreting the object as an instance of '<em>PCM System Implementating Classes Link</em>'.
+     * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>PCM System Implementating Classes Link</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>PCM System Implementating Classes Link</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
 	public T casePCMSystemImplementatingClassesLink(PCMSystemImplementatingClassesLink object) {
-		return null;
-	}
+        return null;
+    }
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns the result of interpreting the object as an instance of '<em>Data Type Source Code Link</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Data Type Source Code Link</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseDataTypeSourceCodeLink(DataTypeSourceCodeLink object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Inner Datatype Source Code Link</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Inner Datatype Source Code Link</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseInnerDatatypeSourceCodeLink(InnerDatatypeSourceCodeLink object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
+     * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
-	 * @generated
-	 */
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject)
+     * @generated
+     */
 	@Override
 	public T defaultCase(EObject object) {
-		return null;
-	}
+        return null;
+    }
 
 } //SourcecodedecoratorSwitch

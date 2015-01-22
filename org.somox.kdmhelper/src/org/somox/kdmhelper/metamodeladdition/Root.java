@@ -8,99 +8,92 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.emftext.language.java.classifiers.Class;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
-import org.emftext.language.java.resource.*;
-import org.emftext.language.java.types.Type;
-import org.emftext.language.java.*;
 import org.somox.kdmhelper.KDMHelper;
-import org.emftext.language.java.classifiers.Class;
 
-import org.emftext.language.java.classifiers.Enumeration;
-import org.emftext.language.java.types.PrimitiveType;
-
-//CompilationUnit statt Model 
+//CompilationUnit statt Model
 //Commentable statt AstNode
 public class Root {
 
-	private List<CompilationUnit> models = new ArrayList<CompilationUnit>();
+    private final List<CompilationUnit> models = new ArrayList<CompilationUnit>();
 
-	public List<CompilationUnit> getCompilationUnits() {
-		return models;
-	}
-	
-	//CompilationUnit statt AstNode 
-		// JavaRoot statt JavaAplication
-	//CompilationUnit   statt Model
+    public List<CompilationUnit> getCompilationUnits() {
+        return this.models;
+    }
 
-	public void addModels(Collection<CompilationUnit> modelsFromResource) {
-		models.addAll(modelsFromResource);
-		addPackagesToIDMapping(modelsFromResource);
-	}
+    // CompilationUnit statt AstNode
+    // JavaRoot statt JavaAplication
+    // CompilationUnit statt Model
 
-	private static HashMap<Commentable, String> nodeToIDMap = new HashMap<Commentable, String>();
+    public void addModels(final Collection<CompilationUnit> modelsFromResource) {
+        this.models.addAll(modelsFromResource);
+        this.addPackagesToIDMapping(modelsFromResource);
+    }
 
-	// TODO test
-	public static String getIdForPackage(Commentable pack) {
-		if (nodeToIDMap.containsKey(pack)) {
-			return nodeToIDMap.get(pack);
-		} else {
-			return null;
-		}
-	}
+    private static HashMap<Commentable, String> nodeToIDMap = new HashMap<Commentable, String>();
 
-	private void addPackagesToIDMapping(Collection<CompilationUnit> modelsFromResource) {
-		for (CompilationUnit model : modelsFromResource) {
-			for (Iterator<EObject> it = model.eAllContents(); it.hasNext();) {
-				EObject element = it.next();
-				if (element instanceof Package) {
-					if (!nodeToIDMap.containsKey(element)) {
-						nodeToIDMap.put((Commentable) element,
-								EcoreUtil.generateUUID());
-					}
-				}
-			}
-		}
-	}
+    // TODO test
+    public static String getIdForPackage(final Commentable pack) {
+        if (nodeToIDMap.containsKey(pack)) {
+            return nodeToIDMap.get(pack);
+        } else {
+            return null;
+        }
+    }
 
-	// TODO fix for UI
-	public Collection<Package> getPackages() {
-		Collection<Package> result = new ArrayList<Package>();
-		for (CompilationUnit model : models) {
-			// (Collection<? extends Package>) added
-			result.addAll((Collection<? extends Package>) model.eResource().getAllContents());//getOwnedElements
-//			for (Iterator<EObject> it = model.eAllContents(); it.hasNext();) {
-//				EObject element = it.next();
-//				if (element instanceof Package) {
-//					result.add((Package) element);
-//				}
-//			}
-		}
-		return result;
-	}
+    private void addPackagesToIDMapping(final Collection<CompilationUnit> modelsFromResource) {
+        for (final CompilationUnit model : modelsFromResource) {
+            for (final Iterator<EObject> it = model.eAllContents(); it.hasNext();) {
+                final EObject element = it.next();
+                if (element instanceof Package) {
+                    if (!nodeToIDMap.containsKey(element)) {
+                        nodeToIDMap.put((Commentable) element, EcoreUtil.generateUUID());
+                    }
+                }
+            }
+        }
+    }
 
-	/**
-	 * Returns ClassDeclaration, EnumDeclaration, PrimitiveType
-	 * 
-	 * @return
-	 */
-	public List<Type> getNormalClasses() {
-		List<Type> result = new ArrayList<Type>();
-		for (CompilationUnit model : models) {
-			for (Iterator<EObject> it = model.eAllContents(); it.hasNext();) {
-				EObject element = it.next();
-				if (element instanceof Class) {
-					Class clazz = (Class) element;
-					if (!KDMHelper.isInnerClass(clazz)) {
-						result.add((Class) element);
-					}
-				} else if (element instanceof Enumeration) {
-					result.add((Type) element);
-				} else if (element instanceof PrimitiveType) {
-					result.add((Type) element);
-				}
-			}
-		}
-		return result;
-	}
+    // TODO fix for UI
+    public Collection<Package> getPackages() {
+        final Collection<Package> result = new ArrayList<Package>();
+        for (final CompilationUnit model : this.models) {
+            // (Collection<? extends Package>) added
+            result.addAll((Collection<? extends Package>) model.eResource().getAllContents());// getOwnedElements
+            // for (Iterator<EObject> it = model.eAllContents(); it.hasNext();) {
+            // EObject element = it.next();
+            // if (element instanceof Package) {
+            // result.add((Package) element);
+            // }
+            // }
+        }
+        return result;
+    }
+
+    /**
+     * Returns ClassDeclaration, EnumDeclaration
+     *
+     * @return
+     */
+    public List<ConcreteClassifier> getNormalClasses() {
+        final List<ConcreteClassifier> result = new ArrayList<ConcreteClassifier>();
+        for (final CompilationUnit model : this.models) {
+            for (final Iterator<EObject> it = model.eAllContents(); it.hasNext();) {
+                final EObject element = it.next();
+                if (element instanceof Class) {
+                    final Class clazz = (Class) element;
+                    if (!KDMHelper.isInnerClass(clazz)) {
+                        result.add((Class) element);
+                    }
+                } else if (element instanceof Enumeration) {
+                    result.add((ConcreteClassifier) element);
+                }
+            }
+        }
+        return result;
+    }
 }

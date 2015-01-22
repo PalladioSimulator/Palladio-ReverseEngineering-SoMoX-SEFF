@@ -1,5 +1,6 @@
 package org.somox.kdmhelper;
 
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.MethodCall;
@@ -40,9 +41,9 @@ public class GetAccessedType {
         }
     }
 
-    public static Type getAccessedType(final TypeReference reference) {
-        if (reference != null) {
-            return reference.getTarget();
+    public static ConcreteClassifier getAccessedType(final TypeReference reference) {
+        if (reference != null && reference.getTarget() instanceof ConcreteClassifier) {
+            return (ConcreteClassifier) reference.getTarget();
         } else {
             return null;
         }

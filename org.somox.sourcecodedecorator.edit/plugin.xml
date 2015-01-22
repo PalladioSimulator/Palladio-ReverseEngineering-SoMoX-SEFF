@@ -9,7 +9,7 @@
    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
       <!-- @generated sourcecodedecorator -->
       <factory
-            uri="http://q-impress.eu/sourcecodedecorator"
+            uri="http://somox.org/SourceCodeDecorator/2.0"
             class="org.somox.sourcecodedecorator.provider.SourcecodedecoratorItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider

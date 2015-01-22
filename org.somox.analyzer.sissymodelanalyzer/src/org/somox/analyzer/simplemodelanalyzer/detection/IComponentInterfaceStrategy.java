@@ -1,6 +1,6 @@
 package org.somox.analyzer.simplemodelanalyzer.detection;
 
-import org.emftext.language.java.types.Type;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 
 //import de.fzi.gast.types.GASTClass;
 
@@ -24,6 +24,6 @@ public interface IComponentInterfaceStrategy {
 	 * @param classToCheck The class to check
 	 * @return true if considered as an interface; false else
 	 */
-	public abstract boolean isComponentInterface(Type classToCheck);
+	public abstract boolean isComponentInterface(ConcreteClassifier classToCheck);
 
 }

@@ -1,6 +1,17 @@
 package org.somox.analyzer.simplemodelanalyzer.builder;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.members.ClassMethod;
+import org.emftext.language.java.members.Constructor;
+import org.emftext.language.java.members.InterfaceMethod;
+import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.types.Type;
@@ -100,7 +111,7 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
 
         link.setRepositoryComponent(component);
 
-        this.sourceCodeDecorator.getMethodLevelSourceCodeLink().add(link);
+        // this.sourceCodeDecorator.getMethodLevelSourceCodeLink().add(link);
 
         final ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
         // TODO burkha 22.05.2013 this can violate a OCL constraint, when there is more than one
@@ -114,13 +125,15 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
         component.getServiceEffectSpecifications__BasicComponent().add(seff);
 
         // links steems from interface; thus get component-specific implementation:
-        final StatementListContainer methodBody = this.getFunctionImplementation(link.getFunction(),
-                this.findComponenentLink(component));
+        final ComponentImplementingClassesLink compClassLink = this.findComponenentLink(component);
+        final StatementListContainer methodBody = this.getFunctionImplementation(link.getFunction(), compClassLink,
+                this.astModel);
 
         seff2MethodMapping.setBlockstatement(methodBody);
         if (seff2MethodMapping.getBlockstatement() == null
                 || seff2MethodMapping.getBlockstatement().getStatements().size() == 0) {
             logger.warn("Empty behaviour added for " + seff.getDescribedService__SEFF().getEntityName()
+                    + " linked method is " + seff2MethodMapping.getBlockstatement()
                     + "! Reverse engineering of behaviour will NOT be able to succeed for this method!");
         }
         seff2MethodMapping.setSeff(seff);
@@ -139,15 +152,12 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
      * @return The block statement realising the function for the component; null in a case of
      *         error.
      */
-    private StatementListContainer getFunctionImplementation(final Method function,
+    private StatementListContainer getFunctionImplementationFromClassMethod(final ClassMethod function,
             final ComponentImplementingClassesLink component) {
 
-        for (final Type implementingClass : component.getImplementingClasses()) {
+        for (final ConcreteClassifier implementingClass : component.getImplementingClasses()) {
             for (final Method implementedMethod : KDMHelper.getMethods(implementingClass)) {
                 if (EqualityChecker.areFunctionsEqual(function, implementedMethod)) { // FIXME:
-                    // check why
-                    // equal fails
-                    // if(implementedMethod.equals(function)) {
                     return KDMHelper.getBody(implementedMethod);
                 }
             }
@@ -156,6 +166,110 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
         logger.error("No method implemementation found for method " + function.getName() + " for component "
                 + component.getComponent().getEntityName());
         return null;
+    }
+
+    private StatementListContainer getFunctionImplementationFromConstructor(final Constructor constructor,
+            final ComponentImplementingClassesLink component) {
+
+        for (final Type implementingClass : component.getImplementingClasses()) {
+            for (final Constructor currentConstructor : KDMHelper.getConstructors(implementingClass)) {
+                if (EqualityChecker.areConstructorsEqual(constructor, currentConstructor)) { // FIXME:
+                    return KDMHelper.getBody(currentConstructor);
+                }
+            }
+        }
+
+        logger.error("No method implemementation found for method " + constructor.getName() + " for component "
+                + component.getComponent().getEntityName());
+        return null;
+    }
+
+    /**
+     * Finds a implementation block statement for the Member realised by the passed component. Note:
+     * Member has to be an instance of constructor or method
+     *
+     * @param function
+     *            interface function
+     * @param component
+     *            The component to find the method implementation for
+     * @param astModel
+     * @return The block statement realising the function for the component; null in a case of
+     *         error.
+     */
+    private StatementListContainer getFunctionImplementation(final Member member,
+            final ComponentImplementingClassesLink component, final Root astModel) {
+
+        if (member instanceof ClassMethod) {
+            return this.getFunctionImplementationFromClassMethod((ClassMethod) member, component);
+        } else if (member instanceof Constructor) {
+            return this.getFunctionImplementationFromConstructor((Constructor) member, component);
+        } else if (member instanceof InterfaceMethod) {
+            logger.info("Found interface method " + member.getName());
+            return this.getFunctionImplementationFromInterfaceMethod((InterfaceMethod) member, component, astModel);
+        }
+
+        logger.error("No method implemementation found for member " + member.getName() + " for component "
+                + component.getComponent().getEntityName());
+        return null;
+    }
+
+    /**
+     * Since an interface method does not have any implementation the method looks for a method in
+     * the current component that implements the interface method. if the method is not found:
+     * return an empty statement list container. If more than one method are found just return the
+     * first one.
+     *
+     *
+     * @param interfaceMethod
+     * @param component
+     * @param astModel
+     */
+    private StatementListContainer getFunctionImplementationFromInterfaceMethod(final InterfaceMethod interfaceMethod,
+            final ComponentImplementingClassesLink component, final Root astModel) {
+        final boolean searchInAstModelIfNotFound = true;
+        return this.getFunctionImplementationFromInterfaceMethod(interfaceMethod, component.getImplementingClasses(),
+                astModel, searchInAstModelIfNotFound);
+    }
+
+    private StatementListContainer getFunctionImplementationFromInterfaceMethod(final InterfaceMethod interfaceMethod,
+            final List<ConcreteClassifier> implementingClasses, final Root astModel,
+            final boolean searchInAstModelIfNotFound) {
+        final ConcreteClassifier interfaceOfMethod = interfaceMethod.getContainingConcreteClassifier();
+        final Set<StatementListContainer> implementingStatementListContainers = new HashSet<StatementListContainer>();
+        for (final ConcreteClassifier classInComponent : implementingClasses) {
+            if (KDMHelper.getSuperTypes(classInComponent).contains(interfaceOfMethod)) {
+                // find the overriden interface method
+                for (final Method methodInClass : classInComponent.getMethods()) {
+                    if (EqualityChecker.areFunctionsEqual(interfaceMethod, methodInClass)
+                            && methodInClass instanceof ClassMethod) {
+                        logger.info("Found StatementListContainer for interface method " + interfaceMethod.getName());
+                        implementingStatementListContainers.add(KDMHelper.getBody(methodInClass));
+                    }
+                }
+            }
+        }
+        if (1 < implementingStatementListContainers.size()) {
+            logger.info("Found more than one statement list container for interface method "
+                    + interfaceMethod.getName());
+        }
+        if (0 == implementingStatementListContainers.size()) {
+            if (searchInAstModelIfNotFound) {
+                logger.info("Not found any statement list container (aka. overriden method) for interface method "
+                        + interfaceMethod.getName() + " in component implementing classes. Looking in all classes...");
+                final List<ConcreteClassifier> classifiersToLookAt = new ArrayList<ConcreteClassifier>();
+                for (final CompilationUnit cu : astModel.getCompilationUnits()) {
+                    classifiersToLookAt.addAll(cu.getClassifiers());
+                }
+                return this.getFunctionImplementationFromInterfaceMethod(interfaceMethod, classifiersToLookAt,
+                        astModel, false);
+            } else {
+                logger.info("Not found any statement list container (aka. overriden method) for interface method "
+                        + interfaceMethod.getName() + " in astModel. Returning null.");
+                return null;
+            }
+
+        }
+        return implementingStatementListContainers.iterator().next();
     }
 
     /**

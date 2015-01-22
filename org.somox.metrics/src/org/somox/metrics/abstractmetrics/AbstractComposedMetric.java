@@ -3,7 +3,7 @@ package org.somox.metrics.abstractmetrics;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.emftext.language.java.types.Type;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.jgrapht.DirectedGraph;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.metamodeladdition.Root;
@@ -45,7 +45,7 @@ public abstract class AbstractComposedMetric extends AbstractMetric {
             final Root gastModel,
             final SoMoXConfiguration somoxConfiguration,
             final Map<MetricID, IMetric> allMetrics,
-            final DirectedGraph<Type, ClassAccessGraphEdge> accessGraph,
+            final DirectedGraph<ConcreteClassifier, ClassAccessGraphEdge> accessGraph,
             final ComponentToImplementingClassesHelper componentToImplementingClassesHelper) {
         super.initialize(gastModel, somoxConfiguration, allMetrics, accessGraph, componentToImplementingClassesHelper);
 

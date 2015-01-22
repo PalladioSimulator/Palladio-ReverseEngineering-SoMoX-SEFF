@@ -2,7 +2,7 @@ package org.somox.metrics.basic;
 
 import java.util.Set;
 
-import org.emftext.language.java.types.Type;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.metrics.MetricID;
 import org.somox.metrics.abstractmetrics.AbstractCountingMetric;
@@ -12,10 +12,10 @@ public class TotalTypesCount extends AbstractCountingMetric {
     public static final MetricID METRIC_ID = new MetricID("org.somox.metrics.basic.TotalTypesCount");
 
     @Override
-    protected void internalComputeDirected (
-            final ClusteringRelation relationToCompute) {
-        final Set<Type> allClasses = calculateUnion(relationToCompute.getSourceComponent(), relationToCompute.getTargetComponent());
-        relationToCompute.setResultMetric(getMID(), allClasses.size());
+    protected void internalComputeDirected(final ClusteringRelation relationToCompute) {
+        final Set<ConcreteClassifier> allClasses = this.calculateUnion(relationToCompute.getSourceComponent(),
+                relationToCompute.getTargetComponent());
+        relationToCompute.setResultMetric(this.getMID(), allClasses.size());
     }
 
     @Override

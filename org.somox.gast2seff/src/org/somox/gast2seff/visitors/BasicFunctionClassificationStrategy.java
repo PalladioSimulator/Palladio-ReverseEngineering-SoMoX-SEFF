@@ -21,7 +21,7 @@ import de.uka.ipd.sdq.pcm.repository.BasicComponent;
  *
  */
 public class BasicFunctionClassificationStrategy extends AbstractFunctionClassificationStrategy implements
-IFunctionClassificationStrategy {
+        IFunctionClassificationStrategy {
 
     private static Logger logger = Logger.getLogger(BasicFunctionClassificationStrategy.class);
 
@@ -47,9 +47,9 @@ IFunctionClassificationStrategy {
 
         final ComponentImplementingClassesLink compLink = this.queryComponentLink(this.primitiveComponent);
         for (final InterfaceSourceCodeLink ifLink : compLink.getRequiredInterfaces()) {
-            if (KDMHelper.getMethods(ifLink.getGastClass()).contains(KDMHelper.getMethod(functionAccess))) {// GAST2SEFFCHANGE//GAST2SEFFCHANGE
-                logger.debug("Classified call as external call: " + KDMHelper.getMethod(functionAccess).getName() + // GAST2SEFFCHANGE//GAST2SEFFCHANGE
-                        " for component " + this.primitiveComponent.getEntityName());
+            if (KDMHelper.getMethods(ifLink.getGastClass()).contains(KDMHelper.getMethod(functionAccess))) {
+                logger.debug("Classified call as external call: " + KDMHelper.getMethod(functionAccess).getName()
+                        + " for component " + this.primitiveComponent.getEntityName());
                 return true;
             }
         }

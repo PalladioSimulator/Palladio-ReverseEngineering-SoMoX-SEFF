@@ -2,7 +2,7 @@ package org.somox.metrics.basic;
 
 import java.util.Set;
 
-import org.emftext.language.java.types.Type;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.somox.filter.BaseFilter;
 import org.somox.filter.FilteredCollectionsFactory;
 import org.somox.kdmhelper.KDMHelper;
@@ -15,20 +15,21 @@ public class AbstractTypesCount extends AbstractCountingMetric {
     public static final MetricID METRIC_ID = new MetricID("org.somox.metric.basic.AbstractTypesCount");
 
     // filter used in this metric, gets abstract classes and interfaces
-    private static final BaseFilter<Type> abstractClassesFilter = new BaseFilter<Type>() {
+    private static final BaseFilter<ConcreteClassifier> abstractClassesFilter = new BaseFilter<ConcreteClassifier>() {
 
         @Override
-        public boolean passes(final Type object) {
+        public boolean passes(final ConcreteClassifier object) {
             return KDMHelper.isAbstract(object) || KDMHelper.isInterface(object);
         }
     };
 
     @Override
-    protected void internalComputeDirected (
-            final ClusteringRelation relationToCompute) {
+    protected void internalComputeDirected(final ClusteringRelation relationToCompute) {
 
-        final Set<Type> allClasses = calculateUnion(relationToCompute.getSourceComponent(), relationToCompute.getTargetComponent());
-        relationToCompute.setResultMetric(getMID(), FilteredCollectionsFactory.getFilteredHashSet(abstractClassesFilter, allClasses).size());
+        final Set<ConcreteClassifier> allClasses = this.calculateUnion(relationToCompute.getSourceComponent(),
+                relationToCompute.getTargetComponent());
+        relationToCompute.setResultMetric(this.getMID(),
+                FilteredCollectionsFactory.getFilteredHashSet(abstractClassesFilter, allClasses).size());
     }
 
     @Override

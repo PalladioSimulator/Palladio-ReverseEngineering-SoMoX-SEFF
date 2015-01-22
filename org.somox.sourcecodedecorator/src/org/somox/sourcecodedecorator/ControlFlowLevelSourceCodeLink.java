@@ -25,55 +25,55 @@ import org.emftext.language.java.statements.Statement;
  */
 public interface ControlFlowLevelSourceCodeLink extends MethodLevelSourceCodeLink {
 	/**
-	 * Returns the value of the '<em><b>Abstract Action</b></em>' reference.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Abstract Action</b></em>' reference.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Abstract Action</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Abstract Action</em>' reference.
-	 * @see #setAbstractAction(AbstractAction)
-	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getControlFlowLevelSourceCodeLink_AbstractAction()
-	 * @model ordered="false"
-	 * @generated
-	 */
+     * @return the value of the '<em>Abstract Action</em>' reference.
+     * @see #setAbstractAction(AbstractAction)
+     * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getControlFlowLevelSourceCodeLink_AbstractAction()
+     * @model ordered="false"
+     * @generated
+     */
 	AbstractAction getAbstractAction();
 
 	/**
-	 * Sets the value of the '{@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink#getAbstractAction <em>Abstract Action</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * Sets the value of the '{@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink#getAbstractAction <em>Abstract Action</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Abstract Action</em>' reference.
-	 * @see #getAbstractAction()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Abstract Action</em>' reference.
+     * @see #getAbstractAction()
+     * @generated
+     */
 	void setAbstractAction(AbstractAction value);
 
 	/**
-	 * Returns the value of the '<em><b>Statement</b></em>' reference.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Statement</b></em>' reference.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Statement</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Statement</em>' reference.
-	 * @see #setStatement(Statement)
-	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getControlFlowLevelSourceCodeLink_Statement()
-	 * @model ordered="false"
-	 * @generated
-	 */
+     * @return the value of the '<em>Statement</em>' reference.
+     * @see #setStatement(Statement)
+     * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getControlFlowLevelSourceCodeLink_Statement()
+     * @model ordered="false"
+     * @generated
+     */
 	Statement getStatement();
 
 	/**
-	 * Sets the value of the '{@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink#getStatement <em>Statement</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * Sets the value of the '{@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink#getStatement <em>Statement</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Statement</em>' reference.
-	 * @see #getStatement()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Statement</em>' reference.
+     * @see #getStatement()
+     * @generated
+     */
 	void setStatement(Statement value);
 
 } // ControlFlowLevelSourceCodeLink

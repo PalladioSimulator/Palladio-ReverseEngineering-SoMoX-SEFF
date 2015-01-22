@@ -5,6 +5,7 @@ package org.somox.sourcecodedecorator.impl;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -27,129 +28,129 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  */
 public class PCMSystemImplementatingClassesLinkImpl extends ComponentImplementingClassesLinkImpl implements PCMSystemImplementatingClassesLink {
 	/**
-	 * The cached value of the '{@link #getSystemModel() <em>System Model</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getSystemModel() <em>System Model</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSystemModel()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getSystemModel()
+     * @generated
+     * @ordered
+     */
 	protected de.uka.ipd.sdq.pcm.system.System systemModel;
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected PCMSystemImplementatingClassesLinkImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return SourcecodedecoratorPackage.Literals.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK;
-	}
+        return SourcecodedecoratorPackage.Literals.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public de.uka.ipd.sdq.pcm.system.System getSystemModel() {
-		if (systemModel != null && systemModel.eIsProxy()) {
-			InternalEObject oldSystemModel = (InternalEObject)systemModel;
-			systemModel = (de.uka.ipd.sdq.pcm.system.System)eResolveProxy(oldSystemModel);
-			if (systemModel != oldSystemModel) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL, oldSystemModel, systemModel));
-			}
-		}
-		return systemModel;
-	}
+        if (systemModel != null && ((EObject)systemModel).eIsProxy()) {
+            InternalEObject oldSystemModel = (InternalEObject)systemModel;
+            systemModel = (de.uka.ipd.sdq.pcm.system.System)eResolveProxy(oldSystemModel);
+            if (systemModel != oldSystemModel) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL, oldSystemModel, systemModel));
+            }
+        }
+        return systemModel;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public de.uka.ipd.sdq.pcm.system.System basicGetSystemModel() {
-		return systemModel;
-	}
+        return systemModel;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setSystemModel(de.uka.ipd.sdq.pcm.system.System newSystemModel) {
-		de.uka.ipd.sdq.pcm.system.System oldSystemModel = systemModel;
-		systemModel = newSystemModel;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL, oldSystemModel, systemModel));
-	}
+        de.uka.ipd.sdq.pcm.system.System oldSystemModel = systemModel;
+        systemModel = newSystemModel;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL, oldSystemModel, systemModel));
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
-				if (resolve) return getSystemModel();
-				return basicGetSystemModel();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
+                if (resolve) return getSystemModel();
+                return basicGetSystemModel();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
-				setSystemModel((de.uka.ipd.sdq.pcm.system.System)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
+                setSystemModel((de.uka.ipd.sdq.pcm.system.System)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
-				setSystemModel((de.uka.ipd.sdq.pcm.system.System)null);
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
+                setSystemModel((de.uka.ipd.sdq.pcm.system.System)null);
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
-				return systemModel != null;
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
+                return systemModel != null;
+        }
+        return super.eIsSet(featureID);
+    }
 
 } //PCMSystemImplementatingClassesLinkImpl

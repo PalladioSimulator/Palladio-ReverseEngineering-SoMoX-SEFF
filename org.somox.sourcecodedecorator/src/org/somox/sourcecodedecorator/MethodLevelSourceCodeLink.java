@@ -3,8 +3,7 @@
 package org.somox.sourcecodedecorator;
 
 import de.uka.ipd.sdq.pcm.repository.Signature;
-
-import org.emftext.language.java.members.Method;
+import org.emftext.language.java.members.Member;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,55 +24,55 @@ import org.emftext.language.java.members.Method;
  */
 public interface MethodLevelSourceCodeLink extends FileLevelSourceCodeLink {
 	/**
-	 * Returns the value of the '<em><b>Operation</b></em>' reference.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Operation</b></em>' reference.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Operation</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Operation</em>' reference.
-	 * @see #setOperation(Signature)
-	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getMethodLevelSourceCodeLink_Operation()
-	 * @model ordered="false"
-	 * @generated
-	 */
+     * @return the value of the '<em>Operation</em>' reference.
+     * @see #setOperation(Signature)
+     * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getMethodLevelSourceCodeLink_Operation()
+     * @model ordered="false"
+     * @generated
+     */
 	Signature getOperation();
 
 	/**
-	 * Sets the value of the '{@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink#getOperation <em>Operation</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * Sets the value of the '{@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink#getOperation <em>Operation</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Operation</em>' reference.
-	 * @see #getOperation()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Operation</em>' reference.
+     * @see #getOperation()
+     * @generated
+     */
 	void setOperation(Signature value);
 
 	/**
-	 * Returns the value of the '<em><b>Function</b></em>' reference.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Function</b></em>' reference.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Function</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Function</em>' reference.
-	 * @see #setFunction(Method)
-	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getMethodLevelSourceCodeLink_Function()
-	 * @model ordered="false"
-	 * @generated
-	 */
-	Method getFunction();
+     * @return the value of the '<em>Function</em>' reference.
+     * @see #setFunction(Member)
+     * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getMethodLevelSourceCodeLink_Function()
+     * @model ordered="false"
+     * @generated
+     */
+	Member getFunction();
 
 	/**
-	 * Sets the value of the '{@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink#getFunction <em>Function</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Function</em>' reference.
-	 * @see #getFunction()
-	 * @generated
-	 */
-	void setFunction(Method value);
+     * Sets the value of the '{@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink#getFunction <em>Function</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Function</em>' reference.
+     * @see #getFunction()
+     * @generated
+     */
+    void setFunction(Member value);
 
 } // MethodLevelSourceCodeLink

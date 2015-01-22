@@ -26,6 +26,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/controlFlowLevelSourceCodeLink"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/interfaceSourceCodeLink"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/componentImplementingClassesLink"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/dataTypeSourceCodeLink"/>
     </genClasses>
     <genClasses ecoreClass="sourcecodedecorator.ecore#//InterfaceSourceCodeLink">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//InterfaceSourceCodeLink/interface"/>
@@ -42,6 +43,15 @@
     </genClasses>
     <genClasses ecoreClass="sourcecodedecorator.ecore#//PCMSystemImplementatingClassesLink">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//PCMSystemImplementatingClassesLink/systemModel"/>
+    </genClasses>
+    <genClasses ecoreClass="sourcecodedecorator.ecore#//DataTypeSourceCodeLink">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//DataTypeSourceCodeLink/jaMoPPType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//DataTypeSourceCodeLink/pcmDataType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//DataTypeSourceCodeLink/innerDatatypeSourceCodeLink"/>
+    </genClasses>
+    <genClasses ecoreClass="sourcecodedecorator.ecore#//InnerDatatypeSourceCodeLink">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//InnerDatatypeSourceCodeLink/field"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//InnerDatatypeSourceCodeLink/innerDeclaration"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
