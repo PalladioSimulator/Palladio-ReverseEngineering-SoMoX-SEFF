@@ -15,8 +15,6 @@ import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.somox.kdmhelper.KDMHelper;
 
-//CompilationUnit statt Model
-//Commentable statt AstNode
 public class Root {
 
     private final List<CompilationUnit> models = new ArrayList<CompilationUnit>();
@@ -24,10 +22,6 @@ public class Root {
     public List<CompilationUnit> getCompilationUnits() {
         return this.models;
     }
-
-    // CompilationUnit statt AstNode
-    // JavaRoot statt JavaAplication
-    // CompilationUnit statt Model
 
     public void addModels(final Collection<CompilationUnit> modelsFromResource) {
         this.models.addAll(modelsFromResource);

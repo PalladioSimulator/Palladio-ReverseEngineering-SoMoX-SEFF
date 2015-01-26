@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.generics.QualifiedTypeArgument;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
@@ -422,8 +423,21 @@ public class OperationBuilder extends AbstractBuilder {
         final CompositeDataType compositeDataType = RepositoryFactory.eINSTANCE.createCompositeDataType();
         compositeDataType.setEntityName(typeName);
         repository.getDataTypes__Repository().add(compositeDataType);
-        final DataTypeSourceCodeLink datatypeSourceCodeLink = this
-                .createSourceCodeDecoratorEntryEntryForClassifier2DataType(concreteClassifier, compositeDataType);
+        // only create sourceCodeDecorator Entry for the classifier and investigate fields if the
+        // classifier is in the java-source of the project and not on the blacklist
+        final boolean inSource = this.isClassifierInSourceProject(concreteClassifier);
+        final boolean isOnBlackList = this.isClassifierOnBlacklist(concreteClassifier);
+        if (inSource && !isOnBlackList) {
+            final DataTypeSourceCodeLink datatypeSourceCodeLink = this
+                    .createSourceCodeDecoratorEntryEntryForClassifier2DataType(concreteClassifier, compositeDataType);
+            this.investigateFields(concreteClassifier, typeName, repository, compositeDataType, datatypeSourceCodeLink);
+        }
+        return compositeDataType;
+    }
+
+    private void investigateFields(final ConcreteClassifier concreteClassifier, final String typeName,
+            final Repository repository, final CompositeDataType compositeDataType,
+            final DataTypeSourceCodeLink datatypeSourceCodeLink) {
         for (final Field field : concreteClassifier.getFields()) {
             // set inner types:
             if (null == field.getTypeReference()) {
@@ -480,7 +494,21 @@ public class OperationBuilder extends AbstractBuilder {
                 compositeDataType.getInnerDeclaration_CompositeDataType().add(innerElement);
             }
         }
-        return compositeDataType;
+    }
+
+    private boolean isClassifierOnBlacklist(final ConcreteClassifier concreteClassifier) {
+        return !super.somoxConfiguration.getBlacklistFilter().passes(concreteClassifier);
+    }
+
+    private boolean isClassifierInSourceProject(final ConcreteClassifier concreteClassifier) {
+        for (final CompilationUnit cu : this.astModel.getCompilationUnits()) {
+            for (final ConcreteClassifier currentClassifier : cu.getClassifiers()) {
+                if (concreteClassifier == currentClassifier) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void createSourceCodeDecoratorEntryForField2InnerDeclaration(final Field field,
@@ -490,7 +518,6 @@ public class OperationBuilder extends AbstractBuilder {
         innerTypeDecorator.setField(field);
         innerTypeDecorator.setInnerDeclaration(innerDeclaration);
         datatypeSourceCodeLink.getInnerDatatypeSourceCodeLink().add(innerTypeDecorator);
-
     }
 
     private DataTypeSourceCodeLink createSourceCodeDecoratorEntryEntryForClassifier2DataType(

@@ -181,14 +181,10 @@ public class KDMHelper {
     }
 
     public static String removeLastPoint(final String result) {
-        if (result != null) {
-            if (result.charAt(result.length() - 1) == '.') {
-                return result.substring(0, result.length() - 1);
-            } else {
-                return result;
-            }
+        if (result != null && result.endsWith(".")) {
+            return result.substring(0, result.length() - 1);
         }
-        return null;
+        return result;
     }
 
     private static String getNameOfNamedElement(final NamedElement input) {

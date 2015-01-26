@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.InterfaceMethod;
@@ -79,12 +80,11 @@ public class BlacklistFilter extends BaseFilter<ConcreteClassifier> {
             else if (container instanceof InterfaceMethod) {
                 container = container.eContainer();
             }
-
-            final String fqn = KDMHelper.computeFullQualifiedName((Type) container);
-            result = this.matchPattern.matcher(fqn).matches();
-            if (logger.isTraceEnabled()) {
-                logger.trace("Blacklist filter matches " + fqn + ": " + result);
-            }
+        }
+        final String fqn = KDMHelper.computeFullQualifiedName((Commentable) container);
+        result = this.matchPattern.matcher(fqn).matches();
+        if (logger.isTraceEnabled()) {
+            logger.trace("Blacklist filter matches " + fqn + ": " + result);
         }
         return result;
     }

@@ -1,6 +1,5 @@
 package org.somox.analyzer;
 
-import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -32,184 +31,185 @@ import org.somox.kdmhelper.metamodeladdition.Root;
 //import de.fzi.gast.variables.provider.variablesItemProviderAdapterFactory;
 
 /**
- * @author  Snowball
+ * @author Snowball
  */
 public class ModelAnalyzerTabGroupBlackboard {
-	
-	/**
-	 * @uml.property  name="root"
-	 * @uml.associationEnd  
-	 */
-	private Root root;
-	
-	private ComposedAdapterFactory adapterFactory;
-	//private AdapterFactoryEditingDomain editingDomain;
 
-	static int idCounter = 0;
-	private int myId = 0;
-	
-	private ILog logger = Activator.getPlugin().getLog();
+    /**
+     * @uml.property name="root"
+     * @uml.associationEnd
+     */
+    private Root root;
 
-	public ModelAnalyzerTabGroupBlackboard() {
-		idCounter++;
-		myId = idCounter;
-		
-		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new statementsItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new coreItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new annotationsItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new typesItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new functionsItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new accessesItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new variablesItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
-//		adapterFactory.addAdapterFactory(new JavaAdapterFactory());//REALLYADDED//SOMOXTODOCHANGE
-//		adapterFactory.addAdapterFactory(new KdmAdapterFactory());;//REALLYADDED//SOMOXTODOCHANGE
-//		adapterFactory.addAdapterFactory(new JavaapplicationAdapterFactory());//SOMOXTODOCHANGE //TODO verify.....
-		
+    private final ComposedAdapterFactory adapterFactory;
+    // private AdapterFactoryEditingDomain editingDomain;
 
-		//BasicCommandStack commandStack = new BasicCommandStack();
+    static int idCounter = 0;
+    private int myId = 0;
 
-		//editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
-	}
+    private final ILog logger = Activator.getPlugin().getLog();
 
-	public int getId() {
-		return myId;
-	}
+    public ModelAnalyzerTabGroupBlackboard() {
+        idCounter++;
+        this.myId = idCounter;
 
-	/**
-	 * @uml.property  name="somoxAnalyzerInputFile"
-	 */
-	private String somoxAnalyzerInputFile = null;
-	
-	/**
-	 * @uml.property  name="debugLvl"
-	 */
-	private Level debugLvl = Level.INFO;
+        this.adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+        this.adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+        // adapterFactory.addAdapterFactory(new statementsItemProviderAdapterFactory());
+        // adapterFactory.addAdapterFactory(new coreItemProviderAdapterFactory());
+        // adapterFactory.addAdapterFactory(new annotationsItemProviderAdapterFactory());
+        // adapterFactory.addAdapterFactory(new typesItemProviderAdapterFactory());
+        // adapterFactory.addAdapterFactory(new functionsItemProviderAdapterFactory());
+        // adapterFactory.addAdapterFactory(new accessesItemProviderAdapterFactory());
+        // adapterFactory.addAdapterFactory(new variablesItemProviderAdapterFactory());
+        this.adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
+        // adapterFactory.addAdapterFactory(new JavaAdapterFactory());//REALLYADDED//SOMOXTODOCHANGE
+        // adapterFactory.addAdapterFactory(new KdmAdapterFactory());;//REALLYADDED//SOMOXTODOCHANGE
+        // adapterFactory.addAdapterFactory(new JavaapplicationAdapterFactory());//SOMOXTODOCHANGE
+        // //TODO verify.....
 
-	/**
-	 * @return
-	 * @uml.property  name="debugLvl"
-	 */
-	public Level getDebugLvl() {
-		return debugLvl;
-	}
+        // BasicCommandStack commandStack = new BasicCommandStack();
 
-	public void setDebugLvl(int debugLvl) {
-		switch (debugLvl) {
-			case 0: this.debugLvl = Level.INFO; break;
-			case 1: this.debugLvl = Level.DEBUG; break;
-			default: this.debugLvl = Level.ALL;
-		}
-	}
+        // editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new
+        // HashMap<Resource, Boolean>());
+    }
 
-	/**
-	 * @return
-	 * @uml.property  name="somoxAnalyzerInputFile"
-	 */
-	public String getSomoxAnalyzerInputFile() {
-		return somoxAnalyzerInputFile;
-	}
+    public int getId() {
+        return this.myId;
+    }
 
-	/**
-	 * @param somoxAnalyzerInputFile
-	 * @uml.property  name="somoxAnalyzerInputFile"
-	 */
-	public void setSomoxAnalyzerInputFile(String somoxAnalyzerInputFile) {
-		if (this.somoxAnalyzerInputFile == null) {
-			this.somoxAnalyzerInputFile = somoxAnalyzerInputFile;
-			if (this.somoxAnalyzerInputFile != null) {
-				if (somoxAnalyzerInputFile.endsWith(".xmi")) {
-					loadModel();
-				} else {
-					root = null;
-				}
-			} else {
-				root = null;
-			}
-			fireBlackboardChanged();
-		} else if (this.somoxAnalyzerInputFile != null && !this.somoxAnalyzerInputFile.equals(somoxAnalyzerInputFile)) {
-			this.somoxAnalyzerInputFile = somoxAnalyzerInputFile;
-			if (this.somoxAnalyzerInputFile != null) {
-				if (somoxAnalyzerInputFile.endsWith(".xmi")) {
-					loadModel();
-				} else {
-					root = null;
-				}
-			} else {
-				root = null;
-			}
-			fireBlackboardChanged();
-		}
-	}
+    /**
+     * @uml.property name="somoxAnalyzerInputFile"
+     */
+    private String somoxAnalyzerInputFile = null;
 
-	private void loadModel() {
-		
-		URI fileURI = URI.createPlatformResourceURI(somoxAnalyzerInputFile, true);
+    /**
+     * @uml.property name="debugLvl"
+     */
+    private Level debugLvl = Level.INFO;
 
-		IWorkspaceRoot resRoot = ResourcesPlugin.getWorkspace().getRoot();
-		if(resRoot.findMember(fileURI.toPlatformString(true)) instanceof IFile) {
-		try {
-			KDMReader gastReader = new KDMReader();
-			gastReader.loadFile(fileURI);
-			root=gastReader.getRoot();
-		} catch (IOException e1) {
-			logger.log(new Status(Status.ERROR,Activator.PLUGIN_ID,"Failed to load Model file " + fileURI));
-			e1.printStackTrace();
-		}
-		}else {
-			logger.log(new Status(Status.ERROR,Activator.PLUGIN_ID,"Failed to load Model file " + fileURI));
-		}
-	}
-	
-	/**
-	 * @return
-	 * @uml.property  name="root"
-	 */
-	public Root getRoot () {
-		return root;
-	}
+    /**
+     * @return
+     * @uml.property name="debugLvl"
+     */
+    public Level getDebugLvl() {
+        return this.debugLvl;
+    }
 
-	//
-	// Event handling
-	//
-	private transient Vector<BlackboardListener> blackboardListeners;
+    public void setDebugLvl(final int debugLvl) {
+        switch (debugLvl) {
+        case 0:
+            this.debugLvl = Level.INFO;
+            break;
+        case 1:
+            this.debugLvl = Level.DEBUG;
+            break;
+        default:
+            this.debugLvl = Level.ALL;
+        }
+    }
 
-	/** Register a listener for Blackboard events */
-	synchronized public void addBlackboardListener(BlackboardListener listener) {
-		if (blackboardListeners== null) {
-			blackboardListeners= new Vector<BlackboardListener>();
-		}
-		blackboardListeners.addElement(listener);
-	}
+    /**
+     * @return
+     * @uml.property name="somoxAnalyzerInputFile"
+     */
+    public String getSomoxAnalyzerInputFile() {
+        return this.somoxAnalyzerInputFile;
+    }
 
-	synchronized public void removeBlackboardListener(BlackboardListener listener) {
-		if (blackboardListeners == null) {
-			blackboardListeners= new Vector<BlackboardListener>();
-		}
-		blackboardListeners.removeElement(listener);
-	}
+    /**
+     * @param somoxAnalyzerInputFile
+     * @uml.property name="somoxAnalyzerInputFile"
+     */
+    public void setSomoxAnalyzerInputFile(final String somoxAnalyzerInputFile) {
+        if (this.somoxAnalyzerInputFile == null) {
+            this.somoxAnalyzerInputFile = somoxAnalyzerInputFile;
+            if (this.somoxAnalyzerInputFile != null) {
+                if (somoxAnalyzerInputFile.endsWith(".xmi")) {
+                    this.loadModel();
+                } else {
+                    this.root = null;
+                }
+            } else {
+                this.root = null;
+            }
+            this.fireBlackboardChanged();
+        } else if (this.somoxAnalyzerInputFile != null && !this.somoxAnalyzerInputFile.equals(somoxAnalyzerInputFile)) {
+            this.somoxAnalyzerInputFile = somoxAnalyzerInputFile;
+            if (this.somoxAnalyzerInputFile != null) {
+                if (somoxAnalyzerInputFile.endsWith(".xmi")) {
+                    this.loadModel();
+                } else {
+                    this.root = null;
+                }
+            } else {
+                this.root = null;
+            }
+            this.fireBlackboardChanged();
+        }
+    }
 
-	/** Fire to all registered listeners */
-	@SuppressWarnings("unchecked")
-	public void fireBlackboardChanged() {
-		// If we have no listeners, do nothing.
-		if ((blackboardListeners!= null) && !blackboardListeners.isEmpty()) {
-			// Make a copy of the listener list in case anyone adds or removes
-			// listeners.
-			Vector<BlackboardListener> targets;
-			synchronized (blackboardListeners) {
-				targets = (Vector<BlackboardListener>) blackboardListeners.clone();
-			}
-			// Walk through the listener list and call the listener method in
-			// each.
-			Enumeration<BlackboardListener> e = targets.elements();
-			while (e.hasMoreElements()) {
-				BlackboardListener l = (BlackboardListener) e.nextElement();
-				l.blackboardChanged();
-			}
-		}
-	}
+    private void loadModel() {
+
+        final URI fileURI = URI.createPlatformResourceURI(this.somoxAnalyzerInputFile, true);
+
+        final IWorkspaceRoot resRoot = ResourcesPlugin.getWorkspace().getRoot();
+        if (resRoot.findMember(fileURI.toPlatformString(true)) instanceof IFile) {
+            final KDMReader gastReader = new KDMReader();
+            // gastReader.loadFile(fileURI);
+            this.root = gastReader.getRoot();
+        } else {
+            this.logger.log(new Status(Status.ERROR, Activator.PLUGIN_ID, "Failed to load Model file " + fileURI));
+        }
+    }
+
+    /**
+     * @return
+     * @uml.property name="root"
+     */
+    public Root getRoot() {
+        return this.root;
+    }
+
+    //
+    // Event handling
+    //
+    private transient Vector<BlackboardListener> blackboardListeners;
+
+    /** Register a listener for Blackboard events */
+    synchronized public void addBlackboardListener(final BlackboardListener listener) {
+        if (this.blackboardListeners == null) {
+            this.blackboardListeners = new Vector<BlackboardListener>();
+        }
+        this.blackboardListeners.addElement(listener);
+    }
+
+    synchronized public void removeBlackboardListener(final BlackboardListener listener) {
+        if (this.blackboardListeners == null) {
+            this.blackboardListeners = new Vector<BlackboardListener>();
+        }
+        this.blackboardListeners.removeElement(listener);
+    }
+
+    /** Fire to all registered listeners */
+    @SuppressWarnings("unchecked")
+    public void fireBlackboardChanged() {
+        // If we have no listeners, do nothing.
+        if (this.blackboardListeners != null && !this.blackboardListeners.isEmpty()) {
+            // Make a copy of the listener list in case anyone adds or removes
+            // listeners.
+            Vector<BlackboardListener> targets;
+            synchronized (this.blackboardListeners) {
+                targets = (Vector<BlackboardListener>) this.blackboardListeners.clone();
+            }
+            // Walk through the listener list and call the listener method in
+            // each.
+            final Enumeration<BlackboardListener> e = targets.elements();
+            while (e.hasMoreElements()) {
+                final BlackboardListener l = e.nextElement();
+                l.blackboardChanged();
+            }
+        }
+    }
 
 }
