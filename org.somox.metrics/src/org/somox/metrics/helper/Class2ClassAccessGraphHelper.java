@@ -132,8 +132,11 @@ public class Class2ClassAccessGraphHelper {
             // }
             // }
 
-            final ConcreteClassifier accessedClass = GetAccessedType.getAccessedType(singleAccess);
-
+            final Type accessedType = GetAccessedType.getAccessedType(singleAccess);
+            if (!(accessedType instanceof ConcreteClassifier)) {
+                continue;
+            }
+            final ConcreteClassifier accessedClass = (ConcreteClassifier) accessedType;
             // Relations between the class itself are not interesting...
             if (clazz == accessedClass) {
                 continue;

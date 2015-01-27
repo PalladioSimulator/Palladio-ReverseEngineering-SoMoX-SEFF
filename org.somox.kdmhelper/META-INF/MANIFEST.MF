@@ -23,6 +23,7 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.somox.kdmhelper,
- org.somox.kdmhelper.metamodeladdition
+ org.somox.kdmhelper.metamodeladdition,
+ org.splevo.jamopp.extraction
 Import-Package: org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.ecore.xmi.impl
