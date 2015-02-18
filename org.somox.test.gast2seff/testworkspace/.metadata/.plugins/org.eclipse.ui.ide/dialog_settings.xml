@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="installedFeatures">
+		<item value="org.eclipse.emf.codegen.ecore:2.10.1.v20140901-1055"/>
+		<item value="org.eclipse.emf.codegen:2.10.0.v20140901-1055"/>
+		<item value="org.eclipse.emf.common.ui:2.9.0.v20140901-1055"/>
+		<item value="org.eclipse.emf.common:2.10.1.v20140901-1043"/>
+		<item value="org.eclipse.emf.ecore.edit:2.9.0.v20140901-1055"/>
+		<item value="org.eclipse.emf.ecore:2.10.1.v20140901-1043"/>
+		<item value="org.eclipse.emf.edit.ui:2.10.1.v20140901-1055"/>
+		<item value="org.eclipse.emf.edit:2.10.1.v20140901-1055"/>
+		<item value="org.eclipse.emf.query:1.8.0.201405281426"/>
+		<item value="org.eclipse.emf.transaction:1.8.0.201405281451"/>
+		<item value="org.eclipse.emf.validation:1.8.0.201405281429"/>
+		<item value="org.eclipse.emf.workspace:1.8.0.201405281451"/>
+		<item value="org.eclipse.emf:2.10.1.v20140901-1055"/>
+		<item value="org.eclipse.help:2.0.102.v20140606-1215"/>
+		<item value="org.eclipse.ocl:3.4.0.v20140528-1458"/>
+		<item value="org.eclipse.platform:4.4.0.v20140606-1558"/>
+		<item value="org.eclipse.uml2.common.edit:2.0.0.v20140910-1354"/>
+		<item value="org.eclipse.uml2.common:2.0.1.v20140910-1354"/>
+		<item value="org.eclipse.xtext.sdk:2.6.1.v201406120726"/>
+		<item value="org.eclipse.xtext.xbase.lib:2.6.1.v201406120726"/>
+		<item value="org.emftext.commons.antlr3_4_0:3.4.0.v201207310007"/>
+		<item value="org.emftext.commons.jdt:1.4.1.v201207310007"/>
+		<item value="org.emftext.commons.layout:1.4.1.v201207310007"/>
+		<item value="org.emftext.language.java:1.4.0.v201207310007"/>
+	</list>
+</section>

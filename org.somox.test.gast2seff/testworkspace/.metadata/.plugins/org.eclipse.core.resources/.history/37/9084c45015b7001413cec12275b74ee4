@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sourcecodedecorator:SourceCodeDecoratorRepository xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:classifiers="http://www.emftext.org/java/classifiers" xmlns:members="http://www.emftext.org/java/members" xmlns:repository="http://sdq.ipd.uka.de/PalladioComponentModel/Repository/5.0" xmlns:sourcecodedecorator="http://somox.org/SourceCodeDecorator/2.0">
+  <methodLevelSourceCodeLink>
+    <repositoryComponent xsi:type="repository:BasicComponent" href="testPCMModel.repository#_HOdI4LMHEeS2co6zY9fwbQ"/>
+    <file href="file:/Users/Michael/eclipseWorkspaces/ArchitectureRecovery/org.somox.test.gast2seff/testworkspace/MockupProject/example-component-code/org/somox/test/gast2seff/examplesrc/providingcomponent/ProvidingComponentImpl.java#/"/>
+    <operation xsi:type="repository:OperationSignature" href="testPCMModel.repository#_JLBjQLMHEeS2co6zY9fwbQ"/>
+    <function xsi:type="members:ClassMethod" href="file:/Users/Michael/eclipseWorkspaces/ArchitectureRecovery/org.somox.test.gast2seff/testworkspace/MockupProject/example-component-code/org/somox/test/gast2seff/examplesrc/providingcomponent/ProvidingComponentImpl.java#//@classifiers.0/@members.1"/>
+  </methodLevelSourceCodeLink>
+  <methodLevelSourceCodeLink>
+    <repositoryComponent xsi:type="repository:BasicComponent" href="testPCMModel.repository#_HOdI4LMHEeS2co6zY9fwbQ"/>
+    <file href="file:/Users/Michael/eclipseWorkspaces/ArchitectureRecovery/org.somox.test.gast2seff/testworkspace/MockupProject/example-component-code/org/somox/test/gast2seff/examplesrc/providingcomponent/ProvidingComponentImpl.java#/"/>
+    <operation xsi:type="repository:OperationSignature" href="testPCMModel.repository#_JGwHQLMHEeS2co6zY9fwbQ"/>
+    <function xsi:type="members:ClassMethod" href="file:/Users/Michael/eclipseWorkspaces/ArchitectureRecovery/org.somox.test.gast2seff/testworkspace/MockupProject/example-component-code/org/somox/test/gast2seff/examplesrc/providingcomponent/ProvidingComponentImpl.java#//@classifiers.0/@members.0"/>
+  </methodLevelSourceCodeLink>
+  <methodLevelSourceCodeLink>
+    <repositoryComponent xsi:type="repository:BasicComponent" href="testPCMModel.repository#_VO8BELMHEeS2co6zY9fwbQ"/>
+    <file href="file:/Users/Michael/eclipseWorkspaces/ArchitectureRecovery/org.somox.test.gast2seff/testworkspace/MockupProject/example-component-code/org/somox/test/gast2seff/examplesrc/requiringcomponent/RequiringComponentImpl.java#/"/>
+    <operation xsi:type="repository:OperationSignature" href="testPCMModel.repository#_X4jHoLMHEeS2co6zY9fwbQ"/>
+    <function xsi:type="members:ClassMethod" href="file:/Users/Michael/eclipseWorkspaces/ArchitectureRecovery/org.somox.test.gast2seff/testworkspace/MockupProject/example-component-code/org/somox/test/gast2seff/examplesrc/requiringcomponent/RequiringComponentImpl.java#//@classifiers.0/@members.15"/>
+  </methodLevelSourceCodeLink>
+  <interfaceSourceCodeLink>
+    <interface xsi:type="repository:OperationInterface" href="testPCMModel.repository#_IU3XULMHEeS2co6zY9fwbQ"/>
+    <gastClass xsi:type="classifiers:Interface" href="file:/Users/Michael/eclipseWorkspaces/ArchitectureRecovery/org.somox.test.gast2seff/testworkspace/MockupProject/example-component-code/org/somox/test/gast2seff/examplesrc/contracts/InterfaceA.java#//@classifiers.0"/>
+  </interfaceSourceCodeLink>
+  <interfaceSourceCodeLink>
+    <interface xsi:type="repository:OperationInterface" href="testPCMModel.repository#_XEDIkLMHEeS2co6zY9fwbQ"/>
+    <gastClass xsi:type="classifiers:Interface" href="file:/Users/Michael/eclipseWorkspaces/ArchitectureRecovery/org.somox.test.gast2seff/testworkspace/MockupProject/example-component-code/org/somox/test/gast2seff/examplesrc/contracts/ProvidingInterface.java#//@classifiers.0"/>
+  </interfaceSourceCodeLink>
+  <componentImplementingClassesLink providedInterfaces="//@interfaceSourceCodeLink.0">
+    <component xsi:type="repository:BasicComponent" href="testPCMModel.repository#_HOdI4LMHEeS2co6zY9fwbQ"/>
+    <implementingClasses xsi:type="classifiers:Class" href="file:/Users/Michael/eclipseWorkspaces/ArchitectureRecovery/org.somox.test.gast2seff/testworkspace/MockupProject/example-component-code/org/somox/test/gast2seff/examplesrc/providingcomponent/ProvidingComponentImpl.java#//@classifiers.0"/>
+  </componentImplementingClassesLink>
+  <componentImplementingClassesLink providedInterfaces="//@interfaceSourceCodeLink.1" requiredInterfaces="//@interfaceSourceCodeLink.0">
+    <component xsi:type="repository:BasicComponent" href="testPCMModel.repository#_VO8BELMHEeS2co6zY9fwbQ"/>
+    <implementingClasses xsi:type="classifiers:Class" href="file:/Users/Michael/eclipseWorkspaces/ArchitectureRecovery/org.somox.test.gast2seff/testworkspace/MockupProject/example-component-code/org/somox/test/gast2seff/examplesrc/requiringcomponent/RequiringComponentImpl.java#//@classifiers.0"/>
+  </componentImplementingClassesLink>
+</sourcecodedecorator:SourceCodeDecoratorRepository>

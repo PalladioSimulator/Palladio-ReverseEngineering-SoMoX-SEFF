@@ -1,0 +1,2 @@
+INDEX VERSION 1.127+/Users/Michael/eclipseWorkspaces/ArchitectureRecovery/org.somox.test.gast2seff/testworkspace/.metadata/.plugins/org.eclipse.jdt.core
+1629198845.index
