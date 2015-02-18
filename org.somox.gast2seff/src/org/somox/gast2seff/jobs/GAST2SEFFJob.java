@@ -22,6 +22,7 @@ import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
 import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.GastStatementVisitor;
+import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.seff2javaast.SEFF2MethodMapping;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
@@ -62,6 +63,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
      */
     private SEFF2JavaAST gastBehaviourRepositoryModel;
     private SourceCodeDecoratorRepository sourceCodeDecoratorModel;
+    private Root root;
 
     private FunctionCallClassificationVisitor typeVisitor;
 
@@ -85,6 +87,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
         final AnalysisResult result = this.blackboard.getAnalysisResult();
         this.gastBehaviourRepositoryModel = result.getSeff2JavaAST();
         this.sourceCodeDecoratorModel = result.getSourceCodeDecoratorRepository();
+        this.root = result.getRoot();
 
         final IProgressMonitor subMonitor = new SubProgressMonitor(monitor, IProgressMonitor.UNKNOWN);
         subMonitor.setTaskName("Creating SEFF behaviour");
@@ -134,7 +137,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
         // initialise for new component / seff to reverse engineer:
         final BasicComponent basicComponent = (BasicComponent) seff.eContainer();
         final BasicFunctionClassificationStrategy basicFunctionClassifierStrategy = new BasicFunctionClassificationStrategy(
-                this.sourceCodeDecoratorModel, basicComponent);
+                this.sourceCodeDecoratorModel, basicComponent, this.root);
         this.typeVisitor = new FunctionCallClassificationVisitor(basicFunctionClassifierStrategy);
 
         seff.getSteps_Behaviour().add(start);

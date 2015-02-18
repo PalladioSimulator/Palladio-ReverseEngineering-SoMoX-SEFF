@@ -3,10 +3,16 @@
  */
 package org.somox.gast2seff.visitors;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.members.Method;
 import org.emftext.language.java.references.MethodCall;
-import org.somox.kdmhelper.GetAccessedType;
+import org.emftext.language.java.references.ReferenceableElement;
+import org.somox.kdmhelper.EqualityChecker;
 import org.somox.kdmhelper.KDMHelper;
+import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
@@ -21,12 +27,13 @@ import de.uka.ipd.sdq.pcm.repository.BasicComponent;
  *
  */
 public class BasicFunctionClassificationStrategy extends AbstractFunctionClassificationStrategy implements
-        IFunctionClassificationStrategy {
+IFunctionClassificationStrategy {
 
     private static Logger logger = Logger.getLogger(BasicFunctionClassificationStrategy.class);
 
     private final SourceCodeDecoratorRepository sourceCodeDecoratorRepository;
     private final BasicComponent primitiveComponent;
+    private final Root root;
 
     /**
      * @param sourceCodeDecoratorRepository
@@ -37,24 +44,28 @@ public class BasicFunctionClassificationStrategy extends AbstractFunctionClassif
      *            an external call.
      */
     public BasicFunctionClassificationStrategy(final SourceCodeDecoratorRepository sourceCodeDecoratorRepository,
-            final BasicComponent primitiveComponent) {
+            final BasicComponent primitiveComponent, final Root root) {
         this.sourceCodeDecoratorRepository = sourceCodeDecoratorRepository;
         this.primitiveComponent = primitiveComponent;
+        this.root = root;
     }
 
     @Override
-    protected boolean isExternalCall(final MethodCall functionAccess) {// GAST2SEFFCHANGE
-
+    protected boolean isExternalCall(final MethodCall methodCall) {
         final ComponentImplementingClassesLink compLink = this.queryComponentLink(this.primitiveComponent);
+        final Method method = KDMHelper.getMethod(methodCall);
         for (final InterfaceSourceCodeLink ifLink : compLink.getRequiredInterfaces()) {
-            if (KDMHelper.getMethods(ifLink.getGastClass()).contains(KDMHelper.getMethod(functionAccess))) {
-                logger.debug("Classified call as external call: " + KDMHelper.getMethod(functionAccess).getName()
-                        + " for component " + this.primitiveComponent.getEntityName());
-                return true;
+            final List<Method> methodsInInterface = KDMHelper.getMethods(ifLink.getGastClass());
+            for (final Method methodInInterface : methodsInInterface) {
+                if (EqualityChecker.areFunctionsEqual(method, methodInInterface)) {
+                    logger.debug("Classified call as external call: " + KDMHelper.getMethod(methodCall).getName()
+                            + " for component " + this.primitiveComponent.getEntityName());
+                    return true;
+                }
             }
         }
 
-        logger.trace("no external call: " + KDMHelper.getMethod(functionAccess).getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
+        logger.trace("no external call: " + KDMHelper.getMethod(methodCall).getName());
         return false;
     }
 
@@ -66,22 +77,25 @@ public class BasicFunctionClassificationStrategy extends AbstractFunctionClassif
             }
         }
         final String msg = "Could not find a component implementing classes link in the source code "
-                + "decorator for component " + primitiveComponent.getEntityName();
+                + "decorator for component " + primitiveComponent;
         logger.error(msg);
         throw new RuntimeException(msg);
     }
 
+    /**
+     * Checks whether the method call is a access to a library. This is the case if the compilation
+     * unit of the target method is not in the root
+     */
     @Override
-    protected boolean isLibraryCall(final MethodCall functionAccess) {// GAST2SEFFCHANGE
-        final org.emftext.language.java.types.Type targetClass = GetAccessedType.getAccessedType(functionAccess);// GAST2SEFFCHANGE//GAST2SEFFCHANGE
-        if (targetClass == null) {
-            logger.warn("Failed to classifiy library call because called GASTClass was unavailable.");
-            return true;
+    protected boolean isLibraryCall(final MethodCall methodCall) {
+        final ReferenceableElement method = methodCall.getTarget();
+        final CompilationUnit compilationUnit = method.getContainingCompilationUnit();
+        final boolean isLibraryCall = !this.root.getCompilationUnits().contains(compilationUnit);
+        if (isLibraryCall) {
+            logger.debug("Classified call as library call: " + method.getName() + " for component "
+                    + this.primitiveComponent.getEntityName());
         }
-        logger.debug("Classified call as library call: " + KDMHelper.getMethod(functionAccess).getName() + // GAST2SEFFCHANGE//GAST2SEFFCHANGE
-                " for component " + this.primitiveComponent.getEntityName());
-        return KDMHelper.getJavaNodeSourceRegion(targetClass) == null
-                || KDMHelper.getJavaNodeSourceRegion(targetClass) == null;// GAST2SEFFCHANGE//GAST2SEFFCHANGE
+        return isLibraryCall;
     }
 
 }

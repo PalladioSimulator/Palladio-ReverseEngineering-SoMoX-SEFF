@@ -1,7 +1,7 @@
 package org.somox.gast2seff.visitors;
 
-import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -79,7 +79,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
      * according to {@link FunctionCallType}. Nodes of control flow constructs like loops and
      * branches carry the union of the annotations of their child statements
      */
-    private final Map<Statement, BitSet> functionClassificationAnnotation;
+    private final Map<Commentable, BitSet> functionClassificationAnnotation;
 
     /**
      * Classification annotation of the last visited statement. Used to skip generating SEFF actions
@@ -99,7 +99,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
      *            The gast behaviour which maps gast statements and SAMM repository.
      * @param primitiveComponent
      */
-    public GastStatementVisitor(final Map<Statement, BitSet> functionClassificationAnnotations,
+    public GastStatementVisitor(final Map<Commentable, BitSet> functionClassificationAnnotations,
             final de.uka.ipd.sdq.pcm.seff.ResourceDemandingBehaviour resourceDemandingBehaviour,
             final SourceCodeDecoratorRepository gastBehaviourRepository, final BasicComponent primitiveComponent) {
         super();
@@ -118,12 +118,8 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
         public Object caseStatementListContainer(final StatementListContainer object) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
             for (final Statement s : object.getStatements()) {
                 final BitSet thisType = GastStatementVisitor.this.functionClassificationAnnotation.get(s);
-                if (!GastStatementVisitor.this.shouldSkip(GastStatementVisitor.this.lastType, thisType)) { // Only
-                    // generate
-                    // elements
-                    // for
-                    // statements which should not be
-                    // abstracted away
+                if (!GastStatementVisitor.this.shouldSkip(GastStatementVisitor.this.lastType, thisType)) {
+                    // Only generate elements for statements which should not be abstracted away
                     // avoid infinite recursion
                     if (!GastStatementVisitor.this.isVisitedStatement(thisType)) {
                         GastStatementVisitor.this.setVisited(thisType);
@@ -145,30 +141,24 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
                 GastStatementVisitor.this.seff.getSteps_Behaviour().add(branchAction);
                 branchAction.setEntityName(GastStatementVisitor.this.positionToString(switchStatement));
 
-                final ArrayList<ArrayList<Statement>> branches = SwitchStatementHelper
+                final List<List<Statement>> branches = SwitchStatementHelper
                         .createBlockListFromSwitchStatement(switchStatement);
 
-                for (final ArrayList<Statement> branch : branches) {
+                for (final List<Statement> branch : branches) {
                     final de.uka.ipd.sdq.pcm.seff.AbstractBranchTransition bt = SeffFactory.eINSTANCE
                             .createProbabilisticBranchTransition();
                     bt.setBranchBehaviour_BranchTransition(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
                     bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour()
-                            .add(SeffFactory.eINSTANCE.createStartAction());
+                    .add(SeffFactory.eINSTANCE.createStartAction());
                     bt.setEntityName("parent "
                             + GastStatementVisitor.this.positionToString(switchStatement)
                             + "/"
                             + (branch.size() > 0 ? GastStatementVisitor.this.positionToLineNumber(KDMHelper
                                     .getJavaNodeSourceRegion(branch.get(0)))
                                     + " to "
+                                    // use parent position since branch position is empty
                                     + GastStatementVisitor.this.positionToLineNumber(KDMHelper
-                                            .getJavaNodeSourceRegion(branch.get(branch.size() - 1))) : "")); // use
-                    // parent
-                    // position
-                    // since
-                    // branch
-                    // position
-                    // is
-                    // empty
+                                            .getJavaNodeSourceRegion(branch.get(branch.size() - 1))) : ""));
                     branchAction.getBranches_Branch().add(bt);
                     final GastStatementVisitor visitor = new GastStatementVisitor(
                             GastStatementVisitor.this.functionClassificationAnnotation,
@@ -183,11 +173,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
                         final BitSet thisType = GastStatementVisitor.this.functionClassificationAnnotation
                                 .get(statement);
                         if (!GastStatementVisitor.this.shouldSkip(GastStatementVisitor.this.lastType, thisType)) { // Only
-                            // generate
-                            // elements
-                            // for
-                            // statements which should not
-                            // be abstracted away
+                            // generate elements for statements which should not be abstracted away
                             // avoid infinite recursion
                             // if(!isVisitedStatement(thisType)) {
                             // setVisited(thisType);
@@ -206,7 +192,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
                     }
 
                     bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour()
-                            .add(SeffFactory.eINSTANCE.createStopAction());
+                    .add(SeffFactory.eINSTANCE.createStopAction());
                     GAST2SEFFJob.connectActions(bt.getBranchBehaviour_BranchTransition());
                 }
             } else {
@@ -403,7 +389,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
         if (this.isExternalCall(statementAnnotation)) {
             this.createExternalCallAction(object);
         } else if (this.isInternalCall(statementAnnotation)) {
-            final MethodCall functionAccess = this.getFunctionAccess(object); // GAST2SEFFCHANGE
+            final MethodCall functionAccess = VisitorUtils.getMethodCall(object); // GAST2SEFFCHANGE
             final ReferenceableElement re = functionAccess.getTarget();
             if (!(re instanceof ClassMethod)) {
                 logger.error("Referenceable element must be a method call");
@@ -423,7 +409,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
                     String msg = "Behaviour not set in GAST for " + method.getName(); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                     if (KDMHelper.getJavaNodeSourceRegion(object) != null
 
-                    && KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() != null) { // GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
+                            && KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() != null) { // GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
                         msg += ". Tried to call from "
 
                         + KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() + "."; // GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
@@ -468,7 +454,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
 
     private void createExternalCallAction(final Statement object) {// GAST2SEFFCHANGE
         final ExternalCallAction call = SeffFactory.eINSTANCE.createExternalCallAction();
-        final MethodCall access = this.getFunctionAccess(object); // GAST2SEFFCHANGE
+        final MethodCall access = VisitorUtils.getMethodCall(object); // GAST2SEFFCHANGE
         call.setEntityName(KDMHelper.getMethod(access).getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
         final InterfacePortOperationTuple ifOperationTuple = this.getCalledInterfacePort(access);
         if (null == ifOperationTuple) {
@@ -557,15 +543,6 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
 
     }
 
-    private MethodCall getFunctionAccess(final Statement object) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
-        for (final Commentable a : KDMHelper.getAllAccesses(object)) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
-            if (a instanceof MethodCall) { // GAST2SEFFCHANGE
-                return (MethodCall) a; // GAST2SEFFCHANGE
-            }
-        }
-        return null;
-    }
-
     private void createInternalAction(final Statement statement) {
         final InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
 
@@ -587,7 +564,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
             blockString.append(blockstatement.toString());
             if (KDMHelper.getAllAccesses(blockstatement) != null && // GAST2SEFFCHANGE
                     KDMHelper.getAllAccesses(blockstatement).size() >= 1// GAST2SEFFCHANGE
-            ) {
+                    ) {
                 final Commentable firstAccess = KDMHelper.getAllAccesses(blockstatement).get(0); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                 if (firstAccess instanceof Commentable) { // GAST2SEFFCHANGE
                     final Commentable access = firstAccess; // GAST2SEFFCHANGE//GAST2SEFFCHANGE
@@ -612,14 +589,14 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
 
                 if (KDMHelper.getAllAccesses(statement) != null && // GAST2SEFFCHANGE
                         KDMHelper.getAllAccesses(statement).size() >= 1// GAST2SEFFCHANGE
-                ) {
+                        ) {
                     final Commentable firstAccess = KDMHelper.getAllAccesses(statement).get(0); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                     if (firstAccess instanceof Commentable) { // GAST2SEFFCHANGE
                         final Commentable access = firstAccess; // GAST2SEFFCHANGE//GAST2SEFFCHANGE
 
                         if (GetAccessedType.getAccessedType(access) != null) { // GAST2SEFFCHANGE
                             blockString
-                                    .append(" " + KDMHelper.getName(GetAccessedType.getAccessedType(access)) + "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                            .append(" " + KDMHelper.getName(GetAccessedType.getAccessedType(access)) + "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                         }
                         return blockString.toString();
                     }

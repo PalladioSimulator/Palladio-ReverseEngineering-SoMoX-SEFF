@@ -44,7 +44,7 @@ class NamePair {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -54,7 +54,7 @@ class NamePair {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -95,7 +95,7 @@ public class NameResemblance extends AbstractMetric {
     /**
      * Cache the pairwise computed name resemblances for a given pair of strings
      */
-    private Map<NamePair, Float> nameResemblanceMap = new HashMap<NamePair, Float>();
+    private Map<NamePair, Float> nameResemblanceMap;
 
     /**
      * Set with prefix Strings that will be excluded in every metric-computation
@@ -109,15 +109,17 @@ public class NameResemblance extends AbstractMetric {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.somox.metrics.Metric#initialize(de.fzi.gast.core.Root,
      * org.somox.configuration.SoMoXConfiguration, java.util.Map, org.jgrapht.DirectedGraph)
      */
     @Override
     public void initialize(final Root gastModel, final SoMoXConfiguration somoxConfiguration,
-            final Map<MetricID, IMetric> allMetrics, final DirectedGraph<ConcreteClassifier, ClassAccessGraphEdge> accessGraph,
+            final Map<MetricID, IMetric> allMetrics,
+            final DirectedGraph<ConcreteClassifier, ClassAccessGraphEdge> accessGraph,
             final ComponentToImplementingClassesHelper componentToImplementingClassesHelper) {
         super.initialize(gastModel, somoxConfiguration, allMetrics, accessGraph, componentToImplementingClassesHelper);
+        this.nameResemblanceMap = new HashMap<NamePair, Float>();
 
         this.excludedPrefixes = this.tokenizeString(somoxConfiguration.getExcludedPrefixesForNameResemblance());
         this.excludedSuffixes = this.tokenizeString(somoxConfiguration.getExcludedSuffixesForNameResemblance());
@@ -266,7 +268,7 @@ public class NameResemblance extends AbstractMetric {
 
     /**
      * Helper method to remove all prefixes and all suffixes from a string
-     * 
+     *
      * @param name
      *            string to trim
      * @return trimmed string
