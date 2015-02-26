@@ -76,7 +76,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see de.uka.ipd.sdq.workflow.IJob#execute(org.eclipse.core.runtime.IProgressMonitor)
      */
     @Override
@@ -113,7 +113,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see de.uka.ipd.sdq.workflow.IJob#getName()
      */
     @Override
@@ -122,8 +122,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
     }
 
     /**
-     * Create a new PCM SEFF The method is public since it should be possible to use the seff
-     * creating mechanism without the SoMoX framework
+     * Create a new PCM SEFF.
      *
      * @param seff
      *            The SEFF which is filled by this method

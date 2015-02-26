@@ -36,6 +36,18 @@ public class FunctionCallClassificationVisitorTest extends Gast2SEFFBaseTest {
     }
 
     @Test
+    public void testDoExternalCallViaInterface() {
+        final String methodName = this.getTestMethodName();
+        this.executeTest(methodName, Commentable.class, FunctionCallType.EXTERNAL);
+    }
+
+    @Test
+    public void testDoExternalCallWithSimpleParametersAndReturnTypeViaInterface() {
+        final String methodName = this.getTestMethodName();
+        this.executeTest(methodName, Commentable.class, FunctionCallType.EXTERNAL);
+    }
+
+    @Test
     public void testConditionWithExternalCallInIf() {
         final String methodName = super.getTestMethodName();
         this.testConditionMethod(methodName, FunctionCallType.EXTERNAL, FunctionCallType.INTERNAL);

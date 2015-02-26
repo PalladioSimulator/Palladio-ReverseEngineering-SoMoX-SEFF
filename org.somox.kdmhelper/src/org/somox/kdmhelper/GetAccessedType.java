@@ -4,6 +4,7 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.MethodCall;
+import org.emftext.language.java.references.ReferenceableElement;
 import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
@@ -52,9 +53,10 @@ public class GetAccessedType {
 
     }
 
-    public static Type getAccessedType(final MethodCall methodCall) {
+    public static ConcreteClassifier getAccessedType(final MethodCall methodCall) {
         if (methodCall != null && methodCall.getType() != null) {
-            return methodCall.getType();
+            final ReferenceableElement targetMethod = methodCall.getTarget();
+            return targetMethod.getContainingConcreteClassifier();
         } else {
             return null;
         }

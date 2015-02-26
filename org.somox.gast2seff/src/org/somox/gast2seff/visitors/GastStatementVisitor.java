@@ -8,9 +8,12 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.ClassMethod;
+import org.emftext.language.java.members.Member;
+import org.emftext.language.java.members.Method;
 import org.emftext.language.java.members.util.MembersSwitch;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferenceableElement;
@@ -389,33 +392,28 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
         if (this.isExternalCall(statementAnnotation)) {
             this.createExternalCallAction(object);
         } else if (this.isInternalCall(statementAnnotation)) {
-            final MethodCall functionAccess = VisitorUtils.getMethodCall(object); // GAST2SEFFCHANGE
+            final MethodCall functionAccess = VisitorUtils.getMethodCall(object);
             final ReferenceableElement re = functionAccess.getTarget();
             if (!(re instanceof ClassMethod)) {
-                logger.error("Referenceable element must be a method call");
+                logger.error("Referenceable element must be a class method");
             } else {
                 final ClassMethod method = (ClassMethod) re;
 
-                final EList<Statement> body = method.getStatements(); // GAST2SEFFCHANGE//GAST2SEFFCHANGE//GAST2SEFFCHANGE
-                if (body != null) {
+                if (method.getStatements() != null) {
 
                     // avoid infinite recursion
                     final BitSet thisType = this.functionClassificationAnnotation.get(object);
                     if (!this.isVisitedStatement(thisType)) {
                         this.setVisited(thisType);
-                        // this.doSwitch(body);
+                        this.doSwitch(method);
                     }
                 } else {
-                    String msg = "Behaviour not set in GAST for " + method.getName(); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                    String msg = "Behaviour not set in GAST for " + method.getName();
                     if (KDMHelper.getJavaNodeSourceRegion(object) != null
-
-                            && KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() != null) { // GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
+                            && KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() != null) {
                         msg += ". Tried to call from "
-
-                        + KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() + "."; // GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
-                    }
-
-                    else {
+                                + KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() + ".";
+                    } else {
                         msg += ". (caller position unknown)";
                     }
                     logger.warn(msg);
@@ -452,10 +450,10 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
         return !this.isExternalCall(lastType);
     }
 
-    private void createExternalCallAction(final Statement object) {// GAST2SEFFCHANGE
+    private void createExternalCallAction(final Statement object) {
         final ExternalCallAction call = SeffFactory.eINSTANCE.createExternalCallAction();
-        final MethodCall access = VisitorUtils.getMethodCall(object); // GAST2SEFFCHANGE
-        call.setEntityName(KDMHelper.getMethod(access).getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+        final MethodCall access = VisitorUtils.getMethodCall(object);
+        call.setEntityName(KDMHelper.getMethod(access).getName() + this.positionToString(object));
         final InterfacePortOperationTuple ifOperationTuple = this.getCalledInterfacePort(access);
         if (null == ifOperationTuple) {
             logger.warn("ifOperationTuple == null");
@@ -476,15 +474,16 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
      * @return interface port and operation for corresponding to the access.
      */
     private InterfacePortOperationTuple getCalledInterfacePort(final MethodCall access) { // GAST2SEFFCHANGE
-
         final InterfacePortOperationTuple interfacePortOperationTuple = new InterfacePortOperationTuple();
+        final ConcreteClassifier accessedConcreteClassifier = GetAccessedType.getAccessedType(access);
 
         for (final RequiredRole requiredRole : this.primitiveComponent.getRequiredRoles_InterfaceRequiringEntity()) {
             for (final InterfaceSourceCodeLink ifLink : this.sourceCodeDecoratorRepository.getInterfaceSourceCodeLink()) {
                 if (requiredRole instanceof OperationRequiredRole) {
                     final OperationRequiredRole operReqRole = (OperationRequiredRole) requiredRole;
                     if (operReqRole.getRequiredInterface__OperationRequiredRole().equals(ifLink.getInterface())) {
-                        if (ifLink.getGastClass().equals(GetAccessedType.getAccessedType(access))) { // GAST2SEFFCHANGE
+                        final ConcreteClassifier gastClass = ifLink.getGastClass();
+                        if (gastClass.equals(accessedConcreteClassifier)) {
 
                             logger.trace("accessed interface port " + operReqRole.getEntityName());
                             interfacePortOperationTuple.role = operReqRole;
@@ -511,18 +510,20 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
      * @return Signature corresponding to function access
      */
     private Signature queryInterfaceOperation(final MethodCall methodInvocation) { // GAST2SEFFCHANGE
-
+        final Method invokedMethod = KDMHelper.getMethod(methodInvocation);
         for (final MethodLevelSourceCodeLink methodLink : this.sourceCodeDecoratorRepository
                 .getMethodLevelSourceCodeLink()) {
 
-            if (methodLink.getFunction().equals(KDMHelper.getMethod(methodInvocation))) { // GAST2SEFFCHANGE
+            final Member methodSourceCodeDecorator = methodLink.getFunction();
+
+            if (methodSourceCodeDecorator.equals(invokedMethod)) { // GAST2SEFFCHANGE
 
                 logger.trace("accessed operation " + methodLink.getOperation().getEntityName());
                 return methodLink.getOperation();
             }
         }
 
-        logger.warn("no accessed operation found for " + KDMHelper.getMethod(methodInvocation).getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+        logger.warn("no accessed operation found for " + invokedMethod.getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
         return null;
     }
 
@@ -610,7 +611,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
     }
 
     private String positionToString(final Commentable position) { // GAST2SEFFCHANGE
-        final StringBuilder positionString = new StringBuilder("position: ");
+        final StringBuilder positionString = new StringBuilder(" @position: ");
         if (position != null) {
             if (position != null && position.getClass() != null) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                 // TODO change name of class; question: is fqnName of Class better than path?

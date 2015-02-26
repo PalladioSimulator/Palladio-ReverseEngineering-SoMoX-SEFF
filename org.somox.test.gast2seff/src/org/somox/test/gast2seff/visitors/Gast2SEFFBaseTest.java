@@ -9,6 +9,8 @@ import java.util.BitSet;
 import java.util.Date;
 import java.util.Map;
 
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -29,6 +31,7 @@ import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.Method;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.TestWatcher;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
@@ -41,11 +44,14 @@ import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
+import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.Interface;
 import de.uka.ipd.sdq.pcm.repository.OperationInterface;
+import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
 import de.uka.ipd.sdq.pcm.repository.OperationSignature;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
+import de.uka.ipd.sdq.pcm.repository.RequiredRole;
 
 public abstract class Gast2SEFFBaseTest {
 
@@ -72,17 +78,22 @@ public abstract class Gast2SEFFBaseTest {
 
     protected SourceCodeDecoratorRepository sourceCodeDecorator;
     protected Repository pcmRepository;
-    protected Root compilationUnits;
+    protected static Root compilationUnits;
 
     protected class MethodFunctionCallClassificationVisitorPair {
         Method method;
         FunctionCallClassificationVisitor functionCallClassificationVisitor;
     }
 
+    @BeforeClass
+    public static void beforeClass() throws IOException {
+        initCompilationUnits();
+        initializeLogger();
+    }
+
     @Before
     public void beforeTest() throws IOException {
         this.initPCMRepository();
-        this.initCompilationUnits();
         this.initializeSourceCodeDecorator();
     }
 
@@ -124,12 +135,12 @@ public abstract class Gast2SEFFBaseTest {
         this.pcmRepository = (Repository) resourceForTest.getContents().get(0);
     }
 
-    private void initCompilationUnits() throws IOException {
+    private static void initCompilationUnits() throws IOException {
         final KDMReader kdmReader = new KDMReader();
         final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         final IProject project = root.getProject(PROJECT_URI);
         kdmReader.loadProject(project);
-        this.compilationUnits = kdmReader.getRoot();
+        compilationUnits = kdmReader.getRoot();
     }
 
     private void initializeSourceCodeDecorator() throws IOException {
@@ -140,6 +151,11 @@ public abstract class Gast2SEFFBaseTest {
                 .createAndAddInterface2InterfaceCorrespondence(INTERFACE_A_NAME);
         final InterfaceSourceCodeLink providingOpInterfaceToProvidingInterface = this
                 .createAndAddInterface2InterfaceCorrespondence(PROVIDING_INTERFACE_NAME);
+        // method2method4interface
+        this.createAndAddMethodLevelSourceCodeLink(
+                METHOD_NAME_TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETER_AND_RETURN_TYPE, null, INTERFACE_A_NAME);
+        this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_TEST_EXTERNAL_CALL, null, INTERFACE_A_NAME);
+        this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_PROVIDING_METHOD, null, PROVIDING_INTERFACE_NAME);
 
         // components2Class
         this.createAndAddComponentImplementingClassLink(PROVIDING_COMPONENT_NAME, opInterfaceAToInterfaceA, null);
@@ -167,12 +183,15 @@ public abstract class Gast2SEFFBaseTest {
             final String componentName, final String interfaceName) {
         final MethodLevelSourceCodeLink methodLevelSourceCodeLink = SourcecodedecoratorFactory.eINSTANCE
                 .createMethodLevelSourceCodeLink();
-        final Method method = this.findMethodInClassifier(methodName, componentName + "Impl");
+        final String classifierForMethod = null == componentName ? interfaceName : componentName + "Impl";
+        final Method method = this.findMethodInClassifier(methodName, classifierForMethod);
         final OperationSignature opSignature = this.findOperationSignatureWithName(methodName, interfaceName);
         methodLevelSourceCodeLink.setFile(method.getContainingCompilationUnit());
         methodLevelSourceCodeLink.setFunction(method);
         methodLevelSourceCodeLink.setOperation(opSignature);
-        methodLevelSourceCodeLink.setRepositoryComponent(this.findComponentInPCMRepo(componentName));
+        if (null != componentName) {
+            methodLevelSourceCodeLink.setRepositoryComponent(this.findComponentInPCMRepo(componentName));
+        }
         this.sourceCodeDecorator.getMethodLevelSourceCodeLink().add(methodLevelSourceCodeLink);
         return methodLevelSourceCodeLink;
     }
@@ -247,7 +266,7 @@ public abstract class Gast2SEFFBaseTest {
     }
 
     private ConcreteClassifier findConcreteClassifierWithName(final String concreteClassifierName) {
-        for (final CompilationUnit cu : this.compilationUnits.getCompilationUnits()) {
+        for (final CompilationUnit cu : compilationUnits.getCompilationUnits()) {
             for (final ConcreteClassifier concreteClassifier : cu.getClassifiers()) {
                 if (concreteClassifierName.equals(concreteClassifier.getName())) {
                     return concreteClassifier;
@@ -316,6 +335,40 @@ public abstract class Gast2SEFFBaseTest {
     protected String getTestMethodName() {
         final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
         return ste[2].getMethodName();
+    }
+
+    public OperationRequiredRole findOperaitonRequiredRoleInBasicComponent(final BasicComponent basicComponent,
+            final String requiredRoleName) {
+        for (final RequiredRole requiredRole : basicComponent.getRequiredRoles_InterfaceRequiringEntity()) {
+            if (requiredRole.getEntityName().equals(requiredRoleName) && requiredRole instanceof OperationRequiredRole) {
+                return (OperationRequiredRole) requiredRole;
+            }
+        }
+        throw new RuntimeException("Could not find OperationRequiredRole " + requiredRoleName + " in BasicComponent "
+                + basicComponent.getEntityName());
+    }
+
+    public OperationSignature findRequiredOperationSignatureInOperationRequiredRole(
+            final OperationRequiredRole operationRequiredRole, final String operationSignatureName) {
+        final OperationInterface requiredInterface = operationRequiredRole
+                .getRequiredInterface__OperationRequiredRole();
+        for (final OperationSignature opSig : requiredInterface.getSignatures__OperationInterface()) {
+            if (opSig.getEntityName().equals(operationSignatureName)) {
+                return opSig;
+            }
+        }
+        throw new RuntimeException("Could not find OperationSignature " + operationSignatureName + " in Interface "
+                + requiredInterface.getEntityName() + " for required role " + operationRequiredRole.getEntityName());
+    }
+
+    /**
+     * init logger for test purposes
+     */
+    private static void initializeLogger() {
+        if (!Logger.getRootLogger().getAllAppenders().hasMoreElements()) {
+            Logger.getRootLogger().addAppender(new ConsoleAppender());
+            Logger.getRootLogger().setLevel(Level.ALL);
+        }
     }
 
 }

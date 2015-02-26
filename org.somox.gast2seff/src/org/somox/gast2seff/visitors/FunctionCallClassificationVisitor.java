@@ -91,8 +91,7 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
 
         @Override
         public BitSet caseStatement(final Statement object) {
-            FunctionCallClassificationVisitor.this.safePut(object, new BitSet());
-            return new BitSet();
+            return FunctionCallClassificationVisitor.this.handleFormerSimpleStatement(object);
         }
 
         @Override
@@ -123,7 +122,7 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
             }
             final BitSet myType = FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(),
                     branchStatements);
-            FunctionCallClassificationVisitor.this.annotations.put(condition, myType);
+            FunctionCallClassificationVisitor.this.putBitSetInAnnotations(condition, myType);
             return myType;
         }
 
@@ -144,7 +143,7 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
             }
             final BitSet myType = FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(),
                     branchStatements);
-            FunctionCallClassificationVisitor.this.annotations.put(switchStatement, myType);
+            FunctionCallClassificationVisitor.this.putBitSetInAnnotations(switchStatement, myType);
 
             return myType;
         }
@@ -192,7 +191,7 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
             }
             final BitSet myType = FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(),
                     allChildStatements);
-            FunctionCallClassificationVisitor.this.annotations.put(object, myType);
+            FunctionCallClassificationVisitor.this.putBitSetInAnnotations(object, myType);
             return myType;
         }
 
@@ -223,7 +222,7 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
         }
         final BitSet myType = FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(),
                 object.getStatements());
-        FunctionCallClassificationVisitor.this.annotations.put(object, myType);
+        this.putBitSetInAnnotations(object, myType);
         return myType;
     }
 
@@ -244,7 +243,7 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
         this.doSwitch(body);
 
         final BitSet myType = this.annotations.get(body);
-        this.annotations.put(loop, myType);
+        this.putBitSetInAnnotations(loop, myType);
 
         return myType;
     }
@@ -265,7 +264,7 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
         }
 
         final BitSet myType = this.myStrategy.classifySimpleStatement(statement);
-        this.annotations.put(statement, myType);
+        this.putBitSetInAnnotations(statement, myType);
 
         if (myType.get(getIndex(FunctionCallType.INTERNAL))) {
             // Also annotate the internal method
@@ -282,10 +281,8 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
         return myType;
     }
 
-    private void safePut(final Commentable object, final BitSet type) {
-        if (!this.annotations.containsKey(object)) {
-            this.annotations.put(object, type);
-        }
+    private void putBitSetInAnnotations(final Commentable object, final BitSet type) {
+        this.annotations.put(object, type);
     }
 
     private BitSet computeChildAnnotations(final BitSet initalValue, final List<Statement> childStatements) {

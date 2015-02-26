@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
+import org.emftext.language.java.arrays.ArrayTypeable;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
@@ -24,6 +25,7 @@ import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
+import de.uka.ipd.sdq.pcm.core.entity.NamedElement;
 import de.uka.ipd.sdq.pcm.repository.CollectionDataType;
 import de.uka.ipd.sdq.pcm.repository.CompositeDataType;
 import de.uka.ipd.sdq.pcm.repository.DataType;
@@ -143,7 +145,9 @@ public class OperationBuilder extends AbstractBuilder {
 
             final Type accessedType = GetAccessedType.getAccessedType(inputParameter.getTypeReference());
             if (inputParameter.getTypeReference() != null && null != accessedType) {
-                final DataType type = this.getType(accessedType, this.analysisResult.getInternalArchitectureModel());
+                final DataType type = this.getType(accessedType, this.analysisResult.getInternalArchitectureModel(),
+                        inputParameter);
+
                 opSigParam.setDataType__Parameter(type);
                 logger.info("type to build for variable: " + inputParameter + ":" + type);
             } else {
@@ -161,13 +165,14 @@ public class OperationBuilder extends AbstractBuilder {
 
         if (null != method.getTypeReference() && null != GetAccessedType.getAccessedType(method.getTypeReference())
                 && !(method.getTypeReference() instanceof org.emftext.language.java.types.Void)) {
-            operation.setReturnType__OperationSignature(this.getType(
-                    GetAccessedType.getAccessedType(method.getTypeReference()),
-                    this.analysisResult.getInternalArchitectureModel()));
+            final DataType returnType = this.getType(GetAccessedType.getAccessedType(method.getTypeReference()),
+                    this.analysisResult.getInternalArchitectureModel(), method);
+            operation.setReturnType__OperationSignature(returnType);
         } else if (null != method.getTypeReference()
                 && !(method.getTypeReference() instanceof org.emftext.language.java.types.Void)) {
             final Type accessedType = GetAccessedType.getAccessedType(method.getTypeReference());
-            final DataType type = this.getType(accessedType, this.analysisResult.getInternalArchitectureModel());
+            final DataType type = this
+                    .getType(accessedType, this.analysisResult.getInternalArchitectureModel(), method);
             operation.setReturnType__OperationSignature(type);
         } else {
             logger.info("no fitting return type found " + method.getName() + "-- ret type" + method.getTypeReference());
@@ -332,15 +337,61 @@ public class OperationBuilder extends AbstractBuilder {
      *            type name to create
      * @param repository
      *            repository containing all present types
+     * @param arrayDimensions
+     *            array dimensions for the type
      * @return a new data type for non-existing ones; the existing instance else
      */
-    public DataType getType(final Type gastType, final Repository repository) {
-        DataType type = this.getExistingType(gastType, repository);
+    public DataType getType(final Type gastType, final Repository repository, final ArrayTypeable arrayTypeable) {
+        DataType innerType = this.getExistingType(gastType, repository);
 
-        if (type == null) {
-            type = this.createDataType(repository, gastType);
+        if (innerType == null) {
+            innerType = this.createDataType(repository, gastType);
         }
-        return type;
+        DataType returnType = innerType;
+
+        if (null != arrayTypeable && null != returnType) {
+            returnType = this.createCollectionDatatypeForArray(innerType, arrayTypeable, repository);
+        }
+
+        return returnType;
+    }
+
+    /**
+     * Creates a collection data type for each array dimension for the inner Data Type. For example:
+     *
+     * String[] --> CollectionDataType with String as InnerType
+     *
+     * String[][]--> CollectionDataType with "CollectionDataType with String as inner type" as inner
+     * type
+     *
+     * @param innerDataType
+     *            the innertype
+     * @param arrayTypeable
+     *            the element that may is an array
+     * @return
+     */
+    private DataType createCollectionDatatypeForArray(final DataType innerDataType, final ArrayTypeable arrayTypeable,
+            final Repository repository) {
+        DataType currentInnerType = innerDataType;
+        for (long i = 0; i < arrayTypeable.getArrayDimension(); i++) {
+            final CollectionDataType collectionDataType = RepositoryFactory.eINSTANCE.createCollectionDataType();
+            collectionDataType.setEntityName(this.getNameFromPCMDataType(currentInnerType) + "List");
+            collectionDataType.setInnerType_CollectionDataType(currentInnerType);
+            collectionDataType.setRepository__DataType(repository);
+            currentInnerType = collectionDataType;
+        }
+        return currentInnerType;
+    }
+
+    private String getNameFromPCMDataType(final DataType dataType) {
+        if (dataType instanceof NamedElement) {
+            return ((NamedElement) dataType).getEntityName();
+        }
+        if (dataType instanceof PrimitiveDataType) {
+            final PrimitiveDataType primitiveDataType = (PrimitiveDataType) dataType;
+            return primitiveDataType.getType().getName();
+        }
+        return null;
     }
 
     /**
@@ -387,10 +438,7 @@ public class OperationBuilder extends AbstractBuilder {
      * ComplexDataTypes are extracted as follows: 1) if type is a ConcreteClassifier we generate a
      * complex data type 2) if type is an instance of "Collection": we create a collection datatype
      * 3) if not: create a CompositeDataType 4) innerDataTypes: get fields of classifier and their
-     * type 5) if field is an array type (aka arrayDimension < 0): create a collection data type for
-     * the field that contains the field type as inner data type and has the name of the field 6) if
-     * type is instance of collection data types and contains fields: just create the collection
-     * data type
+     * type
      *
      *
      * @param gastType
@@ -413,7 +461,6 @@ public class OperationBuilder extends AbstractBuilder {
                 // 3+4)
                 complexDataType = this.createCompositeDataType(concreteClassifier, typeName, repository);
             }
-
         }
         return complexDataType;
     }
@@ -452,22 +499,10 @@ public class OperationBuilder extends AbstractBuilder {
             if (!fieldType.equals(concreteClassifier) && !fieldTypeName.equals(typeName)
                     && !fieldTypeName.equals("void")) {
                 final InnerDeclaration innerElement = RepositoryFactory.eINSTANCE.createInnerDeclaration();
-                final DataType innerDataType = this.getType(fieldType, repository);
+                final DataType innerDataType = this.getType(fieldType, repository, field);
                 final String innerTypeName = field.getName();
                 innerElement.setEntityName(innerTypeName);
-                if (0 < field.getArrayDimension()) {
-                    // 5)
-                    // the field is an array data type-->create collection data type with the name
-                    // of the field and the type as inner datatype - we may create more collection
-                    // datatypes with the same inner type here - but this should be OK
-                    final CollectionDataType innerCollectionDataType = RepositoryFactory.eINSTANCE
-                            .createCollectionDataType();
-                    innerCollectionDataType.setEntityName(innerTypeName);
-                    innerCollectionDataType.setInnerType_CollectionDataType(innerDataType);
-                    innerCollectionDataType.setRepository__DataType(repository);
-                    innerElement.setDatatype_InnerDeclaration(innerCollectionDataType);
-                    logger.debug("created inner collection datatype composite data type " + innerTypeName);
-                } else if (innerDataType instanceof CollectionDataType) {
+                if (innerDataType instanceof CollectionDataType) {
                     // 6) the inner data type is a generic collection data type, e.g. ArrayList:
                     // create a copy with the concrete innertype e.g. ArrayList<String>
                     final CollectionDataType concreteCollectionDataType = RepositoryFactory.eINSTANCE
@@ -480,7 +515,7 @@ public class OperationBuilder extends AbstractBuilder {
                     if (null != qta) {
                         if (null != qta.getTypeReference() && null != qta.getTypeReference().getTarget()) {
                             final Type type = qta.getTypeReference().getTarget();
-                            final DataType collectionInnerType = this.getType(type, repository);
+                            final DataType collectionInnerType = this.getType(type, repository, qta);
                             concreteCollectionDataType.setInnerType_CollectionDataType(collectionInnerType);
                         }
                     }
@@ -497,12 +532,17 @@ public class OperationBuilder extends AbstractBuilder {
     }
 
     private boolean isClassifierOnBlacklist(final ConcreteClassifier concreteClassifier) {
+        if (null == this.somoxConfiguration || null == this.somoxConfiguration.getBlacklistFilter()) {
+            // if we do not have a somox configuration or a blacklist filter we assume that the
+            // classifier is not on the blacklist
+            return false;
+        }
         return !super.somoxConfiguration.getBlacklistFilter().passes(concreteClassifier);
     }
 
     private boolean isClassifierInSourceProject(final ConcreteClassifier concreteClassifier) {
         for (final CompilationUnit cu : this.astModel.getCompilationUnits()) {
-            for (final ConcreteClassifier currentClassifier : cu.getClassifiers()) {
+            for (final ConcreteClassifier currentClassifier : cu.getChildrenByType(ConcreteClassifier.class)) {
                 if (concreteClassifier == currentClassifier) {
                     return true;
                 }
