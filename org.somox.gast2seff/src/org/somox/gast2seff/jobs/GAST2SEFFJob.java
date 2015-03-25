@@ -76,7 +76,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.uka.ipd.sdq.workflow.IJob#execute(org.eclipse.core.runtime.IProgressMonitor)
      */
     @Override
@@ -113,7 +113,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.uka.ipd.sdq.workflow.IJob#getName()
      */
     @Override

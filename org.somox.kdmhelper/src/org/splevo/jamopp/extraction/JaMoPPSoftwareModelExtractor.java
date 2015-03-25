@@ -18,7 +18,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.JavaPackage;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
-import org.emftext.language.java.resource.java.IJavaOptions;
 import org.splevo.jamopp.extraction.cache.ReferenceCache;
 import org.splevo.jamopp.extraction.resource.JavaSourceOrClassFileResourceCachingFactoryImpl;
 
@@ -302,12 +301,13 @@ public class JaMoPPSoftwareModelExtractor {
 
         final ResourceSet rs = new ResourceSetImpl();
 
-        final Boolean disableLayoutOption = extractLayoutInfo ? Boolean.FALSE : Boolean.TRUE;
-
         // further resource set enhancement for the extraction specific needs
         final Map<Object, Object> options = rs.getLoadOptions();
-        options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, disableLayoutOption);
-        options.put(IJavaOptions.DISABLE_LOCATION_MAP, disableLayoutOption);
+        // TODO: next three lines commented out in order to retrieve layout information (even if
+        // extractLayoutInformation is set to true it was not working before)
+        // final Boolean disableLayoutOption = extractLayoutInfo ? Boolean.FALSE : Boolean.TRUE;
+        // options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, false);
+        // options.put(IJavaOptions.DISABLE_LOCATION_MAP, false);
         // options.put(IJavaOptions.DISABLE_EMF_VALIDATION, Boolean.TRUE);
         options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
         options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);

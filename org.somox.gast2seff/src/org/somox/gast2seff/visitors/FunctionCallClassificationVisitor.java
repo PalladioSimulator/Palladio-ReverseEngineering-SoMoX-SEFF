@@ -73,7 +73,12 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
         /**
          * Indicates whether a statements which has been visited before.
          */
-        VISITED
+        VISITED,
+
+        /**
+         * Classifies a call as an internal call that contains an external call
+         */
+        INTERNAL_CALL_CONTAINING_EXTERNAL_CALL
     }
 
     private final HashMap<Commentable, BitSet> annotations = new HashMap<Commentable, BitSet>();
@@ -177,7 +182,7 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
             // handle try block
             FunctionCallClassificationVisitor.this.handleStatementListContainer(object);
             final List<Statement> allChildStatements = new ArrayList<Statement>();
-            allChildStatements.add(object);
+            allChildStatements.addAll(object.getStatements());
 
             // handle guarded blocks
             for (final CatchBlock catchBlock : object.getCatcheBlocks()) {
@@ -270,11 +275,16 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
             // Also annotate the internal method
             final MethodCall methodCall = VisitorUtils.getMethodCall(statement);
             final StatementListContainer targetFunctionBody = KDMHelper.getBody(KDMHelper.getMethod(methodCall));
+            BitSet internalType = new BitSet();
             if (targetFunctionBody != null) {
                 logger.trace("visiting internal call. accessed class: " + GetAccessedType.getAccessedType(methodCall));
-                this.doSwitch(targetFunctionBody);
+                internalType = this.doSwitch(targetFunctionBody);
             } else {
                 logger.warn("Behaviour not set in GAST for " + KDMHelper.getMethod(methodCall).getName());
+            }
+            // the internal call contains an external call
+            if (internalType.get(getIndex(FunctionCallType.EXTERNAL))) {
+                myType.set(getIndex(FunctionCallType.INTERNAL_CALL_CONTAINING_EXTERNAL_CALL));
             }
         }
 
@@ -314,6 +324,8 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
             return 2;
         case VISITED:
             return 3;
+        case INTERNAL_CALL_CONTAINING_EXTERNAL_CALL:
+            return 4;
         }
         throw new UnsupportedOperationException();
     }

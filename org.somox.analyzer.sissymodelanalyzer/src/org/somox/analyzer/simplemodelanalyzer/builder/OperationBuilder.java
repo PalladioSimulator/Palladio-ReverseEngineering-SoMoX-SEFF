@@ -373,7 +373,10 @@ public class OperationBuilder extends AbstractBuilder {
     private DataType createCollectionDatatypeForArray(final DataType innerDataType, final ArrayTypeable arrayTypeable,
             final Repository repository) {
         DataType currentInnerType = innerDataType;
-        for (long i = 0; i < arrayTypeable.getArrayDimension(); i++) {
+        // can not use arrayTypeable.getArrayDimension() since it is not implemented in JaMoPP
+        final int arrayDimenstions = arrayTypeable.getArrayDimensionsAfter().size()
+                + arrayTypeable.getArrayDimensionsBefore().size();
+        for (long i = 0; i < arrayDimenstions; i++) {
             final CollectionDataType collectionDataType = RepositoryFactory.eINSTANCE.createCollectionDataType();
             collectionDataType.setEntityName(this.getNameFromPCMDataType(currentInnerType) + "List");
             collectionDataType.setInnerType_CollectionDataType(currentInnerType);

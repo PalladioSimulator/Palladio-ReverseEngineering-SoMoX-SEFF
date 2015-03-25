@@ -190,7 +190,7 @@ public class FunctionCallClassificationVisitorTest extends Gast2SEFFBaseTest {
         final MethodFunctionCallClassificationVisitorPair pair = new MethodFunctionCallClassificationVisitorPair();
         final BasicComponent basicComponent = (BasicComponent) this.findComponentInPCMRepo(componentName);
         final BasicFunctionClassificationStrategy strategy = new BasicFunctionClassificationStrategy(
-                this.sourceCodeDecorator, basicComponent, this.compilationUnits);
+                this.sourceCodeDecorator, basicComponent, compilationUnits);
         pair.functionCallClassificationVisitor = new FunctionCallClassificationVisitor(strategy);
         pair.method = this.findMethodInClassifier(methodName, componentName + "Impl");
         return pair;

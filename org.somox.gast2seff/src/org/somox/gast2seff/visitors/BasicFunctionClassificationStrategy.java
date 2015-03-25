@@ -27,7 +27,7 @@ import de.uka.ipd.sdq.pcm.repository.BasicComponent;
  *
  */
 public class BasicFunctionClassificationStrategy extends AbstractFunctionClassificationStrategy implements
-IFunctionClassificationStrategy {
+        IFunctionClassificationStrategy {
 
     private static Logger logger = Logger.getLogger(BasicFunctionClassificationStrategy.class);
 

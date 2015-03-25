@@ -24,6 +24,7 @@ import org.emftext.language.java.statements.DoWhileLoop;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.ForEachLoop;
 import org.emftext.language.java.statements.ForLoop;
+import org.emftext.language.java.statements.Jump;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
@@ -119,19 +120,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
     private class MemberVisitor extends MembersSwitch<Object> {
         @Override
         public Object caseStatementListContainer(final StatementListContainer object) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
-            for (final Statement s : object.getStatements()) {
-                final BitSet thisType = GastStatementVisitor.this.functionClassificationAnnotation.get(s);
-                if (!GastStatementVisitor.this.shouldSkip(GastStatementVisitor.this.lastType, thisType)) {
-                    // Only generate elements for statements which should not be abstracted away
-                    // avoid infinite recursion
-                    if (!GastStatementVisitor.this.isVisitedStatement(thisType)) {
-                        GastStatementVisitor.this.setVisited(thisType);
-                        this.doSwitch(s);
-                    }
-                }
-                GastStatementVisitor.this.lastType = thisType;
-            }
-            return new Object();
+            return GastStatementVisitor.this.handleStatementListContainer(object);
         }
     }
 
@@ -225,6 +214,11 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
         }
 
         @Override
+        public Object caseBlock(final Block block) {
+            return GastStatementVisitor.this.handleStatementListContainer(block);
+        }
+
+        @Override
         public Object caseForEachLoop(final ForEachLoop object) {
             return GastStatementVisitor.this.handleLoopStatement(object, object.getStatement());
         }
@@ -249,15 +243,21 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
             if (GastStatementVisitor.this.containsExternalCall(object)) {
 
                 // visit guarded block
-                new GastStatementVisitor(GastStatementVisitor.this.functionClassificationAnnotation,
-                        GastStatementVisitor.this.seff, GastStatementVisitor.this.sourceCodeDecoratorRepository,
-                        GastStatementVisitor.this.primitiveComponent).doSwitch((EObject) object.getStatements()); // GAST2SEFFCHANGE
+                final GastStatementVisitor visitor = new GastStatementVisitor(
+                        GastStatementVisitor.this.functionClassificationAnnotation, GastStatementVisitor.this.seff,
+                        GastStatementVisitor.this.sourceCodeDecoratorRepository,
+                        GastStatementVisitor.this.primitiveComponent);
+                for (final Statement statement : object.getStatements()) {
+                    visitor.doSwitch(statement);
+                }
+
+                // TODO:we do not visit catch block?
 
                 // visit finally block if exists
-                if (object.getFinallyBlock() != null) { // GAST2SEFFCHANGE
+                if (object.getFinallyBlock() != null) {
                     new GastStatementVisitor(GastStatementVisitor.this.functionClassificationAnnotation,
                             GastStatementVisitor.this.seff, GastStatementVisitor.this.sourceCodeDecoratorRepository,
-                            GastStatementVisitor.this.primitiveComponent).doSwitch(object.getFinallyBlock()); // GAST2SEFFCHANGE
+                            GastStatementVisitor.this.primitiveComponent).doSwitch(object.getFinallyBlock());
                 }
             } else {
                 GastStatementVisitor.this.createInternalAction(object);
@@ -283,6 +283,12 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
         @Override
         public Object caseStatement(final Statement statement) {
             return GastStatementVisitor.this.handleFormerSimpleStatement(statement);
+        }
+
+        @Override
+        public Object caseJump(final Jump jump) {
+            // ignore jump statements (break and continue)
+            return new Object();
         }
 
         @Override
@@ -316,6 +322,22 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
         visitor.doSwitch(ifElseStatement);
         bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStopAction());
         GAST2SEFFJob.connectActions(bt.getBranchBehaviour_BranchTransition());
+    }
+
+    private Object handleStatementListContainer(final StatementListContainer object) {
+        for (final Statement s : object.getStatements()) {
+            final BitSet thisType = GastStatementVisitor.this.functionClassificationAnnotation.get(s);
+            if (!GastStatementVisitor.this.shouldSkip(GastStatementVisitor.this.lastType, thisType)) {
+                // Only generate elements for statements which should not be abstracted away
+                // avoid infinite recursion
+                if (!GastStatementVisitor.this.isVisitedStatement(thisType)) {
+                    GastStatementVisitor.this.setVisited(thisType);
+                    this.doSwitch(s);
+                }
+            }
+            GastStatementVisitor.this.lastType = thisType;
+        }
+        return new Object();
     }
 
     /**
@@ -515,7 +537,6 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
                 .getMethodLevelSourceCodeLink()) {
 
             final Member methodSourceCodeDecorator = methodLink.getFunction();
-
             if (methodSourceCodeDecorator.equals(invokedMethod)) { // GAST2SEFFCHANGE
 
                 logger.trace("accessed operation " + methodLink.getOperation().getEntityName());
@@ -523,7 +544,8 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
             }
         }
 
-        logger.warn("no accessed operation found for " + invokedMethod.getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+        logger.warn("no accessed operation found for " + invokedMethod.getContainingConcreteClassifier() + "::"
+                + invokedMethod.getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
         return null;
     }
 
@@ -658,8 +680,11 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
      * @return true if the statement or one of its child statements is an external service call
      */
     private boolean containsExternalCall(final Statement object) {
-        return this.functionClassificationAnnotation.get(object).get(
+        final boolean isExternalCall = this.functionClassificationAnnotation.get(object).get(
                 FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
+        final boolean isInternalCallContainingExternalCall = this.functionClassificationAnnotation.get(object).get(
+                FunctionCallClassificationVisitor.getIndex(FunctionCallType.INTERNAL_CALL_CONTAINING_EXTERNAL_CALL));
+        return isExternalCall || isInternalCallContainingExternalCall;
     }
 
     private class InterfacePortOperationTuple {
