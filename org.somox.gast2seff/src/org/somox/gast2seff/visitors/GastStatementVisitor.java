@@ -141,7 +141,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
                             .createProbabilisticBranchTransition();
                     bt.setBranchBehaviour_BranchTransition(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
                     bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour()
-                    .add(SeffFactory.eINSTANCE.createStartAction());
+                            .add(SeffFactory.eINSTANCE.createStartAction());
                     bt.setEntityName("parent "
                             + GastStatementVisitor.this.positionToString(switchStatement)
                             + "/"
@@ -184,7 +184,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
                     }
 
                     bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour()
-                    .add(SeffFactory.eINSTANCE.createStopAction());
+                            .add(SeffFactory.eINSTANCE.createStopAction());
                     GAST2SEFFJob.connectActions(bt.getBranchBehaviour_BranchTransition());
                 }
             } else {
@@ -519,7 +519,9 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
             }
         }
 
-        logger.warn("found no if port for " + GetAccessedType.getAccessedType(access).toString()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+        String accessedClassifierName = accessedConcreteClassifier != null ? accessedConcreteClassifier.toString()
+                : "null";
+        logger.warn("found no if port for " + accessedClassifierName); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
 
         return interfacePortOperationTuple;
     }
@@ -587,7 +589,7 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
             blockString.append(blockstatement.toString());
             if (KDMHelper.getAllAccesses(blockstatement) != null && // GAST2SEFFCHANGE
                     KDMHelper.getAllAccesses(blockstatement).size() >= 1// GAST2SEFFCHANGE
-                    ) {
+            ) {
                 final Commentable firstAccess = KDMHelper.getAllAccesses(blockstatement).get(0); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                 if (firstAccess instanceof Commentable) { // GAST2SEFFCHANGE
                     final Commentable access = firstAccess; // GAST2SEFFCHANGE//GAST2SEFFCHANGE
@@ -612,14 +614,14 @@ public class GastStatementVisitor extends ComposedSwitch<Object> {// GAST2SEFFCH
 
                 if (KDMHelper.getAllAccesses(statement) != null && // GAST2SEFFCHANGE
                         KDMHelper.getAllAccesses(statement).size() >= 1// GAST2SEFFCHANGE
-                        ) {
+                ) {
                     final Commentable firstAccess = KDMHelper.getAllAccesses(statement).get(0); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                     if (firstAccess instanceof Commentable) { // GAST2SEFFCHANGE
                         final Commentable access = firstAccess; // GAST2SEFFCHANGE//GAST2SEFFCHANGE
 
                         if (GetAccessedType.getAccessedType(access) != null) { // GAST2SEFFCHANGE
                             blockString
-                            .append(" " + KDMHelper.getName(GetAccessedType.getAccessedType(access)) + "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                                    .append(" " + KDMHelper.getName(GetAccessedType.getAccessedType(access)) + "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                         }
                         return blockString.toString();
                     }
