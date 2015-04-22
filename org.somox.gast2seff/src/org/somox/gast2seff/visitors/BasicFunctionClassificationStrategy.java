@@ -6,10 +6,8 @@ package org.somox.gast2seff.visitors;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.references.MethodCall;
-import org.emftext.language.java.references.ReferenceableElement;
 import org.somox.kdmhelper.EqualityChecker;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
@@ -26,14 +24,12 @@ import de.uka.ipd.sdq.pcm.repository.BasicComponent;
  * @author Steffen Becker, Klaus Krogmann
  *
  */
-public class BasicFunctionClassificationStrategy extends AbstractFunctionClassificationStrategy implements
+public class BasicFunctionClassificationStrategy extends AbstractLibraryCallFunctionClassificationStrategy implements
         IFunctionClassificationStrategy {
 
-    private static Logger logger = Logger.getLogger(BasicFunctionClassificationStrategy.class);
+    static Logger logger = Logger.getLogger(BasicFunctionClassificationStrategy.class);
 
-    private final SourceCodeDecoratorRepository sourceCodeDecoratorRepository;
-    private final BasicComponent primitiveComponent;
-    private final Root root;
+    final private BasicComponent primitiveComponent;
 
     /**
      * @param sourceCodeDecoratorRepository
@@ -45,9 +41,8 @@ public class BasicFunctionClassificationStrategy extends AbstractFunctionClassif
      */
     public BasicFunctionClassificationStrategy(final SourceCodeDecoratorRepository sourceCodeDecoratorRepository,
             final BasicComponent primitiveComponent, final Root root) {
-        this.sourceCodeDecoratorRepository = sourceCodeDecoratorRepository;
+        super(root, sourceCodeDecoratorRepository);
         this.primitiveComponent = primitiveComponent;
-        this.root = root;
     }
 
     @Override
@@ -80,22 +75,6 @@ public class BasicFunctionClassificationStrategy extends AbstractFunctionClassif
                 + "decorator for component " + primitiveComponent;
         logger.error(msg);
         throw new RuntimeException(msg);
-    }
-
-    /**
-     * Checks whether the method call is a access to a library. This is the case if the compilation
-     * unit of the target method is not in the root
-     */
-    @Override
-    protected boolean isLibraryCall(final MethodCall methodCall) {
-        final ReferenceableElement method = methodCall.getTarget();
-        final CompilationUnit compilationUnit = method.getContainingCompilationUnit();
-        final boolean isLibraryCall = !this.root.getCompilationUnits().contains(compilationUnit);
-        if (isLibraryCall) {
-            logger.debug("Classified call as library call: " + method.getName() + " for component "
-                    + this.primitiveComponent.getEntityName());
-        }
-        return isLibraryCall;
     }
 
 }

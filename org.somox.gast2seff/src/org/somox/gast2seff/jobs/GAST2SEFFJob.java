@@ -19,9 +19,11 @@ import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
+import org.somox.gast2seff.visitors.AbstractJaMoPPStatementVisitor;
 import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
-import org.somox.gast2seff.visitors.GastStatementVisitor;
+import org.somox.gast2seff.visitors.JaMoPPStatementVisitor;
+import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.seff2javaast.SEFF2MethodMapping;
@@ -135,7 +137,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
 
         // initialise for new component / seff to reverse engineer:
         final BasicComponent basicComponent = (BasicComponent) seff.eContainer();
-        final BasicFunctionClassificationStrategy basicFunctionClassifierStrategy = new BasicFunctionClassificationStrategy(
+        final IFunctionClassificationStrategy basicFunctionClassifierStrategy = new BasicFunctionClassificationStrategy(
                 this.sourceCodeDecoratorModel, basicComponent, this.root);
         this.typeVisitor = new FunctionCallClassificationVisitor(basicFunctionClassifierStrategy);
 
@@ -144,7 +146,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
         final StatementListContainer body = this.findBody(seff);// GAST2SEFFCHANGE
         this.logger.trace("visiting (seff entry): " + seff.getId());
         if (body != null) {
-            final GastStatementVisitor visitor = new GastStatementVisitor(this.typeVisitor.getAnnotations(), seff,
+            final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(this.typeVisitor.getAnnotations(), seff,
                     this.sourceCodeDecoratorModel, basicComponent);
 
             // handle each statement

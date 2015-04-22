@@ -9,10 +9,12 @@ import java.util.List;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.statements.Statement;
 import org.junit.Test;
+import org.somox.gast2seff.visitors.AbstractJaMoPPStatementVisitor;
 import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
-import org.somox.gast2seff.visitors.GastStatementVisitor;
+import org.somox.gast2seff.visitors.JaMoPPStatementVisitor;
+import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
 
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
@@ -262,11 +264,11 @@ public class GastStatementVisitorTest extends Gast2SEFFBaseTest {
                 + "Impl");
         final BasicComponent basicComponent = (BasicComponent) super.findComponentInPCMRepo(REQUIRED_COMPONENT_NAME);
         final ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
-        final BasicFunctionClassificationStrategy basicFunctionClassifierStrategy = new BasicFunctionClassificationStrategy(
+        final IFunctionClassificationStrategy basicFunctionClassifierStrategy = new BasicFunctionClassificationStrategy(
                 this.sourceCodeDecorator, basicComponent, compilationUnits);
         final FunctionCallClassificationVisitor functionCallClassificationVisitor = new FunctionCallClassificationVisitor(
                 basicFunctionClassifierStrategy);
-        final GastStatementVisitor gastStatementVisitor = new GastStatementVisitor(
+        final AbstractJaMoPPStatementVisitor gastStatementVisitor = new JaMoPPStatementVisitor(
                 functionCallClassificationVisitor.getAnnotations(), seff, this.sourceCodeDecorator, basicComponent);
 
         // execute the test

@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
+import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
 
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 
@@ -189,7 +190,7 @@ public class FunctionCallClassificationVisitorTest extends Gast2SEFFBaseTest {
             final String componentName, final String methodName) {
         final MethodFunctionCallClassificationVisitorPair pair = new MethodFunctionCallClassificationVisitorPair();
         final BasicComponent basicComponent = (BasicComponent) this.findComponentInPCMRepo(componentName);
-        final BasicFunctionClassificationStrategy strategy = new BasicFunctionClassificationStrategy(
+        final IFunctionClassificationStrategy strategy = new BasicFunctionClassificationStrategy(
                 this.sourceCodeDecorator, basicComponent, compilationUnits);
         pair.functionCallClassificationVisitor = new FunctionCallClassificationVisitor(strategy);
         pair.method = this.findMethodInClassifier(methodName, componentName + "Impl");

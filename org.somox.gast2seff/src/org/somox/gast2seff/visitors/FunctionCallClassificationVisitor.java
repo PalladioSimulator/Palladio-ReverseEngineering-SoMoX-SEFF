@@ -43,7 +43,7 @@ import org.somox.kdmhelper.KDMHelper;
 // TODO: Method calls in conditions (expressions)
 public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {// GAST2SEFFCHANGE
 
-    private static final Logger logger = Logger.getLogger(GastStatementVisitor.class);
+    private static final Logger logger = Logger.getLogger(JaMoPPStatementVisitor.class);
 
     public FunctionCallClassificationVisitor(final IFunctionClassificationStrategy strategy) {
         super();

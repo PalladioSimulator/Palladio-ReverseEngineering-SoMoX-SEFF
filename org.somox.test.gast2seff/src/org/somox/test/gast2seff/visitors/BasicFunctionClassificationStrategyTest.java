@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
+import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
 
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 
@@ -33,7 +34,7 @@ public class BasicFunctionClassificationStrategyTest extends Gast2SEFFBaseTest {
     @Test
     public void testMergeFunctionCallType() {
         final BasicComponent bc = (BasicComponent) this.findComponentInPCMRepo(REQUIRED_COMPONENT_NAME);
-        final BasicFunctionClassificationStrategy basicFunctionClassificationStrategy = new BasicFunctionClassificationStrategy(
+        final IFunctionClassificationStrategy basicFunctionClassificationStrategy = new BasicFunctionClassificationStrategy(
                 this.sourceCodeDecorator, bc, compilationUnits);
         final BitSet myType = new BitSet();
         myType.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.INTERNAL));
@@ -60,7 +61,7 @@ public class BasicFunctionClassificationStrategyTest extends Gast2SEFFBaseTest {
         final BasicComponent basicComponentForClass = (BasicComponent) this.findComponentInPCMRepo(componentName);
 
         // the test
-        final BasicFunctionClassificationStrategy functionClassificationStrategy = new BasicFunctionClassificationStrategy(
+        final IFunctionClassificationStrategy functionClassificationStrategy = new BasicFunctionClassificationStrategy(
                 this.sourceCodeDecorator, basicComponentForClass, compilationUnits);
         final BitSet bitSet = functionClassificationStrategy.classifySimpleStatement(statement);
 
