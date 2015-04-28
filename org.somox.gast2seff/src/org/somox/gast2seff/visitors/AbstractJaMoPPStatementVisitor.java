@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.util.MembersSwitch;
 import org.emftext.language.java.statements.Assert;
 import org.emftext.language.java.statements.Block;
@@ -24,6 +25,7 @@ import org.emftext.language.java.statements.TryBlock;
 import org.emftext.language.java.statements.WhileLoop;
 import org.emftext.language.java.statements.util.StatementsSwitch;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
+import org.somox.kdmhelper.KDMHelper;
 
 public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Object> {
     private static final Logger logger = Logger.getLogger(AbstractJaMoPPStatementVisitor.class);
@@ -33,6 +35,11 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
      * branches carry the union of the annotations of their child statements
      */
     protected final Map<Commentable, BitSet> functionClassificationAnnotation;
+    /**
+     * Classification annotation of the last visited statement. Used to skip generating SEFF actions
+     * if they should be omitted because of the SEFFs abstraction rule
+     */
+    protected BitSet lastType = null;
 
     public AbstractJaMoPPStatementVisitor(final Map<Commentable, BitSet> functionClassificationAnnotations) {
         this.functionClassificationAnnotation = functionClassificationAnnotations;
@@ -136,6 +143,12 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
         }
     }
 
+    @Override
+    public Object defaultCase(final EObject object) {
+        logger.warn("Not handled object by statement visitor:\n  " + object);
+        return super.defaultCase(object);
+    }
+
     /**
      * Returns true if the statement or one of its child statements (e.g., for loops or branches) is
      * an external service call
@@ -152,10 +165,85 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
         return isExternalCall || isInternalCallContainingExternalCall;
     }
 
-    @Override
-    public Object defaultCase(final EObject object) {
-        logger.warn("Not handled object by statement visitor:\n  " + object);
-        return super.defaultCase(object);
+    protected boolean isVisitedStatement(final BitSet statementAnnotation) {
+        return statementAnnotation.get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.VISITED));
+    }
+
+    protected void setVisited(final BitSet thisType) {
+        thisType.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.VISITED), true);
+
+    }
+
+    protected String positionToString(final Commentable position) {
+        final StringBuilder positionString = new StringBuilder(" @position: ");
+        if (position != null) {
+            if (position != null && position.getClass() != null) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                // TODO change name of class; question: is fqnName of Class better than path?
+                // positionString.append(KDMHelper.getSourceFile(position).getPath() +
+                // KDMHelper.getSourceFile(position).getName());//GAST2SEFFCHANGE
+                positionString.append(KDMHelper.computeFullQualifiedName(position)); // GAST2SEFFCHANGE
+            }
+            if (null != position.getLayoutInformations() && 0 < position.getLayoutInformations().size()
+                    && null != position.getLayoutInformations().get(0)) {
+                final int startPos = position.getLayoutInformations().get(0).getStartOffset();
+                final int layoutSize = position.getLayoutInformations().size();
+                final int endPos = position.getLayoutInformations().get(layoutSize - 1).getStartOffset();
+                if (startPos != endPos) {
+                    positionString.append(" from ").append(startPos).append(" to ").append(endPos);
+                } else {
+                    positionString.append(" at ").append(startPos);
+                }
+            } else {
+                positionString.append(" unknown exact possition");
+            }
+
+        } else {
+            positionString.append("no position information available");
+        }
+        return positionString.toString();
+    }
+
+    protected String positionToLineNumber(final CompilationUnit position) {// GAST2SEFFCHANGE
+        final StringBuilder positionString = new StringBuilder("line ");
+        if (position != null) {
+            positionString.append(position.getLayoutInformations().get(0).getStartOffset());
+        } else {
+            positionString.append("no position information available");
+        }
+        return positionString.toString();
+    }
+
+    protected boolean isExternalCall(final BitSet statementAnnotation) {
+        return statementAnnotation.get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
+    }
+
+    protected boolean isInternalCall(final BitSet statementAnnotation) {
+        return statementAnnotation.get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.INTERNAL));
+    }
+
+    /**
+     * Returns true if the statement with thisType should not generate an action in the newly
+     * generated SEFF.
+     *
+     * @param lastType
+     *            The type of the preceeding statement
+     * @param thisType
+     *            The type of the statement to test
+     * @return true if the current statement should not generate an element in the SEFF, i.e., it
+     *         should be abstracted and thrown away
+     */
+    protected boolean shouldSkip(final BitSet lastType, final BitSet thisType) {
+        if (lastType == null) {
+            return false;
+        }
+    
+        if (this.isExternalCall(thisType)) {
+            return false;
+        }
+    
+        // Here I know that thisType is internal or library
+        // Hence, I can skip this if the last type was not an external call
+        return !this.isExternalCall(lastType);
     }
 
 }

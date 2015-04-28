@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.Method;
@@ -21,7 +20,6 @@ import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.Switch;
 import org.emftext.language.java.statements.TryBlock;
 import org.somox.gast2seff.jobs.GAST2SEFFJob;
-import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
 import org.somox.kdmhelper.GetAccessedType;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
@@ -67,12 +65,6 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     private final BasicComponent primitiveComponent;
 
     /**
-     * Classification annotation of the last visited statement. Used to skip generating SEFF actions
-     * if they should be omitted because of the SEFFs abstraction rule
-     */
-    private BitSet lastType = null;
-
-    /**
      * Constructor
      *
      * @param functionClassificationAnnotations
@@ -94,47 +86,19 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         this.primitiveComponent = primitiveComponent;
     }
 
-    /**
-     * Handles the branch/block of an if or else block.
-     *
-     * @param input
-     *            the whole IfStatement
-     * @param branch
-     *            the branchAction(SEFF)
-     * @param ifElseStatement
-     *            the if or else Statement/Block
-     */
-    private void handleIfOrElseBranch(final Condition input, final de.uka.ipd.sdq.pcm.seff.BranchAction branch,
-            final Statement ifElseStatement) {
-        final de.uka.ipd.sdq.pcm.seff.AbstractBranchTransition bt = SeffFactory.eINSTANCE
-                .createProbabilisticBranchTransition();
-        bt.setBranchBehaviour_BranchTransition(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
-        bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStartAction());
-        bt.setEntityName("parent " + this.positionToString(input) + "/" + this.positionToString(ifElseStatement));
-        // use parent position since branch position is empty//GAST2SEFFCHANGE//GAST2SEFFCHANGE
-        branch.getBranches_Branch().add(bt);
-        final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(
-                this.functionClassificationAnnotation, bt.getBranchBehaviour_BranchTransition(),
-                this.sourceCodeDecoratorRepository, this.primitiveComponent);
-        // Statement s = b.getStatement();//GAST2SEFFCHANGE
-        visitor.doSwitch(ifElseStatement);
-        bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStopAction());
-        GAST2SEFFJob.connectActions(bt.getBranchBehaviour_BranchTransition());
-    }
-
     @Override
     protected Object handleStatementListContainer(final StatementListContainer object) {
         for (final Statement s : object.getStatements()) {
-            final BitSet thisType = JaMoPPStatementVisitor.this.functionClassificationAnnotation.get(s);
-            if (!JaMoPPStatementVisitor.this.shouldSkip(JaMoPPStatementVisitor.this.lastType, thisType)) {
+            final BitSet thisType = this.functionClassificationAnnotation.get(s);
+            if (!this.shouldSkip(this.lastType, thisType)) {
                 // Only generate elements for statements which should not be abstracted away
                 // avoid infinite recursion
-                if (!JaMoPPStatementVisitor.this.isVisitedStatement(thisType)) {
-                    JaMoPPStatementVisitor.this.setVisited(thisType);
+                if (!this.isVisitedStatement(thisType)) {
+                    this.setVisited(thisType);
                     this.doSwitch(s);
                 }
             }
-            JaMoPPStatementVisitor.this.lastType = thisType;
+            this.lastType = thisType;
         }
         return new Object();
     }
@@ -248,29 +212,145 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         return new Object();
     }
 
+    @Override
+    protected Object handleSwitch(final Switch switchStatement) {
+        if (super.containsExternalCall(switchStatement)) {
+            final de.uka.ipd.sdq.pcm.seff.BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
+            this.seff.getSteps_Behaviour().add(branchAction);
+            branchAction.setEntityName(JaMoPPStatementVisitor.this.positionToString(switchStatement));
+
+            final List<List<Statement>> branches = SwitchStatementHelper
+                    .createBlockListFromSwitchStatement(switchStatement);
+
+            for (final List<Statement> branch : branches) {
+                final de.uka.ipd.sdq.pcm.seff.AbstractBranchTransition bt = SeffFactory.eINSTANCE
+                        .createProbabilisticBranchTransition();
+                bt.setBranchBehaviour_BranchTransition(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
+                bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour()
+                .add(SeffFactory.eINSTANCE.createStartAction());
+                bt.setEntityName("parent "
+                        + JaMoPPStatementVisitor.this.positionToString(switchStatement)
+                        + "/"
+                        + (branch.size() > 0 ? JaMoPPStatementVisitor.this.positionToLineNumber(KDMHelper
+                                .getJavaNodeSourceRegion(branch.get(0)))
+                                + " to "
+                                // use parent position since branch position is empty
+                                + JaMoPPStatementVisitor.this.positionToLineNumber(KDMHelper
+                                        .getJavaNodeSourceRegion(branch.get(branch.size() - 1))) : ""));
+                branchAction.getBranches_Branch().add(bt);
+                final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(
+                        JaMoPPStatementVisitor.this.functionClassificationAnnotation,
+                        bt.getBranchBehaviour_BranchTransition(),
+                        JaMoPPStatementVisitor.this.sourceCodeDecoratorRepository,
+                        JaMoPPStatementVisitor.this.primitiveComponent);
+                // Statement s = b.getStatement();
+                // visitor.doSwitch(s);
+
+                for (final Statement statement : branch) {
+                    // copied from caseBlock
+                    final BitSet thisType = JaMoPPStatementVisitor.this.functionClassificationAnnotation.get(statement);
+                    if (!JaMoPPStatementVisitor.this.shouldSkip(JaMoPPStatementVisitor.this.lastType, thisType)) { // Only
+                        // generate elements for statements which should not be abstracted away
+                        // avoid infinite recursion
+                        // if(!isVisitedStatement(thisType)) {
+                        // setVisited(thisType);
+                        // visitor.doSwitch(statement);//here visitor. was added in contrast to
+                        // caseBlock
+                        // }
+                        // TODO the four lines above were temporarily removed
+                        // in order to allow a a multiple use of a statement
+                        // because of the new behaviour for switch statements (case without
+                        // break)
+                        visitor.doSwitch(statement); // here visitor. was added in contrast to
+                        // caseBlock
+                    }
+                    this.lastType = thisType;
+                    // end of copy
+                }
+
+                bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour()
+                .add(SeffFactory.eINSTANCE.createStopAction());
+                GAST2SEFFJob.connectActions(bt.getBranchBehaviour_BranchTransition());
+            }
+        } else {
+            JaMoPPStatementVisitor.this.createInternalAction(switchStatement);
+        }
+        return new Object();
+    }
+
+    @Override
+    protected Object handleTryBlock(final TryBlock tryBlock) {
+        if (super.containsExternalCall(tryBlock)) {
+
+            // visit guarded block
+            final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(
+                    JaMoPPStatementVisitor.this.functionClassificationAnnotation, JaMoPPStatementVisitor.this.seff,
+                    JaMoPPStatementVisitor.this.sourceCodeDecoratorRepository,
+                    JaMoPPStatementVisitor.this.primitiveComponent);
+            for (final Statement statement : tryBlock.getStatements()) {
+                visitor.doSwitch(statement);
+            }
+
+            // TODO:we do not visit catch block?
+
+            // visit finally block if exists
+            if (tryBlock.getFinallyBlock() != null) {
+                new JaMoPPStatementVisitor(JaMoPPStatementVisitor.this.functionClassificationAnnotation,
+                        JaMoPPStatementVisitor.this.seff, JaMoPPStatementVisitor.this.sourceCodeDecoratorRepository,
+                        JaMoPPStatementVisitor.this.primitiveComponent).doSwitch(tryBlock.getFinallyBlock());
+            }
+        } else {
+            this.createInternalAction(tryBlock);
+        }
+        return new Object();
+    }
+
+    @Override
+    protected Object handleCondition(final Condition condition) {
+        if (JaMoPPStatementVisitor.this.containsExternalCall(condition)) {
+            final de.uka.ipd.sdq.pcm.seff.BranchAction branch = SeffFactory.eINSTANCE.createBranchAction();
+            JaMoPPStatementVisitor.this.seff.getSteps_Behaviour().add(branch);
+            branch.setEntityName(JaMoPPStatementVisitor.this.positionToString(condition)); // GAST2SEFFCHANGE
+
+            final Statement ifStatement = condition.getStatement();
+            this.handleIfOrElseBranch(condition, branch, ifStatement);
+
+            final Statement elseStatement = condition.getElseStatement();
+            if (elseStatement != null) {
+                this.handleIfOrElseBranch(condition, branch, elseStatement);
+            }
+        } else {
+            JaMoPPStatementVisitor.this.createInternalAction(condition);
+        }
+        return new Object();
+    }
+
     /**
-     * Returns true if the statement with thisType should not generate an action in the newly
-     * generated SEFF.
+     * Handles the branch/block of an if or else block.
      *
-     * @param lastType
-     *            The type of the preceeding statement
-     * @param thisType
-     *            The type of the statement to test
-     * @return true if the current statement should not generate an element in the SEFF, i.e., it
-     *         should be abstracted and thrown away
+     * @param input
+     *            the whole IfStatement
+     * @param branch
+     *            the branchAction(SEFF)
+     * @param ifElseStatement
+     *            the if or else Statement/Block
      */
-    private boolean shouldSkip(final BitSet lastType, final BitSet thisType) {
-        if (lastType == null) {
-            return false;
-        }
-
-        if (this.isExternalCall(thisType)) {
-            return false;
-        }
-
-        // Here I know that thisType is internal or library
-        // Hence, I can skip this if the last type was not an external call
-        return !this.isExternalCall(lastType);
+    private void handleIfOrElseBranch(final Condition input, final de.uka.ipd.sdq.pcm.seff.BranchAction branch,
+            final Statement ifElseStatement) {
+        final de.uka.ipd.sdq.pcm.seff.AbstractBranchTransition bt = SeffFactory.eINSTANCE
+                .createProbabilisticBranchTransition();
+        bt.setBranchBehaviour_BranchTransition(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
+        bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStartAction());
+        bt.setEntityName("parent " + this.positionToString(input) + "/" + this.positionToString(ifElseStatement));
+        // use parent position since branch position is empty//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+        branch.getBranches_Branch().add(bt);
+        final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(
+                this.functionClassificationAnnotation, bt.getBranchBehaviour_BranchTransition(),
+                this.sourceCodeDecoratorRepository, this.primitiveComponent);
+        // Statement s = b.getStatement();//GAST2SEFFCHANGE
+        visitor.doSwitch(ifElseStatement);
+        bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStopAction());
+        GAST2SEFFJob.connectActions(bt.getBranchBehaviour_BranchTransition());
     }
 
     private void createExternalCallAction(final Statement object) {
@@ -348,23 +428,6 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         return null;
     }
 
-    private boolean isExternalCall(final BitSet statementAnnotation) {
-        return statementAnnotation.get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
-    }
-
-    private boolean isInternalCall(final BitSet statementAnnotation) {
-        return statementAnnotation.get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.INTERNAL));
-    }
-
-    private boolean isVisitedStatement(final BitSet statementAnnotation) {
-        return statementAnnotation.get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.VISITED));
-    }
-
-    private void setVisited(final BitSet thisType) {
-        thisType.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.VISITED), true);
-
-    }
-
     private void createInternalAction(final Statement statement) {
         final InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
 
@@ -431,161 +494,9 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         }
     }
 
-    private String positionToString(final Commentable position) {
-        final StringBuilder positionString = new StringBuilder(" @position: ");
-        if (position != null) {
-            if (position != null && position.getClass() != null) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
-                // TODO change name of class; question: is fqnName of Class better than path?
-                // positionString.append(KDMHelper.getSourceFile(position).getPath() +
-                // KDMHelper.getSourceFile(position).getName());//GAST2SEFFCHANGE
-                positionString.append(KDMHelper.computeFullQualifiedName(position)); // GAST2SEFFCHANGE
-            }
-            if (null != position.getLayoutInformations() && 0 < position.getLayoutInformations().size()
-                    && null != position.getLayoutInformations().get(0)) {
-                final int startPos = position.getLayoutInformations().get(0).getStartOffset();
-                final int layoutSize = position.getLayoutInformations().size();
-                final int endPos = position.getLayoutInformations().get(layoutSize - 1).getStartOffset();
-                if (startPos != endPos) {
-                    positionString.append(" from ").append(startPos).append(" to ").append(endPos);
-                } else {
-                    positionString.append(" at ").append(startPos);
-                }
-            } else {
-                positionString.append(" unknown exact possition");
-            }
-
-        } else {
-            positionString.append("no position information available");
-        }
-        return positionString.toString();
-    }
-
-    private String positionToLineNumber(final CompilationUnit position) {// GAST2SEFFCHANGE
-        final StringBuilder positionString = new StringBuilder("line ");
-        if (position != null) {
-            positionString.append(position.getLayoutInformations().get(0).getStartOffset());
-        } else {
-            positionString.append("no position information available");
-        }
-        return positionString.toString();
-    }
-
     private class InterfacePortOperationTuple {
         public Role role;
         public Signature signature;
-    }
-
-    @Override
-    protected Object handleSwitch(final Switch switchStatement) {
-        if (super.containsExternalCall(switchStatement)) {
-            final de.uka.ipd.sdq.pcm.seff.BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
-            JaMoPPStatementVisitor.this.seff.getSteps_Behaviour().add(branchAction);
-            branchAction.setEntityName(JaMoPPStatementVisitor.this.positionToString(switchStatement));
-
-            final List<List<Statement>> branches = SwitchStatementHelper
-                    .createBlockListFromSwitchStatement(switchStatement);
-
-            for (final List<Statement> branch : branches) {
-                final de.uka.ipd.sdq.pcm.seff.AbstractBranchTransition bt = SeffFactory.eINSTANCE
-                        .createProbabilisticBranchTransition();
-                bt.setBranchBehaviour_BranchTransition(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
-                bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour()
-                .add(SeffFactory.eINSTANCE.createStartAction());
-                bt.setEntityName("parent "
-                        + JaMoPPStatementVisitor.this.positionToString(switchStatement)
-                        + "/"
-                        + (branch.size() > 0 ? JaMoPPStatementVisitor.this.positionToLineNumber(KDMHelper
-                                .getJavaNodeSourceRegion(branch.get(0)))
-                                + " to "
-                                // use parent position since branch position is empty
-                                + JaMoPPStatementVisitor.this.positionToLineNumber(KDMHelper
-                                        .getJavaNodeSourceRegion(branch.get(branch.size() - 1))) : ""));
-                branchAction.getBranches_Branch().add(bt);
-                final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(
-                        JaMoPPStatementVisitor.this.functionClassificationAnnotation,
-                        bt.getBranchBehaviour_BranchTransition(),
-                        JaMoPPStatementVisitor.this.sourceCodeDecoratorRepository,
-                        JaMoPPStatementVisitor.this.primitiveComponent);
-                // Statement s = b.getStatement();
-                // visitor.doSwitch(s);
-
-                for (final Statement statement : branch) {
-                    // copied from caseBlock
-                    final BitSet thisType = JaMoPPStatementVisitor.this.functionClassificationAnnotation.get(statement);
-                    if (!JaMoPPStatementVisitor.this.shouldSkip(JaMoPPStatementVisitor.this.lastType, thisType)) { // Only
-                        // generate elements for statements which should not be abstracted away
-                        // avoid infinite recursion
-                        // if(!isVisitedStatement(thisType)) {
-                        // setVisited(thisType);
-                        // visitor.doSwitch(statement);//here visitor. was added in contrast to
-                        // caseBlock
-                        // }
-                        // TODO the four lines above were temporarily removed
-                        // in order to allow a a multiple use of a statement
-                        // because of the new behaviour for switch statements (case without
-                        // break)
-                        visitor.doSwitch(statement); // here visitor. was added in contrast to
-                        // caseBlock
-                    }
-                    JaMoPPStatementVisitor.this.lastType = thisType;
-                    // end of copy
-                }
-
-                bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour()
-                .add(SeffFactory.eINSTANCE.createStopAction());
-                GAST2SEFFJob.connectActions(bt.getBranchBehaviour_BranchTransition());
-            }
-        } else {
-            JaMoPPStatementVisitor.this.createInternalAction(switchStatement);
-        }
-        return new Object();
-    }
-
-    @Override
-    protected Object handleTryBlock(final TryBlock tryBlock) {
-        if (super.containsExternalCall(tryBlock)) {
-
-            // visit guarded block
-            final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(
-                    JaMoPPStatementVisitor.this.functionClassificationAnnotation, JaMoPPStatementVisitor.this.seff,
-                    JaMoPPStatementVisitor.this.sourceCodeDecoratorRepository,
-                    JaMoPPStatementVisitor.this.primitiveComponent);
-            for (final Statement statement : tryBlock.getStatements()) {
-                visitor.doSwitch(statement);
-            }
-
-            // TODO:we do not visit catch block?
-
-            // visit finally block if exists
-            if (tryBlock.getFinallyBlock() != null) {
-                new JaMoPPStatementVisitor(JaMoPPStatementVisitor.this.functionClassificationAnnotation,
-                        JaMoPPStatementVisitor.this.seff, JaMoPPStatementVisitor.this.sourceCodeDecoratorRepository,
-                        JaMoPPStatementVisitor.this.primitiveComponent).doSwitch(tryBlock.getFinallyBlock());
-            }
-        } else {
-            JaMoPPStatementVisitor.this.createInternalAction(tryBlock);
-        }
-        return new Object();
-    }
-
-    @Override
-    protected Object handleCondition(final Condition condition) {
-        if (JaMoPPStatementVisitor.this.containsExternalCall(condition)) {
-            final de.uka.ipd.sdq.pcm.seff.BranchAction branch = SeffFactory.eINSTANCE.createBranchAction();
-            JaMoPPStatementVisitor.this.seff.getSteps_Behaviour().add(branch);
-            branch.setEntityName(JaMoPPStatementVisitor.this.positionToString(condition)); // GAST2SEFFCHANGE
-
-            final Statement ifStatement = condition.getStatement();
-            JaMoPPStatementVisitor.this.handleIfOrElseBranch(condition, branch, ifStatement);
-
-            final Statement elseStatement = condition.getElseStatement();
-            if (elseStatement != null) {
-                JaMoPPStatementVisitor.this.handleIfOrElseBranch(condition, branch, elseStatement);
-            }
-        } else {
-            JaMoPPStatementVisitor.this.createInternalAction(condition);
-        }
-        return new Object();
     }
 
 }

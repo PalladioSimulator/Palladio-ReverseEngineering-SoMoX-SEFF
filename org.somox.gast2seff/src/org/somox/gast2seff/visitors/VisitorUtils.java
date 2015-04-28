@@ -5,7 +5,7 @@ import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.statements.Statement;
 
-class VisitorUtils {
+public class VisitorUtils {
 
     private static final Logger logger = Logger.getLogger(VisitorUtils.class.getSimpleName());
 
