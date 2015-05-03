@@ -33,7 +33,7 @@ import de.uka.ipd.sdq.pcm.seff.SeffFactory;
 import de.uka.ipd.sdq.pcm.seff.StartAction;
 import de.uka.ipd.sdq.pcm.seff.StopAction;
 
-public class GastStatementVisitorTest extends Gast2SEFFBaseTest {
+public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
 
     private static final String REQUIRED_ROLE_NAME = "Required_InterfaceA_RequiringComponent";
     private static final String OPERATION_SIGNATURE_NAME = "testExternalCall";

@@ -19,7 +19,7 @@ import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
 
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 
-public class FunctionCallClassificationVisitorTest extends Gast2SEFFBaseTest {
+public class FunctionCallClassificationVisitorTest extends JaMoPP2SEFFBaseTest {
 
     @Test
     public void testExternalSimpleMethodAnnotations() {

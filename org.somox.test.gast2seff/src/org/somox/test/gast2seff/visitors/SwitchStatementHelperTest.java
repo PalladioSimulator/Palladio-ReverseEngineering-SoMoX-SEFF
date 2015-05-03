@@ -11,7 +11,7 @@ import org.emftext.language.java.statements.Switch;
 import org.junit.Test;
 import org.somox.gast2seff.visitors.SwitchStatementHelper;
 
-public class SwitchStatementHelperTest extends Gast2SEFFBaseTest {
+public class SwitchStatementHelperTest extends JaMoPP2SEFFBaseTest {
 
     @Test
     public void testSwitchCaseWithFourListAnd10_9_7_4Statements() {

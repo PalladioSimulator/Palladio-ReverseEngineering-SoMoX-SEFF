@@ -44,51 +44,53 @@ import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
-import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.Interface;
 import de.uka.ipd.sdq.pcm.repository.OperationInterface;
-import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
 import de.uka.ipd.sdq.pcm.repository.OperationSignature;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
-import de.uka.ipd.sdq.pcm.repository.RequiredRole;
 
-public abstract class Gast2SEFFBaseTest {
+public class JaMoPP2PCMBaseTest {
 
-    private static final Logger logger = Logger.getLogger(Gast2SEFFBaseTest.class.getSimpleName());
+    private static final Logger logger = Logger.getLogger(JaMoPP2PCMBaseTest.class.getSimpleName());
 
     protected static final String PROJECT_URI = "MockupProject";
-    protected static final String PCM_REPO_NAME = "testPCMModel.repository";
-    protected static final String PCM_REPOITORY_URI = "example-test-model/" + PCM_REPO_NAME;
     protected static final String CURRENT_TEST_FOLDER = "currentTest";
     protected static final String SOURCE_CODE_DECORATOR_MODEL_NAME = "sourcecodedecorator.sourcecodedecorator";
     protected static final String INTERFACE_A_NAME = "InterfaceA";
     protected static final String PROVIDING_INTERFACE_NAME = "ProvidingInterface";
     protected static final String PROVIDING_COMPONENT_NAME = "ProvidingComponent";
     protected static final String REQUIRED_COMPONENT_NAME = "RequiringComponent";
+
+    protected static final String PCM_REPO_NAME = "testPCMModel.repository";
+
+    protected static final String TEST_MODEL_PATH = "example-test-model/";
+    protected static final String PCM_REPOITORY_URI = TEST_MODEL_PATH + PCM_REPO_NAME;
+
     protected static final String METHOD_NAME_TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETER_AND_RETURN_TYPE = "testExternalCallWithSimpleParametersAndReturnType";
+
     protected static final String METHOD_NAME_TEST_EXTERNAL_CALL = "testExternalCall";
+
     protected static final String METHOD_NAME_PROVIDING_METHOD = "providingMethod";
-
-    protected static final String TEST_DO_EXTERNAL_CALL = "testDoExternalCall";
-
-    protected static final String TEST_DO_INTERNAL_CALL = "testDoInternalCall";
-
-    protected static final String TEST_DO_LIBRARY_CALL = "testDoLibraryCall";
+    protected static Root compilationUnits;
 
     protected SourceCodeDecoratorRepository sourceCodeDecorator;
     protected Repository pcmRepository;
-    protected static Root compilationUnits;
+    protected ResourceSet resourceSet;
 
     protected class MethodFunctionCallClassificationVisitorPair {
-        Method method;
-        FunctionCallClassificationVisitor functionCallClassificationVisitor;
+        public MethodFunctionCallClassificationVisitorPair() {
+        }
+
+        public Method method;
+        public FunctionCallClassificationVisitor functionCallClassificationVisitor;
     }
 
     @BeforeClass
     public static void beforeClass() throws IOException {
         initCompilationUnits();
         initializeLogger();
+
     }
 
     @Before
@@ -97,21 +99,35 @@ public abstract class Gast2SEFFBaseTest {
         this.initializeSourceCodeDecorator();
     }
 
-    /**
-     * this method can be used by inherited classes to do something after the test
-     */
-    protected void afterTest() {
+    void initPCMRepository() throws IOException {
+        this.resourceSet = new ResourceSetImpl();
+        final String uriString = PROJECT_URI + "/" + PCM_REPOITORY_URI;
+        final String testURIStr = PROJECT_URI + "/" + CURRENT_TEST_FOLDER + "/" + PCM_REPO_NAME;
+        final EObject eObject = this.getRootEObject(uriString, testURIStr);
+        this.pcmRepository = (Repository) eObject;
+    }
 
+    protected EObject getRootEObject(final String uriString, final String testURIStr) throws IOException {
+        final URI uri = URI.createPlatformResourceURI(uriString, true);
+        final Resource resource = this.resourceSet.createResource(uri);
+        resource.load(null);
+        final URI testURI = URI.createPlatformResourceURI(testURIStr, true);
+        final Resource resourceForTest = this.resourceSet.createResource(testURI);
+        final EObject rootElement = resource.getContents().get(0);
+        resourceForTest.getContents().add(EcoreUtil.copy(rootElement));
+        resourceForTest.save(null);
+        final EObject eObject = resourceForTest.getContents().get(0);
+        return eObject;
     }
 
     @Rule
     public TestWatcher watchmen = new TestWatcher() {
         @Override
         protected void finished(final org.junit.runner.Description description) {
-            Gast2SEFFBaseTest.this.afterTest();
+            JaMoPP2PCMBaseTest.this.afterTest();
             final String previousMethodName = description.getMethodName();
             try {
-                Gast2SEFFBaseTest.this.pcmRepository.eResource().save(null);
+                JaMoPP2PCMBaseTest.this.pcmRepository.eResource().save(null);
             } catch (final IOException e) {
                 logger.warn("Could not save PCM repository. Reason: " + e);
             }
@@ -120,81 +136,6 @@ public abstract class Gast2SEFFBaseTest {
 
         };
     };
-
-    private void initPCMRepository() throws IOException {
-        final ResourceSet resourceSet = new ResourceSetImpl();
-        final URI uri = URI.createPlatformResourceURI(PROJECT_URI + "/" + PCM_REPOITORY_URI, true);
-        final Resource resource = resourceSet.createResource(uri);
-        resource.load(null);
-        final URI testURI = URI.createPlatformResourceURI(
-                PROJECT_URI + "/" + CURRENT_TEST_FOLDER + "/" + PCM_REPO_NAME, true);
-        final Resource resourceForTest = resourceSet.createResource(testURI);
-        final EObject rootElement = resource.getContents().get(0);
-        resourceForTest.getContents().add(EcoreUtil.copy(rootElement));
-        resourceForTest.save(null);
-        this.pcmRepository = (Repository) resourceForTest.getContents().get(0);
-    }
-
-    private static void initCompilationUnits() throws IOException {
-        final KDMReader kdmReader = new KDMReader();
-        final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-        final IProject project = root.getProject(PROJECT_URI);
-        kdmReader.loadProject(project);
-        compilationUnits = kdmReader.getRoot();
-    }
-
-    private void initializeSourceCodeDecorator() throws IOException {
-        this.sourceCodeDecorator = SourcecodedecoratorFactory.eINSTANCE.createSourceCodeDecoratorRepository();
-
-        // interfaces2interfaces
-        final InterfaceSourceCodeLink opInterfaceAToInterfaceA = this
-                .createAndAddInterface2InterfaceCorrespondence(INTERFACE_A_NAME);
-        final InterfaceSourceCodeLink providingOpInterfaceToProvidingInterface = this
-                .createAndAddInterface2InterfaceCorrespondence(PROVIDING_INTERFACE_NAME);
-        // method2method4interface
-        this.createAndAddMethodLevelSourceCodeLink(
-                METHOD_NAME_TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETER_AND_RETURN_TYPE, null, INTERFACE_A_NAME);
-        this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_TEST_EXTERNAL_CALL, null, INTERFACE_A_NAME);
-        this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_PROVIDING_METHOD, null, PROVIDING_INTERFACE_NAME);
-
-        // components2Class
-        this.createAndAddComponentImplementingClassLink(PROVIDING_COMPONENT_NAME, opInterfaceAToInterfaceA, null);
-        this.createAndAddComponentImplementingClassLink(REQUIRED_COMPONENT_NAME,
-                providingOpInterfaceToProvidingInterface, opInterfaceAToInterfaceA);
-
-        // methods2methods
-        this.createAndAddMethodLevelSourceCodeLink(
-                METHOD_NAME_TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETER_AND_RETURN_TYPE, PROVIDING_COMPONENT_NAME,
-                INTERFACE_A_NAME);
-        this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_TEST_EXTERNAL_CALL, PROVIDING_COMPONENT_NAME,
-                INTERFACE_A_NAME);
-        this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_PROVIDING_METHOD, REQUIRED_COMPONENT_NAME,
-                PROVIDING_INTERFACE_NAME);
-
-        final ResourceSet resourceSet = new ResourceSetImpl();
-        final URI uri = URI.createPlatformResourceURI(PROJECT_URI + "/" + CURRENT_TEST_FOLDER + "/"
-                + SOURCE_CODE_DECORATOR_MODEL_NAME, true);
-        final Resource resource = resourceSet.createResource(uri);
-        resource.getContents().add(this.sourceCodeDecorator);
-        resource.save(null);
-    }
-
-    private MethodLevelSourceCodeLink createAndAddMethodLevelSourceCodeLink(final String methodName,
-            final String componentName, final String interfaceName) {
-        final MethodLevelSourceCodeLink methodLevelSourceCodeLink = SourcecodedecoratorFactory.eINSTANCE
-                .createMethodLevelSourceCodeLink();
-        final String classifierForMethod = null == componentName ? interfaceName : componentName + "Impl";
-        final Method method = this.findMethodInClassifier(methodName, classifierForMethod);
-        final OperationSignature opSignature = this.findOperationSignatureWithName(methodName, interfaceName);
-        methodLevelSourceCodeLink.setFile(method.getContainingCompilationUnit());
-        methodLevelSourceCodeLink.setFunction(method);
-        methodLevelSourceCodeLink.setOperation(opSignature);
-        if (null != componentName) {
-            methodLevelSourceCodeLink.setRepositoryComponent(this.findComponentInPCMRepo(componentName));
-        }
-        this.sourceCodeDecorator.getMethodLevelSourceCodeLink().add(methodLevelSourceCodeLink);
-        return methodLevelSourceCodeLink;
-    }
 
     private OperationSignature findOperationSignatureWithName(final String methodName, final String interfaceName) {
         final OperationInterface opInterface = this.findOperationInterfaceWithName(interfaceName);
@@ -276,6 +217,86 @@ public abstract class Gast2SEFFBaseTest {
         throw new RuntimeException("Could not find ConcreteClassifier " + concreteClassifierName);
     }
 
+    /**
+     * this method can be used by inherited classes to do something after the test
+     */
+    protected void afterTest() {
+
+    }
+
+    /**
+     * Copied from:
+     * http://stackoverflow.com/questions/442747/getting-the-name-of-the-current-executing-method
+     * Get the method name for the calling method of the getMethodMethod.
+     *
+     * @return method name
+     */
+    protected String getTestMethodName() {
+        final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
+        return ste[2].getMethodName();
+    }
+
+    private void initializeSourceCodeDecorator() throws IOException {
+        this.sourceCodeDecorator = SourcecodedecoratorFactory.eINSTANCE.createSourceCodeDecoratorRepository();
+
+        // interfaces2interfaces
+        final InterfaceSourceCodeLink opInterfaceAToInterfaceA = this
+                .createAndAddInterface2InterfaceCorrespondence(INTERFACE_A_NAME);
+        final InterfaceSourceCodeLink providingOpInterfaceToProvidingInterface = this
+                .createAndAddInterface2InterfaceCorrespondence(PROVIDING_INTERFACE_NAME);
+        // method2method4interface
+        this.createAndAddMethodLevelSourceCodeLink(
+                METHOD_NAME_TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETER_AND_RETURN_TYPE, null, INTERFACE_A_NAME);
+        this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_TEST_EXTERNAL_CALL, null, INTERFACE_A_NAME);
+        this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_PROVIDING_METHOD, null, PROVIDING_INTERFACE_NAME);
+
+        // components2Class
+        this.createAndAddComponentImplementingClassLink(PROVIDING_COMPONENT_NAME, opInterfaceAToInterfaceA, null);
+        this.createAndAddComponentImplementingClassLink(REQUIRED_COMPONENT_NAME,
+                providingOpInterfaceToProvidingInterface, opInterfaceAToInterfaceA);
+
+        // methods2methods
+        this.createAndAddMethodLevelSourceCodeLink(
+                METHOD_NAME_TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETER_AND_RETURN_TYPE, PROVIDING_COMPONENT_NAME,
+                INTERFACE_A_NAME);
+        this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_TEST_EXTERNAL_CALL, PROVIDING_COMPONENT_NAME,
+                INTERFACE_A_NAME);
+        this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_PROVIDING_METHOD, REQUIRED_COMPONENT_NAME,
+                PROVIDING_INTERFACE_NAME);
+
+        final ResourceSet resourceSet = new ResourceSetImpl();
+        final URI uri = URI.createPlatformResourceURI(PROJECT_URI + "/" + CURRENT_TEST_FOLDER + "/"
+                + SOURCE_CODE_DECORATOR_MODEL_NAME, true);
+        final Resource resource = resourceSet.createResource(uri);
+        resource.getContents().add(this.sourceCodeDecorator);
+        resource.save(null);
+    }
+
+    private static void initCompilationUnits() throws IOException {
+        final KDMReader kdmReader = new KDMReader();
+        final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        final IProject project = root.getProject(PROJECT_URI);
+        kdmReader.loadProject(project);
+        compilationUnits = kdmReader.getRoot();
+    }
+
+    private MethodLevelSourceCodeLink createAndAddMethodLevelSourceCodeLink(final String methodName,
+            final String componentName, final String interfaceName) {
+        final MethodLevelSourceCodeLink methodLevelSourceCodeLink = SourcecodedecoratorFactory.eINSTANCE
+                .createMethodLevelSourceCodeLink();
+        final String classifierForMethod = null == componentName ? interfaceName : componentName + "Impl";
+        final Method method = this.findMethodInClassifier(methodName, classifierForMethod);
+        final OperationSignature opSignature = this.findOperationSignatureWithName(methodName, interfaceName);
+        methodLevelSourceCodeLink.setFile(method.getContainingCompilationUnit());
+        methodLevelSourceCodeLink.setFunction(method);
+        methodLevelSourceCodeLink.setOperation(opSignature);
+        if (null != componentName) {
+            methodLevelSourceCodeLink.setRepositoryComponent(this.findComponentInPCMRepo(componentName));
+        }
+        this.sourceCodeDecorator.getMethodLevelSourceCodeLink().add(methodLevelSourceCodeLink);
+        return methodLevelSourceCodeLink;
+    }
+
     protected void assertBitSetsForType(final Map<Commentable, BitSet> annotations, final Class<?> expectedClass,
             final FunctionCallType... expectedFunctionCallTypes) {
         for (final Map.Entry<Commentable, BitSet> annotation : annotations.entrySet()) {
@@ -323,42 +344,6 @@ public abstract class Gast2SEFFBaseTest {
         } catch (final CoreException e) {
             logger.warn("Could not move src folder do destination folder " + destinationIPath + ": " + e.getMessage());
         }
-    }
-
-    /**
-     * Copied from:
-     * http://stackoverflow.com/questions/442747/getting-the-name-of-the-current-executing-method
-     * Get the method name for the calling method of the getMethodMethod.
-     *
-     * @return method name
-     */
-    protected String getTestMethodName() {
-        final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
-        return ste[2].getMethodName();
-    }
-
-    public OperationRequiredRole findOperaitonRequiredRoleInBasicComponent(final BasicComponent basicComponent,
-            final String requiredRoleName) {
-        for (final RequiredRole requiredRole : basicComponent.getRequiredRoles_InterfaceRequiringEntity()) {
-            if (requiredRole.getEntityName().equals(requiredRoleName) && requiredRole instanceof OperationRequiredRole) {
-                return (OperationRequiredRole) requiredRole;
-            }
-        }
-        throw new RuntimeException("Could not find OperationRequiredRole " + requiredRoleName + " in BasicComponent "
-                + basicComponent.getEntityName());
-    }
-
-    public OperationSignature findRequiredOperationSignatureInOperationRequiredRole(
-            final OperationRequiredRole operationRequiredRole, final String operationSignatureName) {
-        final OperationInterface requiredInterface = operationRequiredRole
-                .getRequiredInterface__OperationRequiredRole();
-        for (final OperationSignature opSig : requiredInterface.getSignatures__OperationInterface()) {
-            if (opSig.getEntityName().equals(operationSignatureName)) {
-                return opSig;
-            }
-        }
-        throw new RuntimeException("Could not find OperationSignature " + operationSignatureName + " in Interface "
-                + requiredInterface.getEntityName() + " for required role " + operationRequiredRole.getEntityName());
     }
 
     /**
