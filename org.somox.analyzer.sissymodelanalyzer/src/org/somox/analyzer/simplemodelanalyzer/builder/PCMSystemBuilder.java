@@ -28,6 +28,7 @@ import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.OperationInterface;
 import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
 import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
@@ -36,231 +37,216 @@ import de.uka.ipd.sdq.pcm.system.System;
 //import de.fzi.gast.core.Root;
 
 /**
- * Builder for SAMM system + architecture model structures. Additionally creates
- * default allocation.
- * 
+ * Builder for SAMM system + architecture model structures. Additionally creates default allocation.
+ *
  * @author Klaus Krogmann
  */
 public class PCMSystemBuilder extends AbstractBuilder {
 
-	private static Logger logger = Logger.getLogger(PCMSystemBuilder.class);
+    private static Logger logger = Logger.getLogger(PCMSystemBuilder.class);
 
-	private ComponentAndTypeNaming namingStrategy;
-	private ComponentBuilder componentBuilder;
-	private NonDuplicatingInterfacePortBuilder providedRoleBuilder;
+    private final ComponentAndTypeNaming namingStrategy;
+    private final ComponentBuilder componentBuilder;
+    private final NonDuplicatingInterfacePortBuilder providedRoleBuilder;
 
-	/**
-	 * Main builder used to create model elements of the SAMM during component
-	 * detection with SoMoX.
-	 * 
-	 * @param gastModel
-	 *            The GAST model containing the analyzed source code
-	 * @param somoxConfiguration
-	 *            SoMoX configuration object
-	 * @param analysisResult
-	 *            Object holding the root elements of the models to create
-	 */
-	public PCMSystemBuilder(Root gastModel,
-			SoMoXConfiguration somoxConfiguration,
-			AnalysisResult analysisResult, ComponentBuilder componentBuilder) {
-		super(gastModel, somoxConfiguration, analysisResult);
+    /**
+     * Main builder used to create model elements of the SAMM during component detection with SoMoX.
+     *
+     * @param gastModel
+     *            The GAST model containing the analyzed source code
+     * @param somoxConfiguration
+     *            SoMoX configuration object
+     * @param analysisResult
+     *            Object holding the root elements of the models to create
+     */
+    public PCMSystemBuilder(final Root gastModel, final SoMoXConfiguration somoxConfiguration,
+            final AnalysisResult analysisResult, final ComponentBuilder componentBuilder) {
+        super(gastModel, somoxConfiguration, analysisResult);
 
-		logger.debug("Initialising PCM system builder");
+        logger.debug("Initialising PCM system builder");
 
-		this.componentBuilder = componentBuilder;
-		this.namingStrategy = componentBuilder
-				.getComponentAndTypeNamingStrategy();
-		
-		this.providedRoleBuilder = new NonDuplicatingInterfacePortBuilder(gastModel, somoxConfiguration, analysisResult, namingStrategy);
-	}
+        this.componentBuilder = componentBuilder;
+        this.namingStrategy = componentBuilder.getComponentAndTypeNamingStrategy();
 
-	/**
-	 * Replicates roles of inner components and establishes delegation
-	 * connectors for them. Updates the PCM system. Creates a PCM for the last
-	 * composite component of the repository model. Creates a default allocation
-	 * with to a default target environment.
-	 */
-	public void buildSystemModel() {
-		buildSystemModel(getNonContainedComponents());
-	}
+        this.providedRoleBuilder = new NonDuplicatingInterfacePortBuilder(gastModel, somoxConfiguration,
+                analysisResult, this.namingStrategy);
+    }
 
-	/**
-	 * Returns all components which are not used (subcomponent) in another
-	 * composite component.
-	 * 
-	 * @return List of non-contained components
-	 */
-	private List<ComponentImplementingClassesLink> getNonContainedComponents() {
+    /**
+     * Replicates roles of inner components and establishes delegation connectors for them. Updates
+     * the PCM system. Creates a PCM for the last composite component of the repository model.
+     * Creates a default allocation with to a default target environment.
+     */
+    public void buildSystemModel() {
+        this.buildSystemModel(this.getNonContainedComponents());
+    }
 
-		ArrayList<ComponentImplementingClassesLink> nonContainedComponents = new ArrayList<ComponentImplementingClassesLink>();
+    /**
+     * Returns all components which are not used (subcomponent) in another composite component.
+     *
+     * @return List of non-contained components
+     */
+    private List<ComponentImplementingClassesLink> getNonContainedComponents() {
 
-		EList<ComponentImplementingClassesLink> componentImplementingClassesLinks = this.analysisResult
-				.getSourceCodeDecoratorRepository()
-				.getComponentImplementingClassesLink();
+        final ArrayList<ComponentImplementingClassesLink> nonContainedComponents = new ArrayList<ComponentImplementingClassesLink>();
 
-		for (ComponentImplementingClassesLink compLinkToCheckWhetherContained : componentImplementingClassesLinks) {
+        final EList<ComponentImplementingClassesLink> componentImplementingClassesLinks = this.analysisResult
+                .getSourceCodeDecoratorRepository().getComponentImplementingClassesLink();
 
-			boolean isComponentLinkToCheckContained = false;
-			for (ComponentImplementingClassesLink potentialOuterCompLink : componentImplementingClassesLinks) {
-				if (potentialOuterCompLink.getSubComponents().contains(compLinkToCheckWhetherContained)) {
-					isComponentLinkToCheckContained = true;
-					break; // contained; no more looping required
-				}
-			}
-			if (!isComponentLinkToCheckContained) {
-				nonContainedComponents.add(compLinkToCheckWhetherContained);
-				logger.debug("non-contained component: "
-						+ compLinkToCheckWhetherContained.getComponent()
-								.getEntityName() + " used for the system level");
-			}
-		}
+        for (final ComponentImplementingClassesLink compLinkToCheckWhetherContained : componentImplementingClassesLinks) {
 
-		return nonContainedComponents;
-	}
+            boolean isComponentLinkToCheckContained = false;
+            for (final ComponentImplementingClassesLink potentialOuterCompLink : componentImplementingClassesLinks) {
+                if (potentialOuterCompLink.getSubComponents().contains(compLinkToCheckWhetherContained)) {
+                    isComponentLinkToCheckContained = true;
+                    break; // contained; no more looping required
+                }
+            }
+            if (!isComponentLinkToCheckContained) {
+                nonContainedComponents.add(compLinkToCheckWhetherContained);
+                logger.debug("non-contained component: "
+                        + compLinkToCheckWhetherContained.getComponent().getEntityName() + " used for the system level");
+            }
+        }
 
-	/**
-	 * Replicates ports of inner components and establishes delegation
-	 * connectors for them. Updates the SAMM system.
-	 * 
-	 * @param innerComponents
-	 *            List of Component which shall become instances of the SAMM
-	 *            system.
-	 */
-	private void buildSystemModel(List<ComponentImplementingClassesLink> innerComponents) {
-		System pcmSystem = analysisResult.getSystemModel();
-		pcmSystem.setEntityName("SoMoX Reverse Engineered System");
+        return nonContainedComponents;
+    }
 
-		PCMSystemImplementatingClassesLink pcmLink = SourcecodedecoratorFactory.eINSTANCE
-				.createPCMSystemImplementatingClassesLink();
-		pcmLink.setSystemModel(pcmSystem);
-		// FIXME: currently saving results in invalid serialisation
-		// this.analysisResult.getSourceCodeDecoratorRepository().getComponentImplementingClassesLink().add(sammLink);
+    /**
+     * Replicates ports of inner components and establishes delegation connectors for them. Updates
+     * the SAMM system.
+     *
+     * @param innerComponents
+     *            List of Component which shall become instances of the SAMM system.
+     */
+    private void buildSystemModel(final List<ComponentImplementingClassesLink> innerComponents) {
+        final System pcmSystem = this.analysisResult.getSystemModel();
+        pcmSystem.setEntityName("SoMoX Reverse Engineered System");
 
-		Set<SubComponentInformation> subComponentInformationSet = new HashSet<SubComponentInformation>();
+        final PCMSystemImplementatingClassesLink pcmLink = SourcecodedecoratorFactory.eINSTANCE
+                .createPCMSystemImplementatingClassesLink();
+        pcmLink.setSystemModel(pcmSystem);
+        // FIXME: currently saving results in invalid serialisation
+        // this.analysisResult.getSourceCodeDecoratorRepository().getComponentImplementingClassesLink().add(sammLink);
 
-		ResourceEnvironment resourceEnvironment = DefaultResourceEnvironment
-				.getDefaultResourceEnvironment();
-		ResourceContainer defaultContainer = resourceEnvironment
-				.getResourceContainer_ResourceEnvironment().get(0);
+        final Set<SubComponentInformation> subComponentInformationSet = new HashSet<SubComponentInformation>();
 
-		Allocation allocation = analysisResult.getAllocation();
-		allocation.setEntityName("SoMoX Reverse Engineered Allocation Model");
-		allocation.setSystem_Allocation(pcmSystem);
-		allocation.setTargetResourceEnvironment_Allocation(resourceEnvironment);
+        final ResourceEnvironment resourceEnvironment = DefaultResourceEnvironment.getDefaultResourceEnvironment();
+        final ResourceContainer defaultContainer = resourceEnvironment.getResourceContainer_ResourceEnvironment()
+                .get(0);
 
-		for (ComponentImplementingClassesLink compLink : innerComponents) {
+        final Allocation allocation = this.analysisResult.getAllocation();
+        allocation.setEntityName("SoMoX Reverse Engineered Allocation Model");
+        allocation.setSystem_Allocation(pcmSystem);
+        allocation.setTargetResourceEnvironment_Allocation(resourceEnvironment);
 
-			// create subcomponent instances
-			AssemblyContext assemblyContext = CompositionFactory.eINSTANCE
-					.createAssemblyContext();
-			assemblyContext.setEncapsulatedComponent__AssemblyContext(compLink
-					.getComponent());
-			assemblyContext.setEntityName(compLink.getComponent()
-					.getEntityName());
-			pcmSystem.getAssemblyContexts__ComposedStructure().add(assemblyContext);
-			pcmLink.getSubComponents().add(compLink);
+        for (final ComponentImplementingClassesLink compLink : innerComponents) {
 
-			// create allocation context for system component
-			AllocationContext allocationContext = AllocationFactory.eINSTANCE
-					.createAllocationContext();
-			allocation.getAllocationContexts_Allocation()
-					.add(allocationContext);
-			allocationContext
-					.setAssemblyContext_AllocationContext(assemblyContext);
-			allocationContext.setEntityName(compLink.getComponent()
-					.getEntityName());
-			allocationContext
-					.setResourceContainer_AllocationContext(defaultContainer);
+            // create subcomponent instances
+            final AssemblyContext assemblyContext = CompositionFactory.eINSTANCE.createAssemblyContext();
+            assemblyContext.setEncapsulatedComponent__AssemblyContext(compLink.getComponent());
+            assemblyContext.setEntityName(compLink.getComponent().getEntityName());
+            pcmSystem.getAssemblyContexts__ComposedStructure().add(assemblyContext);
+            pcmLink.getSubComponents().add(compLink);
 
-			// create delegation connectors between system and inner component
-			// provided roles
-			for(ProvidedRole role : compLink.getComponent().getProvidedRoles_InterfaceProvidingEntity()){
-				if(role instanceof OperationProvidedRole){
-					OperationProvidedRole opProvRole = (OperationProvidedRole) role;
-					
-						createSystemProvidedRoleAndDelegationConnector(pcmSystem, compLink,
-							assemblyContext, opProvRole);
-					
-				} else {
-					logger.warn("Role type not yet supported: "+role.getClass().getSimpleName());
-				}
-			}
-		}
+            // create allocation context for system component
+            final AllocationContext allocationContext = AllocationFactory.eINSTANCE.createAllocationContext();
+            allocation.getAllocationContexts_Allocation().add(allocationContext);
+            allocationContext.setAssemblyContext_AllocationContext(assemblyContext);
+            allocationContext.setEntityName(compLink.getComponent().getEntityName());
+            allocationContext.setResourceContainer_AllocationContext(defaultContainer);
 
-		// create assembly connectors among system components
-		// execute only once: possible since here no decorator is used
-		componentBuilder.getInsideCompositeComponentAssemblyConnectorStrategy()
-				.buildAssemblyConnectors(pcmSystem, innerComponents);
+            // create delegation connectors between system and inner component
+            // provided roles
+            for (final ProvidedRole role : compLink.getComponent().getProvidedRoles_InterfaceProvidingEntity()) {
+                if (role instanceof OperationProvidedRole) {
+                    final OperationProvidedRole opProvRole = (OperationProvidedRole) role;
 
-		// collect information on non-connected interfaces
-		Iterable<SubComponentInformation> subComponentInformation = InterfacePortBuilderHelper
-				.collectInformationOnNonBoundInterfaces(pcmLink, pcmSystem,
-						false); // Link must be SAMM!
-		Iterator<SubComponentInformation> iterator = subComponentInformation
-				.iterator();
-		while (iterator.hasNext()) {
-			subComponentInformationSet.add(iterator.next());
-		}
+                    this.createSystemProvidedRoleAndDelegationConnector(pcmSystem, compLink, assemblyContext,
+                            opProvRole);
 
-		// required ports not allowed/supported for SAMM system thus capture by
-		// dummy component
-		// create dummy components for non-connected interfaces and
-		// build assembly connectors for the newly created dummy component:
-		BasicComponent dummyComponent = DummyComponentBuilder
-				.createDummyComponent(subComponentInformationSet, pcmSystem,
-						resourceEnvironment, analysisResult);
-		this.analysisResult.getInternalArchitectureModel()
-				.getComponents__Repository().add(dummyComponent);
-	}
+                } else {
+                    logger.warn("Role type not yet supported: " + role.getClass().getSimpleName());
+                }
+            }
+        }
 
-	// TODO: Check in the svn history what this method was used for. Maybe
-	// garbage
-	// private Set<ComponentImplementingClassesLink>
-	// listToSet(List<ComponentImplementingClassesLink> list) {
-	// Set<ComponentImplementingClassesLink> set = new
-	// HashSet<ComponentImplementingClassesLink>();
-	// for(ComponentImplementingClassesLink link : list) {
-	// boolean success = set.add(link);
-	// assert (success == true);
-	// }
-	// return set;
-	// }
+        // create assembly connectors among system components
+        // execute only once: possible since here no decorator is used
+        this.componentBuilder.getInsideCompositeComponentAssemblyConnectorStrategy().buildAssemblyConnectors(pcmSystem,
+                innerComponents);
 
-	private void createSystemProvidedRoleAndDelegationConnector(
-			System pcmSystem, ComponentImplementingClassesLink compLink,
-			AssemblyContext assemblyContext,
-			OperationProvidedRole innerProvidedRole) {
+        // collect information on non-connected interfaces
+        final Iterable<SubComponentInformation> subComponentInformation = InterfacePortBuilderHelper
+                .collectInformationOnNonBoundInterfaces(pcmLink, pcmSystem, false); // Link must be
+        // SAMM!
+        final Iterator<SubComponentInformation> iterator = subComponentInformation.iterator();
+        while (iterator.hasNext()) {
+            subComponentInformationSet.add(iterator.next());
+        }
 
-		OperationInterface opInterface = innerProvidedRole.getProvidedInterface__OperationProvidedRole();
+        // required ports not allowed/supported for SAMM system thus capture by
+        // dummy component
+        // create dummy components for non-connected interfaces and
+        // build assembly connectors for the newly created dummy component:
+        final BasicComponent dummyComponent = DummyComponentBuilder.createDummyComponent(subComponentInformationSet,
+                pcmSystem, resourceEnvironment, this.analysisResult);
+        this.analysisResult.getInternalArchitectureModel().getComponents__Repository().add(dummyComponent);
+    }
 
-		if (opInterface == null) {
-			logger.error("No interface set for role: "
-					+ innerProvidedRole.getEntityName());
-			return;
-		}
+    // TODO: Check in the svn history what this method was used for. Maybe
+    // garbage
+    // private Set<ComponentImplementingClassesLink>
+    // listToSet(List<ComponentImplementingClassesLink> list) {
+    // Set<ComponentImplementingClassesLink> set = new
+    // HashSet<ComponentImplementingClassesLink>();
+    // for(ComponentImplementingClassesLink link : list) {
+    // boolean success = set.add(link);
+    // assert (success == true);
+    // }
+    // return set;
+    // }
 
-		// create system provided role
-		OperationProvidedRole outerProvidedRole = RepositoryFactory.eINSTANCE
-				.createOperationProvidedRole();
-		outerProvidedRole.setProvidingEntity_ProvidedRole(pcmSystem);
-		outerProvidedRole.setEntityName(namingStrategy.createProvidedSystemPortName(
-				opInterface, compLink.getComponent()));
-		outerProvidedRole.setProvidedInterface__OperationProvidedRole(opInterface);
+    private void createSystemProvidedRoleAndDelegationConnector(final System pcmSystem,
+            final ComponentImplementingClassesLink compLink, final AssemblyContext assemblyContext,
+            final OperationProvidedRole innerProvidedRole) {
+        final RepositoryComponent component = compLink.getComponent();
+        final String name = this.namingStrategy.createProvidedSystemPortName(
+                innerProvidedRole.getProvidedInterface__OperationProvidedRole(), component);
+        createSystemProvidedRoleAndDelegationConnector(pcmSystem, assemblyContext, innerProvidedRole, name);
+    }
 
-		// create delegation connector for provided role
-		ProvidedDelegationConnector delegationConnector = CompositionFactory.eINSTANCE
-				.createProvidedDelegationConnector();
-		delegationConnector.setAssemblyContext_ProvidedDelegationConnector(assemblyContext);
-		// TODO burkha 23.04.2013 the assembly context is not set correct
-		// delegationConnector.setAssemblyContext_ProvidedDelegationConnector(innerProvidedRole
-		// .getProvidingEntity_ProvidedRole());
-		delegationConnector.setInnerProvidedRole_ProvidedDelegationConnector(innerProvidedRole);
-		delegationConnector.setOuterProvidedRole_ProvidedDelegationConnector(outerProvidedRole);
-		delegationConnector.setParentStructure__Connector(pcmSystem);
-		delegationConnector.setEntityName(opInterface.getEntityName());
+    public static ProvidedDelegationConnector createSystemProvidedRoleAndDelegationConnector(final System pcmSystem,
+            final AssemblyContext assemblyContext, final OperationProvidedRole innerProvidedRole, final String name) {
+        final OperationInterface opInterface = innerProvidedRole.getProvidedInterface__OperationProvidedRole();
 
-		// store connector in system
-		pcmSystem.getConnectors__ComposedStructure().add(delegationConnector);
-	}
+        if (opInterface == null) {
+            logger.error("No interface set for role: " + innerProvidedRole.getEntityName());
+            return null;
+        }
+
+        // create system provided role
+        final OperationProvidedRole outerProvidedRole = RepositoryFactory.eINSTANCE.createOperationProvidedRole();
+        outerProvidedRole.setProvidingEntity_ProvidedRole(pcmSystem);
+        outerProvidedRole.setEntityName(name);
+        outerProvidedRole.setProvidedInterface__OperationProvidedRole(opInterface);
+
+        // create delegation connector for provided role
+        final ProvidedDelegationConnector delegationConnector = CompositionFactory.eINSTANCE
+                .createProvidedDelegationConnector();
+        delegationConnector.setAssemblyContext_ProvidedDelegationConnector(assemblyContext);
+        // TODO burkha 23.04.2013 the assembly context is not set correct
+        // delegationConnector.setAssemblyContext_ProvidedDelegationConnector(innerProvidedRole
+        // .getProvidingEntity_ProvidedRole());
+        delegationConnector.setInnerProvidedRole_ProvidedDelegationConnector(innerProvidedRole);
+        delegationConnector.setOuterProvidedRole_ProvidedDelegationConnector(outerProvidedRole);
+        delegationConnector.setParentStructure__Connector(pcmSystem);
+        delegationConnector.setEntityName(opInterface.getEntityName());
+
+        // store connector in system
+        pcmSystem.getConnectors__ComposedStructure().add(delegationConnector);
+
+        return delegationConnector;
+    }
 
 }

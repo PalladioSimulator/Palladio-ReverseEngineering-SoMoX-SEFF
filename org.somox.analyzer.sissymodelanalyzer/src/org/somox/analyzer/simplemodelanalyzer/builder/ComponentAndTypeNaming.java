@@ -17,7 +17,7 @@ import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
 
 /**
  * Component, package, interface, and port naming facility.
- * 
+ *
  * @author Klaus Krogmann
  *
  */
@@ -50,7 +50,7 @@ public class ComponentAndTypeNaming {
 
     /**
      * Creates a primitive component name
-     * 
+     *
      * @param gastClasses
      *            : inner classes of the component
      * @param shorten
@@ -95,7 +95,7 @@ public class ComponentAndTypeNaming {
 
     /**
      * Short name
-     * 
+     *
      * @param innerComponents
      * @return
      */
@@ -119,16 +119,16 @@ public class ComponentAndTypeNaming {
                 subComponentName.append(subcomponent.getComponent().getEntityName() + " ");
             } else {
                 subComponentName.append(this.createSimpleComponentName(0, subcomponent.getSubComponents()) + " "); // 0:
-                                                                                                                   // default
-                                                                                                                   // level
+                // default
+                // level
             }
         }
         subComponentName.deleteCharAt(subComponentName.length() - 1);
 
         if (shorten) {
             nameBuilder.append(this.shorten(subComponentName.toString(), true)); // keep tail
-                                                                                 // intact; remove
-                                                                                 // start
+            // intact; remove
+            // start
         } else {
             nameBuilder.append(subComponentName.toString());
         }
@@ -139,7 +139,7 @@ public class ComponentAndTypeNaming {
 
     /**
      * Search for the package name that occurs most often
-     * 
+     *
      * @param i
      *            running number
      * @param currentList
@@ -211,20 +211,21 @@ public class ComponentAndTypeNaming {
 
     /**
      * Creates the name for a provided interface
-     * 
+     *
      * @param provInterface
      * @param component
      * @return
      */
     public String createProvidedPortName(final Interface provInterface, final RepositoryComponent component) {
-
-        String ifName = provInterface.getEntityName();
-        if (ifName.contains(".")) {
-            final String[] subStrings = ifName.split("\\.", 0);
-            ifName = subStrings[subStrings.length - 1]; // last segment
+        String ifName = "ifName";
+        if (null != provInterface) {
+            ifName = provInterface.getEntityName();
+            if (ifName.contains(".")) {
+                final String[] subStrings = ifName.split("\\.", 0);
+                ifName = subStrings[subStrings.length - 1]; // last segment
+            }
+            ifName += " " + this.providedPortNumber++;
         }
-        ifName += " " + this.providedPortNumber++;
-
         return this.shorten(ifName) + " (prov)";
     }
 
@@ -234,7 +235,7 @@ public class ComponentAndTypeNaming {
 
     /**
      * Creates the name for a required interface
-     * 
+     *
      * @param reqInterface
      * @param component
      * @return
@@ -257,7 +258,7 @@ public class ComponentAndTypeNaming {
 
     /**
      * Interface name created for a real GAST interface class.
-     * 
+     *
      * @param interfaceClass
      * @return
      */
@@ -268,7 +269,7 @@ public class ComponentAndTypeNaming {
 
     /**
      * Interface name created for a usual class which is not marked as an interface.
-     * 
+     *
      * @param interfaceClass
      * @return
      */
@@ -279,7 +280,7 @@ public class ComponentAndTypeNaming {
 
     /**
      * Uses last x segments to create an Interface name
-     * 
+     *
      * @param qualifiedName
      * @return
      */
@@ -303,7 +304,7 @@ public class ComponentAndTypeNaming {
 
     /**
      * Shorten long strings
-     * 
+     *
      * @param theString
      *            string to shorten
      * @param removeStartOfString
