@@ -3,10 +3,9 @@ package org.somox.gast2seff.visitors;
 import java.util.BitSet;
 
 import org.apache.log4j.Logger;
-import org.emftext.language.java.references.MethodCall;
+import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.Statement;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
-import org.somox.kdmhelper.KDMHelper;
 
 /**
  * Base implementation of {@link IFunctionClassificationStrategy}. Delagates the decisions on the
@@ -20,7 +19,7 @@ public abstract class AbstractFunctionClassificationStrategy implements IFunctio
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.somox.gast2seff.visitors.IFunctionClassificationStrategy#classifySimpleStatement(de.fzi
      * .gast.statements.SimpleStatement)
@@ -30,16 +29,17 @@ public abstract class AbstractFunctionClassificationStrategy implements IFunctio
         // be replaced with Statement
 
         final BitSet result = new BitSet();
-        final MethodCall functionAccess = VisitorUtils.getMethodCall(object);// GAST2SEFFCHANGE
-        if (functionAccess != null) {
-            if (this.isExternalCall(functionAccess)) {
-                this.logger.debug("Found external call: " + KDMHelper.getMethod(functionAccess).getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
+        final Method method = VisitorUtils.getMethodCall(object);// GAST2SEFFCHANGE
+
+        if (method != null) {
+            if (this.isExternalCall(method)) {
+                this.logger.debug("Found external call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
                 result.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
-            } else if (this.isLibraryCall(functionAccess)) {
-                this.logger.debug("Found library call: " + KDMHelper.getMethod(functionAccess).getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
+            } else if (this.isLibraryCall(method)) {
+                this.logger.debug("Found library call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
                 result.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.LIBRARY));
             } else { // default: internal call
-                this.logger.debug("Found internal call: " + KDMHelper.getMethod(functionAccess).getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                this.logger.debug("Found internal call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
                 result.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.INTERNAL));
             }
         }
@@ -48,7 +48,7 @@ public abstract class AbstractFunctionClassificationStrategy implements IFunctio
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.somox.gast2seff.visitors.IFunctionClassificationStrategy#mergeFunctionCallType(java.util
      * .BitSet, java.util.BitSet)
@@ -62,20 +62,20 @@ public abstract class AbstractFunctionClassificationStrategy implements IFunctio
      * Decide whether the given simple statement which is the given function access is an external
      * call, i.e., a call which results in a external call action in the SEFF
      *
-     * @param functionAccess
+     * @param method
      *            The function access to test
      * @return true if the function access is an external call
      */
-    protected abstract boolean isExternalCall(MethodCall functionAccess);
+    protected abstract boolean isExternalCall(Method method);
 
     /**
      * Decide whether the given simple statement which is the given function access is a library
      * call, i.e., a call to an internal method which should be inlined into the SEFF
      *
-     * @param functionAccess
+     * @param method
      *            The function access to test
      * @return true if the function access is
      */
-    protected abstract boolean isLibraryCall(MethodCall functionAccess);
+    protected abstract boolean isLibraryCall(Method method);
 
 }

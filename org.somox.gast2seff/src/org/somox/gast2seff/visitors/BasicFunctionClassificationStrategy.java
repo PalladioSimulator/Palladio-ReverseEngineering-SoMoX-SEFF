@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.emftext.language.java.members.Method;
-import org.emftext.language.java.references.MethodCall;
 import org.somox.kdmhelper.EqualityChecker;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
@@ -25,7 +24,7 @@ import de.uka.ipd.sdq.pcm.repository.BasicComponent;
  *
  */
 public class BasicFunctionClassificationStrategy extends AbstractLibraryCallFunctionClassificationStrategy implements
-        IFunctionClassificationStrategy {
+IFunctionClassificationStrategy {
 
     static Logger logger = Logger.getLogger(BasicFunctionClassificationStrategy.class);
 
@@ -46,21 +45,20 @@ public class BasicFunctionClassificationStrategy extends AbstractLibraryCallFunc
     }
 
     @Override
-    protected boolean isExternalCall(final MethodCall methodCall) {
+    protected boolean isExternalCall(final Method method) {
         final ComponentImplementingClassesLink compLink = this.queryComponentLink(this.primitiveComponent);
-        final Method method = KDMHelper.getMethod(methodCall);
         for (final InterfaceSourceCodeLink ifLink : compLink.getRequiredInterfaces()) {
             final List<Method> methodsInInterface = KDMHelper.getMethods(ifLink.getGastClass());
             for (final Method methodInInterface : methodsInInterface) {
                 if (EqualityChecker.areFunctionsEqual(method, methodInInterface)) {
-                    logger.debug("Classified call as external call: " + KDMHelper.getMethod(methodCall).getName()
-                            + " for component " + this.primitiveComponent.getEntityName());
+                    logger.debug("Classified call as external call: " + method.getName() + " for component "
+                            + this.primitiveComponent.getEntityName());
                     return true;
                 }
             }
         }
 
-        logger.trace("no external call: " + KDMHelper.getMethod(methodCall).getName());
+        logger.trace("no external call: " + method.getName());
         return false;
     }
 

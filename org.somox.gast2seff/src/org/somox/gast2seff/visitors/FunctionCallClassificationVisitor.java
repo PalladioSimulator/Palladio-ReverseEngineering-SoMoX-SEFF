@@ -12,8 +12,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.expressions.util.ExpressionsSwitch;
+import org.emftext.language.java.members.Method;
 import org.emftext.language.java.members.util.MembersSwitch;
-import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.statements.Assert;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.CatchBlock;
@@ -28,7 +28,6 @@ import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.TryBlock;
 import org.emftext.language.java.statements.WhileLoop;
 import org.emftext.language.java.statements.util.StatementsSwitch;
-import org.somox.kdmhelper.GetAccessedType;
 import org.somox.kdmhelper.KDMHelper;
 
 /**
@@ -273,14 +272,15 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
 
         if (myType.get(getIndex(FunctionCallType.INTERNAL))) {
             // Also annotate the internal method
-            final MethodCall methodCall = VisitorUtils.getMethodCall(statement);
-            final StatementListContainer targetFunctionBody = KDMHelper.getBody(KDMHelper.getMethod(methodCall));
+            final Method calledMethod = VisitorUtils.getMethodCall(statement);
+            final StatementListContainer targetFunctionBody = KDMHelper.getBody(calledMethod);
             BitSet internalType = new BitSet();
             if (targetFunctionBody != null) {
-                logger.trace("visiting internal call. accessed class: " + GetAccessedType.getAccessedType(methodCall));
+                logger.trace("visiting internal call. accessed class: "
+                        + calledMethod.getContainingConcreteClassifier());
                 internalType = this.doSwitch(targetFunctionBody);
             } else {
-                logger.warn("Behaviour not set in GAST for " + KDMHelper.getMethod(methodCall).getName());
+                logger.warn("Behaviour not set in GAST for " + calledMethod.getName());
             }
             // the internal call contains an external call
             if (internalType.get(getIndex(FunctionCallType.EXTERNAL))) {

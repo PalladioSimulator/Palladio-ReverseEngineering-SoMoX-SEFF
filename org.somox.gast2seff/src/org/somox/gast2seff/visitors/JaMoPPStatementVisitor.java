@@ -11,8 +11,6 @@ import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.Method;
-import org.emftext.language.java.references.MethodCall;
-import org.emftext.language.java.references.ReferenceableElement;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.Statement;
@@ -179,14 +177,13 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         if (this.isExternalCall(statementAnnotation)) {
             this.createExternalCallAction(object);
         } else if (this.isInternalCall(statementAnnotation)) {
-            final MethodCall functionAccess = VisitorUtils.getMethodCall(object);
-            final ReferenceableElement re = functionAccess.getTarget();
-            if (!(re instanceof ClassMethod)) {
+            final Method method = VisitorUtils.getMethodCall(object);
+            if (!(method instanceof ClassMethod)) {
                 logger.error("Referenceable element must be a class method");
             } else {
-                final ClassMethod method = (ClassMethod) re;
+                final ClassMethod classMethod = (ClassMethod) method;
 
-                if (method.getStatements() != null) {
+                if (classMethod.getStatements() != null) {
 
                     // avoid infinite recursion
                     final BitSet thisType = this.functionClassificationAnnotation.get(object);
@@ -355,9 +352,9 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
 
     private void createExternalCallAction(final Statement object) {
         final ExternalCallAction call = SeffFactory.eINSTANCE.createExternalCallAction();
-        final MethodCall access = VisitorUtils.getMethodCall(object);
-        call.setEntityName(KDMHelper.getMethod(access).getName() + this.positionToString(object));
-        final InterfacePortOperationTuple ifOperationTuple = this.getCalledInterfacePort(access);
+        final Method calledMethod = VisitorUtils.getMethodCall(object);
+        call.setEntityName(calledMethod.getName() + this.positionToString(object));
+        final InterfacePortOperationTuple ifOperationTuple = this.getCalledInterfacePort(calledMethod);
         if (null == ifOperationTuple) {
             logger.warn("ifOperationTuple == null");
         } else {
@@ -367,18 +364,19 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         }
         // // GAST2SEFFCHANGE
         this.seff.getSteps_Behaviour().add(call);
+        this.lastType = this.functionClassificationAnnotation.get(object);
     }
 
     /**
      * Query the interface port for the function access using the source code decorator.
      *
-     * @param access
+     * @param calledMethod
      *            The access to find in the SAMM
      * @return interface port and operation for corresponding to the access.
      */
-    private InterfacePortOperationTuple getCalledInterfacePort(final MethodCall access) { // GAST2SEFFCHANGE
+    private InterfacePortOperationTuple getCalledInterfacePort(final Method calledMethod) { // GAST2SEFFCHANGE
         final InterfacePortOperationTuple interfacePortOperationTuple = new InterfacePortOperationTuple();
-        final ConcreteClassifier accessedConcreteClassifier = GetAccessedType.getAccessedType(access);
+        final ConcreteClassifier accessedConcreteClassifier = calledMethod.getContainingConcreteClassifier();
 
         for (final RequiredRole requiredRole : this.primitiveComponent.getRequiredRoles_InterfaceRequiringEntity()) {
             for (final InterfaceSourceCodeLink ifLink : this.sourceCodeDecoratorRepository.getInterfaceSourceCodeLink()) {
@@ -391,7 +389,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                             logger.trace("accessed interface port " + operReqRole.getEntityName());
                             interfacePortOperationTuple.role = operReqRole;
                             // query operation:
-                            interfacePortOperationTuple.signature = this.queryInterfaceOperation(access);
+                            interfacePortOperationTuple.signature = this.queryInterfaceOperation(calledMethod);
 
                             return interfacePortOperationTuple;
                         }
@@ -406,12 +404,11 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     /**
      * Signature query
      *
-     * @param methodInvocation
+     * @param invokedMethod
      *            The method invocation to find in the SAMM
      * @return Signature corresponding to function access
      */
-    private Signature queryInterfaceOperation(final MethodCall methodInvocation) { // GAST2SEFFCHANGE
-        final Method invokedMethod = KDMHelper.getMethod(methodInvocation);
+    private Signature queryInterfaceOperation(final Method invokedMethod) { // GAST2SEFFCHANGE
         for (final MethodLevelSourceCodeLink methodLink : this.sourceCodeDecoratorRepository
                 .getMethodLevelSourceCodeLink()) {
 
@@ -429,18 +426,22 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     }
 
     private void createInternalAction(final Statement statement) {
-        final InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
+        final BitSet thisType = this.functionClassificationAnnotation.get(statement);
+        if (!this.shouldSkip(this.lastType, thisType)) {
+            final InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
 
-        internalAction.setEntityName("IA " + this.positionToString(statement)); // GAST2SEFFCHANGE
-        // TODO
-        // if (statement instanceof Block) { // GAST2SEFFADDED
-        // ia.setDocumentation(this.blockToString((Block) statement) + "; Statement SISSyID: "
-        // + KDMHelper.getSISSyID(statement)); // GAST2SEFFCHANGE
-        // } else { // GAST2SEFFADDED
-        // ia.setDocumentation("not a block" + "; Statement SISSyID: " +
-        // KDMHelper.getSISSyID(statement)); // GAST2SEFFCHANGE//GAST2SEFFADDED
-        // } // GAST2SEFFADDED
-        this.seff.getSteps_Behaviour().add(internalAction);
+            internalAction.setEntityName("IA " + this.positionToString(statement)); // GAST2SEFFCHANGE
+            // TODO
+            // if (statement instanceof Block) { // GAST2SEFFADDED
+            // ia.setDocumentation(this.blockToString((Block) statement) + "; Statement SISSyID: "
+            // + KDMHelper.getSISSyID(statement)); // GAST2SEFFCHANGE
+            // } else { // GAST2SEFFADDED
+            // ia.setDocumentation("not a block" + "; Statement SISSyID: " +
+            // KDMHelper.getSISSyID(statement)); // GAST2SEFFCHANGE//GAST2SEFFADDED
+            // } // GAST2SEFFADDED
+            this.seff.getSteps_Behaviour().add(internalAction);
+        }
+        this.lastType = thisType;
     }
 
     private String blockToString(final Block blockstatement) { // GAST2SEFFCHANGE
