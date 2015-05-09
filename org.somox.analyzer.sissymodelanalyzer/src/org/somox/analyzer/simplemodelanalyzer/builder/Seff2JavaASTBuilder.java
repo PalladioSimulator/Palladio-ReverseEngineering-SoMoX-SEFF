@@ -185,8 +185,7 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
     }
 
     /**
-     * Finds a implementation block statement for the Member realised by the passed component. Note:
-     * Member has to be an instance of constructor or method
+     * Finds a implementation block statement for the Member realised by the passed component.
      *
      * @param function
      *            interface function

@@ -654,9 +654,10 @@ public class OperationBuilder extends AbstractBuilder {
         if (null == typeName) {
             return null;
         }
-        if (typeName.toLowerCase().equals("int") || typeName.toLowerCase().equals("long")) {
+        if (typeName.toLowerCase().equals("int") || typeName.toLowerCase().equals("long")
+                || typeName.toLowerCase().equals("short")) {
             // Do not create 2 datatypes for int and integer
-            // maps int and long to integer
+            // maps int and long as well as short to integer
             typeName = "integer";
         } else if (typeName.toLowerCase().equals("bool")) {
             // Do not create 2 datatypes for bool and boolean
