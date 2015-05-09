@@ -411,6 +411,9 @@ public class OperationBuilder extends AbstractBuilder {
      * @return the newly created PCM data type
      */
     private DataType createDataType(final de.uka.ipd.sdq.pcm.repository.Repository repository, final Type gastType) {
+        if (null == gastType) {
+            return this.returnDefaultDataType(gastType, repository);
+        }
         String typeName = KDMHelper.getName(gastType);
         if (null == typeName) {
             return this.returnDefaultDataType(gastType, repository);
