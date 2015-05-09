@@ -670,7 +670,7 @@ public class OperationBuilder extends AbstractBuilder {
         return typeName;
     }
 
-    private DataType returnDefaultDataType(final Commentable type, final Repository repository) {
+    public DataType returnDefaultDataType(final Commentable type, final Repository repository) {
         logger.warn("could not determine type name for type: " + type + " returning default object datatype)");
         if (null == this.objectDataType) {
             this.objectDataType = RepositoryFactory.eINSTANCE.createCompositeDataType();
