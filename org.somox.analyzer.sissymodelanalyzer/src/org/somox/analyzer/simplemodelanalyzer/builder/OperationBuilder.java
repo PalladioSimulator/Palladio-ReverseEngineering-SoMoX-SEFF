@@ -350,7 +350,13 @@ public class OperationBuilder extends AbstractBuilder {
         DataType returnType = innerType;
 
         if (null != arrayTypeable && null != returnType) {
-            returnType = this.createCollectionDatatypeForArray(innerType, arrayTypeable, repository);
+            final String unifiedListName = this.getUnifiedTypeName(KDMHelper.getName(gastType)) + "List";
+            final DataType exisingCollection = this.getExistingTypeByName(unifiedListName, repository);
+            if (null == exisingCollection) {
+                returnType = this.createCollectionDatatypeForArray(innerType, arrayTypeable, repository);
+            } else {
+                returnType = exisingCollection;
+            }
         }
 
         return returnType;
@@ -666,6 +672,8 @@ public class OperationBuilder extends AbstractBuilder {
             typeName = "char";
         } else if (typeName.toLowerCase().equals("float")) {
             typeName = "double"; // map double to float
+        } else if (typeName.equals("String")) {
+            typeName = "STRING";
         }
         return typeName;
     }
