@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.ClassMethod;
@@ -229,8 +230,12 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
     private StatementListContainer getFunctionImplementationFromInterfaceMethod(final InterfaceMethod interfaceMethod,
             final ComponentImplementingClassesLink component, final Root astModel) {
         final boolean searchInAstModelIfNotFound = true;
-        return this.getFunctionImplementationFromInterfaceMethod(interfaceMethod, component.getImplementingClasses(),
-                astModel, searchInAstModelIfNotFound);
+        EList<ConcreteClassifier> implementingClasses = null;
+        if (null != component) {
+            implementingClasses = component.getImplementingClasses();
+        }
+        return this.getFunctionImplementationFromInterfaceMethod(interfaceMethod, implementingClasses, astModel,
+                searchInAstModelIfNotFound);
     }
 
     private StatementListContainer getFunctionImplementationFromInterfaceMethod(final InterfaceMethod interfaceMethod,
@@ -238,14 +243,17 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
             final boolean searchInAstModelIfNotFound) {
         final ConcreteClassifier interfaceOfMethod = interfaceMethod.getContainingConcreteClassifier();
         final Set<StatementListContainer> implementingStatementListContainers = new HashSet<StatementListContainer>();
-        for (final ConcreteClassifier classInComponent : implementingClasses) {
-            if (KDMHelper.getSuperTypes(classInComponent).contains(interfaceOfMethod)) {
-                // find the overriden interface method
-                for (final Method methodInClass : classInComponent.getMethods()) {
-                    if (EqualityChecker.areFunctionsEqual(interfaceMethod, methodInClass)
-                            && methodInClass instanceof ClassMethod) {
-                        logger.info("Found StatementListContainer for interface method " + interfaceMethod.getName());
-                        implementingStatementListContainers.add(KDMHelper.getBody(methodInClass));
+        if (null != implementingClasses) {
+            for (final ConcreteClassifier classInComponent : implementingClasses) {
+                if (KDMHelper.getSuperTypes(classInComponent).contains(interfaceOfMethod)) {
+                    // find the overriden interface method
+                    for (final Method methodInClass : classInComponent.getMethods()) {
+                        if (EqualityChecker.areFunctionsEqual(interfaceMethod, methodInClass)
+                                && methodInClass instanceof ClassMethod) {
+                            logger.info("Found StatementListContainer for interface method "
+                                    + interfaceMethod.getName());
+                            implementingStatementListContainers.add(KDMHelper.getBody(methodInClass));
+                        }
                     }
                 }
             }
