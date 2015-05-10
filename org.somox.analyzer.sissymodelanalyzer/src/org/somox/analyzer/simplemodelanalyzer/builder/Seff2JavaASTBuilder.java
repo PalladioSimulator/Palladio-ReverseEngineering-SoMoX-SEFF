@@ -154,7 +154,10 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
      */
     private StatementListContainer getFunctionImplementationFromClassMethod(final ClassMethod function,
             final ComponentImplementingClassesLink component) {
-
+        if (null == component) {
+            logger.error("component is null");
+            return null;
+        }
         for (final ConcreteClassifier implementingClass : component.getImplementingClasses()) {
             for (final Method implementedMethod : KDMHelper.getMethods(implementingClass)) {
                 if (EqualityChecker.areFunctionsEqual(function, implementedMethod)) { // FIXME:
