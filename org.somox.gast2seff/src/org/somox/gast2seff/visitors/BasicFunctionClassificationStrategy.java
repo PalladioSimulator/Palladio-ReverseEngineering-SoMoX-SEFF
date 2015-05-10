@@ -24,7 +24,7 @@ import de.uka.ipd.sdq.pcm.repository.BasicComponent;
  *
  */
 public class BasicFunctionClassificationStrategy extends AbstractLibraryCallFunctionClassificationStrategy implements
-IFunctionClassificationStrategy {
+        IFunctionClassificationStrategy {
 
     static Logger logger = Logger.getLogger(BasicFunctionClassificationStrategy.class);
 
@@ -47,6 +47,9 @@ IFunctionClassificationStrategy {
     @Override
     protected boolean isExternalCall(final Method method) {
         final ComponentImplementingClassesLink compLink = this.queryComponentLink(this.primitiveComponent);
+        if (null == compLink) {
+            return false;
+        }
         for (final InterfaceSourceCodeLink ifLink : compLink.getRequiredInterfaces()) {
             final List<Method> methodsInInterface = KDMHelper.getMethods(ifLink.getGastClass());
             for (final Method methodInInterface : methodsInInterface) {
@@ -71,8 +74,8 @@ IFunctionClassificationStrategy {
         }
         final String msg = "Could not find a component implementing classes link in the source code "
                 + "decorator for component " + primitiveComponent;
-        logger.error(msg);
-        throw new RuntimeException(msg);
+        logger.warn(msg);
+        return null;
     }
 
 }
