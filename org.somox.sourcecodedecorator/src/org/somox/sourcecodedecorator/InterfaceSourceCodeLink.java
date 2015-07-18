@@ -2,7 +2,7 @@
  */
 package org.somox.sourcecodedecorator;
 
-import de.uka.ipd.sdq.pcm.repository.Interface;
+import org.palladiosimulator.pcm.repository.Interface;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 

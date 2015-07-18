@@ -28,13 +28,13 @@ import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
-import de.uka.ipd.sdq.pcm.allocation.Allocation;
-import de.uka.ipd.sdq.pcm.allocation.AllocationFactory;
-import de.uka.ipd.sdq.pcm.qosannotations.QoSAnnotations;
-import de.uka.ipd.sdq.pcm.qosannotations.QosannotationsFactory;
-import de.uka.ipd.sdq.pcm.repository.Repository;
-import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
-import de.uka.ipd.sdq.pcm.system.SystemFactory;
+import org.palladiosimulator.pcm.allocation.Allocation;
+import org.palladiosimulator.pcm.allocation.AllocationFactory;
+import org.palladiosimulator.pcm.qosannotations.QoSAnnotations;
+import org.palladiosimulator.pcm.qosannotations.QosannotationsFactory;
+import org.palladiosimulator.pcm.repository.Repository;
+import org.palladiosimulator.pcm.repository.RepositoryFactory;
+import org.palladiosimulator.pcm.system.SystemFactory;
 import de.uka.ipd.sdq.workflow.ExecutionTimeLoggingProgressMonitor;
 //import de.fzi.gast.core.Root;
 //import de.fzi.gast.helpers.GASTReader;
@@ -251,7 +251,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
         final SourceCodeDecoratorRepository sourceCodeDecoratorRepository = SourcecodedecoratorFactory.eINSTANCE
                 .createSourceCodeDecoratorRepository();
         final SEFF2JavaAST seff2JavaAST = Seff2javaastFactory.eINSTANCE.createSEFF2JavaAST();
-        final de.uka.ipd.sdq.pcm.system.System system = SystemFactory.eINSTANCE.createSystem();
+        final org.palladiosimulator.pcm.system.System system = SystemFactory.eINSTANCE.createSystem();
         final QoSAnnotations qosAnnotationModel = QosannotationsFactory.eINSTANCE.createQoSAnnotations();
         final Repository newInternalArchitectureModel = RepositoryFactory.eINSTANCE.createRepository();
         final Allocation allocation = AllocationFactory.eINSTANCE.createAllocation();

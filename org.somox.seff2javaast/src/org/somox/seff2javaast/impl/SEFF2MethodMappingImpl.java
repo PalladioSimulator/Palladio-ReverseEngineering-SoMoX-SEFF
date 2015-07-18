@@ -2,7 +2,7 @@
  */
 package org.somox.seff2javaast.impl;
 
-import de.uka.ipd.sdq.pcm.seff.ServiceEffectSpecification;
+import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 
 import org.eclipse.emf.common.notify.Notification;
 

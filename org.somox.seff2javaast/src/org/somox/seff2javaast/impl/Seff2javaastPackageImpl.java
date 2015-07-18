@@ -2,9 +2,9 @@
  */
 package org.somox.seff2javaast.impl;
 
-import de.uka.ipd.sdq.pcm.PcmPackage;
+import org.palladiosimulator.pcm.PcmPackage;
 
-import de.uka.ipd.sdq.pcm.seff.SeffPackage;
+import org.palladiosimulator.pcm.seff.SeffPackage;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;

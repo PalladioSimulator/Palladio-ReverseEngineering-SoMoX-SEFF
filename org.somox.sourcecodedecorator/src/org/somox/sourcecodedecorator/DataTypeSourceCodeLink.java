@@ -2,7 +2,7 @@
  */
 package org.somox.sourcecodedecorator;
 
-import de.uka.ipd.sdq.pcm.repository.DataType;
+import org.palladiosimulator.pcm.repository.DataType;
 
 import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.types.Type;

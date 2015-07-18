@@ -14,7 +14,7 @@ import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
-import de.uka.ipd.sdq.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.repository.BasicComponent;
 
 /**
  * Implementation of {@link IFunctionClassificationStrategy}. Uses basic heuristics based on the
@@ -24,11 +24,13 @@ import de.uka.ipd.sdq.pcm.repository.BasicComponent;
  *
  */
 public class BasicFunctionClassificationStrategy extends AbstractLibraryCallFunctionClassificationStrategy implements
-        IFunctionClassificationStrategy {
+IFunctionClassificationStrategy {
 
     static Logger logger = Logger.getLogger(BasicFunctionClassificationStrategy.class);
 
     final private BasicComponent primitiveComponent;
+
+    protected final SourceCodeDecoratorRepository sourceCodeDecoratorRepository;
 
     /**
      * @param sourceCodeDecoratorRepository
@@ -41,6 +43,7 @@ public class BasicFunctionClassificationStrategy extends AbstractLibraryCallFunc
     public BasicFunctionClassificationStrategy(final SourceCodeDecoratorRepository sourceCodeDecoratorRepository,
             final BasicComponent primitiveComponent, final Root root) {
         super(root, sourceCodeDecoratorRepository);
+        this.sourceCodeDecoratorRepository = sourceCodeDecoratorRepository;
         this.primitiveComponent = primitiveComponent;
     }
 

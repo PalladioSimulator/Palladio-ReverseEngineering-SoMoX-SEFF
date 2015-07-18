@@ -9,19 +9,19 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-import de.uka.ipd.sdq.pcm.core.CoreFactory;
-import de.uka.ipd.sdq.pcm.core.PCMRandomVariable;
-import de.uka.ipd.sdq.pcm.repository.DataType;
-import de.uka.ipd.sdq.pcm.repository.PrimitiveDataType;
-import de.uka.ipd.sdq.pcm.repository.Repository;
-import de.uka.ipd.sdq.pcm.resourceenvironment.ProcessingResourceSpecification;
-import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
-import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
-import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceenvironmentFactory;
-import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceenvironmentPackage;
-import de.uka.ipd.sdq.pcm.resourcetype.ProcessingResourceType;
-import de.uka.ipd.sdq.pcm.resourcetype.ResourceRepository;
-import de.uka.ipd.sdq.pcm.resourcetype.SchedulingPolicy;
+import org.palladiosimulator.pcm.core.CoreFactory;
+import org.palladiosimulator.pcm.core.PCMRandomVariable;
+import org.palladiosimulator.pcm.repository.DataType;
+import org.palladiosimulator.pcm.repository.PrimitiveDataType;
+import org.palladiosimulator.pcm.repository.Repository;
+import org.palladiosimulator.pcm.resourceenvironment.ProcessingResourceSpecification;
+import org.palladiosimulator.pcm.resourceenvironment.ResourceContainer;
+import org.palladiosimulator.pcm.resourceenvironment.ResourceEnvironment;
+import org.palladiosimulator.pcm.resourceenvironment.ResourceenvironmentFactory;
+import org.palladiosimulator.pcm.resourceenvironment.ResourceenvironmentPackage;
+import org.palladiosimulator.pcm.resourcetype.ProcessingResourceType;
+import org.palladiosimulator.pcm.resourcetype.ResourceRepository;
+import org.palladiosimulator.pcm.resourcetype.SchedulingPolicy;
 
 /**
  * Utility method for creating an empty resource environment where the reconstructed components can
@@ -32,9 +32,9 @@ import de.uka.ipd.sdq.pcm.resourcetype.SchedulingPolicy;
  */
 public class DefaultResourceEnvironment {
 
-    public static final String RESOURCETYPE_URI = "platform:/plugin/de.uka.ipd.sdq.pcm.resources/defaultModels/Palladio.resourcetype";
+    public static final String RESOURCETYPE_URI = "platform:/plugin/org.palladiosimulator.pcm.resources/defaultModels/Palladio.resourcetype";
 
-    public static final String PRIMITIVETYPES_URI = "platform:/plugin/de.uka.ipd.sdq.pcm.resources/defaultModels/PrimitiveTypes.repository";
+    public static final String PRIMITIVETYPES_URI = "platform:/plugin/org.palladiosimulator.pcm.resources/defaultModels/PrimitiveTypes.repository";
 
     /** cached instance of default resource environment. */
     private static ResourceEnvironment resourceEnvironment;
@@ -50,7 +50,7 @@ public class DefaultResourceEnvironment {
 
     /**
      * Retrieves a cached instance of
-     * {@link de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment} as created by
+     * {@link org.palladiosimulator.pcm.resourceenvironment.ResourceEnvironment} as created by
      * {@link #createDefaultResourceEnvironment()}.
      *
      * @return A cached instance of resource environment with default values. .
@@ -63,7 +63,7 @@ public class DefaultResourceEnvironment {
     }
 
     /**
-     * Retrieves a map of {@link de.uka.ipd.sdq.pcm.repository.PrimitiveDataType}s as defined in the
+     * Retrieves a map of {@link org.palladiosimulator.pcm.repository.PrimitiveDataType}s as defined in the
      * standard PCM resource repository.
      *
      * @return A cached map of primitive data types.
@@ -108,7 +108,7 @@ public class DefaultResourceEnvironment {
 
     /**
      * Creates and returns a new instance of
-     * {@link de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment} with initial values.
+     * {@link org.palladiosimulator.pcm.resourceenvironment.ResourceEnvironment} with initial values.
      *
      * @return A new instance of resource environment with default values.
      */

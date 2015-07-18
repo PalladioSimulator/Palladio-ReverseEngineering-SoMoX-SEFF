@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.edit;bundle-version="2.7.2",
  org.somox.sourcecodedecorator;bundle-version="1.0.1",
  org.somox.seff2javaast,
- de.uka.ipd.sdq.pcm;bundle-version="3.2.0"
+ org.palladiosimulator.pcm;bundle-version="3.2.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Activator: org.somox.core.Activator
 Export-Package: org.somox.analyzer,

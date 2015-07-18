@@ -15,28 +15,24 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
-import org.somox.gast2seff.visitors.AbstractJaMoPPStatementVisitor;
 import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
-import org.somox.gast2seff.visitors.JaMoPPStatementVisitor;
 import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
+import org.somox.gast2seff.visitors.VisitorUtils;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.seff2javaast.SEFF2MethodMapping;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
-import de.uka.ipd.sdq.pcm.repository.BasicComponent;
-import de.uka.ipd.sdq.pcm.seff.AbstractAction;
-import de.uka.ipd.sdq.pcm.seff.ResourceDemandingBehaviour;
-import de.uka.ipd.sdq.pcm.seff.ResourceDemandingSEFF;
-import de.uka.ipd.sdq.pcm.seff.SeffFactory;
-import de.uka.ipd.sdq.pcm.seff.ServiceEffectSpecification;
-import de.uka.ipd.sdq.pcm.seff.StartAction;
-import de.uka.ipd.sdq.pcm.seff.StopAction;
+import org.palladiosimulator.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
+import org.palladiosimulator.pcm.seff.SeffFactory;
+import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
+import org.palladiosimulator.pcm.seff.StartAction;
+import org.palladiosimulator.pcm.seff.StopAction;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
 import de.uka.ipd.sdq.workflow.jobs.IBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
@@ -134,6 +130,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
     private ResourceDemandingSEFF createSeff(final ResourceDemandingSEFF seff) throws JobFailedException {
         final StartAction start = SeffFactory.eINSTANCE.createStartAction();
         final StopAction stop = SeffFactory.eINSTANCE.createStopAction();
+        seff.getSteps_Behaviour().add(start);
 
         // initialise for new component / seff to reverse engineer:
         final BasicComponent basicComponent = (BasicComponent) seff.eContainer();
@@ -141,27 +138,16 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
                 this.sourceCodeDecoratorModel, basicComponent, this.root);
         this.typeVisitor = new FunctionCallClassificationVisitor(basicFunctionClassifierStrategy);
 
-        seff.getSteps_Behaviour().add(start);
-
         final StatementListContainer body = this.findBody(seff);// GAST2SEFFCHANGE
         this.logger.trace("visiting (seff entry): " + seff.getId());
         if (body != null) {
-            final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(this.typeVisitor.getAnnotations(), seff,
-                    this.sourceCodeDecoratorModel, basicComponent);
-
-            // handle each statement
-            for (final Statement st : body.getStatements()) {
-                this.typeVisitor.doSwitch(st);
-                visitor.doSwitch(st);
-            }
-
+            VisitorUtils.visitJaMoPPMethod(seff, basicComponent, body, this.sourceCodeDecoratorModel, this.typeVisitor);
         } else {
             this.logger.warn("Found GAST behaviour (" + seff.getId() + ") without a method body... Skipping it...");
         }
 
         seff.getSteps_Behaviour().add(stop);
-
-        connectActions(seff);
+        VisitorUtils.connectActions(seff);
 
         return seff;
     }
@@ -217,20 +203,6 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
         }
 
         return i == 1; // must be exactly one
-    }
-
-    /**
-     * Add connections to the SEFF actions assuming the actions are stored in a sequential order
-     *
-     * @param seff
-     *            The behaviour for which connections will be created
-     */
-    public static void connectActions(final ResourceDemandingBehaviour seff) {
-        AbstractAction previous = null;
-        for (final AbstractAction a : seff.getSteps_Behaviour()) {
-            a.setPredecessor_AbstractAction(previous);
-            previous = a;
-        }
     }
 
     /**

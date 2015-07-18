@@ -5,7 +5,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="blockstatement" ordered="false"
         lowerBound="1" eType="ecore:EClass ../../org.emftext.language.java/metamodel/java.ecore#//statements/StatementListContainer"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="seff" ordered="false" lowerBound="1"
-        eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//seff/ServiceEffectSpecification"/>
+        eType="ecore:EClass ../../org.palladiosimulator.pcm/model/pcm.ecore#//seff/ServiceEffectSpecification"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SEFF2JavaAST">
     <eStructuralFeatures xsi:type="ecore:EReference" name="seff2MethodMappings" ordered="false"

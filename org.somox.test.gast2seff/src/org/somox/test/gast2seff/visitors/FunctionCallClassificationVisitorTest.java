@@ -17,7 +17,7 @@ import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
 import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
 
-import de.uka.ipd.sdq.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.repository.BasicComponent;
 
 public class FunctionCallClassificationVisitorTest extends JaMoPP2SEFFBaseTest {
 

@@ -6,7 +6,7 @@ import org.jgrapht.Graph;
 import org.somox.metrics.ClusteringRelation;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
-import de.uka.ipd.sdq.pcm.core.entity.ComposedProvidingRequiringEntity;
+import org.palladiosimulator.pcm.core.entity.ComposedProvidingRequiringEntity;
 
 public interface IAssemblyConnectorStrategy {
 

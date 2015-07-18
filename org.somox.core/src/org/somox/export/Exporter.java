@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.somox.configuration.ConfigurableComponent;
 
-import de.uka.ipd.sdq.pcm.repository.Repository;
+import org.palladiosimulator.pcm.repository.Repository;
 
 /**
  * Interface for model exporter that are respoonsible to produce

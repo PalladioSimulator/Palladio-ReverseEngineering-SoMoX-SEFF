@@ -7,20 +7,20 @@
       <details key="documentation" value="Human readable information for the source code link"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="repositoryComponent" ordered="false"
-        eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/RepositoryComponent"/>
+        eType="ecore:EClass ../../org.palladiosimulator.pcm/model/pcm.ecore#//repository/RepositoryComponent"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="file" ordered="false" eType="ecore:EClass ../../org.emftext.language.java/metamodel/java.ecore#//containers/CompilationUnit"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MethodLevelSourceCodeLink" eSuperTypes="#//FileLevelSourceCodeLink">
     <eStructuralFeatures xsi:type="ecore:EReference" name="operation" ordered="false"
-        eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/Signature"/>
+        eType="ecore:EClass ../../org.palladiosimulator.pcm/model/pcm.ecore#//repository/Signature"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="function" ordered="false"
         eType="ecore:EClass ../../org.emftext.language.java/metamodel/java.ecore#//members/Member"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ControlFlowLevelSourceCodeLink" eSuperTypes="#//MethodLevelSourceCodeLink">
     <eStructuralFeatures xsi:type="ecore:EReference" name="abstractAction" ordered="false"
-        eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//seff/AbstractAction"/>
+        eType="ecore:EClass ../../org.palladiosimulator.pcm/model/pcm.ecore#//seff/AbstractAction"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="statement" ordered="false"
-        eType="ecore:EClass ../../org.emftext.language.java/metamodel/java.ecore#//statements/Statement"/>
+        eType="ecore:EClass ../../org.emftext.language.java/metamodel/java.ecore#_Wo2YzNz1Ed2bJ_pQViWxFg"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SourceCodeDecoratorRepository">
     <eStructuralFeatures xsi:type="ecore:EReference" name="fileLevelSourceCodeLink"
@@ -37,10 +37,12 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="dataTypeSourceCodeLink"
         ordered="false" upperBound="-1" eType="#//DataTypeSourceCodeLink" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="abstractActionClassMethodLink"
+        upperBound="-1" eType="#//AbstractActionClassMethodLink"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InterfaceSourceCodeLink">
     <eStructuralFeatures xsi:type="ecore:EReference" name="interface" ordered="false"
-        eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/Interface"/>
+        eType="ecore:EClass ../../org.palladiosimulator.pcm/model/pcm.ecore#//repository/Interface"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="gastClass" ordered="false"
         eType="ecore:EClass ../../org.emftext.language.java/metamodel/java.ecore#//classifiers/ConcreteClassifier"/>
   </eClassifiers>
@@ -49,7 +51,7 @@
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         changeable="false" volatile="true" transient="true" unsettable="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="component" ordered="false"
-        lowerBound="1" eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/RepositoryComponent"/>
+        lowerBound="1" eType="ecore:EClass ../../org.palladiosimulator.pcm/model/pcm.ecore#//repository/RepositoryComponent"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="implementingClasses" ordered="false"
         lowerBound="1" upperBound="-1" eType="ecore:EClass ../../org.emftext.language.java/metamodel/java.ecore#//classifiers/ConcreteClassifier"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subComponents" ordered="false"
@@ -68,16 +70,20 @@
   <eClassifiers xsi:type="ecore:EClass" name="PCMSystemImplementatingClassesLink"
       eSuperTypes="#//ComponentImplementingClassesLink">
     <eStructuralFeatures xsi:type="ecore:EReference" name="systemModel" ordered="false"
-        eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//system/System"/>
+        eType="ecore:EClass ../../org.palladiosimulator.pcm/model/pcm.ecore#//system/System"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DataTypeSourceCodeLink" eSuperTypes="#//FileLevelSourceCodeLink">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="jaMoPPType" eType="ecore:EClass ../../org.emftext.language.java/metamodel/java.ecore#//types/Type"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pcmDataType" eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/DataType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="jaMoPPType" eType="ecore:EClass ../../org.emftext.language.java/metamodel/java.ecore#_Wo2ZO9z1Ed2bJ_pQViWxFg"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pcmDataType" eType="ecore:EClass ../../org.palladiosimulator.pcm/model/pcm.ecore#//repository/DataType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="innerDatatypeSourceCodeLink"
         upperBound="-1" eType="#//InnerDatatypeSourceCodeLink" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InnerDatatypeSourceCodeLink">
     <eStructuralFeatures xsi:type="ecore:EReference" name="field" eType="ecore:EClass ../../org.emftext.language.java/metamodel/java.ecore#//members/Field"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="innerDeclaration" eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//repository/InnerDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="innerDeclaration" eType="ecore:EClass ../../org.palladiosimulator.pcm/model/pcm.ecore#//repository/InnerDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractActionClassMethodLink">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classMethod" eType="ecore:EClass ../../org.emftext.language.java/metamodel/java.ecore#//members/ClassMethod"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="abstractAction" eType="ecore:EClass ../../org.palladiosimulator.pcm/model/pcm.ecore#//seff/AbstractAction"/>
   </eClassifiers>
 </ecore:EPackage>

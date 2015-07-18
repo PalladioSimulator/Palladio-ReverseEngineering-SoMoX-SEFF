@@ -9,6 +9,13 @@ import org.emftext.language.java.annotations.AnnotationAttribute;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.statements.StatementListContainer;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
+
+import org.palladiosimulator.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.seff.AbstractAction;
+import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
+import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 
 public class VisitorUtils {
 
@@ -54,5 +61,40 @@ public class VisitorUtils {
 
         return calledMethods.poll();
 
+    }
+
+    public static void visitJaMoPPMethod(final ResourceDemandingSEFF seff, final BasicComponent basicComponent,
+            final StatementListContainer body, final SourceCodeDecoratorRepository sourceCodeDecoratorModel,
+            final FunctionCallClassificationVisitor typeVisitor) {
+        visitJaMoPPMethod(seff, basicComponent, body, sourceCodeDecoratorModel, typeVisitor, null);
+    }
+
+    public static void visitJaMoPPMethod(final ResourceDemandingSEFF seff, final BasicComponent basicComponent,
+            final StatementListContainer body, final SourceCodeDecoratorRepository sourceCodeDecoratorModel,
+            final FunctionCallClassificationVisitor typeVisitor,
+            final InterfaceOfExternalCallFinding interfaceOfExternalCallFinder) {
+        final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(typeVisitor.getAnnotations(), seff,
+                sourceCodeDecoratorModel, basicComponent, interfaceOfExternalCallFinder);
+
+        // handle each statement
+        for (final Statement st : body.getStatements()) {
+            typeVisitor.doSwitch(st);
+            visitor.doSwitch(st);
+        }
+
+    }
+
+    /**
+     * Add connections to the SEFF actions assuming the actions are stored in a sequential order
+     *
+     * @param seff
+     *            The behaviour for which connections will be created
+     */
+    public static void connectActions(final ResourceDemandingBehaviour seff) {
+        AbstractAction previous = null;
+        for (final AbstractAction a : seff.getSteps_Behaviour()) {
+            a.setPredecessor_AbstractAction(previous);
+            previous = a;
+        }
     }
 }

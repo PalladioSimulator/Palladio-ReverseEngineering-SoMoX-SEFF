@@ -2,7 +2,7 @@
  */
 package org.somox.sourcecodedecorator;
 
-import de.uka.ipd.sdq.pcm.seff.AbstractAction;
+import org.palladiosimulator.pcm.seff.AbstractAction;
 
 import org.emftext.language.java.statements.Statement;
 

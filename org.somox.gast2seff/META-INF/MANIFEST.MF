@@ -16,7 +16,7 @@ Require-Bundle: org.eclipse.ui,
  org.somox.kdmhelper;bundle-version="1.0.0",
  org.somox.analyzer.sissymodelanalyzer;bundle-version="1.0.0",
  org.somox.core;bundle-version="1.0.0",
- de.uka.ipd.sdq.pcm;bundle-version="3.2.0",
+ org.palladiosimulator.pcm;bundle-version="3.2.0",
  org.emftext.language.java;bundle-version="1.4.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

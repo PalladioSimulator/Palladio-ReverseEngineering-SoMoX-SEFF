@@ -2,7 +2,7 @@
  */
 package org.somox.sourcecodedecorator.impl;
 
-import de.uka.ipd.sdq.pcm.repository.InnerDeclaration;
+import org.palladiosimulator.pcm.repository.InnerDeclaration;
 
 import org.eclipse.emf.common.notify.Notification;
 

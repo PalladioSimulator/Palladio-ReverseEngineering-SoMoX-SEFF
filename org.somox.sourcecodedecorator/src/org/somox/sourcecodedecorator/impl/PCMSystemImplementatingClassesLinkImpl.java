@@ -35,7 +35,7 @@ public class PCMSystemImplementatingClassesLinkImpl extends ComponentImplementin
      * @generated
      * @ordered
      */
-	protected de.uka.ipd.sdq.pcm.system.System systemModel;
+	protected org.palladiosimulator.pcm.system.System systemModel;
 
 	/**
      * <!-- begin-user-doc -->
@@ -61,10 +61,10 @@ public class PCMSystemImplementatingClassesLinkImpl extends ComponentImplementin
 	 * <!-- end-user-doc -->
      * @generated
      */
-	public de.uka.ipd.sdq.pcm.system.System getSystemModel() {
+	public org.palladiosimulator.pcm.system.System getSystemModel() {
         if (systemModel != null && ((EObject)systemModel).eIsProxy()) {
             InternalEObject oldSystemModel = (InternalEObject)systemModel;
-            systemModel = (de.uka.ipd.sdq.pcm.system.System)eResolveProxy(oldSystemModel);
+            systemModel = (org.palladiosimulator.pcm.system.System)eResolveProxy(oldSystemModel);
             if (systemModel != oldSystemModel) {
                 if (eNotificationRequired())
                     eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL, oldSystemModel, systemModel));
@@ -78,7 +78,7 @@ public class PCMSystemImplementatingClassesLinkImpl extends ComponentImplementin
 	 * <!-- end-user-doc -->
      * @generated
      */
-	public de.uka.ipd.sdq.pcm.system.System basicGetSystemModel() {
+	public org.palladiosimulator.pcm.system.System basicGetSystemModel() {
         return systemModel;
     }
 
@@ -87,8 +87,8 @@ public class PCMSystemImplementatingClassesLinkImpl extends ComponentImplementin
 	 * <!-- end-user-doc -->
      * @generated
      */
-	public void setSystemModel(de.uka.ipd.sdq.pcm.system.System newSystemModel) {
-        de.uka.ipd.sdq.pcm.system.System oldSystemModel = systemModel;
+	public void setSystemModel(org.palladiosimulator.pcm.system.System newSystemModel) {
+        org.palladiosimulator.pcm.system.System oldSystemModel = systemModel;
         systemModel = newSystemModel;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL, oldSystemModel, systemModel));
@@ -118,7 +118,7 @@ public class PCMSystemImplementatingClassesLinkImpl extends ComponentImplementin
 	public void eSet(int featureID, Object newValue) {
         switch (featureID) {
             case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
-                setSystemModel((de.uka.ipd.sdq.pcm.system.System)newValue);
+                setSystemModel((org.palladiosimulator.pcm.system.System)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -133,7 +133,7 @@ public class PCMSystemImplementatingClassesLinkImpl extends ComponentImplementin
 	public void eUnset(int featureID) {
         switch (featureID) {
             case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
-                setSystemModel((de.uka.ipd.sdq.pcm.system.System)null);
+                setSystemModel((org.palladiosimulator.pcm.system.System)null);
                 return;
         }
         super.eUnset(featureID);

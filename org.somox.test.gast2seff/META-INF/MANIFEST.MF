@@ -10,5 +10,6 @@ Require-Bundle: org.somox.gast2seff;bundle-version="1.0.0",
  org.somox.kdmhelper,
  org.eclipse.core.resources,
  org.eclipse.core.runtime,
- de.uka.ipd.sdq.pcm
+ org.palladiosimulator.pcm,
+ org.apache.log4j
 Export-Package: org.somox.test.gast2seff.visitors

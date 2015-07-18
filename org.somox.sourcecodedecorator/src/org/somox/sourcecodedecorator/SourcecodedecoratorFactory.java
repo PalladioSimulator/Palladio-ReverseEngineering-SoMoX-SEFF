@@ -103,6 +103,15 @@ public interface SourcecodedecoratorFactory extends EFactory {
     InnerDatatypeSourceCodeLink createInnerDatatypeSourceCodeLink();
 
     /**
+     * Returns a new object of class '<em>Abstract Action Class Method Link</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Abstract Action Class Method Link</em>'.
+     * @generated
+     */
+    AbstractActionClassMethodLink createAbstractActionClassMethodLink();
+
+    /**
      * Returns the package supported by this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

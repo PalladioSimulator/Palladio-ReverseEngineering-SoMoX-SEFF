@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getInterfaceSourceCodeLink <em>Interface Source Code Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getComponentImplementingClassesLink <em>Component Implementing Classes Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getDataTypeSourceCodeLink <em>Data Type Source Code Link</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getAbstractActionClassMethodLink <em>Abstract Action Class Method Link</em>}</li>
  * </ul>
  * </p>
  *
@@ -123,5 +124,21 @@ public interface SourceCodeDecoratorRepository extends EObject {
      * @generated
      */
     EList<DataTypeSourceCodeLink> getDataTypeSourceCodeLink();
+
+    /**
+     * Returns the value of the '<em><b>Abstract Action Class Method Link</b></em>' reference list.
+     * The list contents are of type {@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink}.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Abstract Action Class Method Link</em>' reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Abstract Action Class Method Link</em>' reference list.
+     * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getSourceCodeDecoratorRepository_AbstractActionClassMethodLink()
+     * @model
+     * @generated
+     */
+    EList<AbstractActionClassMethodLink> getAbstractActionClassMethodLink();
 
 } // SourceCodeDecoratorRepository

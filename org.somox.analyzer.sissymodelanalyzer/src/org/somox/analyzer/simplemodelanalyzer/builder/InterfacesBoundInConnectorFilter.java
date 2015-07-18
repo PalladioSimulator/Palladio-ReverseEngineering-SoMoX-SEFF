@@ -6,10 +6,10 @@ import org.apache.log4j.Logger;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.SubComponentInformation;
 import org.somox.filter.BaseFilter;
 
-import de.uka.ipd.sdq.pcm.repository.Interface;
-import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
-import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
-import de.uka.ipd.sdq.pcm.repository.Role;
+import org.palladiosimulator.pcm.repository.Interface;
+import org.palladiosimulator.pcm.repository.OperationProvidedRole;
+import org.palladiosimulator.pcm.repository.OperationRequiredRole;
+import org.palladiosimulator.pcm.repository.Role;
 
 /**
  * Removes role interface accesses already captured in connector

@@ -17,12 +17,10 @@ public abstract class AbstractLibraryCallFunctionClassificationStrategy extends 
     static Logger logger = Logger.getLogger(AbstractLibraryCallFunctionClassificationStrategy.class);
 
     protected final Root root;
-    protected final SourceCodeDecoratorRepository sourceCodeDecoratorRepository;
 
     public AbstractLibraryCallFunctionClassificationStrategy(final Root root,
             final SourceCodeDecoratorRepository sourceCodeDecoratorRepository) {
         this.root = root;
-        this.sourceCodeDecoratorRepository = sourceCodeDecoratorRepository;
     }
 
     /**

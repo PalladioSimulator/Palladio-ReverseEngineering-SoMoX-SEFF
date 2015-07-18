@@ -124,9 +124,9 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.debug.ui" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.somox.kdmhelper" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.somox.sourcecodedecorator" version="1.0.1" match="greaterOrEqual"/>
-      <import plugin="de.uka.ipd.sdq.pcm" version="3.2.0" match="greaterOrEqual"/>
+      <import plugin="org.palladiosimulator.pcm" version="3.2.0" match="greaterOrEqual"/>
       <import plugin="org.junit"/>
-      <import plugin="de.uka.ipd.sdq.pcm.resources" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.palladiosimulator.pcm.resources" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="de.uka.ipd.sdq.workflow" version="1.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.edit" version="2.7.2" match="greaterOrEqual"/>
@@ -155,7 +155,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="de.uka.ipd.sdq.probfunction"/>
       <import plugin="org.eclipse.gmt.modisco.java.edit"/>
       <import plugin="org.eclipse.gmt.modisco.omg.kdm.edit"/>
-      <import plugin="de.uka.ipd.sdq.pcm.edit" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.palladiosimulator.pcm.edit" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.runtime" version="3.8.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.ui.ide"/>

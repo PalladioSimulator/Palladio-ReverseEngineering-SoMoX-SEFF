@@ -1,7 +1,7 @@
 package org.somox.analyzer.simplemodelanalyzer.builder.util;
 
-import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
-import de.uka.ipd.sdq.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.core.composition.AssemblyContext;
+import org.palladiosimulator.pcm.repository.BasicComponent;
 
 public class InstanceComponentTuple {
 	public BasicComponent basicComponent;

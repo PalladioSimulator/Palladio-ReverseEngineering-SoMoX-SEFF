@@ -29,12 +29,12 @@ public interface PCMSystemImplementatingClassesLink extends ComponentImplementin
 	 * </p>
 	 * <!-- end-user-doc -->
      * @return the value of the '<em>System Model</em>' reference.
-     * @see #setSystemModel(de.uka.ipd.sdq.pcm.system.System)
+     * @see #setSystemModel(org.palladiosimulator.pcm.system.System)
      * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getPCMSystemImplementatingClassesLink_SystemModel()
      * @model ordered="false"
      * @generated
      */
-	de.uka.ipd.sdq.pcm.system.System getSystemModel();
+	org.palladiosimulator.pcm.system.System getSystemModel();
 
 	/**
      * Sets the value of the '{@link org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink#getSystemModel <em>System Model</em>}' reference.
@@ -44,6 +44,6 @@ public interface PCMSystemImplementatingClassesLink extends ComponentImplementin
      * @see #getSystemModel()
      * @generated
      */
-	void setSystemModel(de.uka.ipd.sdq.pcm.system.System value);
+	void setSystemModel(org.palladiosimulator.pcm.system.System value);
 
 } // PCMSystemImplementatingClassesLink

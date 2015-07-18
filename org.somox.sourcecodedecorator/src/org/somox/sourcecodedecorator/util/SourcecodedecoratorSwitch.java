@@ -125,6 +125,12 @@ public class SourcecodedecoratorSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK: {
+                AbstractActionClassMethodLink abstractActionClassMethodLink = (AbstractActionClassMethodLink)theEObject;
+                T result = caseAbstractActionClassMethodLink(abstractActionClassMethodLink);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             default: return defaultCase(theEObject);
         }
     }
@@ -261,6 +267,21 @@ public class SourcecodedecoratorSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseInnerDatatypeSourceCodeLink(InnerDatatypeSourceCodeLink object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Abstract Action Class Method Link</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Abstract Action Class Method Link</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseAbstractActionClassMethodLink(AbstractActionClassMethodLink object) {
         return null;
     }
 

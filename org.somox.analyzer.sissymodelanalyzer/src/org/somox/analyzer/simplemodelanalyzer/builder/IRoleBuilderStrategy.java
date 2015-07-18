@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
-import de.uka.ipd.sdq.pcm.repository.OperationProvidedRole;
-import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
+import org.palladiosimulator.pcm.repository.OperationProvidedRole;
+import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 
 /**
  * Interface for strategies assigning / creating interface providing roles

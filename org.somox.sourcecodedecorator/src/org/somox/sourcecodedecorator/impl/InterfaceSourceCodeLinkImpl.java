@@ -2,7 +2,7 @@
  */
 package org.somox.sourcecodedecorator.impl;
 
-import de.uka.ipd.sdq.pcm.repository.Interface;
+import org.palladiosimulator.pcm.repository.Interface;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;

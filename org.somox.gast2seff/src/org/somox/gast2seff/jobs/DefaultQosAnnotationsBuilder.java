@@ -9,13 +9,13 @@ import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnviro
 import org.somox.seff2javaast.SEFF2MethodMapping;
 //import org.somox.resources.defaultmodels.DefaultModelLoader;
 
-import de.uka.ipd.sdq.pcm.core.CoreFactory;
-import de.uka.ipd.sdq.pcm.core.PCMRandomVariable;
-import de.uka.ipd.sdq.pcm.seff.BranchAction;
-import de.uka.ipd.sdq.pcm.seff.ProbabilisticBranchTransition;
-import de.uka.ipd.sdq.pcm.seff.ServiceEffectSpecification;
-import de.uka.ipd.sdq.pcm.seff.seff_performance.ParametricResourceDemand;
-import de.uka.ipd.sdq.pcm.seff.seff_performance.SeffPerformanceFactory;
+import org.palladiosimulator.pcm.core.CoreFactory;
+import org.palladiosimulator.pcm.core.PCMRandomVariable;
+import org.palladiosimulator.pcm.seff.BranchAction;
+import org.palladiosimulator.pcm.seff.ProbabilisticBranchTransition;
+import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
+import org.palladiosimulator.pcm.seff.seff_performance.ParametricResourceDemand;
+import org.palladiosimulator.pcm.seff.seff_performance.SeffPerformanceFactory;
 
 /**
  * Creates default QoS annotations for behaviour. Same probabilities for all branches and 1
@@ -45,16 +45,16 @@ public class DefaultQosAnnotationsBuilder {
             while (elements.hasNext()) {
                 final EObject eObject = (EObject) elements.next();
 
-                if (eObject instanceof de.uka.ipd.sdq.pcm.seff.LoopAction) {
-                    final de.uka.ipd.sdq.pcm.seff.LoopAction loopAction = (de.uka.ipd.sdq.pcm.seff.LoopAction) eObject;
+                if (eObject instanceof org.palladiosimulator.pcm.seff.LoopAction) {
+                    final org.palladiosimulator.pcm.seff.LoopAction loopAction = (org.palladiosimulator.pcm.seff.LoopAction) eObject;
                     this.createDefaultLoopCount(loopAction);
                 }
-                if (eObject instanceof de.uka.ipd.sdq.pcm.seff.BranchAction) {
-                    final de.uka.ipd.sdq.pcm.seff.BranchAction branchAction = (de.uka.ipd.sdq.pcm.seff.BranchAction) eObject;
+                if (eObject instanceof org.palladiosimulator.pcm.seff.BranchAction) {
+                    final org.palladiosimulator.pcm.seff.BranchAction branchAction = (org.palladiosimulator.pcm.seff.BranchAction) eObject;
                     this.createDefaultBranchProbability(branchAction);
                 }
-                if (eObject instanceof de.uka.ipd.sdq.pcm.seff.InternalAction) {
-                    final de.uka.ipd.sdq.pcm.seff.InternalAction internalAction = (de.uka.ipd.sdq.pcm.seff.InternalAction) eObject;
+                if (eObject instanceof org.palladiosimulator.pcm.seff.InternalAction) {
+                    final org.palladiosimulator.pcm.seff.InternalAction internalAction = (org.palladiosimulator.pcm.seff.InternalAction) eObject;
                     this.createDefaultCpuResourceDemand(internalAction);
                 }
             }
@@ -65,7 +65,7 @@ public class DefaultQosAnnotationsBuilder {
 
     private void createDefaultBranchProbability(final BranchAction branchAction) {
 
-        for (final de.uka.ipd.sdq.pcm.seff.AbstractBranchTransition branchTransition : branchAction
+        for (final org.palladiosimulator.pcm.seff.AbstractBranchTransition branchTransition : branchAction
                 .getBranches_Branch()) {
             if (branchTransition instanceof ProbabilisticBranchTransition) {
                 final ProbabilisticBranchTransition probabilisticBranchTransition = (ProbabilisticBranchTransition) branchTransition;
@@ -78,7 +78,7 @@ public class DefaultQosAnnotationsBuilder {
         }
     }
 
-    private void createDefaultLoopCount(final de.uka.ipd.sdq.pcm.seff.LoopAction loopAction) {
+    private void createDefaultLoopCount(final org.palladiosimulator.pcm.seff.LoopAction loopAction) {
 
         final PCMRandomVariable loopCount = CoreFactory.eINSTANCE.createPCMRandomVariable();
         loopCount.setSpecification("1");
@@ -86,7 +86,7 @@ public class DefaultQosAnnotationsBuilder {
         loopAction.setEntityName("SoMoX default loop count value");
     }
 
-    private void createDefaultCpuResourceDemand(final de.uka.ipd.sdq.pcm.seff.InternalAction internalAction) {
+    private void createDefaultCpuResourceDemand(final org.palladiosimulator.pcm.seff.InternalAction internalAction) {
         final ParametricResourceDemand prd = SeffPerformanceFactory.eINSTANCE.createParametricResourceDemand();
         final PCMRandomVariable randomVar = CoreFactory.eINSTANCE.createPCMRandomVariable();
         randomVar.setSpecification("0");

@@ -2,13 +2,13 @@
  */
 package org.somox.sourcecodedecorator.impl;
 
-import de.uka.ipd.sdq.pcm.PcmPackage;
+import org.palladiosimulator.pcm.PcmPackage;
 
-import de.uka.ipd.sdq.pcm.repository.RepositoryPackage;
+import org.palladiosimulator.pcm.repository.RepositoryPackage;
 
-import de.uka.ipd.sdq.pcm.seff.SeffPackage;
+import org.palladiosimulator.pcm.seff.SeffPackage;
 
-import de.uka.ipd.sdq.pcm.system.SystemPackage;
+import org.palladiosimulator.pcm.system.SystemPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -53,6 +53,7 @@ import org.emftext.language.java.types.TypesPackage;
 
 import org.emftext.language.java.variables.VariablesPackage;
 
+import org.somox.sourcecodedecorator.AbstractActionClassMethodLink;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.DataTypeSourceCodeLink;
@@ -134,6 +135,13 @@ public class SourcecodedecoratorPackageImpl extends EPackageImpl implements Sour
      * @generated
      */
     private EClass innerDatatypeSourceCodeLinkEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass abstractActionClassMethodLinkEClass = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -363,6 +371,15 @@ public class SourcecodedecoratorPackageImpl extends EPackageImpl implements Sour
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getSourceCodeDecoratorRepository_AbstractActionClassMethodLink() {
+        return (EReference)sourceCodeDecoratorRepositoryEClass.getEStructuralFeatures().get(6);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -543,6 +560,33 @@ public class SourcecodedecoratorPackageImpl extends EPackageImpl implements Sour
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getAbstractActionClassMethodLink() {
+        return abstractActionClassMethodLinkEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getAbstractActionClassMethodLink_ClassMethod() {
+        return (EReference)abstractActionClassMethodLinkEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getAbstractActionClassMethodLink_AbstractAction() {
+        return (EReference)abstractActionClassMethodLinkEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -588,6 +632,7 @@ public class SourcecodedecoratorPackageImpl extends EPackageImpl implements Sour
         createEReference(sourceCodeDecoratorRepositoryEClass, SOURCE_CODE_DECORATOR_REPOSITORY__INTERFACE_SOURCE_CODE_LINK);
         createEReference(sourceCodeDecoratorRepositoryEClass, SOURCE_CODE_DECORATOR_REPOSITORY__COMPONENT_IMPLEMENTING_CLASSES_LINK);
         createEReference(sourceCodeDecoratorRepositoryEClass, SOURCE_CODE_DECORATOR_REPOSITORY__DATA_TYPE_SOURCE_CODE_LINK);
+        createEReference(sourceCodeDecoratorRepositoryEClass, SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK);
 
         interfaceSourceCodeLinkEClass = createEClass(INTERFACE_SOURCE_CODE_LINK);
         createEReference(interfaceSourceCodeLinkEClass, INTERFACE_SOURCE_CODE_LINK__INTERFACE);
@@ -613,6 +658,10 @@ public class SourcecodedecoratorPackageImpl extends EPackageImpl implements Sour
         innerDatatypeSourceCodeLinkEClass = createEClass(INNER_DATATYPE_SOURCE_CODE_LINK);
         createEReference(innerDatatypeSourceCodeLinkEClass, INNER_DATATYPE_SOURCE_CODE_LINK__FIELD);
         createEReference(innerDatatypeSourceCodeLinkEClass, INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION);
+
+        abstractActionClassMethodLinkEClass = createEClass(ABSTRACT_ACTION_CLASS_METHOD_LINK);
+        createEReference(abstractActionClassMethodLinkEClass, ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD);
+        createEReference(abstractActionClassMethodLinkEClass, ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION);
     }
 
 	/**
@@ -678,6 +727,7 @@ public class SourcecodedecoratorPackageImpl extends EPackageImpl implements Sour
         initEReference(getSourceCodeDecoratorRepository_InterfaceSourceCodeLink(), this.getInterfaceSourceCodeLink(), null, "interfaceSourceCodeLink", null, 0, -1, SourceCodeDecoratorRepository.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
         initEReference(getSourceCodeDecoratorRepository_ComponentImplementingClassesLink(), this.getComponentImplementingClassesLink(), null, "componentImplementingClassesLink", null, 0, -1, SourceCodeDecoratorRepository.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
         initEReference(getSourceCodeDecoratorRepository_DataTypeSourceCodeLink(), this.getDataTypeSourceCodeLink(), null, "dataTypeSourceCodeLink", null, 0, -1, SourceCodeDecoratorRepository.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+        initEReference(getSourceCodeDecoratorRepository_AbstractActionClassMethodLink(), this.getAbstractActionClassMethodLink(), null, "abstractActionClassMethodLink", null, 0, -1, SourceCodeDecoratorRepository.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(interfaceSourceCodeLinkEClass, InterfaceSourceCodeLink.class, "InterfaceSourceCodeLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getInterfaceSourceCodeLink_Interface(), theRepositoryPackage.getInterface(), null, "interface", null, 0, 1, InterfaceSourceCodeLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -703,6 +753,10 @@ public class SourcecodedecoratorPackageImpl extends EPackageImpl implements Sour
         initEClass(innerDatatypeSourceCodeLinkEClass, InnerDatatypeSourceCodeLink.class, "InnerDatatypeSourceCodeLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getInnerDatatypeSourceCodeLink_Field(), theMembersPackage.getField(), null, "field", null, 0, 1, InnerDatatypeSourceCodeLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getInnerDatatypeSourceCodeLink_InnerDeclaration(), theRepositoryPackage.getInnerDeclaration(), null, "innerDeclaration", null, 0, 1, InnerDatatypeSourceCodeLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(abstractActionClassMethodLinkEClass, AbstractActionClassMethodLink.class, "AbstractActionClassMethodLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getAbstractActionClassMethodLink_ClassMethod(), theMembersPackage.getClassMethod(), null, "classMethod", null, 0, 1, AbstractActionClassMethodLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getAbstractActionClassMethodLink_AbstractAction(), theSeffPackage.getAbstractAction(), null, "abstractAction", null, 0, 1, AbstractActionClassMethodLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Create resource
         createResource(eNS_URI);

@@ -6,10 +6,8 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.ClassMethod;
-import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
@@ -17,22 +15,22 @@ import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.Switch;
 import org.emftext.language.java.statements.TryBlock;
-import org.somox.gast2seff.jobs.GAST2SEFFJob;
+import org.somox.gast2seff.visitors.InterfaceOfExternalCallFinding.InterfacePortOperationTuple;
 import org.somox.kdmhelper.GetAccessedType;
 import org.somox.kdmhelper.KDMHelper;
-import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
-import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
+import org.somox.sourcecodedecorator.AbstractActionClassMethodLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
-import de.uka.ipd.sdq.pcm.repository.BasicComponent;
-import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
-import de.uka.ipd.sdq.pcm.repository.OperationSignature;
-import de.uka.ipd.sdq.pcm.repository.RequiredRole;
-import de.uka.ipd.sdq.pcm.repository.Role;
-import de.uka.ipd.sdq.pcm.repository.Signature;
-import de.uka.ipd.sdq.pcm.seff.ExternalCallAction;
-import de.uka.ipd.sdq.pcm.seff.InternalAction;
-import de.uka.ipd.sdq.pcm.seff.SeffFactory;
+import org.palladiosimulator.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.repository.OperationRequiredRole;
+import org.palladiosimulator.pcm.repository.OperationSignature;
+import org.palladiosimulator.pcm.seff.AbstractAction;
+import org.palladiosimulator.pcm.seff.ExternalCallAction;
+import org.palladiosimulator.pcm.seff.InternalAction;
+import org.palladiosimulator.pcm.seff.SeffFactory;
+import org.palladiosimulator.pcm.seff.StartAction;
+import org.palladiosimulator.pcm.seff.StopAction;
 
 /**
  * A visitor which traverses a GAST behaviour and creates a SEFF matching the traversed behaviour.
@@ -50,7 +48,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     /**
      * The RD-Behaviour to generate
      */
-    private final de.uka.ipd.sdq.pcm.seff.ResourceDemandingBehaviour seff;
+    private final org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour seff;
 
     /**
      * Mapping to SAMM repository (for external call lookup)
@@ -62,26 +60,48 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
      */
     private final BasicComponent primitiveComponent;
 
+    private InterfaceOfExternalCallFinding interfaceOfExternalCallFinder;
+
     /**
-     * Constructor
+     * Constructor Uses {@link DefaultInterfaceOfExternalCallFinder} to find interfaces of external
+     * calls.
      *
      * @param functionClassificationAnnotations
      *            A map containing the type annotations for the nodes of the GAST model. Generated
      *            by a {@link FunctionCallClassificationVisitor}.
      * @param resourceDemandingBehaviour
      *            The RD-behaviour to generate
-     * @param gastBehaviourRepository
+     * @param sourceCodeDecorator
      *            The gast behaviour which maps gast statements and SAMM repository.
      * @param primitiveComponent
      */
     public JaMoPPStatementVisitor(final Map<Commentable, BitSet> functionClassificationAnnotations,
-            final de.uka.ipd.sdq.pcm.seff.ResourceDemandingBehaviour resourceDemandingBehaviour,
-            final SourceCodeDecoratorRepository gastBehaviourRepository, final BasicComponent primitiveComponent) {
+            final org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour resourceDemandingBehaviour,
+            final SourceCodeDecoratorRepository sourceCodeDecorator, final BasicComponent primitiveComponent) {
+        this(functionClassificationAnnotations, resourceDemandingBehaviour, sourceCodeDecorator, primitiveComponent,
+                null);
+    }
+
+    public JaMoPPStatementVisitor(final Map<Commentable, BitSet> functionClassificationAnnotations,
+            final org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour resourceDemandingBehaviour,
+            final SourceCodeDecoratorRepository sourceCodeDecorator, final BasicComponent primitiveComponent,
+            final InterfaceOfExternalCallFinding interfaceOfExternalCallFinder) {
         super(functionClassificationAnnotations);
 
         this.seff = resourceDemandingBehaviour;
-        this.sourceCodeDecoratorRepository = gastBehaviourRepository;
+        this.sourceCodeDecoratorRepository = sourceCodeDecorator;
         this.primitiveComponent = primitiveComponent;
+        if (null == interfaceOfExternalCallFinder) {
+            if (null == sourceCodeDecorator) {
+                throw new IllegalArgumentException("Can not use "
+                        + DefaultInterfaceOfExternalCallFinder.class.getSimpleName()
+                        + " with ‘null' for source code decorator");
+            }
+            this.interfaceOfExternalCallFinder = new DefaultInterfaceOfExternalCallFinder(sourceCodeDecorator,
+                    primitiveComponent);
+        } else {
+            this.interfaceOfExternalCallFinder = interfaceOfExternalCallFinder;
+        }
     }
 
     @Override
@@ -114,17 +134,22 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     @Override
     protected Object handleLoopStatement(final Statement loopStatement, final Statement body) {
         if (this.containsExternalCall(loopStatement)) {
-            final de.uka.ipd.sdq.pcm.seff.LoopAction loop = SeffFactory.eINSTANCE.createLoopAction();
+            final org.palladiosimulator.pcm.seff.LoopAction loop = SeffFactory.eINSTANCE.createLoopAction();
+            this.createAbstracActionClassMethodLink(loop, loopStatement);
             loop.setBodyBehaviour_Loop(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
             this.seff.getSteps_Behaviour().add(loop);
-            loop.getBodyBehaviour_Loop().getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStartAction());
+            final StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
+            loop.getBodyBehaviour_Loop().getSteps_Behaviour().add(startAction);
+            this.createAbstracActionClassMethodLink(startAction, loopStatement);
             loop.setEntityName(this.positionToString(loopStatement));
 
             new JaMoPPStatementVisitor(this.functionClassificationAnnotation, loop.getBodyBehaviour_Loop(),
                     this.sourceCodeDecoratorRepository, this.primitiveComponent).doSwitch(body);
 
-            loop.getBodyBehaviour_Loop().getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStopAction());
-            GAST2SEFFJob.connectActions(loop.getBodyBehaviour_Loop());
+            final StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
+            this.createAbstracActionClassMethodLink(stopAction, loopStatement);
+            loop.getBodyBehaviour_Loop().getSteps_Behaviour().add(stopAction);
+            VisitorUtils.connectActions(loop.getBodyBehaviour_Loop());
         } else {
             this.createInternalAction(loopStatement);
         }
@@ -212,7 +237,8 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     @Override
     protected Object handleSwitch(final Switch switchStatement) {
         if (super.containsExternalCall(switchStatement)) {
-            final de.uka.ipd.sdq.pcm.seff.BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
+            final org.palladiosimulator.pcm.seff.BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
+            this.createAbstracActionClassMethodLink(branchAction, switchStatement);
             this.seff.getSteps_Behaviour().add(branchAction);
             branchAction.setEntityName(JaMoPPStatementVisitor.this.positionToString(switchStatement));
 
@@ -220,11 +246,12 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                     .createBlockListFromSwitchStatement(switchStatement);
 
             for (final List<Statement> branch : branches) {
-                final de.uka.ipd.sdq.pcm.seff.AbstractBranchTransition bt = SeffFactory.eINSTANCE
+                final org.palladiosimulator.pcm.seff.AbstractBranchTransition bt = SeffFactory.eINSTANCE
                         .createProbabilisticBranchTransition();
                 bt.setBranchBehaviour_BranchTransition(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
-                bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour()
-                .add(SeffFactory.eINSTANCE.createStartAction());
+                final StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
+                bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(startAction);
+                this.createAbstracActionClassMethodLink(startAction, switchStatement);
                 bt.setEntityName("parent "
                         + JaMoPPStatementVisitor.this.positionToString(switchStatement)
                         + "/"
@@ -265,9 +292,10 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                     // end of copy
                 }
 
-                bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour()
-                .add(SeffFactory.eINSTANCE.createStopAction());
-                GAST2SEFFJob.connectActions(bt.getBranchBehaviour_BranchTransition());
+                final StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
+                bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(stopAction);
+                this.createAbstracActionClassMethodLink(stopAction, switchStatement);
+                VisitorUtils.connectActions(bt.getBranchBehaviour_BranchTransition());
             }
         } else {
             JaMoPPStatementVisitor.this.createInternalAction(switchStatement);
@@ -305,9 +333,10 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     @Override
     protected Object handleCondition(final Condition condition) {
         if (JaMoPPStatementVisitor.this.containsExternalCall(condition)) {
-            final de.uka.ipd.sdq.pcm.seff.BranchAction branch = SeffFactory.eINSTANCE.createBranchAction();
+            final org.palladiosimulator.pcm.seff.BranchAction branch = SeffFactory.eINSTANCE.createBranchAction();
+            this.createAbstracActionClassMethodLink(branch, condition);
             JaMoPPStatementVisitor.this.seff.getSteps_Behaviour().add(branch);
-            branch.setEntityName(JaMoPPStatementVisitor.this.positionToString(condition)); // GAST2SEFFCHANGE
+            branch.setEntityName(JaMoPPStatementVisitor.this.positionToString(condition));
 
             final Statement ifStatement = condition.getStatement();
             this.handleIfOrElseBranch(condition, branch, ifStatement);
@@ -332,12 +361,14 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
      * @param ifElseStatement
      *            the if or else Statement/Block
      */
-    private void handleIfOrElseBranch(final Condition input, final de.uka.ipd.sdq.pcm.seff.BranchAction branch,
+    private void handleIfOrElseBranch(final Condition input, final org.palladiosimulator.pcm.seff.BranchAction branch,
             final Statement ifElseStatement) {
-        final de.uka.ipd.sdq.pcm.seff.AbstractBranchTransition bt = SeffFactory.eINSTANCE
+        final org.palladiosimulator.pcm.seff.AbstractBranchTransition bt = SeffFactory.eINSTANCE
                 .createProbabilisticBranchTransition();
         bt.setBranchBehaviour_BranchTransition(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
-        bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStartAction());
+        final StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
+        this.createAbstracActionClassMethodLink(startAction, ifElseStatement);
+        bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(startAction);
         bt.setEntityName("parent " + this.positionToString(input) + "/" + this.positionToString(ifElseStatement));
         // use parent position since branch position is empty//GAST2SEFFCHANGE//GAST2SEFFCHANGE
         branch.getBranches_Branch().add(bt);
@@ -346,15 +377,19 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                 this.sourceCodeDecoratorRepository, this.primitiveComponent);
         // Statement s = b.getStatement();//GAST2SEFFCHANGE
         visitor.doSwitch(ifElseStatement);
-        bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStopAction());
-        GAST2SEFFJob.connectActions(bt.getBranchBehaviour_BranchTransition());
+        final StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
+        this.createAbstracActionClassMethodLink(stopAction, ifElseStatement);
+        bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(stopAction);
+        VisitorUtils.connectActions(bt.getBranchBehaviour_BranchTransition());
     }
 
     private void createExternalCallAction(final Statement object) {
         final ExternalCallAction call = SeffFactory.eINSTANCE.createExternalCallAction();
+        this.createAbstracActionClassMethodLink(call, object);
         final Method calledMethod = VisitorUtils.getMethodCall(object);
         call.setEntityName(calledMethod.getName() + this.positionToString(object));
-        final InterfacePortOperationTuple ifOperationTuple = this.getCalledInterfacePort(calledMethod);
+        final InterfacePortOperationTuple ifOperationTuple = this.interfaceOfExternalCallFinder
+                .getCalledInterfacePort(calledMethod);
         if (null == ifOperationTuple) {
             logger.warn("ifOperationTuple == null");
         } else {
@@ -367,69 +402,50 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         this.lastType = this.functionClassificationAnnotation.get(object);
     }
 
-    /**
-     * Query the interface port for the function access using the source code decorator.
-     *
-     * @param calledMethod
-     *            The access to find in the SAMM
-     * @return interface port and operation for corresponding to the access.
-     */
-    private InterfacePortOperationTuple getCalledInterfacePort(final Method calledMethod) { // GAST2SEFFCHANGE
-        final InterfacePortOperationTuple interfacePortOperationTuple = new InterfacePortOperationTuple();
-        final ConcreteClassifier accessedConcreteClassifier = calledMethod.getContainingConcreteClassifier();
-
-        for (final RequiredRole requiredRole : this.primitiveComponent.getRequiredRoles_InterfaceRequiringEntity()) {
-            for (final InterfaceSourceCodeLink ifLink : this.sourceCodeDecoratorRepository.getInterfaceSourceCodeLink()) {
-                if (requiredRole instanceof OperationRequiredRole) {
-                    final OperationRequiredRole operReqRole = (OperationRequiredRole) requiredRole;
-                    if (operReqRole.getRequiredInterface__OperationRequiredRole().equals(ifLink.getInterface())) {
-                        final ConcreteClassifier gastClass = ifLink.getGastClass();
-                        if (gastClass.equals(accessedConcreteClassifier)) {
-
-                            logger.trace("accessed interface port " + operReqRole.getEntityName());
-                            interfacePortOperationTuple.role = operReqRole;
-                            // query operation:
-                            interfacePortOperationTuple.signature = this.queryInterfaceOperation(calledMethod);
-
-                            return interfacePortOperationTuple;
-                        }
-                    }
-                }
-            }
-        }
-        logger.warn("found no if port for " + accessedConcreteClassifier);
-        return interfacePortOperationTuple;
-    }
-
-    /**
-     * Signature query
-     *
-     * @param invokedMethod
-     *            The method invocation to find in the SAMM
-     * @return Signature corresponding to function access
-     */
-    private Signature queryInterfaceOperation(final Method invokedMethod) { // GAST2SEFFCHANGE
-        for (final MethodLevelSourceCodeLink methodLink : this.sourceCodeDecoratorRepository
-                .getMethodLevelSourceCodeLink()) {
-
-            final Member methodSourceCodeDecorator = methodLink.getFunction();
-            if (methodSourceCodeDecorator.equals(invokedMethod)) { // GAST2SEFFCHANGE
-
-                logger.trace("accessed operation " + methodLink.getOperation().getEntityName());
-                return methodLink.getOperation();
-            }
-        }
-
-        logger.warn("no accessed operation found for " + invokedMethod.getContainingConcreteClassifier() + "::"
-                + invokedMethod.getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
-        return null;
-    }
+    // @Override
+    // public Object caseSimpleStatement(SimpleStatement object) {
+    // BitSet statementAnnotation = this.functionClassificationAnnotation.get(object);
+    // if (isExternalCall(statementAnnotation)) {
+    // createExternalCallAction(object);
+    // } else if (isInternalCall(statementAnnotation)) {
+    // AbstractMethodInvocation functionAccess = getFunctionAccess(object);//GAST2SEFFCHANGE
+    // Block body =
+    // functionAccess.getMethod().getBody();//GAST2SEFFCHANGE//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+    // if (body != null) {
+    //
+    // // avoid infinite recursion
+    // BitSet thisType = this.functionClassificationAnnotation.get(object);
+    // if(!isVisitedStatement(thisType)) {
+    // setVisited(thisType);
+    // doSwitch(body);
+    // }
+    // } else {
+    // String msg =
+    // "Behaviour not set in GAST for "+functionAccess.getMethod().getName();//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+    // if(KDMHelper.getJavaNodeSourceRegion(object) != null &&
+    // KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object)) != null &&
+    // KDMHelper.computeFullQualifiedName(KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object)))
+    // != null)
+    // {//GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
+    // msg += ". Tried to call from " +
+    // KDMHelper.computeFullQualifiedName(KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object)))
+    // + ".";//GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
+    // } else {
+    // msg += ". (caller position unknown)";
+    // }
+    // logger.warn(msg);
+    // }
+    // } else {
+    // createInternalAction(object);
+    // }
+    // return null;
+    // }
 
     private void createInternalAction(final Statement statement) {
         final BitSet thisType = this.functionClassificationAnnotation.get(statement);
         if (!this.shouldSkip(this.lastType, thisType)) {
             final InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
-
+            this.createAbstracActionClassMethodLink(internalAction, statement);
             internalAction.setEntityName("IA " + this.positionToString(statement)); // GAST2SEFFCHANGE
             // TODO
             // if (statement instanceof Block) { // GAST2SEFFADDED
@@ -495,9 +511,67 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         }
     }
 
-    private class InterfacePortOperationTuple {
-        public Role role;
-        public Signature signature;
+    private void createAbstracActionClassMethodLink(final AbstractAction abstractAction, final Statement statement) {
+        final ClassMethod classMethod = this.getClassMethodFromCommentable(statement);
+        if (null == classMethod) {
+            logger.warn("Could not create AbstracActionClassMethodLink for AbstractAction " + abstractAction
+                    + " and Statement " + statement);
+            return;
+        }
+        final AbstractActionClassMethodLink abstractActionClassMethodLink = SourcecodedecoratorFactory.eINSTANCE
+                .createAbstractActionClassMethodLink();
+        abstractActionClassMethodLink.setAbstractAction(abstractAction);
+        abstractActionClassMethodLink.setClassMethod(classMethod);
+        this.sourceCodeDecoratorRepository.getAbstractActionClassMethodLink().add(abstractActionClassMethodLink);
     }
+
+    private ClassMethod getClassMethodFromCommentable(final Commentable statement) {
+        if (statement.eContainer() instanceof ClassMethod) {
+            return (ClassMethod) statement.eContainer();
+        } else if (statement.eContainer() instanceof Commentable) {
+            this.getClassMethodFromCommentable((Commentable) statement.eContainer());
+        }
+        logger.warn("Could not found method for Commentable: " + statement);
+        return null;
+    }
+
+    // @Override
+    // public Object caseSimpleStatement(SimpleStatement object) {
+    // BitSet statementAnnotation = this.functionClassificationAnnotation.get(object);
+    // if (isExternalCall(statementAnnotation)) {
+    // createExternalCallAction(object);
+    // } else if (isInternalCall(statementAnnotation)) {
+    // AbstractMethodInvocation functionAccess = getFunctionAccess(object);//GAST2SEFFCHANGE
+    // Block body =
+    // functionAccess.getMethod().getBody();//GAST2SEFFCHANGE//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+    // if (body != null) {
+    //
+    // // avoid infinite recursion
+    // BitSet thisType = this.functionClassificationAnnotation.get(object);
+    // if(!isVisitedStatement(thisType)) {
+    // setVisited(thisType);
+    // doSwitch(body);
+    // }
+    // } else {
+    // String msg =
+    // "Behaviour not set in GAST for "+functionAccess.getMethod().getName();//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+    // if(KDMHelper.getJavaNodeSourceRegion(object) != null &&
+    // KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object)) != null &&
+    // KDMHelper.computeFullQualifiedName(KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object)))
+    // != null)
+    // {//GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
+    // msg += ". Tried to call from " +
+    // KDMHelper.computeFullQualifiedName(KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object)))
+    // + ".";//GAST2SEFFCHANGE////GAST2SEFFCHANGE////GAST2SEFFCHANGE//
+    // } else {
+    // msg += ". (caller position unknown)";
+    // }
+    // logger.warn(msg);
+    // }
+    // } else {
+    // createInternalAction(object);
+    // }
+    // return null;
+    // }
 
 }

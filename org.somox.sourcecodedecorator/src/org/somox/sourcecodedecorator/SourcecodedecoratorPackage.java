@@ -313,13 +313,22 @@ public interface SourcecodedecoratorPackage extends EPackage {
     int SOURCE_CODE_DECORATOR_REPOSITORY__DATA_TYPE_SOURCE_CODE_LINK = 5;
 
     /**
+     * The feature id for the '<em><b>Abstract Action Class Method Link</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK = 6;
+
+    /**
      * The number of structural features of the '<em>Source Code Decorator Repository</em>' class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int SOURCE_CODE_DECORATOR_REPOSITORY_FEATURE_COUNT = 6;
+	int SOURCE_CODE_DECORATOR_REPOSITORY_FEATURE_COUNT = 7;
 
 	/**
      * The number of operations of the '<em>Source Code Decorator Repository</em>' class.
@@ -690,6 +699,53 @@ public interface SourcecodedecoratorPackage extends EPackage {
 
 
     /**
+     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl <em>Abstract Action Class Method Link</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl
+     * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getAbstractActionClassMethodLink()
+     * @generated
+     */
+    int ABSTRACT_ACTION_CLASS_METHOD_LINK = 9;
+
+    /**
+     * The feature id for the '<em><b>Class Method</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD = 0;
+
+    /**
+     * The feature id for the '<em><b>Abstract Action</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION = 1;
+
+    /**
+     * The number of structural features of the '<em>Abstract Action Class Method Link</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ABSTRACT_ACTION_CLASS_METHOD_LINK_FEATURE_COUNT = 2;
+
+    /**
+     * The number of operations of the '<em>Abstract Action Class Method Link</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ABSTRACT_ACTION_CLASS_METHOD_LINK_OPERATION_COUNT = 0;
+
+
+    /**
      * Returns the meta object for class '{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink <em>File Level Source Code Link</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -860,6 +916,17 @@ public interface SourcecodedecoratorPackage extends EPackage {
      * @generated
      */
     EReference getSourceCodeDecoratorRepository_DataTypeSourceCodeLink();
+
+    /**
+     * Returns the meta object for the reference list '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getAbstractActionClassMethodLink <em>Abstract Action Class Method Link</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference list '<em>Abstract Action Class Method Link</em>'.
+     * @see org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getAbstractActionClassMethodLink()
+     * @see #getSourceCodeDecoratorRepository()
+     * @generated
+     */
+    EReference getSourceCodeDecoratorRepository_AbstractActionClassMethodLink();
 
     /**
      * Returns the meta object for class '{@link org.somox.sourcecodedecorator.InterfaceSourceCodeLink <em>Interface Source Code Link</em>}'.
@@ -1077,6 +1144,38 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getInnerDatatypeSourceCodeLink_InnerDeclaration();
 
     /**
+     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink <em>Abstract Action Class Method Link</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Abstract Action Class Method Link</em>'.
+     * @see org.somox.sourcecodedecorator.AbstractActionClassMethodLink
+     * @generated
+     */
+    EClass getAbstractActionClassMethodLink();
+
+    /**
+     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink#getClassMethod <em>Class Method</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Class Method</em>'.
+     * @see org.somox.sourcecodedecorator.AbstractActionClassMethodLink#getClassMethod()
+     * @see #getAbstractActionClassMethodLink()
+     * @generated
+     */
+    EReference getAbstractActionClassMethodLink_ClassMethod();
+
+    /**
+     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink#getAbstractAction <em>Abstract Action</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Abstract Action</em>'.
+     * @see org.somox.sourcecodedecorator.AbstractActionClassMethodLink#getAbstractAction()
+     * @see #getAbstractActionClassMethodLink()
+     * @generated
+     */
+    EReference getAbstractActionClassMethodLink_AbstractAction();
+
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1234,6 +1333,14 @@ public interface SourcecodedecoratorPackage extends EPackage {
          * @generated
          */
         EReference SOURCE_CODE_DECORATOR_REPOSITORY__DATA_TYPE_SOURCE_CODE_LINK = eINSTANCE.getSourceCodeDecoratorRepository_DataTypeSourceCodeLink();
+
+        /**
+         * The meta object literal for the '<em><b>Abstract Action Class Method Link</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK = eINSTANCE.getSourceCodeDecoratorRepository_AbstractActionClassMethodLink();
 
         /**
          * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.InterfaceSourceCodeLinkImpl <em>Interface Source Code Link</em>}' class.
@@ -1404,6 +1511,32 @@ public interface SourcecodedecoratorPackage extends EPackage {
          * @generated
          */
         EReference INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION = eINSTANCE.getInnerDatatypeSourceCodeLink_InnerDeclaration();
+
+        /**
+         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl <em>Abstract Action Class Method Link</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl
+         * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getAbstractActionClassMethodLink()
+         * @generated
+         */
+        EClass ABSTRACT_ACTION_CLASS_METHOD_LINK = eINSTANCE.getAbstractActionClassMethodLink();
+
+        /**
+         * The meta object literal for the '<em><b>Class Method</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD = eINSTANCE.getAbstractActionClassMethodLink_ClassMethod();
+
+        /**
+         * The meta object literal for the '<em><b>Abstract Action</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION = eINSTANCE.getAbstractActionClassMethodLink_AbstractAction();
 
 	}
 

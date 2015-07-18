@@ -14,8 +14,10 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.somox.sourcecodedecorator.AbstractActionClassMethodLink;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.DataTypeSourceCodeLink;
@@ -38,6 +40,7 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getInterfaceSourceCodeLink <em>Interface Source Code Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getComponentImplementingClassesLink <em>Component Implementing Classes Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getDataTypeSourceCodeLink <em>Data Type Source Code Link</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getAbstractActionClassMethodLink <em>Abstract Action Class Method Link</em>}</li>
  * </ul>
  * </p>
  *
@@ -103,6 +106,16 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
      * @ordered
      */
     protected EList<DataTypeSourceCodeLink> dataTypeSourceCodeLink;
+
+    /**
+     * The cached value of the '{@link #getAbstractActionClassMethodLink() <em>Abstract Action Class Method Link</em>}' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getAbstractActionClassMethodLink()
+     * @generated
+     * @ordered
+     */
+    protected EList<AbstractActionClassMethodLink> abstractActionClassMethodLink;
 
     /**
      * <!-- begin-user-doc -->
@@ -197,6 +210,18 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EList<AbstractActionClassMethodLink> getAbstractActionClassMethodLink() {
+        if (abstractActionClassMethodLink == null) {
+            abstractActionClassMethodLink = new EObjectResolvingEList<AbstractActionClassMethodLink>(AbstractActionClassMethodLink.class, this, SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK);
+        }
+        return abstractActionClassMethodLink;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -239,6 +264,8 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
                 return getComponentImplementingClassesLink();
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__DATA_TYPE_SOURCE_CODE_LINK:
                 return getDataTypeSourceCodeLink();
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK:
+                return getAbstractActionClassMethodLink();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -276,6 +303,10 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
                 getDataTypeSourceCodeLink().clear();
                 getDataTypeSourceCodeLink().addAll((Collection<? extends DataTypeSourceCodeLink>)newValue);
                 return;
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK:
+                getAbstractActionClassMethodLink().clear();
+                getAbstractActionClassMethodLink().addAll((Collection<? extends AbstractActionClassMethodLink>)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -306,6 +337,9 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__DATA_TYPE_SOURCE_CODE_LINK:
                 getDataTypeSourceCodeLink().clear();
                 return;
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK:
+                getAbstractActionClassMethodLink().clear();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -330,6 +364,8 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
                 return componentImplementingClassesLink != null && !componentImplementingClassesLink.isEmpty();
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__DATA_TYPE_SOURCE_CODE_LINK:
                 return dataTypeSourceCodeLink != null && !dataTypeSourceCodeLink.isEmpty();
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK:
+                return abstractActionClassMethodLink != null && !abstractActionClassMethodLink.isEmpty();
         }
         return super.eIsSet(featureID);
     }

@@ -31,7 +31,7 @@ import org.somox.metrics.MetricID;
 //import de.fzi.gast.types.GASTClass;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
-import de.uka.ipd.sdq.pcm.repository.RepositoryComponent;
+import org.palladiosimulator.pcm.repository.RepositoryComponent;
 
 public class MetricValuesWriter {
 

@@ -2,7 +2,7 @@
  */
 package org.somox.sourcecodedecorator;
 
-import de.uka.ipd.sdq.pcm.repository.Signature;
+import org.palladiosimulator.pcm.repository.Signature;
 import org.emftext.language.java.members.Member;
 
 /**

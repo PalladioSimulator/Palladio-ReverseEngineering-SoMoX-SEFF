@@ -3,8 +3,8 @@ package org.somox.analyzer.simplemodelanalyzer.builder.util;
 import org.apache.log4j.Logger;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 
-import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
-import de.uka.ipd.sdq.pcm.repository.Role;
+import org.palladiosimulator.pcm.core.composition.AssemblyContext;
+import org.palladiosimulator.pcm.repository.Role;
 
 /**
  * Builder-related information for proper connector

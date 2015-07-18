@@ -25,17 +25,17 @@ import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
-import de.uka.ipd.sdq.pcm.core.entity.NamedElement;
-import de.uka.ipd.sdq.pcm.repository.CollectionDataType;
-import de.uka.ipd.sdq.pcm.repository.CompositeDataType;
-import de.uka.ipd.sdq.pcm.repository.DataType;
-import de.uka.ipd.sdq.pcm.repository.InnerDeclaration;
-import de.uka.ipd.sdq.pcm.repository.OperationInterface;
-import de.uka.ipd.sdq.pcm.repository.OperationSignature;
-import de.uka.ipd.sdq.pcm.repository.Parameter;
-import de.uka.ipd.sdq.pcm.repository.PrimitiveDataType;
-import de.uka.ipd.sdq.pcm.repository.Repository;
-import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
+import org.palladiosimulator.pcm.core.entity.NamedElement;
+import org.palladiosimulator.pcm.repository.CollectionDataType;
+import org.palladiosimulator.pcm.repository.CompositeDataType;
+import org.palladiosimulator.pcm.repository.DataType;
+import org.palladiosimulator.pcm.repository.InnerDeclaration;
+import org.palladiosimulator.pcm.repository.OperationInterface;
+import org.palladiosimulator.pcm.repository.OperationSignature;
+import org.palladiosimulator.pcm.repository.Parameter;
+import org.palladiosimulator.pcm.repository.PrimitiveDataType;
+import org.palladiosimulator.pcm.repository.Repository;
+import org.palladiosimulator.pcm.repository.RepositoryFactory;
 
 /**
  * Builder for operations, parameters, message types, and data types. Keeps the source code
@@ -253,7 +253,7 @@ public class OperationBuilder extends AbstractBuilder {
     // }
     // boolean parametersMatch = true;
     // for (int i = 0; i < messageType.getParameters().size(); i++) {
-    // de.uka.ipd.sdq.pcm.repository.Parameter param =
+    // org.palladiosimulator.pcm.repository.Parameter param =
     // messageType.getParameters().get(i);
     // if (!param.getParameterName().equals(parameterNames.get(i))) {
     // parametersMatch = false;
@@ -416,7 +416,7 @@ public class OperationBuilder extends AbstractBuilder {
      *            The type to create a PCM data type for
      * @return the newly created PCM data type
      */
-    private DataType createDataType(final de.uka.ipd.sdq.pcm.repository.Repository repository, final Type gastType) {
+    private DataType createDataType(final org.palladiosimulator.pcm.repository.Repository repository, final Type gastType) {
         if (null == gastType) {
             return this.returnDefaultDataType(gastType, repository);
         }
@@ -694,7 +694,7 @@ public class OperationBuilder extends AbstractBuilder {
      * @param repository
      * @return null if not found
      */
-    private DataType getExistingType(final Type gastType, final de.uka.ipd.sdq.pcm.repository.Repository repository) {
+    private DataType getExistingType(final Type gastType, final org.palladiosimulator.pcm.repository.Repository repository) {
         return this.getExistingTypeByName(KDMHelper.getName(gastType), repository);
     }
 
@@ -705,7 +705,7 @@ public class OperationBuilder extends AbstractBuilder {
      * @return the found data type null if not found
      */
     private DataType getExistingTypeByName(String gastTypeName,
-            final de.uka.ipd.sdq.pcm.repository.Repository repository) {
+            final org.palladiosimulator.pcm.repository.Repository repository) {
         if (null == gastTypeName) {
             logger.warn("Type name is null. Could not get an exisiting data type.");
             return null;

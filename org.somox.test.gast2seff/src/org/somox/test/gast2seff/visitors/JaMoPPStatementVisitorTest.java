@@ -1,8 +1,5 @@
 package org.somox.test.gast2seff.visitors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,25 +10,23 @@ import org.somox.gast2seff.visitors.AbstractJaMoPPStatementVisitor;
 import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
-import org.somox.gast2seff.visitors.JaMoPPStatementVisitor;
 import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
+import org.somox.gast2seff.visitors.JaMoPPStatementVisitor;
 
-import de.uka.ipd.sdq.pcm.repository.BasicComponent;
-import de.uka.ipd.sdq.pcm.repository.OperationRequiredRole;
-import de.uka.ipd.sdq.pcm.repository.OperationSignature;
-import de.uka.ipd.sdq.pcm.seff.AbstractAction;
-import de.uka.ipd.sdq.pcm.seff.AbstractBranchTransition;
-import de.uka.ipd.sdq.pcm.seff.BranchAction;
-import de.uka.ipd.sdq.pcm.seff.ExternalCallAction;
-import de.uka.ipd.sdq.pcm.seff.InternalAction;
-import de.uka.ipd.sdq.pcm.seff.InternalCallAction;
-import de.uka.ipd.sdq.pcm.seff.LoopAction;
-import de.uka.ipd.sdq.pcm.seff.ProbabilisticBranchTransition;
-import de.uka.ipd.sdq.pcm.seff.ResourceDemandingBehaviour;
-import de.uka.ipd.sdq.pcm.seff.ResourceDemandingSEFF;
-import de.uka.ipd.sdq.pcm.seff.SeffFactory;
-import de.uka.ipd.sdq.pcm.seff.StartAction;
-import de.uka.ipd.sdq.pcm.seff.StopAction;
+import org.palladiosimulator.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.repository.OperationRequiredRole;
+import org.palladiosimulator.pcm.repository.OperationSignature;
+import org.palladiosimulator.pcm.seff.AbstractAction;
+import org.palladiosimulator.pcm.seff.BranchAction;
+import org.palladiosimulator.pcm.seff.ExternalCallAction;
+import org.palladiosimulator.pcm.seff.InternalAction;
+import org.palladiosimulator.pcm.seff.LoopAction;
+import org.palladiosimulator.pcm.seff.ProbabilisticBranchTransition;
+import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
+import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
+import org.palladiosimulator.pcm.seff.SeffFactory;
+import org.palladiosimulator.pcm.seff.StartAction;
+import org.palladiosimulator.pcm.seff.StopAction;
 
 public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
 
@@ -279,7 +274,7 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
 
         try {
             // assert
-            this.assertSeffEquals(seff, expectedSeff);
+            AssertSEFFHelper.assertSeffEquals(seff, expectedSeff);
         } finally {
             // add seff to basic component in order to make it visible after the test
             final ResourceDemandingSEFF serviceEffectSpecification = (ResourceDemandingSEFF) basicComponent
@@ -395,91 +390,6 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
         this.doMethodTestGastStatementVisitor(methodName, expectedSeff);
     }
 
-    private void assertSeffEquals(final ResourceDemandingBehaviour seff, final ResourceDemandingBehaviour expectedSEFF) {
-        final List<AbstractAction> abstractActions = seff.getSteps_Behaviour();
-        final List<AbstractAction> expectedAbstractActions = expectedSEFF.getSteps_Behaviour();
-        assertEquals("Seff should have the same number of actions as expected", abstractActions.size(),
-                expectedAbstractActions.size());
-
-        for (int i = 0; i < abstractActions.size(); i++) {
-            final AbstractAction abstractAction = abstractActions.get(i);
-            final AbstractAction expectedAbstractAction = expectedAbstractActions.get(i);
-            assertEquals("Abstract action " + abstractAction + " should have the expected class "
-                    + expectedAbstractAction.getClass(), abstractAction.getClass(), expectedAbstractAction.getClass());
-            if (abstractAction instanceof ExternalCallAction) {
-                this.assertExternalCallActionEquals((ExternalCallAction) abstractAction,
-                        (ExternalCallAction) expectedAbstractAction);
-            } else if (abstractAction instanceof InternalCallAction) {
-                this.assertInternalCallActionEquals((InternalCallAction) abstractAction,
-                        (InternalCallAction) expectedAbstractAction);
-            } else if (abstractAction instanceof InternalAction) {
-                this.assertInternalAction((InternalAction) abstractAction, (InternalAction) expectedAbstractAction);
-            } else if (abstractAction instanceof BranchAction) {
-                this.assertBranchAction((BranchAction) abstractAction, (BranchAction) expectedAbstractAction);
-            } else if (abstractAction instanceof StartAction || abstractAction instanceof StopAction) {
-                // no need to check anything else
-            } else if (abstractAction instanceof LoopAction) {
-                this.assertLoopAction((LoopAction) abstractAction, (LoopAction) expectedAbstractAction);
-            } else {
-                fail("Can not asssert AbstractAction " + abstractAction);
-            }
-        }
-
-    }
-
-    private void assertLoopAction(final LoopAction loopAction, final LoopAction expectedloopAction) {
-        final ResourceDemandingBehaviour resourceDemandingBehaviour = loopAction.getBodyBehaviour_Loop();
-        final ResourceDemandingBehaviour expectedResourceDemandingBehaviour = expectedloopAction
-                .getBodyBehaviour_Loop();
-        this.assertSeffEquals(resourceDemandingBehaviour, expectedResourceDemandingBehaviour);
-    }
-
-    private void assertBranchAction(final BranchAction branchAction, final BranchAction expectedBranchAction) {
-        assertEquals("BranchActions should have the same size", expectedBranchAction.getBranches_Branch().size(),
-                branchAction.getBranches_Branch().size());
-        for (int i = 0; i < branchAction.getBranches_Branch().size(); i++) {
-            final AbstractBranchTransition branchTransition = branchAction.getBranches_Branch().get(i);
-            final AbstractBranchTransition expectedBranchTransition = expectedBranchAction.getBranches_Branch().get(i);
-            assertEquals("Branch transitions must have the same class", expectedBranchTransition.getClass(),
-                    branchTransition.getClass());
-            final ResourceDemandingBehaviour behaviour = branchTransition.getBranchBehaviour_BranchTransition();
-            final ResourceDemandingBehaviour expectedBehaviour = expectedBranchTransition
-                    .getBranchBehaviour_BranchTransition();
-            this.assertSeffEquals(behaviour, expectedBehaviour);
-        }
-    }
-
-    private void assertInternalAction(final InternalAction abstractAction, final InternalAction expectedAbstractAction) {
-        // nothing to compare for internal action.
-    }
-
-    private void assertInternalCallActionEquals(final InternalCallAction abstractAction,
-            final InternalCallAction expectedAbstractAction) {
-        throw new RuntimeException(
-                "Internal call actions should not be generated since internal call action is not working.");
-    }
-
-    private void assertExternalCallActionEquals(final ExternalCallAction externalCallAction,
-            final ExternalCallAction expectedExternalCallAction) {
-        assertEquals("Role of external actions is not the same", expectedExternalCallAction.getRole_ExternalService(),
-                externalCallAction.getRole_ExternalService());
-        assertEquals("Call service of external call actions is not the same",
-                expectedExternalCallAction.getCalledService_ExternalService(),
-                externalCallAction.getCalledService_ExternalService());
-    }
-
-    private ExternalCallAction createExternalCallAction(final String operationSignatureName) {
-        final ExternalCallAction externalCall = SeffFactory.eINSTANCE.createExternalCallAction();
-        final BasicComponent basicComponent = (BasicComponent) super.findComponentInPCMRepo(REQUIRED_COMPONENT_NAME);
-        final OperationRequiredRole operationRequiredRole = super.findOperaitonRequiredRoleInBasicComponent(
-                basicComponent, REQUIRED_ROLE_NAME);
-        final OperationSignature operationSignature = super.findRequiredOperationSignatureInOperationRequiredRole(
-                operationRequiredRole, operationSignatureName);
-        externalCall.setRole_ExternalService(operationRequiredRole);
-        externalCall.setCalledService_ExternalService(operationSignature);
-        return externalCall;
-    }
-
     private void createAndAddInternalActionToSeff(final ResourceDemandingBehaviour expectedSeff) {
         final InternalAction internalAction = this.createInternalAction();
         expectedSeff.getSteps_Behaviour().add(internalAction);
@@ -501,6 +411,18 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
         } else if (expectedFunctionCallType == FunctionCallType.LIBRARY) {
             this.createAndAddInternalActionToSeff(expectedSeff);
         }
+    }
+
+    private ExternalCallAction createExternalCallAction(final String operationSignatureName) {
+        final ExternalCallAction externalCall = SeffFactory.eINSTANCE.createExternalCallAction();
+        final BasicComponent basicComponent = (BasicComponent) super.findComponentInPCMRepo(REQUIRED_COMPONENT_NAME);
+        final OperationRequiredRole operationRequiredRole = super.findOperaitonRequiredRoleInBasicComponent(
+                basicComponent, REQUIRED_ROLE_NAME);
+        final OperationSignature operationSignature = super.findRequiredOperationSignatureInOperationRequiredRole(
+                operationRequiredRole, operationSignatureName);
+        externalCall.setRole_ExternalService(operationRequiredRole);
+        externalCall.setCalledService_ExternalService(operationSignature);
+        return externalCall;
     }
 
     private FunctionCallType[] toFunctionCallTypeArray(final FunctionCallType... functionCallTypeArray) {

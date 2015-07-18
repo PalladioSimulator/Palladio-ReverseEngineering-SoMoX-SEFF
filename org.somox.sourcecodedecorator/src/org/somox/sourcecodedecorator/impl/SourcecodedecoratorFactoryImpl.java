@@ -65,6 +65,7 @@ public class SourcecodedecoratorFactoryImpl extends EFactoryImpl implements Sour
             case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK: return createPCMSystemImplementatingClassesLink();
             case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK: return createDataTypeSourceCodeLink();
             case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK: return createInnerDatatypeSourceCodeLink();
+            case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK: return createAbstractActionClassMethodLink();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -158,6 +159,16 @@ public class SourcecodedecoratorFactoryImpl extends EFactoryImpl implements Sour
     public InnerDatatypeSourceCodeLink createInnerDatatypeSourceCodeLink() {
         InnerDatatypeSourceCodeLinkImpl innerDatatypeSourceCodeLink = new InnerDatatypeSourceCodeLinkImpl();
         return innerDatatypeSourceCodeLink;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public AbstractActionClassMethodLink createAbstractActionClassMethodLink() {
+        AbstractActionClassMethodLinkImpl abstractActionClassMethodLink = new AbstractActionClassMethodLinkImpl();
+        return abstractActionClassMethodLink;
     }
 
     /**
