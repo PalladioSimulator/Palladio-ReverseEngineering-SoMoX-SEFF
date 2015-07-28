@@ -15,13 +15,6 @@ import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.Switch;
 import org.emftext.language.java.statements.TryBlock;
-import org.somox.gast2seff.visitors.InterfaceOfExternalCallFinding.InterfacePortOperationTuple;
-import org.somox.kdmhelper.GetAccessedType;
-import org.somox.kdmhelper.KDMHelper;
-import org.somox.sourcecodedecorator.AbstractActionClassMethodLink;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
-import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
-
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
@@ -31,6 +24,12 @@ import org.palladiosimulator.pcm.seff.InternalAction;
 import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
+import org.somox.gast2seff.visitors.InterfaceOfExternalCallFinding.InterfacePortOperationTuple;
+import org.somox.kdmhelper.GetAccessedType;
+import org.somox.kdmhelper.KDMHelper;
+import org.somox.sourcecodedecorator.AbstractActionClassMethodLink;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
 /**
  * A visitor which traverses a GAST behaviour and creates a SEFF matching the traversed behaviour.
@@ -93,9 +92,9 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         this.primitiveComponent = primitiveComponent;
         if (null == interfaceOfExternalCallFinder) {
             if (null == sourceCodeDecorator) {
-                throw new IllegalArgumentException("Can not use "
-                        + DefaultInterfaceOfExternalCallFinder.class.getSimpleName()
-                        + " with ‘null' for source code decorator");
+                throw new IllegalArgumentException(
+                        "Can not use " + DefaultInterfaceOfExternalCallFinder.class.getSimpleName()
+                                + " with ‘null' for source code decorator");
             }
             this.interfaceOfExternalCallFinder = new DefaultInterfaceOfExternalCallFinder(sourceCodeDecorator,
                     primitiveComponent);
@@ -175,7 +174,8 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     // }
     // } else {
     // String msg =
-    // "Behaviour not set in GAST for "+functionAccess.getMethod().getName();//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+    // "Behaviour not set in GAST for
+    // "+functionAccess.getMethod().getName();//GAST2SEFFCHANGE//GAST2SEFFCHANGE
     // if(KDMHelper.getJavaNodeSourceRegion(object) != null &&
     // KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object)) != null &&
     // KDMHelper.computeFullQualifiedName(KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object)))
@@ -252,15 +252,13 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                 final StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
                 bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(startAction);
                 this.createAbstracActionClassMethodLink(startAction, switchStatement);
-                bt.setEntityName("parent "
-                        + JaMoPPStatementVisitor.this.positionToString(switchStatement)
-                        + "/"
-                        + (branch.size() > 0 ? JaMoPPStatementVisitor.this.positionToLineNumber(KDMHelper
-                                .getJavaNodeSourceRegion(branch.get(0)))
-                                + " to "
+                bt.setEntityName("parent " + JaMoPPStatementVisitor.this.positionToString(switchStatement) + "/"
+                        + (branch.size() > 0 ? JaMoPPStatementVisitor.this
+                                .positionToLineNumber(KDMHelper.getJavaNodeSourceRegion(branch.get(0))) + " to "
                                 // use parent position since branch position is empty
-                                + JaMoPPStatementVisitor.this.positionToLineNumber(KDMHelper
-                                        .getJavaNodeSourceRegion(branch.get(branch.size() - 1))) : ""));
+                                + JaMoPPStatementVisitor.this.positionToLineNumber(
+                                        KDMHelper.getJavaNodeSourceRegion(branch.get(branch.size() - 1)))
+                                : ""));
                 branchAction.getBranches_Branch().add(bt);
                 final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(
                         JaMoPPStatementVisitor.this.functionClassificationAnnotation,
@@ -372,9 +370,8 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         bt.setEntityName("parent " + this.positionToString(input) + "/" + this.positionToString(ifElseStatement));
         // use parent position since branch position is empty//GAST2SEFFCHANGE//GAST2SEFFCHANGE
         branch.getBranches_Branch().add(bt);
-        final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(
-                this.functionClassificationAnnotation, bt.getBranchBehaviour_BranchTransition(),
-                this.sourceCodeDecoratorRepository, this.primitiveComponent);
+        final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(this.functionClassificationAnnotation,
+                bt.getBranchBehaviour_BranchTransition(), this.sourceCodeDecoratorRepository, this.primitiveComponent);
         // Statement s = b.getStatement();//GAST2SEFFCHANGE
         visitor.doSwitch(ifElseStatement);
         final StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
@@ -421,7 +418,8 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     // }
     // } else {
     // String msg =
-    // "Behaviour not set in GAST for "+functionAccess.getMethod().getName();//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+    // "Behaviour not set in GAST for
+    // "+functionAccess.getMethod().getName();//GAST2SEFFCHANGE//GAST2SEFFCHANGE
     // if(KDMHelper.getJavaNodeSourceRegion(object) != null &&
     // KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object)) != null &&
     // KDMHelper.computeFullQualifiedName(KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object)))
@@ -466,7 +464,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
             blockString.append(blockstatement.toString());
             if (KDMHelper.getAllAccesses(blockstatement) != null && // GAST2SEFFCHANGE
                     KDMHelper.getAllAccesses(blockstatement).size() >= 1// GAST2SEFFCHANGE
-                    ) {
+            ) {
                 final Commentable firstAccess = KDMHelper.getAllAccesses(blockstatement).get(0); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                 if (firstAccess instanceof Commentable) { // GAST2SEFFCHANGE
                     final Commentable access = firstAccess; // GAST2SEFFCHANGE//GAST2SEFFCHANGE
@@ -491,14 +489,14 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
 
                 if (KDMHelper.getAllAccesses(statement) != null && // GAST2SEFFCHANGE
                         KDMHelper.getAllAccesses(statement).size() >= 1// GAST2SEFFCHANGE
-                        ) {
+                ) {
                     final Commentable firstAccess = KDMHelper.getAllAccesses(statement).get(0); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                     if (firstAccess instanceof Commentable) { // GAST2SEFFCHANGE
                         final Commentable access = firstAccess; // GAST2SEFFCHANGE//GAST2SEFFCHANGE
 
                         if (GetAccessedType.getAccessedType(access) != null) { // GAST2SEFFCHANGE
                             blockString
-                            .append(" " + KDMHelper.getName(GetAccessedType.getAccessedType(access)) + "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                                    .append(" " + KDMHelper.getName(GetAccessedType.getAccessedType(access)) + "..."); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
                         }
                         return blockString.toString();
                     }
@@ -522,7 +520,9 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                 .createAbstractActionClassMethodLink();
         abstractActionClassMethodLink.setAbstractAction(abstractAction);
         abstractActionClassMethodLink.setClassMethod(classMethod);
-        this.sourceCodeDecoratorRepository.getAbstractActionClassMethodLink().add(abstractActionClassMethodLink);
+        if (null != this.sourceCodeDecoratorRepository) {
+            this.sourceCodeDecoratorRepository.getAbstractActionClassMethodLink().add(abstractActionClassMethodLink);
+        }
     }
 
     private ClassMethod getClassMethodFromCommentable(final Commentable statement) {
@@ -554,7 +554,8 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     // }
     // } else {
     // String msg =
-    // "Behaviour not set in GAST for "+functionAccess.getMethod().getName();//GAST2SEFFCHANGE//GAST2SEFFCHANGE
+    // "Behaviour not set in GAST for
+    // "+functionAccess.getMethod().getName();//GAST2SEFFCHANGE//GAST2SEFFCHANGE
     // if(KDMHelper.getJavaNodeSourceRegion(object) != null &&
     // KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object)) != null &&
     // KDMHelper.computeFullQualifiedName(KDMHelper.getSourceFile(KDMHelper.getJavaNodeSourceRegion(object)))

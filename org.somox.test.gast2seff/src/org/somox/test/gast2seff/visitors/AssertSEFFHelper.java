@@ -32,8 +32,10 @@ public class AssertSEFFHelper {
         for (int i = 0; i < abstractActions.size(); i++) {
             final AbstractAction abstractAction = abstractActions.get(i);
             final AbstractAction expectedAbstractAction = expectedAbstractActions.get(i);
-            assertEquals("Abstract action " + abstractAction + " should have the expected class "
-                    + expectedAbstractAction.getClass(), abstractAction.getClass(), expectedAbstractAction.getClass());
+            assertEquals(
+                    "Abstract action " + abstractAction + " should have the expected class "
+                            + expectedAbstractAction.getClass(),
+                    abstractAction.getClass(), expectedAbstractAction.getClass());
             if (abstractAction instanceof ExternalCallAction) {
                 assertExternalCallActionEquals((ExternalCallAction) abstractAction,
                         (ExternalCallAction) expectedAbstractAction);
@@ -90,11 +92,12 @@ public class AssertSEFFHelper {
 
     private static void assertExternalCallActionEquals(final ExternalCallAction externalCallAction,
             final ExternalCallAction expectedExternalCallAction) {
-        assertEquals("Role of external actions is not the same", expectedExternalCallAction.getRole_ExternalService(),
-                externalCallAction.getRole_ExternalService());
+        assertEquals("Role of external actions is not the same",
+                expectedExternalCallAction.getRole_ExternalService().getId(),
+                externalCallAction.getRole_ExternalService().getId());
         assertEquals("Call service of external call actions is not the same",
-                expectedExternalCallAction.getCalledService_ExternalService(),
-                externalCallAction.getCalledService_ExternalService());
+                expectedExternalCallAction.getCalledService_ExternalService().getId(),
+                externalCallAction.getCalledService_ExternalService().getId());
     }
 
 }
