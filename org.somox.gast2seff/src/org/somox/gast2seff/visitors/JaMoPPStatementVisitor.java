@@ -143,7 +143,8 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
             loop.setEntityName(this.positionToString(loopStatement));
 
             new JaMoPPStatementVisitor(this.functionClassificationAnnotation, loop.getBodyBehaviour_Loop(),
-                    this.sourceCodeDecoratorRepository, this.primitiveComponent).doSwitch(body);
+                    this.sourceCodeDecoratorRepository, this.primitiveComponent, this.interfaceOfExternalCallFinder)
+                            .doSwitch(body);
 
             final StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
             this.createAbstracActionClassMethodLink(stopAction, loopStatement);
@@ -264,14 +265,14 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                         JaMoPPStatementVisitor.this.functionClassificationAnnotation,
                         bt.getBranchBehaviour_BranchTransition(),
                         JaMoPPStatementVisitor.this.sourceCodeDecoratorRepository,
-                        JaMoPPStatementVisitor.this.primitiveComponent);
+                        JaMoPPStatementVisitor.this.primitiveComponent, this.interfaceOfExternalCallFinder);
                 // Statement s = b.getStatement();
                 // visitor.doSwitch(s);
 
                 for (final Statement statement : branch) {
                     // copied from caseBlock
-                    final BitSet thisType = JaMoPPStatementVisitor.this.functionClassificationAnnotation.get(statement);
-                    if (!JaMoPPStatementVisitor.this.shouldSkip(JaMoPPStatementVisitor.this.lastType, thisType)) { // Only
+                    final BitSet thisType = visitor.functionClassificationAnnotation.get(statement);
+                    if (!visitor.shouldSkip(visitor.lastType, thisType)) { // Only
                         // generate elements for statements which should not be abstracted away
                         // avoid infinite recursion
                         // if(!isVisitedStatement(thisType)) {
@@ -286,7 +287,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                         visitor.doSwitch(statement); // here visitor. was added in contrast to
                         // caseBlock
                     }
-                    this.lastType = thisType;
+                    visitor.lastType = thisType;
                     // end of copy
                 }
 
@@ -320,7 +321,8 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
             if (tryBlock.getFinallyBlock() != null) {
                 new JaMoPPStatementVisitor(JaMoPPStatementVisitor.this.functionClassificationAnnotation,
                         JaMoPPStatementVisitor.this.seff, JaMoPPStatementVisitor.this.sourceCodeDecoratorRepository,
-                        JaMoPPStatementVisitor.this.primitiveComponent).doSwitch(tryBlock.getFinallyBlock());
+                        JaMoPPStatementVisitor.this.primitiveComponent, this.interfaceOfExternalCallFinder)
+                                .doSwitch(tryBlock.getFinallyBlock());
             }
         } else {
             this.createInternalAction(tryBlock);
@@ -371,7 +373,8 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         // use parent position since branch position is empty//GAST2SEFFCHANGE//GAST2SEFFCHANGE
         branch.getBranches_Branch().add(bt);
         final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(this.functionClassificationAnnotation,
-                bt.getBranchBehaviour_BranchTransition(), this.sourceCodeDecoratorRepository, this.primitiveComponent);
+                bt.getBranchBehaviour_BranchTransition(), this.sourceCodeDecoratorRepository, this.primitiveComponent,
+                this.interfaceOfExternalCallFinder);
         // Statement s = b.getStatement();//GAST2SEFFCHANGE
         visitor.doSwitch(ifElseStatement);
         final StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
@@ -529,7 +532,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         if (statement.eContainer() instanceof ClassMethod) {
             return (ClassMethod) statement.eContainer();
         } else if (statement.eContainer() instanceof Commentable) {
-            this.getClassMethodFromCommentable((Commentable) statement.eContainer());
+            return this.getClassMethodFromCommentable((Commentable) statement.eContainer());
         }
         logger.warn("Could not found method for Commentable: " + statement);
         return null;

@@ -26,8 +26,8 @@ public class AssertSEFFHelper {
             final ResourceDemandingBehaviour expectedSEFF) {
         final List<AbstractAction> abstractActions = seff.getSteps_Behaviour();
         final List<AbstractAction> expectedAbstractActions = expectedSEFF.getSteps_Behaviour();
-        assertEquals("Seff should have the same number of actions as expected", abstractActions.size(),
-                expectedAbstractActions.size());
+        assertEquals("Seff should have the same number of actions as expected", expectedAbstractActions.size(),
+                abstractActions.size());
 
         for (int i = 0; i < abstractActions.size(); i++) {
             final AbstractAction abstractAction = abstractActions.get(i);
