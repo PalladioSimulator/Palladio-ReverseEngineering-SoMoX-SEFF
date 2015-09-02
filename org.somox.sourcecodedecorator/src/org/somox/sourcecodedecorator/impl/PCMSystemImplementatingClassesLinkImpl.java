@@ -19,10 +19,10 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl#getSystemModel <em>System Model</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -14,6 +14,7 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsCompositeComponent <em>Is Composite Component</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getComponent <em>Component</em>}</li>
@@ -23,7 +24,6 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
  *   <li>{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getRequiredInterfaces <em>Required Interfaces</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsInitialComponent <em>Is Initial Component</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getComponentImplementingClassesLink()
  * @model

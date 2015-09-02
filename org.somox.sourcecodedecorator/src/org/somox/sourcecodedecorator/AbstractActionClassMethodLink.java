@@ -15,11 +15,11 @@ import org.emftext.language.java.members.ClassMethod;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink#getClassMethod <em>Class Method</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink#getAbstractAction <em>Abstract Action</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getAbstractActionClassMethodLink()
  * @model

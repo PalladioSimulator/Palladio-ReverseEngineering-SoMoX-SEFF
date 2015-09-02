@@ -15,14 +15,14 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
  */
 public class Seff2javaastResourceImpl extends XMLResourceImpl {
 	/**
-	 * Creates an instance of the resource.
-	 * <!-- begin-user-doc -->
+     * Creates an instance of the resource.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param uri the URI of the new resource.
-	 * @generated
-	 */
+     * @param uri the URI of the new resource.
+     * @generated
+     */
 	public Seff2javaastResourceImpl(URI uri) {
-		super(uri);
-	}
+        super(uri);
+    }
 
 } //Seff2javaastResourceImpl

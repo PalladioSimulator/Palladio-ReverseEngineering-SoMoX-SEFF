@@ -351,6 +351,11 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         return new Object();
     }
 
+    @Override
+    protected Object handleClassMethod(final ClassMethod classMethod) {
+        return this.handleStatementListContainer(classMethod);
+    }
+
     /**
      * Handles the branch/block of an if or else block.
      *

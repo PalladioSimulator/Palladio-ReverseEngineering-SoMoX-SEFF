@@ -10,10 +10,10 @@ package org.somox.sourcecodedecorator;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink#getSystemModel <em>System Model</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getPCMSystemImplementatingClassesLink()
  * @model

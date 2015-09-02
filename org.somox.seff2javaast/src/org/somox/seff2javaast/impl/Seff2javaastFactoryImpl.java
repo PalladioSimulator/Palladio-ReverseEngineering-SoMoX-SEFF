@@ -20,87 +20,87 @@ import org.somox.seff2javaast.*;
  */
 public class Seff2javaastFactoryImpl extends EFactoryImpl implements Seff2javaastFactory {
 	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
+     * Creates the default factory implementation.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public static Seff2javaastFactory init() {
-		try {
-			Seff2javaastFactory theSeff2javaastFactory = (Seff2javaastFactory)EPackage.Registry.INSTANCE.getEFactory(Seff2javaastPackage.eNS_URI);
-			if (theSeff2javaastFactory != null) {
-				return theSeff2javaastFactory;
-			}
-		}
-		catch (Exception exception) {
-			EcorePlugin.INSTANCE.log(exception);
-		}
-		return new Seff2javaastFactoryImpl();
-	}
+        try {
+            Seff2javaastFactory theSeff2javaastFactory = (Seff2javaastFactory)EPackage.Registry.INSTANCE.getEFactory(Seff2javaastPackage.eNS_URI);
+            if (theSeff2javaastFactory != null) {
+                return theSeff2javaastFactory;
+            }
+        }
+        catch (Exception exception) {
+            EcorePlugin.INSTANCE.log(exception);
+        }
+        return new Seff2javaastFactoryImpl();
+    }
 
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
+     * Creates an instance of the factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Seff2javaastFactoryImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case Seff2javaastPackage.SEFF2_METHOD_MAPPING: return createSEFF2MethodMapping();
-			case Seff2javaastPackage.SEFF2_JAVA_AST: return createSEFF2JavaAST();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eClass.getClassifierID()) {
+            case Seff2javaastPackage.SEFF2_METHOD_MAPPING: return createSEFF2MethodMapping();
+            case Seff2javaastPackage.SEFF2_JAVA_AST: return createSEFF2JavaAST();
+            default:
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        }
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public SEFF2MethodMapping createSEFF2MethodMapping() {
-		SEFF2MethodMappingImpl seff2MethodMapping = new SEFF2MethodMappingImpl();
-		return seff2MethodMapping;
-	}
+        SEFF2MethodMappingImpl seff2MethodMapping = new SEFF2MethodMappingImpl();
+        return seff2MethodMapping;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public SEFF2JavaAST createSEFF2JavaAST() {
-		SEFF2JavaASTImpl seff2JavaAST = new SEFF2JavaASTImpl();
-		return seff2JavaAST;
-	}
+        SEFF2JavaASTImpl seff2JavaAST = new SEFF2JavaASTImpl();
+        return seff2JavaAST;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Seff2javaastPackage getSeff2javaastPackage() {
-		return (Seff2javaastPackage)getEPackage();
-	}
+        return (Seff2javaastPackage)getEPackage();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
+     * @deprecated
+     * @generated
+     */
 	@Deprecated
 	public static Seff2javaastPackage getPackage() {
-		return Seff2javaastPackage.eINSTANCE;
-	}
+        return Seff2javaastPackage.eINSTANCE;
+    }
 
 } //Seff2javaastFactoryImpl

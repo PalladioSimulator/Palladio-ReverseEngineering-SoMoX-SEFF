@@ -83,6 +83,7 @@ public class SourceCodeDecoratorRepositoryItemProvider
             childrenFeatures.add(SourcecodedecoratorPackage.Literals.SOURCE_CODE_DECORATOR_REPOSITORY__INTERFACE_SOURCE_CODE_LINK);
             childrenFeatures.add(SourcecodedecoratorPackage.Literals.SOURCE_CODE_DECORATOR_REPOSITORY__COMPONENT_IMPLEMENTING_CLASSES_LINK);
             childrenFeatures.add(SourcecodedecoratorPackage.Literals.SOURCE_CODE_DECORATOR_REPOSITORY__DATA_TYPE_SOURCE_CODE_LINK);
+            childrenFeatures.add(SourcecodedecoratorPackage.Literals.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK);
         }
         return childrenFeatures;
     }
@@ -140,6 +141,7 @@ public class SourceCodeDecoratorRepositoryItemProvider
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__INTERFACE_SOURCE_CODE_LINK:
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__COMPONENT_IMPLEMENTING_CLASSES_LINK:
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__DATA_TYPE_SOURCE_CODE_LINK:
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
                 return;
         }
@@ -211,6 +213,11 @@ public class SourceCodeDecoratorRepositoryItemProvider
             (createChildParameter
                 (SourcecodedecoratorPackage.Literals.SOURCE_CODE_DECORATOR_REPOSITORY__DATA_TYPE_SOURCE_CODE_LINK,
                  SourcecodedecoratorFactory.eINSTANCE.createDataTypeSourceCodeLink()));
+
+        newChildDescriptors.add
+            (createChildParameter
+                (SourcecodedecoratorPackage.Literals.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK,
+                 SourcecodedecoratorFactory.eINSTANCE.createAbstractActionClassMethodLink()));
     }
 
 	/**

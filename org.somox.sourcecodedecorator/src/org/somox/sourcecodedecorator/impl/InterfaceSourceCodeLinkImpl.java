@@ -19,11 +19,11 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.impl.InterfaceSourceCodeLinkImpl#getInterface <em>Interface</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.InterfaceSourceCodeLinkImpl#getGastClass <em>Gast Class</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

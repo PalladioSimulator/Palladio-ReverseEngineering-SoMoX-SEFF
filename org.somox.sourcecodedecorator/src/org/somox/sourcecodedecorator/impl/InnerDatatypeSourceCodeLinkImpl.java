@@ -24,11 +24,11 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.impl.InnerDatatypeSourceCodeLinkImpl#getField <em>Field</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.InnerDatatypeSourceCodeLinkImpl#getInnerDeclaration <em>Inner Declaration</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

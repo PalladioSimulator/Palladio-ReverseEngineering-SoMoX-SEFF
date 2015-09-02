@@ -23,6 +23,7 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#isIsCompositeComponent <em>Is Composite Component</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#getComponent <em>Component</em>}</li>
@@ -32,7 +33,6 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  *   <li>{@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#getRequiredInterfaces <em>Required Interfaces</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#isIsInitialComponent <em>Is Initial Component</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

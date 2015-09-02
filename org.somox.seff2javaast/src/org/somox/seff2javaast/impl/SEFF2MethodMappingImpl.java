@@ -7,6 +7,7 @@ import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -23,198 +24,198 @@ import org.somox.seff2javaast.Seff2javaastPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.seff2javaast.impl.SEFF2MethodMappingImpl#getBlockstatement <em>Blockstatement</em>}</li>
  *   <li>{@link org.somox.seff2javaast.impl.SEFF2MethodMappingImpl#getSeff <em>Seff</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
 public class SEFF2MethodMappingImpl extends MinimalEObjectImpl.Container implements SEFF2MethodMapping {
 	/**
-	 * The cached value of the '{@link #getBlockstatement() <em>Blockstatement</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getBlockstatement() <em>Blockstatement</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getBlockstatement()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getBlockstatement()
+     * @generated
+     * @ordered
+     */
 	protected StatementListContainer blockstatement;
 
 	/**
-	 * The cached value of the '{@link #getSeff() <em>Seff</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getSeff() <em>Seff</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSeff()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getSeff()
+     * @generated
+     * @ordered
+     */
 	protected ServiceEffectSpecification seff;
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected SEFF2MethodMappingImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return Seff2javaastPackage.Literals.SEFF2_METHOD_MAPPING;
-	}
+        return Seff2javaastPackage.Literals.SEFF2_METHOD_MAPPING;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public StatementListContainer getBlockstatement() {
-		if (blockstatement != null && blockstatement.eIsProxy()) {
-			InternalEObject oldBlockstatement = (InternalEObject)blockstatement;
-			blockstatement = (StatementListContainer)eResolveProxy(oldBlockstatement);
-			if (blockstatement != oldBlockstatement) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, Seff2javaastPackage.SEFF2_METHOD_MAPPING__BLOCKSTATEMENT, oldBlockstatement, blockstatement));
-			}
-		}
-		return blockstatement;
-	}
+        if (blockstatement != null && blockstatement.eIsProxy()) {
+            InternalEObject oldBlockstatement = (InternalEObject)blockstatement;
+            blockstatement = (StatementListContainer)eResolveProxy(oldBlockstatement);
+            if (blockstatement != oldBlockstatement) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, Seff2javaastPackage.SEFF2_METHOD_MAPPING__BLOCKSTATEMENT, oldBlockstatement, blockstatement));
+            }
+        }
+        return blockstatement;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public StatementListContainer basicGetBlockstatement() {
-		return blockstatement;
-	}
+        return blockstatement;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setBlockstatement(StatementListContainer newBlockstatement) {
-		StatementListContainer oldBlockstatement = blockstatement;
-		blockstatement = newBlockstatement;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, Seff2javaastPackage.SEFF2_METHOD_MAPPING__BLOCKSTATEMENT, oldBlockstatement, blockstatement));
-	}
+        StatementListContainer oldBlockstatement = blockstatement;
+        blockstatement = newBlockstatement;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, Seff2javaastPackage.SEFF2_METHOD_MAPPING__BLOCKSTATEMENT, oldBlockstatement, blockstatement));
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public ServiceEffectSpecification getSeff() {
-		if (seff != null && seff.eIsProxy()) {
-			InternalEObject oldSeff = (InternalEObject)seff;
-			seff = (ServiceEffectSpecification)eResolveProxy(oldSeff);
-			if (seff != oldSeff) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, Seff2javaastPackage.SEFF2_METHOD_MAPPING__SEFF, oldSeff, seff));
-			}
-		}
-		return seff;
-	}
+        if (seff != null && ((EObject)seff).eIsProxy()) {
+            InternalEObject oldSeff = (InternalEObject)seff;
+            seff = (ServiceEffectSpecification)eResolveProxy(oldSeff);
+            if (seff != oldSeff) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, Seff2javaastPackage.SEFF2_METHOD_MAPPING__SEFF, oldSeff, seff));
+            }
+        }
+        return seff;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public ServiceEffectSpecification basicGetSeff() {
-		return seff;
-	}
+        return seff;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setSeff(ServiceEffectSpecification newSeff) {
-		ServiceEffectSpecification oldSeff = seff;
-		seff = newSeff;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, Seff2javaastPackage.SEFF2_METHOD_MAPPING__SEFF, oldSeff, seff));
-	}
+        ServiceEffectSpecification oldSeff = seff;
+        seff = newSeff;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, Seff2javaastPackage.SEFF2_METHOD_MAPPING__SEFF, oldSeff, seff));
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case Seff2javaastPackage.SEFF2_METHOD_MAPPING__BLOCKSTATEMENT:
-				if (resolve) return getBlockstatement();
-				return basicGetBlockstatement();
-			case Seff2javaastPackage.SEFF2_METHOD_MAPPING__SEFF:
-				if (resolve) return getSeff();
-				return basicGetSeff();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case Seff2javaastPackage.SEFF2_METHOD_MAPPING__BLOCKSTATEMENT:
+                if (resolve) return getBlockstatement();
+                return basicGetBlockstatement();
+            case Seff2javaastPackage.SEFF2_METHOD_MAPPING__SEFF:
+                if (resolve) return getSeff();
+                return basicGetSeff();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case Seff2javaastPackage.SEFF2_METHOD_MAPPING__BLOCKSTATEMENT:
-				setBlockstatement((StatementListContainer)newValue);
-				return;
-			case Seff2javaastPackage.SEFF2_METHOD_MAPPING__SEFF:
-				setSeff((ServiceEffectSpecification)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case Seff2javaastPackage.SEFF2_METHOD_MAPPING__BLOCKSTATEMENT:
+                setBlockstatement((StatementListContainer)newValue);
+                return;
+            case Seff2javaastPackage.SEFF2_METHOD_MAPPING__SEFF:
+                setSeff((ServiceEffectSpecification)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case Seff2javaastPackage.SEFF2_METHOD_MAPPING__BLOCKSTATEMENT:
-				setBlockstatement((StatementListContainer)null);
-				return;
-			case Seff2javaastPackage.SEFF2_METHOD_MAPPING__SEFF:
-				setSeff((ServiceEffectSpecification)null);
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case Seff2javaastPackage.SEFF2_METHOD_MAPPING__BLOCKSTATEMENT:
+                setBlockstatement((StatementListContainer)null);
+                return;
+            case Seff2javaastPackage.SEFF2_METHOD_MAPPING__SEFF:
+                setSeff((ServiceEffectSpecification)null);
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case Seff2javaastPackage.SEFF2_METHOD_MAPPING__BLOCKSTATEMENT:
-				return blockstatement != null;
-			case Seff2javaastPackage.SEFF2_METHOD_MAPPING__SEFF:
-				return seff != null;
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case Seff2javaastPackage.SEFF2_METHOD_MAPPING__BLOCKSTATEMENT:
+                return blockstatement != null;
+            case Seff2javaastPackage.SEFF2_METHOD_MAPPING__SEFF:
+                return seff != null;
+        }
+        return super.eIsSet(featureID);
+    }
 
 } //SEFF2MethodMappingImpl

@@ -24,11 +24,11 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl#getClassMethod <em>Class Method</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl#getAbstractAction <em>Abstract Action</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

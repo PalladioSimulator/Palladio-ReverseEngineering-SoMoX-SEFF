@@ -19,11 +19,11 @@ import org.emftext.language.java.containers.CompilationUnit;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getRepositoryComponent <em>Repository Component</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getFile <em>File</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getFileLevelSourceCodeLink()
  * @model

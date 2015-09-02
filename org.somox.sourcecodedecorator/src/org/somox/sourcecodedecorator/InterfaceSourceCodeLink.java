@@ -13,11 +13,11 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.InterfaceSourceCodeLink#getInterface <em>Interface</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.InterfaceSourceCodeLink#getGastClass <em>Gast Class</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getInterfaceSourceCodeLink()
  * @model

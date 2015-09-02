@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.somox.sourcecodedecorator.AbstractActionClassMethodLink;
@@ -33,6 +32,7 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getFileLevelSourceCodeLink <em>File Level Source Code Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getMethodLevelSourceCodeLink <em>Method Level Source Code Link</em>}</li>
@@ -42,7 +42,6 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getDataTypeSourceCodeLink <em>Data Type Source Code Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getAbstractActionClassMethodLink <em>Abstract Action Class Method Link</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -108,7 +107,7 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
     protected EList<DataTypeSourceCodeLink> dataTypeSourceCodeLink;
 
     /**
-     * The cached value of the '{@link #getAbstractActionClassMethodLink() <em>Abstract Action Class Method Link</em>}' reference list.
+     * The cached value of the '{@link #getAbstractActionClassMethodLink() <em>Abstract Action Class Method Link</em>}' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #getAbstractActionClassMethodLink()
@@ -215,7 +214,7 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
      */
     public EList<AbstractActionClassMethodLink> getAbstractActionClassMethodLink() {
         if (abstractActionClassMethodLink == null) {
-            abstractActionClassMethodLink = new EObjectResolvingEList<AbstractActionClassMethodLink>(AbstractActionClassMethodLink.class, this, SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK);
+            abstractActionClassMethodLink = new EObjectContainmentEList<AbstractActionClassMethodLink>(AbstractActionClassMethodLink.class, this, SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK);
         }
         return abstractActionClassMethodLink;
     }
@@ -240,6 +239,8 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
                 return ((InternalEList<?>)getComponentImplementingClassesLink()).basicRemove(otherEnd, msgs);
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__DATA_TYPE_SOURCE_CODE_LINK:
                 return ((InternalEList<?>)getDataTypeSourceCodeLink()).basicRemove(otherEnd, msgs);
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK:
+                return ((InternalEList<?>)getAbstractActionClassMethodLink()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }

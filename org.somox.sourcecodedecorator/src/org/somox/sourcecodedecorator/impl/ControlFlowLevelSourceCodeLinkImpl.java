@@ -23,11 +23,11 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl#getAbstractAction <em>Abstract Action</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl#getStatement <em>Statement</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

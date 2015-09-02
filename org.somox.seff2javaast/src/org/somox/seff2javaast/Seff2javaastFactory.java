@@ -14,38 +14,38 @@ import org.eclipse.emf.ecore.EFactory;
  */
 public interface Seff2javaastFactory extends EFactory {
 	/**
-	 * The singleton instance of the factory.
-	 * <!-- begin-user-doc -->
+     * The singleton instance of the factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	Seff2javaastFactory eINSTANCE = org.somox.seff2javaast.impl.Seff2javaastFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>SEFF2 Method Mapping</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns a new object of class '<em>SEFF2 Method Mapping</em>'.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>SEFF2 Method Mapping</em>'.
-	 * @generated
-	 */
+     * @return a new object of class '<em>SEFF2 Method Mapping</em>'.
+     * @generated
+     */
 	SEFF2MethodMapping createSEFF2MethodMapping();
 
 	/**
-	 * Returns a new object of class '<em>SEFF2 Java AST</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns a new object of class '<em>SEFF2 Java AST</em>'.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>SEFF2 Java AST</em>'.
-	 * @generated
-	 */
+     * @return a new object of class '<em>SEFF2 Java AST</em>'.
+     * @generated
+     */
 	SEFF2JavaAST createSEFF2JavaAST();
 
 	/**
-	 * Returns the package supported by this factory.
-	 * <!-- begin-user-doc -->
+     * Returns the package supported by this factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the package supported by this factory.
-	 * @generated
-	 */
+     * @return the package supported by this factory.
+     * @generated
+     */
 	Seff2javaastPackage getSeff2javaastPackage();
 
 } //Seff2javaastFactory

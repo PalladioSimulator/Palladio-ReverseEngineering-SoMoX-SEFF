@@ -15,11 +15,11 @@ import org.emftext.language.java.members.Field;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink#getField <em>Field</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink#getInnerDeclaration <em>Inner Declaration</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getInnerDatatypeSourceCodeLink()
  * @model

@@ -279,6 +279,29 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected AbstractActionClassMethodLinkItemProvider abstractActionClassMethodLinkItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createAbstractActionClassMethodLinkAdapter() {
+        if (abstractActionClassMethodLinkItemProvider == null) {
+            abstractActionClassMethodLinkItemProvider = new AbstractActionClassMethodLinkItemProvider(this);
+        }
+
+        return abstractActionClassMethodLinkItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -386,6 +409,7 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
         if (pcmSystemImplementatingClassesLinkItemProvider != null) pcmSystemImplementatingClassesLinkItemProvider.dispose();
         if (dataTypeSourceCodeLinkItemProvider != null) dataTypeSourceCodeLinkItemProvider.dispose();
         if (innerDatatypeSourceCodeLinkItemProvider != null) innerDatatypeSourceCodeLinkItemProvider.dispose();
+        if (abstractActionClassMethodLinkItemProvider != null) abstractActionClassMethodLinkItemProvider.dispose();
     }
 
 }

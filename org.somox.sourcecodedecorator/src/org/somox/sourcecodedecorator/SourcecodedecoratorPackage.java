@@ -313,7 +313,7 @@ public interface SourcecodedecoratorPackage extends EPackage {
     int SOURCE_CODE_DECORATOR_REPOSITORY__DATA_TYPE_SOURCE_CODE_LINK = 5;
 
     /**
-     * The feature id for the '<em><b>Abstract Action Class Method Link</b></em>' reference list.
+     * The feature id for the '<em><b>Abstract Action Class Method Link</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -918,10 +918,10 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getSourceCodeDecoratorRepository_DataTypeSourceCodeLink();
 
     /**
-     * Returns the meta object for the reference list '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getAbstractActionClassMethodLink <em>Abstract Action Class Method Link</em>}'.
+     * Returns the meta object for the containment reference list '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getAbstractActionClassMethodLink <em>Abstract Action Class Method Link</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Abstract Action Class Method Link</em>'.
+     * @return the meta object for the containment reference list '<em>Abstract Action Class Method Link</em>'.
      * @see org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getAbstractActionClassMethodLink()
      * @see #getSourceCodeDecoratorRepository()
      * @generated
@@ -1335,7 +1335,7 @@ public interface SourcecodedecoratorPackage extends EPackage {
         EReference SOURCE_CODE_DECORATOR_REPOSITORY__DATA_TYPE_SOURCE_CODE_LINK = eINSTANCE.getSourceCodeDecoratorRepository_DataTypeSourceCodeLink();
 
         /**
-         * The meta object literal for the '<em><b>Abstract Action Class Method Link</b></em>' reference list feature.
+         * The meta object literal for the '<em><b>Abstract Action Class Method Link</b></em>' containment reference list feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated

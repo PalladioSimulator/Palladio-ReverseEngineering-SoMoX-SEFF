@@ -21,30 +21,30 @@ import org.somox.seff2javaast.Seff2javaastPackage;
 public class Seff2javaastXMLProcessor extends XMLProcessor {
 
 	/**
-	 * Public constructor to instantiate the helper.
-	 * <!-- begin-user-doc -->
+     * Public constructor to instantiate the helper.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Seff2javaastXMLProcessor() {
-		super((EPackage.Registry.INSTANCE));
-		Seff2javaastPackage.eINSTANCE.eClass();
-	}
+        super((EPackage.Registry.INSTANCE));
+        Seff2javaastPackage.eINSTANCE.eClass();
+    }
 	
 	/**
-	 * Register for "*" and "xml" file extensions the Seff2javaastResourceFactoryImpl factory.
-	 * <!-- begin-user-doc -->
+     * Register for "*" and "xml" file extensions the Seff2javaastResourceFactoryImpl factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected Map<String, Resource.Factory> getRegistrations() {
-		if (registrations == null) {
-			super.getRegistrations();
-			registrations.put(XML_EXTENSION, new Seff2javaastResourceFactoryImpl());
-			registrations.put(STAR_EXTENSION, new Seff2javaastResourceFactoryImpl());
-		}
-		return registrations;
-	}
+        if (registrations == null) {
+            super.getRegistrations();
+            registrations.put(XML_EXTENSION, new Seff2javaastResourceFactoryImpl());
+            registrations.put(STAR_EXTENSION, new Seff2javaastResourceFactoryImpl());
+        }
+        return registrations;
+    }
 
 } //Seff2javaastXMLProcessor

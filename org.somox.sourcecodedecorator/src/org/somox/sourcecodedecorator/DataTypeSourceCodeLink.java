@@ -14,12 +14,12 @@ import org.emftext.language.java.types.Type;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.DataTypeSourceCodeLink#getJaMoPPType <em>Ja Mo PP Type</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.DataTypeSourceCodeLink#getPcmDataType <em>Pcm Data Type</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.DataTypeSourceCodeLink#getInnerDatatypeSourceCodeLink <em>Inner Datatype Source Code Link</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getDataTypeSourceCodeLink()
  * @model

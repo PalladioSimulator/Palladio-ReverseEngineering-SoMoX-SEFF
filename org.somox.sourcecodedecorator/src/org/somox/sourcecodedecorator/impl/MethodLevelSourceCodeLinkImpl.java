@@ -18,11 +18,11 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.impl.MethodLevelSourceCodeLinkImpl#getOperation <em>Operation</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.MethodLevelSourceCodeLinkImpl#getFunction <em>Function</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

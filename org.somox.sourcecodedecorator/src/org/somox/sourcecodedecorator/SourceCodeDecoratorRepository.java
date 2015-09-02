@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getFileLevelSourceCodeLink <em>File Level Source Code Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getMethodLevelSourceCodeLink <em>Method Level Source Code Link</em>}</li>
@@ -22,7 +23,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getDataTypeSourceCodeLink <em>Data Type Source Code Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getAbstractActionClassMethodLink <em>Abstract Action Class Method Link</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getSourceCodeDecoratorRepository()
  * @model
@@ -126,7 +126,7 @@ public interface SourceCodeDecoratorRepository extends EObject {
     EList<DataTypeSourceCodeLink> getDataTypeSourceCodeLink();
 
     /**
-     * Returns the value of the '<em><b>Abstract Action Class Method Link</b></em>' reference list.
+     * Returns the value of the '<em><b>Abstract Action Class Method Link</b></em>' containment reference list.
      * The list contents are of type {@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink}.
      * <!-- begin-user-doc -->
      * <p>
@@ -134,9 +134,9 @@ public interface SourceCodeDecoratorRepository extends EObject {
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Abstract Action Class Method Link</em>' reference list.
+     * @return the value of the '<em>Abstract Action Class Method Link</em>' containment reference list.
      * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getSourceCodeDecoratorRepository_AbstractActionClassMethodLink()
-     * @model
+     * @model containment="true"
      * @generated
      */
     EList<AbstractActionClassMethodLink> getAbstractActionClassMethodLink();

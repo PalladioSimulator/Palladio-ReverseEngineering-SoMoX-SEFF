@@ -24,12 +24,12 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.impl.DataTypeSourceCodeLinkImpl#getJaMoPPType <em>Ja Mo PP Type</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.DataTypeSourceCodeLinkImpl#getPcmDataType <em>Pcm Data Type</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.DataTypeSourceCodeLinkImpl#getInnerDatatypeSourceCodeLink <em>Inner Datatype Source Code Link</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

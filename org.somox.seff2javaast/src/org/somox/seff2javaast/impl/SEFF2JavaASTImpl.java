@@ -26,127 +26,127 @@ import org.somox.seff2javaast.Seff2javaastPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.seff2javaast.impl.SEFF2JavaASTImpl#getSeff2MethodMappings <em>Seff2 Method Mappings</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
 public class SEFF2JavaASTImpl extends MinimalEObjectImpl.Container implements SEFF2JavaAST {
 	/**
-	 * The cached value of the '{@link #getSeff2MethodMappings() <em>Seff2 Method Mappings</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getSeff2MethodMappings() <em>Seff2 Method Mappings</em>}' containment reference list.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSeff2MethodMappings()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getSeff2MethodMappings()
+     * @generated
+     * @ordered
+     */
 	protected EList<SEFF2MethodMapping> seff2MethodMappings;
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected SEFF2JavaASTImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return Seff2javaastPackage.Literals.SEFF2_JAVA_AST;
-	}
+        return Seff2javaastPackage.Literals.SEFF2_JAVA_AST;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public EList<SEFF2MethodMapping> getSeff2MethodMappings() {
-		if (seff2MethodMappings == null) {
-			seff2MethodMappings = new EObjectContainmentEList<SEFF2MethodMapping>(SEFF2MethodMapping.class, this, Seff2javaastPackage.SEFF2_JAVA_AST__SEFF2_METHOD_MAPPINGS);
-		}
-		return seff2MethodMappings;
-	}
+        if (seff2MethodMappings == null) {
+            seff2MethodMappings = new EObjectContainmentEList<SEFF2MethodMapping>(SEFF2MethodMapping.class, this, Seff2javaastPackage.SEFF2_JAVA_AST__SEFF2_METHOD_MAPPINGS);
+        }
+        return seff2MethodMappings;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case Seff2javaastPackage.SEFF2_JAVA_AST__SEFF2_METHOD_MAPPINGS:
-				return ((InternalEList<?>)getSeff2MethodMappings()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case Seff2javaastPackage.SEFF2_JAVA_AST__SEFF2_METHOD_MAPPINGS:
+                return ((InternalEList<?>)getSeff2MethodMappings()).basicRemove(otherEnd, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case Seff2javaastPackage.SEFF2_JAVA_AST__SEFF2_METHOD_MAPPINGS:
-				return getSeff2MethodMappings();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case Seff2javaastPackage.SEFF2_JAVA_AST__SEFF2_METHOD_MAPPINGS:
+                return getSeff2MethodMappings();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case Seff2javaastPackage.SEFF2_JAVA_AST__SEFF2_METHOD_MAPPINGS:
-				getSeff2MethodMappings().clear();
-				getSeff2MethodMappings().addAll((Collection<? extends SEFF2MethodMapping>)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case Seff2javaastPackage.SEFF2_JAVA_AST__SEFF2_METHOD_MAPPINGS:
+                getSeff2MethodMappings().clear();
+                getSeff2MethodMappings().addAll((Collection<? extends SEFF2MethodMapping>)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case Seff2javaastPackage.SEFF2_JAVA_AST__SEFF2_METHOD_MAPPINGS:
-				getSeff2MethodMappings().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case Seff2javaastPackage.SEFF2_JAVA_AST__SEFF2_METHOD_MAPPINGS:
+                getSeff2MethodMappings().clear();
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case Seff2javaastPackage.SEFF2_JAVA_AST__SEFF2_METHOD_MAPPINGS:
-				return seff2MethodMappings != null && !seff2MethodMappings.isEmpty();
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case Seff2javaastPackage.SEFF2_JAVA_AST__SEFF2_METHOD_MAPPINGS:
+                return seff2MethodMappings != null && !seff2MethodMappings.isEmpty();
+        }
+        return super.eIsSet(featureID);
+    }
 
 } //SEFF2JavaASTImpl

@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.util.MembersSwitch;
 import org.emftext.language.java.statements.Assert;
 import org.emftext.language.java.statements.Block;
@@ -57,6 +58,8 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
 
     protected abstract Object handleStatementListContainer(StatementListContainer object);
 
+    protected abstract Object handleClassMethod(ClassMethod classMethod);
+
     protected abstract Object handleFormerSimpleStatement(Statement object);
 
     protected abstract Object handleTryBlock(final TryBlock object);
@@ -66,6 +69,12 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
         public Object caseStatementListContainer(final StatementListContainer object) {
             return AbstractJaMoPPStatementVisitor.this.handleStatementListContainer(object);
         }
+
+        @Override
+        public Object caseClassMethod(final ClassMethod classMethod) {
+            return AbstractJaMoPPStatementVisitor.this.handleClassMethod(classMethod);
+        }
+
     }
 
     private class StatementVisitor extends StatementsSwitch<Object> {
@@ -158,8 +167,8 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
      * @return true if the statement or one of its child statements is an external service call
      */
     protected boolean containsExternalCall(final Statement object) {
-        final boolean isExternalCall = this.functionClassificationAnnotation.get(object).get(
-                FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
+        final boolean isExternalCall = this.functionClassificationAnnotation.get(object)
+                .get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
         final boolean isInternalCallContainingExternalCall = this.functionClassificationAnnotation.get(object).get(
                 FunctionCallClassificationVisitor.getIndex(FunctionCallType.INTERNAL_CALL_CONTAINING_EXTERNAL_CALL));
         return isExternalCall || isInternalCallContainingExternalCall;
@@ -236,11 +245,11 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
         if (lastType == null) {
             return false;
         }
-    
+
         if (this.isExternalCall(thisType)) {
             return false;
         }
-    
+
         // Here I know that thisType is internal or library
         // Hence, I can skip this if the last type was not an external call
         return !this.isExternalCall(lastType);

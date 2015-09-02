@@ -13,11 +13,11 @@ import org.emftext.language.java.statements.Statement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink#getAbstractAction <em>Abstract Action</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink#getStatement <em>Statement</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getControlFlowLevelSourceCodeLink()
  * @model
