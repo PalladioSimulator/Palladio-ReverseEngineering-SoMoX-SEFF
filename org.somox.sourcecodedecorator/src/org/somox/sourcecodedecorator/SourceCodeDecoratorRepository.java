@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getComponentImplementingClassesLink <em>Component Implementing Classes Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getDataTypeSourceCodeLink <em>Data Type Source Code Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getAbstractActionClassMethodLink <em>Abstract Action Class Method Link</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getMethodLevelResourceDemandingInternalBehaviorLink <em>Method Level Resource Demanding Internal Behavior Link</em>}</li>
  * </ul>
  *
  * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getSourceCodeDecoratorRepository()
@@ -140,5 +141,21 @@ public interface SourceCodeDecoratorRepository extends EObject {
      * @generated
      */
     EList<AbstractActionClassMethodLink> getAbstractActionClassMethodLink();
+
+    /**
+     * Returns the value of the '<em><b>Method Level Resource Demanding Internal Behavior Link</b></em>' containment reference list.
+     * The list contents are of type {@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink}.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Method Level Resource Demanding Internal Behavior Link</em>' containment reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Method Level Resource Demanding Internal Behavior Link</em>' containment reference list.
+     * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getSourceCodeDecoratorRepository_MethodLevelResourceDemandingInternalBehaviorLink()
+     * @model containment="true"
+     * @generated
+     */
+    EList<MethodLevelResourceDemandingInternalBehaviorLink> getMethodLevelResourceDemandingInternalBehaviorLink();
 
 } // SourceCodeDecoratorRepository

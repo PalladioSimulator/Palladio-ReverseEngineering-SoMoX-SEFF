@@ -103,6 +103,61 @@ public interface SourcecodedecoratorPackage extends EPackage {
 	int FILE_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT = 0;
 
 	/**
+     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.AbstractMethodLevelSourceCodeLinkImpl <em>Abstract Method Level Source Code Link</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.somox.sourcecodedecorator.impl.AbstractMethodLevelSourceCodeLinkImpl
+     * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getAbstractMethodLevelSourceCodeLink()
+     * @generated
+     */
+    int ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK = 11;
+
+    /**
+     * The feature id for the '<em><b>Repository Component</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = FILE_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT;
+
+    /**
+     * The feature id for the '<em><b>File</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FILE = FILE_LEVEL_SOURCE_CODE_LINK__FILE;
+
+    /**
+     * The feature id for the '<em><b>Function</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION = FILE_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the '<em>Abstract Method Level Source Code Link</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT = FILE_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 1;
+
+    /**
+     * The number of operations of the '<em>Abstract Method Level Source Code Link</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT = FILE_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT + 0;
+
+    /**
      * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.MethodLevelSourceCodeLinkImpl <em>Method Level Source Code Link</em>}' class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -119,7 +174,7 @@ public interface SourcecodedecoratorPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int METHOD_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = FILE_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT;
+	int METHOD_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT;
 
 	/**
      * The feature id for the '<em><b>File</b></em>' reference.
@@ -128,16 +183,7 @@ public interface SourcecodedecoratorPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int METHOD_LEVEL_SOURCE_CODE_LINK__FILE = FILE_LEVEL_SOURCE_CODE_LINK__FILE;
-
-	/**
-     * The feature id for the '<em><b>Operation</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION = FILE_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 0;
+	int METHOD_LEVEL_SOURCE_CODE_LINK__FILE = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FILE;
 
 	/**
      * The feature id for the '<em><b>Function</b></em>' reference.
@@ -146,7 +192,16 @@ public interface SourcecodedecoratorPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION = FILE_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 1;
+	int METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION;
+
+    /**
+     * The feature id for the '<em><b>Operation</b></em>' reference.
+     * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+	int METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 0;
 
 	/**
      * The number of structural features of the '<em>Method Level Source Code Link</em>' class.
@@ -155,7 +210,7 @@ public interface SourcecodedecoratorPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT = FILE_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 2;
+	int METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 1;
 
 	/**
      * The number of operations of the '<em>Method Level Source Code Link</em>' class.
@@ -164,7 +219,7 @@ public interface SourcecodedecoratorPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT = FILE_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT + 0;
+	int METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT + 0;
 
 	/**
      * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl <em>Control Flow Level Source Code Link</em>}' class.
@@ -195,15 +250,6 @@ public interface SourcecodedecoratorPackage extends EPackage {
 	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__FILE = METHOD_LEVEL_SOURCE_CODE_LINK__FILE;
 
 	/**
-     * The feature id for the '<em><b>Operation</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__OPERATION = METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION;
-
-	/**
      * The feature id for the '<em><b>Function</b></em>' reference.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -211,6 +257,15 @@ public interface SourcecodedecoratorPackage extends EPackage {
      * @ordered
      */
 	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__FUNCTION = METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION;
+
+    /**
+     * The feature id for the '<em><b>Operation</b></em>' reference.
+     * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__OPERATION = METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION;
 
 	/**
      * The feature id for the '<em><b>Abstract Action</b></em>' reference.
@@ -322,13 +377,22 @@ public interface SourcecodedecoratorPackage extends EPackage {
     int SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK = 6;
 
     /**
+     * The feature id for the '<em><b>Method Level Resource Demanding Internal Behavior Link</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK = 7;
+
+    /**
      * The number of structural features of the '<em>Source Code Decorator Repository</em>' class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int SOURCE_CODE_DECORATOR_REPOSITORY_FEATURE_COUNT = 7;
+	int SOURCE_CODE_DECORATOR_REPOSITORY_FEATURE_COUNT = 8;
 
 	/**
      * The number of operations of the '<em>Source Code Decorator Repository</em>' class.
@@ -746,6 +810,71 @@ public interface SourcecodedecoratorPackage extends EPackage {
 
 
     /**
+     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.MethodLevelResourceDemandingInternalBehaviorLinkImpl <em>Method Level Resource Demanding Internal Behavior Link</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.somox.sourcecodedecorator.impl.MethodLevelResourceDemandingInternalBehaviorLinkImpl
+     * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getMethodLevelResourceDemandingInternalBehaviorLink()
+     * @generated
+     */
+    int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK = 10;
+
+    /**
+     * The feature id for the '<em><b>Repository Component</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__REPOSITORY_COMPONENT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT;
+
+    /**
+     * The feature id for the '<em><b>File</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__FILE = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FILE;
+
+    /**
+     * The feature id for the '<em><b>Function</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__FUNCTION = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION;
+
+    /**
+     * The feature id for the '<em><b>Resource Demanding Internal Behaviour</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the '<em>Method Level Resource Demanding Internal Behavior Link</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK_FEATURE_COUNT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 1;
+
+    /**
+     * The number of operations of the '<em>Method Level Resource Demanding Internal Behavior Link</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK_OPERATION_COUNT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT + 0;
+
+
+    /**
      * Returns the meta object for class '{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink <em>File Level Source Code Link</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -797,17 +926,6 @@ public interface SourcecodedecoratorPackage extends EPackage {
      * @generated
      */
 	EReference getMethodLevelSourceCodeLink_Operation();
-
-	/**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink#getFunction <em>Function</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Function</em>'.
-     * @see org.somox.sourcecodedecorator.MethodLevelSourceCodeLink#getFunction()
-     * @see #getMethodLevelSourceCodeLink()
-     * @generated
-     */
-	EReference getMethodLevelSourceCodeLink_Function();
 
 	/**
      * Returns the meta object for class '{@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink <em>Control Flow Level Source Code Link</em>}'.
@@ -927,6 +1045,17 @@ public interface SourcecodedecoratorPackage extends EPackage {
      * @generated
      */
     EReference getSourceCodeDecoratorRepository_AbstractActionClassMethodLink();
+
+    /**
+     * Returns the meta object for the containment reference list '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getMethodLevelResourceDemandingInternalBehaviorLink <em>Method Level Resource Demanding Internal Behavior Link</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference list '<em>Method Level Resource Demanding Internal Behavior Link</em>'.
+     * @see org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getMethodLevelResourceDemandingInternalBehaviorLink()
+     * @see #getSourceCodeDecoratorRepository()
+     * @generated
+     */
+    EReference getSourceCodeDecoratorRepository_MethodLevelResourceDemandingInternalBehaviorLink();
 
     /**
      * Returns the meta object for class '{@link org.somox.sourcecodedecorator.InterfaceSourceCodeLink <em>Interface Source Code Link</em>}'.
@@ -1176,6 +1305,48 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getAbstractActionClassMethodLink_AbstractAction();
 
     /**
+     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink <em>Method Level Resource Demanding Internal Behavior Link</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Method Level Resource Demanding Internal Behavior Link</em>'.
+     * @see org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink
+     * @generated
+     */
+    EClass getMethodLevelResourceDemandingInternalBehaviorLink();
+
+    /**
+     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink#getResourceDemandingInternalBehaviour <em>Resource Demanding Internal Behaviour</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Resource Demanding Internal Behaviour</em>'.
+     * @see org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink#getResourceDemandingInternalBehaviour()
+     * @see #getMethodLevelResourceDemandingInternalBehaviorLink()
+     * @generated
+     */
+    EReference getMethodLevelResourceDemandingInternalBehaviorLink_ResourceDemandingInternalBehaviour();
+
+    /**
+     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.AbstractMethodLevelSourceCodeLink <em>Abstract Method Level Source Code Link</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Abstract Method Level Source Code Link</em>'.
+     * @see org.somox.sourcecodedecorator.AbstractMethodLevelSourceCodeLink
+     * @generated
+     */
+    EClass getAbstractMethodLevelSourceCodeLink();
+
+    /**
+     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.AbstractMethodLevelSourceCodeLink#getFunction <em>Function</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Function</em>'.
+     * @see org.somox.sourcecodedecorator.AbstractMethodLevelSourceCodeLink#getFunction()
+     * @see #getAbstractMethodLevelSourceCodeLink()
+     * @generated
+     */
+    EReference getAbstractMethodLevelSourceCodeLink_Function();
+
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1241,14 +1412,6 @@ public interface SourcecodedecoratorPackage extends EPackage {
          * @generated
          */
 		EReference METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION = eINSTANCE.getMethodLevelSourceCodeLink_Operation();
-
-		/**
-         * The meta object literal for the '<em><b>Function</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EReference METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION = eINSTANCE.getMethodLevelSourceCodeLink_Function();
 
 		/**
          * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl <em>Control Flow Level Source Code Link</em>}' class.
@@ -1341,6 +1504,14 @@ public interface SourcecodedecoratorPackage extends EPackage {
          * @generated
          */
         EReference SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK = eINSTANCE.getSourceCodeDecoratorRepository_AbstractActionClassMethodLink();
+
+        /**
+         * The meta object literal for the '<em><b>Method Level Resource Demanding Internal Behavior Link</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK = eINSTANCE.getSourceCodeDecoratorRepository_MethodLevelResourceDemandingInternalBehaviorLink();
 
         /**
          * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.InterfaceSourceCodeLinkImpl <em>Interface Source Code Link</em>}' class.
@@ -1537,6 +1708,42 @@ public interface SourcecodedecoratorPackage extends EPackage {
          * @generated
          */
         EReference ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION = eINSTANCE.getAbstractActionClassMethodLink_AbstractAction();
+
+        /**
+         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.MethodLevelResourceDemandingInternalBehaviorLinkImpl <em>Method Level Resource Demanding Internal Behavior Link</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.somox.sourcecodedecorator.impl.MethodLevelResourceDemandingInternalBehaviorLinkImpl
+         * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getMethodLevelResourceDemandingInternalBehaviorLink()
+         * @generated
+         */
+        EClass METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK = eINSTANCE.getMethodLevelResourceDemandingInternalBehaviorLink();
+
+        /**
+         * The meta object literal for the '<em><b>Resource Demanding Internal Behaviour</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR = eINSTANCE.getMethodLevelResourceDemandingInternalBehaviorLink_ResourceDemandingInternalBehaviour();
+
+        /**
+         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.AbstractMethodLevelSourceCodeLinkImpl <em>Abstract Method Level Source Code Link</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.somox.sourcecodedecorator.impl.AbstractMethodLevelSourceCodeLinkImpl
+         * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getAbstractMethodLevelSourceCodeLink()
+         * @generated
+         */
+        EClass ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK = eINSTANCE.getAbstractMethodLevelSourceCodeLink();
+
+        /**
+         * The meta object literal for the '<em><b>Function</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION = eINSTANCE.getAbstractMethodLevelSourceCodeLink_Function();
 
 	}
 

@@ -108,6 +108,14 @@ public class SourcecodedecoratorAdapterFactory extends AdapterFactoryImpl {
                 return createAbstractActionClassMethodLinkAdapter();
             }
             @Override
+            public Adapter caseMethodLevelResourceDemandingInternalBehaviorLink(MethodLevelResourceDemandingInternalBehaviorLink object) {
+                return createMethodLevelResourceDemandingInternalBehaviorLinkAdapter();
+            }
+            @Override
+            public Adapter caseAbstractMethodLevelSourceCodeLink(AbstractMethodLevelSourceCodeLink object) {
+                return createAbstractMethodLevelSourceCodeLinkAdapter();
+            }
+            @Override
             public Adapter defaultCase(EObject object) {
                 return createEObjectAdapter();
             }
@@ -264,6 +272,34 @@ public class SourcecodedecoratorAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createAbstractActionClassMethodLinkAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink <em>Method Level Resource Demanding Internal Behavior Link</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink
+     * @generated
+     */
+    public Adapter createMethodLevelResourceDemandingInternalBehaviorLinkAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.somox.sourcecodedecorator.AbstractMethodLevelSourceCodeLink <em>Abstract Method Level Source Code Link</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.somox.sourcecodedecorator.AbstractMethodLevelSourceCodeLink
+     * @generated
+     */
+    public Adapter createAbstractMethodLevelSourceCodeLinkAdapter() {
         return null;
     }
 

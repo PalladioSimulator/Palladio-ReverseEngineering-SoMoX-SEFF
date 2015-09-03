@@ -10,12 +10,10 @@ import org.emftext.language.java.members.Method;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
-
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
-import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 public class VisitorUtils {
 
@@ -63,18 +61,22 @@ public class VisitorUtils {
 
     }
 
-    public static void visitJaMoPPMethod(final ResourceDemandingSEFF seff, final BasicComponent basicComponent,
+    public static void visitJaMoPPMethod(final ResourceDemandingBehaviour seff, final BasicComponent basicComponent,
             final StatementListContainer body, final SourceCodeDecoratorRepository sourceCodeDecoratorModel,
             final FunctionCallClassificationVisitor typeVisitor) {
-        visitJaMoPPMethod(seff, basicComponent, body, sourceCodeDecoratorModel, typeVisitor, null);
+        final boolean createResourceDemandingInternalBehaviourForClassMethods = false;
+        visitJaMoPPMethod(seff, basicComponent, body, sourceCodeDecoratorModel, typeVisitor, null,
+                createResourceDemandingInternalBehaviourForClassMethods);
     }
 
-    public static void visitJaMoPPMethod(final ResourceDemandingSEFF seff, final BasicComponent basicComponent,
+    public static void visitJaMoPPMethod(final ResourceDemandingBehaviour seff, final BasicComponent basicComponent,
             final StatementListContainer body, final SourceCodeDecoratorRepository sourceCodeDecoratorModel,
             final FunctionCallClassificationVisitor typeVisitor,
-            final InterfaceOfExternalCallFinding interfaceOfExternalCallFinder) {
+            final InterfaceOfExternalCallFinding interfaceOfExternalCallFinder,
+            final boolean createResourceDemandingInternalBehaviourForClassMethods) {
         final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(typeVisitor.getAnnotations(), seff,
-                sourceCodeDecoratorModel, basicComponent, interfaceOfExternalCallFinder);
+                sourceCodeDecoratorModel, basicComponent, interfaceOfExternalCallFinder,
+                createResourceDemandingInternalBehaviourForClassMethods);
 
         // handle each statement
         for (final Statement st : body.getStatements()) {

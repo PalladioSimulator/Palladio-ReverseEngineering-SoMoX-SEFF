@@ -18,7 +18,7 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * @generated
  */
 public class MethodLevelSourceCodeLinkItemProvider
-	extends FileLevelSourceCodeLinkItemProvider {
+	extends AbstractMethodLevelSourceCodeLinkItemProvider {
 	/**
      * This constructs an instance from a factory and a notifier.
      * <!-- begin-user-doc -->
@@ -41,7 +41,6 @@ public class MethodLevelSourceCodeLinkItemProvider
             super.getPropertyDescriptors(object);
 
             addOperationPropertyDescriptor(object);
-            addFunctionPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -60,28 +59,6 @@ public class MethodLevelSourceCodeLinkItemProvider
                  getString("_UI_MethodLevelSourceCodeLink_operation_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_MethodLevelSourceCodeLink_operation_feature", "_UI_MethodLevelSourceCodeLink_type"),
                  SourcecodedecoratorPackage.Literals.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION,
-                 true,
-                 false,
-                 true,
-                 null,
-                 null,
-                 null));
-    }
-
-	/**
-     * This adds a property descriptor for the Function feature.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	protected void addFunctionPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_MethodLevelSourceCodeLink_function_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_MethodLevelSourceCodeLink_function_feature", "_UI_MethodLevelSourceCodeLink_type"),
-                 SourcecodedecoratorPackage.Literals.METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION,
                  true,
                  false,
                  true,

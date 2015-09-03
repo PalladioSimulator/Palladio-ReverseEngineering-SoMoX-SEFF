@@ -302,6 +302,29 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected MethodLevelResourceDemandingInternalBehaviorLinkItemProvider methodLevelResourceDemandingInternalBehaviorLinkItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createMethodLevelResourceDemandingInternalBehaviorLinkAdapter() {
+        if (methodLevelResourceDemandingInternalBehaviorLinkItemProvider == null) {
+            methodLevelResourceDemandingInternalBehaviorLinkItemProvider = new MethodLevelResourceDemandingInternalBehaviorLinkItemProvider(this);
+        }
+
+        return methodLevelResourceDemandingInternalBehaviorLinkItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -410,6 +433,7 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
         if (dataTypeSourceCodeLinkItemProvider != null) dataTypeSourceCodeLinkItemProvider.dispose();
         if (innerDatatypeSourceCodeLinkItemProvider != null) innerDatatypeSourceCodeLinkItemProvider.dispose();
         if (abstractActionClassMethodLinkItemProvider != null) abstractActionClassMethodLinkItemProvider.dispose();
+        if (methodLevelResourceDemandingInternalBehaviorLinkItemProvider != null) methodLevelResourceDemandingInternalBehaviorLinkItemProvider.dispose();
     }
 
 }

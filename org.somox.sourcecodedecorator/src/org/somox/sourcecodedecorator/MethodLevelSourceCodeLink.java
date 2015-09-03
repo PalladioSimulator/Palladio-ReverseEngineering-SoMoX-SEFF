@@ -3,7 +3,6 @@
 package org.somox.sourcecodedecorator;
 
 import org.palladiosimulator.pcm.repository.Signature;
-import org.emftext.language.java.members.Member;
 
 /**
  * <!-- begin-user-doc -->
@@ -15,14 +14,13 @@ import org.emftext.language.java.members.Member;
  * </p>
  * <ul>
  *   <li>{@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink#getOperation <em>Operation</em>}</li>
- *   <li>{@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink#getFunction <em>Function</em>}</li>
  * </ul>
  *
  * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getMethodLevelSourceCodeLink()
  * @model
  * @generated
  */
-public interface MethodLevelSourceCodeLink extends FileLevelSourceCodeLink {
+public interface MethodLevelSourceCodeLink extends AbstractMethodLevelSourceCodeLink {
 	/**
      * Returns the value of the '<em><b>Operation</b></em>' reference.
      * <!-- begin-user-doc -->
@@ -48,31 +46,5 @@ public interface MethodLevelSourceCodeLink extends FileLevelSourceCodeLink {
      * @generated
      */
 	void setOperation(Signature value);
-
-	/**
-     * Returns the value of the '<em><b>Function</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Function</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Function</em>' reference.
-     * @see #setFunction(Member)
-     * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getMethodLevelSourceCodeLink_Function()
-     * @model ordered="false"
-     * @generated
-     */
-	Member getFunction();
-
-	/**
-     * Sets the value of the '{@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink#getFunction <em>Function</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Function</em>' reference.
-     * @see #getFunction()
-     * @generated
-     */
-    void setFunction(Member value);
 
 } // MethodLevelSourceCodeLink

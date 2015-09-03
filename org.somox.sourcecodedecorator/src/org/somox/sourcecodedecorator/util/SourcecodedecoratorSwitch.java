@@ -75,6 +75,7 @@ public class SourcecodedecoratorSwitch<T> extends Switch<T> {
             case SourcecodedecoratorPackage.METHOD_LEVEL_SOURCE_CODE_LINK: {
                 MethodLevelSourceCodeLink methodLevelSourceCodeLink = (MethodLevelSourceCodeLink)theEObject;
                 T result = caseMethodLevelSourceCodeLink(methodLevelSourceCodeLink);
+                if (result == null) result = caseAbstractMethodLevelSourceCodeLink(methodLevelSourceCodeLink);
                 if (result == null) result = caseFileLevelSourceCodeLink(methodLevelSourceCodeLink);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -83,6 +84,7 @@ public class SourcecodedecoratorSwitch<T> extends Switch<T> {
                 ControlFlowLevelSourceCodeLink controlFlowLevelSourceCodeLink = (ControlFlowLevelSourceCodeLink)theEObject;
                 T result = caseControlFlowLevelSourceCodeLink(controlFlowLevelSourceCodeLink);
                 if (result == null) result = caseMethodLevelSourceCodeLink(controlFlowLevelSourceCodeLink);
+                if (result == null) result = caseAbstractMethodLevelSourceCodeLink(controlFlowLevelSourceCodeLink);
                 if (result == null) result = caseFileLevelSourceCodeLink(controlFlowLevelSourceCodeLink);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -128,6 +130,21 @@ public class SourcecodedecoratorSwitch<T> extends Switch<T> {
             case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK: {
                 AbstractActionClassMethodLink abstractActionClassMethodLink = (AbstractActionClassMethodLink)theEObject;
                 T result = caseAbstractActionClassMethodLink(abstractActionClassMethodLink);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case SourcecodedecoratorPackage.METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK: {
+                MethodLevelResourceDemandingInternalBehaviorLink methodLevelResourceDemandingInternalBehaviorLink = (MethodLevelResourceDemandingInternalBehaviorLink)theEObject;
+                T result = caseMethodLevelResourceDemandingInternalBehaviorLink(methodLevelResourceDemandingInternalBehaviorLink);
+                if (result == null) result = caseAbstractMethodLevelSourceCodeLink(methodLevelResourceDemandingInternalBehaviorLink);
+                if (result == null) result = caseFileLevelSourceCodeLink(methodLevelResourceDemandingInternalBehaviorLink);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case SourcecodedecoratorPackage.ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK: {
+                AbstractMethodLevelSourceCodeLink abstractMethodLevelSourceCodeLink = (AbstractMethodLevelSourceCodeLink)theEObject;
+                T result = caseAbstractMethodLevelSourceCodeLink(abstractMethodLevelSourceCodeLink);
+                if (result == null) result = caseFileLevelSourceCodeLink(abstractMethodLevelSourceCodeLink);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -282,6 +299,36 @@ public class SourcecodedecoratorSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseAbstractActionClassMethodLink(AbstractActionClassMethodLink object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Method Level Resource Demanding Internal Behavior Link</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Method Level Resource Demanding Internal Behavior Link</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseMethodLevelResourceDemandingInternalBehaviorLink(MethodLevelResourceDemandingInternalBehaviorLink object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Abstract Method Level Source Code Link</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Abstract Method Level Source Code Link</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseAbstractMethodLevelSourceCodeLink(AbstractMethodLevelSourceCodeLink object) {
         return null;
     }
 

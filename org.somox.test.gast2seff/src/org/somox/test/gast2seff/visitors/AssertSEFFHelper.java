@@ -86,8 +86,9 @@ public class AssertSEFFHelper {
 
     private static void assertInternalCallActionEquals(final InternalCallAction abstractAction,
             final InternalCallAction expectedAbstractAction) {
-        throw new RuntimeException(
-                "Internal call actions should not be generated since internal call action is not working.");
+        assertSeffEquals(abstractAction.getCalledResourceDemandingInternalBehaviour(),
+                expectedAbstractAction.getCalledResourceDemandingInternalBehaviour());
+
     }
 
     private static void assertExternalCallActionEquals(final ExternalCallAction externalCallAction,

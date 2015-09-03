@@ -112,6 +112,15 @@ public interface SourcecodedecoratorFactory extends EFactory {
     AbstractActionClassMethodLink createAbstractActionClassMethodLink();
 
     /**
+     * Returns a new object of class '<em>Method Level Resource Demanding Internal Behavior Link</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Method Level Resource Demanding Internal Behavior Link</em>'.
+     * @generated
+     */
+    MethodLevelResourceDemandingInternalBehaviorLink createMethodLevelResourceDemandingInternalBehaviorLink();
+
+    /**
      * Returns the package supported by this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

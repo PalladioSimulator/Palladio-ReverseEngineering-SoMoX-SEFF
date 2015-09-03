@@ -34,6 +34,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.TestWatcher;
+import org.palladiosimulator.pcm.repository.Interface;
+import org.palladiosimulator.pcm.repository.OperationInterface;
+import org.palladiosimulator.pcm.repository.OperationSignature;
+import org.palladiosimulator.pcm.repository.Repository;
+import org.palladiosimulator.pcm.repository.RepositoryComponent;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
 import org.somox.kdmhelper.KDMReader;
@@ -43,12 +48,6 @@ import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
-
-import org.palladiosimulator.pcm.repository.Interface;
-import org.palladiosimulator.pcm.repository.OperationInterface;
-import org.palladiosimulator.pcm.repository.OperationSignature;
-import org.palladiosimulator.pcm.repository.Repository;
-import org.palladiosimulator.pcm.repository.RepositoryComponent;
 
 public class JaMoPP2PCMBaseTest {
 
@@ -90,7 +89,6 @@ public class JaMoPP2PCMBaseTest {
     public static void beforeClass() throws IOException {
         initCompilationUnits();
         initializeLogger();
-
     }
 
     @Before
@@ -144,8 +142,8 @@ public class JaMoPP2PCMBaseTest {
                 return opSig;
             }
         }
-        throw new RuntimeException("Could not find OperationSignature " + methodName + " in OperationInterface "
-                + interfaceName);
+        throw new RuntimeException(
+                "Could not find OperationSignature " + methodName + " in OperationInterface " + interfaceName);
     }
 
     protected Method findMethodInClassifier(final String methodName, final String classifierName) {
@@ -245,8 +243,8 @@ public class JaMoPP2PCMBaseTest {
         final InterfaceSourceCodeLink providingOpInterfaceToProvidingInterface = this
                 .createAndAddInterface2InterfaceCorrespondence(PROVIDING_INTERFACE_NAME);
         // method2method4interface
-        this.createAndAddMethodLevelSourceCodeLink(
-                METHOD_NAME_TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETER_AND_RETURN_TYPE, null, INTERFACE_A_NAME);
+        this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETER_AND_RETURN_TYPE,
+                null, INTERFACE_A_NAME);
         this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_TEST_EXTERNAL_CALL, null, INTERFACE_A_NAME);
         this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_PROVIDING_METHOD, null, PROVIDING_INTERFACE_NAME);
 
@@ -256,17 +254,16 @@ public class JaMoPP2PCMBaseTest {
                 providingOpInterfaceToProvidingInterface, opInterfaceAToInterfaceA);
 
         // methods2methods
-        this.createAndAddMethodLevelSourceCodeLink(
-                METHOD_NAME_TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETER_AND_RETURN_TYPE, PROVIDING_COMPONENT_NAME,
-                INTERFACE_A_NAME);
+        this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETER_AND_RETURN_TYPE,
+                PROVIDING_COMPONENT_NAME, INTERFACE_A_NAME);
         this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_TEST_EXTERNAL_CALL, PROVIDING_COMPONENT_NAME,
                 INTERFACE_A_NAME);
         this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_PROVIDING_METHOD, REQUIRED_COMPONENT_NAME,
                 PROVIDING_INTERFACE_NAME);
 
         final ResourceSet resourceSet = new ResourceSetImpl();
-        final URI uri = URI.createPlatformResourceURI(PROJECT_URI + "/" + CURRENT_TEST_FOLDER + "/"
-                + SOURCE_CODE_DECORATOR_MODEL_NAME, true);
+        final URI uri = URI.createPlatformResourceURI(
+                PROJECT_URI + "/" + CURRENT_TEST_FOLDER + "/" + SOURCE_CODE_DECORATOR_MODEL_NAME, true);
         final Resource resource = resourceSet.createResource(uri);
         resource.getContents().add(this.sourceCodeDecorator);
         resource.save(null);
@@ -330,7 +327,8 @@ public class JaMoPP2PCMBaseTest {
      *            destinationPath in test workspace
      * @throws URISyntaxException
      */
-    private static void moveFilesFromTo(final String srcProjectName, final String srcPath, final String destinationPath) {
+    private static void moveFilesFromTo(final String srcProjectName, final String srcPath,
+            final String destinationPath) {
         final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         final IProject project = root.getProject(srcProjectName);
         final IResource member = project.findMember(srcPath);

@@ -22,6 +22,7 @@ import org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.DataTypeSourceCodeLink;
 import org.somox.sourcecodedecorator.FileLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
@@ -41,6 +42,7 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getComponentImplementingClassesLink <em>Component Implementing Classes Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getDataTypeSourceCodeLink <em>Data Type Source Code Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getAbstractActionClassMethodLink <em>Abstract Action Class Method Link</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getMethodLevelResourceDemandingInternalBehaviorLink <em>Method Level Resource Demanding Internal Behavior Link</em>}</li>
  * </ul>
  *
  * @generated
@@ -115,6 +117,16 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
      * @ordered
      */
     protected EList<AbstractActionClassMethodLink> abstractActionClassMethodLink;
+
+    /**
+     * The cached value of the '{@link #getMethodLevelResourceDemandingInternalBehaviorLink() <em>Method Level Resource Demanding Internal Behavior Link</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getMethodLevelResourceDemandingInternalBehaviorLink()
+     * @generated
+     * @ordered
+     */
+    protected EList<MethodLevelResourceDemandingInternalBehaviorLink> methodLevelResourceDemandingInternalBehaviorLink;
 
     /**
      * <!-- begin-user-doc -->
@@ -221,6 +233,18 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EList<MethodLevelResourceDemandingInternalBehaviorLink> getMethodLevelResourceDemandingInternalBehaviorLink() {
+        if (methodLevelResourceDemandingInternalBehaviorLink == null) {
+            methodLevelResourceDemandingInternalBehaviorLink = new EObjectContainmentEList<MethodLevelResourceDemandingInternalBehaviorLink>(MethodLevelResourceDemandingInternalBehaviorLink.class, this, SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK);
+        }
+        return methodLevelResourceDemandingInternalBehaviorLink;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -241,6 +265,8 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
                 return ((InternalEList<?>)getDataTypeSourceCodeLink()).basicRemove(otherEnd, msgs);
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK:
                 return ((InternalEList<?>)getAbstractActionClassMethodLink()).basicRemove(otherEnd, msgs);
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK:
+                return ((InternalEList<?>)getMethodLevelResourceDemandingInternalBehaviorLink()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -267,6 +293,8 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
                 return getDataTypeSourceCodeLink();
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK:
                 return getAbstractActionClassMethodLink();
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK:
+                return getMethodLevelResourceDemandingInternalBehaviorLink();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -308,6 +336,10 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
                 getAbstractActionClassMethodLink().clear();
                 getAbstractActionClassMethodLink().addAll((Collection<? extends AbstractActionClassMethodLink>)newValue);
                 return;
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK:
+                getMethodLevelResourceDemandingInternalBehaviorLink().clear();
+                getMethodLevelResourceDemandingInternalBehaviorLink().addAll((Collection<? extends MethodLevelResourceDemandingInternalBehaviorLink>)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -341,6 +373,9 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK:
                 getAbstractActionClassMethodLink().clear();
                 return;
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK:
+                getMethodLevelResourceDemandingInternalBehaviorLink().clear();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -367,6 +402,8 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
                 return dataTypeSourceCodeLink != null && !dataTypeSourceCodeLink.isEmpty();
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK:
                 return abstractActionClassMethodLink != null && !abstractActionClassMethodLink.isEmpty();
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK:
+                return methodLevelResourceDemandingInternalBehaviorLink != null && !methodLevelResourceDemandingInternalBehaviorLink.isEmpty();
         }
         return super.eIsSet(featureID);
     }

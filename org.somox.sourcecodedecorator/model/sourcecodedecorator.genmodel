@@ -14,7 +14,6 @@
     </genClasses>
     <genClasses ecoreClass="sourcecodedecorator.ecore#//MethodLevelSourceCodeLink">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//MethodLevelSourceCodeLink/operation"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//MethodLevelSourceCodeLink/function"/>
     </genClasses>
     <genClasses ecoreClass="sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//ControlFlowLevelSourceCodeLink/abstractAction"/>
@@ -28,6 +27,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/componentImplementingClassesLink"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/dataTypeSourceCodeLink"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/abstractActionClassMethodLink"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/methodLevelResourceDemandingInternalBehaviorLink"/>
     </genClasses>
     <genClasses ecoreClass="sourcecodedecorator.ecore#//InterfaceSourceCodeLink">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//InterfaceSourceCodeLink/interface"/>
@@ -57,6 +57,12 @@
     <genClasses ecoreClass="sourcecodedecorator.ecore#//AbstractActionClassMethodLink">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//AbstractActionClassMethodLink/classMethod"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//AbstractActionClassMethodLink/abstractAction"/>
+    </genClasses>
+    <genClasses ecoreClass="sourcecodedecorator.ecore#//MethodLevelResourceDemandingInternalBehaviorLink">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//MethodLevelResourceDemandingInternalBehaviorLink/resourceDemandingInternalBehaviour"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="sourcecodedecorator.ecore#//AbstractMethodLevelSourceCodeLink">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//AbstractMethodLevelSourceCodeLink/function"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
