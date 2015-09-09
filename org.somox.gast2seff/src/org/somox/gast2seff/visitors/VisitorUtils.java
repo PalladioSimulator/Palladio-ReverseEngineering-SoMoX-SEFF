@@ -64,19 +64,17 @@ public class VisitorUtils {
     public static void visitJaMoPPMethod(final ResourceDemandingBehaviour seff, final BasicComponent basicComponent,
             final StatementListContainer body, final SourceCodeDecoratorRepository sourceCodeDecoratorModel,
             final FunctionCallClassificationVisitor typeVisitor) {
-        final boolean createResourceDemandingInternalBehaviourForClassMethods = false;
-        visitJaMoPPMethod(seff, basicComponent, body, sourceCodeDecoratorModel, typeVisitor, null,
-                createResourceDemandingInternalBehaviourForClassMethods);
+        visitJaMoPPMethod(seff, basicComponent, body, sourceCodeDecoratorModel, typeVisitor, null, null);
     }
 
     public static void visitJaMoPPMethod(final ResourceDemandingBehaviour seff, final BasicComponent basicComponent,
             final StatementListContainer body, final SourceCodeDecoratorRepository sourceCodeDecoratorModel,
             final FunctionCallClassificationVisitor typeVisitor,
             final InterfaceOfExternalCallFinding interfaceOfExternalCallFinder,
-            final boolean createResourceDemandingInternalBehaviourForClassMethods) {
+            final ResourceDemandingBehaviourForClassMethodFinding resourceDemandingBehaviourForClassMethodFinding) {
         final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(typeVisitor.getAnnotations(), seff,
                 sourceCodeDecoratorModel, basicComponent, interfaceOfExternalCallFinder,
-                createResourceDemandingInternalBehaviourForClassMethods);
+                resourceDemandingBehaviourForClassMethodFinding);
 
         // handle each statement
         for (final Statement st : body.getStatements()) {

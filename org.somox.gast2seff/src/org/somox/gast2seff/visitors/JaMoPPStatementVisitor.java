@@ -18,7 +18,6 @@ import org.emftext.language.java.statements.TryBlock;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
-import org.palladiosimulator.pcm.repository.Signature;
 import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.ExternalCallAction;
 import org.palladiosimulator.pcm.seff.InternalAction;
@@ -27,7 +26,6 @@ import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
 import org.palladiosimulator.pcm.seff.ResourceDemandingInternalBehaviour;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.SeffFactory;
-import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
 import org.somox.gast2seff.visitors.InterfaceOfExternalCallFinding.InterfacePortOperationTuple;
@@ -35,7 +33,6 @@ import org.somox.kdmhelper.GetAccessedType;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.sourcecodedecorator.AbstractActionClassMethodLink;
 import org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink;
-import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
@@ -67,12 +64,14 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
      */
     private final BasicComponent primitiveComponent;
 
-    private InterfaceOfExternalCallFinding interfaceOfExternalCallFinder;
+    private final InterfaceOfExternalCallFinding interfaceOfExternalCallFinder;
 
     /**
-     * Indicated whether to create an ResourceDemandingInternalBehaviour for class methods or not.
+     * Interface, which is used to find corresponding SEFFs or ResourceDemandingInternalBehaviour
+     * for a given class method If the field is null no ResourceDemandingInternalBehaviour for class
+     * methods are created.
      */
-    private final boolean createResourceDemandingInternalBehaviourForClassMethods;
+    private final ResourceDemandingBehaviourForClassMethodFinding resourceDemandingBehaviourForClassMethodFinding;
 
     /**
      * Constructor Uses {@link DefaultInterfaceOfExternalCallFinder} to find interfaces of external
@@ -91,30 +90,36 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
             final org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour resourceDemandingBehaviour,
             final SourceCodeDecoratorRepository sourceCodeDecorator, final BasicComponent primitiveComponent) {
         this(functionClassificationAnnotations, resourceDemandingBehaviour, sourceCodeDecorator, primitiveComponent,
-                null, false);
+                null, null);
     }
 
     public JaMoPPStatementVisitor(final Map<Commentable, BitSet> functionClassificationAnnotations,
             final org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour resourceDemandingBehaviour,
             final SourceCodeDecoratorRepository sourceCodeDecorator, final BasicComponent primitiveComponent,
             final InterfaceOfExternalCallFinding interfaceOfExternalCallFinder,
-            final boolean createResourceDemandingInternalBehaviourForClassMethods) {
+            final ResourceDemandingBehaviourForClassMethodFinding resourceDemandingBehaviourForClassMethodFinding) {
         super(functionClassificationAnnotations);
-        this.createResourceDemandingInternalBehaviourForClassMethods = createResourceDemandingInternalBehaviourForClassMethods;
-
         this.seff = resourceDemandingBehaviour;
         this.sourceCodeDecoratorRepository = sourceCodeDecorator;
         this.primitiveComponent = primitiveComponent;
+        this.resourceDemandingBehaviourForClassMethodFinding = resourceDemandingBehaviourForClassMethodFinding;
+
+        this.interfaceOfExternalCallFinder = this.configureInterfaceOfExternalCallFinding(sourceCodeDecorator,
+                primitiveComponent, interfaceOfExternalCallFinder);
+    }
+
+    private InterfaceOfExternalCallFinding configureInterfaceOfExternalCallFinding(
+            final SourceCodeDecoratorRepository sourceCodeDecorator, final BasicComponent primitiveComponent,
+            final InterfaceOfExternalCallFinding interfaceOfExternalCallFinder) {
         if (null == interfaceOfExternalCallFinder) {
             if (null == sourceCodeDecorator) {
                 throw new IllegalArgumentException(
                         "Can not use " + DefaultInterfaceOfExternalCallFinder.class.getSimpleName()
                                 + " with ‘null' for source code decorator");
             }
-            this.interfaceOfExternalCallFinder = new DefaultInterfaceOfExternalCallFinder(sourceCodeDecorator,
-                    primitiveComponent);
+            return new DefaultInterfaceOfExternalCallFinder(sourceCodeDecorator, primitiveComponent);
         } else {
-            this.interfaceOfExternalCallFinder = interfaceOfExternalCallFinder;
+            return interfaceOfExternalCallFinder;
         }
     }
 
@@ -159,7 +164,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
 
             new JaMoPPStatementVisitor(this.functionClassificationAnnotation, loop.getBodyBehaviour_Loop(),
                     this.sourceCodeDecoratorRepository, this.primitiveComponent, this.interfaceOfExternalCallFinder,
-                    this.createResourceDemandingInternalBehaviourForClassMethods).doSwitch(body);
+                    this.resourceDemandingBehaviourForClassMethodFinding).doSwitch(body);
 
             final StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
             this.createAbstracActionClassMethodLink(stopAction, loopStatement);
@@ -281,7 +286,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                         bt.getBranchBehaviour_BranchTransition(),
                         JaMoPPStatementVisitor.this.sourceCodeDecoratorRepository,
                         JaMoPPStatementVisitor.this.primitiveComponent, this.interfaceOfExternalCallFinder,
-                        this.createResourceDemandingInternalBehaviourForClassMethods);
+                        this.resourceDemandingBehaviourForClassMethodFinding);
                 // Statement s = b.getStatement();
                 // visitor.doSwitch(s);
 
@@ -327,7 +332,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                     JaMoPPStatementVisitor.this.functionClassificationAnnotation, JaMoPPStatementVisitor.this.seff,
                     JaMoPPStatementVisitor.this.sourceCodeDecoratorRepository,
                     JaMoPPStatementVisitor.this.primitiveComponent, this.interfaceOfExternalCallFinder,
-                    this.createResourceDemandingInternalBehaviourForClassMethods);
+                    this.resourceDemandingBehaviourForClassMethodFinding);
             for (final Statement statement : tryBlock.getStatements()) {
                 visitor.doSwitch(statement);
             }
@@ -339,8 +344,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                 new JaMoPPStatementVisitor(JaMoPPStatementVisitor.this.functionClassificationAnnotation,
                         JaMoPPStatementVisitor.this.seff, JaMoPPStatementVisitor.this.sourceCodeDecoratorRepository,
                         JaMoPPStatementVisitor.this.primitiveComponent, this.interfaceOfExternalCallFinder,
-                        this.createResourceDemandingInternalBehaviourForClassMethods)
-                                .doSwitch(tryBlock.getFinallyBlock());
+                        this.resourceDemandingBehaviourForClassMethodFinding).doSwitch(tryBlock.getFinallyBlock());
             }
         } else {
             this.createInternalAction(tryBlock);
@@ -382,10 +386,11 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
      */
     @Override
     protected Object handleClassMethod(final ClassMethod classMethod) {
-        if (!this.createResourceDemandingInternalBehaviourForClassMethods) {
+        if (null == this.resourceDemandingBehaviourForClassMethodFinding) {
             return this.handleStatementListContainer(classMethod);
         }
-        final ResourceDemandingSEFF rdSEFF = this.getRDSEFFForClassMethod(classMethod);
+        final ResourceDemandingSEFF rdSEFF = this.resourceDemandingBehaviourForClassMethodFinding
+                .getCorrespondingRDSEFForClassMethod(classMethod);
         if (null != rdSEFF) {
             // just create an Internal Action that calls the SEFF
             this.createInternalCallAction(rdSEFF, classMethod);
@@ -407,25 +412,27 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
 
     private ResourceDemandingInternalBehaviour getOrCreateResourceDemandingInternalBehaviour(
             final ClassMethod classMethod) {
-        for (final MethodLevelResourceDemandingInternalBehaviorLink methodLevelResourceDemandingInternalBehaviorLink : this.sourceCodeDecoratorRepository
-                .getMethodLevelResourceDemandingInternalBehaviorLink()) {
-            if (methodLevelResourceDemandingInternalBehaviorLink.getFunction() == classMethod) {
-                if (null != methodLevelResourceDemandingInternalBehaviorLink.getResourceDemandingInternalBehaviour()) {
-                    return methodLevelResourceDemandingInternalBehaviorLink.getResourceDemandingInternalBehaviour();
-                }
-            }
+        ResourceDemandingInternalBehaviour resourceDemandingInternalBehaviour = this.resourceDemandingBehaviourForClassMethodFinding
+                .getCorrespondingResourceDemandingInternalBehaviour(classMethod);
+        if (null != resourceDemandingInternalBehaviour) {
+            return resourceDemandingInternalBehaviour;
         }
-        final ResourceDemandingInternalBehaviour resourceDemandingInternalBehaviour = this
-                .createResourceDemandingInternalBehaviour(classMethod);
-
-        final MethodLevelResourceDemandingInternalBehaviorLink methodLevelResourceDemandingInternalBehaviorLink = SourcecodedecoratorFactory.eINSTANCE
-                .createMethodLevelResourceDemandingInternalBehaviorLink();
-        methodLevelResourceDemandingInternalBehaviorLink.setFunction(classMethod);
-        methodLevelResourceDemandingInternalBehaviorLink
-                .setResourceDemandingInternalBehaviour(resourceDemandingInternalBehaviour);
-        this.sourceCodeDecoratorRepository.getMethodLevelResourceDemandingInternalBehaviorLink()
-                .add(methodLevelResourceDemandingInternalBehaviorLink);
+        resourceDemandingInternalBehaviour = this.createResourceDemandingInternalBehaviour(classMethod);
+        this.createMethodLevelResourceDemandingInternalBehaviorLink(classMethod, resourceDemandingInternalBehaviour);
         return resourceDemandingInternalBehaviour;
+    }
+
+    private void createMethodLevelResourceDemandingInternalBehaviorLink(final ClassMethod classMethod,
+            final ResourceDemandingInternalBehaviour resourceDemandingInternalBehaviour) {
+        if (null != this.sourceCodeDecoratorRepository) {
+            final MethodLevelResourceDemandingInternalBehaviorLink methodLevelResourceDemandingInternalBehaviorLink = SourcecodedecoratorFactory.eINSTANCE
+                    .createMethodLevelResourceDemandingInternalBehaviorLink();
+            methodLevelResourceDemandingInternalBehaviorLink.setFunction(classMethod);
+            methodLevelResourceDemandingInternalBehaviorLink
+                    .setResourceDemandingInternalBehaviour(resourceDemandingInternalBehaviour);
+            this.sourceCodeDecoratorRepository.getMethodLevelResourceDemandingInternalBehaviorLink()
+                    .add(methodLevelResourceDemandingInternalBehaviorLink);
+        }
     }
 
     private ResourceDemandingInternalBehaviour createResourceDemandingInternalBehaviour(final ClassMethod classMethod) {
@@ -437,43 +444,12 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         resourceDemandingInternalBehaviour.getSteps_Behaviour().add(startAction);
         final JaMoPPStatementVisitor methodVisitor = new JaMoPPStatementVisitor(this.functionClassificationAnnotation,
                 resourceDemandingInternalBehaviour, this.sourceCodeDecoratorRepository, this.primitiveComponent,
-                this.interfaceOfExternalCallFinder, this.createResourceDemandingInternalBehaviourForClassMethods);
+                this.interfaceOfExternalCallFinder, this.resourceDemandingBehaviourForClassMethodFinding);
         methodVisitor.handleStatementListContainer(classMethod);
         final StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
         resourceDemandingInternalBehaviour.getSteps_Behaviour().add(stopAction);
         VisitorUtils.connectActions(resourceDemandingInternalBehaviour);
         return resourceDemandingInternalBehaviour;
-    }
-
-    private ResourceDemandingSEFF getRDSEFFForClassMethod(final ClassMethod classMethod) {
-        final Signature signature = this.findCorrespondingSignatureForClassMethod(classMethod);
-        if (null == signature) {
-            return null;
-        }
-        return this.findSEFFInComponentForSignature(this.primitiveComponent, signature);
-    }
-
-    private ResourceDemandingSEFF findSEFFInComponentForSignature(final BasicComponent basicComponent,
-            final Signature signature) {
-        for (final ServiceEffectSpecification seff : basicComponent.getServiceEffectSpecifications__BasicComponent()) {
-            if (signature == seff.getDescribedService__SEFF()) {
-                return (ResourceDemandingSEFF) seff;
-            }
-        }
-        return null;
-    }
-
-    private Signature findCorrespondingSignatureForClassMethod(final ClassMethod classMethod) {
-        for (final MethodLevelSourceCodeLink methodLevelSourceCodeLink : this.sourceCodeDecoratorRepository
-                .getMethodLevelSourceCodeLink()) {
-            if (methodLevelSourceCodeLink.getFunction() == classMethod) {
-                final Signature signature = methodLevelSourceCodeLink.getOperation();
-                if (null != signature) {
-                    return signature;
-                }
-            }
-        }
-        return null;
     }
 
     /**
@@ -499,7 +475,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         branch.getBranches_Branch().add(bt);
         final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(this.functionClassificationAnnotation,
                 bt.getBranchBehaviour_BranchTransition(), this.sourceCodeDecoratorRepository, this.primitiveComponent,
-                this.interfaceOfExternalCallFinder, this.createResourceDemandingInternalBehaviourForClassMethods);
+                this.interfaceOfExternalCallFinder, this.resourceDemandingBehaviourForClassMethodFinding);
         // Statement s = b.getStatement();//GAST2SEFFCHANGE
         visitor.doSwitch(ifElseStatement);
         final StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
