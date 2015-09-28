@@ -24,10 +24,12 @@ import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
 import org.somox.gast2seff.visitors.AbstractJaMoPPStatementVisitor;
 import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
+import org.somox.gast2seff.visitors.DefaultResourceDemandingBehaviourForClassMethodFinder;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
 import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.JaMoPPStatementVisitor;
+import org.somox.gast2seff.visitors.ResourceDemandingBehaviourForClassMethodFinding;
 
 public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
 
@@ -278,9 +280,14 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
                 this.sourceCodeDecorator, basicComponent, compilationUnits);
         final FunctionCallClassificationVisitor functionCallClassificationVisitor = new FunctionCallClassificationVisitor(
                 basicFunctionClassifierStrategy);
+        ResourceDemandingBehaviourForClassMethodFinding resourceDemandingBehaviourForClassMethodFinding = null;
+        if (createResourceDemandingInternalBehaviourForClassMethods) {
+            resourceDemandingBehaviourForClassMethodFinding = new DefaultResourceDemandingBehaviourForClassMethodFinder(
+                    this.sourceCodeDecorator, basicComponent);
+        }
         final AbstractJaMoPPStatementVisitor gastStatementVisitor = new JaMoPPStatementVisitor(
                 functionCallClassificationVisitor.getAnnotations(), seff, this.sourceCodeDecorator, basicComponent,
-                null, createResourceDemandingInternalBehaviourForClassMethods);
+                null, resourceDemandingBehaviourForClassMethodFinding);
 
         // execute the test
         for (final Statement statement : method.getStatements()) {
