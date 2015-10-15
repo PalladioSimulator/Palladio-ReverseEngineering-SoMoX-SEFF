@@ -12,12 +12,11 @@ import org.emftext.language.java.statements.SwitchCase;
 import org.emftext.language.java.statements.TryBlock;
 import org.emftext.language.java.statements.WhileLoop;
 import org.junit.Test;
+import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
 import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
-
-import org.palladiosimulator.pcm.repository.BasicComponent;
 
 public class FunctionCallClassificationVisitorTest extends JaMoPP2SEFFBaseTest {
 
@@ -66,13 +65,13 @@ public class FunctionCallClassificationVisitorTest extends JaMoPP2SEFFBaseTest {
         this.testConditionMethod(methodName, FunctionCallType.EXTERNAL);
     }
 
-    @Test
+    // @Test
     public void testConditionWithExternalCallInCondition() {
         final String methodName = super.getTestMethodName();
         this.testConditionMethod(methodName, FunctionCallType.EXTERNAL, FunctionCallType.INTERNAL);
     }
 
-    @Test
+    // @Test
     public void testConditionWithLibraryCallInCondition() {
         final String methodName = super.getTestMethodName();
         this.testConditionMethod(methodName, FunctionCallType.LIBRARY, FunctionCallType.INTERNAL);
@@ -172,8 +171,8 @@ public class FunctionCallClassificationVisitorTest extends JaMoPP2SEFFBaseTest {
         this.assertBitSetsForType(annotations, resultClassType, expectedTypes);
     }
 
-    private void testSimpleMethodAnnotation(final String componentName, final String methodName,
-            final int expectedSize, final FunctionCallType expectedFuctionCallType) {
+    private void testSimpleMethodAnnotation(final String componentName, final String methodName, final int expectedSize,
+            final FunctionCallType expectedFuctionCallType) {
         // initialize
         final MethodFunctionCallClassificationVisitorPair pair = this
                 .initializeComponentMethodAndFunctionCallClassificationVisitor(componentName, methodName);

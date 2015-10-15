@@ -41,12 +41,19 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
      * if they should be omitted because of the SEFFs abstraction rule
      */
     protected BitSet lastType = null;
+    private final boolean canSkipInternalCalls;
 
-    public AbstractJaMoPPStatementVisitor(final Map<Commentable, BitSet> functionClassificationAnnotations) {
+    public AbstractJaMoPPStatementVisitor(final Map<Commentable, BitSet> functionClassificationAnnotations,
+            final boolean canSkipInternalCalls) {
         this.functionClassificationAnnotation = functionClassificationAnnotations;
+        this.canSkipInternalCalls = canSkipInternalCalls;
 
         this.addSwitch(new MemberVisitor());
         this.addSwitch(new StatementVisitor());
+    }
+
+    public AbstractJaMoPPStatementVisitor(final Map<Commentable, BitSet> functionClassificationAnnotations) {
+        this(functionClassificationAnnotations, true);
     }
 
     // abstract methods that have to be overriden by subclasses of the class
@@ -56,13 +63,35 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
 
     protected abstract Object handleSwitch(final Switch switchStatement);
 
-    protected abstract Object handleStatementListContainer(StatementListContainer object);
-
     protected abstract Object handleClassMethod(ClassMethod classMethod);
 
     protected abstract Object handleFormerSimpleStatement(Statement object);
 
     protected abstract Object handleTryBlock(final TryBlock object);
+
+    /**
+     * handleStatementListContainer can be implemented in abstract class, cause it is similar in
+     * current implementing classes. If necessary, however, it can be overriden of course.
+     *
+     * @param object
+     *            the StatementListContainer (e.g. a Block or ClassMethod)
+     * @return A Object to indicate that the Statement has been visited already
+     */
+    protected Object handleStatementListContainer(final StatementListContainer object) {
+        for (final Statement s : object.getStatements()) {
+            final BitSet thisType = this.functionClassificationAnnotation.get(s);
+            if (!this.shouldSkip(this.lastType, thisType)) {
+                // Only generate elements for statements which should not be abstracted away
+                // avoid infinite recursion
+                if (!this.isVisitedStatement(thisType)) {
+                    this.setVisited(thisType);
+                    this.doSwitch(s);
+                }
+            }
+            this.lastType = thisType;
+        }
+        return new Object();
+    }
 
     private class MemberVisitor extends MembersSwitch<Object> {
         @Override
@@ -230,6 +259,10 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
         return statementAnnotation.get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.INTERNAL));
     }
 
+    protected boolean isLibraryCall(final BitSet statementAnnotation) {
+        return statementAnnotation.get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.LIBRARY));
+    }
+
     /**
      * Returns true if the statement with thisType should not generate an action in the newly
      * generated SEFF.
@@ -244,6 +277,12 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
     protected boolean shouldSkip(final BitSet lastType, final BitSet thisType) {
         if (lastType == null) {
             return false;
+        }
+        // this is somewhat confusing, but: if we can not skip internal calls we only can skip lib
+        // calls. Hence, we can skip if lastType isLibrary call and this type is library call. In
+        // all other cases we can not skip the current statement.
+        if (!this.canSkipInternalCalls) {
+            return this.isLibraryCall(lastType) && this.isLibraryCall(thisType);
         }
 
         if (this.isExternalCall(thisType)) {

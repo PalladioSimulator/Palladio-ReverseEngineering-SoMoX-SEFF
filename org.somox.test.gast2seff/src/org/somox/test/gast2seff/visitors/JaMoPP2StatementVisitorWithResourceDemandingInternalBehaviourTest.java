@@ -36,7 +36,7 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
     @Override
     public void testTryBlockWithInternalCallInTryLibraryCallInCatchAndExternalCallInFinally() {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
-        final InternalCallAction ica = this.createInternalCallAction();
+        final InternalCallAction ica = this.createRecursiveInternalCallAction();
         expectedSeff.getSteps_Behaviour().add(ica);
         final ExternalCallAction eca = this.createExternalCallAction(OPERATION_SIGNATURE_NAME);
         expectedSeff.getSteps_Behaviour().add(eca);
@@ -47,7 +47,7 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
     public void testSwitchCaseWithInternalCallInCaseAndExternalCallDefault() {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
         final ResourceDemandingBehaviour firstCaseBehavior = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
-        firstCaseBehavior.getSteps_Behaviour().add(this.createInternalCallAction());
+        firstCaseBehavior.getSteps_Behaviour().add(this.createRecursiveInternalCallAction());
         final ResourceDemandingBehaviour secoundCaseBehavior = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
         final ResourceDemandingBehaviour defaultCaseBehavior = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
         defaultCaseBehavior.getSteps_Behaviour().add(this.createExternalCallAction(OPERATION_SIGNATURE_NAME));
@@ -69,7 +69,7 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
     @Override
     public void testDoInternalCall() {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
-        final InternalCallAction internalCallAction = this.createInternalCallAction();
+        final InternalCallAction internalCallAction = this.createRecursiveInternalCallAction();
         expectedSeff.getSteps_Behaviour().add(internalCallAction);
         this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
     }
@@ -92,6 +92,76 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
         this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
     }
 
+    @Override
+    @Test
+    public void testForLoopWithInternalLibraryAndExternalCall() {
+        final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+        final InternalCallAction internalCallAction = this.createRecursiveInternalCallAction();
+        final InternalAction ia = this.createInternalAction();
+        final ExternalCallAction eca = this.createExternalCallAction(OPERATION_SIGNATURE_NAME);
+
+        final LoopAction loopAction = this.createLoopAction(internalCallAction, ia, eca);
+        expectedSeff.getSteps_Behaviour().add(loopAction);
+        this.doMethodTestGastStatementVisitor(super.getTestMethodName(), expectedSeff);
+    }
+
+    @Override
+    @Test
+    public void testForLoopWithInternalCallContainingExternalCall() {
+        final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+        final ExternalCallAction eca = this.createExternalCallAction(OPERATION_SIGNATURE_NAME);
+        final InternalCallAction internalCallAction = this.createInternalCallAction(eca);
+
+        final LoopAction loopAction = this.createLoopAction(internalCallAction);
+        expectedSeff.getSteps_Behaviour().add(loopAction);
+        this.doMethodTestGastStatementVisitor(super.getTestMethodName(), expectedSeff);
+    }
+
+    @Override
+    @Test
+    public void testConditionWithExternalCallInIf() {
+        final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+
+        final ResourceDemandingBehaviour ifBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+        ifBehaviour.getSteps_Behaviour().add(this.createExternalCallAction(OPERATION_SIGNATURE_NAME));
+        final ResourceDemandingBehaviour elseBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+        final InternalCallAction ica = this.createInternalCallAction(this.createRecursiveInternalCallAction());
+        elseBehaviour.getSteps_Behaviour().add(ica);
+        final BranchAction branchAction = this.createBranchAction(ifBehaviour, elseBehaviour);
+
+        expectedSeff.getSteps_Behaviour().add(branchAction);
+        this.doMethodTestGastStatementVisitor(super.getTestMethodName(), expectedSeff);
+    }
+
+    @Override
+    @Test
+    public void testConditionWithExternalCallInElse() {
+        final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+
+        final ResourceDemandingBehaviour ifBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+        final InternalCallAction ica = this.createInternalCallAction(this.createRecursiveInternalCallAction());
+        ifBehaviour.getSteps_Behaviour().add(ica);
+        final ResourceDemandingBehaviour elseBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+        elseBehaviour.getSteps_Behaviour().add(this.createExternalCallAction(OPERATION_SIGNATURE_NAME));
+        final BranchAction branchAction = this.createBranchAction(ifBehaviour, elseBehaviour);
+
+        expectedSeff.getSteps_Behaviour().add(branchAction);
+        this.doMethodTestGastStatementVisitor(super.getTestMethodName(), expectedSeff);
+    }
+
+    private LoopAction createLoopAction(final AbstractAction... expectedLoopActions) {
+        final LoopAction loopAction = SeffFactory.eINSTANCE.createLoopAction();
+        final ResourceDemandingBehaviour loopBehavior = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+        loopBehavior.getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStartAction());
+        loopAction.setBodyBehaviour_Loop(loopBehavior);
+        for (final AbstractAction expectedLoopAction : expectedLoopActions) {
+            loopAction.getBodyBehaviour_Loop().getSteps_Behaviour().add(expectedLoopAction);
+        }
+        loopBehavior.getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStopAction());
+        loopAction.setEntityName("expectedLoopAction");
+        return loopAction;
+    }
+
     private BranchAction createBranchAction(final ResourceDemandingBehaviour... caseBehaviours) {
         final BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
         for (final ResourceDemandingBehaviour caseBehaviour : caseBehaviours) {
@@ -107,13 +177,28 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
         return branchAction;
     }
 
+    private InternalCallAction createRecursiveInternalCallAction() {
+        return this.createInternalCallAction(true);
+    }
+
     private InternalCallAction createInternalCallAction(
+            final AbstractAction... expectedBehaviorOfResourceInternalBehaviour) {
+        return this.createInternalCallAction(false, expectedBehaviorOfResourceInternalBehaviour);
+    }
+
+    private InternalCallAction createInternalCallAction(final boolean recursiveCallsItselfOnly,
             final AbstractAction... expectedBehaviorOfResourceInternalBehaviour) {
         final ResourceDemandingInternalBehaviour resourceDemandingInternalBehaviour = SeffFactory.eINSTANCE
                 .createResourceDemandingInternalBehaviour();
         resourceDemandingInternalBehaviour.getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStartAction());
-        for (final AbstractAction abstractAction : expectedBehaviorOfResourceInternalBehaviour) {
-            resourceDemandingInternalBehaviour.getSteps_Behaviour().add(abstractAction);
+        if (recursiveCallsItselfOnly) {
+            final InternalCallAction recursiveInternalCallAction = SeffFactory.eINSTANCE.createInternalCallAction();
+            recursiveInternalCallAction.setCalledResourceDemandingInternalBehaviour(resourceDemandingInternalBehaviour);
+            resourceDemandingInternalBehaviour.getSteps_Behaviour().add(recursiveInternalCallAction);
+        } else {
+            for (final AbstractAction abstractAction : expectedBehaviorOfResourceInternalBehaviour) {
+                resourceDemandingInternalBehaviour.getSteps_Behaviour().add(abstractAction);
+            }
         }
         resourceDemandingInternalBehaviour.getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStopAction());
         final InternalCallAction internalCallAction = SeffFactory.eINSTANCE.createInternalCallAction();

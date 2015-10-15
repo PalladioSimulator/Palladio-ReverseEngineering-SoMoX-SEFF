@@ -12,7 +12,6 @@ import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.Statement;
-import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.Switch;
 import org.emftext.language.java.statements.TryBlock;
 import org.palladiosimulator.pcm.repository.BasicComponent;
@@ -98,7 +97,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
             final SourceCodeDecoratorRepository sourceCodeDecorator, final BasicComponent primitiveComponent,
             final InterfaceOfExternalCallFinding interfaceOfExternalCallFinder,
             final ResourceDemandingBehaviourForClassMethodFinding resourceDemandingBehaviourForClassMethodFinding) {
-        super(functionClassificationAnnotations);
+        super(functionClassificationAnnotations, null == resourceDemandingBehaviourForClassMethodFinding);
         this.seff = resourceDemandingBehaviour;
         this.sourceCodeDecoratorRepository = sourceCodeDecorator;
         this.primitiveComponent = primitiveComponent;
@@ -121,23 +120,6 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         } else {
             return interfaceOfExternalCallFinder;
         }
-    }
-
-    @Override
-    protected Object handleStatementListContainer(final StatementListContainer object) {
-        for (final Statement s : object.getStatements()) {
-            final BitSet thisType = this.functionClassificationAnnotation.get(s);
-            if (!this.shouldSkip(this.lastType, thisType)) {
-                // Only generate elements for statements which should not be abstracted away
-                // avoid infinite recursion
-                if (!this.isVisitedStatement(thisType)) {
-                    this.setVisited(thisType);
-                    this.doSwitch(s);
-                }
-            }
-            this.lastType = thisType;
-        }
-        return new Object();
     }
 
     /**
@@ -230,13 +212,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                 final ClassMethod classMethod = (ClassMethod) method;
 
                 if (classMethod.getStatements() != null) {
-
-                    // avoid infinite recursion
-                    final BitSet thisType = this.functionClassificationAnnotation.get(object);
-                    if (!this.isVisitedStatement(thisType)) {
-                        this.setVisited(thisType);
-                        this.doSwitch(method);
-                    }
+                    this.handleClassMethod(classMethod);
                 } else {
                     String msg = "Behaviour not set in GAST for " + method.getName();
                     if (KDMHelper.getJavaNodeSourceRegion(object) != null
@@ -418,7 +394,6 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
             return resourceDemandingInternalBehaviour;
         }
         resourceDemandingInternalBehaviour = this.createResourceDemandingInternalBehaviour(classMethod);
-        this.createMethodLevelResourceDemandingInternalBehaviorLink(classMethod, resourceDemandingInternalBehaviour);
         return resourceDemandingInternalBehaviour;
     }
 
@@ -440,6 +415,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                 .createResourceDemandingInternalBehaviour();
         resourceDemandingInternalBehaviour
                 .setBasicComponent_ResourceDemandingInternalBehaviour(this.primitiveComponent);
+        this.createMethodLevelResourceDemandingInternalBehaviorLink(classMethod, resourceDemandingInternalBehaviour);
         final StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
         resourceDemandingInternalBehaviour.getSteps_Behaviour().add(startAction);
         final JaMoPPStatementVisitor methodVisitor = new JaMoPPStatementVisitor(this.functionClassificationAnnotation,

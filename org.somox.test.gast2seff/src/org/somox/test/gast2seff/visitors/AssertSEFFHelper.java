@@ -86,9 +86,33 @@ public class AssertSEFFHelper {
 
     private static void assertInternalCallActionEquals(final InternalCallAction abstractAction,
             final InternalCallAction expectedAbstractAction) {
-        assertSeffEquals(abstractAction.getCalledResourceDemandingInternalBehaviour(),
-                expectedAbstractAction.getCalledResourceDemandingInternalBehaviour());
+        final ResourceDemandingBehaviour calledResourceDemandingInternalBehaviour = abstractAction
+                .getCalledResourceDemandingInternalBehaviour();
+        final ResourceDemandingBehaviour expectedCalledResourceDemandingInternalBehaviour = expectedAbstractAction
+                .getCalledResourceDemandingInternalBehaviour();
+        if (!isRecursiveCall(abstractAction, calledResourceDemandingInternalBehaviour, expectedAbstractAction,
+                expectedCalledResourceDemandingInternalBehaviour)) {
+            assertSeffEquals(calledResourceDemandingInternalBehaviour,
+                    expectedCalledResourceDemandingInternalBehaviour);
+        }
+    }
 
+    private static boolean isRecursiveCall(final InternalCallAction abstractAction,
+            final ResourceDemandingBehaviour calledResourceDemandingInternalBehaviour,
+            final InternalCallAction expectedAbstractAction,
+            final ResourceDemandingBehaviour expectedCalledResourceDemandingInternalBehaviour) {
+        final boolean firstIsRecursive = isRecursiveCall(abstractAction, calledResourceDemandingInternalBehaviour);
+        final boolean secondIsRecursive = isRecursiveCall(expectedAbstractAction,
+                expectedCalledResourceDemandingInternalBehaviour);
+        assertEquals("The InternalCallActions " + abstractAction + " and " + expectedAbstractAction
+                + " both have to be recursive or not", firstIsRecursive, secondIsRecursive);
+        return firstIsRecursive;
+    }
+
+    private static boolean isRecursiveCall(final InternalCallAction abstractAction,
+            final ResourceDemandingBehaviour calledResourceDemandingInternalBehaviour) {
+        return abstractAction
+                .getResourceDemandingBehaviour_AbstractAction() == calledResourceDemandingInternalBehaviour;
     }
 
     private static void assertExternalCallActionEquals(final ExternalCallAction externalCallAction,

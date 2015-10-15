@@ -110,13 +110,13 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
         this.testConditionMethod(methodName, FunctionCallType.EXTERNAL, FunctionCallType.EXTERNAL);
     }
 
-    @Test
+    // @Test
     public void testConditionWithExternalCallInCondition() {
         final String methodName = super.getTestMethodName();
         this.testConditionMethod(methodName, FunctionCallType.EXTERNAL, FunctionCallType.INTERNAL);
     }
 
-    @Test
+    // @Test
     public void testConditionWithLibraryCallInCondition() {
         final String methodName = super.getTestMethodName();
         this.testConditionMethod(methodName, FunctionCallType.LIBRARY, FunctionCallType.INTERNAL);
@@ -144,6 +144,11 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
     @Test
     public void testWhileLoopWithExternalCall() {
         this.testLoop(this.getTestMethodName(), FunctionCallType.EXTERNAL);
+    }
+
+    @Test
+    public void testForLoopWithInternalCallContainingExternalCall() {
+        this.testLoop(super.getTestMethodName(), FunctionCallType.EXTERNAL);
     }
 
     @Test
@@ -316,6 +321,12 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
 
     private void testLoop(final String methodName, final FunctionCallType... expectedFunctionCallTypes) {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+        final LoopAction loopAction = this.createLoopAction(expectedFunctionCallTypes);
+        expectedSeff.getSteps_Behaviour().add(loopAction);
+        this.doMethodTestGastStatementVisitor(methodName, expectedSeff);
+    }
+
+    private LoopAction createLoopAction(final FunctionCallType... expectedFunctionCallTypes) {
         final LoopAction loopAction = SeffFactory.eINSTANCE.createLoopAction();
         loopAction.setEntityName("expectedLoopAction");
         final ResourceDemandingBehaviour loopBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
@@ -325,8 +336,7 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
         }
         loopBehaviour.getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStopAction());
         loopAction.setBodyBehaviour_Loop(loopBehaviour);
-        expectedSeff.getSteps_Behaviour().add(loopAction);
-        this.doMethodTestGastStatementVisitor(methodName, expectedSeff);
+        return loopAction;
     }
 
     /**
