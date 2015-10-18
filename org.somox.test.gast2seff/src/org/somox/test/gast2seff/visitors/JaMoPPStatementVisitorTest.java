@@ -275,6 +275,22 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
         this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
     }
 
+    @Test
+    public void testExternalCallAsInputForInternalCall() {
+        final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+        expectedSeff.getSteps_Behaviour().add(this.createInternalAction());
+        final ExternalCallAction externalCallAction = this.createExternalCallAction(OPERATION_SIGNATURE_NAME);
+        expectedSeff.getSteps_Behaviour().add(externalCallAction);
+        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+    }
+
+    @Test
+    public void testInternalCallAsInputForInternalCall() {
+        final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+        expectedSeff.getSteps_Behaviour().add(this.createInternalAction());
+        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+    }
+
     protected void doMethodTestGastStatementVisitor(final String methodName, final ResourceDemandingSEFF expectedSeff) {
         // initialize the test
         final ClassMethod method = (ClassMethod) super.findMethodInClassifier(methodName,

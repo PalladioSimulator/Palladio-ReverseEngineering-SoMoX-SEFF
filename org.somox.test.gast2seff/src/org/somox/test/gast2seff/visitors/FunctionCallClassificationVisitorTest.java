@@ -1,6 +1,7 @@
 package org.somox.test.gast2seff.visitors;
 
 import java.util.BitSet;
+import java.util.List;
 import java.util.Map;
 
 import org.emftext.language.java.commons.Commentable;
@@ -166,7 +167,7 @@ public class FunctionCallClassificationVisitorTest extends JaMoPP2SEFFBaseTest {
 
         // do the test
         pair.functionCallClassificationVisitor.doSwitch(pair.method);
-        final Map<Commentable, BitSet> annotations = pair.functionCallClassificationVisitor.getAnnotations();
+        final Map<Commentable, List<BitSet>> annotations = pair.functionCallClassificationVisitor.getAnnotations();
 
         this.assertBitSetsForType(annotations, resultClassType, expectedTypes);
     }
@@ -179,7 +180,7 @@ public class FunctionCallClassificationVisitorTest extends JaMoPP2SEFFBaseTest {
 
         // test the switch
         pair.functionCallClassificationVisitor.doSwitch(pair.method);
-        final Map<Commentable, BitSet> annotations = pair.functionCallClassificationVisitor.getAnnotations();
+        final Map<Commentable, List<BitSet>> annotations = pair.functionCallClassificationVisitor.getAnnotations();
 
         // assert: annotations should contain only one statement that is an external call
         this.assertBitSetsForType(annotations, Commentable.class, expectedFuctionCallType);

@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.BitSet;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
@@ -294,12 +296,14 @@ public class JaMoPP2PCMBaseTest {
         return methodLevelSourceCodeLink;
     }
 
-    protected void assertBitSetsForType(final Map<Commentable, BitSet> annotations, final Class<?> expectedClass,
+    protected void assertBitSetsForType(final Map<Commentable, List<BitSet>> annotations, final Class<?> expectedClass,
             final FunctionCallType... expectedFunctionCallTypes) {
-        for (final Map.Entry<Commentable, BitSet> annotation : annotations.entrySet()) {
+        for (final Entry<Commentable, List<BitSet>> annotation : annotations.entrySet()) {
             final Commentable commentable = annotation.getKey();
             if (expectedClass.isInstance(commentable)) {
-                this.assertBitSet(expectedFunctionCallTypes.length, annotation.getValue(), expectedFunctionCallTypes);
+                for (final BitSet bitSet : annotation.getValue()) {
+                    this.assertBitSet(expectedFunctionCallTypes.length, bitSet, expectedFunctionCallTypes);
+                }
             }
         }
     }
