@@ -85,19 +85,19 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
      *            The gast behaviour which maps gast statements and SAMM repository.
      * @param primitiveComponent
      */
-    public JaMoPPStatementVisitor(final Map<Commentable, BitSet> functionClassificationAnnotations,
+    public JaMoPPStatementVisitor(final Map<Commentable, List<BitSet>> functionClassificationAnnotations,
             final org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour resourceDemandingBehaviour,
             final SourceCodeDecoratorRepository sourceCodeDecorator, final BasicComponent primitiveComponent) {
         this(functionClassificationAnnotations, resourceDemandingBehaviour, sourceCodeDecorator, primitiveComponent,
                 null, null);
     }
 
-    public JaMoPPStatementVisitor(final Map<Commentable, BitSet> functionClassificationAnnotations,
+    public JaMoPPStatementVisitor(final Map<Commentable, List<BitSet>> map,
             final org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour resourceDemandingBehaviour,
             final SourceCodeDecoratorRepository sourceCodeDecorator, final BasicComponent primitiveComponent,
             final InterfaceOfExternalCallFinding interfaceOfExternalCallFinder,
             final ResourceDemandingBehaviourForClassMethodFinding resourceDemandingBehaviourForClassMethodFinding) {
-        super(functionClassificationAnnotations, null == resourceDemandingBehaviourForClassMethodFinding);
+        super(map, null == resourceDemandingBehaviourForClassMethodFinding);
         this.seff = resourceDemandingBehaviour;
         this.sourceCodeDecoratorRepository = sourceCodeDecorator;
         this.primitiveComponent = primitiveComponent;
@@ -201,32 +201,45 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     // TODO add path and name for "tried to call" line
     @Override
     protected Object handleFormerSimpleStatement(final Statement object) {
-        final BitSet statementAnnotation = this.functionClassificationAnnotation.get(object);
-        if (this.isExternalCall(statementAnnotation)) {
-            this.createExternalCallAction(object);
-        } else if (this.isInternalCall(statementAnnotation)) {
-            final Method method = VisitorUtils.getMethodCall(object);
-            if (!(method instanceof ClassMethod)) {
-                logger.error("Referenceable element must be a class method");
-            } else {
-                final ClassMethod classMethod = (ClassMethod) method;
-
-                if (classMethod.getStatements() != null) {
-                    this.handleClassMethod(classMethod);
-                } else {
-                    String msg = "Behaviour not set in GAST for " + method.getName();
-                    if (KDMHelper.getJavaNodeSourceRegion(object) != null
-                            && KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() != null) {
-                        msg += ". Tried to call from "
-                                + KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() + ".";
-                    } else {
-                        msg += ". (caller position unknown)";
-                    }
-                    logger.warn(msg);
+        final List<BitSet> statementAnnotations = this.functionClassificationAnnotation.get(object);
+        final List<Method> calledMethods = VisitorUtils.getMethodCalls(object);
+        for (int i = 0; i < statementAnnotations.size(); i++) {
+            final BitSet statementAnnotation = statementAnnotations.get(i);
+            if (this.isExternalCall(statementAnnotation)) {
+                final Method calledMethod = calledMethods.get(i);
+                this.createExternalCallAction(object, calledMethod, statementAnnotation);
+            } else if (this.isInternalCall(statementAnnotation)) {
+                if (0 == calledMethods.size()) {
+                    continue;
                 }
+                Method method = null;
+                if (i + 1 > calledMethods.size()) {
+                    method = calledMethods.get(0);
+                } else {
+                    method = calledMethods.get(i);
+                }
+                if (!(method instanceof ClassMethod)) {
+                    logger.error("Referenceable element must be a class method");
+                } else {
+                    final ClassMethod classMethod = (ClassMethod) method;
+
+                    if (classMethod.getStatements() != null) {
+                        this.handleClassMethod(classMethod);
+                    } else {
+                        String msg = "Behaviour not set in GAST for " + method.getName();
+                        if (KDMHelper.getJavaNodeSourceRegion(object) != null
+                                && KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() != null) {
+                            msg += ". Tried to call from "
+                                    + KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() + ".";
+                        } else {
+                            msg += ". (caller position unknown)";
+                        }
+                        logger.warn(msg);
+                    }
+                }
+            } else {
+                this.createInternalAction(object, statementAnnotation);
             }
-        } else {
-            this.createInternalAction(object);
         }
         return new Object();
     }
@@ -268,23 +281,25 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
 
                 for (final Statement statement : branch) {
                     // copied from caseBlock
-                    final BitSet thisType = visitor.functionClassificationAnnotation.get(statement);
-                    if (!visitor.shouldSkip(visitor.lastType, thisType)) { // Only
-                        // generate elements for statements which should not be abstracted away
-                        // avoid infinite recursion
-                        // if(!isVisitedStatement(thisType)) {
-                        // setVisited(thisType);
-                        // visitor.doSwitch(statement);//here visitor. was added in contrast to
-                        // caseBlock
-                        // }
-                        // TODO the four lines above were temporarily removed
-                        // in order to allow a a multiple use of a statement
-                        // because of the new behaviour for switch statements (case without
-                        // break)
-                        visitor.doSwitch(statement); // here visitor. was added in contrast to
-                        // caseBlock
+                    final List<BitSet> thisTypes = visitor.functionClassificationAnnotation.get(statement);
+                    for (final BitSet thisType : thisTypes) {
+                        if (!visitor.shouldSkip(visitor.lastType, thisType)) { // Only
+                            // generate elements for statements which should not be abstracted away
+                            // avoid infinite recursion
+                            // if(!isVisitedStatement(thisType)) {
+                            // setVisited(thisType);
+                            // visitor.doSwitch(statement);//here visitor. was added in contrast to
+                            // caseBlock
+                            // }
+                            // TODO the four lines above were temporarily removed
+                            // in order to allow a a multiple use of a statement
+                            // because of the new behaviour for switch statements (case without
+                            // break)
+                            visitor.doSwitch(statement); // here visitor. was added in contrast to
+                            // caseBlock
+                        }
+                        visitor.lastType = thisType;
                     }
-                    visitor.lastType = thisType;
                     // end of copy
                 }
 
@@ -460,10 +475,9 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         VisitorUtils.connectActions(bt.getBranchBehaviour_BranchTransition());
     }
 
-    private void createExternalCallAction(final Statement object) {
+    private void createExternalCallAction(final Statement object, final Method calledMethod, final BitSet newLastType) {
         final ExternalCallAction call = SeffFactory.eINSTANCE.createExternalCallAction();
         this.createAbstracActionClassMethodLink(call, object);
-        final Method calledMethod = VisitorUtils.getMethodCall(object);
         call.setEntityName(calledMethod.getName() + this.positionToString(object));
         final InterfacePortOperationTuple ifOperationTuple = this.interfaceOfExternalCallFinder
                 .getCalledInterfacePort(calledMethod);
@@ -476,7 +490,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         }
         // // GAST2SEFFCHANGE
         this.seff.getSteps_Behaviour().add(call);
-        this.lastType = this.functionClassificationAnnotation.get(object);
+        this.lastType = newLastType;
     }
 
     // @Override
@@ -520,19 +534,17 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     // }
 
     private void createInternalAction(final Statement statement) {
-        final BitSet thisType = this.functionClassificationAnnotation.get(statement);
+        final List<BitSet> thisTypes = this.functionClassificationAnnotation.get(statement);
+        for (final BitSet thisType : thisTypes) {
+            this.createInternalAction(statement, thisType);
+        }
+    }
+
+    private void createInternalAction(final Statement statement, final BitSet thisType) {
         if (!this.shouldSkip(this.lastType, thisType)) {
             final InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
             this.createAbstracActionClassMethodLink(internalAction, statement);
-            internalAction.setEntityName("IA " + this.positionToString(statement)); // GAST2SEFFCHANGE
-            // TODO
-            // if (statement instanceof Block) { // GAST2SEFFADDED
-            // ia.setDocumentation(this.blockToString((Block) statement) + "; Statement SISSyID: "
-            // + KDMHelper.getSISSyID(statement)); // GAST2SEFFCHANGE
-            // } else { // GAST2SEFFADDED
-            // ia.setDocumentation("not a block" + "; Statement SISSyID: " +
-            // KDMHelper.getSISSyID(statement)); // GAST2SEFFCHANGE//GAST2SEFFADDED
-            // } // GAST2SEFFADDED
+            internalAction.setEntityName("IA " + this.positionToString(statement));
             this.seff.getSteps_Behaviour().add(internalAction);
         }
         this.lastType = thisType;

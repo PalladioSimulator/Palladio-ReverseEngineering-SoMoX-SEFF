@@ -1,6 +1,8 @@
 package org.somox.gast2seff.visitors;
 
 import java.util.BitSet;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -35,7 +37,7 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
      * according to {@link FunctionCallType}. Nodes of control flow constructs like loops and
      * branches carry the union of the annotations of their child statements
      */
-    protected final Map<Commentable, BitSet> functionClassificationAnnotation;
+    protected final Map<Commentable, List<BitSet>> functionClassificationAnnotation;
     /**
      * Classification annotation of the last visited statement. Used to skip generating SEFF actions
      * if they should be omitted because of the SEFFs abstraction rule
@@ -43,7 +45,7 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
     protected BitSet lastType = null;
     private final boolean canSkipInternalCalls;
 
-    public AbstractJaMoPPStatementVisitor(final Map<Commentable, BitSet> functionClassificationAnnotations,
+    public AbstractJaMoPPStatementVisitor(final Map<Commentable, List<BitSet>> functionClassificationAnnotations,
             final boolean canSkipInternalCalls) {
         this.functionClassificationAnnotation = functionClassificationAnnotations;
         this.canSkipInternalCalls = canSkipInternalCalls;
@@ -52,7 +54,7 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
         this.addSwitch(new StatementVisitor());
     }
 
-    public AbstractJaMoPPStatementVisitor(final Map<Commentable, BitSet> functionClassificationAnnotations) {
+    public AbstractJaMoPPStatementVisitor(final Map<Commentable, List<BitSet>> functionClassificationAnnotations) {
         this(functionClassificationAnnotations, true);
     }
 
@@ -79,18 +81,27 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
      */
     protected Object handleStatementListContainer(final StatementListContainer object) {
         for (final Statement s : object.getStatements()) {
-            final BitSet thisType = this.functionClassificationAnnotation.get(s);
-            if (!this.shouldSkip(this.lastType, thisType)) {
-                // Only generate elements for statements which should not be abstracted away
-                // avoid infinite recursion
-                if (!this.isVisitedStatement(thisType)) {
-                    this.setVisited(thisType);
-                    this.doSwitch(s);
+            final Collection<BitSet> thisTypes = this.functionClassificationAnnotation.get(s);
+            for (final BitSet thisType : thisTypes) {
+                if (!this.shouldSkip(this.lastType, thisType)) {
+                    // Only generate elements for statements which should not be abstracted away
+                    // avoid infinite recursion
+                    if (!this.isVisitedStatement(thisType)) {
+                        this.setVisited(thisTypes);
+                        this.doSwitch(s);
+                    }
                 }
+                this.lastType = thisType;
             }
-            this.lastType = thisType;
         }
         return new Object();
+    }
+
+    private void setVisited(final Collection<BitSet> thisTypes) {
+        for (final BitSet thisType : thisTypes) {
+            this.setVisited(thisType);
+        }
+
     }
 
     private class MemberVisitor extends MembersSwitch<Object> {
@@ -196,11 +207,17 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
      * @return true if the statement or one of its child statements is an external service call
      */
     protected boolean containsExternalCall(final Statement object) {
-        final boolean isExternalCall = this.functionClassificationAnnotation.get(object)
-                .get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
-        final boolean isInternalCallContainingExternalCall = this.functionClassificationAnnotation.get(object).get(
-                FunctionCallClassificationVisitor.getIndex(FunctionCallType.INTERNAL_CALL_CONTAINING_EXTERNAL_CALL));
-        return isExternalCall || isInternalCallContainingExternalCall;
+        final Collection<BitSet> statementTypes = this.functionClassificationAnnotation.get(object);
+        for (final BitSet statementType : statementTypes) {
+            final boolean isExternalCall = statementType
+                    .get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
+            final boolean isInternalCallContainingExternalCall = statementType.get(FunctionCallClassificationVisitor
+                    .getIndex(FunctionCallType.INTERNAL_CALL_CONTAINING_EXTERNAL_CALL));
+            if (isExternalCall || isInternalCallContainingExternalCall) {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected boolean isVisitedStatement(final BitSet statementAnnotation) {

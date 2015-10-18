@@ -1,7 +1,9 @@
 package org.somox.gast2seff.visitors;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +42,7 @@ import org.somox.kdmhelper.KDMHelper;
 // TODO: constructor calls
 // TODO: Method calls within method calls
 // TODO: Method calls in conditions (expressions)
-public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {// GAST2SEFFCHANGE
+public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection<BitSet>> {// GAST2SEFFCHANGE
 
     private static final Logger logger = Logger.getLogger(JaMoPPStatementVisitor.class);
 
@@ -80,31 +82,31 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
         INTERNAL_CALL_CONTAINING_EXTERNAL_CALL
     }
 
-    private final HashMap<Commentable, BitSet> annotations = new HashMap<Commentable, BitSet>();
+    private final HashMap<Commentable, List<BitSet>> annotations = new HashMap<Commentable, List<BitSet>>();
     private IFunctionClassificationStrategy myStrategy = null;
 
-    private class MembersClassification extends MembersSwitch<BitSet> {
+    private class MembersClassification extends MembersSwitch<Collection<BitSet>> {
         @Override
-        public BitSet caseStatementListContainer(final StatementListContainer object) {
+        public Collection<BitSet> caseStatementListContainer(final StatementListContainer object) {
             return FunctionCallClassificationVisitor.this.handleStatementListContainer(object);
         }
 
     }
 
-    private class StatementClassification extends StatementsSwitch<BitSet> {
+    private class StatementClassification extends StatementsSwitch<Collection<BitSet>> {
 
         @Override
-        public BitSet caseStatement(final Statement object) {
+        public Collection<BitSet> caseStatement(final Statement object) {
             return FunctionCallClassificationVisitor.this.handleFormerSimpleStatement(object);
         }
 
         @Override
-        public BitSet caseBlock(final Block block) {
+        public Collection<BitSet> caseBlock(final Block block) {
             return FunctionCallClassificationVisitor.this.handleStatementListContainer(block);
         }
 
         @Override
-        public BitSet caseCondition(final Condition condition) {
+        public Collection<BitSet> caseCondition(final Condition condition) {
             if (FunctionCallClassificationVisitor.this.annotations.containsKey(condition)) {
                 return FunctionCallClassificationVisitor.this.annotations.get(condition);
             }
@@ -124,14 +126,14 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
                 this.doSwitch(condition.getElseStatement());
                 branchStatements.add(condition.getElseStatement());
             }
-            final BitSet myType = FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(),
-                    branchStatements);
+            final List<BitSet> myType = Arrays.asList(
+                    FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(), branchStatements));
             FunctionCallClassificationVisitor.this.putBitSetInAnnotations(condition, myType);
             return myType;
         }
 
         @Override
-        public BitSet caseSwitch(final org.emftext.language.java.statements.Switch switchStatement) {
+        public Collection<BitSet> caseSwitch(final org.emftext.language.java.statements.Switch switchStatement) {
             if (FunctionCallClassificationVisitor.this.annotations.containsKey(switchStatement)) {
                 return FunctionCallClassificationVisitor.this.annotations.get(switchStatement);
             }
@@ -145,35 +147,35 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
             for (final List<Statement> branch : branches) {
                 branchStatements.addAll(branch);
             }
-            final BitSet myType = FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(),
-                    branchStatements);
+            final List<BitSet> myType = Arrays.asList(
+                    FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(), branchStatements));
             FunctionCallClassificationVisitor.this.putBitSetInAnnotations(switchStatement, myType);
 
             return myType;
         }
 
         @Override
-        public BitSet caseForLoop(final ForLoop object) {
+        public Collection<BitSet> caseForLoop(final ForLoop object) {
             return FunctionCallClassificationVisitor.this.createBitSetLoop(object, object.getStatement());
         }
 
         @Override
-        public BitSet caseForEachLoop(final ForEachLoop object) {
+        public Collection<BitSet> caseForEachLoop(final ForEachLoop object) {
             return FunctionCallClassificationVisitor.this.createBitSetLoop(object, object.getStatement());
         }
 
         @Override
-        public BitSet caseWhileLoop(final WhileLoop object) {
+        public Collection<BitSet> caseWhileLoop(final WhileLoop object) {
             return FunctionCallClassificationVisitor.this.createBitSetLoop(object, object.getStatement());
         }
 
         @Override
-        public BitSet caseDoWhileLoop(final DoWhileLoop object) {
+        public Collection<BitSet> caseDoWhileLoop(final DoWhileLoop object) {
             return FunctionCallClassificationVisitor.this.createBitSetLoop(object, object.getStatement());
         }
 
         @Override
-        public BitSet caseTryBlock(final TryBlock object) {
+        public Collection<BitSet> caseTryBlock(final TryBlock object) {
             if (FunctionCallClassificationVisitor.this.annotations.containsKey(object)) {
                 return FunctionCallClassificationVisitor.this.annotations.get(object);
             }
@@ -193,41 +195,41 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
                 this.doSwitch(object.getFinallyBlock());
                 allChildStatements.addAll(object.getFinallyBlock().getStatements());
             }
-            final BitSet myType = FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(),
-                    allChildStatements);
+            final List<BitSet> myType = Arrays.asList(
+                    FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(), allChildStatements));
             FunctionCallClassificationVisitor.this.putBitSetInAnnotations(object, myType);
             return myType;
         }
 
         @Override
-        public BitSet caseAssert(final Assert object) {
+        public Collection<BitSet> caseAssert(final Assert object) {
             return FunctionCallClassificationVisitor.this.handleFormerSimpleStatement(object);
         }
 
         @Override
-        public BitSet caseExpressionStatement(final ExpressionStatement object) {
+        public Collection<BitSet> caseExpressionStatement(final ExpressionStatement object) {
             return FunctionCallClassificationVisitor.this.handleFormerSimpleStatement(object);
         }
 
         @Override
-        public BitSet caseLocalVariableStatement(final LocalVariableStatement object) {
+        public Collection<BitSet> caseLocalVariableStatement(final LocalVariableStatement object) {
             return FunctionCallClassificationVisitor.this.handleFormerSimpleStatement(object);
         }
     }
 
     // TODO: implement expression switch
-    private class ExpressionClassification extends ExpressionsSwitch<BitSet> {
+    private class ExpressionClassification extends ExpressionsSwitch<Collection<BitSet>> {
 
     }
 
-    private BitSet handleStatementListContainer(final StatementListContainer object) {
+    private Collection<BitSet> handleStatementListContainer(final StatementListContainer object) {
         if (FunctionCallClassificationVisitor.this.annotations.containsKey(object)) {
             return FunctionCallClassificationVisitor.this.annotations.get(object);
         }
-        final BitSet myType = FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(),
-                object.getStatements());
-        this.putBitSetInAnnotations(object, myType);
-        return myType;
+        final List<BitSet> myTypes = Arrays.asList(
+                FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(), object.getStatements()));
+        this.putBitSetInAnnotations(object, myTypes);
+        return myTypes;
     }
 
     /**
@@ -239,14 +241,14 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
      *            the body of the loop
      * @return the created bit set
      */
-    private BitSet createBitSetLoop(final Statement loop, final Statement body) {
+    private Collection<BitSet> createBitSetLoop(final Statement loop, final Statement body) {
         if (this.annotations.containsKey(loop)) {
             return this.annotations.get(loop);
         }
 
         this.doSwitch(body);
 
-        final BitSet myType = this.annotations.get(body);
+        final List<BitSet> myType = this.annotations.get(body);
         this.putBitSetInAnnotations(loop, myType);
 
         return myType;
@@ -262,36 +264,40 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
      *            the statement for which the bit set is computed
      * @return the computed bit set
      */
-    private BitSet handleFormerSimpleStatement(final Statement statement) {
+    private List<BitSet> handleFormerSimpleStatement(final Statement statement) {
         if (this.annotations.containsKey(statement)) {
             return this.annotations.get(statement);
         }
 
-        final BitSet myType = this.myStrategy.classifySimpleStatement(statement);
-        this.putBitSetInAnnotations(statement, myType);
-
-        if (myType.get(getIndex(FunctionCallType.INTERNAL))) {
-            // Also annotate the internal method
-            final Method calledMethod = VisitorUtils.getMethodCall(statement);
-            final StatementListContainer targetFunctionBody = KDMHelper.getBody(calledMethod);
-            BitSet internalType = new BitSet();
-            if (targetFunctionBody != null) {
-                logger.trace("visiting internal call. accessed class: "
-                        + calledMethod.getContainingConcreteClassifier());
-                internalType = this.doSwitch(targetFunctionBody);
-            } else {
-                logger.warn("Behaviour not set in GAST for " + calledMethod.getName());
-            }
-            // the internal call contains an external call
-            if (internalType.get(getIndex(FunctionCallType.EXTERNAL))) {
-                myType.set(getIndex(FunctionCallType.INTERNAL_CALL_CONTAINING_EXTERNAL_CALL));
+        final List<BitSet> myTypes = this.myStrategy.classifySimpleStatement(statement);
+        this.putBitSetInAnnotations(statement, myTypes);
+        final List<Method> calledMethods = VisitorUtils.getMethodCalls(statement);
+        for (int i = 0; i < myTypes.size(); i++) {
+            final BitSet myType = myTypes.get(i);
+            if (myType.get(getIndex(FunctionCallType.INTERNAL))) {
+                // Also annotate the internal method
+                final Method calledMethod = calledMethods.get(i);
+                final StatementListContainer targetFunctionBody = KDMHelper.getBody(calledMethod);
+                Collection<BitSet> internalTypes = new ArrayList<BitSet>();
+                if (targetFunctionBody != null) {
+                    logger.trace("visiting internal call. accessed class: "
+                            + calledMethod.getContainingConcreteClassifier());
+                    internalTypes = this.doSwitch(targetFunctionBody);
+                } else {
+                    logger.warn("Behaviour not set in GAST for " + calledMethod.getName());
+                }
+                for (final BitSet internalType : internalTypes) {
+                    // the internal call contains an external call
+                    if (internalType.get(getIndex(FunctionCallType.EXTERNAL))) {
+                        myType.set(getIndex(FunctionCallType.INTERNAL_CALL_CONTAINING_EXTERNAL_CALL));
+                    }
+                }
             }
         }
-
-        return myType;
+        return myTypes;
     }
 
-    private void putBitSetInAnnotations(final Commentable object, final BitSet type) {
+    private void putBitSetInAnnotations(final Commentable object, final List<BitSet> type) {
         this.annotations.put(object, type);
     }
 
@@ -330,12 +336,12 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<BitSet> {/
         throw new UnsupportedOperationException();
     }
 
-    public Map<Commentable, BitSet> getAnnotations() {
+    public Map<Commentable, List<BitSet>> getAnnotations() {
         return Collections.unmodifiableMap(this.annotations);
     }
 
     @Override
-    public BitSet defaultCase(final EObject object) {
+    public Collection<BitSet> defaultCase(final EObject object) {
         logger.warn("Not handled object by function call visitor:\n  " + object);
         return super.defaultCase(object);
     }

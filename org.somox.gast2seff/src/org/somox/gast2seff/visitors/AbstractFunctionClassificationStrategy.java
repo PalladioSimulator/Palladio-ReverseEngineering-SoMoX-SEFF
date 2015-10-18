@@ -1,6 +1,9 @@
 package org.somox.gast2seff.visitors;
 
+import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Collection;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.emftext.language.java.members.Method;
@@ -25,23 +28,28 @@ public abstract class AbstractFunctionClassificationStrategy implements IFunctio
      * .gast.statements.SimpleStatement)
      */
     @Override
-    public BitSet classifySimpleStatement(final Statement object) {// GAST2SEFFCHANGE //can/should
+    public List<BitSet> classifySimpleStatement(final Statement object) {// GAST2SEFFCHANGE
+                                                                         // //can/should
         // be replaced with Statement
 
-        final BitSet result = new BitSet();
-        final Method method = VisitorUtils.getMethodCall(object);// GAST2SEFFCHANGE
+        final Collection<Method> methods = VisitorUtils.getMethodCalls(object);// GAST2SEFFCHANGE
+        final List<BitSet> result = new ArrayList<BitSet>(methods.size());
 
-        if (method != null) {
-            if (this.isExternalCall(method)) {
-                this.logger.debug("Found external call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
-                result.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
-            } else if (this.isLibraryCall(method)) {
-                this.logger.debug("Found library call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
-                result.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.LIBRARY));
-            } else { // default: internal call
-                this.logger.debug("Found internal call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
-                result.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.INTERNAL));
+        for (final Method method : methods) {
+            final BitSet currentBitSet = new BitSet();
+            if (method != null) {
+                if (this.isExternalCall(method)) {
+                    this.logger.debug("Found external call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                    currentBitSet.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
+                } else if (this.isLibraryCall(method)) {
+                    this.logger.debug("Found library call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                    currentBitSet.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.LIBRARY));
+                } else { // default: internal call
+                    this.logger.debug("Found internal call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                    currentBitSet.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.INTERNAL));
+                }
             }
+            result.add(currentBitSet);
         }
         return result;
     }
@@ -54,8 +62,10 @@ public abstract class AbstractFunctionClassificationStrategy implements IFunctio
      * .BitSet, java.util.BitSet)
      */
     @Override
-    public void mergeFunctionCallType(final BitSet myType, final BitSet functionCallType) {
-        myType.or(functionCallType);
+    public void mergeFunctionCallType(final BitSet myType, final Collection<BitSet> functionCallTypes) {
+        for (final BitSet functionCallType : functionCallTypes) {
+            myType.or(functionCallType);
+        }
     }
 
     /**
