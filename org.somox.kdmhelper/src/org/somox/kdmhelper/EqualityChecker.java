@@ -34,17 +34,17 @@ public class EqualityChecker {
             return true;
         }
 
+        // checks
+        if (!checkNameEqual(function1, function2)) {
+            return false;
+        }
+
         if (getReturnTypeAccess(function1) == null || getReturnTypeAccess(function2) == null
                 || function1.getParameters() == null || function2.getParameters() == null) {
             return false;
         }
 
         if (!targetInTypeReferenceEquals(getReturnTypeAccess(function1), getReturnTypeAccess(function2))) {
-            return false;
-        }
-
-        // checks
-        if (!checkNameEqual(function1, function2)) {
             return false;
         }
 
@@ -67,8 +67,8 @@ public class EqualityChecker {
         }
 
         for (int i = 0; i < function1.getParameters().size(); i++) { // parameter types
-            if (!targetInTypeReferenceEquals(function1.getParameters().get(i).getTypeReference(), function2
-                    .getParameters().get(i).getTypeReference())) {
+            if (!targetInTypeReferenceEquals(function1.getParameters().get(i).getTypeReference(),
+                    function2.getParameters().get(i).getTypeReference())) {
                 return false;
             }
         }
@@ -146,7 +146,7 @@ public class EqualityChecker {
             return method.getTypeReference();// REALLYADDED
         } else {// REALLYADDED
             return null;// REALLYADDED
-        }// REALLYADDED
+        } // REALLYADDED
     }// REALLYADDED
 
     // SOMOXTODOCHANGE
