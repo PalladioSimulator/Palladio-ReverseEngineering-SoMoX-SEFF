@@ -1,5 +1,7 @@
 package org.somox.test.gast2seff.visitors;
 
+import static org.somox.test.gast2seff.visitors.JaMoPPStatementVisitorTest.TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETERS_AND_RETURN_TYPE;
+
 import java.io.IOException;
 
 import org.junit.BeforeClass;
@@ -149,6 +151,20 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
         this.doMethodTestGastStatementVisitor(super.getTestMethodName(), expectedSeff);
     }
 
+    @Override
+    @Test
+    public void testInternalCallAsInputForExternalCall() {
+        final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+        final InternalCallAction internalCallAction1 = this.createInternalCallAction(this.createInternalAction());
+        final InternalCallAction internalCallAction2 = this.createInternalCallAction(this.createInternalAction());
+        expectedSeff.getSteps_Behaviour().add(internalCallAction1);
+        expectedSeff.getSteps_Behaviour().add(internalCallAction2);
+        final ExternalCallAction externalCallAction = this
+                .createExternalCallAction(TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETERS_AND_RETURN_TYPE);
+        expectedSeff.getSteps_Behaviour().add(externalCallAction);
+        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+    }
+
     private LoopAction createLoopAction(final AbstractAction... expectedLoopActions) {
         final LoopAction loopAction = SeffFactory.eINSTANCE.createLoopAction();
         final ResourceDemandingBehaviour loopBehavior = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
@@ -195,7 +211,7 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
             final InternalCallAction recursiveInternalCallAction = SeffFactory.eINSTANCE.createInternalCallAction();
             recursiveInternalCallAction.setCalledResourceDemandingInternalBehaviour(resourceDemandingInternalBehaviour);
             resourceDemandingInternalBehaviour.getSteps_Behaviour().add(recursiveInternalCallAction);
-        } else {
+        } else if (null != expectedBehaviorOfResourceInternalBehaviour) {
             for (final AbstractAction abstractAction : expectedBehaviorOfResourceInternalBehaviour) {
                 resourceDemandingInternalBehaviour.getSteps_Behaviour().add(abstractAction);
             }

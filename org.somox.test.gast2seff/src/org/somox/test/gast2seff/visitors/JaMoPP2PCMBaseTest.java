@@ -73,6 +73,8 @@ public class JaMoPP2PCMBaseTest {
     protected static final String METHOD_NAME_TEST_EXTERNAL_CALL = "testExternalCall";
 
     protected static final String METHOD_NAME_PROVIDING_METHOD = "providingMethod";
+
+    private static final String METHOD_NAME_WITHOUT_OP_SIG = METHOD_NAME_TEST_EXTERNAL_CALL + "ForMethodWithoutOpSig";
     protected static Root compilationUnits;
 
     protected SourceCodeDecoratorRepository sourceCodeDecorator;

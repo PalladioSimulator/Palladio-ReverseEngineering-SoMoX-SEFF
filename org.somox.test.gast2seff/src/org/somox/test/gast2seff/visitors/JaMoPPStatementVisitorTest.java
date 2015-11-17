@@ -33,6 +33,7 @@ import org.somox.gast2seff.visitors.ResourceDemandingBehaviourForClassMethodFind
 
 public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
 
+    protected static final String TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETERS_AND_RETURN_TYPE = "testExternalCallWithSimpleParametersAndReturnType";
     private static final String REQUIRED_ROLE_NAME = "Required_InterfaceA_RequiringComponent";
     protected static final String OPERATION_SIGNATURE_NAME = "testExternalCall";
     protected static boolean createResourceDemandingInternalBehaviourForClassMethods;
@@ -77,7 +78,7 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
         // create expected SEFF
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
         final ExternalCallAction externalCall = this
-                .createExternalCallAction("testExternalCallWithSimpleParametersAndReturnType");
+                .createExternalCallAction(TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETERS_AND_RETURN_TYPE);
         expectedSeff.getSteps_Behaviour().add(externalCall);
         // execute the test
         this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
@@ -278,9 +279,9 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
     @Test
     public void testExternalCallAsInputForInternalCall() {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
-        expectedSeff.getSteps_Behaviour().add(this.createInternalAction());
         final ExternalCallAction externalCallAction = this.createExternalCallAction(OPERATION_SIGNATURE_NAME);
         expectedSeff.getSteps_Behaviour().add(externalCallAction);
+        expectedSeff.getSteps_Behaviour().add(this.createInternalAction());
         this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
     }
 
@@ -288,6 +289,16 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
     public void testInternalCallAsInputForInternalCall() {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
         expectedSeff.getSteps_Behaviour().add(this.createInternalAction());
+        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+    }
+
+    @Test
+    public void testInternalCallAsInputForExternalCall() {
+        final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+        expectedSeff.getSteps_Behaviour().add(this.createInternalAction());
+        final ExternalCallAction externalCallAction = this
+                .createExternalCallAction(TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETERS_AND_RETURN_TYPE);
+        expectedSeff.getSteps_Behaviour().add(externalCallAction);
         this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
     }
 
