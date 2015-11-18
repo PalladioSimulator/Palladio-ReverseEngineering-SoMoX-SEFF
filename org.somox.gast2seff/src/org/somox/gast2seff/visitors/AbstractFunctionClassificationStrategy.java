@@ -63,7 +63,18 @@ public abstract class AbstractFunctionClassificationStrategy implements IFunctio
      */
     @Override
     public void mergeFunctionCallType(final BitSet myType, final Collection<BitSet> functionCallTypes) {
+        if (null == myType || null == functionCallTypes) {
+            this.logger.debug("myType: " + myType + " and/or functionCallTypes: " + functionCallTypes
+                    + " is null. mergeFunctionCallType can not be applied");
+            return;
+
+        }
         for (final BitSet functionCallType : functionCallTypes) {
+            if (functionCallType == null) {
+                this.logger.debug("current functionCallType in " + functionCallTypes
+                        + " is null. mergeFunctionCallType can not be applied for the functionCallType.");
+                continue;
+            }
             myType.or(functionCallType);
         }
     }
