@@ -82,6 +82,10 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
     protected Object handleStatementListContainer(final StatementListContainer object) {
         for (final Statement s : object.getStatements()) {
             final Collection<BitSet> thisTypes = this.functionClassificationAnnotation.get(s);
+            if (null == thisTypes) {
+                logger.info("thisTypes == null - continue with next statement");
+                continue;
+            }
             for (final BitSet thisType : thisTypes) {
                 if (!this.shouldSkip(this.lastType, thisType)) {
                     // Only generate elements for statements which should not be abstracted away
