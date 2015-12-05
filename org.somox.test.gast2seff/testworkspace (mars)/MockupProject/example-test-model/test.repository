@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<repository:Repository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:repository="http://palladiosimulator.org/PalladioComponentModel/Repository/5.1" xmlns:seff="http://palladiosimulator.org/PalladioComponentModel/SEFF/5.1" id="_vEY5oJdoEeWz0pZYRC7iYg" entityName="defaultRepository">
+  <components__Repository xsi:type="repository:BasicComponent" id="_a-DBAJdpEeWz0pZYRC7iYg">
+    <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_stDZYJdpEeWz0pZYRC7iYg" entityName="Provided_aName_aName" providedInterface__OperationProvidedRole="_xrzAwJdoEeWz0pZYRC7iYg"/>
+    <requiredRoles_InterfaceRequiringEntity xsi:type="repository:OperationRequiredRole" id="_ij8bYJdpEeWz0pZYRC7iYg" entityName="Required_aName_aName" requiredInterface__OperationRequiredRole="_xrzAwJdoEeWz0pZYRC7iYg"/>
+    <serviceEffectSpecifications__BasicComponent xsi:type="seff:ResourceDemandingSEFF" id="_stIR4JdpEeWz0pZYRC7iYg" describedService__SEFF="_ePPE8JdpEeWz0pZYRC7iYg">
+      <steps_Behaviour xsi:type="seff:StartAction" id="_stMjUJdpEeWz0pZYRC7iYg" entityName="start" successor_AbstractAction="_stNxcJdpEeWz0pZYRC7iYg"/>
+      <steps_Behaviour xsi:type="seff:StopAction" id="_stNxcJdpEeWz0pZYRC7iYg" entityName="stop" predecessor_AbstractAction="_stMjUJdpEeWz0pZYRC7iYg"/>
+    </serviceEffectSpecifications__BasicComponent>
+    <serviceEffectSpecifications__BasicComponent xsi:type="seff:ResourceDemandingSEFF" id="_stPmoJdpEeWz0pZYRC7iYg" describedService__SEFF="_q_g5gJdpEeWz0pZYRC7iYg">
+      <steps_Behaviour xsi:type="seff:StartAction" id="_stQNsJdpEeWz0pZYRC7iYg" entityName="start" successor_AbstractAction="_vPTTsJdpEeWz0pZYRC7iYg"/>
+      <steps_Behaviour xsi:type="seff:StopAction" id="_stQNsZdpEeWz0pZYRC7iYg" entityName="stop" predecessor_AbstractAction="_vPTTsJdpEeWz0pZYRC7iYg"/>
+      <steps_Behaviour xsi:type="seff:InternalAction" id="_vPTTsJdpEeWz0pZYRC7iYg" predecessor_AbstractAction="_stQNsJdpEeWz0pZYRC7iYg" successor_AbstractAction="_stQNsZdpEeWz0pZYRC7iYg"/>
+    </serviceEffectSpecifications__BasicComponent>
+  </components__Repository>
+  <interfaces__Repository xsi:type="repository:OperationInterface" id="_xrzAwJdoEeWz0pZYRC7iYg">
+    <signatures__OperationInterface id="_ePPE8JdpEeWz0pZYRC7iYg"/>
+    <signatures__OperationInterface id="_q_g5gJdpEeWz0pZYRC7iYg" entityName="adfasdf"/>
+  </interfaces__Repository>
+</repository:Repository>

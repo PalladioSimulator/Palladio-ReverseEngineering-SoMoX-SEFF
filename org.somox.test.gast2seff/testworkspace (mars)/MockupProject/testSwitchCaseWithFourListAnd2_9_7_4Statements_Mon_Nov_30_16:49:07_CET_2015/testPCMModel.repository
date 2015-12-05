@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ASCII"?>
+<repository:Repository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:repository="http://palladiosimulator.org/PalladioComponentModel/Repository/5.1" xmlns:seff="http://palladiosimulator.org/PalladioComponentModel/SEFF/5.1" id="_EdSBwLMHEeS2co6zY9fwbQ" entityName="defaultRepository">
+  <components__Repository xsi:type="repository:BasicComponent" id="_HOdI4LMHEeS2co6zY9fwbQ" entityName="ProvidingComponent">
+    <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_SljkALMHEeS2co6zY9fwbQ" entityName="Provided_InterfaceA_ProvidingComponent" providedInterface__OperationProvidedRole="_IU3XULMHEeS2co6zY9fwbQ"/>
+    <serviceEffectSpecifications__BasicComponent xsi:type="seff:ResourceDemandingSEFF" id="_SlpDkLMHEeS2co6zY9fwbQ" describedService__SEFF="_JGwHQLMHEeS2co6zY9fwbQ"/>
+    <serviceEffectSpecifications__BasicComponent xsi:type="seff:ResourceDemandingSEFF" id="_Slst8LMHEeS2co6zY9fwbQ" describedService__SEFF="_JLBjQLMHEeS2co6zY9fwbQ"/>
+  </components__Repository>
+  <components__Repository xsi:type="repository:BasicComponent" id="_VO8BELMHEeS2co6zY9fwbQ" entityName="RequiringComponent">
+    <providedRoles_InterfaceProvidingEntity xsi:type="repository:OperationProvidedRole" id="_Zqat4LMHEeS2co6zY9fwbQ" entityName="Provided_InterfaceB_RequiringComponent" providedInterface__OperationProvidedRole="_XEDIkLMHEeS2co6zY9fwbQ"/>
+    <requiredRoles_InterfaceRequiringEntity xsi:type="repository:OperationRequiredRole" id="_WwZMwLMHEeS2co6zY9fwbQ" entityName="Required_InterfaceA_RequiringComponent" requiredInterface__OperationRequiredRole="_IU3XULMHEeS2co6zY9fwbQ"/>
+    <serviceEffectSpecifications__BasicComponent xsi:type="seff:ResourceDemandingSEFF" id="_ZqbU8LMHEeS2co6zY9fwbQ" describedService__SEFF="_X4jHoLMHEeS2co6zY9fwbQ">
+      <steps_Behaviour xsi:type="seff:BranchAction" id="_46RJ4Jd5EeW6zaCzu3qVVg" entityName=" @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() from 3980 to 4685">
+        <branches_Branch xsi:type="seff:ProbabilisticBranchTransition" id="_46RJ4Zd5EeW6zaCzu3qVVg" entityName="parent  @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() from 3980 to 4685/line 0 to line 0">
+          <branchBehaviour_BranchTransition id="_46RJ4pd5EeW6zaCzu3qVVg">
+            <steps_Behaviour xsi:type="seff:StartAction" id="_46RJ45d5EeW6zaCzu3qVVg" successor_AbstractAction="_46Rw8Jd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46Rw8Jd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4076" predecessor_AbstractAction="_46RJ45d5EeW6zaCzu3qVVg" successor_AbstractAction="_46Rw8Zd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:StopAction" id="_46Rw8Zd5EeW6zaCzu3qVVg" predecessor_AbstractAction="_46Rw8Jd5EeW6zaCzu3qVVg"/>
+          </branchBehaviour_BranchTransition>
+        </branches_Branch>
+        <branches_Branch xsi:type="seff:ProbabilisticBranchTransition" id="_46Rw8pd5EeW6zaCzu3qVVg" entityName="parent  @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() from 3980 to 4685/line 0 to line 0">
+          <branchBehaviour_BranchTransition id="_46Rw85d5EeW6zaCzu3qVVg">
+            <steps_Behaviour xsi:type="seff:StartAction" id="_46Rw9Jd5EeW6zaCzu3qVVg" successor_AbstractAction="_46Rw9Zd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46Rw9Zd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4171" predecessor_AbstractAction="_46Rw9Jd5EeW6zaCzu3qVVg" successor_AbstractAction="_46Rw9pd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46Rw9pd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4231" predecessor_AbstractAction="_46Rw9Zd5EeW6zaCzu3qVVg" successor_AbstractAction="_46Rw95d5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46Rw95d5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4307" predecessor_AbstractAction="_46Rw9pd5EeW6zaCzu3qVVg" successor_AbstractAction="_46Rw-Jd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46Rw-Jd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4367" predecessor_AbstractAction="_46Rw95d5EeW6zaCzu3qVVg" successor_AbstractAction="_46Rw-Zd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46Rw-Zd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4427" predecessor_AbstractAction="_46Rw-Jd5EeW6zaCzu3qVVg" successor_AbstractAction="_46Rw-pd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46Rw-pd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4504" predecessor_AbstractAction="_46Rw-Zd5EeW6zaCzu3qVVg" successor_AbstractAction="_46Rw-5d5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46Rw-5d5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4564" predecessor_AbstractAction="_46Rw-pd5EeW6zaCzu3qVVg" successor_AbstractAction="_46Rw_Jd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46Rw_Jd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4624" predecessor_AbstractAction="_46Rw-5d5EeW6zaCzu3qVVg" successor_AbstractAction="_46Rw_Zd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46Rw_Zd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4684" predecessor_AbstractAction="_46Rw_Jd5EeW6zaCzu3qVVg" successor_AbstractAction="_46Rw_pd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:StopAction" id="_46Rw_pd5EeW6zaCzu3qVVg" predecessor_AbstractAction="_46Rw_Zd5EeW6zaCzu3qVVg"/>
+          </branchBehaviour_BranchTransition>
+        </branches_Branch>
+        <branches_Branch xsi:type="seff:ProbabilisticBranchTransition" id="_46Rw_5d5EeW6zaCzu3qVVg" entityName="parent  @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() from 3980 to 4685/line 0 to line 0">
+          <branchBehaviour_BranchTransition id="_46RxAJd5EeW6zaCzu3qVVg">
+            <steps_Behaviour xsi:type="seff:StartAction" id="_46RxAZd5EeW6zaCzu3qVVg" successor_AbstractAction="_46SYAJd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46SYAJd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4307" predecessor_AbstractAction="_46RxAZd5EeW6zaCzu3qVVg" successor_AbstractAction="_46SYAZd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46SYAZd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4367" predecessor_AbstractAction="_46SYAJd5EeW6zaCzu3qVVg" successor_AbstractAction="_46SYApd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46SYApd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4427" predecessor_AbstractAction="_46SYAZd5EeW6zaCzu3qVVg" successor_AbstractAction="_46SYA5d5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46SYA5d5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4504" predecessor_AbstractAction="_46SYApd5EeW6zaCzu3qVVg" successor_AbstractAction="_46SYBJd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46SYBJd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4564" predecessor_AbstractAction="_46SYA5d5EeW6zaCzu3qVVg" successor_AbstractAction="_46SYBZd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46SYBZd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4624" predecessor_AbstractAction="_46SYBJd5EeW6zaCzu3qVVg" successor_AbstractAction="_46SYBpd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46SYBpd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4684" predecessor_AbstractAction="_46SYBZd5EeW6zaCzu3qVVg" successor_AbstractAction="_46SYB5d5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:StopAction" id="_46SYB5d5EeW6zaCzu3qVVg" predecessor_AbstractAction="_46SYBpd5EeW6zaCzu3qVVg"/>
+          </branchBehaviour_BranchTransition>
+        </branches_Branch>
+        <branches_Branch xsi:type="seff:ProbabilisticBranchTransition" id="_46SYCJd5EeW6zaCzu3qVVg" entityName="parent  @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() from 3980 to 4685/line 0 to line 0">
+          <branchBehaviour_BranchTransition id="_46SYCZd5EeW6zaCzu3qVVg">
+            <steps_Behaviour xsi:type="seff:StartAction" id="_46SYCpd5EeW6zaCzu3qVVg" successor_AbstractAction="_46SYC5d5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46SYC5d5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4504" predecessor_AbstractAction="_46SYCpd5EeW6zaCzu3qVVg" successor_AbstractAction="_46SYDJd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46SYDJd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4564" predecessor_AbstractAction="_46SYC5d5EeW6zaCzu3qVVg" successor_AbstractAction="_46SYDZd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46SYDZd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4624" predecessor_AbstractAction="_46SYDJd5EeW6zaCzu3qVVg" successor_AbstractAction="_46SYDpd5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:ExternalCallAction" id="_46SYDpd5EeW6zaCzu3qVVg" entityName="testExternalCall @position: org.somox.test.gast2seff.examplesrc.requiringcomponent.RequiringComponentImpl.java.RequiringComponentImpl.testSwitchCaseWithFourListAnd2_9_7_4Statements() at 4684" predecessor_AbstractAction="_46SYDZd5EeW6zaCzu3qVVg" successor_AbstractAction="_46SYD5d5EeW6zaCzu3qVVg"/>
+            <steps_Behaviour xsi:type="seff:StopAction" id="_46SYD5d5EeW6zaCzu3qVVg" predecessor_AbstractAction="_46SYDpd5EeW6zaCzu3qVVg"/>
+          </branchBehaviour_BranchTransition>
+        </branches_Branch>
+      </steps_Behaviour>
+    </serviceEffectSpecifications__BasicComponent>
+  </components__Repository>
+  <interfaces__Repository xsi:type="repository:OperationInterface" id="_IU3XULMHEeS2co6zY9fwbQ" entityName="InterfaceA">
+    <signatures__OperationInterface id="_JGwHQLMHEeS2co6zY9fwbQ" entityName="testExternalCall"/>
+    <signatures__OperationInterface id="_JLBjQLMHEeS2co6zY9fwbQ" entityName="testExternalCallWithSimpleParametersAndReturnType">
+      <parameters__OperationSignature parameterName="str1">
+        <dataType__Parameter xsi:type="repository:PrimitiveDataType" href="pathmap://PCM_MODELS/PrimitiveTypes.repository#//@dataTypes__Repository.1"/>
+      </parameters__OperationSignature>
+      <parameters__OperationSignature parameterName="str2">
+        <dataType__Parameter xsi:type="repository:PrimitiveDataType" href="pathmap://PCM_MODELS/PrimitiveTypes.repository#//@dataTypes__Repository.1"/>
+      </parameters__OperationSignature>
+      <returnType__OperationSignature xsi:type="repository:PrimitiveDataType" href="pathmap://PCM_MODELS/PrimitiveTypes.repository#//@dataTypes__Repository.1"/>
+    </signatures__OperationInterface>
+  </interfaces__Repository>
+  <interfaces__Repository xsi:type="repository:OperationInterface" id="_XEDIkLMHEeS2co6zY9fwbQ" entityName="ProvidingInterface">
+    <signatures__OperationInterface id="_X4jHoLMHEeS2co6zY9fwbQ" entityName="providingMethod"/>
+  </interfaces__Repository>
+</repository:Repository>
