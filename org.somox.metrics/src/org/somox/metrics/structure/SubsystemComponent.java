@@ -36,13 +36,14 @@ public class SubsystemComponent extends AbstractMetric {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.somox.metrics.Metric#initialize(de.fzi.gast.core.Root,
      * org.somox.configuration.SoMoXConfiguration, java.util.Map, org.jgrapht.DirectedGraph)
      */
     @Override
     public void initialize(final Root gastModel, final SoMoXConfiguration somoxConfiguration,
-            final Map<MetricID, IMetric> allMetrics, final DirectedGraph<ConcreteClassifier, ClassAccessGraphEdge> accessGraph,
+            final Map<MetricID, IMetric> allMetrics,
+            final DirectedGraph<ConcreteClassifier, ClassAccessGraphEdge> accessGraph,
             final ComponentToImplementingClassesHelper componentToImplementingClassesHelper) {
         super.initialize(gastModel, somoxConfiguration, allMetrics, accessGraph, componentToImplementingClassesHelper);
 
@@ -68,10 +69,10 @@ public class SubsystemComponent extends AbstractMetric {
         // }
 
         // TODO: Refactor me!!!!
-        final Set<ConcreteClassifier> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(
-                relationToCompute.getSourceComponent());
-        final Set<ConcreteClassifier> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(
-                relationToCompute.getTargetComponent());
+        final Set<ConcreteClassifier> classes1 = this.getComponentToClassHelper()
+                .deriveImplementingClasses(relationToCompute.getSourceComponent());
+        final Set<ConcreteClassifier> classes2 = this.getComponentToClassHelper()
+                .deriveImplementingClasses(relationToCompute.getTargetComponent());
 
         // compute overall prefix
         final Package prefixPackage = this.computePrefix(classes1, classes2);
@@ -108,13 +109,12 @@ public class SubsystemComponent extends AbstractMetric {
             if (currentPackage != null) {
                 if (subLayer == null) {
                     for (final Package slicePackage : slices) {
-                        if (KDMHelper.computeFullQualifiedName(currentPackage).startsWith(
-                                KDMHelper.computeFullQualifiedName(slicePackage))) {
+                        if (KDMHelper.computeFullQualifiedName(currentPackage)
+                                .startsWith(KDMHelper.computeFullQualifiedName(slicePackage))) {
                             for (final Package layerPackage : layers) {
                                 if (KDMHelper.computeFullQualifiedName(currentPackage)
-                                        .startsWith(
-                                                KDMHelper.computeFullQualifiedName(slicePackage) + "."
-                                                        + layerPackage.getName())) {
+                                        .startsWith(KDMHelper.computeFullQualifiedName(slicePackage) + "."
+                                                + layerPackage.getName())) {
                                     subLayer = KDMHelper.computeFullQualifiedName(slicePackage) + "."
                                             + layerPackage.getName();
                                     break;
@@ -137,13 +137,12 @@ public class SubsystemComponent extends AbstractMetric {
             if (currentPackage != null) {
                 if (subLayer == null) {
                     for (final Package slicePackage : slices) {
-                        if (KDMHelper.computeFullQualifiedName(currentPackage).startsWith(
-                                KDMHelper.computeFullQualifiedName(slicePackage))) {
+                        if (KDMHelper.computeFullQualifiedName(currentPackage)
+                                .startsWith(KDMHelper.computeFullQualifiedName(slicePackage))) {
                             for (final Package layerPackage : layers) {
                                 if (KDMHelper.computeFullQualifiedName(currentPackage)
-                                        .startsWith(
-                                                KDMHelper.computeFullQualifiedName(slicePackage) + "."
-                                                        + layerPackage.getName())) {
+                                        .startsWith(KDMHelper.computeFullQualifiedName(slicePackage) + "."
+                                                + layerPackage.getName())) {
                                     subLayer = KDMHelper.computeFullQualifiedName(slicePackage) + "."
                                             + layerPackage.getName();
                                     break;
@@ -186,7 +185,7 @@ public class SubsystemComponent extends AbstractMetric {
     /**
      * Computes the longest prefix for the given packages excluding the blacklisted packages and
      * classes
-     * 
+     *
      * @param packages
      *            a given package-hierarchy
      * @return the last package in the package-hierarchy in which all non-blacklisted elements are
@@ -209,10 +208,8 @@ public class SubsystemComponent extends AbstractMetric {
                 prefix = KDMHelper.getSurroundingPackage(current);
             }
 
-            if (prefix != null
-                    && KDMHelper.getSurroundingPackage(current) != null
-                    && !KDMHelper.computeFullQualifiedName(current).startsWith(
-                            KDMHelper.computeFullQualifiedName(prefix))) {
+            if (prefix != null && KDMHelper.getSurroundingPackage(current) != null && !KDMHelper
+                    .computeFullQualifiedName(current).startsWith(KDMHelper.computeFullQualifiedName(prefix))) {
                 // prefix = prefix.getPackage();
                 if (prefix == null) {
                     return null;

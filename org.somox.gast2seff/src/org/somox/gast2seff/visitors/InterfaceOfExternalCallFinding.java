@@ -1,7 +1,6 @@
 package org.somox.gast2seff.visitors;
 
 import org.emftext.language.java.members.Method;
-
 import org.palladiosimulator.pcm.repository.Role;
 import org.palladiosimulator.pcm.repository.Signature;
 

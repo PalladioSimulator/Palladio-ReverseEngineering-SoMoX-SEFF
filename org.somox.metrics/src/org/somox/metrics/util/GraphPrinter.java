@@ -39,7 +39,7 @@ public class GraphPrinter {
 
     /**
      * Clean the given folder recursively to allow dumping of new graphs
-     * 
+     *
      * @param outputFolder
      *            The folder to delete
      */
@@ -60,7 +60,7 @@ public class GraphPrinter {
 
     /**
      * Dump the given graph in both DOT and GraphML format
-     * 
+     *
      * @param <V>
      *            Type of the graph's vertices
      * @param <T>
@@ -102,7 +102,7 @@ public class GraphPrinter {
 
     /**
      * Retrieve for the given relative outputFolder an absolute folder name
-     * 
+     *
      * @param outputFolder
      *            The workspace relative path of the output folder
      * @return The absolute path of the output folder

@@ -57,10 +57,10 @@ public class GastToPrimitiveComponentInitializationStrategy extends AbstractInit
     private ComposedFilter<ConcreteClassifier> getFilter(final SoMoXConfiguration config) {
         final ComposedFilter<ConcreteClassifier> gastClassFilter = new ComposedFilter<ConcreteClassifier>(
                 config.getBlacklistFilter(), new EClassBasedFilter<ConcreteClassifier>(
-                        /* JavaPackage.eINSTANCE.getEnumDeclaration() */),// SOMOXTODOCHANGE removed because
-                        // old version passes enums
-                        // /*typesPackage.eINSTANCE.getGASTUnion())*/,//SOMOXTODOCHANGE
-                        primitiveClassesFilter, improperStructFilter, dataObjectFilter, unknownClassTypeFilter);
+        /* JavaPackage.eINSTANCE.getEnumDeclaration() */), // SOMOXTODOCHANGE removed because
+                // old version passes enums
+                // /*typesPackage.eINSTANCE.getGASTUnion())*/,//SOMOXTODOCHANGE
+                primitiveClassesFilter, improperStructFilter, dataObjectFilter, unknownClassTypeFilter);
 
         return gastClassFilter;
     }

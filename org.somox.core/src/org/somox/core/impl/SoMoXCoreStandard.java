@@ -87,7 +87,7 @@ public class SoMoXCoreStandard implements SoMoXCore {
     @Override
     public AnalysisResult runAnalyzer(final String analyzerID, final IProgressMonitor progressMonitor,
             final HashMap<String, String> preferences, final SoMoXConfiguration somoxConfiguration)
-            throws ModelAnalyzerException {
+                    throws ModelAnalyzerException {
         this.logger.info("analysis started");
         this.logger.info("analysis of results: " + this.extractionResultMap);
 

@@ -3,11 +3,9 @@
  */
 package org.somox.metrics.dsl.validation;
 
-import org.somox.metrics.dsl.validation.AbstractMetricDSLValidator;
-
 /**
  * Custom validation rules.
- * 
+ *
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
 @SuppressWarnings("all")

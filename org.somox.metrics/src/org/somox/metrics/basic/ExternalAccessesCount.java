@@ -8,6 +8,7 @@ import org.somox.metrics.tabs.MetricTab;
 
 /**
  * Counts accesses from component1 to all classes besides those of component1
+ *
  * @author Snowball
  */
 public class ExternalAccessesCount extends AbstractCountingMetric {
@@ -24,11 +25,9 @@ public class ExternalAccessesCount extends AbstractCountingMetric {
     }
 
     @Override
-    protected void internalComputeDirected (
-            final ClusteringRelation relationToCompute) {
-        relationToCompute.setResultMetric(getMID(),
-                getAccessGraphCache().calculateNumberOfExternalAccesses(
-                        this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getSourceComponent())));
+    protected void internalComputeDirected(final ClusteringRelation relationToCompute) {
+        relationToCompute.setResultMetric(this.getMID(), this.getAccessGraphCache().calculateNumberOfExternalAccesses(
+                this.getComponentToClassHelper().deriveImplementingClasses(relationToCompute.getSourceComponent())));
     }
 
     @Override

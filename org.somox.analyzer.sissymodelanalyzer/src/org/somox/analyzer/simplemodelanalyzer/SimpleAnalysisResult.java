@@ -3,17 +3,16 @@ package org.somox.analyzer.simplemodelanalyzer;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.palladiosimulator.pcm.allocation.Allocation;
+import org.palladiosimulator.pcm.qosannotations.QoSAnnotations;
+import org.palladiosimulator.pcm.repository.Repository;
+import org.palladiosimulator.pcm.system.System;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.ModelAnalyzer;
 import org.somox.common.Message;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
-
-import org.palladiosimulator.pcm.allocation.Allocation;
-import org.palladiosimulator.pcm.qosannotations.QoSAnnotations;
-import org.palladiosimulator.pcm.repository.Repository;
-import org.palladiosimulator.pcm.system.System;
 
 //import eu.qimpress.commonmodel.commonmodel.StaticStructure.Repository;
 
@@ -32,7 +31,7 @@ public class SimpleAnalysisResult implements AnalysisResult {
 
     /**
      * The executed model analyzer
-     * 
+     *
      * @uml.property name="modelAnalyzer"
      * @uml.associationEnd
      */
@@ -40,7 +39,7 @@ public class SimpleAnalysisResult implements AnalysisResult {
 
     /**
      * The result status
-     * 
+     *
      * @uml.property name="resultStatus"
      * @uml.associationEnd
      */
@@ -48,7 +47,7 @@ public class SimpleAnalysisResult implements AnalysisResult {
 
     /**
      * the internal architecture model resulting from the performed analysis
-     * 
+     *
      * @uml.property name="internalArchitectureModel"
      * @uml.associationEnd
      */
@@ -56,7 +55,7 @@ public class SimpleAnalysisResult implements AnalysisResult {
 
     /**
      * the gast behaviour repository
-     * 
+     *
      * @uml.property name="gastBehaviourRepository"
      * @uml.associationEnd
      */
@@ -64,7 +63,7 @@ public class SimpleAnalysisResult implements AnalysisResult {
 
     /**
      * the source code decorator repository
-     * 
+     *
      * @uml.property name="sourceCodeDecoratorRepository"
      * @uml.associationEnd
      */
@@ -78,7 +77,7 @@ public class SimpleAnalysisResult implements AnalysisResult {
 
     /**
      * The list of messages
-     * 
+     *
      * @uml.property name="messages"
      */
     private final List<Message> messages = new LinkedList<Message>();
@@ -200,7 +199,7 @@ public class SimpleAnalysisResult implements AnalysisResult {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.somox.analyzer.AnalysisResult#getServiceArchitectureModel()
      */
     @Override

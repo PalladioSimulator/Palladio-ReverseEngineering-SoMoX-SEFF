@@ -110,8 +110,8 @@ public class ComponentDetectionByClustering implements IDetectionStrategy {
         this.kdmModel = kdmModelToAnalyze;
         this.somoxConfiguration = somoxConfig;
         this.allMetrics = this.initializeMetrics(initialComponentCandidates);
-        this.compositionIndicatingMetric = this
-                .getMetric(this.allMetrics, DefaultCompositionIndicatingMetric.METRIC_ID);
+        this.compositionIndicatingMetric = this.getMetric(this.allMetrics,
+                DefaultCompositionIndicatingMetric.METRIC_ID);
         this.mergeIndicatingMetric = this.getMetric(this.allMetrics, DefaultMergeIndicatingMetric.METRIC_ID);
         this.completionService = this.initializeExecutorCompletionService();
 
@@ -126,8 +126,8 @@ public class ComponentDetectionByClustering implements IDetectionStrategy {
      *            configuration to check
      */
     private void validateConfiguration(final SoMoXConfiguration somoxConfig) {
-        if (!(somoxConfig.getClusteringConfig().getClusteringMergeThresholdDecrement() > 0 && somoxConfig
-                .getClusteringConfig().getClusteringComposeThresholdDecrement() > 0)) {
+        if (!(somoxConfig.getClusteringConfig().getClusteringMergeThresholdDecrement() > 0
+                && somoxConfig.getClusteringConfig().getClusteringComposeThresholdDecrement() > 0)) {
             throw new IllegalArgumentException(
                     "The merge and compose threshold increment/decrement have to be positive numbers");
         }
@@ -138,7 +138,8 @@ public class ComponentDetectionByClustering implements IDetectionStrategy {
         }
         if (!(somoxConfig.getClusteringConfig().getMinMergeClusteringThreshold() < somoxConfig.getClusteringConfig()
                 .getMaxMergeClusteringThreshold())) {
-            throw new IllegalArgumentException("The minimum merge threshold must be lower than maximum merge threshold");
+            throw new IllegalArgumentException(
+                    "The minimum merge threshold must be lower than maximum merge threshold");
         }
     }
 
@@ -283,8 +284,8 @@ public class ComponentDetectionByClustering implements IDetectionStrategy {
     }
 
     private void saveMetricValuesModel(
-            final DirectedGraph<ComponentImplementingClassesLink, ClusteringRelation> metricsGraph,
-            final int iteration, final double currentThreshold, final OperationMode mode,
+            final DirectedGraph<ComponentImplementingClassesLink, ClusteringRelation> metricsGraph, final int iteration,
+            final double currentThreshold, final OperationMode mode,
             final List<ComponentImplementingClassesLink> componentCandidates) {
         final MetricValuesWriter mvWriter = new MetricValuesWriter(this.somoxConfiguration);
         mvWriter.saveMetricValuesModel(metricsGraph, iteration, currentThreshold, componentCandidates,
@@ -314,8 +315,9 @@ public class ComponentDetectionByClustering implements IDetectionStrategy {
                     GraphPrinter.ORIGINAL_GRAPH);
 
             if (projectedGraph.edgeSet().size() > 0) {
-                GraphPrinter.dumpGraph(this.componentToImplementingClassHelper, projectedGraph, this.somoxConfiguration
-                        .getFileLocations().getAnalyserInputFile(), iteration, GraphPrinter.PROJECTED_GRAPH);
+                GraphPrinter.dumpGraph(this.componentToImplementingClassHelper, projectedGraph,
+                        this.somoxConfiguration.getFileLocations().getAnalyserInputFile(), iteration,
+                        GraphPrinter.PROJECTED_GRAPH);
             }
         }
     }
@@ -381,12 +383,12 @@ public class ComponentDetectionByClustering implements IDetectionStrategy {
             final DirectedGraph<ComponentImplementingClassesLink, ClusteringRelation> componentIndicatingGraph,
             final double currentThreshold, final OperationMode currentMode) {
 
-        final BaseFilter<ClusteringRelation> filter = currentMode == OperationMode.MERGE ? new VertexTypeAndEdgeThresholdFilter(
-                this.mergeIndicatingMetric.getMID(), currentThreshold) : new EdgeThresholdFilter(
-                        this.compositionIndicatingMetric.getMID(), currentThreshold);
-                return new DirectedSubgraph<ComponentImplementingClassesLink, ClusteringRelation>(componentIndicatingGraph,
-                        componentIndicatingGraph.vertexSet(), FilteredCollectionsFactory.getFilteredHashSet(filter,
-                                componentIndicatingGraph.edgeSet()));
+        final BaseFilter<ClusteringRelation> filter = currentMode == OperationMode.MERGE
+                ? new VertexTypeAndEdgeThresholdFilter(this.mergeIndicatingMetric.getMID(), currentThreshold)
+                : new EdgeThresholdFilter(this.compositionIndicatingMetric.getMID(), currentThreshold);
+        return new DirectedSubgraph<ComponentImplementingClassesLink, ClusteringRelation>(componentIndicatingGraph,
+                componentIndicatingGraph.vertexSet(),
+                FilteredCollectionsFactory.getFilteredHashSet(filter, componentIndicatingGraph.edgeSet()));
     }
 
     /**
@@ -441,8 +443,7 @@ public class ComponentDetectionByClustering implements IDetectionStrategy {
         clusteringProgressMonitor.done();
     }
 
-    private Collection<NodePair> deriveComputationWork(
-            final List<ComponentImplementingClassesLink> componentCandidates,
+    private Collection<NodePair> deriveComputationWork(final List<ComponentImplementingClassesLink> componentCandidates,
             final DirectedGraph<ComponentImplementingClassesLink, ClusteringRelation> previousGraph) {
         final Set<ComponentImplementingClassesLink> newNodes = new HashSet<ComponentImplementingClassesLink>();
         final Set<ComponentImplementingClassesLink> nodesToRemove = new HashSet<ComponentImplementingClassesLink>();

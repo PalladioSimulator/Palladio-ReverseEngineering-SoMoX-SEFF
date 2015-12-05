@@ -1,4 +1,5 @@
 package org.somox.analyzer.simplemodelanalyzer.metrics.tabs;
+
 /**
  * @author Oliver Burkhardt, Klaus Krogmann
  */
@@ -28,189 +29,207 @@ import org.somox.common.SoMoXProjectPreferences;
 import org.somox.metrics.tabs.MetricTab;
 
 public class WeightsTab extends MetricTab {
-	
-	/**
-	 * Default weights
-	 */
-	private static final String CONFIG_SIMPLE_ANALYZER_PROPERTIES_FILE = "/config/SimpleAnalyzer.properties";
 
-	protected Composite control;
-	
-	private static Logger logger = Logger.getLogger(WeightsTab.class);
-	private ArrayList<Label> keyLabels;
-	private ArrayList<Slider> valueSliders;
-	private ArrayList<Label> valueLabels;
+    /**
+     * Default weights
+     */
+    private static final String CONFIG_SIMPLE_ANALYZER_PROPERTIES_FILE = "/config/SimpleAnalyzer.properties";
 
-	private static SoMoXProjectPreferences projectPreferences = new SoMoXProjectPreferences();
+    protected Composite control;
 
-	public void activated(ILaunchConfigurationWorkingCopy workingCopy) {
+    private static Logger logger = Logger.getLogger(WeightsTab.class);
+    private ArrayList<Label> keyLabels;
+    private ArrayList<Slider> valueSliders;
+    private ArrayList<Label> valueLabels;
 
-	}
+    private static SoMoXProjectPreferences projectPreferences = new SoMoXProjectPreferences();
 
-	public boolean canSave() {
-		return true;
-	}
+    @Override
+    public void activated(final ILaunchConfigurationWorkingCopy workingCopy) {
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	public void createControl(Composite parent) {		
-		
-		control = new Composite(parent, SWT.BORDER);
-		control.setLayout(new GridLayout(3,false));
+    }
 
-//		final ScrolledComposite scrollContainer = new ScrolledComposite(control,
-//		SWT.BORDER | SWT.V_SCROLL);
-//		
-//		Composite container = new Composite(scrollContainer, SWT.NONE);
-//		scrollContainer.setContent(container);
-//		
-//		container.setLayout(new GridLayout(3,false));
-				
-		keyLabels = new ArrayList<Label>();
-		valueSliders = new ArrayList<Slider>();
-		valueLabels = new ArrayList<Label>();
-				
-		int weightCounter=0;
-		for(MetricsDetails metricDetail : projectPreferences.orderedMetricDetails){
-			Label keyLabel = new Label(control,SWT.NONE);
-			keyLabel.setText(metricDetail.metricLabel); // metric label			
-			keyLabel.setToolTipText(metricDetail.metricExplanantion); // metric explanation text		
-			keyLabels.add(keyLabel);
-			
-			final Label valueLabel = new Label(control,SWT.BORDER);
-			GridData gd = new GridData();
-			gd.minimumWidth = 100;
-			gd.widthHint = 30;
-			valueLabel.setAlignment(SWT.CENTER);
-			valueLabel.setLayoutData(gd);
-			valueLabels.add(valueLabel);
-			
-			final Slider slider = new Slider(control, SWT.HORIZONTAL);
-			slider.setMinimum(0);
-			slider.setMaximum(110);
-			slider.setIncrement(1);
-			slider.addSelectionListener(new SelectionListener()
-			{
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					valueLabel.setText(String.valueOf((slider.getSelection())));
-					setDirty(true);
-					updateLaunchConfigurationDialog();
-				}
-				
-				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
-			});
-			valueSliders.add(slider);
-			
-			weightCounter++;
-		}
-			
-		
-		// important for the scrollbars
-//		container.setSize(container.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-//		scrollContainer.setAlwaysShowScrollBars(true);
-//		scrollContainer.setMinSize(container.computeSize(SWT.DEFAULT, 100));
-//		scrollContainer.setExpandHorizontal(true);
-		//setControl(scrollContainer);		
-	}
+    @Override
+    public boolean canSave() {
+        return true;
+    }
 
-	public void deactivated(ILaunchConfigurationWorkingCopy workingCopy) {
+    /**
+     * @wbp.parser.entryPoint
+     */
+    @Override
+    public void createControl(final Composite parent) {
 
-	}
+        this.control = new Composite(parent, SWT.BORDER);
+        this.control.setLayout(new GridLayout(3, false));
 
-	public void dispose() {
-	}
+        // final ScrolledComposite scrollContainer = new ScrolledComposite(control,
+        // SWT.BORDER | SWT.V_SCROLL);
+        //
+        // Composite container = new Composite(scrollContainer, SWT.NONE);
+        // scrollContainer.setContent(container);
+        //
+        // container.setLayout(new GridLayout(3,false));
 
-	public Control getControl() {
-		return control;
-	}
+        this.keyLabels = new ArrayList<Label>();
+        this.valueSliders = new ArrayList<Slider>();
+        this.valueLabels = new ArrayList<Label>();
 
-	public String getErrorMessage() {
-		return null;
-	}
-	
-	public Image getImage() {
-		return null;
-	}
+        int weightCounter = 0;
+        for (final MetricsDetails metricDetail : projectPreferences.orderedMetricDetails) {
+            final Label keyLabel = new Label(this.control, SWT.NONE);
+            keyLabel.setText(metricDetail.metricLabel); // metric label
+            keyLabel.setToolTipText(metricDetail.metricExplanantion); // metric explanation text
+            this.keyLabels.add(keyLabel);
 
-	public String getMessage() {
-		return null;
-	}
+            final Label valueLabel = new Label(this.control, SWT.BORDER);
+            final GridData gd = new GridData();
+            gd.minimumWidth = 100;
+            gd.widthHint = 30;
+            valueLabel.setAlignment(SWT.CENTER);
+            valueLabel.setLayoutData(gd);
+            this.valueLabels.add(valueLabel);
 
-	public String getName() {
-		return "Weights";
-	}
+            final Slider slider = new Slider(this.control, SWT.HORIZONTAL);
+            slider.setMinimum(0);
+            slider.setMaximum(110);
+            slider.setIncrement(1);
+            slider.addSelectionListener(new SelectionListener() {
+                @Override
+                public void widgetSelected(final SelectionEvent e) {
+                    valueLabel.setText(String.valueOf((slider.getSelection())));
+                    WeightsTab.this.setDirty(true);
+                    WeightsTab.this.updateLaunchConfigurationDialog();
+                }
 
-	public void initializeFrom(ILaunchConfiguration configuration) {
-		try {
-			for (int i = 0 ; i < valueSliders.size() ; i++)
-			{
-				String value = configuration.getAttribute(projectPreferences.orderedMetricDetails.get(i).metricWeightPeferenceName, "");
-//				System.out.println("value was:" + value);	
-				valueSliders.get(i).setSelection(Integer.valueOf(value));
-				valueLabels.get(i).setText(value + "");
-				
-			}
+                @Override
+                public void widgetDefaultSelected(final SelectionEvent e) {
+                }
+            });
+            this.valueSliders.add(slider);
 
-		} catch (CoreException e) {			
-			
-			e.printStackTrace();
-		}
+            weightCounter++;
+        }
 
-	}
+        // important for the scrollbars
+        // container.setSize(container.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+        // scrollContainer.setAlwaysShowScrollBars(true);
+        // scrollContainer.setMinSize(container.computeSize(SWT.DEFAULT, 100));
+        // scrollContainer.setExpandHorizontal(true);
+        // setControl(scrollContainer);
+    }
 
-	public boolean isValid(ILaunchConfiguration launchConfig) {
-		return true;
-	}
+    @Override
+    public void deactivated(final ILaunchConfigurationWorkingCopy workingCopy) {
 
-	public void launched(ILaunch launch) {
+    }
 
-	}
+    @Override
+    public void dispose() {
+    }
 
-	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		for (int i = 0 ; i < valueSliders.size() ; i++)
-		{
-			int value = valueSliders.get(i).getSelection();
-			configuration.setAttribute(projectPreferences.orderedMetricDetails.get(i).metricWeightPeferenceName, String.valueOf(value));
-		}
-	}
+    @Override
+    public Control getControl() {
+        return this.control;
+    }
 
-	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
+    @Override
+    public String getErrorMessage() {
+        return null;
+    }
 
-		setDefault(configuration);
+    @Override
+    public Image getImage() {
+        return null;
+    }
 
-		
-	}
-	/**
-	 * Helper method to set the default values
-	 * @param configuration
-	 */
-	public static void setDefault(ILaunchConfigurationWorkingCopy configuration){
-		// Read properties file
-	    Properties properties = new Properties();
-	    try {
-	    	InputStream inStream = Activator.getDefault().getBundle().getEntry(CONFIG_SIMPLE_ANALYZER_PROPERTIES_FILE).openStream();
-	    	properties.load(inStream);
+    @Override
+    public String getMessage() {
+        return null;
+    }
 
-	    	for(MetricsDetails metricDetail : projectPreferences.orderedMetricDetails) {
-	    		configuration.setAttribute(metricDetail.metricWeightPeferenceName, properties.getProperty(metricDetail.metricWeightPeferenceName));
-	    	}
-	
-			for(Object o : configuration.getAttributes().entrySet()) {
-				if(o == null) {
-					logger.error("At least one metric weight was not defined in the properties file");
-				}
-			}
-			
-	    } catch (IOException e) {
-	    	logger.error("Could not read property file " + CONFIG_SIMPLE_ANALYZER_PROPERTIES_FILE + " with metric defaults", e);
-	    	e.printStackTrace();
-	    } catch (CoreException e) {
-	    	logger.error("Could not read property file with metric defaults", e);
-	    	e.printStackTrace();
-	    }
-	}
+    @Override
+    public String getName() {
+        return "Weights";
+    }
+
+    @Override
+    public void initializeFrom(final ILaunchConfiguration configuration) {
+        try {
+            for (int i = 0; i < this.valueSliders.size(); i++) {
+                final String value = configuration
+                        .getAttribute(projectPreferences.orderedMetricDetails.get(i).metricWeightPeferenceName, "");
+                // System.out.println("value was:" + value);
+                this.valueSliders.get(i).setSelection(Integer.valueOf(value));
+                this.valueLabels.get(i).setText(value + "");
+
+            }
+
+        } catch (final CoreException e) {
+
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public boolean isValid(final ILaunchConfiguration launchConfig) {
+        return true;
+    }
+
+    @Override
+    public void launched(final ILaunch launch) {
+
+    }
+
+    @Override
+    public void performApply(final ILaunchConfigurationWorkingCopy configuration) {
+        for (int i = 0; i < this.valueSliders.size(); i++) {
+            final int value = this.valueSliders.get(i).getSelection();
+            configuration.setAttribute(projectPreferences.orderedMetricDetails.get(i).metricWeightPeferenceName,
+                    String.valueOf(value));
+        }
+    }
+
+    @Override
+    public void setDefaults(final ILaunchConfigurationWorkingCopy configuration) {
+
+        setDefault(configuration);
+
+    }
+
+    /**
+     * Helper method to set the default values
+     *
+     * @param configuration
+     */
+    public static void setDefault(final ILaunchConfigurationWorkingCopy configuration) {
+        // Read properties file
+        final Properties properties = new Properties();
+        try {
+            final InputStream inStream = Activator.getDefault().getBundle()
+                    .getEntry(CONFIG_SIMPLE_ANALYZER_PROPERTIES_FILE).openStream();
+            properties.load(inStream);
+
+            for (final MetricsDetails metricDetail : projectPreferences.orderedMetricDetails) {
+                configuration.setAttribute(metricDetail.metricWeightPeferenceName,
+                        properties.getProperty(metricDetail.metricWeightPeferenceName));
+            }
+
+            for (final Object o : configuration.getAttributes().entrySet()) {
+                if (o == null) {
+                    logger.error("At least one metric weight was not defined in the properties file");
+                }
+            }
+
+        } catch (final IOException e) {
+            logger.error(
+                    "Could not read property file " + CONFIG_SIMPLE_ANALYZER_PROPERTIES_FILE + " with metric defaults",
+                    e);
+            e.printStackTrace();
+        } catch (final CoreException e) {
+            logger.error("Could not read property file with metric defaults", e);
+            e.printStackTrace();
+        }
+    }
 }

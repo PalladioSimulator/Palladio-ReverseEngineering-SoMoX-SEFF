@@ -16,19 +16,6 @@ import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.types.Type;
-import org.somox.analyzer.AnalysisResult;
-import org.somox.configuration.SoMoXConfiguration;
-import org.somox.kdmhelper.EqualityChecker;
-import org.somox.kdmhelper.KDMHelper;
-import org.somox.kdmhelper.metamodeladdition.Root;
-import org.somox.seff2javaast.SEFF2JavaAST;
-import org.somox.seff2javaast.SEFF2MethodMapping;
-import org.somox.seff2javaast.Seff2javaastFactory;
-//import org.somox.seff2javaast.Seff2methodFactory;
-import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
-import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
-
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.EventGroup;
 import org.palladiosimulator.pcm.repository.EventType;
@@ -41,6 +28,18 @@ import org.palladiosimulator.pcm.repository.Signature;
 import org.palladiosimulator.pcm.repository.SinkRole;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.SeffFactory;
+import org.somox.analyzer.AnalysisResult;
+import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.EqualityChecker;
+import org.somox.kdmhelper.KDMHelper;
+import org.somox.kdmhelper.metamodeladdition.Root;
+import org.somox.seff2javaast.SEFF2JavaAST;
+import org.somox.seff2javaast.SEFF2MethodMapping;
+import org.somox.seff2javaast.Seff2javaastFactory;
+//import org.somox.seff2javaast.Seff2methodFactory;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 /**
  * Builder used to add GAST behaviour to methods detected as provided operations of components
@@ -250,8 +249,8 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
                     for (final Method methodInClass : classInComponent.getMethods()) {
                         if (EqualityChecker.areFunctionsEqual(interfaceMethod, methodInClass)
                                 && methodInClass instanceof ClassMethod) {
-                            logger.info("Found StatementListContainer for interface method "
-                                    + interfaceMethod.getName());
+                            logger.info(
+                                    "Found StatementListContainer for interface method " + interfaceMethod.getName());
                             implementingStatementListContainers.add(KDMHelper.getBody(methodInClass));
                         }
                     }
@@ -259,8 +258,8 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
             }
         }
         if (1 < implementingStatementListContainers.size()) {
-            logger.info("Found more than one statement list container for interface method "
-                    + interfaceMethod.getName());
+            logger.info(
+                    "Found more than one statement list container for interface method " + interfaceMethod.getName());
         }
         if (0 == implementingStatementListContainers.size()) {
             if (searchInAstModelIfNotFound) {
@@ -270,8 +269,8 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
                 for (final CompilationUnit cu : astModel.getCompilationUnits()) {
                     classifiersToLookAt.addAll(cu.getClassifiers());
                 }
-                return this.getFunctionImplementationFromInterfaceMethod(interfaceMethod, classifiersToLookAt,
-                        astModel, false);
+                return this.getFunctionImplementationFromInterfaceMethod(interfaceMethod, classifiersToLookAt, astModel,
+                        false);
             } else {
                 logger.info("Not found any statement list container (aka. overriden method) for interface method "
                         + interfaceMethod.getName() + " in astModel. Returning null.");

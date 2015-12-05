@@ -8,12 +8,11 @@ import org.apache.log4j.Category;
 import org.apache.log4j.Logger;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.types.Type;
+import org.palladiosimulator.pcm.repository.Interface;
+import org.palladiosimulator.pcm.repository.RepositoryComponent;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
-
-import org.palladiosimulator.pcm.repository.Interface;
-import org.palladiosimulator.pcm.repository.RepositoryComponent;
 
 /**
  * Component, package, interface, and port naming facility.
@@ -157,8 +156,8 @@ public class ComponentAndTypeNaming {
         for (final ComponentImplementingClassesLink currentClassesLink : currentList) {
             for (final Type currentClass : currentClassesLink.getImplementingClasses()) {
                 if (KDMHelper.getSurroundingPackage(currentClass) != null) {
-                    Integer tmpNumber = numberOfPackageNames.get(Root.getIdForPackage(KDMHelper
-                            .getSurroundingPackage(currentClass)));
+                    Integer tmpNumber = numberOfPackageNames
+                            .get(Root.getIdForPackage(KDMHelper.getSurroundingPackage(currentClass)));
                     if (tmpNumber != null) {
                         tmpNumber++;
                         numberOfPackageNames.put(Root.getIdForPackage(KDMHelper.getSurroundingPackage(currentClass)),
@@ -168,8 +167,8 @@ public class ComponentAndTypeNaming {
                             maxNumberPackageId = Root.getIdForPackage(KDMHelper.getSurroundingPackage(currentClass));
                         }
                     } else {
-                        numberOfPackageNames
-                                .put(Root.getIdForPackage(KDMHelper.getSurroundingPackage(currentClass)), 1);
+                        numberOfPackageNames.put(Root.getIdForPackage(KDMHelper.getSurroundingPackage(currentClass)),
+                                1);
                         packageNames.put(Root.getIdForPackage(KDMHelper.getSurroundingPackage(currentClass)),
                                 KDMHelper.computeFullQualifiedName(KDMHelper.getSurroundingPackage(currentClass)));
                         if (1 > maxNumber) {

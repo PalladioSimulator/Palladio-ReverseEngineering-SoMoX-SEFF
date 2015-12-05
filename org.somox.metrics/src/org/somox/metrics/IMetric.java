@@ -13,7 +13,7 @@ import org.somox.metrics.tabs.MetricTab;
 
 /**
  * Base interface for all SoMoX metrics.
- * 
+ *
  */
 public interface IMetric {
 
@@ -37,7 +37,7 @@ public interface IMetric {
     /**
      * Initializes the Metric. Must be called before metrics are computed. Should be called again,
      * if the model changed
-     * 
+     *
      * @param gastModel
      *            the Root object of the GAST model
      * @param somoxConfiguration
@@ -51,10 +51,7 @@ public interface IMetric {
      * @param componentToClassHelper
      *            Helper initialized graph
      */
-    public void initialize(
-            Root gastModel,
-            SoMoXConfiguration somoxConfiguration,
-            Map<MetricID, IMetric> allMetrics,
+    public void initialize(Root gastModel, SoMoXConfiguration somoxConfiguration, Map<MetricID, IMetric> allMetrics,
             DirectedGraph<ConcreteClassifier, ClassAccessGraphEdge> accessGraph,
             ComponentToImplementingClassesHelper componentToClassHelper);
 
@@ -66,7 +63,7 @@ public interface IMetric {
 
     /**
      * Returns the Metric ID of the Metric
-     * 
+     *
      * @return the metric id of the instance
      */
     public MetricID getMID();
@@ -74,7 +71,7 @@ public interface IMetric {
     /**
      * The parameters needed by this metric for its computation. Parameters will be shown on the UI
      * and their values will be passed to the metric during initialization of the metric
-     * 
+     *
      * @return A list of parameter descriptors for the parameters of this metric
      */
     public ParameterDescriptor[] getMetricParameters();

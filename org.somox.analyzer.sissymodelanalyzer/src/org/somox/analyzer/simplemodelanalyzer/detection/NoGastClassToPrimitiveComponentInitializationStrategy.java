@@ -38,10 +38,11 @@ public class NoGastClassToPrimitiveComponentInitializationStrategy extends Abstr
         final List<ConcreteClassifier> classList = root.getNormalClasses();
 
         final ComposedFilter<ConcreteClassifier> gastClassFilter = new ComposedFilter<ConcreteClassifier>(
-                config.getBlacklistFilter(), new EClassBasedFilter<ConcreteClassifier>(
-                        KDMHelper.getNewEClassEnumeration()),// TODO SOMOXTODOCHANGE
-                        // typesPackage.eINSTANCE.getGASTUnion()),//SOMOXTODOCHANGE
-                        primitiveClassesFilter, improperStructFilter, dataObjectFilter, unknownClassTypeFilter);
+                config.getBlacklistFilter(),
+                new EClassBasedFilter<ConcreteClassifier>(KDMHelper.getNewEClassEnumeration()), // TODO
+                                                                                                // SOMOXTODOCHANGE
+                // typesPackage.eINSTANCE.getGASTUnion()),//SOMOXTODOCHANGE
+                primitiveClassesFilter, improperStructFilter, dataObjectFilter, unknownClassTypeFilter);
 
         for (final ConcreteClassifier clazz : gastClassFilter.filter(classList)) {
             // Attention: does only create the component links but not the SAMM primitive component:

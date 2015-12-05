@@ -95,7 +95,8 @@ public abstract class AbstractMetric implements IMetric {
      */
     @Override
     public void initialize(final Root gastModel, final SoMoXConfiguration somoxConfiguration,
-            final Map<MetricID, IMetric> allMetrics, final DirectedGraph<ConcreteClassifier, ClassAccessGraphEdge> accessGraph,
+            final Map<MetricID, IMetric> allMetrics,
+            final DirectedGraph<ConcreteClassifier, ClassAccessGraphEdge> accessGraph,
             final ComponentToImplementingClassesHelper componentToClassHelper) {
         if (accessGraph == null) {
             this.logger.error("No access cache graph passed");
@@ -191,8 +192,8 @@ public abstract class AbstractMetric implements IMetric {
      */
     protected Set<ConcreteClassifier> calculateUnion(final ComponentImplementingClassesLink component1,
             final ComponentImplementingClassesLink component2) {
-        return this.calculateUnion(this.getComponentToClassHelper().deriveImplementingClasses(component1), this
-                .getComponentToClassHelper().deriveImplementingClasses(component2));
+        return this.calculateUnion(this.getComponentToClassHelper().deriveImplementingClasses(component1),
+                this.getComponentToClassHelper().deriveImplementingClasses(component2));
     }
 
     /**

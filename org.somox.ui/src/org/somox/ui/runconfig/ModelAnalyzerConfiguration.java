@@ -5,31 +5,29 @@ import org.somox.configuration.SoMoXConfiguration;
 
 import de.uka.ipd.sdq.workflow.launchconfig.AbstractWorkflowBasedRunConfiguration;
 
-public class ModelAnalyzerConfiguration 
-extends
-		AbstractWorkflowBasedRunConfiguration {
-		
-	SoMoXConfiguration somoxConfiguration = null;
-	
-	public ModelAnalyzerConfiguration() {
-		super();
-	}
+public class ModelAnalyzerConfiguration extends AbstractWorkflowBasedRunConfiguration {
 
-	public SoMoXConfiguration getSomoxConfiguration() {
-		return somoxConfiguration;
-	}
-	
-	public void setSomoxConfiguration(SoMoXConfiguration somoxConfiguration) {
-		this.somoxConfiguration = somoxConfiguration;
-	}
+    SoMoXConfiguration somoxConfiguration = null;
 
-	@Override
-	public String getErrorMessage() {
-		return null;
-	}
+    public ModelAnalyzerConfiguration() {
+        super();
+    }
 
-	@Override
-	public void setDefaults() {
-		this.somoxConfiguration = (new SOMOXConfigurationBuilderByPreferences()).createSOMOXConfiguration(null);
-	}
+    public SoMoXConfiguration getSomoxConfiguration() {
+        return this.somoxConfiguration;
+    }
+
+    public void setSomoxConfiguration(final SoMoXConfiguration somoxConfiguration) {
+        this.somoxConfiguration = somoxConfiguration;
+    }
+
+    @Override
+    public String getErrorMessage() {
+        return null;
+    }
+
+    @Override
+    public void setDefaults() {
+        this.somoxConfiguration = (new SOMOXConfigurationBuilderByPreferences()).createSOMOXConfiguration(null);
+    }
 }

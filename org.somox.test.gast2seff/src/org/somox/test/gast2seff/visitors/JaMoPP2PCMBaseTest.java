@@ -315,9 +315,9 @@ public class JaMoPP2PCMBaseTest {
         // assert
         assertEquals("There should be exactly " + expectedBitSetCardinality + " element(s) set to true in the bit set",
                 expectedBitSetCardinality, bitSet.cardinality());
-        for (int i = 0; i < expectedFunctionCallTypes.length; i++) {
-            final boolean isSet = bitSet.get(FunctionCallClassificationVisitor.getIndex(expectedFunctionCallTypes[i]));
-            assertTrue("Statement should be recognized as " + expectedFunctionCallTypes[i] + " call action - Bit Set: "
+        for (final FunctionCallType expectedFunctionCallType : expectedFunctionCallTypes) {
+            final boolean isSet = bitSet.get(FunctionCallClassificationVisitor.getIndex(expectedFunctionCallType));
+            assertTrue("Statement should be recognized as " + expectedFunctionCallType + " call action - Bit Set: "
                     + bitSet, isSet);
         }
     }

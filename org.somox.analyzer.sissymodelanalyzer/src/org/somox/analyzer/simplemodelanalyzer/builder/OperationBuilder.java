@@ -13,18 +13,6 @@ import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.variables.Variable;
-import org.somox.analyzer.AnalysisResult;
-import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
-import org.somox.configuration.SoMoXConfiguration;
-import org.somox.kdmhelper.GetAccessedType;
-import org.somox.kdmhelper.KDMHelper;
-import org.somox.kdmhelper.metamodeladdition.Root;
-import org.somox.sourcecodedecorator.DataTypeSourceCodeLink;
-import org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink;
-import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
-import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
-
 import org.palladiosimulator.pcm.core.entity.NamedElement;
 import org.palladiosimulator.pcm.repository.CollectionDataType;
 import org.palladiosimulator.pcm.repository.CompositeDataType;
@@ -36,6 +24,17 @@ import org.palladiosimulator.pcm.repository.Parameter;
 import org.palladiosimulator.pcm.repository.PrimitiveDataType;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
+import org.somox.analyzer.AnalysisResult;
+import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
+import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.GetAccessedType;
+import org.somox.kdmhelper.KDMHelper;
+import org.somox.kdmhelper.metamodeladdition.Root;
+import org.somox.sourcecodedecorator.DataTypeSourceCodeLink;
+import org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink;
+import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
 /**
  * Builder for operations, parameters, message types, and data types. Keeps the source code
@@ -171,8 +170,8 @@ public class OperationBuilder extends AbstractBuilder {
         } else if (null != method.getTypeReference()
                 && !(method.getTypeReference() instanceof org.emftext.language.java.types.Void)) {
             final Type accessedType = GetAccessedType.getAccessedType(method.getTypeReference());
-            final DataType type = this
-                    .getType(accessedType, this.analysisResult.getInternalArchitectureModel(), method);
+            final DataType type = this.getType(accessedType, this.analysisResult.getInternalArchitectureModel(),
+                    method);
             operation.setReturnType__OperationSignature(type);
         } else {
             logger.info("no fitting return type found " + method.getName() + "-- ret type" + method.getTypeReference());
@@ -416,7 +415,8 @@ public class OperationBuilder extends AbstractBuilder {
      *            The type to create a PCM data type for
      * @return the newly created PCM data type
      */
-    private DataType createDataType(final org.palladiosimulator.pcm.repository.Repository repository, final Type gastType) {
+    private DataType createDataType(final org.palladiosimulator.pcm.repository.Repository repository,
+            final Type gastType) {
         if (null == gastType) {
             return this.returnDefaultDataType(gastType, repository);
         }
@@ -519,8 +519,8 @@ public class OperationBuilder extends AbstractBuilder {
                     // create a copy with the concrete innertype e.g. ArrayList<String>
                     final CollectionDataType concreteCollectionDataType = RepositoryFactory.eINSTANCE
                             .createCollectionDataType();
-                    concreteCollectionDataType.setEntityName(((CollectionDataType) innerDataType).getEntityName() + "_"
-                            + innerTypeName);
+                    concreteCollectionDataType
+                            .setEntityName(((CollectionDataType) innerDataType).getEntityName() + "_" + innerTypeName);
                     concreteCollectionDataType.setRepository__DataType(repository);
                     innerElement.setDatatype_InnerDeclaration(concreteCollectionDataType);
                     final QualifiedTypeArgument qta = this.getFirstChildWithType(field, QualifiedTypeArgument.class);
@@ -694,7 +694,8 @@ public class OperationBuilder extends AbstractBuilder {
      * @param repository
      * @return null if not found
      */
-    private DataType getExistingType(final Type gastType, final org.palladiosimulator.pcm.repository.Repository repository) {
+    private DataType getExistingType(final Type gastType,
+            final org.palladiosimulator.pcm.repository.Repository repository) {
         return this.getExistingTypeByName(KDMHelper.getName(gastType), repository);
     }
 

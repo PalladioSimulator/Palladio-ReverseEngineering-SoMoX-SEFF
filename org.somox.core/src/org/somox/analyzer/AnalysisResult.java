@@ -2,15 +2,14 @@ package org.somox.analyzer;
 
 import java.util.List;
 
-import org.somox.common.Message;
-import org.somox.kdmhelper.metamodeladdition.Root;
-import org.somox.seff2javaast.SEFF2JavaAST;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
-
 import org.palladiosimulator.pcm.allocation.Allocation;
 import org.palladiosimulator.pcm.qosannotations.QoSAnnotations;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.system.System;
+import org.somox.common.Message;
+import org.somox.kdmhelper.metamodeladdition.Root;
+import org.somox.seff2javaast.SEFF2JavaAST;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 /**
  * The result of an analysis iteration.
@@ -35,11 +34,13 @@ public interface AnalysisResult {
          * @uml.property name="nOT_EXECUTED"
          * @uml.associationEnd
          */
-        NOT_EXECUTED, /**
+        NOT_EXECUTED,
+        /**
          * @uml.property name="sUCCESS"
          * @uml.associationEnd
          */
-        SUCCESS, /**
+        SUCCESS,
+        /**
          * @uml.property name="fAILED"
          * @uml.associationEnd
          */

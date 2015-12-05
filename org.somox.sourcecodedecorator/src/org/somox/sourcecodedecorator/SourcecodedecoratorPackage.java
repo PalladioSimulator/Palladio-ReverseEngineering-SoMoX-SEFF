@@ -8,104 +8,103 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
 /**
- * <!-- begin-user-doc -->
- * The <b>Package</b> for the model.
- * It contains accessors for the meta objects to represent
+ * <!-- begin-user-doc --> The <b>Package</b> for the model. It contains accessors for the meta
+ * objects to represent
  * <ul>
- *   <li>each class,</li>
- *   <li>each feature of each class,</li>
- *   <li>each operation of each class,</li>
- *   <li>each enum,</li>
- *   <li>and each data type</li>
+ * <li>each class,</li>
+ * <li>each feature of each class,</li>
+ * <li>each operation of each class,</li>
+ * <li>each enum,</li>
+ * <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
+ *
  * @see org.somox.sourcecodedecorator.SourcecodedecoratorFactory
  * @model kind="package"
  * @generated
  */
 public interface SourcecodedecoratorPackage extends EPackage {
-	/**
-     * The package name.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The package name. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
-	String eNAME = "sourcecodedecorator";
+    String eNAME = "sourcecodedecorator";
 
-	/**
-     * The package namespace URI.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The package namespace URI. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
-	String eNS_URI = "http://somox.org/SourceCodeDecorator/2.0";
+    String eNS_URI = "http://somox.org/SourceCodeDecorator/2.0";
 
-	/**
-     * The package namespace name.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The package namespace name. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
-	String eNS_PREFIX = "sourcecodedecorator";
+    String eNS_PREFIX = "sourcecodedecorator";
 
-	/**
-     * The singleton instance of the package.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The singleton instance of the package. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
-	SourcecodedecoratorPackage eINSTANCE = org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl.init();
+    SourcecodedecoratorPackage eINSTANCE = org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl.init();
 
-	/**
-     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.FileLevelSourceCodeLinkImpl <em>File Level Source Code Link</em>}' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The meta object id for the '
+     * {@link org.somox.sourcecodedecorator.impl.FileLevelSourceCodeLinkImpl
+     * <em>File Level Source Code Link</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @see org.somox.sourcecodedecorator.impl.FileLevelSourceCodeLinkImpl
      * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getFileLevelSourceCodeLink()
      * @generated
      */
-	int FILE_LEVEL_SOURCE_CODE_LINK = 0;
+    int FILE_LEVEL_SOURCE_CODE_LINK = 0;
 
-	/**
-     * The feature id for the '<em><b>Repository Component</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Repository Component</b></em>' reference. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int FILE_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = 0;
+    int FILE_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = 0;
 
-	/**
-     * The feature id for the '<em><b>File</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>File</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int FILE_LEVEL_SOURCE_CODE_LINK__FILE = 1;
+    int FILE_LEVEL_SOURCE_CODE_LINK__FILE = 1;
 
-	/**
-     * The number of structural features of the '<em>File Level Source Code Link</em>' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The number of structural features of the '<em>File Level Source Code Link</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int FILE_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT = 2;
+    int FILE_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT = 2;
 
-	/**
-     * The number of operations of the '<em>File Level Source Code Link</em>' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The number of operations of the '<em>File Level Source Code Link</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int FILE_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT = 0;
+    int FILE_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT = 0;
 
-	/**
-     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.AbstractMethodLevelSourceCodeLinkImpl <em>Abstract Method Level Source Code Link</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+    /**
+     * The meta object id for the '
+     * {@link org.somox.sourcecodedecorator.impl.AbstractMethodLevelSourceCodeLinkImpl
+     * <em>Abstract Method Level Source Code Link</em>}' class. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @see org.somox.sourcecodedecorator.impl.AbstractMethodLevelSourceCodeLinkImpl
      * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getAbstractMethodLevelSourceCodeLink()
      * @generated
@@ -113,273 +112,279 @@ public interface SourcecodedecoratorPackage extends EPackage {
     int ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK = 11;
 
     /**
-     * The feature id for the '<em><b>Repository Component</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The feature id for the '<em><b>Repository Component</b></em>' reference. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = FILE_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT;
 
     /**
-     * The feature id for the '<em><b>File</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The feature id for the '<em><b>File</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FILE = FILE_LEVEL_SOURCE_CODE_LINK__FILE;
 
     /**
-     * The feature id for the '<em><b>Function</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The feature id for the '<em><b>Function</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION = FILE_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the '<em>Abstract Method Level Source Code Link</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The number of structural features of the '<em>Abstract Method Level Source Code Link</em>'
+     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT = FILE_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 1;
 
     /**
-     * The number of operations of the '<em>Abstract Method Level Source Code Link</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The number of operations of the '<em>Abstract Method Level Source Code Link</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT = FILE_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT + 0;
 
     /**
-     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.MethodLevelSourceCodeLinkImpl <em>Method Level Source Code Link</em>}' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * The meta object id for the '
+     * {@link org.somox.sourcecodedecorator.impl.MethodLevelSourceCodeLinkImpl
+     * <em>Method Level Source Code Link</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @see org.somox.sourcecodedecorator.impl.MethodLevelSourceCodeLinkImpl
      * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getMethodLevelSourceCodeLink()
      * @generated
      */
-	int METHOD_LEVEL_SOURCE_CODE_LINK = 1;
-
-	/**
-     * The feature id for the '<em><b>Repository Component</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int METHOD_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT;
-
-	/**
-     * The feature id for the '<em><b>File</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int METHOD_LEVEL_SOURCE_CODE_LINK__FILE = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FILE;
-
-	/**
-     * The feature id for the '<em><b>Function</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION;
+    int METHOD_LEVEL_SOURCE_CODE_LINK = 1;
 
     /**
-     * The feature id for the '<em><b>Operation</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * The feature id for the '<em><b>Repository Component</b></em>' reference. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 0;
+    int METHOD_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT;
 
-	/**
-     * The number of structural features of the '<em>Method Level Source Code Link</em>' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>File</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 1;
+    int METHOD_LEVEL_SOURCE_CODE_LINK__FILE = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FILE;
 
-	/**
-     * The number of operations of the '<em>Method Level Source Code Link</em>' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Function</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT + 0;
+    int METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION;
 
-	/**
-     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl <em>Control Flow Level Source Code Link</em>}' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Operation</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
+     * @generated
+     * @ordered
+     */
+    int METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the '<em>Method Level Source Code Link</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     * @ordered
+     */
+    int METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 1;
+
+    /**
+     * The number of operations of the '<em>Method Level Source Code Link</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     * @ordered
+     */
+    int METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT + 0;
+
+    /**
+     * The meta object id for the '
+     * {@link org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl
+     * <em>Control Flow Level Source Code Link</em>}' class. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @see org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl
      * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getControlFlowLevelSourceCodeLink()
      * @generated
      */
-	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK = 2;
-
-	/**
-     * The feature id for the '<em><b>Repository Component</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = METHOD_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT;
-
-	/**
-     * The feature id for the '<em><b>File</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__FILE = METHOD_LEVEL_SOURCE_CODE_LINK__FILE;
-
-	/**
-     * The feature id for the '<em><b>Function</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__FUNCTION = METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION;
+    int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK = 2;
 
     /**
-     * The feature id for the '<em><b>Operation</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * The feature id for the '<em><b>Repository Component</b></em>' reference. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__OPERATION = METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION;
+    int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = METHOD_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT;
 
-	/**
-     * The feature id for the '<em><b>Abstract Action</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>File</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION = METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 0;
+    int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__FILE = METHOD_LEVEL_SOURCE_CODE_LINK__FILE;
 
-	/**
-     * The feature id for the '<em><b>Statement</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Function</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT = METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 1;
+    int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__FUNCTION = METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION;
 
-	/**
-     * The number of structural features of the '<em>Control Flow Level Source Code Link</em>' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Operation</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT = METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 2;
+    int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__OPERATION = METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION;
 
-	/**
-     * The number of operations of the '<em>Control Flow Level Source Code Link</em>' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Abstract Action</b></em>' reference. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT = METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT + 0;
+    int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION = METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 0;
 
-	/**
-     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl <em>Source Code Decorator Repository</em>}' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Statement</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
+     * @generated
+     * @ordered
+     */
+    int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT = METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 1;
+
+    /**
+     * The number of structural features of the '<em>Control Flow Level Source Code Link</em>'
+     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     * @ordered
+     */
+    int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT = METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 2;
+
+    /**
+     * The number of operations of the '<em>Control Flow Level Source Code Link</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     * @ordered
+     */
+    int CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT = METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT + 0;
+
+    /**
+     * The meta object id for the '
+     * {@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl
+     * <em>Source Code Decorator Repository</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
+     * -->
+     *
      * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl
      * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getSourceCodeDecoratorRepository()
      * @generated
      */
-	int SOURCE_CODE_DECORATOR_REPOSITORY = 3;
+    int SOURCE_CODE_DECORATOR_REPOSITORY = 3;
 
-	/**
-     * The feature id for the '<em><b>File Level Source Code Link</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>File Level Source Code Link</b></em>' containment reference
+     * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int SOURCE_CODE_DECORATOR_REPOSITORY__FILE_LEVEL_SOURCE_CODE_LINK = 0;
+    int SOURCE_CODE_DECORATOR_REPOSITORY__FILE_LEVEL_SOURCE_CODE_LINK = 0;
 
-	/**
-     * The feature id for the '<em><b>Method Level Source Code Link</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Method Level Source Code Link</b></em>' containment reference
+     * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_SOURCE_CODE_LINK = 1;
+    int SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_SOURCE_CODE_LINK = 1;
 
-	/**
-     * The feature id for the '<em><b>Control Flow Level Source Code Link</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Control Flow Level Source Code Link</b></em>' containment
+     * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int SOURCE_CODE_DECORATOR_REPOSITORY__CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK = 2;
+    int SOURCE_CODE_DECORATOR_REPOSITORY__CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK = 2;
 
-	/**
-     * The feature id for the '<em><b>Interface Source Code Link</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Interface Source Code Link</b></em>' containment reference
+     * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int SOURCE_CODE_DECORATOR_REPOSITORY__INTERFACE_SOURCE_CODE_LINK = 3;
+    int SOURCE_CODE_DECORATOR_REPOSITORY__INTERFACE_SOURCE_CODE_LINK = 3;
 
-	/**
-     * The feature id for the '<em><b>Component Implementing Classes Link</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Component Implementing Classes Link</b></em>' containment
+     * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int SOURCE_CODE_DECORATOR_REPOSITORY__COMPONENT_IMPLEMENTING_CLASSES_LINK = 4;
+    int SOURCE_CODE_DECORATOR_REPOSITORY__COMPONENT_IMPLEMENTING_CLASSES_LINK = 4;
 
-	/**
-     * The feature id for the '<em><b>Data Type Source Code Link</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Data Type Source Code Link</b></em>' containment reference
+     * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int SOURCE_CODE_DECORATOR_REPOSITORY__DATA_TYPE_SOURCE_CODE_LINK = 5;
 
     /**
-     * The feature id for the '<em><b>Abstract Action Class Method Link</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The feature id for the '<em><b>Abstract Action Class Method Link</b></em>' containment
+     * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK = 6;
 
     /**
-     * The feature id for the '<em><b>Method Level Resource Demanding Internal Behavior Link</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The feature id for the '
+     * <em><b>Method Level Resource Demanding Internal Behavior Link</b></em>' containment reference
+     * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
@@ -387,264 +392,270 @@ public interface SourcecodedecoratorPackage extends EPackage {
 
     /**
      * The number of structural features of the '<em>Source Code Decorator Repository</em>' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int SOURCE_CODE_DECORATOR_REPOSITORY_FEATURE_COUNT = 8;
+    int SOURCE_CODE_DECORATOR_REPOSITORY_FEATURE_COUNT = 8;
 
-	/**
-     * The number of operations of the '<em>Source Code Decorator Repository</em>' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The number of operations of the '<em>Source Code Decorator Repository</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int SOURCE_CODE_DECORATOR_REPOSITORY_OPERATION_COUNT = 0;
+    int SOURCE_CODE_DECORATOR_REPOSITORY_OPERATION_COUNT = 0;
 
-	/**
-     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.InterfaceSourceCodeLinkImpl <em>Interface Source Code Link</em>}' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The meta object id for the '
+     * {@link org.somox.sourcecodedecorator.impl.InterfaceSourceCodeLinkImpl
+     * <em>Interface Source Code Link</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @see org.somox.sourcecodedecorator.impl.InterfaceSourceCodeLinkImpl
      * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getInterfaceSourceCodeLink()
      * @generated
      */
-	int INTERFACE_SOURCE_CODE_LINK = 4;
+    int INTERFACE_SOURCE_CODE_LINK = 4;
 
-	/**
-     * The feature id for the '<em><b>Interface</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Interface</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int INTERFACE_SOURCE_CODE_LINK__INTERFACE = 0;
+    int INTERFACE_SOURCE_CODE_LINK__INTERFACE = 0;
 
-	/**
-     * The feature id for the '<em><b>Gast Class</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Gast Class</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int INTERFACE_SOURCE_CODE_LINK__GAST_CLASS = 1;
+    int INTERFACE_SOURCE_CODE_LINK__GAST_CLASS = 1;
 
-	/**
-     * The number of structural features of the '<em>Interface Source Code Link</em>' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The number of structural features of the '<em>Interface Source Code Link</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int INTERFACE_SOURCE_CODE_LINK_FEATURE_COUNT = 2;
+    int INTERFACE_SOURCE_CODE_LINK_FEATURE_COUNT = 2;
 
-	/**
-     * The number of operations of the '<em>Interface Source Code Link</em>' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The number of operations of the '<em>Interface Source Code Link</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int INTERFACE_SOURCE_CODE_LINK_OPERATION_COUNT = 0;
+    int INTERFACE_SOURCE_CODE_LINK_OPERATION_COUNT = 0;
 
-	/**
-     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl <em>Component Implementing Classes Link</em>}' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The meta object id for the '
+     * {@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl
+     * <em>Component Implementing Classes Link</em>}' class. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @see org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl
      * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getComponentImplementingClassesLink()
      * @generated
      */
-	int COMPONENT_IMPLEMENTING_CLASSES_LINK = 5;
+    int COMPONENT_IMPLEMENTING_CLASSES_LINK = 5;
 
-	/**
-     * The feature id for the '<em><b>Is Composite Component</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Is Composite Component</b></em>' attribute. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT = 0;
+    int COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT = 0;
 
-	/**
-     * The feature id for the '<em><b>Component</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Component</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT = 1;
+    int COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT = 1;
 
-	/**
-     * The feature id for the '<em><b>Implementing Classes</b></em>' reference list.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Implementing Classes</b></em>' reference list. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES = 2;
+    int COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES = 2;
 
-	/**
-     * The feature id for the '<em><b>Sub Components</b></em>' reference list.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Sub Components</b></em>' reference list. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS = 3;
+    int COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS = 3;
 
-	/**
-     * The feature id for the '<em><b>Provided Interfaces</b></em>' reference list.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Provided Interfaces</b></em>' reference list. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES = 4;
+    int COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES = 4;
 
-	/**
-     * The feature id for the '<em><b>Required Interfaces</b></em>' reference list.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Required Interfaces</b></em>' reference list. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES = 5;
+    int COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES = 5;
 
-	/**
-     * The feature id for the '<em><b>Is Initial Component</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Is Initial Component</b></em>' attribute. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT = 6;
+    int COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT = 6;
 
-	/**
-     * The number of structural features of the '<em>Component Implementing Classes Link</em>' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The number of structural features of the '<em>Component Implementing Classes Link</em>'
+     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int COMPONENT_IMPLEMENTING_CLASSES_LINK_FEATURE_COUNT = 7;
+    int COMPONENT_IMPLEMENTING_CLASSES_LINK_FEATURE_COUNT = 7;
 
-	/**
-     * The number of operations of the '<em>Component Implementing Classes Link</em>' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The number of operations of the '<em>Component Implementing Classes Link</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int COMPONENT_IMPLEMENTING_CLASSES_LINK_OPERATION_COUNT = 0;
+    int COMPONENT_IMPLEMENTING_CLASSES_LINK_OPERATION_COUNT = 0;
 
-	/**
-     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl <em>PCM System Implementating Classes Link</em>}' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The meta object id for the '
+     * {@link org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl
+     * <em>PCM System Implementating Classes Link</em>}' class. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @see org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl
      * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getPCMSystemImplementatingClassesLink()
      * @generated
      */
-	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK = 6;
+    int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK = 6;
 
-	/**
-     * The feature id for the '<em><b>Is Composite Component</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Is Composite Component</b></em>' attribute. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__IS_COMPOSITE_COMPONENT = COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT;
+    int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__IS_COMPOSITE_COMPONENT = COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT;
 
-	/**
-     * The feature id for the '<em><b>Component</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Component</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__COMPONENT = COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT;
+    int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__COMPONENT = COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT;
 
-	/**
-     * The feature id for the '<em><b>Implementing Classes</b></em>' reference list.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Implementing Classes</b></em>' reference list. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__IMPLEMENTING_CLASSES = COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES;
+    int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__IMPLEMENTING_CLASSES = COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES;
 
-	/**
-     * The feature id for the '<em><b>Sub Components</b></em>' reference list.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Sub Components</b></em>' reference list. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SUB_COMPONENTS = COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS;
+    int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SUB_COMPONENTS = COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS;
 
-	/**
-     * The feature id for the '<em><b>Provided Interfaces</b></em>' reference list.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Provided Interfaces</b></em>' reference list. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__PROVIDED_INTERFACES = COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES;
+    int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__PROVIDED_INTERFACES = COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES;
 
-	/**
-     * The feature id for the '<em><b>Required Interfaces</b></em>' reference list.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Required Interfaces</b></em>' reference list. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__REQUIRED_INTERFACES = COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES;
+    int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__REQUIRED_INTERFACES = COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES;
 
-	/**
-     * The feature id for the '<em><b>Is Initial Component</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>Is Initial Component</b></em>' attribute. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__IS_INITIAL_COMPONENT = COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT;
+    int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__IS_INITIAL_COMPONENT = COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT;
 
-	/**
-     * The feature id for the '<em><b>System Model</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The feature id for the '<em><b>System Model</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL = COMPONENT_IMPLEMENTING_CLASSES_LINK_FEATURE_COUNT + 0;
+    int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL = COMPONENT_IMPLEMENTING_CLASSES_LINK_FEATURE_COUNT + 0;
 
-	/**
-     * The number of structural features of the '<em>PCM System Implementating Classes Link</em>' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The number of structural features of the '<em>PCM System Implementating Classes Link</em>'
+     * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK_FEATURE_COUNT = COMPONENT_IMPLEMENTING_CLASSES_LINK_FEATURE_COUNT + 1;
+    int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK_FEATURE_COUNT = COMPONENT_IMPLEMENTING_CLASSES_LINK_FEATURE_COUNT + 1;
 
-	/**
-     * The number of operations of the '<em>PCM System Implementating Classes Link</em>' class.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * The number of operations of the '<em>PCM System Implementating Classes Link</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-	int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK_OPERATION_COUNT = COMPONENT_IMPLEMENTING_CLASSES_LINK_OPERATION_COUNT + 0;
+    int PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK_OPERATION_COUNT = COMPONENT_IMPLEMENTING_CLASSES_LINK_OPERATION_COUNT
+            + 0;
 
-
-	/**
-     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.DataTypeSourceCodeLinkImpl <em>Data Type Source Code Link</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+    /**
+     * The meta object id for the '
+     * {@link org.somox.sourcecodedecorator.impl.DataTypeSourceCodeLinkImpl
+     * <em>Data Type Source Code Link</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @see org.somox.sourcecodedecorator.impl.DataTypeSourceCodeLinkImpl
      * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getDataTypeSourceCodeLink()
      * @generated
@@ -652,73 +663,74 @@ public interface SourcecodedecoratorPackage extends EPackage {
     int DATA_TYPE_SOURCE_CODE_LINK = 7;
 
     /**
-     * The feature id for the '<em><b>Repository Component</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The feature id for the '<em><b>Repository Component</b></em>' reference. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int DATA_TYPE_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = FILE_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT;
 
     /**
-     * The feature id for the '<em><b>File</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The feature id for the '<em><b>File</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int DATA_TYPE_SOURCE_CODE_LINK__FILE = FILE_LEVEL_SOURCE_CODE_LINK__FILE;
 
     /**
-     * The feature id for the '<em><b>Ja Mo PP Type</b></em>' reference.
-     * <!-- begin-user-doc -->
+     * The feature id for the '<em><b>Ja Mo PP Type</b></em>' reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int DATA_TYPE_SOURCE_CODE_LINK__JA_MO_PP_TYPE = FILE_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 0;
 
     /**
-     * The feature id for the '<em><b>Pcm Data Type</b></em>' reference.
-     * <!-- begin-user-doc -->
+     * The feature id for the '<em><b>Pcm Data Type</b></em>' reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int DATA_TYPE_SOURCE_CODE_LINK__PCM_DATA_TYPE = FILE_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 1;
 
     /**
-     * The feature id for the '<em><b>Inner Datatype Source Code Link</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The feature id for the '<em><b>Inner Datatype Source Code Link</b></em>' containment
+     * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int DATA_TYPE_SOURCE_CODE_LINK__INNER_DATATYPE_SOURCE_CODE_LINK = FILE_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 2;
 
     /**
-     * The number of structural features of the '<em>Data Type Source Code Link</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The number of structural features of the '<em>Data Type Source Code Link</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int DATA_TYPE_SOURCE_CODE_LINK_FEATURE_COUNT = FILE_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 3;
 
     /**
-     * The number of operations of the '<em>Data Type Source Code Link</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The number of operations of the '<em>Data Type Source Code Link</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int DATA_TYPE_SOURCE_CODE_LINK_OPERATION_COUNT = FILE_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT + 0;
 
-
     /**
-     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.InnerDatatypeSourceCodeLinkImpl <em>Inner Datatype Source Code Link</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The meta object id for the '
+     * {@link org.somox.sourcecodedecorator.impl.InnerDatatypeSourceCodeLinkImpl
+     * <em>Inner Datatype Source Code Link</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
+     * -->
+     *
      * @see org.somox.sourcecodedecorator.impl.InnerDatatypeSourceCodeLinkImpl
      * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getInnerDatatypeSourceCodeLink()
      * @generated
@@ -726,18 +738,18 @@ public interface SourcecodedecoratorPackage extends EPackage {
     int INNER_DATATYPE_SOURCE_CODE_LINK = 8;
 
     /**
-     * The feature id for the '<em><b>Field</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The feature id for the '<em><b>Field</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int INNER_DATATYPE_SOURCE_CODE_LINK__FIELD = 0;
 
     /**
-     * The feature id for the '<em><b>Inner Declaration</b></em>' reference.
-     * <!-- begin-user-doc -->
+     * The feature id for the '<em><b>Inner Declaration</b></em>' reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
@@ -745,27 +757,28 @@ public interface SourcecodedecoratorPackage extends EPackage {
 
     /**
      * The number of structural features of the '<em>Inner Datatype Source Code Link</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int INNER_DATATYPE_SOURCE_CODE_LINK_FEATURE_COUNT = 2;
 
     /**
-     * The number of operations of the '<em>Inner Datatype Source Code Link</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The number of operations of the '<em>Inner Datatype Source Code Link</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int INNER_DATATYPE_SOURCE_CODE_LINK_OPERATION_COUNT = 0;
 
-
     /**
-     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl <em>Abstract Action Class Method Link</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The meta object id for the '
+     * {@link org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl
+     * <em>Abstract Action Class Method Link</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
+     * -->
+     *
      * @see org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl
      * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getAbstractActionClassMethodLink()
      * @generated
@@ -773,18 +786,18 @@ public interface SourcecodedecoratorPackage extends EPackage {
     int ABSTRACT_ACTION_CLASS_METHOD_LINK = 9;
 
     /**
-     * The feature id for the '<em><b>Class Method</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The feature id for the '<em><b>Class Method</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD = 0;
 
     /**
-     * The feature id for the '<em><b>Abstract Action</b></em>' reference.
-     * <!-- begin-user-doc -->
+     * The feature id for the '<em><b>Abstract Action</b></em>' reference. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
@@ -792,27 +805,28 @@ public interface SourcecodedecoratorPackage extends EPackage {
 
     /**
      * The number of structural features of the '<em>Abstract Action Class Method Link</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int ABSTRACT_ACTION_CLASS_METHOD_LINK_FEATURE_COUNT = 2;
 
     /**
-     * The number of operations of the '<em>Abstract Action Class Method Link</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The number of operations of the '<em>Abstract Action Class Method Link</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int ABSTRACT_ACTION_CLASS_METHOD_LINK_OPERATION_COUNT = 0;
 
-
     /**
-     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.MethodLevelResourceDemandingInternalBehaviorLinkImpl <em>Method Level Resource Demanding Internal Behavior Link</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The meta object id for the '
+     * {@link org.somox.sourcecodedecorator.impl.MethodLevelResourceDemandingInternalBehaviorLinkImpl
+     * <em>Method Level Resource Demanding Internal Behavior Link</em>}' class. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     *
      * @see org.somox.sourcecodedecorator.impl.MethodLevelResourceDemandingInternalBehaviorLinkImpl
      * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getMethodLevelResourceDemandingInternalBehaviorLink()
      * @generated
@@ -820,27 +834,27 @@ public interface SourcecodedecoratorPackage extends EPackage {
     int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK = 10;
 
     /**
-     * The feature id for the '<em><b>Repository Component</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The feature id for the '<em><b>Repository Component</b></em>' reference. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__REPOSITORY_COMPONENT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT;
 
     /**
-     * The feature id for the '<em><b>File</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The feature id for the '<em><b>File</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
     int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__FILE = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FILE;
 
     /**
-     * The feature id for the '<em><b>Function</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The feature id for the '<em><b>Function</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @generated
      * @ordered
      */
@@ -848,187 +862,212 @@ public interface SourcecodedecoratorPackage extends EPackage {
 
     /**
      * The feature id for the '<em><b>Resource Demanding Internal Behaviour</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-    int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 0;
+    int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT
+            + 0;
 
     /**
-     * The number of structural features of the '<em>Method Level Resource Demanding Internal Behavior Link</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The number of structural features of the '
+     * <em>Method Level Resource Demanding Internal Behavior Link</em>' class. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-    int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK_FEATURE_COUNT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT + 1;
+    int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK_FEATURE_COUNT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_FEATURE_COUNT
+            + 1;
 
     /**
-     * The number of operations of the '<em>Method Level Resource Demanding Internal Behavior Link</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The number of operations of the '
+     * <em>Method Level Resource Demanding Internal Behavior Link</em>' class. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     *
      * @generated
      * @ordered
      */
-    int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK_OPERATION_COUNT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT + 0;
-
+    int METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK_OPERATION_COUNT = ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK_OPERATION_COUNT
+            + 0;
 
     /**
-     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink <em>File Level Source Code Link</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * Returns the meta object for class '
+     * {@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink
+     * <em>File Level Source Code Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for class '<em>File Level Source Code Link</em>'.
      * @see org.somox.sourcecodedecorator.FileLevelSourceCodeLink
      * @generated
      */
-	EClass getFileLevelSourceCodeLink();
+    EClass getFileLevelSourceCodeLink();
 
-	/**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getRepositoryComponent <em>Repository Component</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getRepositoryComponent
+     * <em>Repository Component</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>Repository Component</em>'.
      * @see org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getRepositoryComponent()
      * @see #getFileLevelSourceCodeLink()
      * @generated
      */
-	EReference getFileLevelSourceCodeLink_RepositoryComponent();
+    EReference getFileLevelSourceCodeLink_RepositoryComponent();
 
-	/**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getFile <em>File</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getFile <em>File</em>}'. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>File</em>'.
      * @see org.somox.sourcecodedecorator.FileLevelSourceCodeLink#getFile()
      * @see #getFileLevelSourceCodeLink()
      * @generated
      */
-	EReference getFileLevelSourceCodeLink_File();
+    EReference getFileLevelSourceCodeLink_File();
 
-	/**
-     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink <em>Method Level Source Code Link</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for class '
+     * {@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink
+     * <em>Method Level Source Code Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for class '<em>Method Level Source Code Link</em>'.
      * @see org.somox.sourcecodedecorator.MethodLevelSourceCodeLink
      * @generated
      */
-	EClass getMethodLevelSourceCodeLink();
+    EClass getMethodLevelSourceCodeLink();
 
-	/**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink#getOperation <em>Operation</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink#getOperation
+     * <em>Operation</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>Operation</em>'.
      * @see org.somox.sourcecodedecorator.MethodLevelSourceCodeLink#getOperation()
      * @see #getMethodLevelSourceCodeLink()
      * @generated
      */
-	EReference getMethodLevelSourceCodeLink_Operation();
+    EReference getMethodLevelSourceCodeLink_Operation();
 
-	/**
-     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink <em>Control Flow Level Source Code Link</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for class '
+     * {@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink
+     * <em>Control Flow Level Source Code Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for class '<em>Control Flow Level Source Code Link</em>'.
      * @see org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink
      * @generated
      */
-	EClass getControlFlowLevelSourceCodeLink();
+    EClass getControlFlowLevelSourceCodeLink();
 
-	/**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink#getAbstractAction <em>Abstract Action</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink#getAbstractAction
+     * <em>Abstract Action</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>Abstract Action</em>'.
      * @see org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink#getAbstractAction()
      * @see #getControlFlowLevelSourceCodeLink()
      * @generated
      */
-	EReference getControlFlowLevelSourceCodeLink_AbstractAction();
+    EReference getControlFlowLevelSourceCodeLink_AbstractAction();
 
-	/**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink#getStatement <em>Statement</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink#getStatement
+     * <em>Statement</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>Statement</em>'.
      * @see org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink#getStatement()
      * @see #getControlFlowLevelSourceCodeLink()
      * @generated
      */
-	EReference getControlFlowLevelSourceCodeLink_Statement();
+    EReference getControlFlowLevelSourceCodeLink_Statement();
 
-	/**
-     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository <em>Source Code Decorator Repository</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for class '
+     * {@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository
+     * <em>Source Code Decorator Repository</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for class '<em>Source Code Decorator Repository</em>'.
      * @see org.somox.sourcecodedecorator.SourceCodeDecoratorRepository
      * @generated
      */
-	EClass getSourceCodeDecoratorRepository();
+    EClass getSourceCodeDecoratorRepository();
 
-	/**
-     * Returns the meta object for the containment reference list '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getFileLevelSourceCodeLink <em>File Level Source Code Link</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>File Level Source Code Link</em>'.
+    /**
+     * Returns the meta object for the containment reference list '
+     * {@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getFileLevelSourceCodeLink
+     * <em>File Level Source Code Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @return the meta object for the containment reference list '
+     *         <em>File Level Source Code Link</em>'.
      * @see org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getFileLevelSourceCodeLink()
      * @see #getSourceCodeDecoratorRepository()
      * @generated
      */
-	EReference getSourceCodeDecoratorRepository_FileLevelSourceCodeLink();
+    EReference getSourceCodeDecoratorRepository_FileLevelSourceCodeLink();
 
-	/**
-     * Returns the meta object for the containment reference list '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getMethodLevelSourceCodeLink <em>Method Level Source Code Link</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Method Level Source Code Link</em>'.
+    /**
+     * Returns the meta object for the containment reference list '
+     * {@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getMethodLevelSourceCodeLink
+     * <em>Method Level Source Code Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @return the meta object for the containment reference list '
+     *         <em>Method Level Source Code Link</em>'.
      * @see org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getMethodLevelSourceCodeLink()
      * @see #getSourceCodeDecoratorRepository()
      * @generated
      */
-	EReference getSourceCodeDecoratorRepository_MethodLevelSourceCodeLink();
+    EReference getSourceCodeDecoratorRepository_MethodLevelSourceCodeLink();
 
-	/**
-     * Returns the meta object for the containment reference list '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getControlFlowLevelSourceCodeLink <em>Control Flow Level Source Code Link</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Control Flow Level Source Code Link</em>'.
+    /**
+     * Returns the meta object for the containment reference list '
+     * {@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getControlFlowLevelSourceCodeLink
+     * <em>Control Flow Level Source Code Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @return the meta object for the containment reference list '
+     *         <em>Control Flow Level Source Code Link</em>'.
      * @see org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getControlFlowLevelSourceCodeLink()
      * @see #getSourceCodeDecoratorRepository()
      * @generated
      */
-	EReference getSourceCodeDecoratorRepository_ControlFlowLevelSourceCodeLink();
+    EReference getSourceCodeDecoratorRepository_ControlFlowLevelSourceCodeLink();
 
-	/**
-     * Returns the meta object for the containment reference list '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getInterfaceSourceCodeLink <em>Interface Source Code Link</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Interface Source Code Link</em>'.
+    /**
+     * Returns the meta object for the containment reference list '
+     * {@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getInterfaceSourceCodeLink
+     * <em>Interface Source Code Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @return the meta object for the containment reference list '
+     *         <em>Interface Source Code Link</em>'.
      * @see org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getInterfaceSourceCodeLink()
      * @see #getSourceCodeDecoratorRepository()
      * @generated
      */
-	EReference getSourceCodeDecoratorRepository_InterfaceSourceCodeLink();
+    EReference getSourceCodeDecoratorRepository_InterfaceSourceCodeLink();
 
-	/**
-     * Returns the meta object for the containment reference list '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getComponentImplementingClassesLink <em>Component Implementing Classes Link</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Component Implementing Classes Link</em>'.
+    /**
+     * Returns the meta object for the containment reference list '
+     * {@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getComponentImplementingClassesLink
+     * <em>Component Implementing Classes Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @return the meta object for the containment reference list '
+     *         <em>Component Implementing Classes Link</em>'.
      * @see org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getComponentImplementingClassesLink()
      * @see #getSourceCodeDecoratorRepository()
      * @generated
      */
-	EReference getSourceCodeDecoratorRepository_ComponentImplementingClassesLink();
+    EReference getSourceCodeDecoratorRepository_ComponentImplementingClassesLink();
 
-	/**
-     * Returns the meta object for the containment reference list '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getDataTypeSourceCodeLink <em>Data Type Source Code Link</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Data Type Source Code Link</em>'.
+    /**
+     * Returns the meta object for the containment reference list '
+     * {@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getDataTypeSourceCodeLink
+     * <em>Data Type Source Code Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @return the meta object for the containment reference list '
+     *         <em>Data Type Source Code Link</em>'.
      * @see org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getDataTypeSourceCodeLink()
      * @see #getSourceCodeDecoratorRepository()
      * @generated
@@ -1036,10 +1075,12 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getSourceCodeDecoratorRepository_DataTypeSourceCodeLink();
 
     /**
-     * Returns the meta object for the containment reference list '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getAbstractActionClassMethodLink <em>Abstract Action Class Method Link</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Abstract Action Class Method Link</em>'.
+     * Returns the meta object for the containment reference list '
+     * {@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getAbstractActionClassMethodLink
+     * <em>Abstract Action Class Method Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @return the meta object for the containment reference list '
+     *         <em>Abstract Action Class Method Link</em>'.
      * @see org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getAbstractActionClassMethodLink()
      * @see #getSourceCodeDecoratorRepository()
      * @generated
@@ -1047,10 +1088,13 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getSourceCodeDecoratorRepository_AbstractActionClassMethodLink();
 
     /**
-     * Returns the meta object for the containment reference list '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getMethodLevelResourceDemandingInternalBehaviorLink <em>Method Level Resource Demanding Internal Behavior Link</em>}'.
-     * <!-- begin-user-doc -->
+     * Returns the meta object for the containment reference list '
+     * {@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getMethodLevelResourceDemandingInternalBehaviorLink
+     * <em>Method Level Resource Demanding Internal Behavior Link</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Method Level Resource Demanding Internal Behavior Link</em>'.
+     *
+     * @return the meta object for the containment reference list '
+     *         <em>Method Level Resource Demanding Internal Behavior Link</em>'.
      * @see org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getMethodLevelResourceDemandingInternalBehaviorLink()
      * @see #getSourceCodeDecoratorRepository()
      * @generated
@@ -1058,149 +1102,164 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getSourceCodeDecoratorRepository_MethodLevelResourceDemandingInternalBehaviorLink();
 
     /**
-     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.InterfaceSourceCodeLink <em>Interface Source Code Link</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * Returns the meta object for class '
+     * {@link org.somox.sourcecodedecorator.InterfaceSourceCodeLink
+     * <em>Interface Source Code Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for class '<em>Interface Source Code Link</em>'.
      * @see org.somox.sourcecodedecorator.InterfaceSourceCodeLink
      * @generated
      */
-	EClass getInterfaceSourceCodeLink();
+    EClass getInterfaceSourceCodeLink();
 
-	/**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.InterfaceSourceCodeLink#getInterface <em>Interface</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.InterfaceSourceCodeLink#getInterface <em>Interface</em>}
+     * '. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>Interface</em>'.
      * @see org.somox.sourcecodedecorator.InterfaceSourceCodeLink#getInterface()
      * @see #getInterfaceSourceCodeLink()
      * @generated
      */
-	EReference getInterfaceSourceCodeLink_Interface();
+    EReference getInterfaceSourceCodeLink_Interface();
 
-	/**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.InterfaceSourceCodeLink#getGastClass <em>Gast Class</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.InterfaceSourceCodeLink#getGastClass <em>Gast Class</em>
+     * }'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>Gast Class</em>'.
      * @see org.somox.sourcecodedecorator.InterfaceSourceCodeLink#getGastClass()
      * @see #getInterfaceSourceCodeLink()
      * @generated
      */
-	EReference getInterfaceSourceCodeLink_GastClass();
+    EReference getInterfaceSourceCodeLink_GastClass();
 
-	/**
-     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink <em>Component Implementing Classes Link</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for class '
+     * {@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink
+     * <em>Component Implementing Classes Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for class '<em>Component Implementing Classes Link</em>'.
      * @see org.somox.sourcecodedecorator.ComponentImplementingClassesLink
      * @generated
      */
-	EClass getComponentImplementingClassesLink();
+    EClass getComponentImplementingClassesLink();
 
-	/**
-     * Returns the meta object for the attribute '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsCompositeComponent <em>Is Composite Component</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for the attribute '
+     * {@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsCompositeComponent
+     * <em>Is Composite Component</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the attribute '<em>Is Composite Component</em>'.
      * @see org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsCompositeComponent()
      * @see #getComponentImplementingClassesLink()
      * @generated
      */
-	EAttribute getComponentImplementingClassesLink_IsCompositeComponent();
+    EAttribute getComponentImplementingClassesLink_IsCompositeComponent();
 
-	/**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getComponent <em>Component</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getComponent
+     * <em>Component</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>Component</em>'.
      * @see org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getComponent()
      * @see #getComponentImplementingClassesLink()
      * @generated
      */
-	EReference getComponentImplementingClassesLink_Component();
+    EReference getComponentImplementingClassesLink_Component();
 
-	/**
-     * Returns the meta object for the reference list '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getImplementingClasses <em>Implementing Classes</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for the reference list '
+     * {@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getImplementingClasses
+     * <em>Implementing Classes</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference list '<em>Implementing Classes</em>'.
      * @see org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getImplementingClasses()
      * @see #getComponentImplementingClassesLink()
      * @generated
      */
-	EReference getComponentImplementingClassesLink_ImplementingClasses();
+    EReference getComponentImplementingClassesLink_ImplementingClasses();
 
-	/**
-     * Returns the meta object for the reference list '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getSubComponents <em>Sub Components</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for the reference list '
+     * {@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getSubComponents
+     * <em>Sub Components</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference list '<em>Sub Components</em>'.
      * @see org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getSubComponents()
      * @see #getComponentImplementingClassesLink()
      * @generated
      */
-	EReference getComponentImplementingClassesLink_SubComponents();
+    EReference getComponentImplementingClassesLink_SubComponents();
 
-	/**
-     * Returns the meta object for the reference list '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getProvidedInterfaces <em>Provided Interfaces</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for the reference list '
+     * {@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getProvidedInterfaces
+     * <em>Provided Interfaces</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference list '<em>Provided Interfaces</em>'.
      * @see org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getProvidedInterfaces()
      * @see #getComponentImplementingClassesLink()
      * @generated
      */
-	EReference getComponentImplementingClassesLink_ProvidedInterfaces();
+    EReference getComponentImplementingClassesLink_ProvidedInterfaces();
 
-	/**
-     * Returns the meta object for the reference list '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getRequiredInterfaces <em>Required Interfaces</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for the reference list '
+     * {@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getRequiredInterfaces
+     * <em>Required Interfaces</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference list '<em>Required Interfaces</em>'.
      * @see org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getRequiredInterfaces()
      * @see #getComponentImplementingClassesLink()
      * @generated
      */
-	EReference getComponentImplementingClassesLink_RequiredInterfaces();
+    EReference getComponentImplementingClassesLink_RequiredInterfaces();
 
-	/**
-     * Returns the meta object for the attribute '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsInitialComponent <em>Is Initial Component</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for the attribute '
+     * {@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsInitialComponent
+     * <em>Is Initial Component</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the attribute '<em>Is Initial Component</em>'.
      * @see org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsInitialComponent()
      * @see #getComponentImplementingClassesLink()
      * @generated
      */
-	EAttribute getComponentImplementingClassesLink_IsInitialComponent();
+    EAttribute getComponentImplementingClassesLink_IsInitialComponent();
 
-	/**
-     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink <em>PCM System Implementating Classes Link</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for class '
+     * {@link org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink
+     * <em>PCM System Implementating Classes Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+     * -->
+     *
      * @return the meta object for class '<em>PCM System Implementating Classes Link</em>'.
      * @see org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink
      * @generated
      */
-	EClass getPCMSystemImplementatingClassesLink();
+    EClass getPCMSystemImplementatingClassesLink();
 
-	/**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink#getSystemModel <em>System Model</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink#getSystemModel
+     * <em>System Model</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>System Model</em>'.
      * @see org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink#getSystemModel()
      * @see #getPCMSystemImplementatingClassesLink()
      * @generated
      */
-	EReference getPCMSystemImplementatingClassesLink_SystemModel();
+    EReference getPCMSystemImplementatingClassesLink_SystemModel();
 
-	/**
-     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.DataTypeSourceCodeLink <em>Data Type Source Code Link</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+    /**
+     * Returns the meta object for class '
+     * {@link org.somox.sourcecodedecorator.DataTypeSourceCodeLink
+     * <em>Data Type Source Code Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for class '<em>Data Type Source Code Link</em>'.
      * @see org.somox.sourcecodedecorator.DataTypeSourceCodeLink
      * @generated
@@ -1208,9 +1267,10 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EClass getDataTypeSourceCodeLink();
 
     /**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.DataTypeSourceCodeLink#getJaMoPPType <em>Ja Mo PP Type</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.DataTypeSourceCodeLink#getJaMoPPType
+     * <em>Ja Mo PP Type</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>Ja Mo PP Type</em>'.
      * @see org.somox.sourcecodedecorator.DataTypeSourceCodeLink#getJaMoPPType()
      * @see #getDataTypeSourceCodeLink()
@@ -1219,9 +1279,10 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getDataTypeSourceCodeLink_JaMoPPType();
 
     /**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.DataTypeSourceCodeLink#getPcmDataType <em>Pcm Data Type</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.DataTypeSourceCodeLink#getPcmDataType
+     * <em>Pcm Data Type</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>Pcm Data Type</em>'.
      * @see org.somox.sourcecodedecorator.DataTypeSourceCodeLink#getPcmDataType()
      * @see #getDataTypeSourceCodeLink()
@@ -1230,10 +1291,12 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getDataTypeSourceCodeLink_PcmDataType();
 
     /**
-     * Returns the meta object for the containment reference list '{@link org.somox.sourcecodedecorator.DataTypeSourceCodeLink#getInnerDatatypeSourceCodeLink <em>Inner Datatype Source Code Link</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Inner Datatype Source Code Link</em>'.
+     * Returns the meta object for the containment reference list '
+     * {@link org.somox.sourcecodedecorator.DataTypeSourceCodeLink#getInnerDatatypeSourceCodeLink
+     * <em>Inner Datatype Source Code Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @return the meta object for the containment reference list '
+     *         <em>Inner Datatype Source Code Link</em>'.
      * @see org.somox.sourcecodedecorator.DataTypeSourceCodeLink#getInnerDatatypeSourceCodeLink()
      * @see #getDataTypeSourceCodeLink()
      * @generated
@@ -1241,9 +1304,10 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getDataTypeSourceCodeLink_InnerDatatypeSourceCodeLink();
 
     /**
-     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink <em>Inner Datatype Source Code Link</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * Returns the meta object for class '
+     * {@link org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink
+     * <em>Inner Datatype Source Code Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for class '<em>Inner Datatype Source Code Link</em>'.
      * @see org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink
      * @generated
@@ -1251,9 +1315,10 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EClass getInnerDatatypeSourceCodeLink();
 
     /**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink#getField <em>Field</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink#getField <em>Field</em>}'.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>Field</em>'.
      * @see org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink#getField()
      * @see #getInnerDatatypeSourceCodeLink()
@@ -1262,9 +1327,10 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getInnerDatatypeSourceCodeLink_Field();
 
     /**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink#getInnerDeclaration <em>Inner Declaration</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink#getInnerDeclaration
+     * <em>Inner Declaration</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>Inner Declaration</em>'.
      * @see org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink#getInnerDeclaration()
      * @see #getInnerDatatypeSourceCodeLink()
@@ -1273,9 +1339,10 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getInnerDatatypeSourceCodeLink_InnerDeclaration();
 
     /**
-     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink <em>Abstract Action Class Method Link</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * Returns the meta object for class '
+     * {@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink
+     * <em>Abstract Action Class Method Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for class '<em>Abstract Action Class Method Link</em>'.
      * @see org.somox.sourcecodedecorator.AbstractActionClassMethodLink
      * @generated
@@ -1283,9 +1350,10 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EClass getAbstractActionClassMethodLink();
 
     /**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink#getClassMethod <em>Class Method</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink#getClassMethod
+     * <em>Class Method</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>Class Method</em>'.
      * @see org.somox.sourcecodedecorator.AbstractActionClassMethodLink#getClassMethod()
      * @see #getAbstractActionClassMethodLink()
@@ -1294,9 +1362,10 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getAbstractActionClassMethodLink_ClassMethod();
 
     /**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink#getAbstractAction <em>Abstract Action</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink#getAbstractAction
+     * <em>Abstract Action</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>Abstract Action</em>'.
      * @see org.somox.sourcecodedecorator.AbstractActionClassMethodLink#getAbstractAction()
      * @see #getAbstractActionClassMethodLink()
@@ -1305,19 +1374,24 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getAbstractActionClassMethodLink_AbstractAction();
 
     /**
-     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink <em>Method Level Resource Demanding Internal Behavior Link</em>}'.
-     * <!-- begin-user-doc -->
+     * Returns the meta object for class '
+     * {@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink
+     * <em>Method Level Resource Demanding Internal Behavior Link</em>}'. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Method Level Resource Demanding Internal Behavior Link</em>'.
+     *
+     * @return the meta object for class '
+     *         <em>Method Level Resource Demanding Internal Behavior Link</em>'.
      * @see org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink
      * @generated
      */
     EClass getMethodLevelResourceDemandingInternalBehaviorLink();
 
     /**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink#getResourceDemandingInternalBehaviour <em>Resource Demanding Internal Behaviour</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink#getResourceDemandingInternalBehaviour
+     * <em>Resource Demanding Internal Behaviour</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+     * -->
+     *
      * @return the meta object for the reference '<em>Resource Demanding Internal Behaviour</em>'.
      * @see org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink#getResourceDemandingInternalBehaviour()
      * @see #getMethodLevelResourceDemandingInternalBehaviorLink()
@@ -1326,9 +1400,11 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getMethodLevelResourceDemandingInternalBehaviorLink_ResourceDemandingInternalBehaviour();
 
     /**
-     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.AbstractMethodLevelSourceCodeLink <em>Abstract Method Level Source Code Link</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * Returns the meta object for class '
+     * {@link org.somox.sourcecodedecorator.AbstractMethodLevelSourceCodeLink
+     * <em>Abstract Method Level Source Code Link</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+     * -->
+     *
      * @return the meta object for class '<em>Abstract Method Level Source Code Link</em>'.
      * @see org.somox.sourcecodedecorator.AbstractMethodLevelSourceCodeLink
      * @generated
@@ -1336,9 +1412,10 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EClass getAbstractMethodLevelSourceCodeLink();
 
     /**
-     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.AbstractMethodLevelSourceCodeLink#getFunction <em>Function</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * Returns the meta object for the reference '
+     * {@link org.somox.sourcecodedecorator.AbstractMethodLevelSourceCodeLink#getFunction
+     * <em>Function</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @return the meta object for the reference '<em>Function</em>'.
      * @see org.somox.sourcecodedecorator.AbstractMethodLevelSourceCodeLink#getFunction()
      * @see #getAbstractMethodLevelSourceCodeLink()
@@ -1347,286 +1424,322 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getAbstractMethodLevelSourceCodeLink_Function();
 
     /**
-     * Returns the factory that creates the instances of the model.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * Returns the factory that creates the instances of the model. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     *
      * @return the factory that creates the instances of the model.
      * @generated
      */
-	SourcecodedecoratorFactory getSourcecodedecoratorFactory();
+    SourcecodedecoratorFactory getSourcecodedecoratorFactory();
 
-	/**
-     * <!-- begin-user-doc -->
-	 * Defines literals for the meta objects that represent
-	 * <ul>
-	 *   <li>each class,</li>
-	 *   <li>each feature of each class,</li>
-	 *   <li>each operation of each class,</li>
-	 *   <li>each enum,</li>
-	 *   <li>and each data type</li>
-	 * </ul>
-	 * <!-- end-user-doc -->
+    /**
+     * <!-- begin-user-doc --> Defines literals for the meta objects that represent
+     * <ul>
+     * <li>each class,</li>
+     * <li>each feature of each class,</li>
+     * <li>each operation of each class,</li>
+     * <li>each enum,</li>
+     * <li>and each data type</li>
+     * </ul>
+     * <!-- end-user-doc -->
+     *
      * @generated
      */
-	interface Literals {
-		/**
-         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.FileLevelSourceCodeLinkImpl <em>File Level Source Code Link</em>}' class.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+    interface Literals {
+        /**
+         * The meta object literal for the '
+         * {@link org.somox.sourcecodedecorator.impl.FileLevelSourceCodeLinkImpl
+         * <em>File Level Source Code Link</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
+         * -->
+         *
          * @see org.somox.sourcecodedecorator.impl.FileLevelSourceCodeLinkImpl
          * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getFileLevelSourceCodeLink()
          * @generated
          */
-		EClass FILE_LEVEL_SOURCE_CODE_LINK = eINSTANCE.getFileLevelSourceCodeLink();
+        EClass FILE_LEVEL_SOURCE_CODE_LINK = eINSTANCE.getFileLevelSourceCodeLink();
 
-		/**
+        /**
          * The meta object literal for the '<em><b>Repository Component</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-		EReference FILE_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = eINSTANCE.getFileLevelSourceCodeLink_RepositoryComponent();
+        EReference FILE_LEVEL_SOURCE_CODE_LINK__REPOSITORY_COMPONENT = eINSTANCE
+                .getFileLevelSourceCodeLink_RepositoryComponent();
 
-		/**
-         * The meta object literal for the '<em><b>File</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '<em><b>File</b></em>' reference feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-		EReference FILE_LEVEL_SOURCE_CODE_LINK__FILE = eINSTANCE.getFileLevelSourceCodeLink_File();
+        EReference FILE_LEVEL_SOURCE_CODE_LINK__FILE = eINSTANCE.getFileLevelSourceCodeLink_File();
 
-		/**
-         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.MethodLevelSourceCodeLinkImpl <em>Method Level Source Code Link</em>}' class.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '
+         * {@link org.somox.sourcecodedecorator.impl.MethodLevelSourceCodeLinkImpl
+         * <em>Method Level Source Code Link</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
+         * -->
+         *
          * @see org.somox.sourcecodedecorator.impl.MethodLevelSourceCodeLinkImpl
          * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getMethodLevelSourceCodeLink()
          * @generated
          */
-		EClass METHOD_LEVEL_SOURCE_CODE_LINK = eINSTANCE.getMethodLevelSourceCodeLink();
+        EClass METHOD_LEVEL_SOURCE_CODE_LINK = eINSTANCE.getMethodLevelSourceCodeLink();
 
-		/**
-         * The meta object literal for the '<em><b>Operation</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '<em><b>Operation</b></em>' reference feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-		EReference METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION = eINSTANCE.getMethodLevelSourceCodeLink_Operation();
+        EReference METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION = eINSTANCE.getMethodLevelSourceCodeLink_Operation();
 
-		/**
-         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl <em>Control Flow Level Source Code Link</em>}' class.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '
+         * {@link org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl
+         * <em>Control Flow Level Source Code Link</em>}' class. <!-- begin-user-doc --> <!--
+         * end-user-doc -->
+         *
          * @see org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl
          * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getControlFlowLevelSourceCodeLink()
          * @generated
          */
-		EClass CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK = eINSTANCE.getControlFlowLevelSourceCodeLink();
+        EClass CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK = eINSTANCE.getControlFlowLevelSourceCodeLink();
 
-		/**
-         * The meta object literal for the '<em><b>Abstract Action</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '<em><b>Abstract Action</b></em>' reference feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-		EReference CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION = eINSTANCE.getControlFlowLevelSourceCodeLink_AbstractAction();
+        EReference CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION = eINSTANCE
+                .getControlFlowLevelSourceCodeLink_AbstractAction();
 
-		/**
-         * The meta object literal for the '<em><b>Statement</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '<em><b>Statement</b></em>' reference feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-		EReference CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT = eINSTANCE.getControlFlowLevelSourceCodeLink_Statement();
+        EReference CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT = eINSTANCE
+                .getControlFlowLevelSourceCodeLink_Statement();
 
-		/**
-         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl <em>Source Code Decorator Repository</em>}' class.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '
+         * {@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl
+         * <em>Source Code Decorator Repository</em>}' class. <!-- begin-user-doc --> <!--
+         * end-user-doc -->
+         *
          * @see org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl
          * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getSourceCodeDecoratorRepository()
          * @generated
          */
-		EClass SOURCE_CODE_DECORATOR_REPOSITORY = eINSTANCE.getSourceCodeDecoratorRepository();
-
-		/**
-         * The meta object literal for the '<em><b>File Level Source Code Link</b></em>' containment reference list feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EReference SOURCE_CODE_DECORATOR_REPOSITORY__FILE_LEVEL_SOURCE_CODE_LINK = eINSTANCE.getSourceCodeDecoratorRepository_FileLevelSourceCodeLink();
-
-		/**
-         * The meta object literal for the '<em><b>Method Level Source Code Link</b></em>' containment reference list feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EReference SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_SOURCE_CODE_LINK = eINSTANCE.getSourceCodeDecoratorRepository_MethodLevelSourceCodeLink();
-
-		/**
-         * The meta object literal for the '<em><b>Control Flow Level Source Code Link</b></em>' containment reference list feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EReference SOURCE_CODE_DECORATOR_REPOSITORY__CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK = eINSTANCE.getSourceCodeDecoratorRepository_ControlFlowLevelSourceCodeLink();
-
-		/**
-         * The meta object literal for the '<em><b>Interface Source Code Link</b></em>' containment reference list feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EReference SOURCE_CODE_DECORATOR_REPOSITORY__INTERFACE_SOURCE_CODE_LINK = eINSTANCE.getSourceCodeDecoratorRepository_InterfaceSourceCodeLink();
-
-		/**
-         * The meta object literal for the '<em><b>Component Implementing Classes Link</b></em>' containment reference list feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EReference SOURCE_CODE_DECORATOR_REPOSITORY__COMPONENT_IMPLEMENTING_CLASSES_LINK = eINSTANCE.getSourceCodeDecoratorRepository_ComponentImplementingClassesLink();
-
-		/**
-         * The meta object literal for the '<em><b>Data Type Source Code Link</b></em>' containment reference list feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference SOURCE_CODE_DECORATOR_REPOSITORY__DATA_TYPE_SOURCE_CODE_LINK = eINSTANCE.getSourceCodeDecoratorRepository_DataTypeSourceCodeLink();
+        EClass SOURCE_CODE_DECORATOR_REPOSITORY = eINSTANCE.getSourceCodeDecoratorRepository();
 
         /**
-         * The meta object literal for the '<em><b>Abstract Action Class Method Link</b></em>' containment reference list feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+         * The meta object literal for the '<em><b>File Level Source Code Link</b></em>' containment
+         * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-        EReference SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK = eINSTANCE.getSourceCodeDecoratorRepository_AbstractActionClassMethodLink();
+        EReference SOURCE_CODE_DECORATOR_REPOSITORY__FILE_LEVEL_SOURCE_CODE_LINK = eINSTANCE
+                .getSourceCodeDecoratorRepository_FileLevelSourceCodeLink();
 
         /**
-         * The meta object literal for the '<em><b>Method Level Resource Demanding Internal Behavior Link</b></em>' containment reference list feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+         * The meta object literal for the '<em><b>Method Level Source Code Link</b></em>'
+         * containment reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-        EReference SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK = eINSTANCE.getSourceCodeDecoratorRepository_MethodLevelResourceDemandingInternalBehaviorLink();
+        EReference SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_SOURCE_CODE_LINK = eINSTANCE
+                .getSourceCodeDecoratorRepository_MethodLevelSourceCodeLink();
 
         /**
-         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.InterfaceSourceCodeLinkImpl <em>Interface Source Code Link</em>}' class.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * The meta object literal for the '<em><b>Control Flow Level Source Code Link</b></em>'
+         * containment reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
+         * @generated
+         */
+        EReference SOURCE_CODE_DECORATOR_REPOSITORY__CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK = eINSTANCE
+                .getSourceCodeDecoratorRepository_ControlFlowLevelSourceCodeLink();
+
+        /**
+         * The meta object literal for the '<em><b>Interface Source Code Link</b></em>' containment
+         * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
+         * @generated
+         */
+        EReference SOURCE_CODE_DECORATOR_REPOSITORY__INTERFACE_SOURCE_CODE_LINK = eINSTANCE
+                .getSourceCodeDecoratorRepository_InterfaceSourceCodeLink();
+
+        /**
+         * The meta object literal for the '<em><b>Component Implementing Classes Link</b></em>'
+         * containment reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
+         * @generated
+         */
+        EReference SOURCE_CODE_DECORATOR_REPOSITORY__COMPONENT_IMPLEMENTING_CLASSES_LINK = eINSTANCE
+                .getSourceCodeDecoratorRepository_ComponentImplementingClassesLink();
+
+        /**
+         * The meta object literal for the '<em><b>Data Type Source Code Link</b></em>' containment
+         * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
+         * @generated
+         */
+        EReference SOURCE_CODE_DECORATOR_REPOSITORY__DATA_TYPE_SOURCE_CODE_LINK = eINSTANCE
+                .getSourceCodeDecoratorRepository_DataTypeSourceCodeLink();
+
+        /**
+         * The meta object literal for the '<em><b>Abstract Action Class Method Link</b></em>'
+         * containment reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
+         * @generated
+         */
+        EReference SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK = eINSTANCE
+                .getSourceCodeDecoratorRepository_AbstractActionClassMethodLink();
+
+        /**
+         * The meta object literal for the '
+         * <em><b>Method Level Resource Demanding Internal Behavior Link</b></em>' containment
+         * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
+         * @generated
+         */
+        EReference SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK = eINSTANCE
+                .getSourceCodeDecoratorRepository_MethodLevelResourceDemandingInternalBehaviorLink();
+
+        /**
+         * The meta object literal for the '
+         * {@link org.somox.sourcecodedecorator.impl.InterfaceSourceCodeLinkImpl
+         * <em>Interface Source Code Link</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
+         * -->
+         *
          * @see org.somox.sourcecodedecorator.impl.InterfaceSourceCodeLinkImpl
          * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getInterfaceSourceCodeLink()
          * @generated
          */
-		EClass INTERFACE_SOURCE_CODE_LINK = eINSTANCE.getInterfaceSourceCodeLink();
+        EClass INTERFACE_SOURCE_CODE_LINK = eINSTANCE.getInterfaceSourceCodeLink();
 
-		/**
-         * The meta object literal for the '<em><b>Interface</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '<em><b>Interface</b></em>' reference feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-		EReference INTERFACE_SOURCE_CODE_LINK__INTERFACE = eINSTANCE.getInterfaceSourceCodeLink_Interface();
+        EReference INTERFACE_SOURCE_CODE_LINK__INTERFACE = eINSTANCE.getInterfaceSourceCodeLink_Interface();
 
-		/**
-         * The meta object literal for the '<em><b>Gast Class</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '<em><b>Gast Class</b></em>' reference feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-		EReference INTERFACE_SOURCE_CODE_LINK__GAST_CLASS = eINSTANCE.getInterfaceSourceCodeLink_GastClass();
+        EReference INTERFACE_SOURCE_CODE_LINK__GAST_CLASS = eINSTANCE.getInterfaceSourceCodeLink_GastClass();
 
-		/**
-         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl <em>Component Implementing Classes Link</em>}' class.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '
+         * {@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl
+         * <em>Component Implementing Classes Link</em>}' class. <!-- begin-user-doc --> <!--
+         * end-user-doc -->
+         *
          * @see org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl
          * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getComponentImplementingClassesLink()
          * @generated
          */
-		EClass COMPONENT_IMPLEMENTING_CLASSES_LINK = eINSTANCE.getComponentImplementingClassesLink();
+        EClass COMPONENT_IMPLEMENTING_CLASSES_LINK = eINSTANCE.getComponentImplementingClassesLink();
 
-		/**
-         * The meta object literal for the '<em><b>Is Composite Component</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '<em><b>Is Composite Component</b></em>' attribute
+         * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-		EAttribute COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT = eINSTANCE.getComponentImplementingClassesLink_IsCompositeComponent();
+        EAttribute COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT = eINSTANCE
+                .getComponentImplementingClassesLink_IsCompositeComponent();
 
-		/**
-         * The meta object literal for the '<em><b>Component</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '<em><b>Component</b></em>' reference feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-		EReference COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT = eINSTANCE.getComponentImplementingClassesLink_Component();
+        EReference COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT = eINSTANCE
+                .getComponentImplementingClassesLink_Component();
 
-		/**
-         * The meta object literal for the '<em><b>Implementing Classes</b></em>' reference list feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '<em><b>Implementing Classes</b></em>' reference list
+         * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-		EReference COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES = eINSTANCE.getComponentImplementingClassesLink_ImplementingClasses();
+        EReference COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES = eINSTANCE
+                .getComponentImplementingClassesLink_ImplementingClasses();
 
-		/**
+        /**
          * The meta object literal for the '<em><b>Sub Components</b></em>' reference list feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-		EReference COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS = eINSTANCE.getComponentImplementingClassesLink_SubComponents();
+        EReference COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS = eINSTANCE
+                .getComponentImplementingClassesLink_SubComponents();
 
-		/**
-         * The meta object literal for the '<em><b>Provided Interfaces</b></em>' reference list feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '<em><b>Provided Interfaces</b></em>' reference list
+         * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-		EReference COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES = eINSTANCE.getComponentImplementingClassesLink_ProvidedInterfaces();
+        EReference COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES = eINSTANCE
+                .getComponentImplementingClassesLink_ProvidedInterfaces();
 
-		/**
-         * The meta object literal for the '<em><b>Required Interfaces</b></em>' reference list feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '<em><b>Required Interfaces</b></em>' reference list
+         * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-		EReference COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES = eINSTANCE.getComponentImplementingClassesLink_RequiredInterfaces();
+        EReference COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES = eINSTANCE
+                .getComponentImplementingClassesLink_RequiredInterfaces();
 
-		/**
+        /**
          * The meta object literal for the '<em><b>Is Initial Component</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-		EAttribute COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT = eINSTANCE.getComponentImplementingClassesLink_IsInitialComponent();
+        EAttribute COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT = eINSTANCE
+                .getComponentImplementingClassesLink_IsInitialComponent();
 
-		/**
-         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl <em>PCM System Implementating Classes Link</em>}' class.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+        /**
+         * The meta object literal for the '
+         * {@link org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl
+         * <em>PCM System Implementating Classes Link</em>}' class. <!-- begin-user-doc --> <!--
+         * end-user-doc -->
+         *
          * @see org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl
          * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getPCMSystemImplementatingClassesLink()
          * @generated
          */
-		EClass PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK = eINSTANCE.getPCMSystemImplementatingClassesLink();
-
-		/**
-         * The meta object literal for the '<em><b>System Model</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EReference PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL = eINSTANCE.getPCMSystemImplementatingClassesLink_SystemModel();
+        EClass PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK = eINSTANCE.getPCMSystemImplementatingClassesLink();
 
         /**
-         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.DataTypeSourceCodeLinkImpl <em>Data Type Source Code Link</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+         * The meta object literal for the '<em><b>System Model</b></em>' reference feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         *
+         * @generated
+         */
+        EReference PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL = eINSTANCE
+                .getPCMSystemImplementatingClassesLink_SystemModel();
+
+        /**
+         * The meta object literal for the '
+         * {@link org.somox.sourcecodedecorator.impl.DataTypeSourceCodeLinkImpl
+         * <em>Data Type Source Code Link</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
+         * -->
+         *
          * @see org.somox.sourcecodedecorator.impl.DataTypeSourceCodeLinkImpl
          * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getDataTypeSourceCodeLink()
          * @generated
@@ -1634,33 +1747,36 @@ public interface SourcecodedecoratorPackage extends EPackage {
         EClass DATA_TYPE_SOURCE_CODE_LINK = eINSTANCE.getDataTypeSourceCodeLink();
 
         /**
-         * The meta object literal for the '<em><b>Ja Mo PP Type</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+         * The meta object literal for the '<em><b>Ja Mo PP Type</b></em>' reference feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
         EReference DATA_TYPE_SOURCE_CODE_LINK__JA_MO_PP_TYPE = eINSTANCE.getDataTypeSourceCodeLink_JaMoPPType();
 
         /**
-         * The meta object literal for the '<em><b>Pcm Data Type</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+         * The meta object literal for the '<em><b>Pcm Data Type</b></em>' reference feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
         EReference DATA_TYPE_SOURCE_CODE_LINK__PCM_DATA_TYPE = eINSTANCE.getDataTypeSourceCodeLink_PcmDataType();
 
         /**
-         * The meta object literal for the '<em><b>Inner Datatype Source Code Link</b></em>' containment reference list feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+         * The meta object literal for the '<em><b>Inner Datatype Source Code Link</b></em>'
+         * containment reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-        EReference DATA_TYPE_SOURCE_CODE_LINK__INNER_DATATYPE_SOURCE_CODE_LINK = eINSTANCE.getDataTypeSourceCodeLink_InnerDatatypeSourceCodeLink();
+        EReference DATA_TYPE_SOURCE_CODE_LINK__INNER_DATATYPE_SOURCE_CODE_LINK = eINSTANCE
+                .getDataTypeSourceCodeLink_InnerDatatypeSourceCodeLink();
 
         /**
-         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.InnerDatatypeSourceCodeLinkImpl <em>Inner Datatype Source Code Link</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+         * The meta object literal for the '
+         * {@link org.somox.sourcecodedecorator.impl.InnerDatatypeSourceCodeLinkImpl
+         * <em>Inner Datatype Source Code Link</em>}' class. <!-- begin-user-doc --> <!--
+         * end-user-doc -->
+         *
          * @see org.somox.sourcecodedecorator.impl.InnerDatatypeSourceCodeLinkImpl
          * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getInnerDatatypeSourceCodeLink()
          * @generated
@@ -1668,25 +1784,28 @@ public interface SourcecodedecoratorPackage extends EPackage {
         EClass INNER_DATATYPE_SOURCE_CODE_LINK = eINSTANCE.getInnerDatatypeSourceCodeLink();
 
         /**
-         * The meta object literal for the '<em><b>Field</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+         * The meta object literal for the '<em><b>Field</b></em>' reference feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
         EReference INNER_DATATYPE_SOURCE_CODE_LINK__FIELD = eINSTANCE.getInnerDatatypeSourceCodeLink_Field();
 
         /**
          * The meta object literal for the '<em><b>Inner Declaration</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+         * <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-        EReference INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION = eINSTANCE.getInnerDatatypeSourceCodeLink_InnerDeclaration();
+        EReference INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION = eINSTANCE
+                .getInnerDatatypeSourceCodeLink_InnerDeclaration();
 
         /**
-         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl <em>Abstract Action Class Method Link</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+         * The meta object literal for the '
+         * {@link org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl
+         * <em>Abstract Action Class Method Link</em>}' class. <!-- begin-user-doc --> <!--
+         * end-user-doc -->
+         *
          * @see org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl
          * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getAbstractActionClassMethodLink()
          * @generated
@@ -1694,43 +1813,52 @@ public interface SourcecodedecoratorPackage extends EPackage {
         EClass ABSTRACT_ACTION_CLASS_METHOD_LINK = eINSTANCE.getAbstractActionClassMethodLink();
 
         /**
-         * The meta object literal for the '<em><b>Class Method</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+         * The meta object literal for the '<em><b>Class Method</b></em>' reference feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-        EReference ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD = eINSTANCE.getAbstractActionClassMethodLink_ClassMethod();
+        EReference ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD = eINSTANCE
+                .getAbstractActionClassMethodLink_ClassMethod();
 
         /**
-         * The meta object literal for the '<em><b>Abstract Action</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+         * The meta object literal for the '<em><b>Abstract Action</b></em>' reference feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-        EReference ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION = eINSTANCE.getAbstractActionClassMethodLink_AbstractAction();
+        EReference ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION = eINSTANCE
+                .getAbstractActionClassMethodLink_AbstractAction();
 
         /**
-         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.MethodLevelResourceDemandingInternalBehaviorLinkImpl <em>Method Level Resource Demanding Internal Behavior Link</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see org.somox.sourcecodedecorator.impl.MethodLevelResourceDemandingInternalBehaviorLinkImpl
+         * The meta object literal for the '
+         * {@link org.somox.sourcecodedecorator.impl.MethodLevelResourceDemandingInternalBehaviorLinkImpl
+         * <em>Method Level Resource Demanding Internal Behavior Link</em>}' class. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         *
+         * @see org.somox.sourcecodedecorator.impl.
+         *      MethodLevelResourceDemandingInternalBehaviorLinkImpl
          * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getMethodLevelResourceDemandingInternalBehaviorLink()
          * @generated
          */
-        EClass METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK = eINSTANCE.getMethodLevelResourceDemandingInternalBehaviorLink();
+        EClass METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK = eINSTANCE
+                .getMethodLevelResourceDemandingInternalBehaviorLink();
 
         /**
-         * The meta object literal for the '<em><b>Resource Demanding Internal Behaviour</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+         * The meta object literal for the '<em><b>Resource Demanding Internal Behaviour</b></em>'
+         * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-        EReference METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR = eINSTANCE.getMethodLevelResourceDemandingInternalBehaviorLink_ResourceDemandingInternalBehaviour();
+        EReference METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR = eINSTANCE
+                .getMethodLevelResourceDemandingInternalBehaviorLink_ResourceDemandingInternalBehaviour();
 
         /**
-         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.AbstractMethodLevelSourceCodeLinkImpl <em>Abstract Method Level Source Code Link</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+         * The meta object literal for the '
+         * {@link org.somox.sourcecodedecorator.impl.AbstractMethodLevelSourceCodeLinkImpl
+         * <em>Abstract Method Level Source Code Link</em>}' class. <!-- begin-user-doc --> <!--
+         * end-user-doc -->
+         *
          * @see org.somox.sourcecodedecorator.impl.AbstractMethodLevelSourceCodeLinkImpl
          * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getAbstractMethodLevelSourceCodeLink()
          * @generated
@@ -1738,13 +1866,14 @@ public interface SourcecodedecoratorPackage extends EPackage {
         EClass ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK = eINSTANCE.getAbstractMethodLevelSourceCodeLink();
 
         /**
-         * The meta object literal for the '<em><b>Function</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+         * The meta object literal for the '<em><b>Function</b></em>' reference feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         *
          * @generated
          */
-        EReference ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION = eINSTANCE.getAbstractMethodLevelSourceCodeLink_Function();
+        EReference ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION = eINSTANCE
+                .getAbstractMethodLevelSourceCodeLink_Function();
 
-	}
+    }
 
-} //SourcecodedecoratorPackage
+} // SourcecodedecoratorPackage

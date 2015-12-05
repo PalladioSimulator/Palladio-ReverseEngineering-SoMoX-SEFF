@@ -9,234 +9,233 @@ import org.somox.filter.BlacklistFilter;
 import de.uka.ipd.sdq.workflow.configuration.AbstractComposedJobConfiguration;
 import de.uka.ipd.sdq.workflow.configuration.IJobConfiguration;
 
-public class SoMoXConfiguration extends AbstractComposedJobConfiguration
-		implements IJobConfiguration {
+public class SoMoXConfiguration extends AbstractComposedJobConfiguration implements IJobConfiguration {
 
-	public static final String SOMOX_WILDCARD_DELIMITER = "§";
-	
-	//values from properties file
-	private double weightPackageMapping;
-	private double weightDirectoryMapping;
-	private double weightDMS;
-	private double weightLowCoupling;
-	private double weightHighCoupling;
-	private double weightLowNameResemblance;
-	private double weightMidNameResemblance;
-	private double weightHighNameResemblance;
-	private double weightHighestNameResemblance;
-	private double weightInterfaceViolationRelevant;
-	private double weightInterfaceViolationIrrelevant;
-	private double weightHighSLAQ;
-	private double weightLowSLAQ;
-	
-	private String rawBlacklist;
-	private String excludedPrefixesForNameResemblance;
-	private String excludedSuffixesForNameResemblance;
-	private BlacklistFilter blacklistFilter = null;
-	
-	private boolean reverseEngineerInterfacesNotAssignedToComponent;
+    public static final String SOMOX_WILDCARD_DELIMITER = "§";
 
-	private final ClusteringConfiguration clusteringConfig = new ClusteringConfiguration();
-	private final FileLocationConfiguration locations = new FileLocationConfiguration();
-	
-	public SoMoXConfiguration() {
-		super();
-	}
-	
-	@Override
-	public String getErrorMessage() {
-		return "An error in SoMoX occured";
-	}
+    // values from properties file
+    private double weightPackageMapping;
+    private double weightDirectoryMapping;
+    private double weightDMS;
+    private double weightLowCoupling;
+    private double weightHighCoupling;
+    private double weightLowNameResemblance;
+    private double weightMidNameResemblance;
+    private double weightHighNameResemblance;
+    private double weightHighestNameResemblance;
+    private double weightInterfaceViolationRelevant;
+    private double weightInterfaceViolationIrrelevant;
+    private double weightHighSLAQ;
+    private double weightLowSLAQ;
 
-	/**
-	 * Create a new list of blacklist specifications
-	 * @param preferences Preferences for this analyzer
-	 * @return A list of blacklist entries
-	 */
-	public Set<String> getBlacklist() {
-		String wildcardString = this.rawBlacklist;
+    private String rawBlacklist;
+    private String excludedPrefixesForNameResemblance;
+    private String excludedSuffixesForNameResemblance;
+    private BlacklistFilter blacklistFilter = null;
 
-		StringTokenizer tokenizer = new StringTokenizer(wildcardString, SOMOX_WILDCARD_DELIMITER);
-		
-		Set<String> blacklist = new HashSet<String>();
-		while(tokenizer.hasMoreElements())
-			blacklist.add(tokenizer.nextToken());
-		return blacklist;
-	}
+    private boolean reverseEngineerInterfacesNotAssignedToComponent;
 
-	public void setWildcardKey(String wildcardKey, String additionalWildcards) {
-		this.rawBlacklist = wildcardKey;
-		Set<String> wildCardList = getBlacklist();
-		if (additionalWildcards != null && additionalWildcards.length() > 0) {
-			wildCardList.add(additionalWildcards);
-		}
-		this.blacklistFilter = new BlacklistFilter(wildCardList);
-	}
+    private final ClusteringConfiguration clusteringConfig = new ClusteringConfiguration();
+    private final FileLocationConfiguration locations = new FileLocationConfiguration();
 
-	/**
-	 * @return the blacklistFilter
-	 */
-	public BlacklistFilter getBlacklistFilter() {
-		if (blacklistFilter == null)
-			throw new IllegalArgumentException("Must set blacklist pattern first.");
-		return blacklistFilter;
-	}
+    public SoMoXConfiguration() {
+        super();
+    }
 
-	public String getExcludedPrefixesForNameResemblance() {
-		return excludedPrefixesForNameResemblance;
-	}
+    @Override
+    public String getErrorMessage() {
+        return "An error in SoMoX occured";
+    }
 
-	public void setExcludedPrefixesForNameResemblance(
-			String excludedPrefixesForNameResemblance) {
-		this.excludedPrefixesForNameResemblance = excludedPrefixesForNameResemblance;
-	}
+    /**
+     * Create a new list of blacklist specifications
+     *
+     * @param preferences
+     *            Preferences for this analyzer
+     * @return A list of blacklist entries
+     */
+    public Set<String> getBlacklist() {
+        final String wildcardString = this.rawBlacklist;
 
-	public String getExcludedSuffixesForNameResemblance() {
-		return excludedSuffixesForNameResemblance;
-	}
+        final StringTokenizer tokenizer = new StringTokenizer(wildcardString, SOMOX_WILDCARD_DELIMITER);
 
-	public void setExcludedSuffixesForNameResemblance(
-			String excludedSuffixesForNameResemblance) {
-		this.excludedSuffixesForNameResemblance = excludedSuffixesForNameResemblance;
-	}
+        final Set<String> blacklist = new HashSet<String>();
+        while (tokenizer.hasMoreElements()) {
+            blacklist.add(tokenizer.nextToken());
+        }
+        return blacklist;
+    }
 
-	public double getWeightPackageMapping() {
-		return weightPackageMapping;
-	}
+    public void setWildcardKey(final String wildcardKey, final String additionalWildcards) {
+        this.rawBlacklist = wildcardKey;
+        final Set<String> wildCardList = this.getBlacklist();
+        if (additionalWildcards != null && additionalWildcards.length() > 0) {
+            wildCardList.add(additionalWildcards);
+        }
+        this.blacklistFilter = new BlacklistFilter(wildCardList);
+    }
 
-	public void setWeightPackageMapping(double weightPackageMapping) {
-		this.weightPackageMapping = weightPackageMapping;
-	}
+    /**
+     * @return the blacklistFilter
+     */
+    public BlacklistFilter getBlacklistFilter() {
+        if (this.blacklistFilter == null) {
+            throw new IllegalArgumentException("Must set blacklist pattern first.");
+        }
+        return this.blacklistFilter;
+    }
 
-	public double getWeightDirectoryMapping() {
-		return weightDirectoryMapping;
-	}
+    public String getExcludedPrefixesForNameResemblance() {
+        return this.excludedPrefixesForNameResemblance;
+    }
 
-	public void setWeightDirectoryMapping(double weightDirectoryMapping) {
-		this.weightDirectoryMapping = weightDirectoryMapping;
-	}
+    public void setExcludedPrefixesForNameResemblance(final String excludedPrefixesForNameResemblance) {
+        this.excludedPrefixesForNameResemblance = excludedPrefixesForNameResemblance;
+    }
 
-	public double getWeightDMS() {
-		return weightDMS;
-	}
+    public String getExcludedSuffixesForNameResemblance() {
+        return this.excludedSuffixesForNameResemblance;
+    }
 
-	public void setWeightDMS(double weightDMS) {
-		this.weightDMS = weightDMS;
-	}
+    public void setExcludedSuffixesForNameResemblance(final String excludedSuffixesForNameResemblance) {
+        this.excludedSuffixesForNameResemblance = excludedSuffixesForNameResemblance;
+    }
 
-	public double getWeightLowCoupling() {
-		return weightLowCoupling;
-	}
+    public double getWeightPackageMapping() {
+        return this.weightPackageMapping;
+    }
 
-	public void setWeightLowCoupling(double weightLowCoupling) {
-		this.weightLowCoupling = weightLowCoupling;
-	}
+    public void setWeightPackageMapping(final double weightPackageMapping) {
+        this.weightPackageMapping = weightPackageMapping;
+    }
 
-	public double getWeightHighCoupling() {
-		return weightHighCoupling;
-	}
+    public double getWeightDirectoryMapping() {
+        return this.weightDirectoryMapping;
+    }
 
-	public void setWeightHighCoupling(double weightHighCoupling) {
-		this.weightHighCoupling = weightHighCoupling;
-	}
+    public void setWeightDirectoryMapping(final double weightDirectoryMapping) {
+        this.weightDirectoryMapping = weightDirectoryMapping;
+    }
 
-	public double getWeightLowNameResemblance() {
-		return weightLowNameResemblance;
-	}
+    public double getWeightDMS() {
+        return this.weightDMS;
+    }
 
-	public void setWeightLowNameResemblance(double weightLowNameResemblance) {
-		this.weightLowNameResemblance = weightLowNameResemblance;
-	}
+    public void setWeightDMS(final double weightDMS) {
+        this.weightDMS = weightDMS;
+    }
 
-	public double getWeightMidNameResemblance() {
-		return weightMidNameResemblance;
-	}
+    public double getWeightLowCoupling() {
+        return this.weightLowCoupling;
+    }
 
-	public void setWeightMidNameResemblance(double weightMidNameResemblance) {
-		this.weightMidNameResemblance = weightMidNameResemblance;
-	}
+    public void setWeightLowCoupling(final double weightLowCoupling) {
+        this.weightLowCoupling = weightLowCoupling;
+    }
 
-	public double getWeightHighNameResemblance() {
-		return weightHighNameResemblance;
-	}
+    public double getWeightHighCoupling() {
+        return this.weightHighCoupling;
+    }
 
-	public void setWeightHighNameResemblance(double weightHighNameResemblance) {
-		this.weightHighNameResemblance = weightHighNameResemblance;
-	}
+    public void setWeightHighCoupling(final double weightHighCoupling) {
+        this.weightHighCoupling = weightHighCoupling;
+    }
 
-	public double getWeightHighestNameResemblance() {
-		return weightHighestNameResemblance;
-	}
+    public double getWeightLowNameResemblance() {
+        return this.weightLowNameResemblance;
+    }
 
-	public void setWeightHighestNameResemblance(double weightHighestNameResemblance) {
-		this.weightHighestNameResemblance = weightHighestNameResemblance;
-	}
+    public void setWeightLowNameResemblance(final double weightLowNameResemblance) {
+        this.weightLowNameResemblance = weightLowNameResemblance;
+    }
 
-	public double getWeightInterfaceViolationRelevant() {
-		return weightInterfaceViolationRelevant;
-	}
+    public double getWeightMidNameResemblance() {
+        return this.weightMidNameResemblance;
+    }
 
-	public void setWeightInterfaceViolationRelevant(
-			double weightInterfaceViolationRelevant) {
-		this.weightInterfaceViolationRelevant = weightInterfaceViolationRelevant;
-	}
+    public void setWeightMidNameResemblance(final double weightMidNameResemblance) {
+        this.weightMidNameResemblance = weightMidNameResemblance;
+    }
 
-	public double getWeightInterfaceViolationIrrelevant() {
-		return weightInterfaceViolationIrrelevant;
-	}
+    public double getWeightHighNameResemblance() {
+        return this.weightHighNameResemblance;
+    }
 
-	public void setWeightInterfaceViolationIrrelevant(
-			double weightInterfaceViolationIrrelevant) {
-		this.weightInterfaceViolationIrrelevant = weightInterfaceViolationIrrelevant;
-	}
+    public void setWeightHighNameResemblance(final double weightHighNameResemblance) {
+        this.weightHighNameResemblance = weightHighNameResemblance;
+    }
 
-	public double getWeightHighSLAQ() {
-		return weightHighSLAQ;
-	}
+    public double getWeightHighestNameResemblance() {
+        return this.weightHighestNameResemblance;
+    }
 
-	public void setWeightHighSLAQ(double weightHighSLAQ) {
-		this.weightHighSLAQ = weightHighSLAQ;
-	}
+    public void setWeightHighestNameResemblance(final double weightHighestNameResemblance) {
+        this.weightHighestNameResemblance = weightHighestNameResemblance;
+    }
 
-	public double getWeightLowSLAQ() {
-		return weightLowSLAQ;
-	}
+    public double getWeightInterfaceViolationRelevant() {
+        return this.weightInterfaceViolationRelevant;
+    }
 
-	public void setWeightLowSLAQ(double weightLowSLAQ) {
-		this.weightLowSLAQ = weightLowSLAQ;
-	}
+    public void setWeightInterfaceViolationRelevant(final double weightInterfaceViolationRelevant) {
+        this.weightInterfaceViolationRelevant = weightInterfaceViolationRelevant;
+    }
 
-	/**
-	 * @return the clusteringConfig
-	 */
-	public ClusteringConfiguration getClusteringConfig() {
-		return clusteringConfig;
-	}
+    public double getWeightInterfaceViolationIrrelevant() {
+        return this.weightInterfaceViolationIrrelevant;
+    }
 
-	/**
-	 * @return the locations
-	 */
-	public FileLocationConfiguration getFileLocations() {
-		return locations;
-	}
+    public void setWeightInterfaceViolationIrrelevant(final double weightInterfaceViolationIrrelevant) {
+        this.weightInterfaceViolationIrrelevant = weightInterfaceViolationIrrelevant;
+    }
 
-	/**
-	 * Switch for interface reverse engineering. Serves for debugging-like
-	 * use of SoMoX.
-	 * @return
-	 */
-	public boolean isReverseEngineerInterfacesNotAssignedToComponent() {
-		return reverseEngineerInterfacesNotAssignedToComponent;
-	}
+    public double getWeightHighSLAQ() {
+        return this.weightHighSLAQ;
+    }
 
-	/**
-	 * Switch for interface reverse engineering. Serves for debugging-like
-	 * use of SoMoX.
-	 * @param reverseEngineerInterfacesNotAssignedToComponent
-	 */
-	public void setReverseEngineerInterfacesNotAssignedToComponent(
-			boolean reverseEngineerInterfacesNotAssignedToComponent) {
-		this.reverseEngineerInterfacesNotAssignedToComponent = reverseEngineerInterfacesNotAssignedToComponent;
-	}
+    public void setWeightHighSLAQ(final double weightHighSLAQ) {
+        this.weightHighSLAQ = weightHighSLAQ;
+    }
+
+    public double getWeightLowSLAQ() {
+        return this.weightLowSLAQ;
+    }
+
+    public void setWeightLowSLAQ(final double weightLowSLAQ) {
+        this.weightLowSLAQ = weightLowSLAQ;
+    }
+
+    /**
+     * @return the clusteringConfig
+     */
+    public ClusteringConfiguration getClusteringConfig() {
+        return this.clusteringConfig;
+    }
+
+    /**
+     * @return the locations
+     */
+    public FileLocationConfiguration getFileLocations() {
+        return this.locations;
+    }
+
+    /**
+     * Switch for interface reverse engineering. Serves for debugging-like use of SoMoX.
+     *
+     * @return
+     */
+    public boolean isReverseEngineerInterfacesNotAssignedToComponent() {
+        return this.reverseEngineerInterfacesNotAssignedToComponent;
+    }
+
+    /**
+     * Switch for interface reverse engineering. Serves for debugging-like use of SoMoX.
+     *
+     * @param reverseEngineerInterfacesNotAssignedToComponent
+     */
+    public void setReverseEngineerInterfacesNotAssignedToComponent(
+            final boolean reverseEngineerInterfacesNotAssignedToComponent) {
+        this.reverseEngineerInterfacesNotAssignedToComponent = reverseEngineerInterfacesNotAssignedToComponent;
+    }
 
 }

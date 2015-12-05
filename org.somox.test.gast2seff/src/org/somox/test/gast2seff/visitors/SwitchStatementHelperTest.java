@@ -43,8 +43,8 @@ public class SwitchStatementHelperTest extends JaMoPP2SEFFBaseTest {
     }
 
     private void testCreateBlock(final String methodName, final List<Integer> expectedStatementListSize) {
-        final ClassMethod method = (ClassMethod) super.findMethodInClassifier(methodName, REQUIRED_COMPONENT_NAME
-                + "Impl");
+        final ClassMethod method = (ClassMethod) super.findMethodInClassifier(methodName,
+                REQUIRED_COMPONENT_NAME + "Impl");
         assertEquals("There should be only one statement (the switch statement) in the method " + method.getName(), 1,
                 method.getStatements().size());
 

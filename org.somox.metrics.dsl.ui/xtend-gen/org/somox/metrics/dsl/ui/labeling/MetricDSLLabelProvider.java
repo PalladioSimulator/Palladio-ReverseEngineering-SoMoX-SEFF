@@ -3,19 +3,20 @@
  */
 package org.somox.metrics.dsl.ui.labeling;
 
-import com.google.inject.Inject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
 
+import com.google.inject.Inject;
+
 /**
  * Provides labels for a EObjects.
- * 
+ *
  * see http://www.eclipse.org/Xtext/documentation.html#labelProvider
  */
 @SuppressWarnings("all")
 public class MetricDSLLabelProvider extends DefaultEObjectLabelProvider {
-  @Inject
-  public MetricDSLLabelProvider(final AdapterFactoryLabelProvider delegate) {
-    super(delegate);
-  }
+    @Inject
+    public MetricDSLLabelProvider(final AdapterFactoryLabelProvider delegate) {
+        super(delegate);
+    }
 }

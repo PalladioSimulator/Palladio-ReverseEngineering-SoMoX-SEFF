@@ -9,7 +9,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * Use this class to register components to be used within the IDE.
  */
 public class MetricDSLUiModule extends org.somox.metrics.dsl.ui.AbstractMetricDSLUiModule {
-	public MetricDSLUiModule(AbstractUIPlugin plugin) {
-		super(plugin);
-	}
+    public MetricDSLUiModule(final AbstractUIPlugin plugin) {
+        super(plugin);
+    }
 }

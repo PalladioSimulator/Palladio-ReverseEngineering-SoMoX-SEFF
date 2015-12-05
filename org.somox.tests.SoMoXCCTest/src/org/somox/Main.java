@@ -8,9 +8,9 @@ import org.somox.ui.UI;
 
 public class Main {
 
-	Core c = new Core();
-	Helper h = new Helper();
-	Data d = new Data();
-	Data2 d2 = new Data2();
-	UI ui = new UI();
+    Core c = new Core();
+    Helper h = new Helper();
+    Data d = new Data();
+    Data2 d2 = new Data2();
+    UI ui = new UI();
 }

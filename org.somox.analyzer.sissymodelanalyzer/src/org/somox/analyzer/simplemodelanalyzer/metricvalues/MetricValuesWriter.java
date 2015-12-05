@@ -9,13 +9,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
-import metricvalues.Component;
-import metricvalues.ComponentCandidate;
-import metricvalues.Iteration;
-import metricvalues.MetricValue;
-import metricvalues.MetricValuesModel;
-import metricvalues.MetricvaluesFactory;
-
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -24,6 +18,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.types.Type;
 import org.jgrapht.DirectedGraph;
+import org.palladiosimulator.pcm.repository.RepositoryComponent;
 import org.somox.analyzer.simplemodelanalyzer.Activator;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.metrics.ClusteringRelation;
@@ -31,7 +26,12 @@ import org.somox.metrics.MetricID;
 //import de.fzi.gast.types.GASTClass;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
-import org.palladiosimulator.pcm.repository.RepositoryComponent;
+import metricvalues.Component;
+import metricvalues.ComponentCandidate;
+import metricvalues.Iteration;
+import metricvalues.MetricValue;
+import metricvalues.MetricValuesModel;
+import metricvalues.MetricvaluesFactory;
 
 public class MetricValuesWriter {
 
@@ -46,9 +46,9 @@ public class MetricValuesWriter {
     }
 
     public void saveMetricValuesModel(
-            final DirectedGraph<ComponentImplementingClassesLink, ClusteringRelation> metricsGraph,
-            final int iteration, final double currentThreshold,
-            final List<ComponentImplementingClassesLink> componentCandidates, final boolean isMergeIteration) {
+            final DirectedGraph<ComponentImplementingClassesLink, ClusteringRelation> metricsGraph, final int iteration,
+            final double currentThreshold, final List<ComponentImplementingClassesLink> componentCandidates,
+            final boolean isMergeIteration) {
 
         final URI resourceURI = this.getMetricValuesPlatformResourceURI();
 
@@ -83,7 +83,7 @@ public class MetricValuesWriter {
         }
 
         Activator.getDefault().getLog()
-                .log(new Status(Status.INFO, Activator.PLUGIN_ID, "Saved metric values of iteration " + iteration));
+                .log(new Status(IStatus.INFO, Activator.PLUGIN_ID, "Saved metric values of iteration " + iteration));
     }
 
     private void setModelAttributes(final MetricValuesModel model) {
@@ -105,10 +105,10 @@ public class MetricValuesWriter {
         model.setWildcardKey(this.getBlacklistString(this.somoxConfiguration.getBlacklist()));
         model.setMinMergeThreshold(this.somoxConfiguration.getClusteringConfig().getMinMergeClusteringThreshold());
         model.setMaxComposeThreshold(this.somoxConfiguration.getClusteringConfig().getMaxComposeClusteringThreshold());
-        model.setComposeThresholdDecrement(this.somoxConfiguration.getClusteringConfig()
-                .getClusteringComposeThresholdDecrement());
-        model.setMergeThresholdDecrement(this.somoxConfiguration.getClusteringConfig()
-                .getClusteringMergeThresholdDecrement());
+        model.setComposeThresholdDecrement(
+                this.somoxConfiguration.getClusteringConfig().getClusteringComposeThresholdDecrement());
+        model.setMergeThresholdDecrement(
+                this.somoxConfiguration.getClusteringConfig().getClusteringMergeThresholdDecrement());
         model.setExcludedPrefixesForNameResemblance(this.somoxConfiguration.getExcludedPrefixesForNameResemblance());
         model.setExcludedSuffixesForNameResemblance(this.somoxConfiguration.getExcludedSuffixesForNameResemblance());
     }
@@ -122,9 +122,9 @@ public class MetricValuesWriter {
     }
 
     private Iteration createCurrentIteration(
-            final DirectedGraph<ComponentImplementingClassesLink, ClusteringRelation> metricsGraph,
-            final int iteration, final double currentThreshold,
-            final List<ComponentImplementingClassesLink> componentCandidates, final boolean isMergeIteration) {
+            final DirectedGraph<ComponentImplementingClassesLink, ClusteringRelation> metricsGraph, final int iteration,
+            final double currentThreshold, final List<ComponentImplementingClassesLink> componentCandidates,
+            final boolean isMergeIteration) {
         final Iteration currentIteration = MetricvaluesFactory.eINSTANCE.createIteration();
         currentIteration.setNumber(iteration);
         // TODO FIXME: Depending on the isMergeIteration in any case only one of the values makes
@@ -164,7 +164,8 @@ public class MetricValuesWriter {
         }
     }
 
-    private void createMetricValue(final ClusteringRelation clusteringRelation, final ComponentCandidate compCandidate) {
+    private void createMetricValue(final ClusteringRelation clusteringRelation,
+            final ComponentCandidate compCandidate) {
         final Set<Entry<MetricID, Double>> clusteringMetrics = clusteringRelation.getResult().entrySet();
         for (final Entry<MetricID, Double> entry : clusteringMetrics) {
             final MetricValue metricValue = MetricvaluesFactory.eINSTANCE.createMetricValue();
@@ -183,7 +184,8 @@ public class MetricValuesWriter {
         }
     }
 
-    private Component createComponent(final Iteration currentIteration, final ComponentImplementingClassesLink compCand) {
+    private Component createComponent(final Iteration currentIteration,
+            final ComponentImplementingClassesLink compCand) {
         final Component component = MetricvaluesFactory.eINSTANCE.createComponent();
         final RepositoryComponent comp = compCand.getComponent();
         component.setId(comp.getId());
@@ -229,12 +231,10 @@ public class MetricValuesWriter {
         } catch (final IOException e) {
             e.printStackTrace();
         }
-        final URI fileURI = URI.createPlatformResourceURI(new File(this.somoxConfiguration.getFileLocations()
-                .getProjectName()
-                + "/"
-                + this.somoxConfiguration.getFileLocations().getOutputFolder()
-                + "/"
-                + properties.getProperty(CONFIG_METRIC_VALUES_MODEL_PATH)).getPath(), true);
+        final URI fileURI = URI
+                .createPlatformResourceURI(new File(this.somoxConfiguration.getFileLocations().getProjectName() + "/"
+                        + this.somoxConfiguration.getFileLocations().getOutputFolder() + "/"
+                        + properties.getProperty(CONFIG_METRIC_VALUES_MODEL_PATH)).getPath(), true);
         return fileURI;
     }
 

@@ -10,6 +10,13 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.palladiosimulator.pcm.allocation.Allocation;
+import org.palladiosimulator.pcm.allocation.AllocationFactory;
+import org.palladiosimulator.pcm.qosannotations.QoSAnnotations;
+import org.palladiosimulator.pcm.qosannotations.QosannotationsFactory;
+import org.palladiosimulator.pcm.repository.Repository;
+import org.palladiosimulator.pcm.repository.RepositoryFactory;
+import org.palladiosimulator.pcm.system.SystemFactory;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.ModelAnalyzer;
 import org.somox.analyzer.ModelAnalyzerException;
@@ -28,13 +35,6 @@ import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
-import org.palladiosimulator.pcm.allocation.Allocation;
-import org.palladiosimulator.pcm.allocation.AllocationFactory;
-import org.palladiosimulator.pcm.qosannotations.QoSAnnotations;
-import org.palladiosimulator.pcm.qosannotations.QosannotationsFactory;
-import org.palladiosimulator.pcm.repository.Repository;
-import org.palladiosimulator.pcm.repository.RepositoryFactory;
-import org.palladiosimulator.pcm.system.SystemFactory;
 import de.uka.ipd.sdq.workflow.ExecutionTimeLoggingProgressMonitor;
 //import de.fzi.gast.core.Root;
 //import de.fzi.gast.helpers.GASTReader;
@@ -63,7 +63,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.somox.analyzer.ModelAnalyzer#init()
      */
     @Override
@@ -72,7 +72,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.somox.analyzer.ModelAnalyzer#analyze(java.util.HashMap,
      * eu.qimpress.samm.staticstructure.Repository, java.util.HashMap,
      * org.eclipse.core.runtime.IProgressMonitor)
@@ -110,7 +110,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 
     /**
      * Analyze the given GAST model to find components
-     * 
+     *
      * @param astModel
      *            The root of the GAST model to analyze
      * @param preferences
@@ -131,8 +131,8 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
         final ISoMoXStrategiesFactory strategiesFactory = new BasicSoMoXStrategiesFactory(astModel, somoxConfiguration);
 
         // Initial Components
-        final List<ComponentImplementingClassesLink> initialComponents = this.detectInitialComponentCandidates(
-                astModel, somoxConfiguration, pcmComponentBuilder, strategiesFactory, progressMonitor);
+        final List<ComponentImplementingClassesLink> initialComponents = this.detectInitialComponentCandidates(astModel,
+                somoxConfiguration, pcmComponentBuilder, strategiesFactory, progressMonitor);
 
         // removelater
         // String fileName = "01initialComponentsPCKDM.txt";
@@ -166,15 +166,15 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
     private void postComponentDetection(final SoMoXConfiguration somoxConfiguration,
             final SimpleAnalysisResult analysisResult, final ISoMoXStrategiesFactory strategiesFactory,
             final IProgressMonitor progressMonitor) {
-        strategiesFactory.getPostComponentDetectionStrategy().postComponentDetection(somoxConfiguration,
-                analysisResult, progressMonitor);
+        strategiesFactory.getPostComponentDetectionStrategy().postComponentDetection(somoxConfiguration, analysisResult,
+                progressMonitor);
     }
 
     /**
      * Runs the clustering step on the detected initial components. In the clustering step, the
      * initial components can either be merged or composed. Details are implemented in a clustering
      * strategy.
-     * 
+     *
      * @param initialComponentCandidates
      *            List of initial components detected in the source code
      * @param somoxConfiguration
@@ -192,13 +192,13 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
     private void clusterComponents(final List<ComponentImplementingClassesLink> initialComponentCandidates,
             final SoMoXConfiguration somoxConfiguration, final ComponentBuilder sammBuilder,
             final ISoMoXStrategiesFactory strategiesFactory, final IProgressMonitor progressMonitor)
-            throws ModelAnalyzerException {
+                    throws ModelAnalyzerException {
         final IProgressMonitor subProgressMonitor = new ExecutionTimeLoggingProgressMonitor(progressMonitor, 0);
         subProgressMonitor.beginTask("Cluster components", IProgressMonitor.UNKNOWN);
 
-        final List<ComponentImplementingClassesLink> componentsFound = strategiesFactory.getDetectionStrategy(
-                initialComponentCandidates).startDetection(sammBuilder, somoxConfiguration, progressMonitor,
-                initialComponentCandidates);
+        final List<ComponentImplementingClassesLink> componentsFound = strategiesFactory
+                .getDetectionStrategy(initialComponentCandidates)
+                .startDetection(sammBuilder, somoxConfiguration, progressMonitor, initialComponentCandidates);
 
         if (logger.isDebugEnabled()) {
             logger.debug("Printing detected components");
@@ -211,7 +211,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
     /**
      * Method called to derive initial component candidates based on the passed source code in GAST
      * format
-     * 
+     *
      * @param gastModel
      *            The source code in its GAST representation //ESTIMATEDBYDOCQUERY
      * @param somoxConfiguration
@@ -242,7 +242,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 
     /**
      * Create an analysis result with newly initialized root models
-     * 
+     *
      * @param internalArchitectureModel
      * @return A new analysis result
      */
@@ -268,7 +268,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.somox.analyzer.ModelAnalyzer#getStatus()
      */
     @Override

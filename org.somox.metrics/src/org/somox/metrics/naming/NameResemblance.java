@@ -69,8 +69,8 @@ class NamePair {
             return false;
         }
         final NamePair other = (NamePair) obj;
-        return this.class1 == other.class1 && this.class2 == other.class2 || this.class2 == other.class1
-                && this.class1 == other.class2;
+        return this.class1 == other.class1 && this.class2 == other.class2
+                || this.class2 == other.class1 && this.class1 == other.class2;
     }
 }
 
@@ -152,10 +152,10 @@ public class NameResemblance extends AbstractMetric {
         // componentCandidate2.isCompositeComponent())
         // return 0.0;
 
-        final Set<ConcreteClassifier> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(
-                relationToCompute.getSourceComponent());
-        final Set<ConcreteClassifier> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(
-                relationToCompute.getTargetComponent());
+        final Set<ConcreteClassifier> classes1 = this.getComponentToClassHelper()
+                .deriveImplementingClasses(relationToCompute.getSourceComponent());
+        final Set<ConcreteClassifier> classes2 = this.getComponentToClassHelper()
+                .deriveImplementingClasses(relationToCompute.getTargetComponent());
 
         final int totalCompares = classes1.size() * classes2.size();
 

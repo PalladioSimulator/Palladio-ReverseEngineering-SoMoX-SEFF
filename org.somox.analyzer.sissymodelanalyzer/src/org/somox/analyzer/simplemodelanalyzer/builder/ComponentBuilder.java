@@ -11,15 +11,6 @@ import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.types.Type;
 import org.jgrapht.Graph;
-import org.somox.analyzer.AnalysisResult;
-import org.somox.configuration.SoMoXConfiguration;
-import org.somox.kdmhelper.KDMHelper;
-import org.somox.kdmhelper.metamodeladdition.Root;
-import org.somox.metrics.ClusteringRelation;
-import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
-import org.somox.sourcecodedecorator.FileLevelSourceCodeLink;
-import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
-
 import org.palladiosimulator.pcm.core.composition.AssemblyContext;
 import org.palladiosimulator.pcm.core.composition.ComposedStructure;
 import org.palladiosimulator.pcm.core.composition.CompositionFactory;
@@ -28,6 +19,14 @@ import org.palladiosimulator.pcm.repository.RepositoryComponent;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 //import de.fzi.gast.core.Root;
 //import de.fzi.gast.types.GASTClass;
+import org.somox.analyzer.AnalysisResult;
+import org.somox.configuration.SoMoXConfiguration;
+import org.somox.kdmhelper.KDMHelper;
+import org.somox.kdmhelper.metamodeladdition.Root;
+import org.somox.metrics.ClusteringRelation;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.FileLevelSourceCodeLink;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
 /**
  * Builder for SAMM structures. Takes care of updating the source code decorator. The core builder
@@ -144,8 +143,8 @@ public class ComponentBuilder extends AbstractBuilder {
             final AssemblyContext assemblyContext = CompositionFactory.eINSTANCE.createAssemblyContext();
             assemblyContext.setParentStructure__AssemblyContext(newComponentType);
             assemblyContext.setEncapsulatedComponent__AssemblyContext(innerComponent.getComponent());
-            assemblyContext.setEntityName(this.componentNamingStrategy.createComponentInstanceName(innerComponent
-                    .getComponent()));
+            assemblyContext.setEntityName(
+                    this.componentNamingStrategy.createComponentInstanceName(innerComponent.getComponent()));
 
             // for those inner components which might have been initial ones: no more initial when
             // used in composite component:
@@ -354,8 +353,8 @@ public class ComponentBuilder extends AbstractBuilder {
         this.roleBuilder.buildProvidedRole(compositeComponentLink);
         this.roleBuilder.buildRequiredRole(compositeComponentLink);
 
-        this.assemblyConnectorDeFactoBuilder
-                .buildAssemblyConnectors(compositeComponentLink, compositeComponentSubgraph);
+        this.assemblyConnectorDeFactoBuilder.buildAssemblyConnectors(compositeComponentLink,
+                compositeComponentSubgraph);
         this.assemblyConnectorInnerBuilder.buildAssemblyConnectors(compositeComponentLink, compositeComponentSubgraph);
 
         return compositeComponentLink;

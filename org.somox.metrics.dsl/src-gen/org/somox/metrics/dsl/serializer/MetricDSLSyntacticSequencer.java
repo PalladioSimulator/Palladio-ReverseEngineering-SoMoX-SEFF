@@ -1,7 +1,7 @@
 package org.somox.metrics.dsl.serializer;
 
-import com.google.inject.Inject;
 import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.RuleCall;
@@ -14,42 +14,57 @@ import org.eclipse.xtext.serializer.analysis.ISyntacticSequencerPDAProvider.ISyn
 import org.eclipse.xtext.serializer.sequencer.AbstractSyntacticSequencer;
 import org.somox.metrics.dsl.services.MetricDSLGrammarAccess;
 
+import com.google.inject.Inject;
+
 @SuppressWarnings("all")
 public class MetricDSLSyntacticSequencer extends AbstractSyntacticSequencer {
 
-	protected MetricDSLGrammarAccess grammarAccess;
-	protected AbstractElementAlias match_InternalMetric___ParametersKeyword_8_0_LeftCurlyBracketKeyword_8_1_RightCurlyBracketKeyword_8_3__q;
-	
-	@Inject
-	protected void init(IGrammarAccess access) {
-		grammarAccess = (MetricDSLGrammarAccess) access;
-		match_InternalMetric___ParametersKeyword_8_0_LeftCurlyBracketKeyword_8_1_RightCurlyBracketKeyword_8_3__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getInternalMetricAccess().getParametersKeyword_8_0()), new TokenAlias(false, false, grammarAccess.getInternalMetricAccess().getLeftCurlyBracketKeyword_8_1()), new TokenAlias(false, false, grammarAccess.getInternalMetricAccess().getRightCurlyBracketKeyword_8_3()));
-	}
-	
-	@Override
-	protected String getUnassignedRuleCallToken(EObject semanticObject, RuleCall ruleCall, INode node) {
-		return "";
-	}
-	
-	
-	@Override
-	protected void emitUnassignedTokens(EObject semanticObject, ISynTransition transition, INode fromNode, INode toNode) {
-		if (transition.getAmbiguousSyntaxes().isEmpty()) return;
-		List<INode> transitionNodes = collectNodes(fromNode, toNode);
-		for (AbstractElementAlias syntax : transition.getAmbiguousSyntaxes()) {
-			List<INode> syntaxNodes = getNodesFor(transitionNodes, syntax);
-			if(match_InternalMetric___ParametersKeyword_8_0_LeftCurlyBracketKeyword_8_1_RightCurlyBracketKeyword_8_3__q.equals(syntax))
-				emit_InternalMetric___ParametersKeyword_8_0_LeftCurlyBracketKeyword_8_1_RightCurlyBracketKeyword_8_3__q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else acceptNodes(getLastNavigableState(), syntaxNodes);
-		}
-	}
+    protected MetricDSLGrammarAccess grammarAccess;
+    protected AbstractElementAlias match_InternalMetric___ParametersKeyword_8_0_LeftCurlyBracketKeyword_8_1_RightCurlyBracketKeyword_8_3__q;
 
-	/**
-	 * Syntax:
-	 *     ('parameters' '{' '}')?
-	 */
-	protected void emit_InternalMetric___ParametersKeyword_8_0_LeftCurlyBracketKeyword_8_1_RightCurlyBracketKeyword_8_3__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
+    @Inject
+    protected void init(final IGrammarAccess access) {
+        this.grammarAccess = (MetricDSLGrammarAccess) access;
+        this.match_InternalMetric___ParametersKeyword_8_0_LeftCurlyBracketKeyword_8_1_RightCurlyBracketKeyword_8_3__q = new GroupAlias(
+                false, true,
+                new TokenAlias(false, false, this.grammarAccess.getInternalMetricAccess().getParametersKeyword_8_0()),
+                new TokenAlias(false, false,
+                        this.grammarAccess.getInternalMetricAccess().getLeftCurlyBracketKeyword_8_1()),
+                new TokenAlias(false, false,
+                        this.grammarAccess.getInternalMetricAccess().getRightCurlyBracketKeyword_8_3()));
+    }
+
+    @Override
+    protected String getUnassignedRuleCallToken(final EObject semanticObject, final RuleCall ruleCall,
+            final INode node) {
+        return "";
+    }
+
+    @Override
+    protected void emitUnassignedTokens(final EObject semanticObject, final ISynTransition transition,
+            final INode fromNode, final INode toNode) {
+        if (transition.getAmbiguousSyntaxes().isEmpty()) {
+            return;
+        }
+        final List<INode> transitionNodes = this.collectNodes(fromNode, toNode);
+        for (final AbstractElementAlias syntax : transition.getAmbiguousSyntaxes()) {
+            final List<INode> syntaxNodes = this.getNodesFor(transitionNodes, syntax);
+            if (this.match_InternalMetric___ParametersKeyword_8_0_LeftCurlyBracketKeyword_8_1_RightCurlyBracketKeyword_8_3__q
+                    .equals(syntax)) {
+                this.emit_InternalMetric___ParametersKeyword_8_0_LeftCurlyBracketKeyword_8_1_RightCurlyBracketKeyword_8_3__q(
+                        semanticObject, this.getLastNavigableState(), syntaxNodes);
+            } else {
+                this.acceptNodes(this.getLastNavigableState(), syntaxNodes);
+            }
+        }
+    }
+
+    /**
+     * Syntax: ('parameters' '{' '}')?
+     */
+    protected void emit_InternalMetric___ParametersKeyword_8_0_LeftCurlyBracketKeyword_8_1_RightCurlyBracketKeyword_8_3__q(
+            final EObject semanticObject, final ISynNavigable transition, final List<INode> nodes) {
+        this.acceptNodes(transition, nodes);
+    }
+
 }

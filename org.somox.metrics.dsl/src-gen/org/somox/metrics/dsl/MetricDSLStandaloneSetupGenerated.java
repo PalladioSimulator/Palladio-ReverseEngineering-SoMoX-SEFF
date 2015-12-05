@@ -4,8 +4,8 @@
 package org.somox.metrics.dsl;
 
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.xtext.ISetup;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.ISetup;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -16,29 +16,32 @@ import com.google.inject.Injector;
 @SuppressWarnings("all")
 public class MetricDSLStandaloneSetupGenerated implements ISetup {
 
-	public Injector createInjectorAndDoEMFRegistration() {
-		org.eclipse.xtext.common.TerminalsStandaloneSetup.doSetup();
+    @Override
+    public Injector createInjectorAndDoEMFRegistration() {
+        org.eclipse.xtext.common.TerminalsStandaloneSetup.doSetup();
 
-		Injector injector = createInjector();
-		register(injector);
-		return injector;
-	}
-	
-	public Injector createInjector() {
-		return Guice.createInjector(new org.somox.metrics.dsl.MetricDSLRuntimeModule());
-	}
-	
-	public void register(Injector injector) {
-	if (!EPackage.Registry.INSTANCE.containsKey("http://www.somox.org/metricDSL/1.0")) {
-		EPackage.Registry.INSTANCE.put("http://www.somox.org/metricDSL/1.0", org.somox.metrics.dsl.metricDSL.MetricDSLPackage.eINSTANCE);
-	}
+        final Injector injector = this.createInjector();
+        this.register(injector);
+        return injector;
+    }
 
-		org.eclipse.xtext.resource.IResourceFactory resourceFactory = injector.getInstance(org.eclipse.xtext.resource.IResourceFactory.class);
-		org.eclipse.xtext.resource.IResourceServiceProvider serviceProvider = injector.getInstance(org.eclipse.xtext.resource.IResourceServiceProvider.class);
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("metrics", resourceFactory);
-		org.eclipse.xtext.resource.IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().put("metrics", serviceProvider);
-		
+    public Injector createInjector() {
+        return Guice.createInjector(new org.somox.metrics.dsl.MetricDSLRuntimeModule());
+    }
 
+    public void register(final Injector injector) {
+        if (!EPackage.Registry.INSTANCE.containsKey("http://www.somox.org/metricDSL/1.0")) {
+            EPackage.Registry.INSTANCE.put("http://www.somox.org/metricDSL/1.0",
+                    org.somox.metrics.dsl.metricDSL.MetricDSLPackage.eINSTANCE);
+        }
 
-	}
+        final org.eclipse.xtext.resource.IResourceFactory resourceFactory = injector
+                .getInstance(org.eclipse.xtext.resource.IResourceFactory.class);
+        final org.eclipse.xtext.resource.IResourceServiceProvider serviceProvider = injector
+                .getInstance(org.eclipse.xtext.resource.IResourceServiceProvider.class);
+        Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("metrics", resourceFactory);
+        org.eclipse.xtext.resource.IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().put("metrics",
+                serviceProvider);
+
+    }
 }

@@ -26,8 +26,8 @@ import de.uka.ipd.sdq.workflow.logging.console.LoggerAppenderStruct;
  *
  * @author Michael Hauck
  */
-public class SimpleModelAnalyzerConfigurationDelegate extends
-AbstractWorkflowBasedLaunchConfigurationDelegate<ModelAnalyzerConfiguration, Workflow> {
+public class SimpleModelAnalyzerConfigurationDelegate
+        extends AbstractWorkflowBasedLaunchConfigurationDelegate<ModelAnalyzerConfiguration, Workflow> {
 
     @Override
     protected IJob createWorkflowJob(final ModelAnalyzerConfiguration config, final ILaunch launch)
@@ -54,7 +54,7 @@ AbstractWorkflowBasedLaunchConfigurationDelegate<ModelAnalyzerConfiguration, Wor
         final ModelAnalyzerConfiguration config = new ModelAnalyzerConfiguration();
 
         final SoMoXConfiguration somoxConfiguration = new SOMOXConfigurationBuilderByPreferences()
-        .createSOMOXConfiguration(launchconfiguration.getAttributes());
+                .createSOMOXConfiguration(launchconfiguration.getAttributes());
         config.setSomoxConfiguration(somoxConfiguration);
 
         return config;

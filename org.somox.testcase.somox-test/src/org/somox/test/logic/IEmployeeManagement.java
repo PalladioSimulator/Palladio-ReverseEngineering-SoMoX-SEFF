@@ -4,6 +4,6 @@ import org.somox.test.database.EmployeeTO;
 
 public interface IEmployeeManagement {
 
-	public abstract void addEmployee(EmployeeTO s);
+    public abstract void addEmployee(EmployeeTO s);
 
 }

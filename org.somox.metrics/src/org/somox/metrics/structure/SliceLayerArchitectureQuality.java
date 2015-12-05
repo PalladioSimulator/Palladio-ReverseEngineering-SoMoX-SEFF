@@ -39,10 +39,10 @@ public class SliceLayerArchitectureQuality extends AbstractMetric {
         // }
         // }
 
-        final Set<ConcreteClassifier> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(
-                relationToCompute.getSourceComponent());
-        final Set<ConcreteClassifier> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(
-                relationToCompute.getTargetComponent());
+        final Set<ConcreteClassifier> classes1 = this.getComponentToClassHelper()
+                .deriveImplementingClasses(relationToCompute.getSourceComponent());
+        final Set<ConcreteClassifier> classes2 = this.getComponentToClassHelper()
+                .deriveImplementingClasses(relationToCompute.getTargetComponent());
 
         // compute overall prefix
         final org.emftext.language.java.containers.Package prefixPackage = this.computePrefix(classes1, classes2);
@@ -87,8 +87,8 @@ public class SliceLayerArchitectureQuality extends AbstractMetric {
             if (expectedSubsystems == 0) {
                 relationToCompute.setResultMetric(this.getMID(), 1.0);
             } else {
-                relationToCompute.setResultMetric(this.getMID(), (double) existingSubsystems
-                        / (double) expectedSubsystems);
+                relationToCompute.setResultMetric(this.getMID(),
+                        (double) existingSubsystems / (double) expectedSubsystems);
             }
         }
     }
@@ -152,8 +152,8 @@ public class SliceLayerArchitectureQuality extends AbstractMetric {
             for (final ConcreteClassifier current : elements1) {
                 if (!KDMHelper.isInnerClass(current)) {
                     if (KDMHelper.getSurroundingPackage(current) != null) {
-                        if (!KDMHelper.computeFullQualifiedName(KDMHelper.getSurroundingPackage(current)).contains(
-                                prefix)) {
+                        if (!KDMHelper.computeFullQualifiedName(KDMHelper.getSurroundingPackage(current))
+                                .contains(prefix)) {
                             prefixFound = false;
                             break;
                         }
@@ -178,8 +178,8 @@ public class SliceLayerArchitectureQuality extends AbstractMetric {
             for (final ConcreteClassifier current : elements2) {
                 if (!KDMHelper.isInnerClass(current)) {
                     if (KDMHelper.getSurroundingPackage(current) != null) {
-                        if (!KDMHelper.computeFullQualifiedName(KDMHelper.getSurroundingPackage(current)).contains(
-                                prefix)) {
+                        if (!KDMHelper.computeFullQualifiedName(KDMHelper.getSurroundingPackage(current))
+                                .contains(prefix)) {
                             prefixFound = false;
                             break;
                         }

@@ -37,9 +37,8 @@ public class ComponentInterfaceStrategy implements IComponentInterfaceStrategy {
     /*
      * (non-Javadoc)
      *
-     * @see
-     * org.somox.analyzer.simplemodelanalyzer.detection.IComponentInterfaceStrategy#isComponentInterface
-     * (de.fzi.gast.types.GASTClass)
+     * @see org.somox.analyzer.simplemodelanalyzer.detection.IComponentInterfaceStrategy#
+     * isComponentInterface (de.fzi.gast.types.GASTClass)
      */
     @Override
     public boolean isComponentInterface(final ConcreteClassifier classToCheck) {

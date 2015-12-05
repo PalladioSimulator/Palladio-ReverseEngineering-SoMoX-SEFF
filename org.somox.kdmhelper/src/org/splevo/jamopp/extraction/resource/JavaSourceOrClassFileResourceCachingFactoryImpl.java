@@ -40,7 +40,8 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
      *            The class path to enhance. Should be the same as associated with the resource set
      *            the resource factory belongs to.
      */
-    public JavaSourceOrClassFileResourceCachingFactoryImpl(List<String> cacheDirectories, JavaClasspath javaClasspath) {
+    public JavaSourceOrClassFileResourceCachingFactoryImpl(final List<String> cacheDirectories,
+            final JavaClasspath javaClasspath) {
         this(cacheDirectories, javaClasspath, new ArrayList<String>());
     }
 
@@ -56,10 +57,10 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
      *            A list of paths to jar files to be registered in the {@link JavaClasspath} and
      *            stored in the cache.
      */
-    public JavaSourceOrClassFileResourceCachingFactoryImpl(List<String> cacheDirectories, JavaClasspath javaClasspath,
-            List<String> jarPaths) {
+    public JavaSourceOrClassFileResourceCachingFactoryImpl(final List<String> cacheDirectories,
+            final JavaClasspath javaClasspath, final List<String> jarPaths) {
         super();
-        referenceCache = new ReferenceCache(cacheDirectories, javaClasspath, jarPaths);
+        this.referenceCache = new ReferenceCache(cacheDirectories, javaClasspath, jarPaths);
     }
 
     /**
@@ -76,9 +77,9 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
      * {@inheritDoc}
      */
     @Override
-    public Resource createResource(URI uri) {
+    public Resource createResource(final URI uri) {
         if (FILE_URI_SCHEME.equals(uri.scheme())) {
-            return new JavaSourceOrClassFileCachingResource(uri, referenceCache);
+            return new JavaSourceOrClassFileCachingResource(uri, this.referenceCache);
         } else {
             return new JavaSourceOrClassFileResource(uri);
         }
@@ -90,6 +91,6 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
      * @return The internally used cache.
      */
     public ReferenceCache getReferenceCache() {
-        return referenceCache;
+        return this.referenceCache;
     }
 }

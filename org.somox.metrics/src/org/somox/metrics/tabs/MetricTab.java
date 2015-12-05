@@ -5,37 +5,36 @@ import org.somox.analyzer.ModelAnalyzerTabGroupBlackboard;
 
 public abstract class MetricTab extends AbstractLaunchConfigurationTab {
 
-	private ModelAnalyzerTabGroupBlackboard blackboard = null;
-	private MetricTabGroup parentLaunchConfigurationTab = null;
+    private ModelAnalyzerTabGroupBlackboard blackboard = null;
+    private MetricTabGroup parentLaunchConfigurationTab = null;
 
-	public void setParentLaunchConfigurationTab(
-			MetricTabGroup parentLaunchConfigurationTab) {
-		this.parentLaunchConfigurationTab = parentLaunchConfigurationTab;
-	}
+    public void setParentLaunchConfigurationTab(final MetricTabGroup parentLaunchConfigurationTab) {
+        this.parentLaunchConfigurationTab = parentLaunchConfigurationTab;
+    }
 
-	public ModelAnalyzerTabGroupBlackboard getModelAnalyzerTabGroupBlackboard() {
-		return blackboard;
-	}
+    public ModelAnalyzerTabGroupBlackboard getModelAnalyzerTabGroupBlackboard() {
+        return this.blackboard;
+    }
 
-	public void setModelAnalyzerTabGroupBlackboard(
-			ModelAnalyzerTabGroupBlackboard blackboard) {
-		this.blackboard = blackboard;
-	}
+    public void setModelAnalyzerTabGroupBlackboard(final ModelAnalyzerTabGroupBlackboard blackboard) {
+        this.blackboard = blackboard;
+    }
 
-	@Override
-	protected void updateLaunchConfigurationDialog() {
-		if (parentLaunchConfigurationTab != null) {
-			parentLaunchConfigurationTab.updateLaunchConfigurationDialogFromChild();
-		} else {
-			super.updateLaunchConfigurationDialog();
-		}
-	}
-	@Override
-	protected void setDirty(boolean dirty) {
-		if (parentLaunchConfigurationTab != null) {
-			parentLaunchConfigurationTab.setDirtyFromChild(dirty);
-		} else {
-			super.setDirty(dirty);
-		}
-	}
+    @Override
+    protected void updateLaunchConfigurationDialog() {
+        if (this.parentLaunchConfigurationTab != null) {
+            this.parentLaunchConfigurationTab.updateLaunchConfigurationDialogFromChild();
+        } else {
+            super.updateLaunchConfigurationDialog();
+        }
+    }
+
+    @Override
+    protected void setDirty(final boolean dirty) {
+        if (this.parentLaunchConfigurationTab != null) {
+            this.parentLaunchConfigurationTab.setDirtyFromChild(dirty);
+        } else {
+            super.setDirty(dirty);
+        }
+    }
 }

@@ -7,48 +7,49 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-public class WorkbenchPreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage {
+public class WorkbenchPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
-	// ---------------------------------
-	// Static Data Fields
-	// ---------------------------------
+    // ---------------------------------
+    // Static Data Fields
+    // ---------------------------------
 
-	// ---------------------------------
-	// Data fields
-	// ---------------------------------
+    // ---------------------------------
+    // Data fields
+    // ---------------------------------
 
-	// ---------------------------------
-	// Constructor
-	// ---------------------------------
+    // ---------------------------------
+    // Constructor
+    // ---------------------------------
 
-	public WorkbenchPreferencePage() {
-	}
+    public WorkbenchPreferencePage() {
+    }
 
-	public WorkbenchPreferencePage(String title) {
-		super(title);
-	}
+    public WorkbenchPreferencePage(final String title) {
+        super(title);
+    }
 
-	public WorkbenchPreferencePage(String title, ImageDescriptor image) {
-		super(title, image);
-	}
+    public WorkbenchPreferencePage(final String title, final ImageDescriptor image) {
+        super(title, image);
+    }
 
-	// ---------------------------------
-	// Business Methods
-	// ---------------------------------
+    // ---------------------------------
+    // Business Methods
+    // ---------------------------------
 
-	protected Control createContents(Composite parent) {
-		return null;
-	}
+    @Override
+    protected Control createContents(final Composite parent) {
+        return null;
+    }
 
-	public void init(IWorkbench workbench) {
-	}
+    @Override
+    public void init(final IWorkbench workbench) {
+    }
 
-	// ---------------------------------
-	// Helper Methods
-	// ---------------------------------
+    // ---------------------------------
+    // Helper Methods
+    // ---------------------------------
 
-	// ---------------------------------
-	// Getters / Setters
-	// ---------------------------------
+    // ---------------------------------
+    // Getters / Setters
+    // ---------------------------------
 }

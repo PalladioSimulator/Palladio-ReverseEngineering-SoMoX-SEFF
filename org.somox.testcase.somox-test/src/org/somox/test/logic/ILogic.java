@@ -5,8 +5,8 @@ import org.somox.test.database.StatementTO;
 
 public interface ILogic {
 
-	public void addEmployee(EmployeeTO e);
+    public void addEmployee(EmployeeTO e);
 
-	public void addStatement(StatementTO s);
+    public void addStatement(StatementTO s);
 
 }

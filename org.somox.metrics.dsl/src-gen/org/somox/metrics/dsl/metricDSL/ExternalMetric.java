@@ -2,10 +2,8 @@
  */
 package org.somox.metrics.dsl.metricDSL;
 
-
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>External Metric</b></em>'.
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>External Metric</b></em>'.
  * <!-- end-user-doc -->
  *
  *
@@ -13,6 +11,5 @@ package org.somox.metrics.dsl.metricDSL;
  * @model
  * @generated
  */
-public interface ExternalMetric extends Metric
-{
+public interface ExternalMetric extends Metric {
 } // ExternalMetric

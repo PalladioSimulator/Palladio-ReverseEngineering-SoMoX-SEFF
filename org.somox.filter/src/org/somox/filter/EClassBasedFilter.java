@@ -10,26 +10,28 @@ import org.eclipse.emf.ecore.EObject;
  */
 public class EClassBasedFilter<T extends EObject> extends BaseFilter<T> {
 
-	private EClass[] filteredEClasses;
-	
-	/**
-	 * Constructor of this filter
-	 * @param eClasses The Accesses' EClass which should be removed by this filter
-	 */
-	public EClassBasedFilter(EClass...eClasses) {
-		super();
-		
-		this.filteredEClasses = eClasses;
-	}
-	
-	@Override
-	public boolean passes(EObject object) {
-		for (EClass clazz : filteredEClasses) {
-			if (object.eClass() == clazz) {
-				return false;
-			}
-		}		
-		return true;
-	}
+    private final EClass[] filteredEClasses;
+
+    /**
+     * Constructor of this filter
+     *
+     * @param eClasses
+     *            The Accesses' EClass which should be removed by this filter
+     */
+    public EClassBasedFilter(final EClass... eClasses) {
+        super();
+
+        this.filteredEClasses = eClasses;
+    }
+
+    @Override
+    public boolean passes(final EObject object) {
+        for (final EClass clazz : this.filteredEClasses) {
+            if (object.eClass() == clazz) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }

@@ -10,9 +10,10 @@ import java.util.Map;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 
 /**
- * This class stores the computed metric of the relationship between a source and a target component.
- * 
- * @author  Klaus Krogmann, Steffen Becker
+ * This class stores the computed metric of the relationship between a source and a target
+ * component.
+ *
+ * @author Klaus Krogmann, Steffen Becker
  */
 public class ClusteringRelation {
 
@@ -22,11 +23,12 @@ public class ClusteringRelation {
 
     private final Map<MetricID, Double> result = new HashMap<MetricID, Double>();
 
-    private final Map<MetricID, Double> unmodifiableResult = Collections.unmodifiableMap(result);
+    private final Map<MetricID, Double> unmodifiableResult = Collections.unmodifiableMap(this.result);
 
     private static DecimalFormat format = new DecimalFormat(".00");
 
-    public ClusteringRelation (final ComponentImplementingClassesLink sourceComponent, final ComponentImplementingClassesLink targetComponent) {
+    public ClusteringRelation(final ComponentImplementingClassesLink sourceComponent,
+            final ComponentImplementingClassesLink targetComponent) {
         if (sourceComponent == null || targetComponent == null || sourceComponent == targetComponent) {
             throw new IllegalArgumentException("Components must not be null or the same in a clustering relation");
         }
@@ -36,38 +38,39 @@ public class ClusteringRelation {
     }
 
     // TODO: Move to somewhere else
-    //	private boolean isInvalid(Map<MetricID, Double> result) {
-    //		return result2 < -1.0 || result2 > 1.0 || Double.isNaN(result2) || Double.isInfinite(result2);
-    //	}
+    // private boolean isInvalid(Map<MetricID, Double> result) {
+    // return result2 < -1.0 || result2 > 1.0 || Double.isNaN(result2) ||
+    // Double.isInfinite(result2);
+    // }
 
     public ComponentImplementingClassesLink getSourceComponent() {
-        return sourceComponent;
+        return this.sourceComponent;
     }
 
     public ComponentImplementingClassesLink getTargetComponent() {
-        return targetComponent;
+        return this.targetComponent;
     }
 
     public List<ComponentImplementingClassesLink> getComponents() {
-        return Collections.unmodifiableList(Arrays.asList(sourceComponent,targetComponent));
+        return Collections.unmodifiableList(Arrays.asList(this.sourceComponent, this.targetComponent));
     }
 
     public void setResultMetric(final MetricID metric, final double value) {
-        if (result.containsKey(metric)) {
+        if (this.result.containsKey(metric)) {
             throw new IllegalArgumentException("Metric added to clustering relation is already set");
         }
         if (Double.isNaN(value) || Double.isInfinite(value)) {
             throw new IllegalArgumentException("Metric value is not a valid number. Some computations went wrong");
         }
-        result.put(metric,value);
+        this.result.put(metric, value);
     }
 
     @Override
     public String toString() {
         final StringBuilder stringBuilder = new StringBuilder();
-        for (final Map.Entry<MetricID, Double> metricResult : result.entrySet()) {
+        for (final Map.Entry<MetricID, Double> metricResult : this.result.entrySet()) {
             final String metricFullName = metricResult.getKey().getMetricID();
-            stringBuilder.append(metricFullName.substring(metricFullName.lastIndexOf(".")+1));
+            stringBuilder.append(metricFullName.substring(metricFullName.lastIndexOf(".") + 1));
             stringBuilder.append(" = ");
             stringBuilder.append(format.format(metricResult.getValue()));
             stringBuilder.append("\n");
@@ -76,6 +79,6 @@ public class ClusteringRelation {
     }
 
     public Map<MetricID, Double> getResult() {
-        return unmodifiableResult;
+        return this.unmodifiableResult;
     }
 }

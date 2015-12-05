@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.ILog;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -159,7 +160,7 @@ public class ModelAnalyzerTabGroupBlackboard {
             // gastReader.loadFile(fileURI);
             this.root = gastReader.getRoot();
         } else {
-            this.logger.log(new Status(Status.ERROR, Activator.PLUGIN_ID, "Failed to load Model file " + fileURI));
+            this.logger.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Failed to load Model file " + fileURI));
         }
     }
 

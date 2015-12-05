@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-
 import org.palladiosimulator.pcm.core.CoreFactory;
 import org.palladiosimulator.pcm.core.PCMRandomVariable;
 import org.palladiosimulator.pcm.repository.DataType;
@@ -63,8 +62,8 @@ public class DefaultResourceEnvironment {
     }
 
     /**
-     * Retrieves a map of {@link org.palladiosimulator.pcm.repository.PrimitiveDataType}s as defined in the
-     * standard PCM resource repository.
+     * Retrieves a map of {@link org.palladiosimulator.pcm.repository.PrimitiveDataType}s as defined
+     * in the standard PCM resource repository.
      *
      * @return A cached map of primitive data types.
      */
@@ -108,7 +107,8 @@ public class DefaultResourceEnvironment {
 
     /**
      * Creates and returns a new instance of
-     * {@link org.palladiosimulator.pcm.resourceenvironment.ResourceEnvironment} with initial values.
+     * {@link org.palladiosimulator.pcm.resourceenvironment.ResourceEnvironment} with initial
+     * values.
      *
      * @return A new instance of resource environment with default values.
      */

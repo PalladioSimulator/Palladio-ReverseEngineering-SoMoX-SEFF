@@ -285,8 +285,8 @@ public class ReferenceCache {
     public EObject getEObject(final Resource resource, final String id) {
 
         final String resourceUri = resource.getURI().toString();
-        final LinkedHashMap<String, String> targetUriMap = this.cacheData.getResourceToTargetURIListMap().get(
-                resourceUri);
+        final LinkedHashMap<String, String> targetUriMap = this.cacheData.getResourceToTargetURIListMap()
+                .get(resourceUri);
         if (targetUriMap == null) {
             return null;
         }

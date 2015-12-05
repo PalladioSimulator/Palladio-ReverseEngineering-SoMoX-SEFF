@@ -4,6 +4,6 @@ import org.somox.test.database.StatementTO;
 
 public interface IAccounting {
 
-	public abstract void addStatement(StatementTO s);
+    public abstract void addStatement(StatementTO s);
 
 }

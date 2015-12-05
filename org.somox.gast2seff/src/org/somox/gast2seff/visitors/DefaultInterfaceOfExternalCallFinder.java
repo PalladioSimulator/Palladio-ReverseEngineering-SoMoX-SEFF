@@ -4,14 +4,13 @@ import org.apache.log4j.Logger;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.Method;
-import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
-import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
-
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.RequiredRole;
 import org.palladiosimulator.pcm.repository.Signature;
+import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 public class DefaultInterfaceOfExternalCallFinder implements InterfaceOfExternalCallFinding {
 
@@ -39,7 +38,8 @@ public class DefaultInterfaceOfExternalCallFinder implements InterfaceOfExternal
         final ConcreteClassifier accessedConcreteClassifier = calledMethod.getContainingConcreteClassifier();
 
         for (final RequiredRole requiredRole : this.basicComponent.getRequiredRoles_InterfaceRequiringEntity()) {
-            for (final InterfaceSourceCodeLink ifLink : this.sourceCodeDecoratorRepository.getInterfaceSourceCodeLink()) {
+            for (final InterfaceSourceCodeLink ifLink : this.sourceCodeDecoratorRepository
+                    .getInterfaceSourceCodeLink()) {
                 if (requiredRole instanceof OperationRequiredRole) {
                     final OperationRequiredRole operReqRole = (OperationRequiredRole) requiredRole;
                     if (operReqRole.getRequiredInterface__OperationRequiredRole().equals(ifLink.getInterface())) {

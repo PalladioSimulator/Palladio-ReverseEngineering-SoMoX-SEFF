@@ -76,8 +76,8 @@ public class AccessCacheGraph {
      */
     public long calculateNumberOfIncommingAccesses(final Set<ConcreteClassifier> sourceClasses) {
 
-        final BaseFilter<ClassAccessGraphEdge> filter = new NotFilter<ClassAccessGraphEdge>(new SourceClassEdgeFilter(
-                sourceClasses));
+        final BaseFilter<ClassAccessGraphEdge> filter = new NotFilter<ClassAccessGraphEdge>(
+                new SourceClassEdgeFilter(sourceClasses));
 
         final long result = this.getNumberOfFilteredIncomingAccesses(sourceClasses, filter);
 
@@ -99,8 +99,8 @@ public class AccessCacheGraph {
      */
     public long calculateNumberOfExternalAccesses(final Set<ConcreteClassifier> sourceClasses) {
 
-        final BaseFilter<ClassAccessGraphEdge> filter = new NotFilter<ClassAccessGraphEdge>(new TargetClassEdgeFilter(
-                sourceClasses));
+        final BaseFilter<ClassAccessGraphEdge> filter = new NotFilter<ClassAccessGraphEdge>(
+                new TargetClassEdgeFilter(sourceClasses));
 
         final long result = this.getNumberOfFilteredOutgoingAccesses(sourceClasses, filter);
 

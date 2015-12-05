@@ -77,8 +77,8 @@ public class Class2ClassAccessGraphHelper {
         assert noPrimitiveTypesAsVertexes(accessGraph);
 
         if (logger.isDebugEnabled()) {
-            GraphPrinter.dumpGraph(new ComponentToImplementingClassesHelper(), accessGraph, somoxConfiguration
-                    .getFileLocations().getAnalyserInputFile(), 0, 0);
+            GraphPrinter.dumpGraph(new ComponentToImplementingClassesHelper(), accessGraph,
+                    somoxConfiguration.getFileLocations().getAnalyserInputFile(), 0, 0);
         }
         return accessGraph;
     }
@@ -101,8 +101,8 @@ public class Class2ClassAccessGraphHelper {
             if (object != null && object instanceof TypeReference) {// REALLYADDED
                 if (KDMHelper.isInheritanceTypeAccess((TypeReference) object)) {// REALLYADDED
                     return false;// REALLYADDED
-                }// REALLYADDED
-            }// REALLYADDED
+                } // REALLYADDED
+            } // REALLYADDED
             return true;// REALLYADDED
         }// REALLYADDED
     };

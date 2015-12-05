@@ -4,10 +4,6 @@ import org.apache.log4j.Logger;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.Method;
-import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
-import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
-import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
-
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.Interface;
 import org.palladiosimulator.pcm.repository.OperationInterface;
@@ -15,6 +11,9 @@ import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.RepositoryComponent;
 import org.palladiosimulator.pcm.repository.RequiredRole;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
 public abstract class JaMoPP2SEFFBaseTest extends JaMoPP2PCMBaseTest {
 
@@ -33,8 +32,8 @@ public abstract class JaMoPP2SEFFBaseTest extends JaMoPP2PCMBaseTest {
                 return opSig;
             }
         }
-        throw new RuntimeException("Could not find OperationSignature " + methodName + " in OperationInterface "
-                + interfaceName);
+        throw new RuntimeException(
+                "Could not find OperationSignature " + methodName + " in OperationInterface " + interfaceName);
     }
 
     @Override
@@ -124,7 +123,8 @@ public abstract class JaMoPP2SEFFBaseTest extends JaMoPP2PCMBaseTest {
     public OperationRequiredRole findOperaitonRequiredRoleInBasicComponent(final BasicComponent basicComponent,
             final String requiredRoleName) {
         for (final RequiredRole requiredRole : basicComponent.getRequiredRoles_InterfaceRequiringEntity()) {
-            if (requiredRole.getEntityName().equals(requiredRoleName) && requiredRole instanceof OperationRequiredRole) {
+            if (requiredRole.getEntityName().equals(requiredRoleName)
+                    && requiredRole instanceof OperationRequiredRole) {
                 return (OperationRequiredRole) requiredRole;
             }
         }

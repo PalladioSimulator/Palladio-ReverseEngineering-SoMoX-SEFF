@@ -4,131 +4,209 @@
 package org.somox.metrics.dsl.ui.contentassist;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.*;
-import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
+import org.eclipse.xtext.Assignment;
+import org.eclipse.xtext.CrossReference;
+import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
+import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
 
 /**
- * Represents a generated, default implementation of superclass {@link org.eclipse.xtext.common.ui.contentassist.TerminalsProposalProvider}.
- * Methods are dynamically dispatched on the first parameter, i.e., you can override them 
- * with a more concrete subtype. 
+ * Represents a generated, default implementation of superclass
+ * {@link org.eclipse.xtext.common.ui.contentassist.TerminalsProposalProvider}. Methods are
+ * dynamically dispatched on the first parameter, i.e., you can override them with a more concrete
+ * subtype.
  */
 @SuppressWarnings("all")
-public class AbstractMetricDSLProposalProvider extends org.eclipse.xtext.common.ui.contentassist.TerminalsProposalProvider {
-		
-	public void completeMetricModel_ImportURI(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeMetricModel_Metrics(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeExternalMetric_Name(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeInternalMetric_Name(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeInternalMetric_ShortName(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeInternalMetric_Description(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeInternalMetric_Parameter(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeInternalMetric_Definition(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeParameter_Name(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeParameter_Shortname(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeParameter_Description(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeParameter_DefaultValue(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeConstant_Name(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeConstant_Value(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeWeightedMetric_Weights(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeStepwiseMetric_InnerMetric(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		lookupCrossReference(((CrossReference)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeStepwiseMetric_Steps(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeRatioMetric_NominatorMetric(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		lookupCrossReference(((CrossReference)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeRatioMetric_DenominatorMetric(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		lookupCrossReference(((CrossReference)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeBoundAndWeight_UpperBound(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		lookupCrossReference(((CrossReference)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeBoundAndWeight_Weight(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		lookupCrossReference(((CrossReference)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeMetricAndWeight_Metric(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		lookupCrossReference(((CrossReference)assignment.getTerminal()), context, acceptor);
-	}
-	public void completeMetricAndWeight_Weight(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		lookupCrossReference(((CrossReference)assignment.getTerminal()), context, acceptor);
-	}
-    
-	public void complete_MetricModel(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
-	public void complete_Metric(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
-	public void complete_ExternalMetric(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
-	public void complete_InternalMetric(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
-	public void complete_Number(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
-	public void complete_Parameter(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
-	public void complete_Constant(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
-	public void complete_MetricDefinition(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
-	public void complete_WeightedMetric(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
-	public void complete_StepwiseMetric(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
-	public void complete_RatioMetric(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
-	public void complete_BoundAndWeight(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
-	public void complete_MetricAndWeight(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
-	public void complete_MYID(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
-	public void complete_DOUBLE(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
+public class AbstractMetricDSLProposalProvider
+        extends org.eclipse.xtext.common.ui.contentassist.TerminalsProposalProvider {
+
+    public void completeMetricModel_ImportURI(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeMetricModel_Metrics(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeExternalMetric_Name(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeInternalMetric_Name(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeInternalMetric_ShortName(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeInternalMetric_Description(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeInternalMetric_Parameter(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeInternalMetric_Definition(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeParameter_Name(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeParameter_Shortname(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeParameter_Description(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeParameter_DefaultValue(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeConstant_Name(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeConstant_Value(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeWeightedMetric_Weights(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeStepwiseMetric_InnerMetric(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.lookupCrossReference(((CrossReference) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeStepwiseMetric_Steps(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.completeRuleCall(((RuleCall) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeRatioMetric_NominatorMetric(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.lookupCrossReference(((CrossReference) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeRatioMetric_DenominatorMetric(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.lookupCrossReference(((CrossReference) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeBoundAndWeight_UpperBound(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.lookupCrossReference(((CrossReference) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeBoundAndWeight_Weight(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.lookupCrossReference(((CrossReference) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeMetricAndWeight_Metric(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.lookupCrossReference(((CrossReference) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void completeMetricAndWeight_Weight(final EObject model, final Assignment assignment,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        this.lookupCrossReference(((CrossReference) assignment.getTerminal()), context, acceptor);
+    }
+
+    public void complete_MetricModel(final EObject model, final RuleCall ruleCall, final ContentAssistContext context,
+            final ICompletionProposalAcceptor acceptor) {
+        // subclasses may override
+    }
+
+    public void complete_Metric(final EObject model, final RuleCall ruleCall, final ContentAssistContext context,
+            final ICompletionProposalAcceptor acceptor) {
+        // subclasses may override
+    }
+
+    public void complete_ExternalMetric(final EObject model, final RuleCall ruleCall,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        // subclasses may override
+    }
+
+    public void complete_InternalMetric(final EObject model, final RuleCall ruleCall,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        // subclasses may override
+    }
+
+    public void complete_Number(final EObject model, final RuleCall ruleCall, final ContentAssistContext context,
+            final ICompletionProposalAcceptor acceptor) {
+        // subclasses may override
+    }
+
+    public void complete_Parameter(final EObject model, final RuleCall ruleCall, final ContentAssistContext context,
+            final ICompletionProposalAcceptor acceptor) {
+        // subclasses may override
+    }
+
+    public void complete_Constant(final EObject model, final RuleCall ruleCall, final ContentAssistContext context,
+            final ICompletionProposalAcceptor acceptor) {
+        // subclasses may override
+    }
+
+    public void complete_MetricDefinition(final EObject model, final RuleCall ruleCall,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        // subclasses may override
+    }
+
+    public void complete_WeightedMetric(final EObject model, final RuleCall ruleCall,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        // subclasses may override
+    }
+
+    public void complete_StepwiseMetric(final EObject model, final RuleCall ruleCall,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        // subclasses may override
+    }
+
+    public void complete_RatioMetric(final EObject model, final RuleCall ruleCall, final ContentAssistContext context,
+            final ICompletionProposalAcceptor acceptor) {
+        // subclasses may override
+    }
+
+    public void complete_BoundAndWeight(final EObject model, final RuleCall ruleCall,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        // subclasses may override
+    }
+
+    public void complete_MetricAndWeight(final EObject model, final RuleCall ruleCall,
+            final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+        // subclasses may override
+    }
+
+    public void complete_MYID(final EObject model, final RuleCall ruleCall, final ContentAssistContext context,
+            final ICompletionProposalAcceptor acceptor) {
+        // subclasses may override
+    }
+
+    public void complete_DOUBLE(final EObject model, final RuleCall ruleCall, final ContentAssistContext context,
+            final ICompletionProposalAcceptor acceptor) {
+        // subclasses may override
+    }
 }

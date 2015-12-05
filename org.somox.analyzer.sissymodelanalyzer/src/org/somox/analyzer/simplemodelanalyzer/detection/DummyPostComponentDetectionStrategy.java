@@ -7,28 +7,29 @@ import org.somox.configuration.SoMoXConfiguration;
 
 /**
  * Dummy with empty behaviour.
+ *
  * @author Klaus Krogmann
  *
  */
-public class DummyPostComponentDetectionStrategy implements
-		IPostComponentDetectionStrategy {
-	
-	/**
-	 * The logger of this strategy
-	 */
-	private static Logger logger = Logger.getLogger(DummyPostComponentDetectionStrategy.class);
+public class DummyPostComponentDetectionStrategy implements IPostComponentDetectionStrategy {
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.somox.analyzer.simplemodelanalyzer.detection.IPostComponentDetectionStrategy#postComponentDetection(java.util.List, org.somox.configuration.SoMoXConfiguration)
-	 */
-	public void postComponentDetection(
-			SoMoXConfiguration somoxConfiguration,
-			SimpleAnalysisResult analysisResult,
-			IProgressMonitor progressMonitor) {	
+    /**
+     * The logger of this strategy
+     */
+    private static Logger logger = Logger.getLogger(DummyPostComponentDetectionStrategy.class);
 
-		logger.trace("DUMMY Post component detection");
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.somox.analyzer.simplemodelanalyzer.detection.IPostComponentDetectionStrategy#
+     * postComponentDetection(java.util.List, org.somox.configuration.SoMoXConfiguration)
+     */
+    @Override
+    public void postComponentDetection(final SoMoXConfiguration somoxConfiguration,
+            final SimpleAnalysisResult analysisResult, final IProgressMonitor progressMonitor) {
 
-	}
+        logger.trace("DUMMY Post component detection");
+
+    }
 
 }

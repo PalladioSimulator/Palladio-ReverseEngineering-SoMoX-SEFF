@@ -7,14 +7,13 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.emftext.language.java.members.Method;
+import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.somox.kdmhelper.EqualityChecker;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
-
-import org.palladiosimulator.pcm.repository.BasicComponent;
 
 /**
  * Implementation of {@link IFunctionClassificationStrategy}. Uses basic heuristics based on the
@@ -23,8 +22,8 @@ import org.palladiosimulator.pcm.repository.BasicComponent;
  * @author Steffen Becker, Klaus Krogmann
  *
  */
-public class BasicFunctionClassificationStrategy extends AbstractLibraryCallFunctionClassificationStrategy implements
-IFunctionClassificationStrategy {
+public class BasicFunctionClassificationStrategy extends AbstractLibraryCallFunctionClassificationStrategy
+        implements IFunctionClassificationStrategy {
 
     static Logger logger = Logger.getLogger(BasicFunctionClassificationStrategy.class);
 

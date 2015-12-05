@@ -76,7 +76,7 @@ public class BlacklistFilter extends BaseFilter<ConcreteClassifier> {
                 container = container.eContainer();
             } else if (container instanceof Field) {
                 container = container.eContainer();
-            }// PDF24.11.14: check for interface methods (avoids errors)
+            } // PDF24.11.14: check for interface methods (avoids errors)
             else if (container instanceof InterfaceMethod) {
                 container = container.eContainer();
             }

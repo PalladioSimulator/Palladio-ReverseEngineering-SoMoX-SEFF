@@ -12,7 +12,7 @@ public class TargetClassEdgeFilter extends BaseFilter<ClassAccessGraphEdge> {
     private final Set<ConcreteClassifier> filteredTarget;
 
     /**
-     * 
+     *
      * @param filteredTarget
      *            positive list of non-filtered target class accesses
      */

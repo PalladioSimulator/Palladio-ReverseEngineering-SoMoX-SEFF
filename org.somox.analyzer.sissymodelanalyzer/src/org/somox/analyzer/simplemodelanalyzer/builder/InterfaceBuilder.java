@@ -16,21 +16,6 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
-//import org.eclipse.gmt.modisco.java.TypeReference;
-//import org.eclipse.gmt.modisco.java.emf.JavaPackage;
-import org.somox.analyzer.AnalysisResult;
-import org.somox.analyzer.simplemodelanalyzer.builder.util.InterfacePortBuilderHelper;
-import org.somox.analyzer.simplemodelanalyzer.detection.ComponentInterfaceStrategy;
-import org.somox.analyzer.simplemodelanalyzer.detection.IComponentInterfaceStrategy;
-import org.somox.analyzer.simplemodelanalyzer.detection.util.AccessFilter;
-import org.somox.configuration.SoMoXConfiguration;
-import org.somox.filter.EClassBasedFilter;
-import org.somox.kdmhelper.KDMHelper;
-import org.somox.kdmhelper.metamodeladdition.Root;
-import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
-import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
-import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
-
 import org.palladiosimulator.pcm.core.entity.ComposedProvidingRequiringEntity;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.Interface;
@@ -47,6 +32,20 @@ import org.palladiosimulator.pcm.repository.Role;
 //import de.fzi.gast.accesses.accessesPackage;
 //import de.fzi.gast.core.Root;
 //import de.fzi.gast.types.GASTClass;
+//import org.eclipse.gmt.modisco.java.TypeReference;
+//import org.eclipse.gmt.modisco.java.emf.JavaPackage;
+import org.somox.analyzer.AnalysisResult;
+import org.somox.analyzer.simplemodelanalyzer.builder.util.InterfacePortBuilderHelper;
+import org.somox.analyzer.simplemodelanalyzer.detection.ComponentInterfaceStrategy;
+import org.somox.analyzer.simplemodelanalyzer.detection.IComponentInterfaceStrategy;
+import org.somox.analyzer.simplemodelanalyzer.detection.util.AccessFilter;
+import org.somox.configuration.SoMoXConfiguration;
+import org.somox.filter.EClassBasedFilter;
+import org.somox.kdmhelper.KDMHelper;
+import org.somox.kdmhelper.metamodeladdition.Root;
+import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
+import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
 /**
  * Builder used to create {@link Interface}s in the SAMM instance based on reverse engineered code
@@ -131,20 +130,20 @@ public class InterfaceBuilder extends AbstractBuilder {
 
         // Filter used to remove inheritance type relations from the list of accesses
         final EClassBasedFilter<TypeReference> accessFilter = new EClassBasedFilter<TypeReference>(new EClass[] {
-        /** accessesPackage.eINSTANCE.getInheritanceTypeAccess() **/
-        // SOMOXTODOCHANGE
-        // JavaPackage.eINSTANCE.getThisExpression(), //remove class-internal
-        // accesses//SOMOXTODOCHANGE
-        // JavaPackage.eINSTANCE.getSuperFieldAccess()//REALLYADDED//SOMOXTODOCHANGE
-                });
+                /** accessesPackage.eINSTANCE.getInheritanceTypeAccess() **/
+                // SOMOXTODOCHANGE
+                // JavaPackage.eINSTANCE.getThisExpression(), //remove class-internal
+                // accesses//SOMOXTODOCHANGE
+                // JavaPackage.eINSTANCE.getSuperFieldAccess()//REALLYADDED//SOMOXTODOCHANGE
+        });
 
         // Get all accessed classes from all implementation classes of this
         // component
         final List<ConcreteClassifier> filteredAccessedClasses = new LinkedList<ConcreteClassifier>();
         final List<ConcreteClassifier> componentClasses = new LinkedList<ConcreteClassifier>();
         for (final ConcreteClassifier clazz : componentCandidate.getImplementingClasses()) {
-            final List<ConcreteClassifier> filteredAccessList = AccessFilter.filterAccessList(
-                    KDMHelper.getAllAccesses(clazz), accessFilter);
+            final List<ConcreteClassifier> filteredAccessList = AccessFilter
+                    .filterAccessList(KDMHelper.getAllAccesses(clazz), accessFilter);
             filteredAccessedClasses.addAll(filteredAccessList);
             componentClasses.add(clazz);
         }
@@ -152,8 +151,8 @@ public class InterfaceBuilder extends AbstractBuilder {
         // remove self accesses inside component (NOT equal to a self access)
         filteredAccessedClasses.removeAll(componentClasses);
 
-        for (final ConcreteClassifier accessedClass : this.somoxConfiguration.getBlacklistFilter().filter(
-                filteredAccessedClasses)) {
+        for (final ConcreteClassifier accessedClass : this.somoxConfiguration.getBlacklistFilter()
+                .filter(filteredAccessedClasses)) {
             if (this.interfaceStrategy.isComponentInterface(accessedClass)) {
 
                 // Setting null here since the interface implementation is not generally known; i.
@@ -224,7 +223,8 @@ public class InterfaceBuilder extends AbstractBuilder {
         component.getRequiredRoles_InterfaceRequiringEntity().add(requiredRole);
     }
 
-    private ProvidedRole createProvidedPort(final OperationInterface theInterface, final RepositoryComponent component) {
+    private ProvidedRole createProvidedPort(final OperationInterface theInterface,
+            final RepositoryComponent component) {
         final OperationProvidedRole providedRole = RepositoryFactory.eINSTANCE.createOperationProvidedRole();
         providedRole.setEntityName(this.naming.createProvidedPortName(theInterface, component));
         providedRole.setProvidedInterface__OperationProvidedRole(theInterface);
@@ -281,8 +281,8 @@ public class InterfaceBuilder extends AbstractBuilder {
             final ConcreteClassifier gastClass, final ConcreteClassifier superType) {
 
         // Recursively traverse all supertypes
-        for (final ConcreteClassifier ownSuperType : this.somoxConfiguration.getBlacklistFilter().filter(
-                KDMHelper.getSuperTypes(superType))) {
+        for (final ConcreteClassifier ownSuperType : this.somoxConfiguration.getBlacklistFilter()
+                .filter(KDMHelper.getSuperTypes(superType))) {
             this.createInterfaceForSupertype(componentCandidate, gastClass, ownSuperType);
         }
 
@@ -359,7 +359,8 @@ public class InterfaceBuilder extends AbstractBuilder {
     private OperationInterface createInterfaceBasedOnPublicMethods(final ConcreteClassifier gastClass) {
 
         if (this.interfaceStrategy.isComponentInterface(gastClass)) {
-            logger.info(KDMHelper.computeFullQualifiedName(gastClass) + " used as interface but is a pseudo-interface.");
+            logger.info(
+                    KDMHelper.computeFullQualifiedName(gastClass) + " used as interface but is a pseudo-interface.");
         }
 
         if (this.alreadyCreatedInterfaces.containsKey(gastClass)) {
@@ -398,7 +399,8 @@ public class InterfaceBuilder extends AbstractBuilder {
         // new interface
         if (operationInterface == null) {
             operationInterface = RepositoryFactory.eINSTANCE.createOperationInterface();
-            for (final ClassifierReference inheritanceTypeAccess : KDMHelper.getInheritanceTypeAccesses(interfaceClass)) {
+            for (final ClassifierReference inheritanceTypeAccess : KDMHelper
+                    .getInheritanceTypeAccesses(interfaceClass)) {
                 final Classifier superType = inheritanceTypeAccess.getTarget();
                 if (superType instanceof ConcreteClassifier) {
                     if (this.somoxConfiguration.getBlacklistFilter().passes((ConcreteClassifier) superType)

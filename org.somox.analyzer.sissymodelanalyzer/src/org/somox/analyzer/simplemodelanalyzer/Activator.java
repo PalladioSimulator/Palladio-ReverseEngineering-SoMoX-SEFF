@@ -1,5 +1,6 @@
 package org.somox.analyzer.simplemodelanalyzer;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.osgi.framework.BundleContext;
@@ -27,14 +28,14 @@ public class Activator extends Plugin {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.core.runtime.Plugins#start(org.osgi.framework.BundleContext)
      */
     @Override
     public void start(final BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
-        this.getLog().log(new Status(Status.INFO, Activator.PLUGIN_ID, "Analyzer Activator called"));
+        this.getLog().log(new Status(IStatus.INFO, Activator.PLUGIN_ID, "Analyzer Activator called"));
 
         // debug:
         // Logger rootLogger = Logger.getRootLogger();
@@ -44,7 +45,7 @@ public class Activator extends Plugin {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
      */
     @Override

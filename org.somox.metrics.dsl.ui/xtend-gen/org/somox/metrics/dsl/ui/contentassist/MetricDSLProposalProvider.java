@@ -3,10 +3,9 @@
  */
 package org.somox.metrics.dsl.ui.contentassist;
 
-import org.somox.metrics.dsl.ui.contentassist.AbstractMetricDSLProposalProvider;
-
 /**
- * see http://www.eclipse.org/Xtext/documentation.html#contentAssist on how to customize content assistant
+ * see http://www.eclipse.org/Xtext/documentation.html#contentAssist on how to customize content
+ * assistant
  */
 @SuppressWarnings("all")
 public class MetricDSLProposalProvider extends AbstractMetricDSLProposalProvider {

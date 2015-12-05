@@ -2,68 +2,67 @@ package org.somox.configuration;
 
 public class ClusteringConfiguration {
 
-	private double minComposeClusteringThreshold;
-	private double clusteringComposeThresholdDecrement;
-	private double maxComposeClusteringThreshold;
-	
-	private double minMergeClusteringThreshold;
-	private double clusteringMergeThresholdDecrement;
-	private double maxMergeClusteringThreshold; 
+    private double minComposeClusteringThreshold;
+    private double clusteringComposeThresholdDecrement;
+    private double maxComposeClusteringThreshold;
 
-	// COMPOSE
-	public double getMaxComposeClusteringThreshold() {
-		return maxComposeClusteringThreshold;
-	}
+    private double minMergeClusteringThreshold;
+    private double clusteringMergeThresholdDecrement;
+    private double maxMergeClusteringThreshold;
 
-	public void setMaxComposeClusteringThreshold(double clusteringThreshold) {
-		this.maxComposeClusteringThreshold = clusteringThreshold;
-	}
+    // COMPOSE
+    public double getMaxComposeClusteringThreshold() {
+        return this.maxComposeClusteringThreshold;
+    }
 
-	public double getMinComposeClusteringThreshold() {
-		return minComposeClusteringThreshold;
-	}
+    public void setMaxComposeClusteringThreshold(final double clusteringThreshold) {
+        this.maxComposeClusteringThreshold = clusteringThreshold;
+    }
 
-	public void setMinComposeClusteringThreshold(double clusteringThreshold) {
-		this.minComposeClusteringThreshold = clusteringThreshold;
-	}
-	
-	public double getClusteringComposeThresholdDecrement() {
-		return clusteringComposeThresholdDecrement;
-	}
+    public double getMinComposeClusteringThreshold() {
+        return this.minComposeClusteringThreshold;
+    }
 
-	public void setClusteringComposeThresholdDecrement(double clusteringThreshold) {
-		this.clusteringComposeThresholdDecrement = clusteringThreshold;
-	}
+    public void setMinComposeClusteringThreshold(final double clusteringThreshold) {
+        this.minComposeClusteringThreshold = clusteringThreshold;
+    }
 
-	// MERGE
-	public double getMinMergeClusteringThreshold() {
-		return minMergeClusteringThreshold;
-	}
+    public double getClusteringComposeThresholdDecrement() {
+        return this.clusteringComposeThresholdDecrement;
+    }
 
-	public void setMinMergeClusteringThreshold(double minMergeClusteringThreshold) {
-		this.minMergeClusteringThreshold = minMergeClusteringThreshold;
-	}
+    public void setClusteringComposeThresholdDecrement(final double clusteringThreshold) {
+        this.clusteringComposeThresholdDecrement = clusteringThreshold;
+    }
 
-	/**
-	 * Attention: in fact is an increment!
-	 * @return
-	 */
-	public double getClusteringMergeThresholdDecrement() {
-		return clusteringMergeThresholdDecrement;
-	}
+    // MERGE
+    public double getMinMergeClusteringThreshold() {
+        return this.minMergeClusteringThreshold;
+    }
 
-	public void setClusteringMergeThresholdDecrement(
-			double clusteringMergeThresholdDecrement) {
-		this.clusteringMergeThresholdDecrement = clusteringMergeThresholdDecrement;
-	}
+    public void setMinMergeClusteringThreshold(final double minMergeClusteringThreshold) {
+        this.minMergeClusteringThreshold = minMergeClusteringThreshold;
+    }
 
-	public double getMaxMergeClusteringThreshold() {
-		return maxMergeClusteringThreshold;
-	}
+    /**
+     * Attention: in fact is an increment!
+     *
+     * @return
+     */
+    public double getClusteringMergeThresholdDecrement() {
+        return this.clusteringMergeThresholdDecrement;
+    }
 
-	public void setMaxMergeClusteringThreshold(double maxMergeClusteringThreshold) {
-		this.maxMergeClusteringThreshold = maxMergeClusteringThreshold;
-	}
-	
-	
+    public void setClusteringMergeThresholdDecrement(final double clusteringMergeThresholdDecrement) {
+        this.clusteringMergeThresholdDecrement = clusteringMergeThresholdDecrement;
+    }
+
+    public double getMaxMergeClusteringThreshold() {
+        return this.maxMergeClusteringThreshold;
+    }
+
+    public void setMaxMergeClusteringThreshold(final double maxMergeClusteringThreshold) {
+        this.maxMergeClusteringThreshold = maxMergeClusteringThreshold;
+    }
+
 }

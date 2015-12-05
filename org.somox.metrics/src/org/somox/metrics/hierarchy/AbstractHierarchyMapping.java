@@ -106,16 +106,16 @@ public abstract class AbstractHierarchyMapping<T extends Object> extends Abstrac
         // }
         // }
 
-        final Set<ConcreteClassifier> classes1 = this.getComponentToClassHelper().deriveImplementingClasses(
-                relationToCompute.getSourceComponent());
-        final Set<ConcreteClassifier> classes2 = this.getComponentToClassHelper().deriveImplementingClasses(
-                relationToCompute.getTargetComponent());
+        final Set<ConcreteClassifier> classes1 = this.getComponentToClassHelper()
+                .deriveImplementingClasses(relationToCompute.getSourceComponent());
+        final Set<ConcreteClassifier> classes2 = this.getComponentToClassHelper()
+                .deriveImplementingClasses(relationToCompute.getTargetComponent());
 
         final TreeNode<T> element1RootPackagesPath = this.collectPaths(classes1);
         final TreeNode<T> element2RootPackagesPath = this.collectPaths(classes2);
 
-        final int maxCommonPackageDirectoryHeigthOfElements = this.getMaxCommonPackageDirectory(
-                element1RootPackagesPath, element2RootPackagesPath);
+        final int maxCommonPackageDirectoryHeigthOfElements = this
+                .getMaxCommonPackageDirectory(element1RootPackagesPath, element2RootPackagesPath);
         if (this.logger.isTraceEnabled()) {
             this.logger.trace("maxCommonPackageHeigth: " + maxCommonPackageDirectoryHeigthOfElements);
         }
@@ -275,7 +275,7 @@ public abstract class AbstractHierarchyMapping<T extends Object> extends Abstrac
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.somox.metrics.IMetric#isNormalised()
      */
     @Override

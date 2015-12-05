@@ -1,7 +1,5 @@
 package org.somox.test.gast2seff.visitors;
 
-import static org.somox.test.gast2seff.visitors.JaMoPPStatementVisitorTest.TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETERS_AND_RETURN_TYPE;
-
 import java.io.IOException;
 
 import org.junit.BeforeClass;

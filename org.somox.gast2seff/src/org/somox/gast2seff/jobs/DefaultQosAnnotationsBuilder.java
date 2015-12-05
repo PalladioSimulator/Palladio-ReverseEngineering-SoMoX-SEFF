@@ -5,10 +5,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
-import org.somox.seff2javaast.SEFF2MethodMapping;
-//import org.somox.resources.defaultmodels.DefaultModelLoader;
-
 import org.palladiosimulator.pcm.core.CoreFactory;
 import org.palladiosimulator.pcm.core.PCMRandomVariable;
 import org.palladiosimulator.pcm.seff.BranchAction;
@@ -16,6 +12,9 @@ import org.palladiosimulator.pcm.seff.ProbabilisticBranchTransition;
 import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.pcm.seff.seff_performance.ParametricResourceDemand;
 import org.palladiosimulator.pcm.seff.seff_performance.SeffPerformanceFactory;
+import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
+import org.somox.seff2javaast.SEFF2MethodMapping;
+//import org.somox.resources.defaultmodels.DefaultModelLoader;
 
 /**
  * Creates default QoS annotations for behaviour. Same probabilities for all branches and 1
