@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.URISyntaxException;
 import java.util.BitSet;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Map.Entry;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -233,7 +235,7 @@ public class JaMoPP2PCMBaseTest {
      *
      * @return method name
      */
-    protected String getTestMethodName() {
+    public static String getTestMethodName() {
         final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
         return ste[2].getMethodName();
     }
@@ -353,10 +355,17 @@ public class JaMoPP2PCMBaseTest {
     /**
      * init logger for test purposes
      */
-    private static void initializeLogger() {
+    public static void initializeLogger() {
         if (!Logger.getRootLogger().getAllAppenders().hasMoreElements()) {
-            Logger.getRootLogger().addAppender(new ConsoleAppender());
+            final PatternLayout layout = new PatternLayout();
+            final String conversionPattern = "[%p] %d %c %M - %m%n";
+            layout.setConversionPattern(conversionPattern);
+            final ConsoleAppender ca = new ConsoleAppender();
+            ca.setWriter(new OutputStreamWriter(System.out));
+            ca.setLayout(layout);
+            Logger.getRootLogger().addAppender(ca);
             Logger.getRootLogger().setLevel(Level.ALL);
+
         }
     }
 

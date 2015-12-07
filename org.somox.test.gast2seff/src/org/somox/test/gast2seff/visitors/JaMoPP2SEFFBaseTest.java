@@ -107,19 +107,6 @@ public abstract class JaMoPP2SEFFBaseTest extends JaMoPP2PCMBaseTest {
         throw new RuntimeException("Could not find ConcreteClassifier " + concreteClassifierName);
     }
 
-    /**
-     * Copied from:
-     * http://stackoverflow.com/questions/442747/getting-the-name-of-the-current-executing-method
-     * Get the method name for the calling method of the getMethodMethod.
-     *
-     * @return method name
-     */
-    @Override
-    protected String getTestMethodName() {
-        final StackTraceElement[] ste = Thread.currentThread().getStackTrace();
-        return ste[2].getMethodName();
-    }
-
     public OperationRequiredRole findOperaitonRequiredRoleInBasicComponent(final BasicComponent basicComponent,
             final String requiredRoleName) {
         for (final RequiredRole requiredRole : basicComponent.getRequiredRoles_InterfaceRequiringEntity()) {

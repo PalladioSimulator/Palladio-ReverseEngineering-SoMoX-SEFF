@@ -15,7 +15,7 @@
       <styles xmi:type="notation:TitleStyle" xmi:id="_HOsZcbMHEeS2co6zY9fwbQ" showTitle="true"/>
     </children>
     <element xmi:type="repository:BasicComponent" href="testPCMModel.repository#_HOdI4LMHEeS2co6zY9fwbQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_HOm54LMHEeS2co6zY9fwbQ" x="18" y="189"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_HOm54LMHEeS2co6zY9fwbQ" x="18" y="207"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_IU824LMHEeS2co6zY9fwbQ" type="2107" fontName=".Helvetica Neue DeskInterface">
     <children xmi:type="notation:DecorationNode" xmi:id="_IU9d8bMHEeS2co6zY9fwbQ" type="5108"/>

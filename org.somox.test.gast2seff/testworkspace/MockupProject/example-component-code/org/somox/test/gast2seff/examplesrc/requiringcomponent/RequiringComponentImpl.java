@@ -5,19 +5,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.junit.Test;
-import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
+import org.somox.test.gast2seff.examplesrc.contracts.InterfaceA;
 import org.somox.test.gast2seff.examplesrc.contracts.ProvidingInterface;
 import org.somox.test.gast2seff.examplesrc.providingcomponent.ProvidingComponentImpl;
 
 public class RequiringComponentImpl implements ProvidingInterface {
-    private final ProvidingComponentImpl providingComponentImpl;
+    private final InterfaceA providingComponentImpl;
 
     private final InputStream inStream;
+	private final InterfaceA interfaceA;
 
-    public RequiringComponentImpl(final ProvidingComponentImpl providingComponentImpl) {
+    public RequiringComponentImpl(final ProvidingComponentImpl providingComponentImpl, InterfaceA interfaceA) {
         this.providingComponentImpl = providingComponentImpl;
+        this.interfaceA = interfaceA;
         inStream = new ByteArrayInputStream("test".getBytes());
+    }
+    
+    public void testDoExternalCallViaInterface(){
+    	interfaceA.testExternalCall();
+    }
+    
+    public String testDoExternalCallWithSimpleParametersAndReturnTypeViaInterface(final String str1, final String str2) {
+        return interfaceA.testExternalCallWithSimpleParametersAndReturnType(str1, str2);
     }
 
     public void testDoExternalCall() {
@@ -27,7 +36,7 @@ public class RequiringComponentImpl implements ProvidingInterface {
     public String testDoExternalCallWithSimpleParametersAndReturnType(final String str1, final String str2) {
         return this.providingComponentImpl.testExternalCallWithSimpleParametersAndReturnType(str1, str2);
     }
-
+    
     public void testDoLibraryCall() throws IOException {
         inStream.close();
     }
@@ -41,8 +50,7 @@ public class RequiringComponentImpl implements ProvidingInterface {
         }
     }
 
-    public void testConditionWithExternalCallInIf() {
-        boolean test = false;
+    public void testConditionWithExternalCallInIf(boolean test) {
         if (test) {
             this.providingComponentImpl.testExternalCall();
         } else {
@@ -50,8 +58,7 @@ public class RequiringComponentImpl implements ProvidingInterface {
         }
     }
 
-    public void testConditionWithExternalCallInElse() {
-        boolean test = false;
+    public void testConditionWithExternalCallInElse(boolean test) {
         if (test) {
             testDoInternalCall();
         } else {
@@ -59,8 +66,7 @@ public class RequiringComponentImpl implements ProvidingInterface {
         }
     }
 
-    public void testConditionWithExternalCallInCondition() {
-        boolean test = false;
+    public void testConditionWithExternalCallInCondition(boolean test) {
         if (this.providingComponentImpl.testExternalCallWithSimpleParametersAndReturnType(null, null) == null) {
             testDoInternalCall();
         } else {
@@ -68,8 +74,7 @@ public class RequiringComponentImpl implements ProvidingInterface {
         }
     }
 
-    public void testConditionWithLibraryCallInCondition() throws IOException {
-        boolean test = false;
+    public void testConditionWithLibraryCallInCondition(boolean test) throws IOException {
         if (inStream.available() > 1) {
             testDoInternalCall();
         } else {
@@ -77,8 +82,7 @@ public class RequiringComponentImpl implements ProvidingInterface {
         }
     }
 
-    public void testConditionWithExternalCallInIfAndElse() {
-        boolean test = false;
+    public void testConditionWithExternalCallInIfAndElse(boolean test) {
         if (test) {
             this.providingComponentImpl.testExternalCall();
         } else {
@@ -86,8 +90,7 @@ public class RequiringComponentImpl implements ProvidingInterface {
         }
     }
 
-    public void testSwitchCaseWithExternalCallInCase() {
-        final int i = 0;
+    public void testSwitchCaseWithExternalCallInCase(int i) {
         switch (i) {
         case 1:
             this.providingComponentImpl.testExternalCall();
@@ -197,6 +200,11 @@ public class RequiringComponentImpl implements ProvidingInterface {
         }
     }
 
+    public void testInternalCallThatContainsInternalActionAndForLoopWithExternalCall(){
+        System.out.println("Dummy Internal Action");
+        internalCallContainingInternalActionAndForLoopWithExternalCall();
+    }
+    
     public void testForLoopWithExternalCall() {
         for (int i = 0; i < 10; i++) {
             this.providingComponentImpl.testExternalCall();
@@ -217,18 +225,14 @@ public class RequiringComponentImpl implements ProvidingInterface {
         }
     }
 
-    public void testWhileLoopWithExternalCall() {
-        int i = 0;
+    public void testWhileLoopWithExternalCall(int i) {
         while (i < 10) {
-            i++;
             this.providingComponentImpl.testExternalCall();
         }
     }
 
-    public void testDoWhileLoopWithExternalCall() {
-        int i = 0;
+    public void testDoWhileLoopWithExternalCall(int i) {
         do {
-            i++;
             this.providingComponentImpl.testExternalCall();
         } while (i < 10);
     }
@@ -265,7 +269,7 @@ public class RequiringComponentImpl implements ProvidingInterface {
         }
     }
 
-    public void testTryBlockWithInternalCallInTryLibraryCallInCatchAndExternalCallInFinally() {
+    public void testTryBlockWithInternalCallInTryLibraryCallInCatchAndExternalCallInFinally() throws IOException {
         try {
             internalCall();
         } catch (Exception e) {
@@ -274,18 +278,72 @@ public class RequiringComponentImpl implements ProvidingInterface {
             this.providingComponentImpl.testExternalCall();
         }
     }
+    
+    public void testTryBlockWithExternalCallInInternalCallInTryBlock() throws Throwable{
+        try{
+            internalCallContainingExternalCall();
+        }catch(Exception e){
+            inStream.available();
+        }
+    }
 
     public void testDoInternalCall() {
         internalCall();
     }
-
-    private void internalCall() {
-        internalCall();
+    
+    public void testExternalCallInInternalCall(){
+        internalCallContainingExternalCall();
+    }
+    
+    public void testExternalCallAsInputForInternalCall(){
+        internalCallWithDummyStatement(this.providingComponentImpl.testExternalCall());
+    }
+    
+    public void testInternalCallAsInputForInternalCall(){
+        internalCall(internalCall);
+    }
+    
+    private void internalCallWithDummyStatement(Obj ob){
+        System.out.println("");
     }
 
+    private Object internalCall() {
+        internalCall();
+    }
+    
+    private Object internalCall(Object obj){
+        internalCall(obj);
+    }
+    
+    private void internalCallContainingExternalCall(){
+        this.providingComponentImpl.testExternalCall();
+    }
+    
+    private void internalCallContainingInternalActionAndForLoopWithExternalCall(){
+        System.out.println("Dummy Internal Action");
+        for(int i = 0; i < 10; i++){
+            this.providingComponentImpl.testExternalCall();
+        }
+    }
+    
+    private void testForLoopWithInternalCallContainingExternalCall(){
+        for(int i = 0; i < 10;i++){
+            internalCallContainingExternalCall();
+        }
+    }
+    
     @Override
     public void providingMethod() {
         System.out.println("providingMethod");
+    }
+    
+    public void testInternalCallAsInputForExternalCall(){
+        this.providingComponentImpl.testExternalCallWithSimpleParametersAndReturnType(internalCallRetString(), internalCallRetString());
+    }
+    
+    private String internalCallRetString(){
+        System.out.println("internalCallRetString");
+        return "";
     }
 
 }
