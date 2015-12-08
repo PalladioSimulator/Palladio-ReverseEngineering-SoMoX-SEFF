@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.ClassMethod;
+import org.emftext.language.java.members.Method;
 import org.emftext.language.java.members.util.MembersSwitch;
 import org.emftext.language.java.statements.Assert;
 import org.emftext.language.java.statements.Block;
@@ -43,19 +44,20 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
      * if they should be omitted because of the SEFFs abstraction rule
      */
     protected BitSet lastType = null;
-    private final boolean canSkipInternalCalls;
 
-    public AbstractJaMoPPStatementVisitor(final Map<Commentable, List<BitSet>> functionClassificationAnnotations,
-            final boolean canSkipInternalCalls) {
+    /**
+     * Can be used to force the shouldSkip method to not skip the next statement, which eventually
+     * results in a new SEFF element for the next statement.
+     *
+     */
+    protected boolean doNotSkipNextStatement;
+
+    public AbstractJaMoPPStatementVisitor(final Map<Commentable, List<BitSet>> functionClassificationAnnotations) {
+        this.doNotSkipNextStatement = false;
         this.functionClassificationAnnotation = functionClassificationAnnotations;
-        this.canSkipInternalCalls = canSkipInternalCalls;
 
         this.addSwitch(new MemberVisitor());
         this.addSwitch(new StatementVisitor());
-    }
-
-    public AbstractJaMoPPStatementVisitor(final Map<Commentable, List<BitSet>> functionClassificationAnnotations) {
-        this(functionClassificationAnnotations, true);
     }
 
     // abstract methods that have to be overriden by subclasses of the class
@@ -67,9 +69,11 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
 
     protected abstract Object handleClassMethod(ClassMethod classMethod);
 
-    protected abstract Object handleFormerSimpleStatement(Statement object);
-
     protected abstract Object handleTryBlock(final TryBlock object);
+
+    protected abstract void foundInternalAction(Statement object);
+
+    protected abstract void foundExternalCall(Statement object, Method calledMethod, BitSet statementAnnotation);
 
     /**
      * handleStatementListContainer can be implemented in abstract class, cause it is similar in
@@ -99,6 +103,55 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
             }
         }
         return new Object();
+    }
+
+    protected Object handleFormerSimpleStatement(final Statement object) {
+        final List<BitSet> statementAnnotations = this.functionClassificationAnnotation.get(object);
+        final List<Method> calledMethods = VisitorUtils.getMethodCalls(object);
+        if (0 < calledMethods.size()) {
+            for (int i = 0; i < statementAnnotations.size(); i++) {
+                final BitSet statementAnnotation = statementAnnotations.get(i);
+                if (this.isExternalCall(statementAnnotation)) {
+                    final Method calledMethod = calledMethods.get(i);
+                    this.foundExternalCall(object, calledMethod, statementAnnotation);
+                } else if (this.isInternalCall(statementAnnotation)) {
+                    if (0 == calledMethods.size()) {
+                        continue;
+                    }
+                    Method method = null;
+                    if (i + 1 > calledMethods.size()) {
+                        method = calledMethods.get(0);
+                    } else {
+                        method = calledMethods.get(i);
+                    }
+                    if (!(method instanceof ClassMethod)) {
+                        logger.error("Referenceable element must be a class method");
+                    } else {
+                        final ClassMethod classMethod = (ClassMethod) method;
+
+                        if (classMethod.getStatements() != null) {
+                            this.handleClassMethod(classMethod);
+                        } else {
+                            String msg = "Behaviour not set in GAST for " + method.getName();
+                            if (KDMHelper.getJavaNodeSourceRegion(object) != null
+                                    && KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() != null) {
+                                msg += ". Tried to call from "
+                                        + KDMHelper.getJavaNodeSourceRegion(object).getNamespacesAsString() + ".";
+                            } else {
+                                msg += ". (caller position unknown)";
+                            }
+                            logger.warn(msg);
+                        }
+                    }
+                } else {
+                    this.foundInternalAction(object);
+                }
+            }
+        } else {
+            this.foundInternalAction(object);
+        }
+        return new Object();
+
     }
 
     private void setVisited(final Collection<BitSet> thisTypes) {
@@ -213,8 +266,8 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
     protected boolean containsExternalCall(final Statement object) {
         final Collection<BitSet> statementTypes = this.functionClassificationAnnotation.get(object);
         for (final BitSet statementType : statementTypes) {
-            final boolean isExternalCall = statementType
-                    .get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
+            final boolean isExternalCall =
+                    statementType.get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
             final boolean isInternalCallContainingExternalCall = statementType.get(FunctionCallClassificationVisitor
                     .getIndex(FunctionCallType.INTERNAL_CALL_CONTAINING_EXTERNAL_CALL));
             if (isExternalCall || isInternalCallContainingExternalCall) {
@@ -296,14 +349,13 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
      *         should be abstracted and thrown away
      */
     protected boolean shouldSkip(final BitSet lastType, final BitSet thisType) {
-        if (lastType == null) {
+        if (this.doNotSkipNextStatement) {
+            this.doNotSkipNextStatement = false;
+            this.lastType = null;
             return false;
         }
-        // this is somewhat confusing, but: if we can not skip internal calls we only can skip lib
-        // calls. Hence, we can skip if lastType isLibrary call and this type is library call. In
-        // all other cases we can not skip the current statement.
-        if (!this.canSkipInternalCalls) {
-            return this.isLibraryCall(lastType) && this.isLibraryCall(thisType);
+        if (lastType == null) {
+            return false;
         }
 
         if (this.isExternalCall(thisType)) {

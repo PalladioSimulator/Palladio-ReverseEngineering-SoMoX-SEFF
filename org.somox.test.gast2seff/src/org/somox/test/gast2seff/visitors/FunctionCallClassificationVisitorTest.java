@@ -38,110 +38,115 @@ public class FunctionCallClassificationVisitorTest extends JaMoPP2SEFFBaseTest {
 
     @Test
     public void testDoExternalCallViaInterface() {
-        final String methodName = this.getTestMethodName();
+        final String methodName = getTestMethodName();
         this.executeTest(methodName, Commentable.class, FunctionCallType.EXTERNAL);
     }
 
     @Test
     public void testDoExternalCallWithSimpleParametersAndReturnTypeViaInterface() {
-        final String methodName = this.getTestMethodName();
+        final String methodName = getTestMethodName();
         this.executeTest(methodName, Commentable.class, FunctionCallType.EXTERNAL);
     }
 
     @Test
     public void testConditionWithExternalCallInIf() {
-        final String methodName = super.getTestMethodName();
+        final String methodName = getTestMethodName();
         this.testConditionMethod(methodName, FunctionCallType.EXTERNAL, FunctionCallType.INTERNAL);
     }
 
     @Test
     public void testConditionWithExternalCallInElse() {
-        final String methodName = super.getTestMethodName();
+        final String methodName = getTestMethodName();
         this.testConditionMethod(methodName, FunctionCallType.INTERNAL, FunctionCallType.EXTERNAL);
     }
 
     @Test
     public void testConditionWithExternalCallInIfAndElse() {
-        final String methodName = super.getTestMethodName();
+        final String methodName = getTestMethodName();
         this.testConditionMethod(methodName, FunctionCallType.EXTERNAL);
     }
 
     // @Test
     public void testConditionWithExternalCallInCondition() {
-        final String methodName = super.getTestMethodName();
+        final String methodName = getTestMethodName();
         this.testConditionMethod(methodName, FunctionCallType.EXTERNAL, FunctionCallType.INTERNAL);
     }
 
     // @Test
     public void testConditionWithLibraryCallInCondition() {
-        final String methodName = super.getTestMethodName();
+        final String methodName = getTestMethodName();
         this.testConditionMethod(methodName, FunctionCallType.LIBRARY, FunctionCallType.INTERNAL);
     }
 
     @Test
     public void testForLoopWithExternalCall() {
-        this.testForLoopMethod(super.getTestMethodName(), FunctionCallType.EXTERNAL);
+        this.testForLoopMethod(getTestMethodName(), FunctionCallType.EXTERNAL);
     }
 
     @Test
     public void testForLoopWithInternalCall() {
-        this.testForLoopMethod(super.getTestMethodName(), FunctionCallType.INTERNAL);
+        this.testForLoopMethod(getTestMethodName(), FunctionCallType.INTERNAL);
     }
 
     @Test
     public void testForLoopWithInternalLibraryAndExternalCall() {
-        this.testForLoopMethod(super.getTestMethodName(), FunctionCallType.INTERNAL, FunctionCallType.LIBRARY,
+        this.testForLoopMethod(getTestMethodName(), FunctionCallType.INTERNAL, FunctionCallType.LIBRARY,
                 FunctionCallType.EXTERNAL);
     }
 
     @Test
     public void testWhileLoopWithExternalCall() {
-        this.executeTest(this.getTestMethodName(), WhileLoop.class, FunctionCallType.EXTERNAL);
+        this.executeTest(getTestMethodName(), WhileLoop.class, FunctionCallType.EXTERNAL);
     }
 
     @Test
     public void testDoWhileLoopWithExternalCall() {
-        this.executeTest(this.getTestMethodName(), DoWhileLoop.class, FunctionCallType.EXTERNAL);
+        this.executeTest(getTestMethodName(), DoWhileLoop.class, FunctionCallType.EXTERNAL);
     }
 
     @Test
     public void testForEachLoopWithExternalCall() {
-        this.executeTest(this.getTestMethodName(), ForEachLoop.class, FunctionCallType.EXTERNAL);
+        this.executeTest(getTestMethodName(), ForEachLoop.class, FunctionCallType.EXTERNAL);
     }
 
     @Test
     public void testTryBlockWithExternalCallInTry() {
-        this.testTryBlock(super.getTestMethodName(), FunctionCallType.EXTERNAL);
+        this.testTryBlock(getTestMethodName(), FunctionCallType.EXTERNAL);
     }
 
     @Test
     public void testTryBlockWithExternalCallInCatch() {
-        this.testTryBlock(super.getTestMethodName(), FunctionCallType.EXTERNAL);
+        this.testTryBlock(getTestMethodName(), FunctionCallType.EXTERNAL);
     }
 
     @Test
     public void testTryBlockWithExternalCallInFinally() {
-        this.testTryBlock(super.getTestMethodName(), FunctionCallType.EXTERNAL);
+        this.testTryBlock(getTestMethodName(), FunctionCallType.EXTERNAL);
     }
 
     @Test
     public void testTryBlockWithInternalCallInTryLibraryCallInCatchAndExternalCallInFinally() {
-        this.testTryBlock(super.getTestMethodName(), FunctionCallType.INTERNAL, FunctionCallType.LIBRARY,
+        this.testTryBlock(getTestMethodName(), FunctionCallType.INTERNAL, FunctionCallType.LIBRARY,
                 FunctionCallType.EXTERNAL);
     }
 
     @Test
     public void testSwitchCaseWithExternalCallInFirstCase() {
-        this.testSwitchCaseMethod(super.getTestMethodName(), FunctionCallType.EXTERNAL);
+        this.testSwitchCaseMethod(getTestMethodName(), FunctionCallType.EXTERNAL);
     }
 
     public void testSwitchCaseWithExternalCallInFirstAndSecondCase() {
-        this.testSwitchCaseMethod(super.getTestMethodName(), FunctionCallType.EXTERNAL);
+        this.testSwitchCaseMethod(getTestMethodName(), FunctionCallType.EXTERNAL);
     }
 
     @Test
     public void testSwitchCaseWithInternalCallInCaseAndExternalCallDefault() {
-        this.testSwitchCaseMethod(super.getTestMethodName(), FunctionCallType.INTERNAL, FunctionCallType.EXTERNAL);
+        this.testSwitchCaseMethod(getTestMethodName(), FunctionCallType.INTERNAL, FunctionCallType.EXTERNAL);
+    }
+
+    @Test
+    public void testSimpleStatement(){
+        this.executeTest(getTestMethodName(), WhileLoop.class, FunctionCallType.INTERNAL);
     }
 
     private void testTryBlock(final String methodName, final FunctionCallType... expectedFunctionCallTypes) {
@@ -162,8 +167,8 @@ public class FunctionCallClassificationVisitorTest extends JaMoPP2SEFFBaseTest {
 
     private void executeTest(final String methodName, final Class<?> resultClassType,
             final FunctionCallType... expectedTypes) {
-        final MethodFunctionCallClassificationVisitorPair pair = this
-                .initializeComponentMethodAndFunctionCallClassificationVisitor(REQUIRED_COMPONENT_NAME, methodName);
+        final MethodFunctionCallClassificationVisitorPair pair =
+                this.initializeComponentMethodAndFunctionCallClassificationVisitor(REQUIRED_COMPONENT_NAME, methodName);
 
         // do the test
         pair.functionCallClassificationVisitor.doSwitch(pair.method);
@@ -175,8 +180,8 @@ public class FunctionCallClassificationVisitorTest extends JaMoPP2SEFFBaseTest {
     private void testSimpleMethodAnnotation(final String componentName, final String methodName, final int expectedSize,
             final FunctionCallType expectedFuctionCallType) {
         // initialize
-        final MethodFunctionCallClassificationVisitorPair pair = this
-                .initializeComponentMethodAndFunctionCallClassificationVisitor(componentName, methodName);
+        final MethodFunctionCallClassificationVisitorPair pair =
+                this.initializeComponentMethodAndFunctionCallClassificationVisitor(componentName, methodName);
 
         // test the switch
         pair.functionCallClassificationVisitor.doSwitch(pair.method);
@@ -190,8 +195,8 @@ public class FunctionCallClassificationVisitorTest extends JaMoPP2SEFFBaseTest {
             final String componentName, final String methodName) {
         final MethodFunctionCallClassificationVisitorPair pair = new MethodFunctionCallClassificationVisitorPair();
         final BasicComponent basicComponent = (BasicComponent) this.findComponentInPCMRepo(componentName);
-        final IFunctionClassificationStrategy strategy = new BasicFunctionClassificationStrategy(
-                this.sourceCodeDecorator, basicComponent, compilationUnits);
+        final IFunctionClassificationStrategy strategy =
+                new BasicFunctionClassificationStrategy(this.sourceCodeDecorator, basicComponent, compilationUnits);
         pair.functionCallClassificationVisitor = new FunctionCallClassificationVisitor(strategy);
         pair.method = this.findMethodInClassifier(methodName, componentName + "Impl");
         return pair;

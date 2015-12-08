@@ -33,8 +33,8 @@ public class VisitorUtilsTest {
         JaMoPP2PCMBaseTest.initializeLogger();
         JaMoPPUtil.initialize();
         final JaMoPPSoftwareModelExtractor softwareModelExtractor = new JaMoPPSoftwareModelExtractor();
-        final ResourceSet resourceSet = softwareModelExtractor.extractSoftwareModel(Arrays.asList(PROJECT_PATH),
-                new NullProgressMonitor());
+        final ResourceSet resourceSet =
+                softwareModelExtractor.extractSoftwareModel(Arrays.asList(PROJECT_PATH), new NullProgressMonitor());
         final CompilationUnit cu = (CompilationUnit) resourceSet.getResources().get(0).getContents().get(0);
         concreteClassifier = cu.getClassifiers().get(0);
     }
@@ -68,6 +68,12 @@ public class VisitorUtilsTest {
                 "append", "getInt", "appendCodePoint");
     }
 
+    @Test
+    public void visitorUtilTestMethodWithThreeMethodCallsCapacityLengthSubSequence() {
+        this.testDoGetMethodCallsForFirstStatementInMethodWithName(JaMoPP2PCMBaseTest.getTestMethodName(), "capacity",
+                "length", "subSequence");
+    }
+
     /**
      * explicitly tests the bug we have experienced by analyzing long methodCall chains e.g.
      * method1.doSmth(new Class("test").doIt().doItAgain()).doSmth(new
@@ -77,8 +83,8 @@ public class VisitorUtilsTest {
     @Test(timeout = 1000)
     public void visitorUtilTestMethodWithManyMethodCalls() {
         final String testMethodName = JaMoPP2PCMBaseTest.getTestMethodName();
-        final List<Method> calledMethods = this
-                .testDoGetMethodCallsForFirstStatementInMethodWithNameWithoutAssert(testMethodName);
+        final List<Method> calledMethods =
+                this.testDoGetMethodCallsForFirstStatementInMethodWithNameWithoutAssert(testMethodName);
 
         logger.debug("Found " + calledMethods.size() + " calledMethods for method " + testMethodName);
     }
@@ -97,8 +103,8 @@ public class VisitorUtilsTest {
 
     private void testDoGetMethodCallsForFirstStatementInMethodWithName(final String methodName,
             final String... expectedMethodNames) {
-        final List<Method> methodCalls = this
-                .testDoGetMethodCallsForFirstStatementInMethodWithNameWithoutAssert(methodName);
+        final List<Method> methodCalls =
+                this.testDoGetMethodCallsForFirstStatementInMethodWithNameWithoutAssert(methodName);
 
         // assert the correct number of method calls
         assertEquals("Could not find the expected size of method calls", expectedMethodNames.length,

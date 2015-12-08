@@ -71,6 +71,10 @@ public class VisitorUtilTestSource {
         this.string.append(this.string.reverse()).toString();
     }
 
+    public void visitorUtilTestMethodWithThreeMethodCallsCapacityLengthSubSequence() {
+        this.string.subSequence(this.string.capacity(), this.string.length());
+    }
+
     public void visitorUtilTestMethodWithFourMethodCallsReverseAppendgetIntAppendCodePoint() {
         this.string.append(this.string.reverse()).appendCodePoint(this.getInt());
     }

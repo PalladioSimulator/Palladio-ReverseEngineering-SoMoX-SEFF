@@ -75,6 +75,10 @@ public class VisitorUtils {
     private static void findMethodCallsInArguments(final EList<Expression> arguments,
             final LinkedList<Method> calledMethods, final Set<EObject> investigatedEObjects) {
         for (final Expression expression : arguments) {
+            if (expression instanceof MethodCall) {
+                investigatedEObjects.add(expression);
+                addMethodToCollection(calledMethods, (MethodCall) expression);
+            }
             findMethodCallsInChildren(expression, calledMethods, investigatedEObjects);
         }
 
@@ -104,9 +108,9 @@ public class VisitorUtils {
             final FunctionCallClassificationVisitor typeVisitor,
             final InterfaceOfExternalCallFinding interfaceOfExternalCallFinder,
             final ResourceDemandingBehaviourForClassMethodFinding resourceDemandingBehaviourForClassMethodFinding) {
-        final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(typeVisitor.getAnnotations(), seff,
-                sourceCodeDecoratorModel, basicComponent, interfaceOfExternalCallFinder,
-                resourceDemandingBehaviourForClassMethodFinding);
+        final AbstractJaMoPPStatementVisitor visitor =
+                new JaMoPPStatementVisitor(typeVisitor.getAnnotations(), seff, sourceCodeDecoratorModel, basicComponent,
+                        interfaceOfExternalCallFinder, resourceDemandingBehaviourForClassMethodFinding);
 
         // handle each statement
         for (final Statement st : body.getStatements()) {

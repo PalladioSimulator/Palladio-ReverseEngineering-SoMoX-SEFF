@@ -33,7 +33,8 @@ import org.somox.gast2seff.visitors.ResourceDemandingBehaviourForClassMethodFind
 
 public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
 
-    protected static final String TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETERS_AND_RETURN_TYPE = "testExternalCallWithSimpleParametersAndReturnType";
+    protected static final String TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETERS_AND_RETURN_TYPE =
+            "testExternalCallWithSimpleParametersAndReturnType";
     private static final String REQUIRED_ROLE_NAME = "Required_InterfaceA_RequiringComponent";
     protected static final String OPERATION_SIGNATURE_NAME = "testExternalCall";
     protected static boolean createResourceDemandingInternalBehaviourForClassMethods;
@@ -51,7 +52,7 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
         final ExternalCallAction externalCall = this.createExternalCallAction(OPERATION_SIGNATURE_NAME);
         expectedSeff.getSteps_Behaviour().add(externalCall);
         // execute the test
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     @Test
@@ -60,7 +61,7 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
         // this.createInternalCallActionAndAddToSEFF(expectedSeff);
         // a empty SEFF is expected here
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     @Test
@@ -70,18 +71,18 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
         final ExternalCallAction externalCall = this.createExternalCallAction(OPERATION_SIGNATURE_NAME);
         expectedSeff.getSteps_Behaviour().add(externalCall);
         // execute the test
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     @Test
     public void testDoExternalCallWithSimpleParametersAndReturnTypeViaInterface() {
         // create expected SEFF
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
-        final ExternalCallAction externalCall = this
-                .createExternalCallAction(TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETERS_AND_RETURN_TYPE);
+        final ExternalCallAction externalCall =
+                this.createExternalCallAction(TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETERS_AND_RETURN_TYPE);
         expectedSeff.getSteps_Behaviour().add(externalCall);
         // execute the test
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     @Test
@@ -90,7 +91,7 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
         this.createAndAddInternalActionToSeff(expectedSeff);
         // execute the test
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     @Test
@@ -144,7 +145,7 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
 
     @Test
     public void testWhileLoopWithExternalCall() {
-        this.testLoop(this.getTestMethodName(), FunctionCallType.EXTERNAL);
+        this.testLoop(getTestMethodName(), FunctionCallType.EXTERNAL);
     }
 
     @Test
@@ -154,12 +155,12 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
 
     @Test
     public void testDoWhileLoopWithExternalCall() {
-        this.testLoop(this.getTestMethodName(), FunctionCallType.EXTERNAL);
+        this.testLoop(getTestMethodName(), FunctionCallType.EXTERNAL);
     }
 
     @Test
     public void testForEachLoopWithExternalCall() {
-        this.testLoop(this.getTestMethodName(), FunctionCallType.EXTERNAL);
+        this.testLoop(getTestMethodName(), FunctionCallType.EXTERNAL);
     }
 
     @Test
@@ -190,7 +191,8 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
 
     @Test
     public void testSwitchCaseWithExternalCallInFirstCase() {
-        final List<FunctionCallType[]> expectedFunctionCallTypes = new ArrayList<FunctionCallClassificationVisitor.FunctionCallType[]>();
+        final List<FunctionCallType[]> expectedFunctionCallTypes =
+                new ArrayList<FunctionCallClassificationVisitor.FunctionCallType[]>();
         expectedFunctionCallTypes.add(this.toFunctionCallTypeArray(FunctionCallType.EXTERNAL));
         expectedFunctionCallTypes.add(this.toFunctionCallTypeArray());
         expectedFunctionCallTypes.add(this.toFunctionCallTypeArray());
@@ -200,7 +202,8 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
 
     @Test
     public void testSwitchCaseWithExternalCallInFirstAndSecondCase() {
-        final List<FunctionCallType[]> expectedFunctionCallTypes = new ArrayList<FunctionCallClassificationVisitor.FunctionCallType[]>();
+        final List<FunctionCallType[]> expectedFunctionCallTypes =
+                new ArrayList<FunctionCallClassificationVisitor.FunctionCallType[]>();
         expectedFunctionCallTypes
                 .add(this.toFunctionCallTypeArray(FunctionCallType.EXTERNAL, FunctionCallType.EXTERNAL));
         expectedFunctionCallTypes.add(this.toFunctionCallTypeArray(FunctionCallType.EXTERNAL));
@@ -211,7 +214,8 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
 
     @Test
     public void testSwitchCaseWithInternalCallInCaseAndExternalCallDefault() {
-        final List<FunctionCallType[]> expectedFunctionCallTypes = new ArrayList<FunctionCallClassificationVisitor.FunctionCallType[]>();
+        final List<FunctionCallType[]> expectedFunctionCallTypes =
+                new ArrayList<FunctionCallClassificationVisitor.FunctionCallType[]>();
         expectedFunctionCallTypes.add(this.toFunctionCallTypeArray());
         expectedFunctionCallTypes.add(this.toFunctionCallTypeArray());
         expectedFunctionCallTypes.add(this.toFunctionCallTypeArray(FunctionCallType.EXTERNAL));
@@ -220,7 +224,8 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
 
     @Test
     public void testSwitchCaseWithFourListAnd10_9_7_4Statements() {
-        final List<FunctionCallType[]> expectedFunctionCallTypes = new ArrayList<FunctionCallClassificationVisitor.FunctionCallType[]>();
+        final List<FunctionCallType[]> expectedFunctionCallTypes =
+                new ArrayList<FunctionCallClassificationVisitor.FunctionCallType[]>();
         expectedFunctionCallTypes.add(this.toFunctionCallTypeArray(FunctionCallType.EXTERNAL, FunctionCallType.EXTERNAL,
                 FunctionCallType.EXTERNAL, FunctionCallType.EXTERNAL, FunctionCallType.EXTERNAL,
                 FunctionCallType.EXTERNAL, FunctionCallType.EXTERNAL, FunctionCallType.EXTERNAL,
@@ -239,7 +244,8 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
 
     @Test
     public void testSwitchCaseWithFourListAnd2_9_7_4Statements() {
-        final List<FunctionCallType[]> expectedFunctionCallTypes = new ArrayList<FunctionCallClassificationVisitor.FunctionCallType[]>();
+        final List<FunctionCallType[]> expectedFunctionCallTypes =
+                new ArrayList<FunctionCallClassificationVisitor.FunctionCallType[]>();
         expectedFunctionCallTypes.add(this.toFunctionCallTypeArray(FunctionCallType.EXTERNAL));
         expectedFunctionCallTypes.add(this.toFunctionCallTypeArray(FunctionCallType.EXTERNAL, FunctionCallType.EXTERNAL,
                 FunctionCallType.EXTERNAL, FunctionCallType.EXTERNAL, FunctionCallType.EXTERNAL,
@@ -255,7 +261,8 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
 
     @Test
     public void testSwitchCaseWithFourListAnd7_6_4_4Statements() {
-        final List<FunctionCallType[]> expectedFunctionCallTypes = new ArrayList<FunctionCallClassificationVisitor.FunctionCallType[]>();
+        final List<FunctionCallType[]> expectedFunctionCallTypes =
+                new ArrayList<FunctionCallClassificationVisitor.FunctionCallType[]>();
         expectedFunctionCallTypes.add(this.toFunctionCallTypeArray(FunctionCallType.EXTERNAL, FunctionCallType.EXTERNAL,
                 FunctionCallType.EXTERNAL, FunctionCallType.EXTERNAL, FunctionCallType.EXTERNAL,
                 FunctionCallType.EXTERNAL));
@@ -273,7 +280,7 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
         final ExternalCallAction externalCallAction = this.createExternalCallAction(OPERATION_SIGNATURE_NAME);
         expectedSeff.getSteps_Behaviour().add(externalCallAction);
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     @Test
@@ -282,40 +289,47 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
         final ExternalCallAction externalCallAction = this.createExternalCallAction(OPERATION_SIGNATURE_NAME);
         expectedSeff.getSteps_Behaviour().add(externalCallAction);
         expectedSeff.getSteps_Behaviour().add(this.createInternalAction());
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     @Test
     public void testInternalCallAsInputForInternalCall() {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
         expectedSeff.getSteps_Behaviour().add(this.createInternalAction());
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     @Test
     public void testInternalCallAsInputForExternalCall() {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
         expectedSeff.getSteps_Behaviour().add(this.createInternalAction());
-        final ExternalCallAction externalCallAction = this
-                .createExternalCallAction(TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETERS_AND_RETURN_TYPE);
+        final ExternalCallAction externalCallAction =
+                this.createExternalCallAction(TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETERS_AND_RETURN_TYPE);
         expectedSeff.getSteps_Behaviour().add(externalCallAction);
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
+    }
+
+    @Test
+    public void testSimpleStatement() {
+        final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+        expectedSeff.getSteps_Behaviour().add(this.createInternalAction());
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     protected void doMethodTestGastStatementVisitor(final String methodName, final ResourceDemandingSEFF expectedSeff) {
         // initialize the test
-        final ClassMethod method = (ClassMethod) super.findMethodInClassifier(methodName,
-                REQUIRED_COMPONENT_NAME + "Impl");
+        final ClassMethod method =
+                (ClassMethod) super.findMethodInClassifier(methodName, REQUIRED_COMPONENT_NAME + "Impl");
         final BasicComponent basicComponent = (BasicComponent) super.findComponentInPCMRepo(REQUIRED_COMPONENT_NAME);
         final ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
-        final IFunctionClassificationStrategy basicFunctionClassifierStrategy = new BasicFunctionClassificationStrategy(
-                this.sourceCodeDecorator, basicComponent, compilationUnits);
-        final FunctionCallClassificationVisitor functionCallClassificationVisitor = new FunctionCallClassificationVisitor(
-                basicFunctionClassifierStrategy);
+        final IFunctionClassificationStrategy basicFunctionClassifierStrategy =
+                new BasicFunctionClassificationStrategy(this.sourceCodeDecorator, basicComponent, compilationUnits);
+        final FunctionCallClassificationVisitor functionCallClassificationVisitor =
+                new FunctionCallClassificationVisitor(basicFunctionClassifierStrategy);
         ResourceDemandingBehaviourForClassMethodFinding resourceDemandingBehaviourForClassMethodFinding = null;
         if (createResourceDemandingInternalBehaviourForClassMethods) {
-            resourceDemandingBehaviourForClassMethodFinding = new DefaultResourceDemandingBehaviourForClassMethodFinder(
-                    this.sourceCodeDecorator, basicComponent);
+            resourceDemandingBehaviourForClassMethodFinding =
+                    new DefaultResourceDemandingBehaviourForClassMethodFinder(this.sourceCodeDecorator, basicComponent);
         }
         final AbstractJaMoPPStatementVisitor gastStatementVisitor = new JaMoPPStatementVisitor(
                 functionCallClassificationVisitor.getAnnotations(), seff, this.sourceCodeDecorator, basicComponent,
@@ -332,8 +346,8 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
             AssertSEFFHelper.assertSeffEquals(seff, expectedSeff);
         } finally {
             // add seff to basic component in order to make it visible after the test
-            final ResourceDemandingSEFF serviceEffectSpecification = (ResourceDemandingSEFF) basicComponent
-                    .getServiceEffectSpecifications__BasicComponent().get(0);
+            final ResourceDemandingSEFF serviceEffectSpecification =
+                    (ResourceDemandingSEFF) basicComponent.getServiceEffectSpecifications__BasicComponent().get(0);
             serviceEffectSpecification.getSteps_Behaviour().addAll(seff.getSteps_Behaviour());
         }
     }
@@ -378,10 +392,10 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
         final BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
         for (final FunctionCallType[] expectedFunctionCallTypesForCurrentCase : expectedFunctionCallTypes) {
-            final ProbabilisticBranchTransition branchTransition = SeffFactory.eINSTANCE
-                    .createProbabilisticBranchTransition();
-            final ResourceDemandingBehaviour behaviorOfCurrentBranch = SeffFactory.eINSTANCE
-                    .createResourceDemandingBehaviour();
+            final ProbabilisticBranchTransition branchTransition =
+                    SeffFactory.eINSTANCE.createProbabilisticBranchTransition();
+            final ResourceDemandingBehaviour behaviorOfCurrentBranch =
+                    SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
             branchTransition.setBranchBehaviour_BranchTransition(behaviorOfCurrentBranch);
             final StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
             behaviorOfCurrentBranch.getSteps_Behaviour().add(startAction);
@@ -417,10 +431,10 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
         final BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
         for (final FunctionCallType functionCallType : expectedTypesForCondition) {
-            final ProbabilisticBranchTransition branchTransition = SeffFactory.eINSTANCE
-                    .createProbabilisticBranchTransition();
-            final ResourceDemandingBehaviour behaviorOfCurrentBranch = SeffFactory.eINSTANCE
-                    .createResourceDemandingBehaviour();
+            final ProbabilisticBranchTransition branchTransition =
+                    SeffFactory.eINSTANCE.createProbabilisticBranchTransition();
+            final ResourceDemandingBehaviour behaviorOfCurrentBranch =
+                    SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
             branchTransition.setBranchBehaviour_BranchTransition(behaviorOfCurrentBranch);
             final StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
             AbstractAction call = null;
@@ -477,8 +491,8 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
     protected ExternalCallAction createExternalCallAction(final String operationSignatureName) {
         final ExternalCallAction externalCall = SeffFactory.eINSTANCE.createExternalCallAction();
         final BasicComponent basicComponent = (BasicComponent) super.findComponentInPCMRepo(REQUIRED_COMPONENT_NAME);
-        final OperationRequiredRole operationRequiredRole = super.findOperaitonRequiredRoleInBasicComponent(
-                basicComponent, REQUIRED_ROLE_NAME);
+        final OperationRequiredRole operationRequiredRole =
+                super.findOperaitonRequiredRoleInBasicComponent(basicComponent, REQUIRED_ROLE_NAME);
         final OperationSignature operationSignature = super.findRequiredOperationSignatureInOperationRequiredRole(
                 operationRequiredRole, operationSignatureName);
         externalCall.setRole_ExternalService(operationRequiredRole);

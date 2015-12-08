@@ -51,6 +51,11 @@ public abstract class AbstractFunctionClassificationStrategy implements IFunctio
             }
             result.add(currentBitSet);
         }
+        // ensure that at least one (empty) BitSet is contained in the result list --> enables us to
+        // create interalActions if needed
+        if (result.isEmpty()) {
+            result.add(new BitSet());
+        }
         return result;
     }
 

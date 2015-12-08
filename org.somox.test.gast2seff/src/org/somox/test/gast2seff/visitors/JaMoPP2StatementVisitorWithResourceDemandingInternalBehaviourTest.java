@@ -30,7 +30,7 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
         final ExternalCallAction externalCallAction = this.createExternalCallAction(OPERATION_SIGNATURE_NAME);
         final InternalCallAction internalCallAction = this.createInternalCallAction(externalCallAction);
         expectedSeff.getSteps_Behaviour().add(internalCallAction);
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
         expectedSeff.getSteps_Behaviour().add(ica);
         final ExternalCallAction eca = this.createExternalCallAction(OPERATION_SIGNATURE_NAME);
         expectedSeff.getSteps_Behaviour().add(eca);
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     @Override
@@ -51,10 +51,10 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
         final ResourceDemandingBehaviour secoundCaseBehavior = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
         final ResourceDemandingBehaviour defaultCaseBehavior = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
         defaultCaseBehavior.getSteps_Behaviour().add(this.createExternalCallAction(OPERATION_SIGNATURE_NAME));
-        final BranchAction branchAction = this.createBranchAction(firstCaseBehavior, secoundCaseBehavior,
-                defaultCaseBehavior);
+        final BranchAction branchAction =
+                this.createBranchAction(firstCaseBehavior, secoundCaseBehavior, defaultCaseBehavior);
         expectedSeff.getSteps_Behaviour().add(branchAction);
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
         final ExternalCallAction eca = this.createExternalCallAction(OPERATION_SIGNATURE_NAME);
         final InternalCallAction internalCallAction = this.createInternalCallAction(eca);
         expectedSeff.getSteps_Behaviour().add(internalCallAction);
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
         final InternalCallAction internalCallAction = this.createRecursiveInternalCallAction();
         expectedSeff.getSteps_Behaviour().add(internalCallAction);
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     @Test
@@ -86,10 +86,10 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
         loopBehaviour.getSteps_Behaviour().add(this.createExternalCallAction(OPERATION_SIGNATURE_NAME));
         loopBehaviour.getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStopAction());
         loopActionInInternalCall.setBodyBehaviour_Loop(loopBehaviour);
-        final InternalCallAction internalCallAction = this.createInternalCallAction(internalActionInInternalCall,
-                loopActionInInternalCall);
+        final InternalCallAction internalCallAction =
+                this.createInternalCallAction(internalActionInInternalCall, loopActionInInternalCall);
         expectedSeff.getSteps_Behaviour().add(internalCallAction);
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     @Override
@@ -157,10 +157,22 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
         final InternalCallAction internalCallAction2 = this.createInternalCallAction(this.createInternalAction());
         expectedSeff.getSteps_Behaviour().add(internalCallAction1);
         expectedSeff.getSteps_Behaviour().add(internalCallAction2);
-        final ExternalCallAction externalCallAction = this
-                .createExternalCallAction(TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETERS_AND_RETURN_TYPE);
+        final ExternalCallAction externalCallAction =
+                this.createExternalCallAction(TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETERS_AND_RETURN_TYPE);
         expectedSeff.getSteps_Behaviour().add(externalCallAction);
-        this.doMethodTestGastStatementVisitor(this.getTestMethodName(), expectedSeff);
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
+    }
+
+    @Override
+    @Test
+    public void testExternalCallAsInputForInternalCall() {
+        final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+        final ExternalCallAction externalCallAction = this.createExternalCallAction(OPERATION_SIGNATURE_NAME);
+        final InternalCallAction internalCallAction = this.createInternalCallAction(this.createInternalAction());
+        expectedSeff.getSteps_Behaviour().add(externalCallAction);
+        expectedSeff.getSteps_Behaviour().add(internalCallAction);
+
+        this.doMethodTestGastStatementVisitor(getTestMethodName(), expectedSeff);
     }
 
     private LoopAction createLoopAction(final AbstractAction... expectedLoopActions) {
@@ -181,8 +193,8 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
         for (final ResourceDemandingBehaviour caseBehaviour : caseBehaviours) {
             caseBehaviour.getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStopAction());
             caseBehaviour.getSteps_Behaviour().add(0, SeffFactory.eINSTANCE.createStartAction());
-            final ProbabilisticBranchTransition branchTransition = SeffFactory.eINSTANCE
-                    .createProbabilisticBranchTransition();
+            final ProbabilisticBranchTransition branchTransition =
+                    SeffFactory.eINSTANCE.createProbabilisticBranchTransition();
             branchTransition.setBranchBehaviour_BranchTransition(caseBehaviour);
             branchTransition.setEntityName("branch transition");
             branchAction.getBranches_Branch().add(branchTransition);
@@ -202,8 +214,8 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
 
     private InternalCallAction createInternalCallAction(final boolean recursiveCallsItselfOnly,
             final AbstractAction... expectedBehaviorOfResourceInternalBehaviour) {
-        final ResourceDemandingInternalBehaviour resourceDemandingInternalBehaviour = SeffFactory.eINSTANCE
-                .createResourceDemandingInternalBehaviour();
+        final ResourceDemandingInternalBehaviour resourceDemandingInternalBehaviour =
+                SeffFactory.eINSTANCE.createResourceDemandingInternalBehaviour();
         resourceDemandingInternalBehaviour.getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStartAction());
         if (recursiveCallsItselfOnly) {
             final InternalCallAction recursiveInternalCallAction = SeffFactory.eINSTANCE.createInternalCallAction();

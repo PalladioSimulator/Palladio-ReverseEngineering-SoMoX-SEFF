@@ -303,7 +303,7 @@ public class RequiringComponentImpl implements ProvidingInterface {
         internalCall(internalCall);
     }
     
-    private void internalCallWithDummyStatement(Obj ob){
+    private void internalCallWithDummyStatement(Object ob){
         System.out.println("");
     }
 
@@ -339,6 +339,12 @@ public class RequiringComponentImpl implements ProvidingInterface {
     
     public void testInternalCallAsInputForExternalCall(){
         this.providingComponentImpl.testExternalCallWithSimpleParametersAndReturnType(internalCallRetString(), internalCallRetString());
+    }
+    
+    public void testSimpleStatement(){
+        int i = 0;
+        i++;
+        --i;
     }
     
     private String internalCallRetString(){
