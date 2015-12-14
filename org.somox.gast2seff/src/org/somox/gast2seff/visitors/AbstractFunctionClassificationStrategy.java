@@ -19,6 +19,11 @@ import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCa
 public abstract class AbstractFunctionClassificationStrategy implements IFunctionClassificationStrategy {
 
     private final Logger logger = Logger.getLogger(BasicFunctionClassificationStrategy.class);
+    private final MethodCallFinder methodCallFinder;
+
+    public AbstractFunctionClassificationStrategy(final MethodCallFinder methodCallFinder) {
+        this.methodCallFinder = methodCallFinder;
+    }
 
     /*
      * (non-Javadoc)
@@ -32,7 +37,7 @@ public abstract class AbstractFunctionClassificationStrategy implements IFunctio
                                                                          // //can/should
         // be replaced with Statement
 
-        final Collection<Method> methods = VisitorUtils.getMethodCalls(object);// GAST2SEFFCHANGE
+        final Collection<Method> methods = this.methodCallFinder.getMethodCalls(object);// GAST2SEFFCHANGE
         final List<BitSet> result = new ArrayList<BitSet>(methods.size());
 
         for (final Method method : methods) {

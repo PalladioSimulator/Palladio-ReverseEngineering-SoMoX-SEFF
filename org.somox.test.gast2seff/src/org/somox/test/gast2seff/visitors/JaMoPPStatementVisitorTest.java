@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.statements.Statement;
 import org.junit.BeforeClass;
@@ -29,6 +30,7 @@ import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
 import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.JaMoPPStatementVisitor;
+import org.somox.gast2seff.visitors.MethodCallFinder;
 import org.somox.gast2seff.visitors.ResourceDemandingBehaviourForClassMethodFinding;
 
 public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
@@ -40,7 +42,7 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
     protected static boolean createResourceDemandingInternalBehaviourForClassMethods;
 
     @BeforeClass
-    public static void beforeClass() throws IOException {
+    public static void beforeClass() throws IOException, CoreException {
         JaMoPP2PCMBaseTest.beforeClass();
         createResourceDemandingInternalBehaviourForClassMethods = false;
     }
@@ -322,10 +324,11 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
                 (ClassMethod) super.findMethodInClassifier(methodName, REQUIRED_COMPONENT_NAME + "Impl");
         final BasicComponent basicComponent = (BasicComponent) super.findComponentInPCMRepo(REQUIRED_COMPONENT_NAME);
         final ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
-        final IFunctionClassificationStrategy basicFunctionClassifierStrategy =
-                new BasicFunctionClassificationStrategy(this.sourceCodeDecorator, basicComponent, compilationUnits);
+        final MethodCallFinder methodCallFinder = new MethodCallFinder();
+        final IFunctionClassificationStrategy basicFunctionClassifierStrategy = new BasicFunctionClassificationStrategy(
+                this.sourceCodeDecorator, basicComponent, compilationUnits, methodCallFinder);
         final FunctionCallClassificationVisitor functionCallClassificationVisitor =
-                new FunctionCallClassificationVisitor(basicFunctionClassifierStrategy);
+                new FunctionCallClassificationVisitor(basicFunctionClassifierStrategy, methodCallFinder);
         ResourceDemandingBehaviourForClassMethodFinding resourceDemandingBehaviourForClassMethodFinding = null;
         if (createResourceDemandingInternalBehaviourForClassMethods) {
             resourceDemandingBehaviourForClassMethodFinding =
@@ -333,7 +336,7 @@ public class JaMoPPStatementVisitorTest extends JaMoPP2SEFFBaseTest {
         }
         final AbstractJaMoPPStatementVisitor gastStatementVisitor = new JaMoPPStatementVisitor(
                 functionCallClassificationVisitor.getAnnotations(), seff, this.sourceCodeDecorator, basicComponent,
-                null, resourceDemandingBehaviourForClassMethodFinding);
+                null, resourceDemandingBehaviourForClassMethodFinding, methodCallFinder);
 
         // execute the test
         for (final Statement statement : method.getStatements()) {

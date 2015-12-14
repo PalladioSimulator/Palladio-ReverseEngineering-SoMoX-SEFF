@@ -16,12 +16,12 @@ import org.emftext.language.java.resource.JaMoPPUtil;
 import org.emftext.language.java.statements.Statement;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.somox.gast2seff.visitors.VisitorUtils;
+import org.somox.gast2seff.visitors.MethodCallFinder;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 
-public class VisitorUtilsTest {
+public class MethodCallFinderTest {
 
-    private static final Logger logger = Logger.getLogger(VisitorUtilsTest.class.getSimpleName());
+    private static final Logger logger = Logger.getLogger(MethodCallFinderTest.class.getSimpleName());
 
     private static final String PROJECT_PATH = "testworkspace/MockupProject/src-for-tests";
 
@@ -94,7 +94,8 @@ public class VisitorUtilsTest {
         final Statement statmentWithMethodCalls = classMethod.getStatements().get(0);
 
         // execute the actual test
-        final List<Method> methodCalls = VisitorUtils.getMethodCalls(statmentWithMethodCalls);
+        final MethodCallFinder methodCallFinder = new MethodCallFinder();
+        final List<Method> methodCalls = methodCallFinder.getMethodCalls(statmentWithMethodCalls);
 
         this.traceMethodCalls(methodCalls, methodName);
 

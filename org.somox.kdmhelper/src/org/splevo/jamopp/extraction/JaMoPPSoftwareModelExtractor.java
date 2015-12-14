@@ -202,7 +202,8 @@ public class JaMoPPSoftwareModelExtractor {
     private ReferenceCache getReferenceCache(final ResourceSet resourceSet) {
         final Map<String, Object> factoryMap = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
         final Object factoryObject = factoryMap.get("java");
-        final JavaSourceOrClassFileResourceCachingFactoryImpl factory = (JavaSourceOrClassFileResourceCachingFactoryImpl) factoryObject;
+        final JavaSourceOrClassFileResourceCachingFactoryImpl factory =
+                (JavaSourceOrClassFileResourceCachingFactoryImpl) factoryObject;
         final ReferenceCache cache = factory.getReferenceCache();
         return cache;
     }
@@ -321,8 +322,8 @@ public class JaMoPPSoftwareModelExtractor {
 
         final Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
         final JavaClasspath javaClasspath = JavaClasspath.get(rs);
-        final JavaSourceOrClassFileResourceCachingFactoryImpl factory = new JavaSourceOrClassFileResourceCachingFactoryImpl(
-                directories, javaClasspath, jarPaths);
+        final JavaSourceOrClassFileResourceCachingFactoryImpl factory =
+                new JavaSourceOrClassFileResourceCachingFactoryImpl(directories, javaClasspath, jarPaths);
         factoryMap.put("java", factory);
         // DesignDecision No caching for byte code resources to improve performance
         factoryMap.put("class", new JavaSourceOrClassFileResourceFactoryImpl());
@@ -348,8 +349,8 @@ public class JaMoPPSoftwareModelExtractor {
 
         final Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
         final JavaClasspath javaClasspath = JavaClasspath.get(rs);
-        final JavaSourceOrClassFileResourceCachingFactoryImpl factory = new JavaSourceOrClassFileResourceCachingFactoryImpl(
-                sourceModelPaths, javaClasspath);
+        final JavaSourceOrClassFileResourceCachingFactoryImpl factory =
+                new JavaSourceOrClassFileResourceCachingFactoryImpl(sourceModelPaths, javaClasspath);
         factoryMap.put("java", factory);
         // DesignDecision No caching for byte code resources to improve performance
         factoryMap.put("class", new JavaSourceOrClassFileResourceFactoryImpl());

@@ -46,9 +46,13 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
 
     private static final Logger logger = Logger.getLogger(JaMoPPStatementVisitor.class);
 
-    public FunctionCallClassificationVisitor(final IFunctionClassificationStrategy strategy) {
+    private final MethodCallFinder methodCallFinder;
+
+    public FunctionCallClassificationVisitor(final IFunctionClassificationStrategy strategy,
+            final MethodCallFinder methodCallFinder) {
         super();
 
+        this.methodCallFinder = methodCallFinder;
         this.myStrategy = strategy;
         this.addSwitch(new MembersClassification());
         this.addSwitch(new StatementClassification());
@@ -137,8 +141,8 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
             if (FunctionCallClassificationVisitor.this.annotations.containsKey(switchStatement)) {
                 return FunctionCallClassificationVisitor.this.annotations.get(switchStatement);
             }
-            final List<List<Statement>> branches = SwitchStatementHelper
-                    .createBlockListFromSwitchStatement(switchStatement);
+            final List<List<Statement>> branches =
+                    SwitchStatementHelper.createBlockListFromSwitchStatement(switchStatement);
             for (final List<Statement> branch : branches) {
                 // copied from the BlockCase
                 FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(), branch);
@@ -271,7 +275,7 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
 
         final List<BitSet> myTypes = this.myStrategy.classifySimpleStatement(statement);
         this.putBitSetInAnnotations(statement, myTypes);
-        final List<Method> calledMethods = VisitorUtils.getMethodCalls(statement);
+        final List<Method> calledMethods = this.methodCallFinder.getMethodCalls(statement);
         for (int i = 0; i < myTypes.size(); i++) {
             final BitSet myType = myTypes.get(i);
             if (myType.get(getIndex(FunctionCallType.INTERNAL))) {

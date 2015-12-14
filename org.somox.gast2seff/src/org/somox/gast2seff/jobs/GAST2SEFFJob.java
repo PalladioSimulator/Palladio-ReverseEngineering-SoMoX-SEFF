@@ -27,6 +27,7 @@ import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
 import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
+import org.somox.gast2seff.visitors.MethodCallFinder;
 import org.somox.gast2seff.visitors.VisitorUtils;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.seff2javaast.SEFF2JavaAST;
@@ -65,6 +66,8 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
 
     private FunctionCallClassificationVisitor typeVisitor;
 
+    private MethodCallFinder methodCallFinder;
+
     public GAST2SEFFJob() {
         super();
         // performance optimisation:
@@ -86,12 +89,13 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
         this.gastBehaviourRepositoryModel = result.getSeff2JavaAST();
         this.sourceCodeDecoratorModel = result.getSourceCodeDecoratorRepository();
         this.root = result.getRoot();
+        this.methodCallFinder = new MethodCallFinder();
 
         final IProgressMonitor subMonitor = new SubProgressMonitor(monitor, IProgressMonitor.UNKNOWN);
         subMonitor.setTaskName("Creating SEFF behaviour");
 
-        final Iterator<SEFF2MethodMapping> iterator = this.gastBehaviourRepositoryModel.getSeff2MethodMappings()
-                .iterator();
+        final Iterator<SEFF2MethodMapping> iterator =
+                this.gastBehaviourRepositoryModel.getSeff2MethodMappings().iterator();
         while (iterator.hasNext()) {
             final SEFF2MethodMapping astBehaviour = iterator.next();
             final ResourceDemandingSEFF seff = (ResourceDemandingSEFF) astBehaviour.getSeff();
@@ -135,13 +139,15 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
         // initialise for new component / seff to reverse engineer:
         final BasicComponent basicComponent = (BasicComponent) seff.eContainer();
         final IFunctionClassificationStrategy basicFunctionClassifierStrategy = new BasicFunctionClassificationStrategy(
-                this.sourceCodeDecoratorModel, basicComponent, this.root);
-        this.typeVisitor = new FunctionCallClassificationVisitor(basicFunctionClassifierStrategy);
+                this.sourceCodeDecoratorModel, basicComponent, this.root, this.methodCallFinder);
+        this.typeVisitor =
+                new FunctionCallClassificationVisitor(basicFunctionClassifierStrategy, this.methodCallFinder);
 
         final StatementListContainer body = this.findBody(seff);// GAST2SEFFCHANGE
         this.logger.trace("visiting (seff entry): " + seff.getId());
         if (body != null) {
-            VisitorUtils.visitJaMoPPMethod(seff, basicComponent, body, this.sourceCodeDecoratorModel, this.typeVisitor);
+            VisitorUtils.visitJaMoPPMethod(seff, basicComponent, body, this.sourceCodeDecoratorModel, this.typeVisitor,
+                    this.methodCallFinder);
         } else {
             this.logger.warn("Found GAST behaviour (" + seff.getId() + ") without a method body... Skipping it...");
         }

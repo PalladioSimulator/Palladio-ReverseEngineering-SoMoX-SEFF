@@ -52,9 +52,14 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
      */
     protected boolean doNotSkipNextStatement;
 
-    public AbstractJaMoPPStatementVisitor(final Map<Commentable, List<BitSet>> functionClassificationAnnotations) {
+    /** The method call finder */
+    protected MethodCallFinder methodCallFinder;
+
+    public AbstractJaMoPPStatementVisitor(final Map<Commentable, List<BitSet>> functionClassificationAnnotations,
+            final MethodCallFinder methodCallFinder) {
         this.doNotSkipNextStatement = false;
         this.functionClassificationAnnotation = functionClassificationAnnotations;
+        this.methodCallFinder = methodCallFinder;
 
         this.addSwitch(new MemberVisitor());
         this.addSwitch(new StatementVisitor());
@@ -107,7 +112,7 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
 
     protected Object handleFormerSimpleStatement(final Statement object) {
         final List<BitSet> statementAnnotations = this.functionClassificationAnnotation.get(object);
-        final List<Method> calledMethods = VisitorUtils.getMethodCalls(object);
+        final List<Method> calledMethods = this.methodCallFinder.getMethodCalls(object);
         if (0 < calledMethods.size()) {
             for (int i = 0; i < statementAnnotations.size(); i++) {
                 final BitSet statementAnnotation = statementAnnotations.get(i);

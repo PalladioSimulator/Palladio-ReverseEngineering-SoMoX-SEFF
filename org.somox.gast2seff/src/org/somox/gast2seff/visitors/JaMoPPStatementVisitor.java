@@ -87,17 +87,19 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
      */
     public JaMoPPStatementVisitor(final Map<Commentable, List<BitSet>> functionClassificationAnnotations,
             final org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour resourceDemandingBehaviour,
-            final SourceCodeDecoratorRepository sourceCodeDecorator, final BasicComponent primitiveComponent) {
+            final SourceCodeDecoratorRepository sourceCodeDecorator, final BasicComponent primitiveComponent,
+            final MethodCallFinder methodCallFinder) {
         this(functionClassificationAnnotations, resourceDemandingBehaviour, sourceCodeDecorator, primitiveComponent,
-                null, null);
+                null, null, methodCallFinder);
     }
 
     public JaMoPPStatementVisitor(final Map<Commentable, List<BitSet>> map,
             final org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour resourceDemandingBehaviour,
             final SourceCodeDecoratorRepository sourceCodeDecorator, final BasicComponent primitiveComponent,
             final InterfaceOfExternalCallFinding interfaceOfExternalCallFinder,
-            final ResourceDemandingBehaviourForClassMethodFinding resourceDemandingBehaviourForClassMethodFinding) {
-        super(map);
+            final ResourceDemandingBehaviourForClassMethodFinding resourceDemandingBehaviourForClassMethodFinding,
+            final MethodCallFinder methodCallFinder) {
+        super(map, methodCallFinder);
         this.seff = resourceDemandingBehaviour;
         this.sourceCodeDecoratorRepository = sourceCodeDecorator;
         this.primitiveComponent = primitiveComponent;
@@ -146,7 +148,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
 
             new JaMoPPStatementVisitor(this.functionClassificationAnnotation, loop.getBodyBehaviour_Loop(),
                     this.sourceCodeDecoratorRepository, this.primitiveComponent, this.interfaceOfExternalCallFinder,
-                    this.resourceDemandingBehaviourForClassMethodFinding).doSwitch(body);
+                    this.resourceDemandingBehaviourForClassMethodFinding, this.methodCallFinder).doSwitch(body);
 
             final StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
             this.createAbstracActionClassMethodLink(stopAction, loopStatement);
@@ -231,7 +233,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                                 bt.getBranchBehaviour_BranchTransition(),
                                 JaMoPPStatementVisitor.this.sourceCodeDecoratorRepository,
                                 JaMoPPStatementVisitor.this.primitiveComponent, this.interfaceOfExternalCallFinder,
-                                this.resourceDemandingBehaviourForClassMethodFinding);
+                                this.resourceDemandingBehaviourForClassMethodFinding, this.methodCallFinder);
                 // Statement s = b.getStatement();
                 // visitor.doSwitch(s);
 
@@ -279,7 +281,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                     new JaMoPPStatementVisitor(JaMoPPStatementVisitor.this.functionClassificationAnnotation,
                             JaMoPPStatementVisitor.this.seff, JaMoPPStatementVisitor.this.sourceCodeDecoratorRepository,
                             JaMoPPStatementVisitor.this.primitiveComponent, this.interfaceOfExternalCallFinder,
-                            this.resourceDemandingBehaviourForClassMethodFinding);
+                            this.resourceDemandingBehaviourForClassMethodFinding, this.methodCallFinder);
             for (final Statement statement : tryBlock.getStatements()) {
                 visitor.doSwitch(statement);
             }
@@ -291,7 +293,8 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                 new JaMoPPStatementVisitor(JaMoPPStatementVisitor.this.functionClassificationAnnotation,
                         JaMoPPStatementVisitor.this.seff, JaMoPPStatementVisitor.this.sourceCodeDecoratorRepository,
                         JaMoPPStatementVisitor.this.primitiveComponent, this.interfaceOfExternalCallFinder,
-                        this.resourceDemandingBehaviourForClassMethodFinding).doSwitch(tryBlock.getFinallyBlock());
+                        this.resourceDemandingBehaviourForClassMethodFinding, this.methodCallFinder)
+                                .doSwitch(tryBlock.getFinallyBlock());
             }
         } else {
             this.createInternalAction(tryBlock);
@@ -392,9 +395,10 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         this.createMethodLevelResourceDemandingInternalBehaviorLink(classMethod, resourceDemandingInternalBehaviour);
         final StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
         resourceDemandingInternalBehaviour.getSteps_Behaviour().add(startAction);
-        final JaMoPPStatementVisitor methodVisitor = new JaMoPPStatementVisitor(this.functionClassificationAnnotation,
-                resourceDemandingInternalBehaviour, this.sourceCodeDecoratorRepository, this.primitiveComponent,
-                this.interfaceOfExternalCallFinder, this.resourceDemandingBehaviourForClassMethodFinding);
+        final JaMoPPStatementVisitor methodVisitor =
+                new JaMoPPStatementVisitor(this.functionClassificationAnnotation, resourceDemandingInternalBehaviour,
+                        this.sourceCodeDecoratorRepository, this.primitiveComponent, this.interfaceOfExternalCallFinder,
+                        this.resourceDemandingBehaviourForClassMethodFinding, this.methodCallFinder);
         methodVisitor.handleStatementListContainer(classMethod);
         final StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
         resourceDemandingInternalBehaviour.getSteps_Behaviour().add(stopAction);
@@ -425,7 +429,8 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         branch.getBranches_Branch().add(bt);
         final AbstractJaMoPPStatementVisitor visitor = new JaMoPPStatementVisitor(this.functionClassificationAnnotation,
                 bt.getBranchBehaviour_BranchTransition(), this.sourceCodeDecoratorRepository, this.primitiveComponent,
-                this.interfaceOfExternalCallFinder, this.resourceDemandingBehaviourForClassMethodFinding);
+                this.interfaceOfExternalCallFinder, this.resourceDemandingBehaviourForClassMethodFinding,
+                this.methodCallFinder);
         // Statement s = b.getStatement();//GAST2SEFFCHANGE
         visitor.doSwitch(ifElseStatement);
         final StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();

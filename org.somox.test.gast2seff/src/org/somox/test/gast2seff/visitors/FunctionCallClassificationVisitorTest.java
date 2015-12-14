@@ -18,6 +18,7 @@ import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
 import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
+import org.somox.gast2seff.visitors.MethodCallFinder;
 
 public class FunctionCallClassificationVisitorTest extends JaMoPP2SEFFBaseTest {
 
@@ -145,7 +146,7 @@ public class FunctionCallClassificationVisitorTest extends JaMoPP2SEFFBaseTest {
     }
 
     @Test
-    public void testSimpleStatement(){
+    public void testSimpleStatement() {
         this.executeTest(getTestMethodName(), WhileLoop.class, FunctionCallType.INTERNAL);
     }
 
@@ -195,9 +196,10 @@ public class FunctionCallClassificationVisitorTest extends JaMoPP2SEFFBaseTest {
             final String componentName, final String methodName) {
         final MethodFunctionCallClassificationVisitorPair pair = new MethodFunctionCallClassificationVisitorPair();
         final BasicComponent basicComponent = (BasicComponent) this.findComponentInPCMRepo(componentName);
-        final IFunctionClassificationStrategy strategy =
-                new BasicFunctionClassificationStrategy(this.sourceCodeDecorator, basicComponent, compilationUnits);
-        pair.functionCallClassificationVisitor = new FunctionCallClassificationVisitor(strategy);
+        final MethodCallFinder methodCallFinder = new MethodCallFinder();
+        final IFunctionClassificationStrategy strategy = new BasicFunctionClassificationStrategy(
+                this.sourceCodeDecorator, basicComponent, compilationUnits, methodCallFinder);
+        pair.functionCallClassificationVisitor = new FunctionCallClassificationVisitor(strategy, methodCallFinder);
         pair.method = this.findMethodInClassifier(methodName, componentName + "Impl");
         return pair;
     }

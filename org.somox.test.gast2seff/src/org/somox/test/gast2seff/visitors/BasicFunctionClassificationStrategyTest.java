@@ -14,6 +14,7 @@ import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor.FunctionCallType;
 import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
+import org.somox.gast2seff.visitors.MethodCallFinder;
 
 public class BasicFunctionClassificationStrategyTest extends JaMoPP2SEFFBaseTest {
 
@@ -35,8 +36,9 @@ public class BasicFunctionClassificationStrategyTest extends JaMoPP2SEFFBaseTest
     @Test
     public void testMergeFunctionCallType() {
         final BasicComponent bc = (BasicComponent) this.findComponentInPCMRepo(REQUIRED_COMPONENT_NAME);
-        final IFunctionClassificationStrategy basicFunctionClassificationStrategy = new BasicFunctionClassificationStrategy(
-                this.sourceCodeDecorator, bc, compilationUnits);
+        final IFunctionClassificationStrategy basicFunctionClassificationStrategy =
+                new BasicFunctionClassificationStrategy(this.sourceCodeDecorator, bc, compilationUnits,
+                        new MethodCallFinder());
         final BitSet myType = new BitSet();
         myType.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.INTERNAL));
         final BitSet functionCallType = new BitSet();
@@ -47,8 +49,8 @@ public class BasicFunctionClassificationStrategyTest extends JaMoPP2SEFFBaseTest
     }
 
     private Statement getStatementInClassifier(final String classifierName, final String methodName) {
-        final ClassMethod methodInClassifier = (ClassMethod) super.findMethodInClassifier(methodName,
-                classifierName + "Impl");
+        final ClassMethod methodInClassifier =
+                (ClassMethod) super.findMethodInClassifier(methodName, classifierName + "Impl");
         assertEquals("Exact one statement should be in the statement list container", 1,
                 methodInClassifier.getStatements().size());
         final Statement statement = methodInClassifier.getStatements().get(0);
@@ -63,7 +65,7 @@ public class BasicFunctionClassificationStrategyTest extends JaMoPP2SEFFBaseTest
 
         // the test
         final IFunctionClassificationStrategy functionClassificationStrategy = new BasicFunctionClassificationStrategy(
-                this.sourceCodeDecorator, basicComponentForClass, compilationUnits);
+                this.sourceCodeDecorator, basicComponentForClass, compilationUnits, new MethodCallFinder());
         final List<BitSet> bitSets = functionClassificationStrategy.classifySimpleStatement(statement);
         for (final BitSet bitSet : bitSets) {
             this.assertBitSet(expectedBitSetCardinality, bitSet, expectedFunctionCallTypes);

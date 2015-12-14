@@ -2,6 +2,7 @@ package org.somox.test.gast2seff.visitors;
 
 import java.io.IOException;
 
+import org.eclipse.core.runtime.CoreException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.palladiosimulator.pcm.seff.AbstractAction;
@@ -18,7 +19,7 @@ import org.palladiosimulator.pcm.seff.SeffFactory;
 public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest extends JaMoPPStatementVisitorTest {
 
     @BeforeClass
-    public static void beforeClass() throws IOException {
+    public static void beforeClass() throws IOException, CoreException {
         JaMoPP2PCMBaseTest.beforeClass();
         createResourceDemandingInternalBehaviourForClassMethods = true;
     }

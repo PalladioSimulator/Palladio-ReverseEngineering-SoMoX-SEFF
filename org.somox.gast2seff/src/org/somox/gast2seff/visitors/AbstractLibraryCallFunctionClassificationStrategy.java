@@ -19,7 +19,9 @@ public abstract class AbstractLibraryCallFunctionClassificationStrategy extends 
     protected final Root root;
 
     public AbstractLibraryCallFunctionClassificationStrategy(final Root root,
-            final SourceCodeDecoratorRepository sourceCodeDecoratorRepository) {
+            final SourceCodeDecoratorRepository sourceCodeDecoratorRepository,
+            final MethodCallFinder methodCallFinder) {
+        super(methodCallFinder);
         this.root = root;
     }
 

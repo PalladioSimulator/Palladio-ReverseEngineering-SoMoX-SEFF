@@ -92,7 +92,7 @@ public class JaMoPP2PCMBaseTest {
     }
 
     @BeforeClass
-    public static void beforeClass() throws IOException {
+    public static void beforeClass() throws IOException, CoreException {
         initCompilationUnits();
         initializeLogger();
     }
@@ -275,10 +275,14 @@ public class JaMoPP2PCMBaseTest {
         resource.save(null);
     }
 
-    private static void initCompilationUnits() throws IOException {
+    private static void initCompilationUnits() throws IOException, CoreException {
         final KDMReader kdmReader = new KDMReader();
         final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         final IProject project = root.getProject(PROJECT_URI);
+        if (!project.exists()) {
+            project.create(null);
+            project.open(null);
+        }
         kdmReader.loadProject(project);
         compilationUnits = kdmReader.getRoot();
     }

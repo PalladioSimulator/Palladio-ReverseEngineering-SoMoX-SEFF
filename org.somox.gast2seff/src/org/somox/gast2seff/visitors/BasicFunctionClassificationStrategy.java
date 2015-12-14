@@ -38,10 +38,11 @@ public class BasicFunctionClassificationStrategy extends AbstractLibraryCallFunc
      * @param primitiveComponent
      *            The primitive component for which to decide whether the function access represents
      *            an external call.
+     * @param methodCallFinder
      */
     public BasicFunctionClassificationStrategy(final SourceCodeDecoratorRepository sourceCodeDecoratorRepository,
-            final BasicComponent primitiveComponent, final Root root) {
-        super(root, sourceCodeDecoratorRepository);
+            final BasicComponent primitiveComponent, final Root root, final MethodCallFinder methodCallFinder) {
+        super(root, sourceCodeDecoratorRepository, methodCallFinder);
         this.sourceCodeDecoratorRepository = sourceCodeDecoratorRepository;
         this.primitiveComponent = primitiveComponent;
     }
