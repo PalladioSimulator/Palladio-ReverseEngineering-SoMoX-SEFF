@@ -11,56 +11,33 @@
  *******************************************************************************/
 package org.splevo.jamopp.extraction.resource;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.emftext.language.java.JavaClasspath;
-import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
-import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
 import org.splevo.jamopp.extraction.cache.ReferenceCache;
 
 /**
  * Factory for creating cache enabled JaMoPP java and class file resource.
  */
-public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceOrClassFileResourceFactoryImpl {
+public class JavaSourceOrClassFileResourceCachingFactoryImpl implements Resource.Factory {
 
-    private static final String FILE_URI_SCHEME = "file";
-
+    private final Resource.Factory factory;
+    
     /** The reference cache to use. */
     private ReferenceCache referenceCache = null;
 
     /**
      * Constructor to set the base directory for internal reference cache.
-     *
+     * 
+     * @param factory
+     *            The resource factory to which the requests are forwarded.
      * @param cacheDirectories
      *            The absolute paths of directories containing cache files.
-     * @param javaClasspath
-     *            The class path to enhance. Should be the same as associated with the resource set
-     *            the resource factory belongs to.
      */
-    public JavaSourceOrClassFileResourceCachingFactoryImpl(final List<String> cacheDirectories,
-            final JavaClasspath javaClasspath) {
-        this(cacheDirectories, javaClasspath, new ArrayList<String>());
-    }
-
-    /**
-     * Constructor to set the base directory for internal reference cache.
-     *
-     * @param cacheDirectories
-     *            The absolute paths of directories containing cache files.
-     * @param javaClasspath
-     *            The class path to enhance. Should be the same as associated with the resource set
-     *            the resource factory belongs to.
-     * @param jarPaths
-     *            A list of paths to jar files to be registered in the {@link JavaClasspath} and
-     *            stored in the cache.
-     */
-    public JavaSourceOrClassFileResourceCachingFactoryImpl(final List<String> cacheDirectories,
-            final JavaClasspath javaClasspath, final List<String> jarPaths) {
-        super();
-        this.referenceCache = new ReferenceCache(cacheDirectories, javaClasspath, jarPaths);
+    public JavaSourceOrClassFileResourceCachingFactoryImpl(Resource.Factory factory, List<String> cacheDirectories) {
+        this.factory = factory;
+        referenceCache = new ReferenceCache(cacheDirectories);
     }
 
     /**
@@ -77,11 +54,11 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
      * {@inheritDoc}
      */
     @Override
-    public Resource createResource(final URI uri) {
-        if (FILE_URI_SCHEME.equals(uri.scheme())) {
-            return new JavaSourceOrClassFileCachingResource(uri, this.referenceCache);
+    public Resource createResource(URI uri) {
+        if (uri.isFile() || uri.isPlatform()) {
+            return new JavaSourceOrClassFileCachingResource(uri, referenceCache);
         } else {
-            return new JavaSourceOrClassFileResource(uri);
+            return factory.createResource(uri);
         }
     }
 
@@ -91,6 +68,6 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
      * @return The internally used cache.
      */
     public ReferenceCache getReferenceCache() {
-        return this.referenceCache;
+        return referenceCache;
     }
 }

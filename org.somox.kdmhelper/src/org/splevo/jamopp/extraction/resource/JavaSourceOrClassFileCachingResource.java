@@ -17,19 +17,21 @@ import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
 import org.splevo.jamopp.extraction.cache.ReferenceCache;
 
+import com.google.common.base.Strings;
+
 /***
  * JaMoPP java resource using an internal cache for reference resolving.
  *
  * As long as the cache is not explicitly triggered to resolve a resource, proxies will be resolved
  * when required only.
  */
-public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileResource {
+public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileResource implements CachingResource {
 
     @SuppressWarnings("unused")
     private static Logger logger = Logger.getLogger(JavaSourceOrClassFileCachingResource.class);
 
     /** The reference cache to resolve proxies. */
-    private ReferenceCache referenceCache = null;
+    private ReferenceCache referenceCache;
 
     /**
      * Constructor to set the reference cache the resource should use for resolving.
@@ -53,7 +55,7 @@ public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileR
         }
 
         // resource internal ids must be picked up directly to prevent loops
-        if (null == id || 0 == id.length() || id.charAt(0) == '/') {
+        if (Strings.isNullOrEmpty(id) || id.charAt(0) == '/') {
             return super.getEObject(id);
         }
 
@@ -66,4 +68,13 @@ public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileR
         }
         return resolvedEObject;
     }
+
+    @Override
+    public void disableCaching() {
+        if (this.referenceCache != null) {
+            this.referenceCache.blacklist(this);
+            this.referenceCache = null;
+        }
+    }
+
 }

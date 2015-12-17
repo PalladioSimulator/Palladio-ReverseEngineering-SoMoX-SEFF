@@ -11,15 +11,17 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.java.JavaClasspath;
-import org.emftext.language.java.JavaPackage;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
+import org.emftext.language.java.resource.java.IJavaOptions;
+import org.splevo.jamopp.extraction.FileResourceHandling.ResourceHandlingOptions;
 import org.splevo.jamopp.extraction.cache.ReferenceCache;
 import org.splevo.jamopp.extraction.resource.JavaSourceOrClassFileResourceCachingFactoryImpl;
+
+import com.google.common.collect.Lists;
 
 /**
  * Software Model Extractor for the Java technology based on the Java Model Parser and Printer
@@ -30,6 +32,7 @@ public class JaMoPPSoftwareModelExtractor {
 
     private static Logger logger = Logger.getLogger(JaMoPPSoftwareModelExtractor.class);
 
+    public static final boolean EXTRACTOR_EXTRACT_LAYOUT_BY_DEFAULT = false;
     public static final String EXTRACTOR_ID = "JaMoPPSoftwareModelExtractor";
     private static final String EXTRACTOR_LABEL = "JaMoPP Software Model Extractor";
 
@@ -44,9 +47,8 @@ public class JaMoPPSoftwareModelExtractor {
      *            Source Paths of the projects to be extracted.
      * @param monitor
      *            The monitor to report the progress to.
-     * @return The set of resources containing the extracted model.
-     * @throws SoftwareModelExtractionException
-     *             Identifies the extraction was not successful.
+     * @return The set of resources containing the extracted model. @ Identifies the extraction was
+     *         not successful.
      */
     public ResourceSet extractSoftwareModel(final List<String> projectPaths, final IProgressMonitor monitor) {
         return this.extractSoftwareModel(projectPaths, monitor, null);
@@ -60,11 +62,12 @@ public class JaMoPPSoftwareModelExtractor {
      * If the sourceModelPath is null, the extractor will not use a cache file for improved
      * reference resolving.
      * </p>
-     *
+     * {@inheritDoc}
      */
+
     public ResourceSet extractSoftwareModel(final List<String> projectPaths, final IProgressMonitor monitor,
             final String sourceModelPath) {
-        return this.extractSoftwareModel(projectPaths, monitor, sourceModelPath, false);
+        return this.extractSoftwareModel(projectPaths, monitor, sourceModelPath, EXTRACTOR_EXTRACT_LAYOUT_BY_DEFAULT);
     }
 
     /**
@@ -86,9 +89,8 @@ public class JaMoPPSoftwareModelExtractor {
      *            in.
      * @param extractLayoutInfo
      *            Option to extract layout information.
-     * @return The set of resources containing the extracted model.
-     * @throws SoftwareModelExtractionException
-     *             Identifies the extraction was not successful.
+     * @return The set of resources containing the extracted model. @ Identifies the extraction was
+     *         not successful.
      *
      */
     public ResourceSet extractSoftwareModel(final List<String> projectPaths, final IProgressMonitor monitor,
@@ -100,19 +102,8 @@ public class JaMoPPSoftwareModelExtractor {
 
         // TODO: Refactor Code for more intuitive
         // loading-resolving-caching-workflow
-        final List<String> jarFiles = this.getAllJarFiles(projectPaths);
-        final ResourceSet targetResourceSet = this.setUpResourceSet(sourceModelPath, jarFiles, extractLayoutInfo);
-
-        final List<Resource> resources = new ArrayList<Resource>();
-        this.sourceResources = new ArrayList<Resource>();
-
-        for (final String projectPath : projectPaths) {
-            final List<Resource> projectResources = this.loadProjectJavaFiles(targetResourceSet, projectPath);
-            resources.addAll(projectResources);
-            this.sourceResources.addAll(projectResources);
-        }
-
-        logger.info(String.format("%d Java and %d Jar Files added to resource set", resources.size(), jarFiles.size()));
+        final ResourceSet targetResourceSet = this.setUpResourceSet(sourceModelPath, extractLayoutInfo);
+        final List<Resource> resources = this.loadProjectJavaFiles(targetResourceSet, projectPaths);
 
         // trigger the resource resolving as soon as all resources are parsed.
         final ReferenceCache cache = this.getReferenceCache(targetResourceSet);
@@ -123,9 +114,35 @@ public class JaMoPPSoftwareModelExtractor {
             cache.resolve(resource);
         }
 
+        this.sourceResources = Lists.newArrayList();
+        this.sourceResources.addAll(resources);
+
         this.triggerCacheSave(targetResourceSet);
 
         return targetResourceSet;
+    }
+
+    /**
+     * Load all java files found in the projects into a ResourceSet and return the list of created
+     * resources.
+     *
+     * @param targetResourceSet
+     *            The preconfigured resource set to load to.
+     * @param projectPaths
+     *            The base paths of the projects containing the java files.
+     * @return The list of newly created resources. @ thrown if a java file could not be parsed
+     *         successfully.
+     */
+    protected List<Resource> loadProjectJavaFiles(final ResourceSet targetResourceSet,
+            final Iterable<String> projectPaths) {
+        final List<Resource> resources = Lists.newArrayList();
+        for (final String projectPath : projectPaths) {
+            final List<Resource> projectResources = this.loadProjectJavaFiles(targetResourceSet, projectPath);
+            resources.addAll(projectResources);
+        }
+        logger.info(String.format("%d Java files added to resource set", resources.size()));
+
+        return resources;
     }
 
     /**
@@ -136,9 +153,8 @@ public class JaMoPPSoftwareModelExtractor {
      *            The preconfigured resource set to load to.
      * @param projectPath
      *            The base path of the project containing the java files.
-     * @return The list of newly created resources.
-     * @throws SoftwareModelExtractionException
-     *             thrown if a java file could not be parsed successfully.
+     * @return The list of newly created resources. @ thrown if a java file could not be parsed
+     *         successfully.
      */
     private List<Resource> loadProjectJavaFiles(final ResourceSet targetResourceSet, final String projectPath) {
         List<Resource> projectResources;
@@ -150,34 +166,6 @@ public class JaMoPPSoftwareModelExtractor {
             throw new RuntimeException("Failed to parse project resources. Project: " + projectPath, e);
         }
         return projectResources;
-    }
-
-    /**
-     * Get the list of paths of the involved jar files of all projects.
-     *
-     * @param projectPaths
-     *            The project base directories.
-     * @return The list of jar files found and accessible.
-     */
-    private List<String> getAllJarFiles(final List<String> projectPaths) {
-
-        final List<String> jarPaths = new ArrayList<String>();
-
-        for (final String projectPath : projectPaths) {
-            final File projectDirectory = new File(projectPath);
-            final Collection<File> jarFiles = FileUtils.listFiles(projectDirectory, new String[] { "jar" }, true);
-            for (final File jarPath : jarFiles) {
-                if (jarPath.exists()) {
-                    try {
-                        jarPaths.add(jarPath.getCanonicalPath());
-                    } catch (final IOException e) {
-                        logger.warn("Unable to access jar file: " + jarPath);
-                    }
-                }
-            }
-        }
-
-        return jarPaths;
     }
 
     /**
@@ -222,7 +210,7 @@ public class JaMoPPSoftwareModelExtractor {
     private List<Resource> loadAllJavaFilesInResourceSet(final File rootFolder, final ResourceSet rs)
             throws IOException {
 
-        final List<Resource> resources = new ArrayList<Resource>();
+        final List<Resource> resources = Lists.newArrayList();
 
         final Collection<File> javaFiles = FileUtils.listFiles(rootFolder, new String[] { "java" }, true);
         int currentFile = 0;
@@ -292,42 +280,19 @@ public class JaMoPPSoftwareModelExtractor {
      *
      * @param sourceModelDirectory
      *            The path to the directory assigned to the extracted copy.
-     * @param jarPaths
-     *            Absolute paths to the jar files of the source project.
-     *
+     * @param extractLayoutInfo
+     *            Flag for extraction of layout information. True means that layout information is
+     *            extracted.
      * @return The initialized resource set.
      */
-    private ResourceSet setUpResourceSet(final String sourceModelDirectory, final List<String> jarPaths,
-            final boolean extractLayoutInfo) {
-
-        final ResourceSet rs = new ResourceSetImpl();
-
-        // further resource set enhancement for the extraction specific needs
-        final Map<Object, Object> options = rs.getLoadOptions();
-        // TODO: next three lines commented out in order to retrieve layout information (even if
-        // extractLayoutInformation is set to true it was not working before)
-        // final Boolean disableLayoutOption = extractLayoutInfo ? Boolean.FALSE : Boolean.TRUE;
-        // options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, false);
-        // options.put(IJavaOptions.DISABLE_LOCATION_MAP, false);
-        // options.put(IJavaOptions.DISABLE_EMF_VALIDATION, Boolean.TRUE);
-        options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
-        options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);
-
-        EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
-
-        final ArrayList<String> directories = new ArrayList<String>();
+    private ResourceSet setUpResourceSet(final String sourceModelDirectory, final boolean extractLayoutInfo) {
+        final ArrayList<String> directories = Lists.newArrayList();
         if (sourceModelDirectory != null) {
             directories.add(sourceModelDirectory);
         }
 
-        final Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
-        final JavaClasspath javaClasspath = JavaClasspath.get(rs);
-        final JavaSourceOrClassFileResourceCachingFactoryImpl factory =
-                new JavaSourceOrClassFileResourceCachingFactoryImpl(directories, javaClasspath, jarPaths);
-        factoryMap.put("java", factory);
-        // DesignDecision No caching for byte code resources to improve performance
-        factoryMap.put("class", new JavaSourceOrClassFileResourceFactoryImpl());
-
+        final ResourceSet rs = new SPLevoResourceSet();
+        this.initResourceSet(rs, directories, extractLayoutInfo);
         return rs;
     }
 
@@ -339,24 +304,38 @@ public class JaMoPPSoftwareModelExtractor {
         return EXTRACTOR_LABEL;
     }
 
-    public void prepareResourceSet(final ResourceSet rs, final List<String> sourceModelPaths) {
+    public void prepareResourceSet(final ResourceSet rs, final List<String> sourceModelPaths,
+            final boolean loadLayoutInformation) {
+        this.initResourceSet(rs, sourceModelPaths, loadLayoutInformation);
+    }
+
+    private void initResourceSet(final ResourceSet rs, final List<String> sourceModelPaths,
+            final boolean loadLayoutInformation) {
+        final Boolean disableLayoutOption = loadLayoutInformation ? Boolean.FALSE : Boolean.TRUE;
 
         final Map<Object, Object> options = rs.getLoadOptions();
         options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
         options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);
-        // options.put(IJavaOptions.DISABLE_EMF_VALIDATION, Boolean.TRUE);
-        EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
+        options.put(IJavaOptions.DISABLE_EMF_VALIDATION, Boolean.TRUE);
+        options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, disableLayoutOption);
+        options.put(IJavaOptions.DISABLE_LOCATION_MAP, disableLayoutOption);
+        options.put(ResourceHandlingOptions.USE_PLATFORM_RESOURCE,
+                ResourceHandlingOptions.USE_PLATFORM_RESOURCE.getDefault());
+
+        final Factory originalFactory = new JavaSourceOrClassFileResourceFactoryImpl();
+        final Factory cachedJaMoPPFactory =
+                new JavaSourceOrClassFileResourceCachingFactoryImpl(originalFactory, sourceModelPaths);
+
+        JavaClasspath.get(rs);
 
         final Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
-        final JavaClasspath javaClasspath = JavaClasspath.get(rs);
-        final JavaSourceOrClassFileResourceCachingFactoryImpl factory =
-                new JavaSourceOrClassFileResourceCachingFactoryImpl(sourceModelPaths, javaClasspath);
-        factoryMap.put("java", factory);
+        factoryMap.put("java", cachedJaMoPPFactory);
         // DesignDecision No caching for byte code resources to improve performance
-        factoryMap.put("class", new JavaSourceOrClassFileResourceFactoryImpl());
+        factoryMap.put("class", originalFactory);
     }
 
     public List<Resource> getSourceResources() {
         return this.sourceResources;
     }
+
 }

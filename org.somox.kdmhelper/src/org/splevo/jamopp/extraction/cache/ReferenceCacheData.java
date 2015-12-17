@@ -13,9 +13,9 @@ package org.splevo.jamopp.extraction.cache;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
+
+import com.google.common.collect.Maps;
 
 /**
  * The data container of the reference cache.
@@ -29,10 +29,7 @@ public class ReferenceCacheData implements Serializable {
      * The list of reference URIs for reach resource. The resource itself is also identified by its
      * URI.
      */
-    private final Map<String, LinkedHashMap<String, String>> resourceToTargetURIListMap = new LinkedHashMap<String, LinkedHashMap<String, String>>();
-
-    /** The absolute paths to jar files to register in the JavaClasspath. */
-    private final Set<String> jarFilePaths = new LinkedHashSet<String>();
+    private Map<String, LinkedHashMap<String, String>> resourceToTargetURIListMap = Maps.newLinkedHashMap();
 
     /**
      * Access to the resource reference map.
@@ -40,16 +37,7 @@ public class ReferenceCacheData implements Serializable {
      * @return The map at least empty but never null.
      */
     public Map<String, LinkedHashMap<String, String>> getResourceToTargetURIListMap() {
-        return this.resourceToTargetURIListMap;
-    }
-
-    /**
-     * Access the list of jar files to be registered.
-     *
-     * @return The path list, never null.
-     */
-    public Set<String> getJarFilePaths() {
-        return this.jarFilePaths;
+        return resourceToTargetURIListMap;
     }
 
     /**
@@ -59,8 +47,7 @@ public class ReferenceCacheData implements Serializable {
      * @param mergeInCacheData
      *            The data to merge into this cache.
      */
-    public void merge(final ReferenceCacheData mergeInCacheData) {
-        this.resourceToTargetURIListMap.putAll(mergeInCacheData.getResourceToTargetURIListMap());
-        this.jarFilePaths.addAll(mergeInCacheData.getJarFilePaths());
+    public void merge(ReferenceCacheData mergeInCacheData) {
+        resourceToTargetURIListMap.putAll(mergeInCacheData.getResourceToTargetURIListMap());
     }
 }
