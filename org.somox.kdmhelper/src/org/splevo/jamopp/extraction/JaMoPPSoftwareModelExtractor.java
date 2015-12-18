@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -114,9 +115,6 @@ public class JaMoPPSoftwareModelExtractor {
             cache.resolve(resource);
         }
 
-        this.sourceResources = Lists.newArrayList();
-        this.sourceResources.addAll(resources);
-
         this.triggerCacheSave(targetResourceSet);
 
         return targetResourceSet;
@@ -136,9 +134,11 @@ public class JaMoPPSoftwareModelExtractor {
     protected List<Resource> loadProjectJavaFiles(final ResourceSet targetResourceSet,
             final Iterable<String> projectPaths) {
         final List<Resource> resources = Lists.newArrayList();
+        this.sourceResources = Lists.newArrayList();
         for (final String projectPath : projectPaths) {
             final List<Resource> projectResources = this.loadProjectJavaFiles(targetResourceSet, projectPath);
             resources.addAll(projectResources);
+            this.sourceResources.addAll(projectResources);
         }
         logger.info(String.format("%d Java files added to resource set", resources.size()));
 
@@ -291,7 +291,8 @@ public class JaMoPPSoftwareModelExtractor {
             directories.add(sourceModelDirectory);
         }
 
-        final ResourceSet rs = new SPLevoResourceSet();
+        final SPLevoResourceSet rs = new SPLevoResourceSet();
+        rs.setURIResourceMap(new HashMap<URI, Resource>());
         this.initResourceSet(rs, directories, extractLayoutInfo);
         return rs;
     }
