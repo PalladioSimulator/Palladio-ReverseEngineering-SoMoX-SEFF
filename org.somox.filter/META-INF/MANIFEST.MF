@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.apache.log4j;bundle-version="1.2.13",
  org.somox.kdmhelper,
- org.emftext.language.java;bundle-version="1.4.0"
+ org.emftext.language.java
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.somox.filter

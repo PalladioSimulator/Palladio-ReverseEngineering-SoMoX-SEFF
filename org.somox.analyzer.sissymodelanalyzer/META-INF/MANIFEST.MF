@@ -21,7 +21,7 @@ Require-Bundle: org.somox.core;bundle-version="1.0.0",
  org.palladiosimulator.pcm;bundle-version="3.2.0",
  org.junit,
  org.palladiosimulator.pcm.resources;bundle-version="1.0.0",
- org.emftext.language.java;bundle-version="1.4.0",
+ org.emftext.language.java,
  org.eclipse.emf.common
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
