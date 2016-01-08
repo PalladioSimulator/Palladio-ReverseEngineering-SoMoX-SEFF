@@ -13,14 +13,20 @@ import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.Switch;
+import org.emftext.language.java.statements.SynchronizedBlock;
 import org.emftext.language.java.statements.TryBlock;
+import org.palladiosimulator.pcm.core.CoreFactory;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
+import org.palladiosimulator.pcm.repository.PassiveResource;
+import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.AbstractAction;
+import org.palladiosimulator.pcm.seff.AcquireAction;
 import org.palladiosimulator.pcm.seff.ExternalCallAction;
 import org.palladiosimulator.pcm.seff.InternalAction;
 import org.palladiosimulator.pcm.seff.InternalCallAction;
+import org.palladiosimulator.pcm.seff.ReleaseAction;
 import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
 import org.palladiosimulator.pcm.seff.ResourceDemandingInternalBehaviour;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
@@ -601,6 +607,36 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     protected void foundExternalCall(final Statement object, final Method calledMethod,
             final BitSet statementAnnotation) {
         this.createExternalCallAction(object, calledMethod, statementAnnotation);
+    }
+
+    @Override
+    protected Object handleSynchronizedBlock(final SynchronizedBlock synchronizedBlock) {
+        final PassiveResource passiveResource = RepositoryFactory.eINSTANCE.createPassiveResource();
+        passiveResource.setEntityName(this.positionToString(KDMHelper.getJavaNodeSourceRegion(synchronizedBlock)));
+
+        passiveResource.setCapacity_PassiveResource(CoreFactory.eINSTANCE.createPCMRandomVariable());
+        this.primitiveComponent.getPassiveResource_BasicComponent().add(passiveResource);
+        passiveResource.getCapacity_PassiveResource().setSpecification("1");
+
+        logger.debug("start handling synchronized statement");
+        final AcquireAction acquireAction = SeffFactory.eINSTANCE.createAcquireAction();
+        logger.debug("create acquireAction");
+
+        this.seff.getSteps_Behaviour().add(acquireAction);
+
+        acquireAction.setPassiveresource_AcquireAction(passiveResource);
+        acquireAction.setEntityName(this.positionToString(KDMHelper.getJavaNodeSourceRegion(synchronizedBlock)));
+
+        final Object ret = this.handleStatementListContainer(synchronizedBlock);
+
+        logger.debug("create releaseAction");
+        final ReleaseAction releaseAction = SeffFactory.eINSTANCE.createReleaseAction();
+
+        this.seff.getSteps_Behaviour().add(releaseAction);
+        releaseAction.setPassiveResource_ReleaseAction(passiveResource);
+        releaseAction.setEntityName(this.positionToString(KDMHelper.getJavaNodeSourceRegion(synchronizedBlock)));
+
+        return ret;
     }
 
     // @Override

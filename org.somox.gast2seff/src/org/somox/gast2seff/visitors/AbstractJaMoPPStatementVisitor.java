@@ -25,6 +25,7 @@ import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.Switch;
+import org.emftext.language.java.statements.SynchronizedBlock;
 import org.emftext.language.java.statements.TryBlock;
 import org.emftext.language.java.statements.WhileLoop;
 import org.emftext.language.java.statements.util.StatementsSwitch;
@@ -75,6 +76,8 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
     protected abstract Object handleClassMethod(ClassMethod classMethod);
 
     protected abstract Object handleTryBlock(final TryBlock object);
+
+    protected abstract Object handleSynchronizedBlock(SynchronizedBlock synchronizedBlock);
 
     protected abstract void foundInternalAction(Statement object);
 
@@ -219,7 +222,11 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
         @Override
         public Object caseTryBlock(final TryBlock object) {
             return AbstractJaMoPPStatementVisitor.this.handleTryBlock(object);
+        }
 
+        @Override
+        public Object caseSynchronizedBlock(final SynchronizedBlock synchronizedBlock) {
+            return AbstractJaMoPPStatementVisitor.this.handleSynchronizedBlock(synchronizedBlock);
         }
 
         @Override
