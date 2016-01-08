@@ -77,7 +77,14 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
 
     protected abstract Object handleTryBlock(final TryBlock object);
 
-    protected abstract Object handleSynchronizedBlock(SynchronizedBlock synchronizedBlock);
+    /**
+     * Per default we do not handle synchronized blocks. Instead we treat the synchronized statement
+     * like any other statement. It is, however, up to subclasses to override this method and handle
+     * synchronized blocks.
+     */
+    protected Object handleSynchronizedBlock(final SynchronizedBlock synchronizedBlock) {
+        return null;
+    }
 
     protected abstract void foundInternalAction(Statement object);
 
