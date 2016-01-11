@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.ui,
  org.somox.sourcecodedecorator;bundle-version="1.0.1",
  org.somox.seff2javaast;bundle-version="1.0.0",
  org.somox.kdmhelper;bundle-version="1.0.0",
- org.somox.analyzer.sissymodelanalyzer;bundle-version="1.0.0",
+ org.somox.analyzer.simplemodelanalyzer;bundle-version="1.0.0",
  org.somox.core;bundle-version="1.0.0",
  org.palladiosimulator.pcm;bundle-version="3.2.0",
  org.emftext.language.java

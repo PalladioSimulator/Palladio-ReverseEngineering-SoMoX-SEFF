@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SoMoX Simple Model Analyzer Plug-in
-Bundle-SymbolicName: org.somox.analyzer.sissymodelanalyzer;singleton:=true
+Bundle-SymbolicName: org.somox.analyzer.simplemodelanalyzer;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.somox.analyzer.simplemodelanalyzer.Activator
 Bundle-Vendor: Palladio Project
