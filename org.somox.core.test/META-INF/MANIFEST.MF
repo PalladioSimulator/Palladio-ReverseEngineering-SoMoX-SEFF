@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test
+Bundle-SymbolicName: org.somox.core.test
+Bundle-Version: 1.0.0.qualifier
+Export-Package: org.somox.core.configuration.test
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: de.uka.ipd.sdq.workflow;bundle-version="2.1.0",
+ org.junit4;bundle-version="4.8.1"
