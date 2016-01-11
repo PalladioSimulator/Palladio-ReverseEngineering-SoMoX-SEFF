@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test
+Bundle-SymbolicName: org.somox.analyzer.simplemodelanalyzer.ui.test;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.somox.analyzer.simplemodelanalyzer,
+ de.uka.ipd.sdq.workflow,
+ org.junit,
+ org.somox.ui,
+ org.somox.analyzer.simplemodelanalyzer.ui,
+ org.somox.core

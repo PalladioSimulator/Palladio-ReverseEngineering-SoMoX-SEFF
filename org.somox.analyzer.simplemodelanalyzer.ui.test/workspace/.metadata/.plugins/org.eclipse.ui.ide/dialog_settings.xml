@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="installedFeatures">
+		<item value="org.eclipse.emf.codegen.ecore:2.11.0.v20150806-0404"/>
+		<item value="org.eclipse.emf.codegen:2.11.0.v20150806-0404"/>
+		<item value="org.eclipse.emf.common.ui:2.10.0.v20150806-0404"/>
+		<item value="org.eclipse.emf.common:2.11.0.v20150805-0538"/>
+		<item value="org.eclipse.emf.ecore.edit:2.9.0.v20150806-0404"/>
+		<item value="org.eclipse.emf.ecore:2.11.1.v20150805-0538"/>
+		<item value="org.eclipse.emf.edit.ui:2.11.0.v20150806-0404"/>
+		<item value="org.eclipse.emf.edit:2.11.1.v20150806-0404"/>
+		<item value="org.eclipse.emf.transaction:1.9.0.201506010221"/>
+		<item value="org.eclipse.emf.validation:1.9.0.201505312255"/>
+		<item value="org.eclipse.emf.workspace:1.9.0.201506010221"/>
+		<item value="org.eclipse.emf:2.11.1.v20150806-0404"/>
+		<item value="org.eclipse.help:2.1.1.v20150904-0015"/>
+		<item value="org.eclipse.jdt:3.11.1.v20150904-0015"/>
+		<item value="org.eclipse.m2e.feature:1.6.2.20150902-0002"/>
+		<item value="org.eclipse.ocl:3.5.0.v20150525-1635"/>
+		<item value="org.eclipse.platform:4.5.1.v20150904-0015"/>
+		<item value="org.eclipse.sdk:4.5.1.v20150904-0345"/>
+		<item value="org.emftext.access:1.4.1.v201207310007"/>
+		<item value="org.emftext.commons.antlr3_4_0:3.4.0.v201207310007"/>
+		<item value="org.emftext.commons.jdt:1.4.1.v201207310007"/>
+		<item value="org.emftext.commons.layout:1.4.1.v201207310007"/>
+		<item value="org.emftext.language.java:1.4.0.v201207310007"/>
+	</list>
+	<section name="ExternalProjectImportWizard">
+		<item value="false" key="WizardProjectsImportPage.STORE_NESTED_PROJECTS"/>
+		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
+		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
+		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="/home/josh/Dokumente/Uni/HiWi/Forschung WS 15/SoMoXWithJaMoPP/org.somox.analyzer.simplemodelanalyzer.ui.test/workspace/TestedProject"/>
+		</list>
+		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value=""/>
+		</list>
+	</section>
+</section>

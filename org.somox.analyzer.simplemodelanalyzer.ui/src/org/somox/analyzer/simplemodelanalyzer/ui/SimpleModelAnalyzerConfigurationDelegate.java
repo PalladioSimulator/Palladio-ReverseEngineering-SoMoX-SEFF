@@ -74,7 +74,7 @@ public class SimpleModelAnalyzerConfigurationDelegate
     @Override
     protected IJob createWorkflowJob(final ModelAnalyzerConfiguration config, final ILaunch launch)
             throws CoreException {
-        final SequentialBlackboardInteractingJob<Blackboard<?>> somoxJob = new CompleteSimpleModelAnalysisJob(config);
+        final SequentialBlackboardInteractingJob<Blackboard<?>> somoxJob = new ExtendableCompleteSimpleModelAnalysisJob(config);
         somoxJob.setBlackboard(new SoMoXBlackboard());
 
         return somoxJob;

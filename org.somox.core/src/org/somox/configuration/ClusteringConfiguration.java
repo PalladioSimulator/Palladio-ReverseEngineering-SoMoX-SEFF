@@ -2,42 +2,42 @@ package org.somox.configuration;
 
 public class ClusteringConfiguration {
 
-    private double minComposeClusteringThreshold;
-    private double clusteringComposeThresholdDecrement;
-    private double maxComposeClusteringThreshold;
+    private double minComposeClusteringThreshold = .25;
+    private double clusteringComposeThresholdDecrement = .1;
+    private double maxComposeClusteringThreshold = 1;
 
-    private double minMergeClusteringThreshold;
-    private double clusteringMergeThresholdDecrement;
-    private double maxMergeClusteringThreshold;
+    private double minMergeClusteringThreshold = .45;
+    private double clusteringMergeThresholdDecrement = .1;
+    private double maxMergeClusteringThreshold = 1;
 
     // COMPOSE
     public double getMaxComposeClusteringThreshold() {
-        return this.maxComposeClusteringThreshold;
+        return maxComposeClusteringThreshold;
     }
 
     public void setMaxComposeClusteringThreshold(final double clusteringThreshold) {
-        this.maxComposeClusteringThreshold = clusteringThreshold;
+        maxComposeClusteringThreshold = clusteringThreshold;
     }
 
     public double getMinComposeClusteringThreshold() {
-        return this.minComposeClusteringThreshold;
+        return minComposeClusteringThreshold;
     }
 
     public void setMinComposeClusteringThreshold(final double clusteringThreshold) {
-        this.minComposeClusteringThreshold = clusteringThreshold;
+        minComposeClusteringThreshold = clusteringThreshold;
     }
 
     public double getClusteringComposeThresholdDecrement() {
-        return this.clusteringComposeThresholdDecrement;
+        return clusteringComposeThresholdDecrement;
     }
 
     public void setClusteringComposeThresholdDecrement(final double clusteringThreshold) {
-        this.clusteringComposeThresholdDecrement = clusteringThreshold;
+        clusteringComposeThresholdDecrement = clusteringThreshold;
     }
 
     // MERGE
     public double getMinMergeClusteringThreshold() {
-        return this.minMergeClusteringThreshold;
+        return minMergeClusteringThreshold;
     }
 
     public void setMinMergeClusteringThreshold(final double minMergeClusteringThreshold) {
@@ -50,7 +50,7 @@ public class ClusteringConfiguration {
      * @return
      */
     public double getClusteringMergeThresholdDecrement() {
-        return this.clusteringMergeThresholdDecrement;
+        return clusteringMergeThresholdDecrement;
     }
 
     public void setClusteringMergeThresholdDecrement(final double clusteringMergeThresholdDecrement) {
@@ -58,7 +58,7 @@ public class ClusteringConfiguration {
     }
 
     public double getMaxMergeClusteringThreshold() {
-        return this.maxMergeClusteringThreshold;
+        return maxMergeClusteringThreshold;
     }
 
     public void setMaxMergeClusteringThreshold(final double maxMergeClusteringThreshold) {
