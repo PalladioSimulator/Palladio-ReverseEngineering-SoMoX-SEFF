@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.types.Type;
 import org.somox.analyzer.BlackboardListener;
-import org.somox.common.SoMoXProjectPreferences;
+import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
 
@@ -302,7 +302,7 @@ public class BlacklistTab extends MetricTab {
     public void initializeFrom(final ILaunchConfiguration configuration) {
         try {
             final String wildcardString = configuration
-                    .getAttribute(SoMoXProjectPreferences.SOMOX_ANALYSER_WILDCARD_KEY, "");
+                    .getAttribute(SoMoXConfiguration.SOMOX_ANALYZER_WILDCARD_KEY, "");
             final StringTokenizer tokenizer = new StringTokenizer(wildcardString, this.DELIMITER);
             final int tokenCount = tokenizer.countTokens();
             final Set<String> wildcards = new HashSet<String>();
@@ -314,7 +314,7 @@ public class BlacklistTab extends MetricTab {
             this.initializeTextField(wildcards);
 
             this.addiditonalBlacklistTextfield.setText(configuration
-                    .getAttribute(SoMoXProjectPreferences.BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL, ""));
+                    .getAttribute(SoMoXConfiguration.BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL, ""));
         } catch (final CoreException e) {
         }
     }
@@ -414,8 +414,8 @@ public class BlacklistTab extends MetricTab {
             buffer.append(iterator.next());
             buffer.append(this.DELIMITER);
         }
-        configuration.setAttribute(SoMoXProjectPreferences.SOMOX_ANALYSER_WILDCARD_KEY, buffer.toString());
-        configuration.setAttribute(SoMoXProjectPreferences.BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL,
+        configuration.setAttribute(SoMoXConfiguration.SOMOX_ANALYZER_WILDCARD_KEY, buffer.toString());
+        configuration.setAttribute(SoMoXConfiguration.BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL,
                 this.addiditonalBlacklistTextfield.getText());
     }
 
@@ -424,6 +424,6 @@ public class BlacklistTab extends MetricTab {
         if (this.checkboxTreeViewer != null) {
             this.checkboxTreeViewer.setInput(null);
         }
-        configuration.setAttribute(SoMoXProjectPreferences.BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL, "");
+        configuration.setAttribute(SoMoXConfiguration.BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL, "");
     }
 }

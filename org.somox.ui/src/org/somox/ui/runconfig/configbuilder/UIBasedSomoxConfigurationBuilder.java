@@ -2,7 +2,6 @@ package org.somox.ui.runconfig.configbuilder;
 
 import java.util.Map;
 
-import org.somox.configuration.SOMOXConfigurationBuilderByPreferences;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.ui.runconfig.ModelAnalyzerConfiguration;
 
@@ -18,8 +17,7 @@ public class UIBasedSomoxConfigurationBuilder extends AbstractUIBasedConfigurati
     protected ModelAnalyzerConfiguration internalBuild(final Map<String, Object> attributes) {
         final ModelAnalyzerConfiguration myConfig = new ModelAnalyzerConfiguration();
 
-        final SoMoXConfiguration somoxConfiguration = (new SOMOXConfigurationBuilderByPreferences())
-                .createSOMOXConfiguration(attributes);
+        final SoMoXConfiguration somoxConfiguration = new SoMoXConfiguration(attributes);
         myConfig.setSomoxConfiguration(somoxConfiguration);
 
         return myConfig;

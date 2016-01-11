@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.somox.analyzer.ModelAnalyzerTabGroupBlackboard;
-import org.somox.common.SoMoXProjectPreferences;
+import org.somox.configuration.SoMoXConfiguration;
 
 /**
  * The class defines a tab, which is responsible for the SoMoX strategy selection
@@ -35,7 +35,7 @@ public class ModelAnalyzerStrategySelectionTab extends AbstractLaunchConfigurati
     @Override
     public void performApply(final ILaunchConfigurationWorkingCopy configuration) {
         configuration.setAttribute(
-                SoMoXProjectPreferences.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES,
+                SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES,
                 this.reverseEngineerAllInterfaces.getSelection());
     }
 
@@ -122,7 +122,7 @@ public class ModelAnalyzerStrategySelectionTab extends AbstractLaunchConfigurati
     public void initializeFrom(final ILaunchConfiguration configuration) {
         try {
             this.reverseEngineerAllInterfaces.setSelection(configuration.getAttribute(
-                    SoMoXProjectPreferences.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES,
+                    SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES,
                     false));
         } catch (final CoreException e) {
             this.reverseEngineerAllInterfaces.setSelection(false);

@@ -1,6 +1,5 @@
 package org.somox.ui.runconfig;
 
-import org.somox.configuration.SOMOXConfigurationBuilderByPreferences;
 import org.somox.configuration.SoMoXConfiguration;
 
 import de.uka.ipd.sdq.workflow.launchconfig.AbstractWorkflowBasedRunConfiguration;
@@ -28,6 +27,6 @@ public class ModelAnalyzerConfiguration extends AbstractWorkflowBasedRunConfigur
 
     @Override
     public void setDefaults() {
-        this.somoxConfiguration = (new SOMOXConfigurationBuilderByPreferences()).createSOMOXConfiguration(null);
+        this.somoxConfiguration = new SoMoXConfiguration();
     }
 }

@@ -26,8 +26,8 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.somox.common.SoMoXProjectPreferences;
 import org.somox.configuration.ConfigurationDefinition;
+import org.somox.configuration.SoMoXConfiguration;
 import org.somox.ui.Activator;
 import org.somox.ui.SoMoXUILogger;
 
@@ -115,7 +115,7 @@ public class ModelExtractionInputTab extends AbstractLaunchConfigurationTab {
         projectworkspaceButton.setText("Workspace...");
         projectworkspaceButton
                 .addSelectionListener(new WorkspaceButtonSelectionListener(this.projectName, true, true, true));
-        this.stringAttributes.put(SoMoXProjectPreferences.SOMOX_PROJECT_NAME, this.projectName);
+        this.stringAttributes.put(SoMoXConfiguration.SOMOX_PROJECT_NAME, this.projectName);
 
         final LinkedList<ConfigurationDefinition> configs = Activator.getDefault().getGuiSoMoXCoreController()
                 .getConfigurationDefinitions();
