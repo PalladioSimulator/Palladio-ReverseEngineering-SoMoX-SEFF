@@ -317,7 +317,7 @@ public class JaMoPPSoftwareModelExtractor {
         final Map<Object, Object> options = rs.getLoadOptions();
         options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
         options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);
-        options.put(IJavaOptions.DISABLE_EMF_VALIDATION, Boolean.TRUE);
+        // options.put(IJavaOptions.DISABLE_EMF_VALIDATION, Boolean.TRUE);
         options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, disableLayoutOption);
         options.put(IJavaOptions.DISABLE_LOCATION_MAP, disableLayoutOption);
         options.put(ResourceHandlingOptions.USE_PLATFORM_RESOURCE,
