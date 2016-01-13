@@ -9,4 +9,6 @@ Require-Bundle: org.somox.analyzer.simplemodelanalyzer,
  org.junit,
  org.somox.ui,
  org.somox.analyzer.simplemodelanalyzer.ui,
- org.somox.core
+ org.somox.core,
+ org.apache.commons.io;bundle-version="2.2.0"
+Import-Package: org.eclipse.core.resources

@@ -8,11 +8,11 @@
 <stringAttribute key="checked" value="[NONE]"/>
 <booleanAttribute key="clearConfig" value="false"/>
 <booleanAttribute key="clearws" value="true"/>
-<booleanAttribute key="clearwslog" value="true"/>
+<booleanAttribute key="clearwslog" value="false"/>
 <stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/pde-junit"/>
 <booleanAttribute key="default" value="false"/>
 <booleanAttribute key="includeOptional" value="true"/>
-<stringAttribute key="location" value="${workspace_loc:org.somox.analyzer.simplemodelanalyzer.ui.test/workspace}"/>
+<stringAttribute key="location" value="${workspace_loc:org.somox.analyzer.simplemodelanalyzer.ui.test}/testworkspace"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/org.somox.analyzer.simplemodelanalyzer.ui.test/src/org/somox/analyzer/simplemodelanalyzer/ui/test/ExtendableCompleteSimpleModelAnalysisJobTest.java"/>
 </listAttribute>
