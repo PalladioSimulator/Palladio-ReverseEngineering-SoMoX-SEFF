@@ -33,6 +33,8 @@ public class TestModelAvailableExtendingJob extends AbstractWorkflowExtensionJob
 
         // report that we were called
         ExtendableCompleteSimpleModelAnalysisJobTest.reportCall(TestModelAvailableExtendingJob.class);
-        logic.test(myBlackboard);
+        if (logic != null) {
+            logic.test(myBlackboard);
+        }
     }
 }

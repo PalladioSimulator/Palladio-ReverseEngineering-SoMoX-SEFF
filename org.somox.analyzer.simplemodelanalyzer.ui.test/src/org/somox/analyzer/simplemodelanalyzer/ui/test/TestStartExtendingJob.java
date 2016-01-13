@@ -33,6 +33,8 @@ public class TestStartExtendingJob extends AbstractWorkflowExtensionJob<SoMoXBla
 
         // report that we were called
         ExtendableCompleteSimpleModelAnalysisJobTest.reportCall(TestStartExtendingJob.class);
-        logic.test(myBlackboard);
+        if (logic != null) {
+            logic.test(myBlackboard);
+        }
     }
 }
