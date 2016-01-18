@@ -23,7 +23,7 @@ import de.uka.ipd.sdq.workflow.configuration.IJobConfiguration;
  * For a mapping of attribute constants to getters and setters, see their documentation. An
  * <em>attribute map</em> can be obtained by {@link #toMap()} and be converted into a
  * {@code SoMoXConfiguration} by {@link #SoMoXConfiguration(Map)}.
- * 
+ *
  * @author Unknown
  * @author Joshua Gleitze
  *
@@ -208,12 +208,12 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
     /**
      * Creates a new SoMoX configuration initialized with the {@code attributeMap}’s values.
      * Attributes not defined in the map will be set to their default values.
-     * 
+     *
      * @param attributeMap
      *            An <em>attribute map</em>, as defined in the class description. It does not need
      *            to contain all attributes.
      */
-    public SoMoXConfiguration(Map<String, Object> attributeMap) {
+    public SoMoXConfiguration(final Map<String, Object> attributeMap) {
         this();
         applyAttributeMap(attributeMap);
     }
@@ -221,12 +221,12 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
     /**
      * Sets the attributes specified in the {@code attributeMap} on this configuration. Attributes
      * not specified in the map will be left untouched.
-     * 
+     *
      * @param attributeMap
      *            An <em>attribute map</em>, as defined in the class description. It does not need
      *            to contain all attributes.
      */
-    public void applyAttributeMap(Map<String, Object> attributeMap) {
+    public void applyAttributeMap(final Map<String, Object> attributeMap) {
         if (attributeMap == null) {
             return;
         }
@@ -241,7 +241,7 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
             }
 
         }
-        FileLocationConfiguration fileLocations = getFileLocations();
+        final FileLocationConfiguration fileLocations = getFileLocations();
         if (attributeMap.get(SOMOX_PROJECT_NAME) != null) {
             fileLocations.setProjectName((String) attributeMap.get(SOMOX_PROJECT_NAME));
         }
@@ -480,7 +480,7 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
         return this.reverseEngineerInterfacesNotAssignedToComponent;
     }
 
-    public void setAdditionalWildcards(String additionalWildcards) {
+    public void setAdditionalWildcards(final String additionalWildcards) {
         this.additionalWildcards = additionalWildcards;
         updateBlacklistFilter();
     }
@@ -555,23 +555,24 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
         this.weightPackageMapping = weightPackageMapping;
     }
 
-    public void setWildcardKey(String wildcardKey) {
+    public void setWildcardKey(final String wildcardKey) {
         this.wildcardKey = wildcardKey;
     }
 
     /**
      * Converts this configuration into an <em>attribute map</em>.
-     * 
+     *
      * @return an <em>attribute map</em>, such that for any {@code SoMoXConfiguration c},
      *         {@code new SoMoXConfiguration(c.toMap())} will behave exactly like {@code c}.
      */
     public Map<String, Object> toMap() {
-        Map<String, Object> result = new HashMap<String, Object>();
+        final Map<String, Object> result = new HashMap<String, Object>();
 
         result.put(SOMOX_PROJECT_NAME, getFileLocations().getProjectName());
         result.put(SOMOX_ANALYZER_INPUT_FILE, getFileLocations().getAnalyserInputFile());
         result.put(SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES,
                 isReverseEngineerInterfacesNotAssignedToComponent());
+        result.put(SOMOX_OUTPUT_FOLDER, getFileLocations().getOutputFolder());
         result.put(SOMOX_ANALYZER_WILDCARD_KEY, getWildcardKey());
         result.put(BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL, getAdditionalWildcards());
         result.put(SOMOX_EXCLUDED_PREFIXES, getExcludedPrefixesForNameResemblance());
@@ -602,7 +603,7 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
         result.put(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_MERGE,
                 clusteringConfiguration.getMaxMergeClusteringThreshold());
         result.put(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_MERGE,
-                clusteringConfiguration.getMinComposeClusteringThreshold());
+                clusteringConfiguration.getMinMergeClusteringThreshold());
         result.put(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_MERGE,
                 clusteringConfiguration.getClusteringMergeThresholdDecrement());
 
