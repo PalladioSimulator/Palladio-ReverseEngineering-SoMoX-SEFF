@@ -308,12 +308,12 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
     protected String positionToString(final Commentable position) {
         final StringBuilder positionString = new StringBuilder(" @position: ");
         if (position != null) {
-            if (position != null && position.getClass() != null) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
-                // TODO change name of class; question: is fqnName of Class better than path?
-                // positionString.append(KDMHelper.getSourceFile(position).getPath() +
-                // KDMHelper.getSourceFile(position).getName());//GAST2SEFFCHANGE
-                positionString.append(KDMHelper.computeFullQualifiedName(position)); // GAST2SEFFCHANGE
-            }
+            // if (position != null) { // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+            // TODO change name of class; question: is fqnName of Class better than path?
+            // positionString.append(KDMHelper.getSourceFile(position).getPath() +
+            // KDMHelper.getSourceFile(position).getName());//GAST2SEFFCHANGE
+            positionString.append(KDMHelper.computeFullQualifiedName(position)); // GAST2SEFFCHANGE
+            // }
             if (null != position.getLayoutInformations() && 0 < position.getLayoutInformations().size()
                     && null != position.getLayoutInformations().get(0)) {
                 final int startPos = position.getLayoutInformations().get(0).getStartOffset();
@@ -352,6 +352,11 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
         return statementAnnotation.get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.INTERNAL));
     }
 
+    protected boolean isInternalCallContainingExternalCall(final BitSet statementAnnotation) {
+        return statementAnnotation.get(
+                FunctionCallClassificationVisitor.getIndex(FunctionCallType.INTERNAL_CALL_CONTAINING_EXTERNAL_CALL));
+    }
+
     protected boolean isLibraryCall(final BitSet statementAnnotation) {
         return statementAnnotation.get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.LIBRARY));
     }
@@ -378,6 +383,10 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
         }
 
         if (this.isExternalCall(thisType)) {
+            return false;
+        }
+
+        if (this.isInternalCallContainingExternalCall(thisType)) {
             return false;
         }
 
