@@ -182,19 +182,19 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
     private String excludedSuffixesForNameResemblance = "";
     private final FileLocationConfiguration locations = new FileLocationConfiguration();
     private boolean reverseEngineerInterfacesNotAssignedToComponent;
-    private double weightDirectoryMapping;
-    private double weightDMS;
-    private double weightHighCoupling;
-    private double weightHighestNameResemblance;
-    private double weightHighNameResemblance;
-    private double weightHighSLAQ;
-    private double weightInterfaceViolationIrrelevant;
-    private double weightInterfaceViolationRelevant;
-    private double weightLowCoupling;
-    private double weightLowNameResemblance;
-    private double weightLowSLAQ;
-    private double weightMidNameResemblance;
-    private double weightPackageMapping;
+    private double weightDirectoryMapping = 70;
+    private double weightDMS = 5;
+    private double weightHighCoupling = 15;
+    private double weightHighestNameResemblance = 45;
+    private double weightHighNameResemblance = 30;
+    private double weightHighSLAQ = 22;
+    private double weightInterfaceViolationIrrelevant = 10;
+    private double weightInterfaceViolationRelevant = 40;
+    private double weightLowCoupling = 0;
+    private double weightLowNameResemblance = 5;
+    private double weightLowSLAQ = 0;
+    private double weightMidNameResemblance = 15;
+    private double weightPackageMapping = 70;
     private String wildcardKey = "";
 
     /**
