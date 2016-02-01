@@ -263,17 +263,17 @@ public class SoMoXConfigurationAttributeMapTest {
             }
 
             @Override
-            protected boolean matchesSafely(final Map<? extends K, ? extends V> item,
+            protected boolean matchesSafely(final Map<? extends K, ? extends V> examined,
                     final Description mismatchDescription) {
                 for (final Entry<K, V> entry : subsetMap.entrySet()) {
-                    if (!item.containsKey(entry.getKey())) {
+                    if (!examined.containsKey(entry.getKey())) {
                         mismatchDescription.appendText("Did not find a mapping for ").appendValue(entry.getKey());
                         return false;
                     }
 
-                    if (!item.get(entry.getKey()).equals(entry.getValue())) {
+                    if (!examined.get(entry.getKey()).equals(entry.getValue())) {
                         mismatchDescription.appendText("The mapping for ").appendValue(entry.getKey()).appendText(", ")
-                                .appendValue(item.get(entry.getKey())).appendText(" is not equal to the expected one, ")
+                                .appendValue(examined.get(entry.getKey())).appendText(" is not equal to the expected one, ")
                                 .appendValue(entry.getValue());
                         return false;
                     }

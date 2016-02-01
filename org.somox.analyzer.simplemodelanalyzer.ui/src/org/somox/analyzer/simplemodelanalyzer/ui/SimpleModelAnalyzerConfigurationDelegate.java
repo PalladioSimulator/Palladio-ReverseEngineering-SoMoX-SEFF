@@ -42,21 +42,14 @@ public class SimpleModelAnalyzerConfigurationDelegate
      * Keys of attributes that shall be interpreted as Doubles when being received from the launch
      * configuration. They will be parsed using {@link Double#parseDouble(String)}.
      */
-    private static final String[] DOUBLE_ATTRIBUTES = {
-            SoMoXConfiguration.SOMOX_WEIGHT_PACKAGE_MAPPING,
-            SoMoXConfiguration.SOMOX_WEIGHT_MID_NAME_RESEMBLANCE,
-            SoMoXConfiguration.SOMOX_WEIGHT_LOW_SLAQ,
-            SoMoXConfiguration.SOMOX_WEIGHT_LOW_NAME_RESEMBLANCE,
-            SoMoXConfiguration.SOMOX_WEIGHT_LOW_COUPLING,
+    private static final String[] DOUBLE_ATTRIBUTES = { SoMoXConfiguration.SOMOX_WEIGHT_PACKAGE_MAPPING,
+            SoMoXConfiguration.SOMOX_WEIGHT_MID_NAME_RESEMBLANCE, SoMoXConfiguration.SOMOX_WEIGHT_LOW_SLAQ,
+            SoMoXConfiguration.SOMOX_WEIGHT_LOW_NAME_RESEMBLANCE, SoMoXConfiguration.SOMOX_WEIGHT_LOW_COUPLING,
             SoMoXConfiguration.SOMOX_WEIGHT_INTERFACE_VIOLATION_RELEVANT,
-            SoMoXConfiguration.SOMOX_WEIGHT_INTERFACE_VIOLATION_IRRELEVANT,
-            SoMoXConfiguration.SOMOX_WEIGHT_HIGH_SLAQ,
+            SoMoXConfiguration.SOMOX_WEIGHT_INTERFACE_VIOLATION_IRRELEVANT, SoMoXConfiguration.SOMOX_WEIGHT_HIGH_SLAQ,
             SoMoXConfiguration.SOMOX_WEIGHT_HIGH_NAME_RESEMBLANCE,
-            SoMoXConfiguration.SOMOX_WEIGHT_HIGHEST_NAME_RESEMBLANCE,
-            SoMoXConfiguration.SOMOX_WEIGHT_HIGH_COUPLING,
-            SoMoXConfiguration.SOMOX_WEIGHT_DMS,
-            SoMoXConfiguration.SOMOX_WEIGHT_DIRECTORY_MAPPING
-    };
+            SoMoXConfiguration.SOMOX_WEIGHT_HIGHEST_NAME_RESEMBLANCE, SoMoXConfiguration.SOMOX_WEIGHT_HIGH_COUPLING,
+            SoMoXConfiguration.SOMOX_WEIGHT_DMS, SoMoXConfiguration.SOMOX_WEIGHT_DIRECTORY_MAPPING };
 
     /**
      * Keys of attributes that shall be interpreted as Percentages when being received from the
@@ -74,7 +67,8 @@ public class SimpleModelAnalyzerConfigurationDelegate
     @Override
     protected IJob createWorkflowJob(final ModelAnalyzerConfiguration config, final ILaunch launch)
             throws CoreException {
-        final SequentialBlackboardInteractingJob<Blackboard<?>> somoxJob = new ExtendableCompleteSimpleModelAnalysisJob(config);
+        final SequentialBlackboardInteractingJob<Blackboard<?>> somoxJob =
+                new ExtendableCompleteSimpleModelAnalysisJob(config);
         somoxJob.setBlackboard(new SoMoXBlackboard());
 
         return somoxJob;
@@ -86,13 +80,19 @@ public class SimpleModelAnalyzerConfigurationDelegate
         final ModelAnalyzerConfiguration config = new ModelAnalyzerConfiguration();
 
         // convert the attributes received into a attribute map compatible to SoMoXConfiguration
-        Map<String, Object> attributeMap = launchconfiguration.getAttributes();
+        final Map<String, Object> attributeMap = launchconfiguration.getAttributes();
 
-        for (String key : DOUBLE_ATTRIBUTES) {
+        for (final String key : DOUBLE_ATTRIBUTES) {
+            if (!attributeMap.containsKey(key)) {
+                continue;
+            }
             attributeMap.put(key, Double.parseDouble((String) attributeMap.get(key)));
         }
 
-        for (String key : PERCENTAGE_ATTRIBUTES) {
+        for (final String key : PERCENTAGE_ATTRIBUTES) {
+            if (!attributeMap.containsKey(key)) {
+                continue;
+            }
             attributeMap.put(key, Double.parseDouble((String) attributeMap.get(key)) / 100.0d);
         }
 
