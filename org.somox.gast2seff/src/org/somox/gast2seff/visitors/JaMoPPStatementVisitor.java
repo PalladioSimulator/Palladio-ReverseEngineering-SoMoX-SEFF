@@ -330,10 +330,10 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     }
 
     /**
-     * If createResourceDemandingInternalBehaviourForClassMethods is set to false we handle the
+     * If resourceDemandingBehaviourForClassMethodFinding is not set we handle the
      * class method like any other statement list container.
      *
-     * If createResourceDemandingInternalBehaviourForClassMethods set to true a
+     * If resourceDemandingBehaviourForClassMethodFinding is set to a
      * ResourceDemandingInternalBehaviour for the class method will be created (if not created yet)
      * in the current method and called from the current SEFF. In the current SEFF an
      * InternalCallAction will be created that calls the ResourceDemandingInternalBehaviour. If

@@ -25,9 +25,11 @@ import org.palladiosimulator.pcm.seff.StopAction;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
 import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
+import org.somox.gast2seff.visitors.DefaultResourceDemandingBehaviourForClassMethodFinder;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.MethodCallFinder;
+import org.somox.gast2seff.visitors.ResourceDemandingBehaviourForClassMethodFinding;
 import org.somox.gast2seff.visitors.VisitorUtils;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.seff2javaast.SEFF2JavaAST;
@@ -68,8 +70,20 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
 
     private MethodCallFinder methodCallFinder;
 
+    /**
+     * Field that indicates whether ResourceDemandingInternalBehaviour should be created for
+     * internal method calls or not. If set to true one RDIB will be created for each internal
+     * method. If set to false the intern method are inlined in the SEFF directly.
+     */
+    private final boolean createResourceDemandingInternalBehaviour;
+
     public GAST2SEFFJob() {
+        this(false);
+    }
+
+    public GAST2SEFFJob(final boolean createResourceDemandingInternalBehaviour) {
         super();
+        this.createResourceDemandingInternalBehaviour = createResourceDemandingInternalBehaviour;
         // performance optimisation:
         final Map<URI, Resource> cache = new HashMap<URI, Resource>();
         ((ResourceSetImpl) this.resourceSet).setURIResourceMap(cache);
@@ -146,8 +160,18 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
         final StatementListContainer body = this.findBody(seff);// GAST2SEFFCHANGE
         this.logger.trace("visiting (seff entry): " + seff.getId());
         if (body != null) {
-            VisitorUtils.visitJaMoPPMethod(seff, basicComponent, body, this.sourceCodeDecoratorModel, this.typeVisitor,
-                    this.methodCallFinder);
+            if (this.createResourceDemandingInternalBehaviour) {
+                final ResourceDemandingBehaviourForClassMethodFinding defaultResourceDemandingBehaviourForClassMethodFinder =
+                        new DefaultResourceDemandingBehaviourForClassMethodFinder(this.sourceCodeDecoratorModel,
+                                basicComponent);
+                VisitorUtils.visitJaMoPPMethod(seff, basicComponent, body, this.sourceCodeDecoratorModel,
+                        this.typeVisitor, null, defaultResourceDemandingBehaviourForClassMethodFinder,
+                        this.methodCallFinder);
+            } else {
+                VisitorUtils.visitJaMoPPMethod(seff, basicComponent, body, this.sourceCodeDecoratorModel,
+                        this.typeVisitor, this.methodCallFinder);
+            }
+
         } else {
             this.logger.warn("Found GAST behaviour (" + seff.getId() + ") without a method body... Skipping it...");
         }
