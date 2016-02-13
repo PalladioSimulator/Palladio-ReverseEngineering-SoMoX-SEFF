@@ -19,7 +19,7 @@ import org.emftext.language.java.statements.Statement;
 
 /**
  * The class finds methodCalls within a statement. It also caches the found method calls for
- * statements that to improve performance.
+ * statements to improve performance.
  *
  */
 public class MethodCallFinder {

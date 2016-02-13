@@ -12,72 +12,81 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
 
 /**
- * This is the item provider adapter for a
- * {@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink} object. <!-- begin-user-doc
+ * This is the item provider adapter for a {@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink} object.
+ * <!-- begin-user-doc
  * --> <!-- end-user-doc -->
- *
  * @generated
  */
 public class ControlFlowLevelSourceCodeLinkItemProvider extends MethodLevelSourceCodeLinkItemProvider {
     /**
-     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!--
+     * This constructs an instance from a factory and a notifier.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
-    public ControlFlowLevelSourceCodeLinkItemProvider(final AdapterFactory adapterFactory) {
+    public ControlFlowLevelSourceCodeLinkItemProvider(AdapterFactory adapterFactory) {
         super(adapterFactory);
     }
 
     /**
-     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!--
+     * This returns the property descriptors for the adapted class.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public List<IItemPropertyDescriptor> getPropertyDescriptors(final Object object) {
-        if (this.itemPropertyDescriptors == null) {
+    public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
+        if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            this.addAbstractActionPropertyDescriptor(object);
-            this.addStatementPropertyDescriptor(object);
+            addAbstractActionPropertyDescriptor(object);
+            addStatementPropertyDescriptor(object);
         }
-        return this.itemPropertyDescriptors;
+        return itemPropertyDescriptors;
     }
 
     /**
-     * This adds a property descriptor for the Abstract Action feature. <!-- begin-user-doc --> <!--
+     * This adds a property descriptor for the Abstract Action feature.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
-    protected void addAbstractActionPropertyDescriptor(final Object object) {
-        this.itemPropertyDescriptors.add(this.createItemPropertyDescriptor(
-                ((ComposeableAdapterFactory) this.adapterFactory).getRootAdapterFactory(), this.getResourceLocator(),
-                this.getString("_UI_ControlFlowLevelSourceCodeLink_abstractAction_feature"),
-                this.getString("_UI_PropertyDescriptor_description",
-                        "_UI_ControlFlowLevelSourceCodeLink_abstractAction_feature",
-                        "_UI_ControlFlowLevelSourceCodeLink_type"),
-                SourcecodedecoratorPackage.Literals.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION, true, false,
-                true, null, null, null));
+    protected void addAbstractActionPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_ControlFlowLevelSourceCodeLink_abstractAction_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_ControlFlowLevelSourceCodeLink_abstractAction_feature", "_UI_ControlFlowLevelSourceCodeLink_type"),
+                 SourcecodedecoratorPackage.Literals.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
     }
 
     /**
-     * This adds a property descriptor for the Statement feature. <!-- begin-user-doc --> <!--
+     * This adds a property descriptor for the Statement feature.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
-    protected void addStatementPropertyDescriptor(final Object object) {
-        this.itemPropertyDescriptors.add(this.createItemPropertyDescriptor(
-                ((ComposeableAdapterFactory) this.adapterFactory).getRootAdapterFactory(), this.getResourceLocator(),
-                this.getString("_UI_ControlFlowLevelSourceCodeLink_statement_feature"),
-                this.getString("_UI_PropertyDescriptor_description",
-                        "_UI_ControlFlowLevelSourceCodeLink_statement_feature",
-                        "_UI_ControlFlowLevelSourceCodeLink_type"),
-                SourcecodedecoratorPackage.Literals.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT, true, false, true,
-                null, null, null));
+    protected void addStatementPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_ControlFlowLevelSourceCodeLink_statement_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_ControlFlowLevelSourceCodeLink_statement_feature", "_UI_ControlFlowLevelSourceCodeLink_type"),
+                 SourcecodedecoratorPackage.Literals.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
     }
 
     /**
@@ -87,9 +96,8 @@ public class ControlFlowLevelSourceCodeLinkItemProvider extends MethodLevelSourc
      * @generated
      */
     @Override
-    public Object getImage(final Object object) {
-        return this.overlayImage(object,
-                this.getResourceLocator().getImage("full/obj16/ControlFlowLevelSourceCodeLink"));
+    public Object getImage(Object object) {
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/ControlFlowLevelSourceCodeLink"));
     }
 
     /**
@@ -99,31 +107,30 @@ public class ControlFlowLevelSourceCodeLinkItemProvider extends MethodLevelSourc
      * @generated
      */
     @Override
-    public String getText(final Object object) {
-        return this.getString("_UI_ControlFlowLevelSourceCodeLink_type");
+    public String getText(Object object) {
+        return getString("_UI_ControlFlowLevelSourceCodeLink_type");
     }
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}
-     * . <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
-    public void notifyChanged(final Notification notification) {
-        this.updateChildren(notification);
+    public void notifyChanged(Notification notification) {
+        updateChildren(notification);
         super.notifyChanged(notification);
     }
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that
-     * can be created under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+     * that can be created under this object.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
-    protected void collectNewChildDescriptors(final Collection<Object> newChildDescriptors, final Object object) {
+    protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
         super.collectNewChildDescriptors(newChildDescriptors, object);
     }
 

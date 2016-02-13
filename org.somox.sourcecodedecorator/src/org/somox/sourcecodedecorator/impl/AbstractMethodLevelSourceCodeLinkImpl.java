@@ -17,8 +17,7 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.somox.sourcecodedecorator.impl.AbstractMethodLevelSourceCodeLinkImpl#getFunction
- * <em>Function</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.AbstractMethodLevelSourceCodeLinkImpl#getFunction <em>Function</em>}</li>
  * </ul>
  *
  * @generated
@@ -37,7 +36,6 @@ public abstract class AbstractMethodLevelSourceCodeLinkImpl extends FileLevelSou
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     protected AbstractMethodLevelSourceCodeLinkImpl() {
@@ -46,7 +44,6 @@ public abstract class AbstractMethodLevelSourceCodeLinkImpl extends FileLevelSou
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
@@ -56,107 +53,92 @@ public abstract class AbstractMethodLevelSourceCodeLinkImpl extends FileLevelSou
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public Member getFunction() {
-        if (this.function != null && this.function.eIsProxy()) {
-            final InternalEObject oldFunction = (InternalEObject) this.function;
-            this.function = (Member) this.eResolveProxy(oldFunction);
-            if (this.function != oldFunction) {
-                if (this.eNotificationRequired()) {
-                    this.eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-                            SourcecodedecoratorPackage.ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION, oldFunction,
-                            this.function));
-                }
+        if (function != null && function.eIsProxy()) {
+            InternalEObject oldFunction = (InternalEObject)function;
+            function = (Member)eResolveProxy(oldFunction);
+            if (function != oldFunction) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION, oldFunction, function));
             }
         }
-        return this.function;
+        return function;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     public Member basicGetFunction() {
-        return this.function;
+        return function;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void setFunction(final Member newFunction) {
-        final Member oldFunction = this.function;
-        this.function = newFunction;
-        if (this.eNotificationRequired()) {
-            this.eNotify(new ENotificationImpl(this, Notification.SET,
-                    SourcecodedecoratorPackage.ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION, oldFunction,
-                    this.function));
-        }
+    public void setFunction(Member newFunction) {
+        Member oldFunction = function;
+        function = newFunction;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION, oldFunction, function));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
-            if (resolve) {
-                return this.getFunction();
-            }
-            return this.basicGetFunction();
+            case SourcecodedecoratorPackage.ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
+                if (resolve) return getFunction();
+                return basicGetFunction();
         }
         return super.eGet(featureID, resolve, coreType);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void eSet(final int featureID, final Object newValue) {
+    public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
-            this.setFunction((Member) newValue);
-            return;
+            case SourcecodedecoratorPackage.ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
+                setFunction((Member)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void eUnset(final int featureID) {
+    public void eUnset(int featureID) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
-            this.setFunction((Member) null);
-            return;
+            case SourcecodedecoratorPackage.ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
+                setFunction((Member)null);
+                return;
         }
         super.eUnset(featureID);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public boolean eIsSet(final int featureID) {
+    public boolean eIsSet(int featureID) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
-            return this.function != null;
+            case SourcecodedecoratorPackage.ABSTRACT_METHOD_LEVEL_SOURCE_CODE_LINK__FUNCTION:
+                return function != null;
         }
         return super.eIsSet(featureID);
     }

@@ -19,11 +19,8 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>
- * {@link org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl#getAbstractAction
- * <em>Abstract Action</em>}</li>
- * <li>{@link org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl#getStatement
- * <em>Statement</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl#getAbstractAction <em>Abstract Action</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.ControlFlowLevelSourceCodeLinkImpl#getStatement <em>Statement</em>}</li>
  * </ul>
  *
  * @generated
@@ -33,7 +30,6 @@ public class ControlFlowLevelSourceCodeLinkImpl extends MethodLevelSourceCodeLin
     /**
      * The cached value of the '{@link #getAbstractAction() <em>Abstract Action</em>}' reference.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @see #getAbstractAction()
      * @generated
      * @ordered
@@ -52,7 +48,6 @@ public class ControlFlowLevelSourceCodeLinkImpl extends MethodLevelSourceCodeLin
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     protected ControlFlowLevelSourceCodeLinkImpl() {
@@ -61,7 +56,6 @@ public class ControlFlowLevelSourceCodeLinkImpl extends MethodLevelSourceCodeLin
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
@@ -71,166 +65,140 @@ public class ControlFlowLevelSourceCodeLinkImpl extends MethodLevelSourceCodeLin
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public AbstractAction getAbstractAction() {
-        if (this.abstractAction != null && ((EObject) this.abstractAction).eIsProxy()) {
-            final InternalEObject oldAbstractAction = (InternalEObject) this.abstractAction;
-            this.abstractAction = (AbstractAction) this.eResolveProxy(oldAbstractAction);
-            if (this.abstractAction != oldAbstractAction) {
-                if (this.eNotificationRequired()) {
-                    this.eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-                            SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION,
-                            oldAbstractAction, this.abstractAction));
-                }
+        if (abstractAction != null && ((EObject)abstractAction).eIsProxy()) {
+            InternalEObject oldAbstractAction = (InternalEObject)abstractAction;
+            abstractAction = (AbstractAction)eResolveProxy(oldAbstractAction);
+            if (abstractAction != oldAbstractAction) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION, oldAbstractAction, abstractAction));
             }
         }
-        return this.abstractAction;
+        return abstractAction;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     public AbstractAction basicGetAbstractAction() {
-        return this.abstractAction;
+        return abstractAction;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void setAbstractAction(final AbstractAction newAbstractAction) {
-        final AbstractAction oldAbstractAction = this.abstractAction;
-        this.abstractAction = newAbstractAction;
-        if (this.eNotificationRequired()) {
-            this.eNotify(new ENotificationImpl(this, Notification.SET,
-                    SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION, oldAbstractAction,
-                    this.abstractAction));
-        }
+    public void setAbstractAction(AbstractAction newAbstractAction) {
+        AbstractAction oldAbstractAction = abstractAction;
+        abstractAction = newAbstractAction;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION, oldAbstractAction, abstractAction));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public Statement getStatement() {
-        if (this.statement != null && this.statement.eIsProxy()) {
-            final InternalEObject oldStatement = (InternalEObject) this.statement;
-            this.statement = (Statement) this.eResolveProxy(oldStatement);
-            if (this.statement != oldStatement) {
-                if (this.eNotificationRequired()) {
-                    this.eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-                            SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT, oldStatement,
-                            this.statement));
-                }
+        if (statement != null && statement.eIsProxy()) {
+            InternalEObject oldStatement = (InternalEObject)statement;
+            statement = (Statement)eResolveProxy(oldStatement);
+            if (statement != oldStatement) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT, oldStatement, statement));
             }
         }
-        return this.statement;
+        return statement;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     public Statement basicGetStatement() {
-        return this.statement;
+        return statement;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void setStatement(final Statement newStatement) {
-        final Statement oldStatement = this.statement;
-        this.statement = newStatement;
-        if (this.eNotificationRequired()) {
-            this.eNotify(new ENotificationImpl(this, Notification.SET,
-                    SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT, oldStatement,
-                    this.statement));
-        }
+    public void setStatement(Statement newStatement) {
+        Statement oldStatement = statement;
+        statement = newStatement;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT, oldStatement, statement));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION:
-            if (resolve) {
-                return this.getAbstractAction();
-            }
-            return this.basicGetAbstractAction();
-        case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT:
-            if (resolve) {
-                return this.getStatement();
-            }
-            return this.basicGetStatement();
+            case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION:
+                if (resolve) return getAbstractAction();
+                return basicGetAbstractAction();
+            case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT:
+                if (resolve) return getStatement();
+                return basicGetStatement();
         }
         return super.eGet(featureID, resolve, coreType);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void eSet(final int featureID, final Object newValue) {
+    public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION:
-            this.setAbstractAction((AbstractAction) newValue);
-            return;
-        case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT:
-            this.setStatement((Statement) newValue);
-            return;
+            case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION:
+                setAbstractAction((AbstractAction)newValue);
+                return;
+            case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT:
+                setStatement((Statement)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void eUnset(final int featureID) {
+    public void eUnset(int featureID) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION:
-            this.setAbstractAction((AbstractAction) null);
-            return;
-        case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT:
-            this.setStatement((Statement) null);
-            return;
+            case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION:
+                setAbstractAction((AbstractAction)null);
+                return;
+            case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT:
+                setStatement((Statement)null);
+                return;
         }
         super.eUnset(featureID);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public boolean eIsSet(final int featureID) {
+    public boolean eIsSet(int featureID) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION:
-            return this.abstractAction != null;
-        case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT:
-            return this.statement != null;
+            case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__ABSTRACT_ACTION:
+                return abstractAction != null;
+            case SourcecodedecoratorPackage.CONTROL_FLOW_LEVEL_SOURCE_CODE_LINK__STATEMENT:
+                return statement != null;
         }
         return super.eIsSet(featureID);
     }

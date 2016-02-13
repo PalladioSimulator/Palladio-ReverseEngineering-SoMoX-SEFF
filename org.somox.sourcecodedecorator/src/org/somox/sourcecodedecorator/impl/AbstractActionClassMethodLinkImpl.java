@@ -20,10 +20,8 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl#getClassMethod
- * <em>Class Method</em>}</li>
- * <li>{@link org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl#getAbstractAction
- * <em>Abstract Action</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl#getClassMethod <em>Class Method</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.AbstractActionClassMethodLinkImpl#getAbstractAction <em>Abstract Action</em>}</li>
  * </ul>
  *
  * @generated
@@ -43,7 +41,6 @@ public class AbstractActionClassMethodLinkImpl extends MinimalEObjectImpl.Contai
     /**
      * The cached value of the '{@link #getAbstractAction() <em>Abstract Action</em>}' reference.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @see #getAbstractAction()
      * @generated
      * @ordered
@@ -52,7 +49,6 @@ public class AbstractActionClassMethodLinkImpl extends MinimalEObjectImpl.Contai
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     protected AbstractActionClassMethodLinkImpl() {
@@ -61,7 +57,6 @@ public class AbstractActionClassMethodLinkImpl extends MinimalEObjectImpl.Contai
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
@@ -71,166 +66,140 @@ public class AbstractActionClassMethodLinkImpl extends MinimalEObjectImpl.Contai
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public ClassMethod getClassMethod() {
-        if (this.classMethod != null && this.classMethod.eIsProxy()) {
-            final InternalEObject oldClassMethod = (InternalEObject) this.classMethod;
-            this.classMethod = (ClassMethod) this.eResolveProxy(oldClassMethod);
-            if (this.classMethod != oldClassMethod) {
-                if (this.eNotificationRequired()) {
-                    this.eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-                            SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD, oldClassMethod,
-                            this.classMethod));
-                }
+        if (classMethod != null && classMethod.eIsProxy()) {
+            InternalEObject oldClassMethod = (InternalEObject)classMethod;
+            classMethod = (ClassMethod)eResolveProxy(oldClassMethod);
+            if (classMethod != oldClassMethod) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD, oldClassMethod, classMethod));
             }
         }
-        return this.classMethod;
+        return classMethod;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     public ClassMethod basicGetClassMethod() {
-        return this.classMethod;
+        return classMethod;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void setClassMethod(final ClassMethod newClassMethod) {
-        final ClassMethod oldClassMethod = this.classMethod;
-        this.classMethod = newClassMethod;
-        if (this.eNotificationRequired()) {
-            this.eNotify(new ENotificationImpl(this, Notification.SET,
-                    SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD, oldClassMethod,
-                    this.classMethod));
-        }
+    public void setClassMethod(ClassMethod newClassMethod) {
+        ClassMethod oldClassMethod = classMethod;
+        classMethod = newClassMethod;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD, oldClassMethod, classMethod));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public AbstractAction getAbstractAction() {
-        if (this.abstractAction != null && ((EObject) this.abstractAction).eIsProxy()) {
-            final InternalEObject oldAbstractAction = (InternalEObject) this.abstractAction;
-            this.abstractAction = (AbstractAction) this.eResolveProxy(oldAbstractAction);
-            if (this.abstractAction != oldAbstractAction) {
-                if (this.eNotificationRequired()) {
-                    this.eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-                            SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION,
-                            oldAbstractAction, this.abstractAction));
-                }
+        if (abstractAction != null && ((EObject)abstractAction).eIsProxy()) {
+            InternalEObject oldAbstractAction = (InternalEObject)abstractAction;
+            abstractAction = (AbstractAction)eResolveProxy(oldAbstractAction);
+            if (abstractAction != oldAbstractAction) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION, oldAbstractAction, abstractAction));
             }
         }
-        return this.abstractAction;
+        return abstractAction;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     public AbstractAction basicGetAbstractAction() {
-        return this.abstractAction;
+        return abstractAction;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void setAbstractAction(final AbstractAction newAbstractAction) {
-        final AbstractAction oldAbstractAction = this.abstractAction;
-        this.abstractAction = newAbstractAction;
-        if (this.eNotificationRequired()) {
-            this.eNotify(new ENotificationImpl(this, Notification.SET,
-                    SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION, oldAbstractAction,
-                    this.abstractAction));
-        }
+    public void setAbstractAction(AbstractAction newAbstractAction) {
+        AbstractAction oldAbstractAction = abstractAction;
+        abstractAction = newAbstractAction;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION, oldAbstractAction, abstractAction));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD:
-            if (resolve) {
-                return this.getClassMethod();
-            }
-            return this.basicGetClassMethod();
-        case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION:
-            if (resolve) {
-                return this.getAbstractAction();
-            }
-            return this.basicGetAbstractAction();
+            case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD:
+                if (resolve) return getClassMethod();
+                return basicGetClassMethod();
+            case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION:
+                if (resolve) return getAbstractAction();
+                return basicGetAbstractAction();
         }
         return super.eGet(featureID, resolve, coreType);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void eSet(final int featureID, final Object newValue) {
+    public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD:
-            this.setClassMethod((ClassMethod) newValue);
-            return;
-        case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION:
-            this.setAbstractAction((AbstractAction) newValue);
-            return;
+            case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD:
+                setClassMethod((ClassMethod)newValue);
+                return;
+            case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION:
+                setAbstractAction((AbstractAction)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void eUnset(final int featureID) {
+    public void eUnset(int featureID) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD:
-            this.setClassMethod((ClassMethod) null);
-            return;
-        case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION:
-            this.setAbstractAction((AbstractAction) null);
-            return;
+            case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD:
+                setClassMethod((ClassMethod)null);
+                return;
+            case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION:
+                setAbstractAction((AbstractAction)null);
+                return;
         }
         super.eUnset(featureID);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public boolean eIsSet(final int featureID) {
+    public boolean eIsSet(int featureID) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD:
-            return this.classMethod != null;
-        case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION:
-            return this.abstractAction != null;
+            case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__CLASS_METHOD:
+                return classMethod != null;
+            case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK__ABSTRACT_ACTION:
+                return abstractAction != null;
         }
         return super.eIsSet(featureID);
     }

@@ -40,6 +40,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="methodLevelResourceDemandingInternalBehaviorLink"
         upperBound="-1" eType="#//MethodLevelResourceDemandingInternalBehaviorLink"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="seff2MethodMappings" upperBound="-1"
+        eType="#//SEFF2MethodMapping" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InterfaceSourceCodeLink">
     <eStructuralFeatures xsi:type="ecore:EReference" name="interface" ordered="false"
@@ -96,5 +98,10 @@
       eSuperTypes="#//FileLevelSourceCodeLink">
     <eStructuralFeatures xsi:type="ecore:EReference" name="function" ordered="false"
         eType="ecore:EClass ../../org.emftext.language.java/metamodel/java.ecore#//members/Member"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SEFF2MethodMapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="seff" lowerBound="1" eType="ecore:EClass ../../org.palladiosimulator.pcm/model/pcm.ecore#//seff/ServiceEffectSpecification"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statementListContainer"
+        lowerBound="1" eType="ecore:EClass ../../org.emftext.language.java/metamodel/java.ecore#//statements/StatementListContainer"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -7,31 +7,30 @@ import org.eclipse.emf.ecore.EFactory;
 /**
  * <!-- begin-user-doc --> The <b>Factory</b> for the model. It provides a create method for each
  * non-abstract class of the model. <!-- end-user-doc -->
- *
  * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage
  * @generated
  */
 public interface SourcecodedecoratorFactory extends EFactory {
     /**
-     * The singleton instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * The singleton instance of the factory.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     SourcecodedecoratorFactory eINSTANCE = org.somox.sourcecodedecorator.impl.SourcecodedecoratorFactoryImpl.init();
 
     /**
-     * Returns a new object of class '<em>File Level Source Code Link</em>'. <!-- begin-user-doc -->
+     * Returns a new object of class '<em>File Level Source Code Link</em>'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *
      * @return a new object of class '<em>File Level Source Code Link</em>'.
      * @generated
      */
     FileLevelSourceCodeLink createFileLevelSourceCodeLink();
 
     /**
-     * Returns a new object of class '<em>Method Level Source Code Link</em>'. <!-- begin-user-doc
+     * Returns a new object of class '<em>Method Level Source Code Link</em>'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     *
      * @return a new object of class '<em>Method Level Source Code Link</em>'.
      * @generated
      */
@@ -56,9 +55,9 @@ public interface SourcecodedecoratorFactory extends EFactory {
     SourceCodeDecoratorRepository createSourceCodeDecoratorRepository();
 
     /**
-     * Returns a new object of class '<em>Interface Source Code Link</em>'. <!-- begin-user-doc -->
+     * Returns a new object of class '<em>Interface Source Code Link</em>'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *
      * @return a new object of class '<em>Interface Source Code Link</em>'.
      * @generated
      */
@@ -83,18 +82,18 @@ public interface SourcecodedecoratorFactory extends EFactory {
     PCMSystemImplementatingClassesLink createPCMSystemImplementatingClassesLink();
 
     /**
-     * Returns a new object of class '<em>Data Type Source Code Link</em>'. <!-- begin-user-doc -->
+     * Returns a new object of class '<em>Data Type Source Code Link</em>'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *
      * @return a new object of class '<em>Data Type Source Code Link</em>'.
      * @generated
      */
     DataTypeSourceCodeLink createDataTypeSourceCodeLink();
 
     /**
-     * Returns a new object of class '<em>Inner Datatype Source Code Link</em>'. <!-- begin-user-doc
+     * Returns a new object of class '<em>Inner Datatype Source Code Link</em>'.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     *
      * @return a new object of class '<em>Inner Datatype Source Code Link</em>'.
      * @generated
      */
@@ -110,19 +109,26 @@ public interface SourcecodedecoratorFactory extends EFactory {
     AbstractActionClassMethodLink createAbstractActionClassMethodLink();
 
     /**
-     * Returns a new object of class '
-     * <em>Method Level Resource Demanding Internal Behavior Link</em>'. <!-- begin-user-doc -->
+     * Returns a new object of class '<em>Method Level Resource Demanding Internal Behavior Link</em>'.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *
-     * @return a new object of class '
-     *         <em>Method Level Resource Demanding Internal Behavior Link</em>'.
+     * @return a new object of class '<em>Method Level Resource Demanding Internal Behavior Link</em>'.
      * @generated
      */
     MethodLevelResourceDemandingInternalBehaviorLink createMethodLevelResourceDemandingInternalBehaviorLink();
 
     /**
-     * Returns the package supported by this factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * Returns a new object of class '<em>SEFF2 Method Mapping</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>SEFF2 Method Mapping</em>'.
+     * @generated
+     */
+    SEFF2MethodMapping createSEFF2MethodMapping();
+
+    /**
+     * Returns the package supported by this factory.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return the package supported by this factory.
      * @generated
      */

@@ -9,7 +9,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.somox.kdmhelper;bundle-version="1.0.0",
  org.eclipse.emf.edit;bundle-version="2.7.2",
  org.somox.sourcecodedecorator;bundle-version="1.0.1",
- org.somox.seff2javaast,
  org.palladiosimulator.pcm;bundle-version="3.2.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Activator: org.somox.core.Activator

@@ -33,13 +33,11 @@ import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.EqualityChecker;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.metamodeladdition.Root;
-import org.somox.seff2javaast.SEFF2JavaAST;
-import org.somox.seff2javaast.SEFF2MethodMapping;
-import org.somox.seff2javaast.Seff2javaastFactory;
-//import org.somox.seff2javaast.Seff2methodFactory;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
+import org.somox.sourcecodedecorator.SEFF2MethodMapping;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
 /**
  * Builder used to add GAST behaviour to methods detected as provided operations of components
@@ -50,7 +48,7 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
 
     private static final Logger logger = Logger.getLogger(Seff2JavaASTBuilder.class);
     private final SourceCodeDecoratorRepository sourceCodeDecorator;
-    private final SEFF2JavaAST seff2JavaAST;
+    private List<SEFF2MethodMapping> seff2MethodMappings;
 
     /**
      * Constructor of the GAST behaviour builder
@@ -66,7 +64,7 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
             final AnalysisResult analysisResult) {
         super(gastModel, somoxConfiguration, analysisResult);
         this.sourceCodeDecorator = analysisResult.getSourceCodeDecoratorRepository();
-        this.seff2JavaAST = analysisResult.getSeff2JavaAST();
+        this.seff2MethodMappings = analysisResult.getSourceCodeDecoratorRepository().getSeff2MethodMappings();
     }
 
     /**
@@ -79,8 +77,8 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
      */
     public void addSeffsToPrimitiveComponent(final BasicComponent component, final ProvidedRole providedRole) {
         if (providedRole instanceof OperationProvidedRole) {
-            final OperationInterface providedInterface = ((OperationProvidedRole) providedRole)
-                    .getProvidedInterface__OperationProvidedRole();
+            final OperationInterface providedInterface =
+                    ((OperationProvidedRole) providedRole).getProvidedInterface__OperationProvidedRole();
             for (final OperationSignature signature : providedInterface.getSignatures__OperationInterface()) {
                 this.addSeffToBasicComponent(component, signature);
             }
@@ -121,24 +119,23 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
             final int a = 0;
         }
         seff.setDescribedService__SEFF(link.getOperation());
-        final SEFF2MethodMapping seff2MethodMapping = Seff2javaastFactory.eINSTANCE.createSEFF2MethodMapping();
+        final SEFF2MethodMapping seff2MethodMapping = SourcecodedecoratorFactory.eINSTANCE.createSEFF2MethodMapping();
         component.getServiceEffectSpecifications__BasicComponent().add(seff);
 
         // links steems from interface; thus get component-specific implementation:
         final ComponentImplementingClassesLink compClassLink = this.findComponenentLink(component);
-        final StatementListContainer methodBody = this.getFunctionImplementation(link.getFunction(), compClassLink,
-                this.astModel);
+        final StatementListContainer methodBody =
+                this.getFunctionImplementation(link.getFunction(), compClassLink, this.astModel);
 
-        seff2MethodMapping.setBlockstatement(methodBody);
-        if (seff2MethodMapping.getBlockstatement() == null
-                || seff2MethodMapping.getBlockstatement().getStatements().size() == 0) {
+        seff2MethodMapping.setStatementListContainer(methodBody);
+        if (seff2MethodMapping.getStatementListContainer() == null) {
             logger.warn("Empty behaviour added for " + seff.getDescribedService__SEFF().getEntityName()
-                    + " linked method is " + seff2MethodMapping.getBlockstatement()
+                    + " linked method is " + seff2MethodMapping.getStatementListContainer()
                     + "! Reverse engineering of behaviour will NOT be able to succeed for this method!");
         }
         seff2MethodMapping.setSeff(seff);
 
-        this.seff2JavaAST.getSeff2MethodMappings().add(seff2MethodMapping);
+        this.seff2MethodMappings.add(seff2MethodMapping);
 
     }
 

@@ -28,6 +28,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/dataTypeSourceCodeLink"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/abstractActionClassMethodLink"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/methodLevelResourceDemandingInternalBehaviorLink"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SourceCodeDecoratorRepository/seff2MethodMappings"/>
     </genClasses>
     <genClasses ecoreClass="sourcecodedecorator.ecore#//InterfaceSourceCodeLink">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//InterfaceSourceCodeLink/interface"/>
@@ -63,6 +64,10 @@
     </genClasses>
     <genClasses image="false" ecoreClass="sourcecodedecorator.ecore#//AbstractMethodLevelSourceCodeLink">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//AbstractMethodLevelSourceCodeLink/function"/>
+    </genClasses>
+    <genClasses ecoreClass="sourcecodedecorator.ecore#//SEFF2MethodMapping">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SEFF2MethodMapping/seff"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference sourcecodedecorator.ecore#//SEFF2MethodMapping/statementListContainer"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

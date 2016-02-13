@@ -32,8 +32,7 @@ import org.somox.gast2seff.visitors.MethodCallFinder;
 import org.somox.gast2seff.visitors.ResourceDemandingBehaviourForClassMethodFinding;
 import org.somox.gast2seff.visitors.VisitorUtils;
 import org.somox.kdmhelper.metamodeladdition.Root;
-import org.somox.seff2javaast.SEFF2JavaAST;
-import org.somox.seff2javaast.SEFF2MethodMapping;
+import org.somox.sourcecodedecorator.SEFF2MethodMapping;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
@@ -62,7 +61,6 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
     /**
      * Resources containing the models
      */
-    private SEFF2JavaAST gastBehaviourRepositoryModel;
     private SourceCodeDecoratorRepository sourceCodeDecoratorModel;
     private Root root;
 
@@ -100,7 +98,6 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
         monitor.subTask("loading models from blackboard");
 
         final AnalysisResult result = this.blackboard.getAnalysisResult();
-        this.gastBehaviourRepositoryModel = result.getSeff2JavaAST();
         this.sourceCodeDecoratorModel = result.getSourceCodeDecoratorRepository();
         this.root = result.getRoot();
         this.methodCallFinder = new MethodCallFinder();
@@ -109,7 +106,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
         subMonitor.setTaskName("Creating SEFF behaviour");
 
         final Iterator<SEFF2MethodMapping> iterator =
-                this.gastBehaviourRepositoryModel.getSeff2MethodMappings().iterator();
+                this.sourceCodeDecoratorModel.getSeff2MethodMappings().iterator();
         while (iterator.hasNext()) {
             final SEFF2MethodMapping astBehaviour = iterator.next();
             final ResourceDemandingSEFF seff = (ResourceDemandingSEFF) astBehaviour.getSeff();
@@ -122,7 +119,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
 
         // Create default annotations
         final DefaultQosAnnotationsBuilder qosAnnotationBuilder = new DefaultQosAnnotationsBuilder();
-        qosAnnotationBuilder.buildDefaultQosAnnotations(this.gastBehaviourRepositoryModel.getSeff2MethodMappings());
+        qosAnnotationBuilder.buildDefaultQosAnnotations(this.sourceCodeDecoratorModel.getSeff2MethodMappings());
 
         subMonitor.done();
     }
@@ -197,12 +194,12 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
         // onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getSeff2MethodMappings(),
         // seff);
         // TODO burkha 16.05.2013 remove this after checking
-        this.onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getSeff2MethodMappings(), seff);
+        this.onlyOnceAsGastBehaviour(this.sourceCodeDecoratorModel.getSeff2MethodMappings(), seff);
 
-        for (final SEFF2MethodMapping behaviour : this.gastBehaviourRepositoryModel.getSeff2MethodMappings()) {
+        for (final SEFF2MethodMapping behaviour : this.sourceCodeDecoratorModel.getSeff2MethodMappings()) {
             if (((ResourceDemandingSEFF) behaviour.getSeff()).getId().equals(seff.getId())) {
                 this.logger.debug("Matching SEFF found " + seff.getId());
-                return behaviour.getBlockstatement();
+                return behaviour.getStatementListContainer();
             }
         }
         this.logger.warn("Checked gastBehaviourRepository for " + seff.getId() + " but found none");

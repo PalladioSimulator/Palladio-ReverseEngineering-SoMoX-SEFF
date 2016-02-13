@@ -32,154 +32,189 @@ public class ComponentImplementingClassesLinkItemProvider extends ItemProviderAd
         implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
         IItemLabelProvider, IItemPropertySource {
     /**
-     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!--
+     * This constructs an instance from a factory and a notifier.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
-    public ComponentImplementingClassesLinkItemProvider(final AdapterFactory adapterFactory) {
+    public ComponentImplementingClassesLinkItemProvider(AdapterFactory adapterFactory) {
         super(adapterFactory);
     }
 
     /**
-     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!--
+     * This returns the property descriptors for the adapted class.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public List<IItemPropertyDescriptor> getPropertyDescriptors(final Object object) {
-        if (this.itemPropertyDescriptors == null) {
+    public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
+        if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            this.addIsCompositeComponentPropertyDescriptor(object);
-            this.addComponentPropertyDescriptor(object);
-            this.addImplementingClassesPropertyDescriptor(object);
-            this.addSubComponentsPropertyDescriptor(object);
-            this.addProvidedInterfacesPropertyDescriptor(object);
-            this.addRequiredInterfacesPropertyDescriptor(object);
-            this.addIsInitialComponentPropertyDescriptor(object);
+            addIsCompositeComponentPropertyDescriptor(object);
+            addComponentPropertyDescriptor(object);
+            addImplementingClassesPropertyDescriptor(object);
+            addSubComponentsPropertyDescriptor(object);
+            addProvidedInterfacesPropertyDescriptor(object);
+            addRequiredInterfacesPropertyDescriptor(object);
+            addIsInitialComponentPropertyDescriptor(object);
         }
-        return this.itemPropertyDescriptors;
+        return itemPropertyDescriptors;
     }
 
     /**
-     * This adds a property descriptor for the Is Composite Component feature. <!-- begin-user-doc
+     * This adds a property descriptor for the Is Composite Component feature.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     *
      * @generated
      */
-    protected void addIsCompositeComponentPropertyDescriptor(final Object object) {
-        this.itemPropertyDescriptors.add(this.createItemPropertyDescriptor(
-                ((ComposeableAdapterFactory) this.adapterFactory).getRootAdapterFactory(), this.getResourceLocator(),
-                this.getString("_UI_ComponentImplementingClassesLink_isCompositeComponent_feature"),
-                this.getString("_UI_PropertyDescriptor_description",
-                        "_UI_ComponentImplementingClassesLink_isCompositeComponent_feature",
-                        "_UI_ComponentImplementingClassesLink_type"),
-                SourcecodedecoratorPackage.Literals.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT, false,
-                false, false, ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null, null));
+    protected void addIsCompositeComponentPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_ComponentImplementingClassesLink_isCompositeComponent_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_ComponentImplementingClassesLink_isCompositeComponent_feature", "_UI_ComponentImplementingClassesLink_type"),
+                 SourcecodedecoratorPackage.Literals.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT,
+                 false,
+                 false,
+                 false,
+                 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+                 null,
+                 null));
     }
 
     /**
-     * This adds a property descriptor for the Component feature. <!-- begin-user-doc --> <!--
+     * This adds a property descriptor for the Component feature.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
-    protected void addComponentPropertyDescriptor(final Object object) {
-        this.itemPropertyDescriptors.add(this.createItemPropertyDescriptor(
-                ((ComposeableAdapterFactory) this.adapterFactory).getRootAdapterFactory(), this.getResourceLocator(),
-                this.getString("_UI_ComponentImplementingClassesLink_component_feature"),
-                this.getString("_UI_PropertyDescriptor_description",
-                        "_UI_ComponentImplementingClassesLink_component_feature",
-                        "_UI_ComponentImplementingClassesLink_type"),
-                SourcecodedecoratorPackage.Literals.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT, true, false, true,
-                null, null, null));
+    protected void addComponentPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_ComponentImplementingClassesLink_component_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_ComponentImplementingClassesLink_component_feature", "_UI_ComponentImplementingClassesLink_type"),
+                 SourcecodedecoratorPackage.Literals.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
     }
 
     /**
-     * This adds a property descriptor for the Implementing Classes feature. <!-- begin-user-doc -->
+     * This adds a property descriptor for the Implementing Classes feature.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *
      * @generated
      */
-    protected void addImplementingClassesPropertyDescriptor(final Object object) {
-        this.itemPropertyDescriptors.add(this.createItemPropertyDescriptor(
-                ((ComposeableAdapterFactory) this.adapterFactory).getRootAdapterFactory(), this.getResourceLocator(),
-                this.getString("_UI_ComponentImplementingClassesLink_implementingClasses_feature"),
-                this.getString("_UI_PropertyDescriptor_description",
-                        "_UI_ComponentImplementingClassesLink_implementingClasses_feature",
-                        "_UI_ComponentImplementingClassesLink_type"),
-                SourcecodedecoratorPackage.Literals.COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES, true,
-                false, true, null, null, null));
+    protected void addImplementingClassesPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_ComponentImplementingClassesLink_implementingClasses_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_ComponentImplementingClassesLink_implementingClasses_feature", "_UI_ComponentImplementingClassesLink_type"),
+                 SourcecodedecoratorPackage.Literals.COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
     }
 
     /**
-     * This adds a property descriptor for the Sub Components feature. <!-- begin-user-doc --> <!--
+     * This adds a property descriptor for the Sub Components feature.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
-    protected void addSubComponentsPropertyDescriptor(final Object object) {
-        this.itemPropertyDescriptors.add(this.createItemPropertyDescriptor(
-                ((ComposeableAdapterFactory) this.adapterFactory).getRootAdapterFactory(), this.getResourceLocator(),
-                this.getString("_UI_ComponentImplementingClassesLink_subComponents_feature"),
-                this.getString("_UI_PropertyDescriptor_description",
-                        "_UI_ComponentImplementingClassesLink_subComponents_feature",
-                        "_UI_ComponentImplementingClassesLink_type"),
-                SourcecodedecoratorPackage.Literals.COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS, true, false,
-                true, null, null, null));
+    protected void addSubComponentsPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_ComponentImplementingClassesLink_subComponents_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_ComponentImplementingClassesLink_subComponents_feature", "_UI_ComponentImplementingClassesLink_type"),
+                 SourcecodedecoratorPackage.Literals.COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
     }
 
     /**
-     * This adds a property descriptor for the Provided Interfaces feature. <!-- begin-user-doc -->
+     * This adds a property descriptor for the Provided Interfaces feature.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *
      * @generated
      */
-    protected void addProvidedInterfacesPropertyDescriptor(final Object object) {
-        this.itemPropertyDescriptors.add(this.createItemPropertyDescriptor(
-                ((ComposeableAdapterFactory) this.adapterFactory).getRootAdapterFactory(), this.getResourceLocator(),
-                this.getString("_UI_ComponentImplementingClassesLink_providedInterfaces_feature"),
-                this.getString("_UI_PropertyDescriptor_description",
-                        "_UI_ComponentImplementingClassesLink_providedInterfaces_feature",
-                        "_UI_ComponentImplementingClassesLink_type"),
-                SourcecodedecoratorPackage.Literals.COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES, true,
-                false, true, null, null, null));
+    protected void addProvidedInterfacesPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_ComponentImplementingClassesLink_providedInterfaces_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_ComponentImplementingClassesLink_providedInterfaces_feature", "_UI_ComponentImplementingClassesLink_type"),
+                 SourcecodedecoratorPackage.Literals.COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
     }
 
     /**
-     * This adds a property descriptor for the Required Interfaces feature. <!-- begin-user-doc -->
+     * This adds a property descriptor for the Required Interfaces feature.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *
      * @generated
      */
-    protected void addRequiredInterfacesPropertyDescriptor(final Object object) {
-        this.itemPropertyDescriptors.add(this.createItemPropertyDescriptor(
-                ((ComposeableAdapterFactory) this.adapterFactory).getRootAdapterFactory(), this.getResourceLocator(),
-                this.getString("_UI_ComponentImplementingClassesLink_requiredInterfaces_feature"),
-                this.getString("_UI_PropertyDescriptor_description",
-                        "_UI_ComponentImplementingClassesLink_requiredInterfaces_feature",
-                        "_UI_ComponentImplementingClassesLink_type"),
-                SourcecodedecoratorPackage.Literals.COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES, true,
-                false, true, null, null, null));
+    protected void addRequiredInterfacesPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_ComponentImplementingClassesLink_requiredInterfaces_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_ComponentImplementingClassesLink_requiredInterfaces_feature", "_UI_ComponentImplementingClassesLink_type"),
+                 SourcecodedecoratorPackage.Literals.COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
     }
 
     /**
-     * This adds a property descriptor for the Is Initial Component feature. <!-- begin-user-doc -->
+     * This adds a property descriptor for the Is Initial Component feature.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *
      * @generated
      */
-    protected void addIsInitialComponentPropertyDescriptor(final Object object) {
-        this.itemPropertyDescriptors.add(this.createItemPropertyDescriptor(
-                ((ComposeableAdapterFactory) this.adapterFactory).getRootAdapterFactory(), this.getResourceLocator(),
-                this.getString("_UI_ComponentImplementingClassesLink_isInitialComponent_feature"),
-                this.getString("_UI_PropertyDescriptor_description",
-                        "_UI_ComponentImplementingClassesLink_isInitialComponent_feature",
-                        "_UI_ComponentImplementingClassesLink_type"),
-                SourcecodedecoratorPackage.Literals.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT, true,
-                false, false, ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null, null));
+    protected void addIsInitialComponentPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_ComponentImplementingClassesLink_isInitialComponent_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_ComponentImplementingClassesLink_isInitialComponent_feature", "_UI_ComponentImplementingClassesLink_type"),
+                 SourcecodedecoratorPackage.Literals.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT,
+                 true,
+                 false,
+                 false,
+                 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+                 null,
+                 null));
     }
 
     /**
@@ -189,9 +224,8 @@ public class ComponentImplementingClassesLinkItemProvider extends ItemProviderAd
      * @generated
      */
     @Override
-    public Object getImage(final Object object) {
-        return this.overlayImage(object,
-                this.getResourceLocator().getImage("full/obj16/ComponentImplementingClassesLink"));
+    public Object getImage(Object object) {
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/ComponentImplementingClassesLink"));
     }
 
     /**
@@ -201,47 +235,45 @@ public class ComponentImplementingClassesLinkItemProvider extends ItemProviderAd
      * @generated
      */
     @Override
-    public String getText(final Object object) {
-        final ComponentImplementingClassesLink componentImplementingClassesLink = (ComponentImplementingClassesLink) object;
-        return this.getString("_UI_ComponentImplementingClassesLink_type") + " "
-                + componentImplementingClassesLink.isIsCompositeComponent();
+    public String getText(Object object) {
+        ComponentImplementingClassesLink componentImplementingClassesLink = (ComponentImplementingClassesLink)object;
+        return getString("_UI_ComponentImplementingClassesLink_type") + " " + componentImplementingClassesLink.isIsCompositeComponent();
     }
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}
-     * . <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
-    public void notifyChanged(final Notification notification) {
-        this.updateChildren(notification);
+    public void notifyChanged(Notification notification) {
+        updateChildren(notification);
 
         switch (notification.getFeatureID(ComponentImplementingClassesLink.class)) {
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT:
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT:
-            this.fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-            return;
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT:
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT:
+                fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+                return;
         }
         super.notifyChanged(notification);
     }
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that
-     * can be created under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+     * that can be created under this object.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
-    protected void collectNewChildDescriptors(final Collection<Object> newChildDescriptors, final Object object) {
+    protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
         super.collectNewChildDescriptors(newChildDescriptors, object);
     }
 
     /**
-     * Return the resource locator for this item provider's resources. <!-- begin-user-doc --> <!--
+     * Return the resource locator for this item provider's resources.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     @Override

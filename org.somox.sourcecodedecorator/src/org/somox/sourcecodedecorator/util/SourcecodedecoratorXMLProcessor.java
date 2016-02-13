@@ -10,16 +10,16 @@ import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
 import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
 
 /**
- * This class contains helper methods to serialize and deserialize XML documents <!-- begin-user-doc
+ * This class contains helper methods to serialize and deserialize XML documents
+ * <!-- begin-user-doc
  * --> <!-- end-user-doc -->
- *
  * @generated
  */
 public class SourcecodedecoratorXMLProcessor extends XMLProcessor {
 
     /**
-     * Public constructor to instantiate the helper. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * Public constructor to instantiate the helper.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public SourcecodedecoratorXMLProcessor() {
@@ -28,19 +28,18 @@ public class SourcecodedecoratorXMLProcessor extends XMLProcessor {
     }
 
     /**
-     * Register for "*" and "xml" file extensions the SourcecodedecoratorResourceFactoryImpl
-     * factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * Register for "*" and "xml" file extensions the SourcecodedecoratorResourceFactoryImpl factory.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
     protected Map<String, Resource.Factory> getRegistrations() {
-        if (this.registrations == null) {
+        if (registrations == null) {
             super.getRegistrations();
-            this.registrations.put(XML_EXTENSION, new SourcecodedecoratorResourceFactoryImpl());
-            this.registrations.put(STAR_EXTENSION, new SourcecodedecoratorResourceFactoryImpl());
+            registrations.put(XML_EXTENSION, new SourcecodedecoratorResourceFactoryImpl());
+            registrations.put(STAR_EXTENSION, new SourcecodedecoratorResourceFactoryImpl());
         }
-        return this.registrations;
+        return registrations;
     }
 
 } // SourcecodedecoratorXMLProcessor

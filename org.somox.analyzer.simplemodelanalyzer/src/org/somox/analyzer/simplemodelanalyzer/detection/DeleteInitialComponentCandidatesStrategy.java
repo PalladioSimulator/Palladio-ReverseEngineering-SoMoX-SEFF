@@ -19,10 +19,10 @@ import org.palladiosimulator.pcm.repository.SinkRole;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.somox.analyzer.simplemodelanalyzer.SimpleAnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
-import org.somox.seff2javaast.SEFF2MethodMapping;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.FileLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
+import org.somox.sourcecodedecorator.SEFF2MethodMapping;
 
 import de.uka.ipd.sdq.workflow.ExecutionTimeLoggingProgressMonitor;
 
@@ -148,7 +148,7 @@ public class DeleteInitialComponentCandidatesStrategy implements IPostComponentD
             final Set<ComponentImplementingClassesLink> componentLinksToDelete) {
 
         final Set<SEFF2MethodMapping> mappingsToDelete = new HashSet<SEFF2MethodMapping>();
-        for (final SEFF2MethodMapping seff2MethodMapping : analysisResult.getSeff2JavaAST().getSeff2MethodMappings()) {
+        for (final SEFF2MethodMapping seff2MethodMapping : analysisResult.getSourceCodeDecoratorRepository().getSeff2MethodMappings()) {
             final Signature signature = seff2MethodMapping.getSeff().getDescribedService__SEFF();
 
             outer: for (final ComponentImplementingClassesLink compLink : componentLinksToDelete) {

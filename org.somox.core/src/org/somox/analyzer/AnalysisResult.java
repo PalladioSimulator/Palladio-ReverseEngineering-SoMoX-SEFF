@@ -8,7 +8,6 @@ import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.system.System;
 import org.somox.common.Message;
 import org.somox.kdmhelper.metamodeladdition.Root;
-import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 /**
@@ -82,11 +81,6 @@ public interface AnalysisResult {
      * @return PCM model repository.
      */
     public Repository getInternalArchitectureModel();
-
-    /**
-     * SEFF2JavaAST repository to create
-     */
-    public SEFF2JavaAST getSeff2JavaAST();
 
     /**
      * Source code decorator to update

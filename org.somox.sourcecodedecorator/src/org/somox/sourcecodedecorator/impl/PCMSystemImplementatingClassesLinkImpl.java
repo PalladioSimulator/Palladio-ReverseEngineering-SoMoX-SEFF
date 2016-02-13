@@ -17,9 +17,7 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>
- * {@link org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl#getSystemModel
- * <em>System Model</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.PCMSystemImplementatingClassesLinkImpl#getSystemModel <em>System Model</em>}</li>
  * </ul>
  *
  * @generated
@@ -38,7 +36,6 @@ public class PCMSystemImplementatingClassesLinkImpl extends ComponentImplementin
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     protected PCMSystemImplementatingClassesLinkImpl() {
@@ -47,7 +44,6 @@ public class PCMSystemImplementatingClassesLinkImpl extends ComponentImplementin
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
@@ -57,107 +53,92 @@ public class PCMSystemImplementatingClassesLinkImpl extends ComponentImplementin
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public org.palladiosimulator.pcm.system.System getSystemModel() {
-        if (this.systemModel != null && ((EObject) this.systemModel).eIsProxy()) {
-            final InternalEObject oldSystemModel = (InternalEObject) this.systemModel;
-            this.systemModel = (org.palladiosimulator.pcm.system.System) this.eResolveProxy(oldSystemModel);
-            if (this.systemModel != oldSystemModel) {
-                if (this.eNotificationRequired()) {
-                    this.eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-                            SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL,
-                            oldSystemModel, this.systemModel));
-                }
+        if (systemModel != null && ((EObject)systemModel).eIsProxy()) {
+            InternalEObject oldSystemModel = (InternalEObject)systemModel;
+            systemModel = (org.palladiosimulator.pcm.system.System)eResolveProxy(oldSystemModel);
+            if (systemModel != oldSystemModel) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL, oldSystemModel, systemModel));
             }
         }
-        return this.systemModel;
+        return systemModel;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     public org.palladiosimulator.pcm.system.System basicGetSystemModel() {
-        return this.systemModel;
+        return systemModel;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void setSystemModel(final org.palladiosimulator.pcm.system.System newSystemModel) {
-        final org.palladiosimulator.pcm.system.System oldSystemModel = this.systemModel;
-        this.systemModel = newSystemModel;
-        if (this.eNotificationRequired()) {
-            this.eNotify(new ENotificationImpl(this, Notification.SET,
-                    SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL, oldSystemModel,
-                    this.systemModel));
-        }
+    public void setSystemModel(org.palladiosimulator.pcm.system.System newSystemModel) {
+        org.palladiosimulator.pcm.system.System oldSystemModel = systemModel;
+        systemModel = newSystemModel;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL, oldSystemModel, systemModel));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
-            if (resolve) {
-                return this.getSystemModel();
-            }
-            return this.basicGetSystemModel();
+            case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
+                if (resolve) return getSystemModel();
+                return basicGetSystemModel();
         }
         return super.eGet(featureID, resolve, coreType);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void eSet(final int featureID, final Object newValue) {
+    public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
-            this.setSystemModel((org.palladiosimulator.pcm.system.System) newValue);
-            return;
+            case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
+                setSystemModel((org.palladiosimulator.pcm.system.System)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void eUnset(final int featureID) {
+    public void eUnset(int featureID) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
-            this.setSystemModel((org.palladiosimulator.pcm.system.System) null);
-            return;
+            case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
+                setSystemModel((org.palladiosimulator.pcm.system.System)null);
+                return;
         }
         super.eUnset(featureID);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public boolean eIsSet(final int featureID) {
+    public boolean eIsSet(int featureID) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
-            return this.systemModel != null;
+            case SourcecodedecoratorPackage.PCM_SYSTEM_IMPLEMENTATING_CLASSES_LINK__SYSTEM_MODEL:
+                return systemModel != null;
         }
         return super.eIsSet(featureID);
     }

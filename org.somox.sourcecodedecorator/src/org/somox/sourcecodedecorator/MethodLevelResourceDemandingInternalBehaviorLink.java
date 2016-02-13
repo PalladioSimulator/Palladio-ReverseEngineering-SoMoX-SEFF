@@ -12,9 +12,7 @@ import org.palladiosimulator.pcm.seff.ResourceDemandingInternalBehaviour;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>
- * {@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink#getResourceDemandingInternalBehaviour
- * <em>Resource Demanding Internal Behaviour</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink#getResourceDemandingInternalBehaviour <em>Resource Demanding Internal Behaviour</em>}</li>
  * </ul>
  *
  * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getMethodLevelResourceDemandingInternalBehaviorLink()
@@ -30,7 +28,6 @@ public interface MethodLevelResourceDemandingInternalBehaviorLink extends Abstra
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     *
      * @return the value of the '<em>Resource Demanding Internal Behaviour</em>' reference.
      * @see #setResourceDemandingInternalBehaviour(ResourceDemandingInternalBehaviour)
      * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getMethodLevelResourceDemandingInternalBehaviorLink_ResourceDemandingInternalBehaviour()
@@ -40,13 +37,10 @@ public interface MethodLevelResourceDemandingInternalBehaviorLink extends Abstra
     ResourceDemandingInternalBehaviour getResourceDemandingInternalBehaviour();
 
     /**
-     * Sets the value of the '
-     * {@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink#getResourceDemandingInternalBehaviour
-     * <em>Resource Demanding Internal Behaviour</em>}' reference. <!-- begin-user-doc --> <!--
+     * Sets the value of the '{@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink#getResourceDemandingInternalBehaviour <em>Resource Demanding Internal Behaviour</em>}' reference.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
-     * @param value
-     *            the new value of the '<em>Resource Demanding Internal Behaviour</em>' reference.
+     * @param value the new value of the '<em>Resource Demanding Internal Behaviour</em>' reference.
      * @see #getResourceDemandingInternalBehaviour()
      * @generated
      */

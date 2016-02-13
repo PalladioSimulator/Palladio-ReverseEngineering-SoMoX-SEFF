@@ -21,34 +21,41 @@ import de.uka.ipd.sdq.units.provider.UnitsEditPlugin;
  */
 public final class FEditPlugin extends EMFPlugin {
     /**
-     * Keep track of the singleton. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * Keep track of the singleton.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public static final FEditPlugin INSTANCE = new FEditPlugin();
 
     /**
-     * Keep track of the singleton. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * Keep track of the singleton.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private static Implementation plugin;
 
     /**
-     * Create the instance. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * Create the instance.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public FEditPlugin() {
-        super(new ResourceLocator[] { IdentifierEditPlugin.INSTANCE, JavaEditPlugin.INSTANCE, LayoutEditPlugin.INSTANCE,
-                PalladioComponentModelEditPlugin.INSTANCE, ProbabilityFunctionEditPlugin.INSTANCE,
-                StoexEditPlugin.INSTANCE, UnitsEditPlugin.INSTANCE, });
+        super
+          (new ResourceLocator [] {
+             IdentifierEditPlugin.INSTANCE,
+             JavaEditPlugin.INSTANCE,
+             LayoutEditPlugin.INSTANCE,
+             PalladioComponentModelEditPlugin.INSTANCE,
+             ProbabilityFunctionEditPlugin.INSTANCE,
+             StoexEditPlugin.INSTANCE,
+             UnitsEditPlugin.INSTANCE,
+           });
     }
 
     /**
-     * Returns the singleton instance of the Eclipse plugin. <!-- begin-user-doc --> <!--
+     * Returns the singleton instance of the Eclipse plugin.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @return the singleton instance.
      * @generated
      */
@@ -58,9 +65,9 @@ public final class FEditPlugin extends EMFPlugin {
     }
 
     /**
-     * Returns the singleton instance of the Eclipse plugin. <!-- begin-user-doc --> <!--
+     * Returns the singleton instance of the Eclipse plugin.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @return the singleton instance.
      * @generated
      */
@@ -69,15 +76,15 @@ public final class FEditPlugin extends EMFPlugin {
     }
 
     /**
-     * The actual implementation of the Eclipse <b>Plugin</b>. <!-- begin-user-doc --> <!--
+     * The actual implementation of the Eclipse <b>Plugin</b>.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     public static class Implementation extends EclipsePlugin {
         /**
-         * Creates an instance. <!-- begin-user-doc --> <!-- end-user-doc -->
-         *
+         * Creates an instance.
+         * <!-- begin-user-doc --> <!-- end-user-doc -->
          * @generated
          */
         public Implementation() {

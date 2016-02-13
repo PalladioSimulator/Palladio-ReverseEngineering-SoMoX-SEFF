@@ -18,9 +18,7 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>
- * {@link org.somox.sourcecodedecorator.impl.MethodLevelResourceDemandingInternalBehaviorLinkImpl#getResourceDemandingInternalBehaviour
- * <em>Resource Demanding Internal Behaviour</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.MethodLevelResourceDemandingInternalBehaviorLinkImpl#getResourceDemandingInternalBehaviour <em>Resource Demanding Internal Behaviour</em>}</li>
  * </ul>
  *
  * @generated
@@ -28,10 +26,9 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
 public class MethodLevelResourceDemandingInternalBehaviorLinkImpl extends AbstractMethodLevelSourceCodeLinkImpl
         implements MethodLevelResourceDemandingInternalBehaviorLink {
     /**
-     * The cached value of the '{@link #getResourceDemandingInternalBehaviour()
-     * <em>Resource Demanding Internal Behaviour</em>}' reference. <!-- begin-user-doc --> <!--
+     * The cached value of the '{@link #getResourceDemandingInternalBehaviour() <em>Resource Demanding Internal Behaviour</em>}' reference.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @see #getResourceDemandingInternalBehaviour()
      * @generated
      * @ordered
@@ -40,7 +37,6 @@ public class MethodLevelResourceDemandingInternalBehaviorLinkImpl extends Abstra
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     protected MethodLevelResourceDemandingInternalBehaviorLinkImpl() {
@@ -49,7 +45,6 @@ public class MethodLevelResourceDemandingInternalBehaviorLinkImpl extends Abstra
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
@@ -59,110 +54,93 @@ public class MethodLevelResourceDemandingInternalBehaviorLinkImpl extends Abstra
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public ResourceDemandingInternalBehaviour getResourceDemandingInternalBehaviour() {
-        if (this.resourceDemandingInternalBehaviour != null
-                && ((EObject) this.resourceDemandingInternalBehaviour).eIsProxy()) {
-            final InternalEObject oldResourceDemandingInternalBehaviour = (InternalEObject) this.resourceDemandingInternalBehaviour;
-            this.resourceDemandingInternalBehaviour = (ResourceDemandingInternalBehaviour) this
-                    .eResolveProxy(oldResourceDemandingInternalBehaviour);
-            if (this.resourceDemandingInternalBehaviour != oldResourceDemandingInternalBehaviour) {
-                if (this.eNotificationRequired()) {
-                    this.eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-                            SourcecodedecoratorPackage.METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR,
-                            oldResourceDemandingInternalBehaviour, this.resourceDemandingInternalBehaviour));
-                }
+        if (resourceDemandingInternalBehaviour != null && ((EObject)resourceDemandingInternalBehaviour).eIsProxy()) {
+            InternalEObject oldResourceDemandingInternalBehaviour = (InternalEObject)resourceDemandingInternalBehaviour;
+            resourceDemandingInternalBehaviour = (ResourceDemandingInternalBehaviour)eResolveProxy(oldResourceDemandingInternalBehaviour);
+            if (resourceDemandingInternalBehaviour != oldResourceDemandingInternalBehaviour) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR, oldResourceDemandingInternalBehaviour, resourceDemandingInternalBehaviour));
             }
         }
-        return this.resourceDemandingInternalBehaviour;
+        return resourceDemandingInternalBehaviour;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     public ResourceDemandingInternalBehaviour basicGetResourceDemandingInternalBehaviour() {
-        return this.resourceDemandingInternalBehaviour;
+        return resourceDemandingInternalBehaviour;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public void setResourceDemandingInternalBehaviour(
-            final ResourceDemandingInternalBehaviour newResourceDemandingInternalBehaviour) {
-        final ResourceDemandingInternalBehaviour oldResourceDemandingInternalBehaviour = this.resourceDemandingInternalBehaviour;
-        this.resourceDemandingInternalBehaviour = newResourceDemandingInternalBehaviour;
-        if (this.eNotificationRequired()) {
-            this.eNotify(new ENotificationImpl(this, Notification.SET,
-                    SourcecodedecoratorPackage.METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR,
-                    oldResourceDemandingInternalBehaviour, this.resourceDemandingInternalBehaviour));
-        }
+            ResourceDemandingInternalBehaviour newResourceDemandingInternalBehaviour) {
+        ResourceDemandingInternalBehaviour oldResourceDemandingInternalBehaviour = resourceDemandingInternalBehaviour;
+        resourceDemandingInternalBehaviour = newResourceDemandingInternalBehaviour;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR, oldResourceDemandingInternalBehaviour, resourceDemandingInternalBehaviour));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR:
-            if (resolve) {
-                return this.getResourceDemandingInternalBehaviour();
-            }
-            return this.basicGetResourceDemandingInternalBehaviour();
+            case SourcecodedecoratorPackage.METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR:
+                if (resolve) return getResourceDemandingInternalBehaviour();
+                return basicGetResourceDemandingInternalBehaviour();
         }
         return super.eGet(featureID, resolve, coreType);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void eSet(final int featureID, final Object newValue) {
+    public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR:
-            this.setResourceDemandingInternalBehaviour((ResourceDemandingInternalBehaviour) newValue);
-            return;
+            case SourcecodedecoratorPackage.METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR:
+                setResourceDemandingInternalBehaviour((ResourceDemandingInternalBehaviour)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void eUnset(final int featureID) {
+    public void eUnset(int featureID) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR:
-            this.setResourceDemandingInternalBehaviour((ResourceDemandingInternalBehaviour) null);
-            return;
+            case SourcecodedecoratorPackage.METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR:
+                setResourceDemandingInternalBehaviour((ResourceDemandingInternalBehaviour)null);
+                return;
         }
         super.eUnset(featureID);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public boolean eIsSet(final int featureID) {
+    public boolean eIsSet(int featureID) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR:
-            return this.resourceDemandingInternalBehaviour != null;
+            case SourcecodedecoratorPackage.METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK__RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR:
+                return resourceDemandingInternalBehaviour != null;
         }
         return super.eIsSet(featureID);
     }

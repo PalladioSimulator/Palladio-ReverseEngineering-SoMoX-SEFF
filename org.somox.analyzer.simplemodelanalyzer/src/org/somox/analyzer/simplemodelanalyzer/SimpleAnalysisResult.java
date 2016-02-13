@@ -11,7 +11,6 @@ import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.ModelAnalyzer;
 import org.somox.common.Message;
 import org.somox.kdmhelper.metamodeladdition.Root;
-import org.somox.seff2javaast.SEFF2JavaAST;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 //import eu.qimpress.commonmodel.commonmodel.StaticStructure.Repository;
@@ -52,14 +51,6 @@ public class SimpleAnalysisResult implements AnalysisResult {
      * @uml.associationEnd
      */
     private Repository internalArchitectureModel = null;
-
-    /**
-     * the gast behaviour repository
-     *
-     * @uml.property name="gastBehaviourRepository"
-     * @uml.associationEnd
-     */
-    private SEFF2JavaAST seff2JavaAST = null;
 
     /**
      * the source code decorator repository
@@ -138,23 +129,6 @@ public class SimpleAnalysisResult implements AnalysisResult {
      */
     public void setInternalArchitectureModel(final Repository internalArchitectureModel) {
         this.internalArchitectureModel = internalArchitectureModel;
-    }
-
-    /**
-     * @return
-     * @uml.property name="gastBehaviourRepository"
-     */
-    @Override
-    public SEFF2JavaAST getSeff2JavaAST() {
-        return this.seff2JavaAST;
-    }
-
-    /**
-     * @param gastBehaviourRepository
-     * @uml.property name="gastBehaviourRepository"
-     */
-    public void setSEFF2JavaAST(final SEFF2JavaAST seff2JavaAST) {
-        this.seff2JavaAST = seff2JavaAST;
     }
 
     /**

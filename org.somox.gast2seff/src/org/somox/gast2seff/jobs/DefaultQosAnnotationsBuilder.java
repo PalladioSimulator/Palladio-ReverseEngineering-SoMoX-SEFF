@@ -13,8 +13,7 @@ import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.pcm.seff.seff_performance.ParametricResourceDemand;
 import org.palladiosimulator.pcm.seff.seff_performance.SeffPerformanceFactory;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
-import org.somox.seff2javaast.SEFF2MethodMapping;
-//import org.somox.resources.defaultmodels.DefaultModelLoader;
+import org.somox.sourcecodedecorator.SEFF2MethodMapping;
 
 /**
  * Creates default QoS annotations for behaviour. Same probabilities for all branches and 1

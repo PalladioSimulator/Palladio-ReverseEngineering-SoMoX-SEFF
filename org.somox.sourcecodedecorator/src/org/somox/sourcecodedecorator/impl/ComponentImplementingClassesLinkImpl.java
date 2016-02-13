@@ -25,26 +25,13 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>
- * {@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#isIsCompositeComponent
- * <em>Is Composite Component</em>}</li>
- * <li>{@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#getComponent
- * <em>Component</em>}</li>
- * <li>
- * {@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#getImplementingClasses
- * <em>Implementing Classes</em>}</li>
- * <li>
- * {@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#getSubComponents
- * <em>Sub Components</em>}</li>
- * <li>
- * {@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#getProvidedInterfaces
- * <em>Provided Interfaces</em>}</li>
- * <li>
- * {@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#getRequiredInterfaces
- * <em>Required Interfaces</em>}</li>
- * <li>
- * {@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#isIsInitialComponent
- * <em>Is Initial Component</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#isIsCompositeComponent <em>Is Composite Component</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#getComponent <em>Component</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#getImplementingClasses <em>Implementing Classes</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#getSubComponents <em>Sub Components</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#getProvidedInterfaces <em>Provided Interfaces</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#getRequiredInterfaces <em>Required Interfaces</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.ComponentImplementingClassesLinkImpl#isIsInitialComponent <em>Is Initial Component</em>}</li>
  * </ul>
  *
  * @generated
@@ -52,9 +39,8 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
 public class ComponentImplementingClassesLinkImpl extends MinimalEObjectImpl.Container
         implements ComponentImplementingClassesLink {
     /**
-     * The default value of the '{@link #isIsCompositeComponent() <em>Is Composite Component</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * The default value of the '{@link #isIsCompositeComponent() <em>Is Composite Component</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #isIsCompositeComponent()
      * @generated
      * @ordered
@@ -72,9 +58,8 @@ public class ComponentImplementingClassesLinkImpl extends MinimalEObjectImpl.Con
     protected RepositoryComponent component;
 
     /**
-     * The cached value of the '{@link #getImplementingClasses() <em>Implementing Classes</em>}'
-     * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * The cached value of the '{@link #getImplementingClasses() <em>Implementing Classes</em>}' reference list.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #getImplementingClasses()
      * @generated
      * @ordered
@@ -84,7 +69,6 @@ public class ComponentImplementingClassesLinkImpl extends MinimalEObjectImpl.Con
     /**
      * The cached value of the '{@link #getSubComponents() <em>Sub Components</em>}' reference list.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @see #getSubComponents()
      * @generated
      * @ordered
@@ -92,9 +76,8 @@ public class ComponentImplementingClassesLinkImpl extends MinimalEObjectImpl.Con
     protected EList<ComponentImplementingClassesLink> subComponents;
 
     /**
-     * The cached value of the '{@link #getProvidedInterfaces() <em>Provided Interfaces</em>}'
-     * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * The cached value of the '{@link #getProvidedInterfaces() <em>Provided Interfaces</em>}' reference list.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #getProvidedInterfaces()
      * @generated
      * @ordered
@@ -102,9 +85,8 @@ public class ComponentImplementingClassesLinkImpl extends MinimalEObjectImpl.Con
     protected EList<InterfaceSourceCodeLink> providedInterfaces;
 
     /**
-     * The cached value of the '{@link #getRequiredInterfaces() <em>Required Interfaces</em>}'
-     * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * The cached value of the '{@link #getRequiredInterfaces() <em>Required Interfaces</em>}' reference list.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #getRequiredInterfaces()
      * @generated
      * @ordered
@@ -112,9 +94,8 @@ public class ComponentImplementingClassesLinkImpl extends MinimalEObjectImpl.Con
     protected EList<InterfaceSourceCodeLink> requiredInterfaces;
 
     /**
-     * The default value of the '{@link #isIsInitialComponent() <em>Is Initial Component</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * The default value of the '{@link #isIsInitialComponent() <em>Is Initial Component</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #isIsInitialComponent()
      * @generated
      * @ordered
@@ -122,9 +103,8 @@ public class ComponentImplementingClassesLinkImpl extends MinimalEObjectImpl.Con
     protected static final boolean IS_INITIAL_COMPONENT_EDEFAULT = false;
 
     /**
-     * The cached value of the '{@link #isIsInitialComponent() <em>Is Initial Component</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * The cached value of the '{@link #isIsInitialComponent() <em>Is Initial Component</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #isIsInitialComponent()
      * @generated
      * @ordered
@@ -133,7 +113,6 @@ public class ComponentImplementingClassesLinkImpl extends MinimalEObjectImpl.Con
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     protected ComponentImplementingClassesLinkImpl() {
@@ -142,7 +121,6 @@ public class ComponentImplementingClassesLinkImpl extends MinimalEObjectImpl.Con
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
@@ -162,280 +140,246 @@ public class ComponentImplementingClassesLinkImpl extends MinimalEObjectImpl.Con
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public boolean isSetIsCompositeComponent() {
-        // TODO: implement this method to return whether the 'Is Composite Component' attribute is
-        // set
+        // TODO: implement this method to return whether the 'Is Composite Component' attribute is set
         // Ensure that you remove @generated or mark it @generated NOT
         throw new UnsupportedOperationException();
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public RepositoryComponent getComponent() {
-        if (this.component != null && ((EObject) this.component).eIsProxy()) {
-            final InternalEObject oldComponent = (InternalEObject) this.component;
-            this.component = (RepositoryComponent) this.eResolveProxy(oldComponent);
-            if (this.component != oldComponent) {
-                if (this.eNotificationRequired()) {
-                    this.eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-                            SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT, oldComponent,
-                            this.component));
-                }
+        if (component != null && ((EObject)component).eIsProxy()) {
+            InternalEObject oldComponent = (InternalEObject)component;
+            component = (RepositoryComponent)eResolveProxy(oldComponent);
+            if (component != oldComponent) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT, oldComponent, component));
             }
         }
-        return this.component;
+        return component;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     public RepositoryComponent basicGetComponent() {
-        return this.component;
+        return component;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void setComponent(final RepositoryComponent newComponent) {
-        final RepositoryComponent oldComponent = this.component;
-        this.component = newComponent;
-        if (this.eNotificationRequired()) {
-            this.eNotify(new ENotificationImpl(this, Notification.SET,
-                    SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT, oldComponent,
-                    this.component));
-        }
+    public void setComponent(RepositoryComponent newComponent) {
+        RepositoryComponent oldComponent = component;
+        component = newComponent;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT, oldComponent, component));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public EList<ConcreteClassifier> getImplementingClasses() {
-        if (this.implementingClasses == null) {
-            this.implementingClasses = new EObjectResolvingEList<ConcreteClassifier>(ConcreteClassifier.class, this,
-                    SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES);
+        if (implementingClasses == null) {
+            implementingClasses = new EObjectResolvingEList<ConcreteClassifier>(ConcreteClassifier.class, this, SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES);
         }
-        return this.implementingClasses;
+        return implementingClasses;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public EList<ComponentImplementingClassesLink> getSubComponents() {
-        if (this.subComponents == null) {
-            this.subComponents = new EObjectResolvingEList<ComponentImplementingClassesLink>(
-                    ComponentImplementingClassesLink.class, this,
-                    SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS);
+        if (subComponents == null) {
+            subComponents = new EObjectResolvingEList<ComponentImplementingClassesLink>(ComponentImplementingClassesLink.class, this, SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS);
         }
-        return this.subComponents;
+        return subComponents;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public EList<InterfaceSourceCodeLink> getProvidedInterfaces() {
-        if (this.providedInterfaces == null) {
-            this.providedInterfaces = new EObjectResolvingEList<InterfaceSourceCodeLink>(InterfaceSourceCodeLink.class,
-                    this, SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES);
+        if (providedInterfaces == null) {
+            providedInterfaces = new EObjectResolvingEList<InterfaceSourceCodeLink>(InterfaceSourceCodeLink.class, this, SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES);
         }
-        return this.providedInterfaces;
+        return providedInterfaces;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public EList<InterfaceSourceCodeLink> getRequiredInterfaces() {
-        if (this.requiredInterfaces == null) {
-            this.requiredInterfaces = new EObjectResolvingEList<InterfaceSourceCodeLink>(InterfaceSourceCodeLink.class,
-                    this, SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES);
+        if (requiredInterfaces == null) {
+            requiredInterfaces = new EObjectResolvingEList<InterfaceSourceCodeLink>(InterfaceSourceCodeLink.class, this, SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES);
         }
-        return this.requiredInterfaces;
+        return requiredInterfaces;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public boolean isIsInitialComponent() {
-        return this.isInitialComponent;
+        return isInitialComponent;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void setIsInitialComponent(final boolean newIsInitialComponent) {
-        final boolean oldIsInitialComponent = this.isInitialComponent;
-        this.isInitialComponent = newIsInitialComponent;
-        if (this.eNotificationRequired()) {
-            this.eNotify(new ENotificationImpl(this, Notification.SET,
-                    SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT,
-                    oldIsInitialComponent, this.isInitialComponent));
-        }
+    public void setIsInitialComponent(boolean newIsInitialComponent) {
+        boolean oldIsInitialComponent = isInitialComponent;
+        isInitialComponent = newIsInitialComponent;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT, oldIsInitialComponent, isInitialComponent));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public Object eGet(final int featureID, final boolean resolve, final boolean coreType) {
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT:
-            return this.isIsCompositeComponent();
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT:
-            if (resolve) {
-                return this.getComponent();
-            }
-            return this.basicGetComponent();
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES:
-            return this.getImplementingClasses();
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS:
-            return this.getSubComponents();
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES:
-            return this.getProvidedInterfaces();
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES:
-            return this.getRequiredInterfaces();
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT:
-            return this.isIsInitialComponent();
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT:
+                return isIsCompositeComponent();
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT:
+                if (resolve) return getComponent();
+                return basicGetComponent();
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES:
+                return getImplementingClasses();
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS:
+                return getSubComponents();
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES:
+                return getProvidedInterfaces();
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES:
+                return getRequiredInterfaces();
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT:
+                return isIsInitialComponent();
         }
         return super.eGet(featureID, resolve, coreType);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @SuppressWarnings("unchecked")
     @Override
-    public void eSet(final int featureID, final Object newValue) {
+    public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT:
-            this.setComponent((RepositoryComponent) newValue);
-            return;
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES:
-            this.getImplementingClasses().clear();
-            this.getImplementingClasses().addAll((Collection<? extends ConcreteClassifier>) newValue);
-            return;
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS:
-            this.getSubComponents().clear();
-            this.getSubComponents().addAll((Collection<? extends ComponentImplementingClassesLink>) newValue);
-            return;
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES:
-            this.getProvidedInterfaces().clear();
-            this.getProvidedInterfaces().addAll((Collection<? extends InterfaceSourceCodeLink>) newValue);
-            return;
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES:
-            this.getRequiredInterfaces().clear();
-            this.getRequiredInterfaces().addAll((Collection<? extends InterfaceSourceCodeLink>) newValue);
-            return;
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT:
-            this.setIsInitialComponent((Boolean) newValue);
-            return;
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT:
+                setComponent((RepositoryComponent)newValue);
+                return;
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES:
+                getImplementingClasses().clear();
+                getImplementingClasses().addAll((Collection<? extends ConcreteClassifier>)newValue);
+                return;
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS:
+                getSubComponents().clear();
+                getSubComponents().addAll((Collection<? extends ComponentImplementingClassesLink>)newValue);
+                return;
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES:
+                getProvidedInterfaces().clear();
+                getProvidedInterfaces().addAll((Collection<? extends InterfaceSourceCodeLink>)newValue);
+                return;
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES:
+                getRequiredInterfaces().clear();
+                getRequiredInterfaces().addAll((Collection<? extends InterfaceSourceCodeLink>)newValue);
+                return;
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT:
+                setIsInitialComponent((Boolean)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public void eUnset(final int featureID) {
+    public void eUnset(int featureID) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT:
-            this.setComponent((RepositoryComponent) null);
-            return;
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES:
-            this.getImplementingClasses().clear();
-            return;
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS:
-            this.getSubComponents().clear();
-            return;
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES:
-            this.getProvidedInterfaces().clear();
-            return;
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES:
-            this.getRequiredInterfaces().clear();
-            return;
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT:
-            this.setIsInitialComponent(IS_INITIAL_COMPONENT_EDEFAULT);
-            return;
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT:
+                setComponent((RepositoryComponent)null);
+                return;
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES:
+                getImplementingClasses().clear();
+                return;
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS:
+                getSubComponents().clear();
+                return;
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES:
+                getProvidedInterfaces().clear();
+                return;
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES:
+                getRequiredInterfaces().clear();
+                return;
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT:
+                setIsInitialComponent(IS_INITIAL_COMPONENT_EDEFAULT);
+                return;
         }
         super.eUnset(featureID);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
-    public boolean eIsSet(final int featureID) {
+    public boolean eIsSet(int featureID) {
         switch (featureID) {
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT:
-            return this.isSetIsCompositeComponent();
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT:
-            return this.component != null;
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES:
-            return this.implementingClasses != null && !this.implementingClasses.isEmpty();
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS:
-            return this.subComponents != null && !this.subComponents.isEmpty();
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES:
-            return this.providedInterfaces != null && !this.providedInterfaces.isEmpty();
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES:
-            return this.requiredInterfaces != null && !this.requiredInterfaces.isEmpty();
-        case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT:
-            return this.isInitialComponent != IS_INITIAL_COMPONENT_EDEFAULT;
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_COMPOSITE_COMPONENT:
+                return isSetIsCompositeComponent();
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__COMPONENT:
+                return component != null;
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IMPLEMENTING_CLASSES:
+                return implementingClasses != null && !implementingClasses.isEmpty();
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__SUB_COMPONENTS:
+                return subComponents != null && !subComponents.isEmpty();
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__PROVIDED_INTERFACES:
+                return providedInterfaces != null && !providedInterfaces.isEmpty();
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__REQUIRED_INTERFACES:
+                return requiredInterfaces != null && !requiredInterfaces.isEmpty();
+            case SourcecodedecoratorPackage.COMPONENT_IMPLEMENTING_CLASSES_LINK__IS_INITIAL_COMPONENT:
+                return isInitialComponent != IS_INITIAL_COMPONENT_EDEFAULT;
         }
         return super.eIsSet(featureID);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
     public String toString() {
-        if (this.eIsProxy()) {
-            return super.toString();
-        }
+        if (eIsProxy()) return super.toString();
 
-        final StringBuffer result = new StringBuffer(super.toString());
+        StringBuffer result = new StringBuffer(super.toString());
         result.append(" (isInitialComponent: ");
-        result.append(this.isInitialComponent);
+        result.append(isInitialComponent);
         result.append(')');
         return result.toString();
     }
