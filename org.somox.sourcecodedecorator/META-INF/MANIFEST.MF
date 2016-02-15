@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.somox.sourcecodedecorator
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.somox.sourcecodedecorator;singleton:=true
 Bundle-Version: 1.0.1.qualifier
 Bundle-ClassPath: .
-Bundle-Vendor: SDQ
+Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.somox.sourcecodedecorator,
