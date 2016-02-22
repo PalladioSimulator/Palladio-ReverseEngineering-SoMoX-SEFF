@@ -38,8 +38,7 @@ public class ExtendableCompleteSimpleModelAnalysisJob extends AbstractExtendable
      * Workflow extension ID for after SoMoX’ model jobs have run but before the model will be
      * written to disk.
      */
-    public static final String AFTER_MODELS_JOB_EXTENSION_ID =
-            "org.somox.analyzer.simplemodelanalyzer.launch.modelavailable";
+    public static final String AFTER_MODELS_JOB_EXTENSION_ID = "org.somox.analyzer.simplemodelanalyzer.launch.modelavailable";
     /**
      * Workflok extension ID for after all SoMoX’ jobs have run. The model has already been written
      * to a file and SoMoX will terminate after this point.
@@ -57,18 +56,19 @@ public class ExtendableCompleteSimpleModelAnalysisJob extends AbstractExtendable
     public ExtendableCompleteSimpleModelAnalysisJob(final ModelAnalyzerConfiguration config) throws CoreException {
         final ExtendableJobConfiguration extensionJobsConfiguration = new SoMoXExtensionJobConfiguration(config);
 
-        handleJobExtensions(ExtendableCompleteSimpleModelAnalysisJob.BEFORE_ALL_JOBS_EXTENSION_ID,
+        this.handleJobExtensions(ExtendableCompleteSimpleModelAnalysisJob.BEFORE_ALL_JOBS_EXTENSION_ID,
                 extensionJobsConfiguration);
 
         this.add(new SimpleModelAnalyzerJob(config));
-        this.add(new GAST2SEFFJob());
+        this.add(new GAST2SEFFJob(
+                config.getSomoxConfiguration().isReverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour()));
 
-        handleJobExtensions(ExtendableCompleteSimpleModelAnalysisJob.AFTER_MODELS_JOB_EXTENSION_ID,
+        this.handleJobExtensions(ExtendableCompleteSimpleModelAnalysisJob.AFTER_MODELS_JOB_EXTENSION_ID,
                 extensionJobsConfiguration);
 
         this.add(new SaveSoMoXModelsJob(config.getSomoxConfiguration()));
 
-        handleJobExtensions(ExtendableCompleteSimpleModelAnalysisJob.AFTER_ALL_JOBS_EXTENSION_ID,
+        this.handleJobExtensions(ExtendableCompleteSimpleModelAnalysisJob.AFTER_ALL_JOBS_EXTENSION_ID,
                 extensionJobsConfiguration);
 
     }
@@ -95,7 +95,7 @@ public class ExtendableCompleteSimpleModelAnalysisJob extends AbstractExtendable
 
         @Override
         public Map<String, Object> getAttributes() {
-            return config.getSomoxConfiguration().toMap();
+            return this.config.getSomoxConfiguration().toMap();
         }
 
     }

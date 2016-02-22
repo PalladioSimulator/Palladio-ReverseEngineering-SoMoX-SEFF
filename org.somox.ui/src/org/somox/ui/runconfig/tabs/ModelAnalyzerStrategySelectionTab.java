@@ -37,10 +37,14 @@ public class ModelAnalyzerStrategySelectionTab extends AbstractLaunchConfigurati
         configuration.setAttribute(
                 SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES,
                 this.reverseEngineerAllInterfaces.getSelection());
+        configuration.setAttribute(
+                SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERNAL_METHODS_AS_RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR,
+                this.reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour.getSelection());
     }
 
     // Input fields
     Button reverseEngineerAllInterfaces = null;
+    Button reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour = null;
 
     /*
      * (non-Javadoc)
@@ -74,34 +78,50 @@ public class ModelAnalyzerStrategySelectionTab extends AbstractLaunchConfigurati
 
         final Group inputFileTypeGroup = new Group(container, SWT.NONE);
         final GridLayout glInputFileTypeGroup = new GridLayout();
-        glInputFileTypeGroup.numColumns = 2;
+        glInputFileTypeGroup.numColumns = 1;
         inputFileTypeGroup.setLayout(glInputFileTypeGroup);
         inputFileTypeGroup.setText("Select Reverse Engineering Strategies:");
         inputFileTypeGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-        this.reverseEngineerAllInterfaces = new Button(inputFileTypeGroup, SWT.CHECK);
-        this.reverseEngineerAllInterfaces.setText("Reverse engineer interfaces which are not assigned to components");
-        this.reverseEngineerAllInterfaces.setToolTipText(
-                "Reverse engineer interfaces which are not assigned to components. If set to disabled, only interface which are provided or required by compoenents will be reverse engineered.");
-        final GridData gd_inputFile = new GridData(SWT.FILL, SWT.CENTER, true, true);
-        gd_inputFile.widthHint = 300;
-        this.reverseEngineerAllInterfaces.setLayoutData(gd_inputFile);
-        this.reverseEngineerAllInterfaces.addSelectionListener(selectionListener);
-        this.reverseEngineerAllInterfaces.addSelectionListener(new SelectionListener() {
+        this.reverseEngineerAllInterfaces = this.createAndAddSWTCheckButton(inputFileTypeGroup,
+                "Reverse engineer interfaces which are not assigned to components",
+                "Reverse engineer interfaces which are not assigned to components. If set to disabled, only interface which are provided or required by compoenents will be reverse engineered.",
+                selectionListener, new SelectionListener() {
 
-            @Override
-            public void widgetSelected(final org.eclipse.swt.events.SelectionEvent e) {
-                ModelAnalyzerStrategySelectionTab.this.updateBlackboard(
-                        ModelAnalyzerStrategySelectionTab.this.reverseEngineerAllInterfaces.getSelection());
-            }
+                    @Override
+                    public void widgetSelected(final org.eclipse.swt.events.SelectionEvent e) {
+                        ModelAnalyzerStrategySelectionTab.this.updateBlackboard(
+                                ModelAnalyzerStrategySelectionTab.this.reverseEngineerAllInterfaces.getSelection());
+                    }
 
-            @Override
-            public void widgetDefaultSelected(final SelectionEvent e) {
-                ModelAnalyzerStrategySelectionTab.this.updateBlackboard(
-                        ModelAnalyzerStrategySelectionTab.this.reverseEngineerAllInterfaces.getSelection());
-            };
+                    @Override
+                    public void widgetDefaultSelected(final SelectionEvent e) {
+                        ModelAnalyzerStrategySelectionTab.this.updateBlackboard(
+                                ModelAnalyzerStrategySelectionTab.this.reverseEngineerAllInterfaces.getSelection());
+                    };
 
-        });
+                });
+
+        this.reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour = this.createAndAddSWTCheckButton(
+                inputFileTypeGroup, "Reverse engineer internal method calls as ResourceDemandingInternalBehaviour",
+                "Reverse engineer internal method calls as ResourceDemandingInternalBehaviour. If set to disabled, no ResourceDemandingInternalBehaviour (default) will be created. If enabled ResourceDemandingInternalBehaviour are created, which leads to bigger models. ",
+                selectionListener, new SelectionListener() {
+
+                    @Override
+                    public void widgetSelected(final org.eclipse.swt.events.SelectionEvent e) {
+                        ModelAnalyzerStrategySelectionTab.this.updateBlackboard(
+                                ModelAnalyzerStrategySelectionTab.this.reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour
+                                        .getSelection());
+                    }
+
+                    @Override
+                    public void widgetDefaultSelected(final SelectionEvent e) {
+                        ModelAnalyzerStrategySelectionTab.this.updateBlackboard(
+                                ModelAnalyzerStrategySelectionTab.this.reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour
+                                        .getSelection());
+                    };
+
+                });
 
         final Composite composite = new Composite(container, SWT.NONE);
         composite.setLayout(new GridLayout(2, false));
@@ -110,6 +130,21 @@ public class ModelAnalyzerStrategySelectionTab extends AbstractLaunchConfigurati
             gridData.widthHint = 302;
             composite.setLayoutData(gridData);
         }
+    }
+
+    private Button createAndAddSWTCheckButton(final Composite inputFileTypeGroup, final String label,
+            final String toolTip, final SelectionListener... selectionListeners) {
+        final Button button = new Button(inputFileTypeGroup, SWT.CHECK);
+        button.setText(label);
+        button.setToolTipText(toolTip);
+        final GridData gd_inputFile = new GridData(SWT.FILL, SWT.CENTER, true, true);
+        gd_inputFile.widthHint = 300;
+        button.setLayoutData(gd_inputFile);
+        for (final SelectionListener selectionListener : selectionListeners) {
+            button.addSelectionListener(selectionListener);
+        }
+        return button;
+
     }
 
     /*
@@ -122,10 +157,14 @@ public class ModelAnalyzerStrategySelectionTab extends AbstractLaunchConfigurati
     public void initializeFrom(final ILaunchConfiguration configuration) {
         try {
             this.reverseEngineerAllInterfaces.setSelection(configuration.getAttribute(
-                    SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES,
-                    false));
+                    SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES, false));
+            this.reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour
+                    .setSelection(configuration.getAttribute(
+                            SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERNAL_METHODS_AS_RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR,
+                            false));
         } catch (final CoreException e) {
             this.reverseEngineerAllInterfaces.setSelection(false);
+            this.reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour.setSelection(false);
         }
     }
 

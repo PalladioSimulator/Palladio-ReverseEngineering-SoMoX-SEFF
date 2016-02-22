@@ -105,8 +105,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
         final IProgressMonitor subMonitor = new SubProgressMonitor(monitor, IProgressMonitor.UNKNOWN);
         subMonitor.setTaskName("Creating SEFF behaviour");
 
-        final Iterator<SEFF2MethodMapping> iterator =
-                this.sourceCodeDecoratorModel.getSeff2MethodMappings().iterator();
+        final Iterator<SEFF2MethodMapping> iterator = this.sourceCodeDecoratorModel.getSeff2MethodMappings().iterator();
         while (iterator.hasNext()) {
             final SEFF2MethodMapping astBehaviour = iterator.next();
             final ResourceDemandingSEFF seff = (ResourceDemandingSEFF) astBehaviour.getSeff();
@@ -151,16 +150,15 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
         final BasicComponent basicComponent = (BasicComponent) seff.eContainer();
         final IFunctionClassificationStrategy basicFunctionClassifierStrategy = new BasicFunctionClassificationStrategy(
                 this.sourceCodeDecoratorModel, basicComponent, this.root, this.methodCallFinder);
-        this.typeVisitor =
-                new FunctionCallClassificationVisitor(basicFunctionClassifierStrategy, this.methodCallFinder);
+        this.typeVisitor = new FunctionCallClassificationVisitor(basicFunctionClassifierStrategy,
+                this.methodCallFinder);
 
         final StatementListContainer body = this.findBody(seff);// GAST2SEFFCHANGE
         this.logger.trace("visiting (seff entry): " + seff.getId());
         if (body != null) {
             if (this.createResourceDemandingInternalBehaviour) {
-                final ResourceDemandingBehaviourForClassMethodFinding defaultResourceDemandingBehaviourForClassMethodFinder =
-                        new DefaultResourceDemandingBehaviourForClassMethodFinder(this.sourceCodeDecoratorModel,
-                                basicComponent);
+                final ResourceDemandingBehaviourForClassMethodFinding defaultResourceDemandingBehaviourForClassMethodFinder = new DefaultResourceDemandingBehaviourForClassMethodFinder(
+                        this.sourceCodeDecoratorModel, basicComponent);
                 VisitorUtils.visitJaMoPPMethod(seff, basicComponent, body, this.sourceCodeDecoratorModel,
                         this.typeVisitor, null, defaultResourceDemandingBehaviourForClassMethodFinder,
                         this.methodCallFinder);

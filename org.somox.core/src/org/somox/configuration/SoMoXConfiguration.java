@@ -45,8 +45,15 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
      * attribute key for {@link #isReverseEngineerInterfacesNotAssignedToComponent()} /
      * {@link #setReverseEngineerInterfacesNotAssignedToComponent(boolean)}
      */
-    public static final String SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES =
-            "org.somox.analyzer.ReverseEngineerInterfacesNotAssignedToComponent";
+    public static final String SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES = "org.somox.analyzer.ReverseEngineerInterfacesNotAssignedToComponent";
+
+    /**
+     * attribute key for
+     * {@link #isReverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour()} /
+     * {@link #setReverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour(boolean)}
+     */
+    public static final String SOMOX_ANALYZER_REVERSE_ENGINEER_INTERNAL_METHODS_AS_RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR = "org.somox.analyzer.ReverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour";
+
     /**
      * attribute key for {@link #getWildcardKey()} / {@link #setWildcardKey(String)}
      */
@@ -76,21 +83,18 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
      * {@code getClusteringComposeThresholdDecrement()} / {@link #getClusteringConfig()}.
      * {@code setClusteringComposeThresholdDecrement(double)}
      */
-    public static final String SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_COMPOSE =
-            "org.somox.clusteringThresholdDecrement.Compose";
+    public static final String SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_COMPOSE = "org.somox.clusteringThresholdDecrement.Compose";
     /**
      * attribute key for {@link #getClusteringConfig()}.
      * {@code getClusteringMergeThresholdDecrement()} / {@link #getClusteringConfig()}.
      * {@code setClusteringMergeThresholdDecrement(double)}
      */
-    public static final String SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_MERGE =
-            "org.somox.clusteringThresholdDecrement.Merge";
+    public static final String SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_MERGE = "org.somox.clusteringThresholdDecrement.Merge";
     /**
      * attribute key for {@link #getClusteringConfig()}. {@code getMaxComposeClusteringThreshold()}
      * / {@link #getClusteringConfig()}. {@code setMaxComposeClusteringThreshold(double)}
      */
-    public static final String SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_COMPOSE =
-            "org.somox.clusteringThresholdMax.Compose";
+    public static final String SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_COMPOSE = "org.somox.clusteringThresholdMax.Compose";
     /**
      * attribute key for {@link #getClusteringConfig()}. {@code getMaxMergeClusteringThreshold()} /
      * {@link #getClusteringConfig()}. {@code setMaxMergeClusteringThreshold(double)}
@@ -100,8 +104,7 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
      * attribute key for {@link #getClusteringConfig()}. {@code getMinComposeClusteringThreshold()}
      * / {@link #getClusteringConfig()}. {@code setMinComposeClusteringThreshold(double)}
      */
-    public static final String SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_COMPOSE =
-            "org.somox.clusteringThresholdMin.Compose";
+    public static final String SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_COMPOSE = "org.somox.clusteringThresholdMin.Compose";
     /**
      * attribute key for {@link #getClusteringConfig()}. {@code getMinMergeClusteringThreshold()} /
      * {@link #getClusteringConfig()}. {@code setMinMergeClusteringThreshold(double)}
@@ -124,8 +127,7 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
      * attribute key for {@link #getWeightHighNameResemblance()} /
      * {@link #setWeightHighNameResemblance(double)}
      */
-    public static final String SOMOX_WEIGHT_HIGH_NAME_RESEMBLANCE =
-            "org.somox.nameResemblance.weightHighNameResemblance";
+    public static final String SOMOX_WEIGHT_HIGH_NAME_RESEMBLANCE = "org.somox.nameResemblance.weightHighNameResemblance";
     /**
      * attribute key for {@link #getWeightHighSLAQ()} / {@link #setWeightHighSLAQ(double)}
      */
@@ -134,20 +136,17 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
      * attribute key for {@link #getWeightHighestNameResemblance()} /
      * {@link #setWeightHighestNameResemblance(double)}
      */
-    public static final String SOMOX_WEIGHT_HIGHEST_NAME_RESEMBLANCE =
-            "org.somox.nameResemblance.weightHighestNameResemblance";
+    public static final String SOMOX_WEIGHT_HIGHEST_NAME_RESEMBLANCE = "org.somox.nameResemblance.weightHighestNameResemblance";
     /**
      * attribute key for {@link #getWeightInterfaceViolationIrrelevant()} /
      * {@link #setWeightInterfaceViolationIrrelevant(double)}
      */
-    public static final String SOMOX_WEIGHT_INTERFACE_VIOLATION_IRRELEVANT =
-            "org.somox.interfaceViolation.weightInterfaceViolationIrrelevant";
+    public static final String SOMOX_WEIGHT_INTERFACE_VIOLATION_IRRELEVANT = "org.somox.interfaceViolation.weightInterfaceViolationIrrelevant";
     /**
      * attribute key for {@link #getWeightInterfaceViolationRelevant()} /
      * {@link #setWeightInterfaceViolationRelevant(double)}
      */
-    public static final String SOMOX_WEIGHT_INTERFACE_VIOLATION_RELEVANT =
-            "org.somox.interfaceViolation.weightInterfaceViolationRelevant";
+    public static final String SOMOX_WEIGHT_INTERFACE_VIOLATION_RELEVANT = "org.somox.interfaceViolation.weightInterfaceViolationRelevant";
     /**
      * attribute key for {@link #getWeightLowCoupling()} / {@link #setWeightLowCoupling(double)}
      */
@@ -182,6 +181,7 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
     private String excludedSuffixesForNameResemblance = "";
     private final FileLocationConfiguration locations = new FileLocationConfiguration();
     private boolean reverseEngineerInterfacesNotAssignedToComponent;
+    private boolean reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour;
     private double weightDirectoryMapping = 70;
     private double weightDMS = 5;
     private double weightHighCoupling = 15;
@@ -201,8 +201,8 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
      * Creates a new SoMoX configuration initialized with default values.
      */
     public SoMoXConfiguration() {
-        getFileLocations().setOutputFolder("/model");
-        updateBlacklistFilter();
+        this.getFileLocations().setOutputFolder("/model");
+        this.updateBlacklistFilter();
     }
 
     /**
@@ -215,7 +215,7 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
      */
     public SoMoXConfiguration(final Map<String, Object> attributeMap) {
         this();
-        applyAttributeMap(attributeMap);
+        this.applyAttributeMap(attributeMap);
     }
 
     /**
@@ -232,135 +232,153 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
         }
 
         // Debug output
-        logger.debug("SoMoX configuration extended by these attributes:");
+        SoMoXConfiguration.logger.debug("SoMoX configuration extended by these attributes:");
         for (final Object key : attributeMap.keySet()) {
             final String keyname = key.toString();
 
             if (keyname.contains("org.somox")) {
-                logger.debug(key + "=" + attributeMap.get(key));
+                SoMoXConfiguration.logger.debug(key + "=" + attributeMap.get(key));
             }
 
         }
-        final FileLocationConfiguration fileLocations = getFileLocations();
-        if (attributeMap.get(SOMOX_PROJECT_NAME) != null) {
-            fileLocations.setProjectName((String) attributeMap.get(SOMOX_PROJECT_NAME));
+        final FileLocationConfiguration fileLocations = this.getFileLocations();
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_PROJECT_NAME) != null) {
+            fileLocations.setProjectName((String) attributeMap.get(SoMoXConfiguration.SOMOX_PROJECT_NAME));
         }
 
-        if (attributeMap.get(SOMOX_ANALYZER_INPUT_FILE) != null) {
-            fileLocations.setAnalyserInputFile((String) attributeMap.get(SOMOX_ANALYZER_INPUT_FILE));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_ANALYZER_INPUT_FILE) != null) {
+            fileLocations.setAnalyserInputFile((String) attributeMap.get(SoMoXConfiguration.SOMOX_ANALYZER_INPUT_FILE));
         }
 
-        if (attributeMap.get(SOMOX_OUTPUT_FOLDER) != null) {
-            fileLocations.setOutputFolder((String) attributeMap.get(SOMOX_OUTPUT_FOLDER));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_OUTPUT_FOLDER) != null) {
+            fileLocations.setOutputFolder((String) attributeMap.get(SoMoXConfiguration.SOMOX_OUTPUT_FOLDER));
         }
 
-        if (attributeMap.get(SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES) != null) {
-            final boolean allInterfacesStrategy =
-                    (Boolean) attributeMap.get(SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES);
+        if (attributeMap.get(
+                SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES) != null) {
+            final boolean allInterfacesStrategy = (Boolean) attributeMap
+                    .get(SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES);
             this.setReverseEngineerInterfacesNotAssignedToComponent(allInterfacesStrategy);
         }
 
-        if (attributeMap.get(SOMOX_ANALYZER_WILDCARD_KEY) != null) {
-            setWildcardKey((String) attributeMap.get(SOMOX_ANALYZER_WILDCARD_KEY));
+        if (attributeMap.get(
+                SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERNAL_METHODS_AS_RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR) != null) {
+            final boolean reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour = (Boolean) attributeMap
+                    .get(SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERNAL_METHODS_AS_RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR);
+            this.setReverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour(
+                    reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour);
         }
 
-        if (attributeMap.get(BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL) != null) {
-            setAdditionalWildcards((String) attributeMap.get(BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_ANALYZER_WILDCARD_KEY) != null) {
+            this.setWildcardKey((String) attributeMap.get(SoMoXConfiguration.SOMOX_ANALYZER_WILDCARD_KEY));
         }
 
-        if (attributeMap.get(SOMOX_EXCLUDED_PREFIXES) != null) {
-            setExcludedPrefixesForNameResemblance((String) attributeMap.get(SOMOX_EXCLUDED_PREFIXES));
+        if (attributeMap.get(SoMoXConfiguration.BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL) != null) {
+            this.setAdditionalWildcards(
+                    (String) attributeMap.get(SoMoXConfiguration.BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL));
         }
 
-        if (attributeMap.get(SOMOX_EXCLUDED_SUFFIXES) != null) {
-            setExcludedSuffixesForNameResemblance((String) attributeMap.get(SOMOX_EXCLUDED_SUFFIXES));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_EXCLUDED_PREFIXES) != null) {
+            this.setExcludedPrefixesForNameResemblance(
+                    (String) attributeMap.get(SoMoXConfiguration.SOMOX_EXCLUDED_PREFIXES));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_DIRECTORY_MAPPING) != null) {
-            setWeightDirectoryMapping((Double) attributeMap.get(SOMOX_WEIGHT_DIRECTORY_MAPPING));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_EXCLUDED_SUFFIXES) != null) {
+            this.setExcludedSuffixesForNameResemblance(
+                    (String) attributeMap.get(SoMoXConfiguration.SOMOX_EXCLUDED_SUFFIXES));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_DMS) != null) {
-            setWeightDMS((Double) attributeMap.get(SOMOX_WEIGHT_DMS));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_DIRECTORY_MAPPING) != null) {
+            this.setWeightDirectoryMapping(
+                    (Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_DIRECTORY_MAPPING));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_HIGH_COUPLING) != null) {
-            setWeightHighCoupling((Double) attributeMap.get(SOMOX_WEIGHT_HIGH_COUPLING));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_DMS) != null) {
+            this.setWeightDMS((Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_DMS));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_HIGHEST_NAME_RESEMBLANCE) != null) {
-            setWeightHighestNameResemblance((Double) attributeMap.get(SOMOX_WEIGHT_HIGHEST_NAME_RESEMBLANCE));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_HIGH_COUPLING) != null) {
+            this.setWeightHighCoupling((Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_HIGH_COUPLING));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_HIGH_NAME_RESEMBLANCE) != null) {
-            setWeightHighNameResemblance((Double) attributeMap.get(SOMOX_WEIGHT_HIGH_NAME_RESEMBLANCE));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_HIGHEST_NAME_RESEMBLANCE) != null) {
+            this.setWeightHighestNameResemblance(
+                    (Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_HIGHEST_NAME_RESEMBLANCE));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_HIGH_SLAQ) != null) {
-            setWeightHighSLAQ((Double) attributeMap.get(SOMOX_WEIGHT_HIGH_SLAQ));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_HIGH_NAME_RESEMBLANCE) != null) {
+            this.setWeightHighNameResemblance(
+                    (Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_HIGH_NAME_RESEMBLANCE));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_INTERFACE_VIOLATION_IRRELEVANT) != null) {
-            setWeightInterfaceViolationIrrelevant(
-                    (Double) attributeMap.get(SOMOX_WEIGHT_INTERFACE_VIOLATION_IRRELEVANT));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_HIGH_SLAQ) != null) {
+            this.setWeightHighSLAQ((Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_HIGH_SLAQ));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_INTERFACE_VIOLATION_RELEVANT) != null) {
-            setWeightInterfaceViolationRelevant((Double) attributeMap.get(SOMOX_WEIGHT_INTERFACE_VIOLATION_RELEVANT));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_INTERFACE_VIOLATION_IRRELEVANT) != null) {
+            this.setWeightInterfaceViolationIrrelevant(
+                    (Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_INTERFACE_VIOLATION_IRRELEVANT));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_LOW_COUPLING) != null) {
-            setWeightLowCoupling((Double) attributeMap.get(SOMOX_WEIGHT_LOW_COUPLING));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_INTERFACE_VIOLATION_RELEVANT) != null) {
+            this.setWeightInterfaceViolationRelevant(
+                    (Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_INTERFACE_VIOLATION_RELEVANT));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_LOW_NAME_RESEMBLANCE) != null) {
-            setWeightLowNameResemblance((Double) attributeMap.get(SOMOX_WEIGHT_LOW_NAME_RESEMBLANCE));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_LOW_COUPLING) != null) {
+            this.setWeightLowCoupling((Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_LOW_COUPLING));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_LOW_SLAQ) != null) {
-            setWeightLowSLAQ((Double) attributeMap.get(SOMOX_WEIGHT_LOW_SLAQ));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_LOW_NAME_RESEMBLANCE) != null) {
+            this.setWeightLowNameResemblance(
+                    (Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_LOW_NAME_RESEMBLANCE));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_MID_NAME_RESEMBLANCE) != null) {
-            setWeightMidNameResemblance((Double) attributeMap.get(SOMOX_WEIGHT_MID_NAME_RESEMBLANCE));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_LOW_SLAQ) != null) {
+            this.setWeightLowSLAQ((Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_LOW_SLAQ));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_PACKAGE_MAPPING) != null) {
-            setWeightPackageMapping((Double) attributeMap.get(SOMOX_WEIGHT_PACKAGE_MAPPING));
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_MID_NAME_RESEMBLANCE) != null) {
+            this.setWeightMidNameResemblance(
+                    (Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_MID_NAME_RESEMBLANCE));
         }
 
-        final ClusteringConfiguration clusteringConfiguration = getClusteringConfig();
-        if (attributeMap.get(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_COMPOSE) != null) {
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_PACKAGE_MAPPING) != null) {
+            this.setWeightPackageMapping((Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_PACKAGE_MAPPING));
+        }
+
+        final ClusteringConfiguration clusteringConfiguration = this.getClusteringConfig();
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_COMPOSE) != null) {
             clusteringConfiguration.setMaxComposeClusteringThreshold(
-                    (Double) attributeMap.get(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_COMPOSE));
+                    (Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_COMPOSE));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_COMPOSE) != null) {
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_COMPOSE) != null) {
             clusteringConfiguration.setMinComposeClusteringThreshold(
-                    (Double) attributeMap.get(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_COMPOSE));
+                    (Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_COMPOSE));
         }
-        if (attributeMap.get(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_COMPOSE) != null) {
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_COMPOSE) != null) {
             clusteringConfiguration.setClusteringComposeThresholdDecrement(
-                    (Double) attributeMap.get(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_COMPOSE));
+                    (Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_COMPOSE));
         }
-        if (attributeMap.get(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_MERGE) != null) {
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_MERGE) != null) {
             clusteringConfiguration.setMaxMergeClusteringThreshold(
-                    (Double) attributeMap.get(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_MERGE));
+                    (Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_MERGE));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_MERGE) != null) {
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_MERGE) != null) {
             clusteringConfiguration.setMinMergeClusteringThreshold(
-                    (Double) attributeMap.get(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_MERGE));
+                    (Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_MERGE));
         }
 
-        if (attributeMap.get(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_MERGE) != null) {
+        if (attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_MERGE) != null) {
             clusteringConfiguration.setClusteringMergeThresholdDecrement(
-                    (Double) attributeMap.get(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_MERGE));
+                    (Double) attributeMap.get(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_MERGE));
         }
     }
 
     public String getAdditionalWildcards() {
-        return additionalWildcards;
+        return this.additionalWildcards;
     }
 
     /**
@@ -371,7 +389,8 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
     public Set<String> getBlacklist() {
         final String wildcardString = this.wildcardKey;
 
-        final StringTokenizer tokenizer = new StringTokenizer(wildcardString, SOMOX_WILDCARD_DELIMITER);
+        final StringTokenizer tokenizer = new StringTokenizer(wildcardString,
+                SoMoXConfiguration.SOMOX_WILDCARD_DELIMITER);
 
         final Set<String> blacklist = new HashSet<String>();
         while (tokenizer.hasMoreElements()) {
@@ -468,7 +487,7 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
     }
 
     public String getWildcardKey() {
-        return wildcardKey;
+        return this.wildcardKey;
     }
 
     /**
@@ -482,7 +501,7 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
 
     public void setAdditionalWildcards(final String additionalWildcards) {
         this.additionalWildcards = additionalWildcards;
-        updateBlacklistFilter();
+        this.updateBlacklistFilter();
     }
 
     public void setExcludedPrefixesForNameResemblance(final String excludedPrefixesForNameResemblance) {
@@ -568,43 +587,45 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
     public Map<String, Object> toMap() {
         final Map<String, Object> result = new HashMap<String, Object>();
 
-        result.put(SOMOX_PROJECT_NAME, getFileLocations().getProjectName());
-        result.put(SOMOX_ANALYZER_INPUT_FILE, getFileLocations().getAnalyserInputFile());
-        result.put(SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES,
-                isReverseEngineerInterfacesNotAssignedToComponent());
-        result.put(SOMOX_OUTPUT_FOLDER, getFileLocations().getOutputFolder());
-        result.put(SOMOX_ANALYZER_WILDCARD_KEY, getWildcardKey());
-        result.put(BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL, getAdditionalWildcards());
-        result.put(SOMOX_EXCLUDED_PREFIXES, getExcludedPrefixesForNameResemblance());
-        result.put(SOMOX_EXCLUDED_SUFFIXES, getExcludedSuffixesForNameResemblance());
+        result.put(SoMoXConfiguration.SOMOX_PROJECT_NAME, this.getFileLocations().getProjectName());
+        result.put(SoMoXConfiguration.SOMOX_ANALYZER_INPUT_FILE, this.getFileLocations().getAnalyserInputFile());
+        result.put(SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES,
+                this.isReverseEngineerInterfacesNotAssignedToComponent());
+        result.put(SoMoXConfiguration.SOMOX_OUTPUT_FOLDER, this.getFileLocations().getOutputFolder());
+        result.put(SoMoXConfiguration.SOMOX_ANALYZER_WILDCARD_KEY, this.getWildcardKey());
+        result.put(SoMoXConfiguration.BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL, this.getAdditionalWildcards());
+        result.put(SoMoXConfiguration.SOMOX_EXCLUDED_PREFIXES, this.getExcludedPrefixesForNameResemblance());
+        result.put(SoMoXConfiguration.SOMOX_EXCLUDED_SUFFIXES, this.getExcludedSuffixesForNameResemblance());
 
-        result.put(SOMOX_WEIGHT_DIRECTORY_MAPPING, getWeightDirectoryMapping());
-        result.put(SOMOX_WEIGHT_DMS, getWeightDMS());
-        result.put(SOMOX_WEIGHT_HIGH_COUPLING, getWeightHighCoupling());
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_DIRECTORY_MAPPING, this.getWeightDirectoryMapping());
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_DMS, this.getWeightDMS());
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_HIGH_COUPLING, this.getWeightHighCoupling());
 
-        result.put(SOMOX_WEIGHT_HIGHEST_NAME_RESEMBLANCE, getWeightHighestNameResemblance());
-        result.put(SOMOX_WEIGHT_HIGH_NAME_RESEMBLANCE, getWeightHighNameResemblance());
-        result.put(SOMOX_WEIGHT_HIGH_SLAQ, getWeightHighSLAQ());
-        result.put(SOMOX_WEIGHT_INTERFACE_VIOLATION_IRRELEVANT, getWeightInterfaceViolationIrrelevant());
-        result.put(SOMOX_WEIGHT_INTERFACE_VIOLATION_RELEVANT, getWeightInterfaceViolationRelevant());
-        result.put(SOMOX_WEIGHT_LOW_COUPLING, getWeightLowCoupling());
-        result.put(SOMOX_WEIGHT_LOW_NAME_RESEMBLANCE, getWeightLowNameResemblance());
-        result.put(SOMOX_WEIGHT_LOW_SLAQ, getWeightLowSLAQ());
-        result.put(SOMOX_WEIGHT_MID_NAME_RESEMBLANCE, getWeightMidNameResemblance());
-        result.put(SOMOX_WEIGHT_PACKAGE_MAPPING, getWeightPackageMapping());
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_HIGHEST_NAME_RESEMBLANCE, this.getWeightHighestNameResemblance());
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_HIGH_NAME_RESEMBLANCE, this.getWeightHighNameResemblance());
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_HIGH_SLAQ, this.getWeightHighSLAQ());
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_INTERFACE_VIOLATION_IRRELEVANT,
+                this.getWeightInterfaceViolationIrrelevant());
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_INTERFACE_VIOLATION_RELEVANT,
+                this.getWeightInterfaceViolationRelevant());
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_LOW_COUPLING, this.getWeightLowCoupling());
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_LOW_NAME_RESEMBLANCE, this.getWeightLowNameResemblance());
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_LOW_SLAQ, this.getWeightLowSLAQ());
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_MID_NAME_RESEMBLANCE, this.getWeightMidNameResemblance());
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_PACKAGE_MAPPING, this.getWeightPackageMapping());
 
-        final ClusteringConfiguration clusteringConfiguration = getClusteringConfig();
-        result.put(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_COMPOSE,
+        final ClusteringConfiguration clusteringConfiguration = this.getClusteringConfig();
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_COMPOSE,
                 clusteringConfiguration.getMaxComposeClusteringThreshold());
-        result.put(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_COMPOSE,
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_COMPOSE,
                 clusteringConfiguration.getMinComposeClusteringThreshold());
-        result.put(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_COMPOSE,
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_COMPOSE,
                 clusteringConfiguration.getClusteringComposeThresholdDecrement());
-        result.put(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_MERGE,
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_MERGE,
                 clusteringConfiguration.getMaxMergeClusteringThreshold());
-        result.put(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_MERGE,
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_MERGE,
                 clusteringConfiguration.getMinMergeClusteringThreshold());
-        result.put(SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_MERGE,
+        result.put(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_MERGE,
                 clusteringConfiguration.getClusteringMergeThresholdDecrement());
 
         return result;
@@ -612,10 +633,19 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
 
     private void updateBlacklistFilter() {
         final Set<String> wildCardList = this.getBlacklist();
-        if (additionalWildcards != null && additionalWildcards.length() > 0) {
-            wildCardList.add(additionalWildcards);
+        if (this.additionalWildcards != null && this.additionalWildcards.length() > 0) {
+            wildCardList.add(this.additionalWildcards);
         }
         this.blacklistFilter = new BlacklistFilter(wildCardList);
+    }
+
+    public boolean isReverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour() {
+        return this.reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour;
+    }
+
+    public void setReverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour(
+            final boolean reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour) {
+        this.reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour = reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour;
     }
 
 }
