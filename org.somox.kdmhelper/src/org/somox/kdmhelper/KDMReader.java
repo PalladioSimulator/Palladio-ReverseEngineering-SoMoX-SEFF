@@ -3,6 +3,7 @@ package org.somox.kdmhelper;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,24 +34,50 @@ public class KDMReader {
         return this.root;
     }
 
+    /**
+     * Load the specified projects into JaMoPP. If workspace is closed, i.e. we run standalone
+     * assume the projects arrays is a path array and load the specific paths into JaMoPP.
+     *
+     * @param projects
+     * @throws IOException
+     */
     public void loadProject(final String... projects) throws IOException {
         final List<IProject> iProjects = new ArrayList<IProject>();
-        for (final String projectName : projects) {
-            final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-            final IWorkspaceRoot workspaceRoot = workspace.getRoot();
-            final IProject project = workspaceRoot.getProject(projectName);
-            iProjects.add(project);
+        if (this.isStandalone()) {
+            this.loadPathes(Arrays.asList(projects));
+        } else {
+            for (final String projectName : projects) {
+                final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+                final IWorkspaceRoot workspaceRoot = workspace.getRoot();
+                final IProject project = workspaceRoot.getProject(projectName);
+                iProjects.add(project);
+            }
+            this.loadProject(iProjects.toArray(new IProject[iProjects.size()]));
         }
-        this.loadProject(iProjects.toArray(new IProject[iProjects.size()]));
+
+    }
+
+    private boolean isStandalone() {
+        try {
+            ResourcesPlugin.getWorkspace();
+        } catch (final IllegalStateException e) {
+            // this means we run standalone
+            return true;
+        }
+        return false;
     }
 
     public void loadProject(final IProject... projects) throws IOException {
-        final JaMoPPSoftwareModelExtractor softwareModelExtractor = new JaMoPPSoftwareModelExtractor();
         final List<String> projectPaths = new ArrayList<String>();
         for (final IProject project : projects) {
             projectPaths.add(project.getLocation().toString());
         }
         KDMReader.logger.trace("Start loading projects: " + projectPaths);
+        this.loadPathes(projectPaths);
+    }
+
+    private void loadPathes(final List<String> projectPaths) {
+        final JaMoPPSoftwareModelExtractor softwareModelExtractor = new JaMoPPSoftwareModelExtractor();
         final String cacheFileDir = System.getProperty("java.io.tmpdir", "/tmp/") + "JaMoPPGeneratorJobCacheDirSoMoX";
         final File file = new File(cacheFileDir);
         final boolean extractLayoutInformation = true;

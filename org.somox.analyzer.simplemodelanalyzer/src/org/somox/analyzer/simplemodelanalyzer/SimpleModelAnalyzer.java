@@ -66,12 +66,9 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
      * org.eclipse.core.runtime.IProgressMonitor)
      */
     @Override
-    public AnalysisResult analyze(
-            // jamopp xmi generieren
-
-    final SoMoXConfiguration somoxConfiguration, final HashMap<String, ExtractionResult> extractionResultMap,
-            final IProgressMonitor progressMonitor) throws ModelAnalyzerException {
-
+    public AnalysisResult analyze(final SoMoXConfiguration somoxConfiguration,
+            final HashMap<String, ExtractionResult> extractionResultMap, final IProgressMonitor progressMonitor)
+                    throws ModelAnalyzerException {
         this.status = ModelAnalyzer.Status.RUNNING;
         SimpleModelAnalyzer.logger.info("SISSy Analyzer started with" + "\n SOMOX Configuration: " + somoxConfiguration
                 + "\n extractionResultMap " + extractionResultMap);
