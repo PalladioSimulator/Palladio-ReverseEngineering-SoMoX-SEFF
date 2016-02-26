@@ -68,7 +68,8 @@ public class JaMoPPSoftwareModelExtractor {
 
     public ResourceSet extractSoftwareModel(final List<String> projectPaths, final IProgressMonitor monitor,
             final String sourceModelPath) {
-        return this.extractSoftwareModel(projectPaths, monitor, sourceModelPath, EXTRACTOR_EXTRACT_LAYOUT_BY_DEFAULT);
+        return this.extractSoftwareModel(projectPaths, monitor, sourceModelPath,
+                JaMoPPSoftwareModelExtractor.EXTRACTOR_EXTRACT_LAYOUT_BY_DEFAULT);
     }
 
     /**
@@ -98,7 +99,7 @@ public class JaMoPPSoftwareModelExtractor {
             final String sourceModelPath, final boolean extractLayoutInfo) {
 
         if (sourceModelPath != null) {
-            logger.info("Use cache file: " + sourceModelPath);
+            JaMoPPSoftwareModelExtractor.logger.info("Use cache file: " + sourceModelPath);
         }
 
         // TODO: Refactor Code for more intuitive
@@ -110,8 +111,8 @@ public class JaMoPPSoftwareModelExtractor {
         final ReferenceCache cache = this.getReferenceCache(targetResourceSet);
         int resourceCount = 0;
         for (final Resource resource : resources) {
-            logger.info("Resolving resource: " + (++resourceCount) + "/" + resources.size() + " resourceName: "
-                    + resource.getURI().toString());
+            JaMoPPSoftwareModelExtractor.logger.info("Resolving resource: " + (++resourceCount) + "/" + resources.size()
+                    + " resourceName: " + resource.getURI().toString());
             cache.resolve(resource);
         }
 
@@ -140,7 +141,8 @@ public class JaMoPPSoftwareModelExtractor {
             resources.addAll(projectResources);
             this.sourceResources.addAll(projectResources);
         }
-        logger.info(String.format("%d Java files added to resource set", resources.size()));
+        JaMoPPSoftwareModelExtractor.logger
+                .info(String.format("%d Java files added to resource set", resources.size()));
 
         return resources;
     }
@@ -176,7 +178,8 @@ public class JaMoPPSoftwareModelExtractor {
      */
     private void triggerCacheSave(final ResourceSet targetResourceSet) {
         final ReferenceCache cache = this.getReferenceCache(targetResourceSet);
-        logger.debug("References not resolved from Cache: " + cache.getNotResolvedFromCacheCounterReference());
+        JaMoPPSoftwareModelExtractor.logger
+                .debug("References not resolved from Cache: " + cache.getNotResolvedFromCacheCounterReference());
         cache.save();
     }
 
@@ -190,8 +193,7 @@ public class JaMoPPSoftwareModelExtractor {
     private ReferenceCache getReferenceCache(final ResourceSet resourceSet) {
         final Map<String, Object> factoryMap = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
         final Object factoryObject = factoryMap.get("java");
-        final JavaSourceOrClassFileResourceCachingFactoryImpl factory =
-                (JavaSourceOrClassFileResourceCachingFactoryImpl) factoryObject;
+        final JavaSourceOrClassFileResourceCachingFactoryImpl factory = (JavaSourceOrClassFileResourceCachingFactoryImpl) factoryObject;
         final ReferenceCache cache = factory.getReferenceCache();
         return cache;
     }
@@ -215,13 +217,13 @@ public class JaMoPPSoftwareModelExtractor {
         final Collection<File> javaFiles = FileUtils.listFiles(rootFolder, new String[] { "java" }, true);
         int currentFile = 0;
         for (final File javaFile : javaFiles) {
-            logger.info("loading file: " + (++currentFile) + "/" + javaFiles.size() + " currentFile name: "
-                    + javaFile.getAbsolutePath() + " currentFile size: " + javaFile.length());
+            JaMoPPSoftwareModelExtractor.logger.info("loading file: " + (++currentFile) + "/" + javaFiles.size()
+                    + " currentFile name: " + javaFile.getAbsolutePath() + " currentFile size: " + javaFile.length());
             final Resource resource = this.parseResource(javaFile, rs);
             if (resource != null) {
                 resources.add(resource);
             } else {
-                logger.warn("Failed to load resource: " + javaFile);
+                JaMoPPSoftwareModelExtractor.logger.warn("Failed to load resource: " + javaFile);
             }
         }
 
@@ -298,11 +300,11 @@ public class JaMoPPSoftwareModelExtractor {
     }
 
     public String getId() {
-        return EXTRACTOR_ID;
+        return JaMoPPSoftwareModelExtractor.EXTRACTOR_ID;
     }
 
     public String getLabel() {
-        return EXTRACTOR_LABEL;
+        return JaMoPPSoftwareModelExtractor.EXTRACTOR_LABEL;
     }
 
     public void prepareResourceSet(final ResourceSet rs, final List<String> sourceModelPaths,
@@ -322,10 +324,11 @@ public class JaMoPPSoftwareModelExtractor {
         options.put(IJavaOptions.DISABLE_LOCATION_MAP, disableLayoutOption);
         options.put(ResourceHandlingOptions.USE_PLATFORM_RESOURCE,
                 ResourceHandlingOptions.USE_PLATFORM_RESOURCE.getDefault());
+        // options.put(ResourceHandlingOptions.USE_PLATFORM_RESOURCE, false);
 
         final Factory originalFactory = new JavaSourceOrClassFileResourceFactoryImpl();
-        final Factory cachedJaMoPPFactory =
-                new JavaSourceOrClassFileResourceCachingFactoryImpl(originalFactory, sourceModelPaths);
+        final Factory cachedJaMoPPFactory = new JavaSourceOrClassFileResourceCachingFactoryImpl(originalFactory,
+                sourceModelPaths);
 
         JavaClasspath.get(rs);
 

@@ -17,7 +17,7 @@ import org.palladiosimulator.pcm.repository.RepositoryComponent;
 import org.palladiosimulator.pcm.repository.Signature;
 import org.palladiosimulator.pcm.repository.SinkRole;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
-import org.somox.analyzer.simplemodelanalyzer.SimpleAnalysisResult;
+import org.somox.analyzer.SimpleAnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.FileLevelSourceCodeLink;

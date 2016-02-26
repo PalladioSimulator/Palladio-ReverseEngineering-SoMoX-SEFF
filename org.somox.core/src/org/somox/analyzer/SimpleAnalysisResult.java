@@ -1,4 +1,4 @@
-package org.somox.analyzer.simplemodelanalyzer;
+package org.somox.analyzer;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,13 +7,9 @@ import org.palladiosimulator.pcm.allocation.Allocation;
 import org.palladiosimulator.pcm.qosannotations.QoSAnnotations;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.system.System;
-import org.somox.analyzer.AnalysisResult;
-import org.somox.analyzer.ModelAnalyzer;
 import org.somox.common.Message;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
-
-//import eu.qimpress.commonmodel.commonmodel.StaticStructure.Repository;
 
 /**
  * @author Snowball

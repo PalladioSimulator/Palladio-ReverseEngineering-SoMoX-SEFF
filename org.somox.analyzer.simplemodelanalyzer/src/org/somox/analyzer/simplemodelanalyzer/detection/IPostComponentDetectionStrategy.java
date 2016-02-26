@@ -1,7 +1,7 @@
 package org.somox.analyzer.simplemodelanalyzer.detection;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.somox.analyzer.simplemodelanalyzer.SimpleAnalysisResult;
+import org.somox.analyzer.SimpleAnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
 
 /**

@@ -93,7 +93,8 @@ public class MethodCallFinder {
         if (methodCall.getTarget() instanceof Method) {
             final Method target = (Method) methodCall.getTarget();
             if (target instanceof AnnotationAttribute) {
-                logger.info("Annotation Attribut found within methodCall" + methodCall + " target: "
+                MethodCallFinder.logger.info("Annotation Attribut found within methodCall in a method of the class"
+                        + methodCall.getContainingConcreteClassifier() + " target: "
                         + methodCall.getTarget().getName());
             } else if (target instanceof Method) {
                 calledMethods.add(target);

@@ -10,16 +10,10 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.palladiosimulator.pcm.allocation.Allocation;
-import org.palladiosimulator.pcm.allocation.AllocationFactory;
-import org.palladiosimulator.pcm.qosannotations.QoSAnnotations;
-import org.palladiosimulator.pcm.qosannotations.QosannotationsFactory;
-import org.palladiosimulator.pcm.repository.Repository;
-import org.palladiosimulator.pcm.repository.RepositoryFactory;
-import org.palladiosimulator.pcm.system.SystemFactory;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.ModelAnalyzer;
 import org.somox.analyzer.ModelAnalyzerException;
+import org.somox.analyzer.SimpleAnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.builder.ComponentBuilder;
 import org.somox.analyzer.simplemodelanalyzer.builder.PCMSystemBuilder;
 import org.somox.analyzer.simplemodelanalyzer.detection.util.ComponentPrinter;
@@ -30,12 +24,8 @@ import org.somox.extractor.ExtractionResult;
 import org.somox.kdmhelper.KDMReader;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
-import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
 import de.uka.ipd.sdq.workflow.ExecutionTimeLoggingProgressMonitor;
-//import de.fzi.gast.core.Root;
-//import de.fzi.gast.helpers.GASTReader;
 
 /**
  * This class runs a component detection based on a GAST input model and returns the results to the
@@ -79,11 +69,11 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
     public AnalysisResult analyze(
             // jamopp xmi generieren
 
-            final SoMoXConfiguration somoxConfiguration, final HashMap<String, ExtractionResult> extractionResultMap,
+    final SoMoXConfiguration somoxConfiguration, final HashMap<String, ExtractionResult> extractionResultMap,
             final IProgressMonitor progressMonitor) throws ModelAnalyzerException {
 
         this.status = ModelAnalyzer.Status.RUNNING;
-        logger.info("SISSy Analyzer started with" + "\n SOMOX Configuration: " + somoxConfiguration
+        SimpleModelAnalyzer.logger.info("SISSy Analyzer started with" + "\n SOMOX Configuration: " + somoxConfiguration
                 + "\n extractionResultMap " + extractionResultMap);
 
         AnalysisResult analysisResult = null;
@@ -96,7 +86,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
         try {
             modelReader.loadProject(project);
         } catch (final IOException e) {
-            logger.error("Failed to load GAST Model", e);
+            SimpleModelAnalyzer.logger.error("Failed to load GAST Model", e);
             throw new ModelAnalyzerException("Failed to load GAST model", e);
         }
         final Root root = modelReader.getRoot();
@@ -198,9 +188,9 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
                 .getDetectionStrategy(initialComponentCandidates)
                 .startDetection(sammBuilder, somoxConfiguration, progressMonitor, initialComponentCandidates);
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("Printing detected components");
-            ComponentPrinter.printComponents(componentsFound, logger);
+        if (SimpleModelAnalyzer.logger.isDebugEnabled()) {
+            SimpleModelAnalyzer.logger.debug("Printing detected components");
+            ComponentPrinter.printComponents(componentsFound, SimpleModelAnalyzer.logger);
         }
 
         subProgressMonitor.done();
@@ -232,34 +222,11 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
 
         final List<ComponentImplementingClassesLink> components = strategiesFactory.getInitializationStrategy()
                 .createInitialComponentCandidates(gastModel, somoxConfiguration, sammBuilder);
-        logger.debug("Finished detection of primitive components. Found " + components.size() + " candidates");
+        SimpleModelAnalyzer.logger
+                .debug("Finished detection of primitive components. Found " + components.size() + " candidates");
 
         subProgressMonitor.done();
         return components;
-    }
-
-    /**
-     * Create an analysis result with newly initialized root models
-     *
-     * @param internalArchitectureModel
-     * @return A new analysis result
-     */
-    private SimpleAnalysisResult initializeAnalysisResult() {
-        final SimpleAnalysisResult analysisResult = new SimpleAnalysisResult(this);
-        final SourceCodeDecoratorRepository sourceCodeDecoratorRepository = SourcecodedecoratorFactory.eINSTANCE
-                .createSourceCodeDecoratorRepository();
-        final org.palladiosimulator.pcm.system.System system = SystemFactory.eINSTANCE.createSystem();
-        final QoSAnnotations qosAnnotationModel = QosannotationsFactory.eINSTANCE.createQoSAnnotations();
-        final Repository newInternalArchitectureModel = RepositoryFactory.eINSTANCE.createRepository();
-        final Allocation allocation = AllocationFactory.eINSTANCE.createAllocation();
-
-        analysisResult.setInternalArchitectureModel(newInternalArchitectureModel);
-        analysisResult.setSourceCodeDecoratorRepository(sourceCodeDecoratorRepository);
-        analysisResult.setSystemModel(system);
-        analysisResult.setQosAnnotationModel(qosAnnotationModel);
-        analysisResult.setAllocation(allocation);
-
-        return analysisResult;
     }
 
     /*

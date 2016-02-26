@@ -3,8 +3,17 @@ package org.somox.analyzer;
 import java.util.HashMap;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.palladiosimulator.pcm.allocation.Allocation;
+import org.palladiosimulator.pcm.allocation.AllocationFactory;
+import org.palladiosimulator.pcm.qosannotations.QoSAnnotations;
+import org.palladiosimulator.pcm.qosannotations.QosannotationsFactory;
+import org.palladiosimulator.pcm.repository.Repository;
+import org.palladiosimulator.pcm.repository.RepositoryFactory;
+import org.palladiosimulator.pcm.system.SystemFactory;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.extractor.ExtractionResult;
+import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
+import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
 /**
  * Interface for Analyzer extensions to be accessed from the SoMoX core
@@ -22,21 +31,18 @@ public interface ModelAnalyzer {
          * @uml.property name="rEADY"
          * @uml.associationEnd
          */
-        READY,
-        /**
-         * @uml.property name="rUNNING"
-         * @uml.associationEnd
-         */
-        RUNNING,
-        /**
-         * @uml.property name="fINISHED"
-         * @uml.associationEnd
-         */
-        FINISHED,
-        /**
-         * @uml.property name="wAITING"
-         * @uml.associationEnd
-         */
+        READY, /**
+                * @uml.property name="rUNNING"
+                * @uml.associationEnd
+                */
+        RUNNING, /**
+                  * @uml.property name="fINISHED"
+                  * @uml.associationEnd
+                  */
+        FINISHED, /**
+                   * @uml.property name="wAITING"
+                   * @uml.associationEnd
+                   */
         WAITING
     }
 
@@ -67,4 +73,28 @@ public interface ModelAnalyzer {
      *         interface
      */
     public ModelAnalyzer.Status getStatus();
+
+    /**
+     * Create an analysis result with newly initialized root models
+     *
+     * @param internalArchitectureModel
+     * @return A new analysis result
+     */
+    default SimpleAnalysisResult initializeAnalysisResult() {
+        final SimpleAnalysisResult analysisResult = new SimpleAnalysisResult(this);
+        final SourceCodeDecoratorRepository sourceCodeDecoratorRepository = SourcecodedecoratorFactory.eINSTANCE
+                .createSourceCodeDecoratorRepository();
+        final org.palladiosimulator.pcm.system.System system = SystemFactory.eINSTANCE.createSystem();
+        final QoSAnnotations qosAnnotationModel = QosannotationsFactory.eINSTANCE.createQoSAnnotations();
+        final Repository newInternalArchitectureModel = RepositoryFactory.eINSTANCE.createRepository();
+        final Allocation allocation = AllocationFactory.eINSTANCE.createAllocation();
+
+        analysisResult.setInternalArchitectureModel(newInternalArchitectureModel);
+        analysisResult.setSourceCodeDecoratorRepository(sourceCodeDecoratorRepository);
+        analysisResult.setSystemModel(system);
+        analysisResult.setQosAnnotationModel(qosAnnotationModel);
+        analysisResult.setAllocation(allocation);
+
+        return analysisResult;
+    }
 }

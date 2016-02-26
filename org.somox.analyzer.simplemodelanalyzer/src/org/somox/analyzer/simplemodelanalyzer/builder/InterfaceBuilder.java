@@ -105,7 +105,7 @@ public class InterfaceBuilder extends AbstractBuilder {
     public InterfaceBuilder(final Root gastModel, final SoMoXConfiguration configuration, final AnalysisResult result) {
         super(gastModel, configuration, result);
 
-        logger.debug("Interface builder initialised");
+        InterfaceBuilder.logger.debug("Interface builder initialised");
 
         this.operationBuilder = new OperationBuilder(gastModel, configuration, result);
         this.behaviourBuilder = new Seff2JavaASTBuilder(gastModel, configuration, result);
@@ -166,7 +166,7 @@ public class InterfaceBuilder extends AbstractBuilder {
                     this.createRequiredPort(componentCandidate.getComponent(), reqInterface);
                     // update source code decorator:
                     this.updateInterfacesInSourceCodeDecorator(componentCandidate, reqInterface, accessedClass,
-                            !PROVIDED_INTERFACE);
+                            !InterfaceBuilder.PROVIDED_INTERFACE);
 
                     addedARequiredInterface = true;
                 }
@@ -253,7 +253,7 @@ public class InterfaceBuilder extends AbstractBuilder {
                 }
 
             } else {
-                logger.warn("Role type not yet supported: " + role.getClass().getSimpleName());
+                InterfaceBuilder.logger.warn("Role type not yet supported: " + role.getClass().getSimpleName());
             }
         }
 
@@ -287,8 +287,8 @@ public class InterfaceBuilder extends AbstractBuilder {
         }
 
         if (this.interfaceStrategy.isComponentInterface(superType)) {
-            logger.debug("Found interface " + KDMHelper.computeFullQualifiedName(superType) + " for component "
-                    + componentCandidate.getComponent().getEntityName());
+            InterfaceBuilder.logger.debug("Found interface " + KDMHelper.computeFullQualifiedName(superType)
+                    + " for component " + componentCandidate.getComponent().getEntityName());
             final OperationInterface providedInterface = this.createInterface(gastClass, superType);
 
             if (!this.componentProvidesInterface(providedInterface, componentCandidate.getComponent())) {
@@ -322,7 +322,7 @@ public class InterfaceBuilder extends AbstractBuilder {
      */
     private void assignPublicMethodsAsInterfaceForComponentsWithoutInterface(
             final ComponentImplementingClassesLink componentCandidate) {
-        logger.debug("Assigning public methods as interfaces");
+        InterfaceBuilder.logger.debug("Assigning public methods as interfaces");
 
         // TODO langhammer 3.6.2013 If there are several classes in one basic component
         // that implement the same interface, then the model is invalid, because several
@@ -338,12 +338,14 @@ public class InterfaceBuilder extends AbstractBuilder {
                 if (compInterface != null) {
                     this.createProvidedPortAndBehaviour(componentCandidate, compInterface, gastClass);
                 } else {
-                    logger.warn("Failed to create interface by using public methods for class without real interfaces");
+                    InterfaceBuilder.logger.warn(
+                            "Failed to create interface by using public methods for class without real interfaces");
                 }
             }
         } else {
-            logger.warn("No gast classes found for component: " + componentCandidate.getComponent().getEntityName()
-                    + " id: " + componentCandidate.getComponent().getId());
+            InterfaceBuilder.logger
+                    .warn("No gast classes found for component: " + componentCandidate.getComponent().getEntityName()
+                            + " id: " + componentCandidate.getComponent().getId());
         }
     }
 
@@ -359,7 +361,7 @@ public class InterfaceBuilder extends AbstractBuilder {
     private OperationInterface createInterfaceBasedOnPublicMethods(final ConcreteClassifier gastClass) {
 
         if (this.interfaceStrategy.isComponentInterface(gastClass)) {
-            logger.info(
+            InterfaceBuilder.logger.info(
                     KDMHelper.computeFullQualifiedName(gastClass) + " used as interface but is a pseudo-interface.");
         }
 
@@ -541,7 +543,7 @@ public class InterfaceBuilder extends AbstractBuilder {
                 .identifyComponentInterfaceSelfAccess(primitiveComponent);
 
         for (final InterfaceSourceCodeInterfacePortTuple currentIfTupleToRemove : requiredIfToRemove) {
-            logger.trace("removing self-access component interface "
+            InterfaceBuilder.logger.trace("removing self-access component interface "
                     + currentIfTupleToRemove.interfaceSourceCodeLink.getInterface().getEntityName() + " of component "
                     + primitiveComponent.getComponent().getEntityName());
 
