@@ -14,7 +14,6 @@ import org.palladiosimulator.pcm.allocation.AllocationFactory;
 import org.palladiosimulator.pcm.core.composition.AssemblyContext;
 import org.palladiosimulator.pcm.core.composition.CompositionFactory;
 import org.palladiosimulator.pcm.core.composition.ProvidedDelegationConnector;
-import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.ProvidedRole;
@@ -189,9 +188,13 @@ public class PCMSystemBuilder extends AbstractBuilder {
         // dummy component
         // create dummy components for non-connected interfaces and
         // build assembly connectors for the newly created dummy component:
-        final BasicComponent dummyComponent = DummyComponentBuilder.createDummyComponent(subComponentInformationSet,
-                pcmSystem, resourceEnvironment, this.analysisResult);
-        this.analysisResult.getInternalArchitectureModel().getComponents__Repository().add(dummyComponent);
+        /*
+         * final BasicComponent dummyComponent =
+         * DummyComponentBuilder.createDummyComponent(subComponentInformationSet, pcmSystem,
+         * resourceEnvironment, this.analysisResult);
+         * this.analysisResult.getInternalArchitectureModel().getComponents__Repository().add(
+         * dummyComponent);
+         */
     }
 
     // TODO: Check in the svn history what this method was used for. Maybe
