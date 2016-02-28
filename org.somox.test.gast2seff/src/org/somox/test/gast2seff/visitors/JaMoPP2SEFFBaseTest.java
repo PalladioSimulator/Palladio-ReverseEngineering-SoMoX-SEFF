@@ -4,13 +4,10 @@ import org.apache.log4j.Logger;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.Method;
-import org.palladiosimulator.pcm.repository.BasicComponent;
-import org.palladiosimulator.pcm.repository.Interface;
 import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.RepositoryComponent;
-import org.palladiosimulator.pcm.repository.RequiredRole;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
@@ -26,14 +23,9 @@ public abstract class JaMoPP2SEFFBaseTest extends JaMoPP2PCMBaseTest {
     protected static final String TEST_DO_LIBRARY_CALL = "testDoLibraryCall";
 
     OperationSignature findOperationSignatureWithName(final String methodName, final String interfaceName) {
-        final OperationInterface opInterface = this.findOperationInterfaceWithName(interfaceName);
-        for (final OperationSignature opSig : opInterface.getSignatures__OperationInterface()) {
-            if (methodName.equals(opSig.getEntityName())) {
-                return opSig;
-            }
-        }
-        throw new RuntimeException(
-                "Could not find OperationSignature " + methodName + " in OperationInterface " + interfaceName);
+        final OperationInterface opInterface = SEFFCreationHelper.findOperationInterfaceWithName(interfaceName,
+                this.pcmRepository);
+        return SEFFCreationHelper.findOperationSignatureInInterface(methodName, opInterface);
     }
 
     @Override
@@ -65,12 +57,7 @@ public abstract class JaMoPP2SEFFBaseTest extends JaMoPP2PCMBaseTest {
 
     @Override
     protected RepositoryComponent findComponentInPCMRepo(final String componentName) {
-        for (final RepositoryComponent repoComp : this.pcmRepository.getComponents__Repository()) {
-            if (componentName.equals(repoComp.getEntityName())) {
-                return repoComp;
-            }
-        }
-        throw new RuntimeException("Could not find RepositoryComponent " + componentName);
+        return SEFFCreationHelper.findComponentInPCMRepository(componentName, this.pcmRepository);
     }
 
     private ConcreteClassifier findClassForComponent(final String providingCompName) {
@@ -82,18 +69,10 @@ public abstract class JaMoPP2SEFFBaseTest extends JaMoPP2PCMBaseTest {
         final InterfaceSourceCodeLink interfaecLink = SourcecodedecoratorFactory.eINSTANCE
                 .createInterfaceSourceCodeLink();
         interfaecLink.setGastClass(this.findConcreteClassifierWithName(interfaceName));
-        interfaecLink.setInterface(this.findOperationInterfaceWithName(interfaceName));
+        interfaecLink
+                .setInterface(SEFFCreationHelper.findOperationInterfaceWithName(interfaceName, this.pcmRepository));
         this.sourceCodeDecorator.getInterfaceSourceCodeLink().add(interfaecLink);
         return interfaecLink;
-    }
-
-    private OperationInterface findOperationInterfaceWithName(final String interfaceName) {
-        for (final Interface opInterface : this.pcmRepository.getInterfaces__Repository()) {
-            if (opInterface instanceof OperationInterface && interfaceName.equals(opInterface.getEntityName())) {
-                return (OperationInterface) opInterface;
-            }
-        }
-        throw new RuntimeException("Could not find OperationInterface " + interfaceName);
     }
 
     private ConcreteClassifier findConcreteClassifierWithName(final String concreteClassifierName) {
@@ -105,18 +84,6 @@ public abstract class JaMoPP2SEFFBaseTest extends JaMoPP2PCMBaseTest {
             }
         }
         throw new RuntimeException("Could not find ConcreteClassifier " + concreteClassifierName);
-    }
-
-    public OperationRequiredRole findOperaitonRequiredRoleInBasicComponent(final BasicComponent basicComponent,
-            final String requiredRoleName) {
-        for (final RequiredRole requiredRole : basicComponent.getRequiredRoles_InterfaceRequiringEntity()) {
-            if (requiredRole.getEntityName().equals(requiredRoleName)
-                    && requiredRole instanceof OperationRequiredRole) {
-                return (OperationRequiredRole) requiredRole;
-            }
-        }
-        throw new RuntimeException("Could not find OperationRequiredRole " + requiredRoleName + " in BasicComponent "
-                + basicComponent.getEntityName());
     }
 
     public OperationSignature findRequiredOperationSignatureInOperationRequiredRole(

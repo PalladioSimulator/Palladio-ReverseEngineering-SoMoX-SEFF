@@ -43,7 +43,7 @@ public class KDMReader {
      */
     public void loadProject(final String... projects) throws IOException {
         final List<IProject> iProjects = new ArrayList<IProject>();
-        if (this.isStandalone()) {
+        if (SoMoXUtil.isStandalone()) {
             this.loadPathes(Arrays.asList(projects));
         } else {
             for (final String projectName : projects) {
@@ -55,16 +55,6 @@ public class KDMReader {
             this.loadProject(iProjects.toArray(new IProject[iProjects.size()]));
         }
 
-    }
-
-    private boolean isStandalone() {
-        try {
-            ResourcesPlugin.getWorkspace();
-        } catch (final IllegalStateException e) {
-            // this means we run standalone
-            return true;
-        }
-        return false;
     }
 
     public void loadProject(final IProject... projects) throws IOException {

@@ -50,6 +50,22 @@ public class SimpleModelAnalyzerJob implements IBlackboardInteractingJob<SoMoXBl
         this.globalPreferences = this.getGlobalSoMoXPluginPreferences();
     }
 
+    /**
+     * constructs a SimpleModelAnalyzerJob without the need of interacting with the Eclipse
+     * Enviroment --> allows the analyzer job to work in standalone mode
+     *
+     * @param config
+     * @param controller
+     * @param globalPreferences
+     */
+    public SimpleModelAnalyzerJob(final ModelAnalyzerConfiguration config, final GUISoMoXCoreController controller,
+            final HashMap<String, String> globalPreferences) {
+        super();
+        this.controller = controller;
+        this.somoxConfiguration = config.getSomoxConfiguration();
+        this.globalPreferences = globalPreferences;
+    }
+
     private GUISoMoXCoreController getSoMoXController() throws CoreException {
         // check that the controller is available
         final GUISoMoXCoreController controller = org.somox.ui.Activator.getDefault().getGuiSoMoXCoreController();

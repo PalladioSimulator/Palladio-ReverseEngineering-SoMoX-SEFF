@@ -78,8 +78,8 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
     @Test
     public void testInternalCallThatContainsInternalActionAndForLoopWithExternalCall() {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
-        expectedSeff.getSteps_Behaviour().add(this.createInternalAction());
-        final InternalAction internalActionInInternalCall = this.createInternalAction();
+        expectedSeff.getSteps_Behaviour().add(SEFFCreationHelper.createInternalAction());
+        final InternalAction internalActionInInternalCall = SEFFCreationHelper.createInternalAction();
         final LoopAction loopActionInInternalCall = SeffFactory.eINSTANCE.createLoopAction();
         loopActionInInternalCall.setEntityName("expectedLoopAction");
         final ResourceDemandingBehaviour loopBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
@@ -98,7 +98,7 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
     public void testForLoopWithInternalLibraryAndExternalCall() {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
         final InternalCallAction internalCallAction = InternalCallActionTestHelper.createRecursiveInternalCallAction();
-        final InternalAction ia = this.createInternalAction();
+        final InternalAction ia = SEFFCreationHelper.createInternalAction();
         final ExternalCallAction eca = this.createExternalCallAction(OPERATION_SIGNATURE_NAME);
 
         final LoopAction loopAction = this.createLoopAction(internalCallAction, ia, eca);
@@ -157,9 +157,9 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
     public void testInternalCallAsInputForExternalCall() {
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
         final InternalCallAction internalCallAction1 =
-                InternalCallActionTestHelper.createInternalCallAction(this.createInternalAction());
+                InternalCallActionTestHelper.createInternalCallAction(SEFFCreationHelper.createInternalAction());
         final InternalCallAction internalCallAction2 =
-                InternalCallActionTestHelper.createInternalCallAction(this.createInternalAction());
+                InternalCallActionTestHelper.createInternalCallAction(SEFFCreationHelper.createInternalAction());
         expectedSeff.getSteps_Behaviour().add(internalCallAction1);
         expectedSeff.getSteps_Behaviour().add(internalCallAction2);
         final ExternalCallAction externalCallAction =
@@ -174,7 +174,7 @@ public class JaMoPP2StatementVisitorWithResourceDemandingInternalBehaviourTest e
         final ResourceDemandingSEFF expectedSeff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
         final ExternalCallAction externalCallAction = this.createExternalCallAction(OPERATION_SIGNATURE_NAME);
         final InternalCallAction internalCallAction =
-                InternalCallActionTestHelper.createInternalCallAction(this.createInternalAction());
+                InternalCallActionTestHelper.createInternalCallAction(SEFFCreationHelper.createInternalAction());
         expectedSeff.getSteps_Behaviour().add(externalCallAction);
         expectedSeff.getSteps_Behaviour().add(internalCallAction);
 

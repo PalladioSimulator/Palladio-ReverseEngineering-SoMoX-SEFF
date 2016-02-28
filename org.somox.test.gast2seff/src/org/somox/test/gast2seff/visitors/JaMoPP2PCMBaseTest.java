@@ -70,8 +70,7 @@ public class JaMoPP2PCMBaseTest {
     protected static final String TEST_MODEL_PATH = "example-test-model/";
     protected static final String PCM_REPOITORY_URI = TEST_MODEL_PATH + PCM_REPO_NAME;
 
-    protected static final String METHOD_NAME_TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETER_AND_RETURN_TYPE =
-            "testExternalCallWithSimpleParametersAndReturnType";
+    protected static final String METHOD_NAME_TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETER_AND_RETURN_TYPE = "testExternalCallWithSimpleParametersAndReturnType";
 
     protected static final String METHOD_NAME_TEST_EXTERNAL_CALL = "testExternalCall";
 
@@ -164,8 +163,8 @@ public class JaMoPP2PCMBaseTest {
 
     private ComponentImplementingClassesLink createAndAddComponentImplementingClassLink(final String componentName,
             final InterfaceSourceCodeLink providedInterface, final InterfaceSourceCodeLink requiredInterfacs) {
-        final ComponentImplementingClassesLink componentImplementingClassLink =
-                SourcecodedecoratorFactory.eINSTANCE.createComponentImplementingClassesLink();
+        final ComponentImplementingClassesLink componentImplementingClassLink = SourcecodedecoratorFactory.eINSTANCE
+                .createComponentImplementingClassesLink();
         componentImplementingClassLink.setComponent(this.findComponentInPCMRepo(componentName));
         componentImplementingClassLink.getImplementingClasses().add(this.findClassForComponent(componentName));
         if (null != providedInterface) {
@@ -193,8 +192,8 @@ public class JaMoPP2PCMBaseTest {
     }
 
     private InterfaceSourceCodeLink createAndAddInterface2InterfaceCorrespondence(final String interfaceName) {
-        final InterfaceSourceCodeLink interfaecLink =
-                SourcecodedecoratorFactory.eINSTANCE.createInterfaceSourceCodeLink();
+        final InterfaceSourceCodeLink interfaecLink = SourcecodedecoratorFactory.eINSTANCE
+                .createInterfaceSourceCodeLink();
         interfaecLink.setGastClass(this.findConcreteClassifierWithName(interfaceName));
         interfaecLink.setInterface(this.findOperationInterfaceWithName(interfaceName));
         this.sourceCodeDecorator.getInterfaceSourceCodeLink().add(interfaecLink);
@@ -244,10 +243,10 @@ public class JaMoPP2PCMBaseTest {
         this.sourceCodeDecorator = SourcecodedecoratorFactory.eINSTANCE.createSourceCodeDecoratorRepository();
 
         // interfaces2interfaces
-        final InterfaceSourceCodeLink opInterfaceAToInterfaceA =
-                this.createAndAddInterface2InterfaceCorrespondence(INTERFACE_A_NAME);
-        final InterfaceSourceCodeLink providingOpInterfaceToProvidingInterface =
-                this.createAndAddInterface2InterfaceCorrespondence(PROVIDING_INTERFACE_NAME);
+        final InterfaceSourceCodeLink opInterfaceAToInterfaceA = this
+                .createAndAddInterface2InterfaceCorrespondence(INTERFACE_A_NAME);
+        final InterfaceSourceCodeLink providingOpInterfaceToProvidingInterface = this
+                .createAndAddInterface2InterfaceCorrespondence(PROVIDING_INTERFACE_NAME);
         // method2method4interface
         this.createAndAddMethodLevelSourceCodeLink(METHOD_NAME_TEST_EXTERNAL_CALL_WITH_SIMPLE_PARAMETER_AND_RETURN_TYPE,
                 null, INTERFACE_A_NAME);
@@ -289,8 +288,8 @@ public class JaMoPP2PCMBaseTest {
 
     private MethodLevelSourceCodeLink createAndAddMethodLevelSourceCodeLink(final String methodName,
             final String componentName, final String interfaceName) {
-        final MethodLevelSourceCodeLink methodLevelSourceCodeLink =
-                SourcecodedecoratorFactory.eINSTANCE.createMethodLevelSourceCodeLink();
+        final MethodLevelSourceCodeLink methodLevelSourceCodeLink = SourcecodedecoratorFactory.eINSTANCE
+                .createMethodLevelSourceCodeLink();
         final String classifierForMethod = null == componentName ? interfaceName : componentName + "Impl";
         final Method method = this.findMethodInClassifier(methodName, classifierForMethod);
         final OperationSignature opSignature = this.findOperationSignatureWithName(methodName, interfaceName);
@@ -304,19 +303,19 @@ public class JaMoPP2PCMBaseTest {
         return methodLevelSourceCodeLink;
     }
 
-    protected void assertBitSetsForType(final Map<Commentable, List<BitSet>> annotations, final Class<?> expectedClass,
-            final FunctionCallType... expectedFunctionCallTypes) {
+    public static void assertBitSetsForType(final Map<Commentable, List<BitSet>> annotations,
+            final Class<?> expectedClass, final FunctionCallType... expectedFunctionCallTypes) {
         for (final Entry<Commentable, List<BitSet>> annotation : annotations.entrySet()) {
             final Commentable commentable = annotation.getKey();
             if (expectedClass.isInstance(commentable)) {
                 for (final BitSet bitSet : annotation.getValue()) {
-                    this.assertBitSet(expectedFunctionCallTypes.length, bitSet, expectedFunctionCallTypes);
+                    assertBitSet(expectedFunctionCallTypes.length, bitSet, expectedFunctionCallTypes);
                 }
             }
         }
     }
 
-    protected void assertBitSet(final int expectedBitSetCardinality, final BitSet bitSet,
+    protected static void assertBitSet(final int expectedBitSetCardinality, final BitSet bitSet,
             final FunctionCallType... expectedFunctionCallTypes) {
         // assert
         assertEquals("There should be exactly " + expectedBitSetCardinality + " element(s) set to true in the bit set",

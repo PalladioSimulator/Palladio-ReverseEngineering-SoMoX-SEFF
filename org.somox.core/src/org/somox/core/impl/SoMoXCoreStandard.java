@@ -65,6 +65,16 @@ public class SoMoXCoreStandard implements SoMoXCore {
 
     }
 
+    /**
+     * use the provided modelAnalyzer map as additonal possible model analyzers
+     *
+     * @param modelAnalyzerMap
+     */
+    public SoMoXCoreStandard(final HashMap<String, ModelAnalyzer> modelAnalyzerMap) {
+        this();
+        this.modelAnalyzerMap.putAll(modelAnalyzerMap);
+    }
+
     // ---------------------------------
     // Business Methods
     // ---------------------------------

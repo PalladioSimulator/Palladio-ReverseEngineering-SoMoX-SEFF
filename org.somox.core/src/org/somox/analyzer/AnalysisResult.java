@@ -33,16 +33,14 @@ public interface AnalysisResult {
          * @uml.property name="nOT_EXECUTED"
          * @uml.associationEnd
          */
-        NOT_EXECUTED,
-        /**
-         * @uml.property name="sUCCESS"
-         * @uml.associationEnd
-         */
-        SUCCESS,
-        /**
-         * @uml.property name="fAILED"
-         * @uml.associationEnd
-         */
+        NOT_EXECUTED, /**
+                       * @uml.property name="sUCCESS"
+                       * @uml.associationEnd
+                       */
+        SUCCESS, /**
+                  * @uml.property name="fAILED"
+                  * @uml.associationEnd
+                  */
         FAILED
     }
 

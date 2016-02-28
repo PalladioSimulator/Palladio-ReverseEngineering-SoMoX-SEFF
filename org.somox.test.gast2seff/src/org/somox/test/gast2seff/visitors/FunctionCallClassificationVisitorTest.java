@@ -168,28 +168,28 @@ public class FunctionCallClassificationVisitorTest extends JaMoPP2SEFFBaseTest {
 
     private void executeTest(final String methodName, final Class<?> resultClassType,
             final FunctionCallType... expectedTypes) {
-        final MethodFunctionCallClassificationVisitorPair pair =
-                this.initializeComponentMethodAndFunctionCallClassificationVisitor(REQUIRED_COMPONENT_NAME, methodName);
+        final MethodFunctionCallClassificationVisitorPair pair = this
+                .initializeComponentMethodAndFunctionCallClassificationVisitor(REQUIRED_COMPONENT_NAME, methodName);
 
         // do the test
         pair.functionCallClassificationVisitor.doSwitch(pair.method);
         final Map<Commentable, List<BitSet>> annotations = pair.functionCallClassificationVisitor.getAnnotations();
 
-        this.assertBitSetsForType(annotations, resultClassType, expectedTypes);
+        assertBitSetsForType(annotations, resultClassType, expectedTypes);
     }
 
     private void testSimpleMethodAnnotation(final String componentName, final String methodName, final int expectedSize,
             final FunctionCallType expectedFuctionCallType) {
         // initialize
-        final MethodFunctionCallClassificationVisitorPair pair =
-                this.initializeComponentMethodAndFunctionCallClassificationVisitor(componentName, methodName);
+        final MethodFunctionCallClassificationVisitorPair pair = this
+                .initializeComponentMethodAndFunctionCallClassificationVisitor(componentName, methodName);
 
         // test the switch
         pair.functionCallClassificationVisitor.doSwitch(pair.method);
         final Map<Commentable, List<BitSet>> annotations = pair.functionCallClassificationVisitor.getAnnotations();
 
         // assert: annotations should contain only one statement that is an external call
-        this.assertBitSetsForType(annotations, Commentable.class, expectedFuctionCallType);
+        assertBitSetsForType(annotations, Commentable.class, expectedFuctionCallType);
     }
 
     private MethodFunctionCallClassificationVisitorPair initializeComponentMethodAndFunctionCallClassificationVisitor(

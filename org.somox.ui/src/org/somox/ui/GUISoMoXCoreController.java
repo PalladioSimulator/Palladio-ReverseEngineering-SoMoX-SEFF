@@ -50,6 +50,10 @@ public class GUISoMoXCoreController implements SoMoXCoreController {
         Activator.getDefault().setGuiSoMoXCoreController(this);
     }
 
+    public GUISoMoXCoreController(final SoMoXCore soMoXCore) {
+        this.setSoMoXCore(soMoXCore);
+    }
+
     // ---------------------------------
     // Business Methods
     // ---------------------------------

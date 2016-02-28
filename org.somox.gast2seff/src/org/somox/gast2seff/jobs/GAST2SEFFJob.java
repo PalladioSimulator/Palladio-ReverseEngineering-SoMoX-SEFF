@@ -24,10 +24,10 @@ import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
-import org.somox.gast2seff.visitors.BasicFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.DefaultResourceDemandingBehaviourForClassMethodFinder;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
+import org.somox.gast2seff.visitors.IFunctionClassificationStrategyFactory;
 import org.somox.gast2seff.visitors.MethodCallFinder;
 import org.somox.gast2seff.visitors.ResourceDemandingBehaviourForClassMethodFinding;
 import org.somox.gast2seff.visitors.VisitorUtils;
@@ -75,13 +75,26 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
      */
     private final boolean createResourceDemandingInternalBehaviour;
 
+    /**
+     * factory to create the used IFunctionClassifcationStrategy
+     */
+    private final IFunctionClassificationStrategyFactory iFunctionClassificationStrategyFactory;
+
     public GAST2SEFFJob() {
-        this(false);
+        this(false, new IFunctionClassificationStrategyFactory() {
+        });
     }
 
     public GAST2SEFFJob(final boolean createResourceDemandingInternalBehaviour) {
+        this(createResourceDemandingInternalBehaviour, new IFunctionClassificationStrategyFactory() {
+        });
+    }
+
+    public GAST2SEFFJob(final boolean createResourceDemandingInternalBehaviour,
+            final IFunctionClassificationStrategyFactory iFunctionClassificationStrategyFactory) {
         super();
         this.createResourceDemandingInternalBehaviour = createResourceDemandingInternalBehaviour;
+        this.iFunctionClassificationStrategyFactory = iFunctionClassificationStrategyFactory;
         // performance optimisation:
         final Map<URI, Resource> cache = new HashMap<URI, Resource>();
         ((ResourceSetImpl) this.resourceSet).setURIResourceMap(cache);
@@ -148,8 +161,9 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
 
         // initialise for new component / seff to reverse engineer:
         final BasicComponent basicComponent = (BasicComponent) seff.eContainer();
-        final IFunctionClassificationStrategy basicFunctionClassifierStrategy = new BasicFunctionClassificationStrategy(
-                this.sourceCodeDecoratorModel, basicComponent, this.root, this.methodCallFinder);
+        final IFunctionClassificationStrategy basicFunctionClassifierStrategy = this.iFunctionClassificationStrategyFactory
+                .createIFunctionClassificationStrategy(this.sourceCodeDecoratorModel, basicComponent, this.root,
+                        this.methodCallFinder);
         this.typeVisitor = new FunctionCallClassificationVisitor(basicFunctionClassifierStrategy,
                 this.methodCallFinder);
 
