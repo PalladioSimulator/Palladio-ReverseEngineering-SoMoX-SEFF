@@ -593,8 +593,8 @@ public class OperationBuilder extends AbstractBuilder {
 
     /**
      * Creates a CollectionDataType if the concreteClassifier is an instance of "Collection". We do
-     * not use any inner type here. If the type has an inner type the type will be created in
-     * createCompositeDatatype
+     * use the default type as inner type here. If the type has a more specific inner type the type
+     * will be created in createCompositeDatatype
      *
      * @param gastType
      * @param typeName
@@ -608,6 +608,7 @@ public class OperationBuilder extends AbstractBuilder {
             collectionDataType = RepositoryFactory.eINSTANCE.createCollectionDataType();
             collectionDataType.setEntityName(concreteClassifier.getName());
             collectionDataType.setRepository__DataType(repository);
+            collectionDataType.setInnerType_CollectionDataType(this.getObjectDataType(repository));
             this.createSourceCodeDecoratorEntryEntryForClassifier2DataType(concreteClassifier, collectionDataType);
         }
         return collectionDataType;
@@ -680,6 +681,10 @@ public class OperationBuilder extends AbstractBuilder {
 
     public DataType returnDefaultDataType(final Commentable type, final Repository repository) {
         logger.warn("could not determine type name for type: " + type + " returning default object datatype)");
+        return this.getObjectDataType(repository);
+    }
+
+    private DataType getObjectDataType(final Repository repository) {
         if (null == this.objectDataType) {
             this.objectDataType = RepositoryFactory.eINSTANCE.createCompositeDataType();
             this.objectDataType.setEntityName("Object");
