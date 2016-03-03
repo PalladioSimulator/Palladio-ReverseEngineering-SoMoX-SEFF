@@ -19,6 +19,7 @@ import org.emftext.language.java.types.Type;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.EventGroup;
 import org.palladiosimulator.pcm.repository.EventType;
+import org.palladiosimulator.pcm.repository.Interface;
 import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
@@ -48,7 +49,7 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
 
     private static final Logger logger = Logger.getLogger(Seff2JavaASTBuilder.class);
     private final SourceCodeDecoratorRepository sourceCodeDecorator;
-    private List<SEFF2MethodMapping> seff2MethodMappings;
+    private final List<SEFF2MethodMapping> seff2MethodMappings;
 
     /**
      * Constructor of the GAST behaviour builder
@@ -77,15 +78,29 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
      */
     public void addSeffsToPrimitiveComponent(final BasicComponent component, final ProvidedRole providedRole) {
         if (providedRole instanceof OperationProvidedRole) {
-            final OperationInterface providedInterface =
-                    ((OperationProvidedRole) providedRole).getProvidedInterface__OperationProvidedRole();
-            for (final OperationSignature signature : providedInterface.getSignatures__OperationInterface()) {
-                this.addSeffToBasicComponent(component, signature);
-            }
+            final OperationInterface providedInterface = ((OperationProvidedRole) providedRole)
+                    .getProvidedInterface__OperationProvidedRole();
+            this.addSEFFsForInterfaceToComponent(component, providedInterface, new HashSet<OperationInterface>());
         } else if (providedRole instanceof SinkRole) {
             final EventGroup providedInterface = ((SinkRole) providedRole).getEventGroup__SinkRole();
             for (final EventType signature : providedInterface.getEventTypes__EventGroup()) {
                 this.addSeffToBasicComponent(component, signature);
+            }
+        }
+    }
+
+    private void addSEFFsForInterfaceToComponent(final BasicComponent component,
+            final OperationInterface providedInterface, final Set<OperationInterface> alreadyAddedInterfaces) {
+        if (alreadyAddedInterfaces.contains(providedInterface)) {
+            return;
+        }
+        alreadyAddedInterfaces.add(providedInterface);
+        for (final OperationSignature signature : providedInterface.getSignatures__OperationInterface()) {
+            this.addSeffToBasicComponent(component, signature);
+        }
+        for (final Interface parentIf : providedInterface.getParentInterfaces__Interface()) {
+            if (parentIf instanceof OperationInterface) {
+                this.addSEFFsForInterfaceToComponent(component, (OperationInterface) parentIf, alreadyAddedInterfaces);
             }
         }
     }
@@ -124,8 +139,8 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
 
         // links steems from interface; thus get component-specific implementation:
         final ComponentImplementingClassesLink compClassLink = this.findComponenentLink(component);
-        final StatementListContainer methodBody =
-                this.getFunctionImplementation(link.getFunction(), compClassLink, this.astModel);
+        final StatementListContainer methodBody = this.getFunctionImplementation(link.getFunction(), compClassLink,
+                this.astModel);
 
         seff2MethodMapping.setStatementListContainer(methodBody);
         if (seff2MethodMapping.getStatementListContainer() == null) {

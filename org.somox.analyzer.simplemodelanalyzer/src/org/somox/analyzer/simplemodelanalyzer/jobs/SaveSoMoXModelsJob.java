@@ -118,9 +118,9 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
         // URI scriptURI = fileURI;
         String uriString = "";
         if (!SoMoXUtil.isStandalone()) {
-            uriString += "platform:/resource/";
+            uriString += "platform:/resource/" + projectIdentifier + "/";
         }
-        uriString += projectIdentifier + path;
+        uriString += path;
         final URI uri = URI.createURI(uriString);
         // scriptURI = scriptURI.appendFileExtension(fileExtension);
         // Create a resource for this file.
