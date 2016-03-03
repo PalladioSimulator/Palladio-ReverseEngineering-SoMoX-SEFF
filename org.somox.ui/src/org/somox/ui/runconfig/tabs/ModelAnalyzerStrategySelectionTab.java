@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.somox.analyzer.ModelAnalyzerTabGroupBlackboard;
-import org.somox.configuration.SoMoXConfiguration;
+import org.somox.configuration.AbstractMoxConfiguration;
 
 /**
  * The class defines a tab, which is responsible for the SoMoX strategy selection
@@ -35,10 +35,10 @@ public class ModelAnalyzerStrategySelectionTab extends AbstractLaunchConfigurati
     @Override
     public void performApply(final ILaunchConfigurationWorkingCopy configuration) {
         configuration.setAttribute(
-                SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES,
+                AbstractMoxConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES,
                 this.reverseEngineerAllInterfaces.getSelection());
         configuration.setAttribute(
-                SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERNAL_METHODS_AS_RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR,
+                AbstractMoxConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERNAL_METHODS_AS_RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR,
                 this.reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour.getSelection());
     }
 
@@ -157,10 +157,10 @@ public class ModelAnalyzerStrategySelectionTab extends AbstractLaunchConfigurati
     public void initializeFrom(final ILaunchConfiguration configuration) {
         try {
             this.reverseEngineerAllInterfaces.setSelection(configuration.getAttribute(
-                    SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES, false));
+                    AbstractMoxConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES, false));
             this.reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour
                     .setSelection(configuration.getAttribute(
-                            SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERNAL_METHODS_AS_RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR,
+                            AbstractMoxConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERNAL_METHODS_AS_RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR,
                             false));
         } catch (final CoreException e) {
             this.reverseEngineerAllInterfaces.setSelection(false);

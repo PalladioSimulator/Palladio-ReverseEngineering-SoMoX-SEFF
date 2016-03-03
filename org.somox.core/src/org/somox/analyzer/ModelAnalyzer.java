@@ -10,7 +10,7 @@ import org.palladiosimulator.pcm.qosannotations.QosannotationsFactory;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.system.SystemFactory;
-import org.somox.configuration.SoMoXConfiguration;
+import org.somox.configuration.AbstractMoxConfiguration;
 import org.somox.extractor.ExtractionResult;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
@@ -21,7 +21,7 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
  * @author Benjamin Klatt
  *
  */
-public interface ModelAnalyzer {
+public interface ModelAnalyzer<T extends AbstractMoxConfiguration> {
 
     /**
      * The result status of the model analyzer
@@ -62,9 +62,8 @@ public interface ModelAnalyzer {
      *            The map of extraction results
      * @return The analysis result object
      */
-    public AnalysisResult analyze(SoMoXConfiguration somoxConfiguration,
-            HashMap<String, ExtractionResult> extractionResultMap, IProgressMonitor progressMonitor)
-                    throws ModelAnalyzerException;
+    public AnalysisResult analyze(T moxConfiguration, HashMap<String, ExtractionResult> extractionResultMap,
+            IProgressMonitor progressMonitor) throws ModelAnalyzerException;
 
     /**
      * Get the status from the analyzer

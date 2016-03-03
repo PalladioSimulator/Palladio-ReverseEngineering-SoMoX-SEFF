@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.somox.analyzer.ModelAnalyzerTabGroupBlackboard;
-import org.somox.configuration.SoMoXConfiguration;
+import org.somox.configuration.AbstractMoxConfiguration;
 
 /**
  * The class defines a tab, which is responsible for the core input for a model analyzer.
@@ -40,7 +40,7 @@ public class ModelAnalyzerInputTab extends AbstractLaunchConfigurationTab {
 
     @Override
     public void performApply(final ILaunchConfigurationWorkingCopy configuration) {
-        configuration.setAttribute(SoMoXConfiguration.SOMOX_PROJECT_NAME, this.projectName.getText());
+        configuration.setAttribute(AbstractMoxConfiguration.SOMOX_PROJECT_NAME, this.projectName.getText());
     }
 
     /*
@@ -104,7 +104,7 @@ public class ModelAnalyzerInputTab extends AbstractLaunchConfigurationTab {
     @Override
     public void initializeFrom(final ILaunchConfiguration configuration) {
         try {
-            this.projectName.setText(configuration.getAttribute(SoMoXConfiguration.SOMOX_PROJECT_NAME, ""));
+            this.projectName.setText(configuration.getAttribute(AbstractMoxConfiguration.SOMOX_PROJECT_NAME, ""));
         } catch (final CoreException e) {
             this.projectName.setText("");
         }

@@ -31,6 +31,7 @@ import org.somox.analyzer.simplemodelanalyzer.detection.util.VertexTypeAndEdgeTh
 import org.somox.analyzer.simplemodelanalyzer.metrics.DefaultCompositionIndicatingMetric;
 import org.somox.analyzer.simplemodelanalyzer.metrics.DefaultMergeIndicatingMetric;
 import org.somox.analyzer.simplemodelanalyzer.metricvalues.MetricValuesWriter;
+import org.somox.configuration.AbstractMoxConfiguration;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.filter.BaseFilter;
 import org.somox.filter.FilteredCollectionsFactory;
@@ -172,7 +173,7 @@ public class ComponentDetectionByClustering implements IDetectionStrategy {
      */
     @Override
     public List<ComponentImplementingClassesLink> startDetection(final ComponentBuilder pcmBuilder,
-            final SoMoXConfiguration somoxConfig, final IProgressMonitor progressMonitor,
+            final AbstractMoxConfiguration somoxConfig, final IProgressMonitor progressMonitor,
             List<ComponentImplementingClassesLink> componentCandidates) throws ModelAnalyzerException {
 
         // merge or compose in a iteration; by default first try to merge

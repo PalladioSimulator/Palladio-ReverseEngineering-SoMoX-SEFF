@@ -16,7 +16,7 @@ import org.somox.analyzer.simplemodelanalyzer.Activator;
 import org.somox.analyzer.simplemodelanalyzer.SimpleModelAnalyzer;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.ui.GUISoMoXCoreController;
-import org.somox.ui.runconfig.ModelAnalyzerConfiguration;
+import org.somox.ui.runconfig.SoMoXModelAnalyzerConfiguration;
 
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
 import de.uka.ipd.sdq.workflow.jobs.IBlackboardInteractingJob;
@@ -40,12 +40,12 @@ public class SimpleModelAnalyzerJob implements IBlackboardInteractingJob<SoMoXBl
     /** The somox blackboard to interact with. */
     private SoMoXBlackboard blackboard = null;
 
-    public SimpleModelAnalyzerJob(final ModelAnalyzerConfiguration config) throws CoreException {
+    public SimpleModelAnalyzerJob(final SoMoXModelAnalyzerConfiguration config) throws CoreException {
         super();
 
         this.controller = this.getSoMoXController();
 
-        this.somoxConfiguration = config.getSomoxConfiguration();
+        this.somoxConfiguration = config.getMoxConfiguration();
 
         this.globalPreferences = this.getGlobalSoMoXPluginPreferences();
     }

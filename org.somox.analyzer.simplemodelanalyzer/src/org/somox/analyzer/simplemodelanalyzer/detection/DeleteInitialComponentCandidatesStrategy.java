@@ -18,7 +18,7 @@ import org.palladiosimulator.pcm.repository.Signature;
 import org.palladiosimulator.pcm.repository.SinkRole;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.somox.analyzer.SimpleAnalysisResult;
-import org.somox.configuration.SoMoXConfiguration;
+import org.somox.configuration.AbstractMoxConfiguration;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.FileLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
@@ -49,7 +49,7 @@ public class DeleteInitialComponentCandidatesStrategy implements IPostComponentD
      * postComponentDetection(java.util.List, org.somox.configuration.SoMoXConfiguration)
      */
     @Override
-    public void postComponentDetection(final SoMoXConfiguration somoxConfiguration,
+    public void postComponentDetection(final AbstractMoxConfiguration somoxConfiguration,
             final SimpleAnalysisResult analysisResult, final IProgressMonitor progressMonitor) {
 
         final IProgressMonitor subProgressMonitor = new ExecutionTimeLoggingProgressMonitor(progressMonitor,

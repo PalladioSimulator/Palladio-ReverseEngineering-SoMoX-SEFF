@@ -8,7 +8,7 @@ import org.somox.analyzer.simplemodelanalyzer.jobs.SimpleModelAnalyzerJob;
 import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.gast2seff.jobs.GAST2SEFFJob;
-import org.somox.ui.runconfig.ModelAnalyzerConfiguration;
+import org.somox.ui.runconfig.SoMoXModelAnalyzerConfiguration;
 
 import de.uka.ipd.sdq.workflow.extension.AbstractExtendableJob;
 import de.uka.ipd.sdq.workflow.extension.ExtendableJobConfiguration;
@@ -53,7 +53,7 @@ public class ExtendableCompleteSimpleModelAnalysisJob extends AbstractExtendable
      * @throws CoreException
      *             If the used {@link SimpleModelAnalyzerJob} throws a CoreException.
      */
-    public ExtendableCompleteSimpleModelAnalysisJob(final ModelAnalyzerConfiguration config) throws CoreException {
+    public ExtendableCompleteSimpleModelAnalysisJob(final SoMoXModelAnalyzerConfiguration config) throws CoreException {
         final ExtendableJobConfiguration extensionJobsConfiguration = new SoMoXExtensionJobConfiguration(config);
 
         this.handleJobExtensions(ExtendableCompleteSimpleModelAnalysisJob.BEFORE_ALL_JOBS_EXTENSION_ID,
@@ -61,12 +61,12 @@ public class ExtendableCompleteSimpleModelAnalysisJob extends AbstractExtendable
 
         this.add(new SimpleModelAnalyzerJob(config));
         this.add(new GAST2SEFFJob(
-                config.getSomoxConfiguration().isReverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour()));
+                config.getMoxConfiguration().isReverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour()));
 
         this.handleJobExtensions(ExtendableCompleteSimpleModelAnalysisJob.AFTER_MODELS_JOB_EXTENSION_ID,
                 extensionJobsConfiguration);
 
-        this.add(new SaveSoMoXModelsJob(config.getSomoxConfiguration()));
+        this.add(new SaveSoMoXModelsJob(config.getMoxConfiguration()));
 
         this.handleJobExtensions(ExtendableCompleteSimpleModelAnalysisJob.AFTER_ALL_JOBS_EXTENSION_ID,
                 extensionJobsConfiguration);
@@ -81,7 +81,7 @@ public class ExtendableCompleteSimpleModelAnalysisJob extends AbstractExtendable
      * @author Joshua Gleitze
      */
     private final class SoMoXExtensionJobConfiguration implements ExtendableJobConfiguration {
-        private final ModelAnalyzerConfiguration config;
+        private final SoMoXModelAnalyzerConfiguration config;
 
         /**
          * Builds the configuration.
@@ -89,13 +89,13 @@ public class ExtendableCompleteSimpleModelAnalysisJob extends AbstractExtendable
          * @param config
          *            The configuration used by the main job.
          */
-        private SoMoXExtensionJobConfiguration(final ModelAnalyzerConfiguration config) {
+        private SoMoXExtensionJobConfiguration(final SoMoXModelAnalyzerConfiguration config) {
             this.config = config;
         }
 
         @Override
         public Map<String, Object> getAttributes() {
-            return this.config.getSomoxConfiguration().toMap();
+            return this.config.getMoxConfiguration().toMap();
         }
 
     }

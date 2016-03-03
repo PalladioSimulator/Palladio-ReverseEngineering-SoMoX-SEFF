@@ -16,7 +16,7 @@ import org.palladiosimulator.pcm.qosannotations.QoSAnnotations;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.system.System;
 import org.somox.analyzer.AnalysisResult;
-import org.somox.configuration.SoMoXConfiguration;
+import org.somox.configuration.AbstractMoxConfiguration;
 import org.somox.kdmhelper.SoMoXUtil;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
@@ -53,9 +53,9 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
     private ResourceSet resourceSet = null;
 
     /** The somox configuration. */
-    private SoMoXConfiguration somoxConfiguration = null;
+    private AbstractMoxConfiguration somoxConfiguration = null;
 
-    public SaveSoMoXModelsJob(final SoMoXConfiguration somoxConfiguration) {
+    public SaveSoMoXModelsJob(final AbstractMoxConfiguration somoxConfiguration) {
         this.somoxConfiguration = somoxConfiguration;
         this.resourceSet = new ResourceSetImpl();
         this.resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()

@@ -2,7 +2,7 @@ package org.somox.analyzer.simplemodelanalyzer.detection;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.somox.analyzer.SimpleAnalysisResult;
-import org.somox.configuration.SoMoXConfiguration;
+import org.somox.configuration.AbstractMoxConfiguration;
 
 /**
  * Strategy for cleaning up components, remove potentially initial components, etc.
@@ -20,6 +20,6 @@ public interface IPostComponentDetectionStrategy {
      * @param analysisResult
      * @param progressMonitor
      */
-    public void postComponentDetection(SoMoXConfiguration somoxConfiguration, SimpleAnalysisResult analysisResult,
+    public void postComponentDetection(AbstractMoxConfiguration somoxConfiguration, SimpleAnalysisResult analysisResult,
             IProgressMonitor progressMonitor);
 }

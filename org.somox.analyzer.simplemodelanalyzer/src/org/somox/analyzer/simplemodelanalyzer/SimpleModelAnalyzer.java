@@ -19,6 +19,7 @@ import org.somox.analyzer.simplemodelanalyzer.builder.PCMSystemBuilder;
 import org.somox.analyzer.simplemodelanalyzer.detection.util.ComponentPrinter;
 import org.somox.analyzer.simplemodelanalyzer.factories.BasicSoMoXStrategiesFactory;
 import org.somox.analyzer.simplemodelanalyzer.factories.ISoMoXStrategiesFactory;
+import org.somox.configuration.AbstractMoxConfiguration;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.extractor.ExtractionResult;
 import org.somox.kdmhelper.KDMReader;
@@ -33,7 +34,7 @@ import de.uka.ipd.sdq.workflow.ExecutionTimeLoggingProgressMonitor;
  *
  * @author Michael Hauck, Klaus Krogmann, Steffen Becker
  */
-public class SimpleModelAnalyzer implements ModelAnalyzer {
+public class SimpleModelAnalyzer implements ModelAnalyzer<SoMoXConfiguration> {
 
     /**
      * The logger of this analyser
@@ -148,7 +149,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
         return analysisResult;
     }
 
-    private void postComponentDetection(final SoMoXConfiguration somoxConfiguration,
+    private void postComponentDetection(final AbstractMoxConfiguration somoxConfiguration,
             final SimpleAnalysisResult analysisResult, final ISoMoXStrategiesFactory strategiesFactory,
             final IProgressMonitor progressMonitor) {
         strategiesFactory.getPostComponentDetectionStrategy().postComponentDetection(somoxConfiguration, analysisResult,
@@ -175,7 +176,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer {
      *             Thrown if some initialization or metric computation fails
      */
     private void clusterComponents(final List<ComponentImplementingClassesLink> initialComponentCandidates,
-            final SoMoXConfiguration somoxConfiguration, final ComponentBuilder sammBuilder,
+            final AbstractMoxConfiguration somoxConfiguration, final ComponentBuilder sammBuilder,
             final ISoMoXStrategiesFactory strategiesFactory, final IProgressMonitor progressMonitor)
                     throws ModelAnalyzerException {
         final IProgressMonitor subProgressMonitor = new ExecutionTimeLoggingProgressMonitor(progressMonitor, 0);

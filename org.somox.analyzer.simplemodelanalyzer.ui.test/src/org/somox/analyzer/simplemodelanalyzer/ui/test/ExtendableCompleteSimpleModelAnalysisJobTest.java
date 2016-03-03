@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
 import org.somox.analyzer.simplemodelanalyzer.ui.ExtendableCompleteSimpleModelAnalysisJob;
 import org.somox.configuration.SoMoXConfiguration;
-import org.somox.ui.runconfig.ModelAnalyzerConfiguration;
+import org.somox.ui.runconfig.SoMoXModelAnalyzerConfiguration;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
@@ -47,7 +47,7 @@ public class ExtendableCompleteSimpleModelAnalysisJobTest {
     private static final String TEMPLATE_WORKSPACE = "../workspace";
     private static final String TEST_PROJECT_NAME = "TestedProject";
     private SoMoXConfiguration somoxConfig;
-    private ModelAnalyzerConfiguration modelAnalyzerConfig;
+    private SoMoXModelAnalyzerConfiguration modelAnalyzerConfig;
     private Runnable job;
 
     /**
@@ -90,15 +90,15 @@ public class ExtendableCompleteSimpleModelAnalysisJobTest {
      */
     @Before
     public void setUpJob() throws CoreException {
-        modelAnalyzerConfig = new ModelAnalyzerConfiguration();
-        somoxConfig = new SoMoXConfiguration();
-        modelAnalyzerConfig.setSomoxConfiguration(somoxConfig);
-        somoxConfig.getFileLocations().setProjectName(TEST_PROJECT_NAME);
+        this.modelAnalyzerConfig = new SoMoXModelAnalyzerConfiguration();
+        this.somoxConfig = new SoMoXConfiguration();
+        this.modelAnalyzerConfig.setMoxConfiguration(this.somoxConfig);
+        this.somoxConfig.getFileLocations().setProjectName(TEST_PROJECT_NAME);
 
-        final SequentialBlackboardInteractingJob<Blackboard<?>> somoxJob =
-                new ExtendableCompleteSimpleModelAnalysisJob(modelAnalyzerConfig);
+        final SequentialBlackboardInteractingJob<Blackboard<?>> somoxJob = new ExtendableCompleteSimpleModelAnalysisJob(
+                this.modelAnalyzerConfig);
         somoxJob.setBlackboard(new SoMoXBlackboard());
-        job = () -> {
+        this.job = () -> {
             try {
                 somoxJob.execute(new NullProgressMonitor());
             } catch (final Exception e) {
@@ -121,7 +121,7 @@ public class ExtendableCompleteSimpleModelAnalysisJobTest {
         TestModelAvailableExtendingJob.performTest(blackboardTest);
         TestEndExtendingJob.performTest(blackboardTest);
 
-        job.run();
+        this.job.run();
 
         assertThat(CALLED_CLASSES, hasItem(TestStartExtendingJob.class));
         assertThat(CALLED_CLASSES, hasItem(TestModelAvailableExtendingJob.class));

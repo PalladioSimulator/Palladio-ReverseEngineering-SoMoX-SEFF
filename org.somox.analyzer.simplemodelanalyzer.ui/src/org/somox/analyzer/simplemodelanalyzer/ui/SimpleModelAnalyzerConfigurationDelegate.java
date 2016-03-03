@@ -9,7 +9,7 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
 import org.somox.configuration.SoMoXConfiguration;
-import org.somox.ui.runconfig.ModelAnalyzerConfiguration;
+import org.somox.ui.runconfig.SoMoXModelAnalyzerConfiguration;
 
 import de.uka.ipd.sdq.workflow.Workflow;
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
@@ -37,7 +37,7 @@ import de.uka.ipd.sdq.workflow.logging.console.LoggerAppenderStruct;
  * @author Michael Hauck, Joshua Gleitze
  */
 public class SimpleModelAnalyzerConfigurationDelegate
-        extends AbstractWorkflowBasedLaunchConfigurationDelegate<ModelAnalyzerConfiguration, Workflow> {
+        extends AbstractWorkflowBasedLaunchConfigurationDelegate<SoMoXModelAnalyzerConfiguration, Workflow> {
     /**
      * Keys of attributes that shall be interpreted as Doubles when being received from the launch
      * configuration. They will be parsed using {@link Double#parseDouble(String)}.
@@ -56,28 +56,28 @@ public class SimpleModelAnalyzerConfigurationDelegate
      * launch configuration. They will be parsed using {@link Double#parseDouble(String)} and
      * divided by 100.
      */
-    private static final String[] PERCENTAGE_ATTRIBUTES =
-            { SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_COMPOSE,
-                    SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_COMPOSE,
-                    SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_COMPOSE,
-                    SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_MERGE,
-                    SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_MERGE,
-                    SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_MERGE };
+    private static final String[] PERCENTAGE_ATTRIBUTES = {
+            SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_COMPOSE,
+            SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_COMPOSE,
+            SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_COMPOSE,
+            SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_MERGE,
+            SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MIN_MERGE,
+            SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_MERGE };
 
     @Override
-    protected IJob createWorkflowJob(final ModelAnalyzerConfiguration config, final ILaunch launch)
+    protected IJob createWorkflowJob(final SoMoXModelAnalyzerConfiguration config, final ILaunch launch)
             throws CoreException {
-        final SequentialBlackboardInteractingJob<Blackboard<?>> somoxJob =
-                new ExtendableCompleteSimpleModelAnalysisJob(config);
+        final SequentialBlackboardInteractingJob<Blackboard<?>> somoxJob = new ExtendableCompleteSimpleModelAnalysisJob(
+                config);
         somoxJob.setBlackboard(new SoMoXBlackboard());
 
         return somoxJob;
     }
 
     @Override
-    protected ModelAnalyzerConfiguration deriveConfiguration(final ILaunchConfiguration launchconfiguration,
+    protected SoMoXModelAnalyzerConfiguration deriveConfiguration(final ILaunchConfiguration launchconfiguration,
             final String mode) throws CoreException {
-        final ModelAnalyzerConfiguration config = new ModelAnalyzerConfiguration();
+        final SoMoXModelAnalyzerConfiguration config = new SoMoXModelAnalyzerConfiguration();
 
         // convert the attributes received into a attribute map compatible to SoMoXConfiguration
         final Map<String, Object> attributeMap = launchconfiguration.getAttributes();
@@ -97,7 +97,7 @@ public class SimpleModelAnalyzerConfigurationDelegate
         }
 
         final SoMoXConfiguration somoxConfiguration = new SoMoXConfiguration(attributeMap);
-        config.setSomoxConfiguration(somoxConfiguration);
+        config.setMoxConfiguration(somoxConfiguration);
 
         return config;
     }

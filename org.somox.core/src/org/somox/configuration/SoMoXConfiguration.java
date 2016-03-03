@@ -1,16 +1,11 @@
 package org.somox.configuration;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import org.apache.log4j.Logger;
 import org.somox.filter.BlacklistFilter;
-
-import de.uka.ipd.sdq.workflow.configuration.AbstractComposedJobConfiguration;
-import de.uka.ipd.sdq.workflow.configuration.IJobConfiguration;
 
 /**
  * SoMoX’ central configuration.
@@ -28,32 +23,12 @@ import de.uka.ipd.sdq.workflow.configuration.IJobConfiguration;
  * @author Joshua Gleitze
  *
  */
-public class SoMoXConfiguration extends AbstractComposedJobConfiguration implements IJobConfiguration {
-
-    private static Logger logger = Logger.getLogger(SoMoXConfiguration.class);
+public class SoMoXConfiguration extends AbstractMoxConfiguration {
 
     /**
      * attribute key for {@link #getAdditionalWildcards()} / {@link #setAdditionalWildcards(String)}
      */
     public static final String BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL = "org.somox.metrics.wildcards.additional";
-    /**
-     * attribute key for {@link #getFileLocations()}.{@code getAnalyserInputFile()} /
-     * {@link #getFileLocations()}.{@code setAnalyserInputFile(String)}
-     */
-    public static final String SOMOX_ANALYZER_INPUT_FILE = "org.somox.analyzer.inputfile";
-    /**
-     * attribute key for {@link #isReverseEngineerInterfacesNotAssignedToComponent()} /
-     * {@link #setReverseEngineerInterfacesNotAssignedToComponent(boolean)}
-     */
-    public static final String SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES = "org.somox.analyzer.ReverseEngineerInterfacesNotAssignedToComponent";
-
-    /**
-     * attribute key for
-     * {@link #isReverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour()} /
-     * {@link #setReverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour(boolean)}
-     */
-    public static final String SOMOX_ANALYZER_REVERSE_ENGINEER_INTERNAL_METHODS_AS_RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR = "org.somox.analyzer.ReverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour";
-
     /**
      * attribute key for {@link #getWildcardKey()} / {@link #setWildcardKey(String)}
      */
@@ -68,16 +43,6 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
      * {@link #setExcludedSuffixesForNameResemblance(String)}
      */
     public static final String SOMOX_EXCLUDED_SUFFIXES = "org.somox.metrics.nameResemblance.excludedSuffixes";
-    /**
-     * attribute key for {@link #getFileLocations()}.{@code getOutputFolder()} /
-     * {@link #getFileLocations()}.{@code setOutputFolder(String)}
-     */
-    public static final String SOMOX_OUTPUT_FOLDER = "org.somox.outputfile";
-    /**
-     * attribute key for {@link #getFileLocations()}.{@code getProjectName()} /
-     * {@link #getFileLocations()}.{@code setProjectName(String)}
-     */
-    public static final String SOMOX_PROJECT_NAME = "org.somox.project";
     /**
      * attribute key for {@link #getClusteringConfig()}.
      * {@code getClusteringComposeThresholdDecrement()} / {@link #getClusteringConfig()}.
@@ -179,9 +144,6 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
     private final ClusteringConfiguration clusteringConfig = new ClusteringConfiguration();
     private String excludedPrefixesForNameResemblance = "";
     private String excludedSuffixesForNameResemblance = "";
-    private final FileLocationConfiguration locations = new FileLocationConfiguration();
-    private boolean reverseEngineerInterfacesNotAssignedToComponent;
-    private boolean reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour;
     private double weightDirectoryMapping = 70;
     private double weightDMS = 5;
     private double weightHighCoupling = 15;
@@ -226,48 +188,12 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
      *            An <em>attribute map</em>, as defined in the class description. It does not need
      *            to contain all attributes.
      */
+    @Override
     public void applyAttributeMap(final Map<String, Object> attributeMap) {
         if (attributeMap == null) {
             return;
         }
-
-        // Debug output
-        SoMoXConfiguration.logger.debug("SoMoX configuration extended by these attributes:");
-        for (final Object key : attributeMap.keySet()) {
-            final String keyname = key.toString();
-
-            if (keyname.contains("org.somox")) {
-                SoMoXConfiguration.logger.debug(key + "=" + attributeMap.get(key));
-            }
-
-        }
-        final FileLocationConfiguration fileLocations = this.getFileLocations();
-        if (attributeMap.get(SoMoXConfiguration.SOMOX_PROJECT_NAME) != null) {
-            fileLocations.setProjectName((String) attributeMap.get(SoMoXConfiguration.SOMOX_PROJECT_NAME));
-        }
-
-        if (attributeMap.get(SoMoXConfiguration.SOMOX_ANALYZER_INPUT_FILE) != null) {
-            fileLocations.setAnalyserInputFile((String) attributeMap.get(SoMoXConfiguration.SOMOX_ANALYZER_INPUT_FILE));
-        }
-
-        if (attributeMap.get(SoMoXConfiguration.SOMOX_OUTPUT_FOLDER) != null) {
-            fileLocations.setOutputFolder((String) attributeMap.get(SoMoXConfiguration.SOMOX_OUTPUT_FOLDER));
-        }
-
-        if (attributeMap.get(
-                SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES) != null) {
-            final boolean allInterfacesStrategy = (Boolean) attributeMap
-                    .get(SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES);
-            this.setReverseEngineerInterfacesNotAssignedToComponent(allInterfacesStrategy);
-        }
-
-        if (attributeMap.get(
-                SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERNAL_METHODS_AS_RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR) != null) {
-            final boolean reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour = (Boolean) attributeMap
-                    .get(SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERNAL_METHODS_AS_RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR);
-            this.setReverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour(
-                    reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour);
-        }
+        super.applyAttributeMap(attributeMap);
 
         if (attributeMap.get(SoMoXConfiguration.SOMOX_ANALYZER_WILDCARD_KEY) != null) {
             this.setWildcardKey((String) attributeMap.get(SoMoXConfiguration.SOMOX_ANALYZER_WILDCARD_KEY));
@@ -427,13 +353,6 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
         return this.excludedSuffixesForNameResemblance;
     }
 
-    /**
-     * @return the locations
-     */
-    public FileLocationConfiguration getFileLocations() {
-        return this.locations;
-    }
-
     public double getWeightDirectoryMapping() {
         return this.weightDirectoryMapping;
     }
@@ -490,15 +409,6 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
         return this.wildcardKey;
     }
 
-    /**
-     * Switch for interface reverse engineering. Serves for debugging-like use of SoMoX.
-     *
-     * @return
-     */
-    public boolean isReverseEngineerInterfacesNotAssignedToComponent() {
-        return this.reverseEngineerInterfacesNotAssignedToComponent;
-    }
-
     public void setAdditionalWildcards(final String additionalWildcards) {
         this.additionalWildcards = additionalWildcards;
         this.updateBlacklistFilter();
@@ -510,16 +420,6 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
 
     public void setExcludedSuffixesForNameResemblance(final String excludedSuffixesForNameResemblance) {
         this.excludedSuffixesForNameResemblance = excludedSuffixesForNameResemblance;
-    }
-
-    /**
-     * Switch for interface reverse engineering. Serves for debugging-like use of SoMoX.
-     *
-     * @param reverseEngineerInterfacesNotAssignedToComponent
-     */
-    public void setReverseEngineerInterfacesNotAssignedToComponent(
-            final boolean reverseEngineerInterfacesNotAssignedToComponent) {
-        this.reverseEngineerInterfacesNotAssignedToComponent = reverseEngineerInterfacesNotAssignedToComponent;
     }
 
     public void setWeightDirectoryMapping(final double weightDirectoryMapping) {
@@ -584,14 +484,10 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
      * @return an <em>attribute map</em>, such that for any {@code SoMoXConfiguration c},
      *         {@code new SoMoXConfiguration(c.toMap())} will behave exactly like {@code c}.
      */
+    @Override
     public Map<String, Object> toMap() {
-        final Map<String, Object> result = new HashMap<String, Object>();
+        final Map<String, Object> result = super.toMap();
 
-        result.put(SoMoXConfiguration.SOMOX_PROJECT_NAME, this.getFileLocations().getProjectName());
-        result.put(SoMoXConfiguration.SOMOX_ANALYZER_INPUT_FILE, this.getFileLocations().getAnalyserInputFile());
-        result.put(SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES,
-                this.isReverseEngineerInterfacesNotAssignedToComponent());
-        result.put(SoMoXConfiguration.SOMOX_OUTPUT_FOLDER, this.getFileLocations().getOutputFolder());
         result.put(SoMoXConfiguration.SOMOX_ANALYZER_WILDCARD_KEY, this.getWildcardKey());
         result.put(SoMoXConfiguration.BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL, this.getAdditionalWildcards());
         result.put(SoMoXConfiguration.SOMOX_EXCLUDED_PREFIXES, this.getExcludedPrefixesForNameResemblance());
@@ -637,15 +533,6 @@ public class SoMoXConfiguration extends AbstractComposedJobConfiguration impleme
             wildCardList.add(this.additionalWildcards);
         }
         this.blacklistFilter = new BlacklistFilter(wildCardList);
-    }
-
-    public boolean isReverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour() {
-        return this.reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour;
-    }
-
-    public void setReverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour(
-            final boolean reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour) {
-        this.reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour = reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour;
     }
 
 }

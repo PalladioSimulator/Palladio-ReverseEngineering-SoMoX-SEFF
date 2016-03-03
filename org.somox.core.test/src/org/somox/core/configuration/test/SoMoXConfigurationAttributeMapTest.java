@@ -23,6 +23,8 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.Test;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.configuration.SoMoXConfiguration;
+import org.somox.configuration.SoMoXConfiguration;
 
 /**
  * Asserts correct behavior of {@link SoMoXConfiguration#SoMoXConfiguration(java.util.Map)},
@@ -171,7 +173,7 @@ public class SoMoXConfigurationAttributeMapTest {
 
             @Override
             protected boolean matchesSafely(final SoMoXConfiguration item, final Description mismatchDescription) {
-                return matches(configuration, item, mismatchDescription, "");
+                return this.matches(configuration, item, mismatchDescription, "");
             }
 
             protected boolean matches(final Object reference, final Object examined,
@@ -196,7 +198,7 @@ public class SoMoXConfigurationAttributeMapTest {
                         referenceValue = getter.invoke(reference);
                     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                         mismatchDescription.appendText("unable to invoke getter ").appendValue(getterName)
-                                .appendText(" on the reference configuration\n\n").appendText(getStackString(e));
+                                .appendText(" on the reference configuration\n\n").appendText(this.getStackString(e));
                         return false;
                     }
 
@@ -204,16 +206,17 @@ public class SoMoXConfigurationAttributeMapTest {
                         examinedValue = getter.invoke(examined);
                     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                         mismatchDescription.appendText("unable to invoke getter ").appendValue(getterName)
-                                .appendText(" on the examined configuration\n\n").appendText(getStackString(e));
+                                .appendText(" on the examined configuration\n\n").appendText(this.getStackString(e));
                         return false;
                     }
 
-                    if (gettersToExamine.contains(getter.getName())) {
-                        if (!matches(referenceValue, examinedValue, mismatchDescription, getter.getName() + "().")) {
+                    if (this.gettersToExamine.contains(getter.getName())) {
+                        if (!this.matches(referenceValue, examinedValue, mismatchDescription,
+                                getter.getName() + "().")) {
                             return false;
                         }
-                    } else if (!(referenceValue == null ? examinedValue == null
-                            : referenceValue.equals(examinedValue))) {
+                    } else
+                        if (!(referenceValue == null ? examinedValue == null : referenceValue.equals(examinedValue))) {
                         mismatchDescription.appendValue(getterName).appendText(" returned ").appendValue(examinedValue)
                                 .appendText(" instead of ").appendValue(referenceValue);
                         return false;
@@ -273,8 +276,8 @@ public class SoMoXConfigurationAttributeMapTest {
 
                     if (!examined.get(entry.getKey()).equals(entry.getValue())) {
                         mismatchDescription.appendText("The mapping for ").appendValue(entry.getKey()).appendText(", ")
-                                .appendValue(examined.get(entry.getKey())).appendText(" is not equal to the expected one, ")
-                                .appendValue(entry.getValue());
+                                .appendValue(examined.get(entry.getKey()))
+                                .appendText(" is not equal to the expected one, ").appendValue(entry.getValue());
                         return false;
                     }
                 }
