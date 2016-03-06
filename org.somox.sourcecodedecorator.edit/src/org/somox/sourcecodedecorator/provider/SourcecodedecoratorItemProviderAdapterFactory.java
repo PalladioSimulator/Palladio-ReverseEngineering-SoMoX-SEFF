@@ -348,6 +348,29 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.SeffElementSourceCodeLink} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected SeffElementSourceCodeLinkItemProvider seffElementSourceCodeLinkItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.somox.sourcecodedecorator.SeffElementSourceCodeLink}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createSeffElementSourceCodeLinkAdapter() {
+        if (seffElementSourceCodeLinkItemProvider == null) {
+            seffElementSourceCodeLinkItemProvider = new SeffElementSourceCodeLinkItemProvider(this);
+        }
+
+        return seffElementSourceCodeLinkItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -460,6 +483,7 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
         if (abstractActionClassMethodLinkItemProvider != null) abstractActionClassMethodLinkItemProvider.dispose();
         if (methodLevelResourceDemandingInternalBehaviorLinkItemProvider != null) methodLevelResourceDemandingInternalBehaviorLinkItemProvider.dispose();
         if (seff2MethodMappingItemProvider != null) seff2MethodMappingItemProvider.dispose();
+        if (seffElementSourceCodeLinkItemProvider != null) seffElementSourceCodeLinkItemProvider.dispose();
     }
 
 }

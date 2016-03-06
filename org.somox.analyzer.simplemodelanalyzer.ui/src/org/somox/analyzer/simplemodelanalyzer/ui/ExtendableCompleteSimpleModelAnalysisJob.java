@@ -67,7 +67,6 @@ public class ExtendableCompleteSimpleModelAnalysisJob extends AbstractExtendable
                 extensionJobsConfiguration);
 
         this.add(new SaveSoMoXModelsJob(config.getMoxConfiguration()));
-
         this.handleJobExtensions(ExtendableCompleteSimpleModelAnalysisJob.AFTER_ALL_JOBS_EXTENSION_ID,
                 extensionJobsConfiguration);
 

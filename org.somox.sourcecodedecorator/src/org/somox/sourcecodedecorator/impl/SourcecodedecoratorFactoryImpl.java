@@ -73,6 +73,7 @@ public class SourcecodedecoratorFactoryImpl extends EFactoryImpl implements Sour
             case SourcecodedecoratorPackage.ABSTRACT_ACTION_CLASS_METHOD_LINK: return createAbstractActionClassMethodLink();
             case SourcecodedecoratorPackage.METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK: return createMethodLevelResourceDemandingInternalBehaviorLink();
             case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING: return createSEFF2MethodMapping();
+            case SourcecodedecoratorPackage.SEFF_ELEMENT_SOURCE_CODE_LINK: return createSeffElementSourceCodeLink();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -196,6 +197,16 @@ public class SourcecodedecoratorFactoryImpl extends EFactoryImpl implements Sour
     public SEFF2MethodMapping createSEFF2MethodMapping() {
         SEFF2MethodMappingImpl seff2MethodMapping = new SEFF2MethodMappingImpl();
         return seff2MethodMapping;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public SeffElementSourceCodeLink createSeffElementSourceCodeLink() {
+        SeffElementSourceCodeLinkImpl seffElementSourceCodeLink = new SeffElementSourceCodeLinkImpl();
+        return seffElementSourceCodeLink;
     }
 
     /**

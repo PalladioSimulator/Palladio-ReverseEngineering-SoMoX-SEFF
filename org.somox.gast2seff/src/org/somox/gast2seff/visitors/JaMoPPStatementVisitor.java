@@ -1,6 +1,8 @@
 package org.somox.gast2seff.visitors;
 
+import java.util.Arrays;
 import java.util.BitSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +39,11 @@ import org.somox.kdmhelper.GetAccessedType;
 import org.somox.kdmhelper.KDMHelper;
 import org.somox.sourcecodedecorator.AbstractActionClassMethodLink;
 import org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink;
+import org.somox.sourcecodedecorator.SeffElementSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
+
+import de.uka.ipd.sdq.identifier.Identifier;
 
 /**
  * A visitor which traverses a GAST behaviour and creates a SEFF matching the traversed behaviour.
@@ -76,6 +81,16 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
      * methods are created.
      */
     private final ResourceDemandingBehaviourForClassMethodFinding resourceDemandingBehaviourForClassMethodFinding;
+
+    /**
+     * Stores all seff element links created so far. They are stored so they can be appended to.
+     */
+    private final Map<Identifier, SeffElementSourceCodeLink> seffElemestSourceCodeLinks = new HashMap<>();
+
+    /**
+     * The internal action that was created last.
+     */
+    private InternalAction lastInternalAction;
 
     /**
      * Constructor Uses {@link DefaultInterfaceOfExternalCallFinder} to find interfaces of external
@@ -144,6 +159,8 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         if (this.containsExternalCall(loopStatement)) {
             final org.palladiosimulator.pcm.seff.LoopAction loop = SeffFactory.eINSTANCE.createLoopAction();
             this.createAbstracActionClassMethodLink(loop, loopStatement);
+            this.linkSeffElement(loop, loopStatement);
+
             loop.setBodyBehaviour_Loop(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
             this.seff.getSteps_Behaviour().add(loop);
             final StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
@@ -221,14 +238,18 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
             for (final List<Statement> branch : branches) {
                 final org.palladiosimulator.pcm.seff.AbstractBranchTransition bt = SeffFactory.eINSTANCE
                         .createProbabilisticBranchTransition();
-                bt.setBranchBehaviour_BranchTransition(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
+                final ResourceDemandingBehaviour branchBehaviour = SeffFactory.eINSTANCE
+                        .createResourceDemandingBehaviour();
+                bt.setBranchBehaviour_BranchTransition(branchBehaviour);
+                this.linkSeffElement(branchBehaviour, branch);
+
                 final StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
                 bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(startAction);
                 this.createAbstracActionClassMethodLink(startAction, switchStatement);
                 bt.setEntityName("parent " + JaMoPPStatementVisitor.this.positionToString(switchStatement) + "/"
                         + (branch.size() > 0 ? JaMoPPStatementVisitor.this
                                 .positionToLineNumber(KDMHelper.getJavaNodeSourceRegion(branch.get(0))) + " to "
-                                // use parent position since branch position is empty
+                        // use parent position since branch position is empty
                                 + JaMoPPStatementVisitor.this.positionToLineNumber(
                                         KDMHelper.getJavaNodeSourceRegion(branch.get(branch.size() - 1)))
                                 : ""));
@@ -422,7 +443,10 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
             final Statement ifElseStatement) {
         final org.palladiosimulator.pcm.seff.AbstractBranchTransition bt = SeffFactory.eINSTANCE
                 .createProbabilisticBranchTransition();
-        bt.setBranchBehaviour_BranchTransition(SeffFactory.eINSTANCE.createResourceDemandingBehaviour());
+        final ResourceDemandingBehaviour branchBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+        bt.setBranchBehaviour_BranchTransition(branchBehaviour);
+        this.linkSeffElement(branchBehaviour, ifElseStatement);
+
         final StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
         this.createAbstracActionClassMethodLink(startAction, ifElseStatement);
         bt.getBranchBehaviour_BranchTransition().getSteps_Behaviour().add(startAction);
@@ -444,6 +468,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     private void createExternalCallAction(final Statement object, final Method calledMethod, final BitSet newLastType) {
         final ExternalCallAction call = SeffFactory.eINSTANCE.createExternalCallAction();
         this.createAbstracActionClassMethodLink(call, object);
+        this.linkSeffElement(call, object);
         call.setEntityName(calledMethod.getName() + this.positionToString(object));
         final InterfacePortOperationTuple ifOperationTuple = this.interfaceOfExternalCallFinder
                 .getCalledInterfacePort(calledMethod);
@@ -510,9 +535,12 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         if (!this.shouldSkip(this.lastType, thisType)) {
             final InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
             this.createAbstracActionClassMethodLink(internalAction, statement);
+            this.linkSeffElement(internalAction, statement);
             internalAction.setEntityName("IA " + this.positionToString(statement));
             this.seff.getSteps_Behaviour().add(internalAction);
+            this.lastInternalAction = internalAction;
         }
+        this.linkSeffElement(this.lastInternalAction, statement);
         this.lastType = thisType;
     }
 
@@ -591,6 +619,43 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         }
         JaMoPPStatementVisitor.logger.warn("Could not found method for Commentable: " + statement);
         return null;
+    }
+
+    /**
+     * Reports that the provided {@code seffElement} represents the provided {@code statements}.
+     * This creates a link in the source code decorator model. The method may be called multiple
+     * times to add further statements to a seff element.
+     *
+     * @param seffElement
+     *            An element of a SEFF to link.
+     * @param statements
+     *            Statements that are represented by {@code seffElement}.
+     */
+    private void linkSeffElement(final Identifier seffElement, final Statement... statements) {
+        this.linkSeffElement(seffElement, Arrays.asList(statements));
+    }
+
+    /**
+     * Reports that the provided {@code seffElement} represents the provided {@code statements}.
+     * This creates a link in the source code decorator model. The method may be called multiple
+     * times to add further statements to a seff element.
+     *
+     * @param seffElement
+     *            An element of a SEFF to link.
+     * @param statements
+     *            Statements that are represented by {@code seffElement}.
+     */
+    private void linkSeffElement(final Identifier seffElement, final List<Statement> statements) {
+        final SeffElementSourceCodeLink link;
+        if (this.seffElemestSourceCodeLinks.containsKey(seffElement)) {
+            link = this.seffElemestSourceCodeLinks.get(seffElement);
+        } else {
+            link = SourcecodedecoratorFactory.eINSTANCE.createSeffElementSourceCodeLink();
+            link.setSeffElement(seffElement);
+            this.seffElemestSourceCodeLinks.put(seffElement, link);
+            this.sourceCodeDecoratorRepository.getSeffElementsSourceCodeLinks().add(link);
+        }
+        link.getStatement().addAll(statements);
     }
 
     @Override

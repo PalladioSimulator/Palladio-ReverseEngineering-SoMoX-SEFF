@@ -77,6 +77,7 @@ public class SourceCodeDecoratorRepositoryItemProvider extends ItemProviderAdapt
             childrenFeatures.add(SourcecodedecoratorPackage.Literals.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK);
             childrenFeatures.add(SourcecodedecoratorPackage.Literals.SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK);
             childrenFeatures.add(SourcecodedecoratorPackage.Literals.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF2_METHOD_MAPPINGS);
+            childrenFeatures.add(SourcecodedecoratorPackage.Literals.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF_ELEMENTS_SOURCE_CODE_LINKS);
         }
         return childrenFeatures;
     }
@@ -134,6 +135,7 @@ public class SourceCodeDecoratorRepositoryItemProvider extends ItemProviderAdapt
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK:
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK:
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF2_METHOD_MAPPINGS:
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF_ELEMENTS_SOURCE_CODE_LINKS:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
                 return;
         }
@@ -224,6 +226,11 @@ public class SourceCodeDecoratorRepositoryItemProvider extends ItemProviderAdapt
             (createChildParameter
                 (SourcecodedecoratorPackage.Literals.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF2_METHOD_MAPPINGS,
                  SourcecodedecoratorFactory.eINSTANCE.createSEFF2MethodMapping()));
+
+        newChildDescriptors.add
+            (createChildParameter
+                (SourcecodedecoratorPackage.Literals.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF_ELEMENTS_SOURCE_CODE_LINKS,
+                 SourcecodedecoratorFactory.eINSTANCE.createSeffElementSourceCodeLink()));
     }
 
     /**

@@ -2,6 +2,7 @@
  */
 package org.somox.sourcecodedecorator.impl;
 
+import de.uka.ipd.sdq.identifier.IdentifierPackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -41,6 +42,7 @@ import org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehavio
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink;
 import org.somox.sourcecodedecorator.SEFF2MethodMapping;
+import org.somox.sourcecodedecorator.SeffElementSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
@@ -128,6 +130,13 @@ public class SourcecodedecoratorPackageImpl extends EPackageImpl implements Sour
      * @generated
      */
     private EClass seff2MethodMappingEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass seffElementSourceCodeLinkEClass = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -368,6 +377,15 @@ public class SourcecodedecoratorPackageImpl extends EPackageImpl implements Sour
      */
     public EReference getSourceCodeDecoratorRepository_Seff2MethodMappings() {
         return (EReference)sourceCodeDecoratorRepositoryEClass.getEStructuralFeatures().get(8);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getSourceCodeDecoratorRepository_SeffElementsSourceCodeLinks() {
+        return (EReference)sourceCodeDecoratorRepositoryEClass.getEStructuralFeatures().get(9);
     }
 
     /**
@@ -641,6 +659,33 @@ public class SourcecodedecoratorPackageImpl extends EPackageImpl implements Sour
     }
 
     /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getSeffElementSourceCodeLink() {
+        return seffElementSourceCodeLinkEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getSeffElementSourceCodeLink_SeffElement() {
+        return (EReference)seffElementSourceCodeLinkEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getSeffElementSourceCodeLink_Statement() {
+        return (EReference)seffElementSourceCodeLinkEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
@@ -687,6 +732,7 @@ public class SourcecodedecoratorPackageImpl extends EPackageImpl implements Sour
         createEReference(sourceCodeDecoratorRepositoryEClass, SOURCE_CODE_DECORATOR_REPOSITORY__ABSTRACT_ACTION_CLASS_METHOD_LINK);
         createEReference(sourceCodeDecoratorRepositoryEClass, SOURCE_CODE_DECORATOR_REPOSITORY__METHOD_LEVEL_RESOURCE_DEMANDING_INTERNAL_BEHAVIOR_LINK);
         createEReference(sourceCodeDecoratorRepositoryEClass, SOURCE_CODE_DECORATOR_REPOSITORY__SEFF2_METHOD_MAPPINGS);
+        createEReference(sourceCodeDecoratorRepositoryEClass, SOURCE_CODE_DECORATOR_REPOSITORY__SEFF_ELEMENTS_SOURCE_CODE_LINKS);
 
         interfaceSourceCodeLinkEClass = createEClass(INTERFACE_SOURCE_CODE_LINK);
         createEReference(interfaceSourceCodeLinkEClass, INTERFACE_SOURCE_CODE_LINK__INTERFACE);
@@ -726,6 +772,10 @@ public class SourcecodedecoratorPackageImpl extends EPackageImpl implements Sour
         seff2MethodMappingEClass = createEClass(SEFF2_METHOD_MAPPING);
         createEReference(seff2MethodMappingEClass, SEFF2_METHOD_MAPPING__SEFF);
         createEReference(seff2MethodMappingEClass, SEFF2_METHOD_MAPPING__STATEMENT_LIST_CONTAINER);
+
+        seffElementSourceCodeLinkEClass = createEClass(SEFF_ELEMENT_SOURCE_CODE_LINK);
+        createEReference(seffElementSourceCodeLinkEClass, SEFF_ELEMENT_SOURCE_CODE_LINK__SEFF_ELEMENT);
+        createEReference(seffElementSourceCodeLinkEClass, SEFF_ELEMENT_SOURCE_CODE_LINK__STATEMENT);
     }
 
     /**
@@ -758,6 +808,7 @@ public class SourcecodedecoratorPackageImpl extends EPackageImpl implements Sour
         SystemPackage theSystemPackage = (SystemPackage)EPackage.Registry.INSTANCE.getEPackage(SystemPackage.eNS_URI);
         TypesPackage theTypesPackage = (TypesPackage)EPackage.Registry.INSTANCE.getEPackage(TypesPackage.eNS_URI);
         MembersPackage theMembersPackage = (MembersPackage)EPackage.Registry.INSTANCE.getEPackage(MembersPackage.eNS_URI);
+        IdentifierPackage theIdentifierPackage = (IdentifierPackage)EPackage.Registry.INSTANCE.getEPackage(IdentifierPackage.eNS_URI);
 
         // Create type parameters
 
@@ -793,6 +844,7 @@ public class SourcecodedecoratorPackageImpl extends EPackageImpl implements Sour
         initEReference(getSourceCodeDecoratorRepository_AbstractActionClassMethodLink(), this.getAbstractActionClassMethodLink(), null, "abstractActionClassMethodLink", null, 0, -1, SourceCodeDecoratorRepository.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getSourceCodeDecoratorRepository_MethodLevelResourceDemandingInternalBehaviorLink(), this.getMethodLevelResourceDemandingInternalBehaviorLink(), null, "methodLevelResourceDemandingInternalBehaviorLink", null, 0, -1, SourceCodeDecoratorRepository.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getSourceCodeDecoratorRepository_Seff2MethodMappings(), this.getSEFF2MethodMapping(), null, "seff2MethodMappings", null, 0, -1, SourceCodeDecoratorRepository.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getSourceCodeDecoratorRepository_SeffElementsSourceCodeLinks(), this.getSeffElementSourceCodeLink(), null, "seffElementsSourceCodeLinks", null, 0, -1, SourceCodeDecoratorRepository.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
         initEClass(interfaceSourceCodeLinkEClass, InterfaceSourceCodeLink.class, "InterfaceSourceCodeLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getInterfaceSourceCodeLink_Interface(), theRepositoryPackage.getInterface(), null, "interface", null, 0, 1, InterfaceSourceCodeLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -832,6 +884,10 @@ public class SourcecodedecoratorPackageImpl extends EPackageImpl implements Sour
         initEClass(seff2MethodMappingEClass, SEFF2MethodMapping.class, "SEFF2MethodMapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getSEFF2MethodMapping_Seff(), theSeffPackage.getServiceEffectSpecification(), null, "seff", null, 1, 1, SEFF2MethodMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getSEFF2MethodMapping_StatementListContainer(), theStatementsPackage.getStatementListContainer(), null, "statementListContainer", null, 1, 1, SEFF2MethodMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(seffElementSourceCodeLinkEClass, SeffElementSourceCodeLink.class, "SeffElementSourceCodeLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getSeffElementSourceCodeLink_SeffElement(), theIdentifierPackage.getIdentifier(), null, "seffElement", null, 1, 1, SeffElementSourceCodeLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getSeffElementSourceCodeLink_Statement(), theStatementsPackage.getStatement(), null, "statement", null, 1, -1, SeffElementSourceCodeLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Create resource
         createResource(eNS_URI);

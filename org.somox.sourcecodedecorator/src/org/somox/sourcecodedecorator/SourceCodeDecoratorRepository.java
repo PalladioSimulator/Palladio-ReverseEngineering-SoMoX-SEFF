@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getAbstractActionClassMethodLink <em>Abstract Action Class Method Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getMethodLevelResourceDemandingInternalBehaviorLink <em>Method Level Resource Demanding Internal Behavior Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getSeff2MethodMappings <em>Seff2 Method Mappings</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getSeffElementsSourceCodeLinks <em>Seff Elements Source Code Links</em>}</li>
  * </ul>
  *
  * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getSourceCodeDecoratorRepository()
@@ -177,5 +178,21 @@ public interface SourceCodeDecoratorRepository extends EObject {
      * @generated
      */
     EList<SEFF2MethodMapping> getSeff2MethodMappings();
+
+    /**
+     * Returns the value of the '<em><b>Seff Elements Source Code Links</b></em>' containment reference list.
+     * The list contents are of type {@link org.somox.sourcecodedecorator.SeffElementSourceCodeLink}.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Seff Elements Source Code Links</em>' containment reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Seff Elements Source Code Links</em>' containment reference list.
+     * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getSourceCodeDecoratorRepository_SeffElementsSourceCodeLinks()
+     * @model containment="true" ordered="false"
+     * @generated
+     */
+    EList<SeffElementSourceCodeLink> getSeffElementsSourceCodeLinks();
 
 } // SourceCodeDecoratorRepository

@@ -127,6 +127,15 @@ public interface SourcecodedecoratorFactory extends EFactory {
     SEFF2MethodMapping createSEFF2MethodMapping();
 
     /**
+     * Returns a new object of class '<em>Seff Element Source Code Link</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Seff Element Source Code Link</em>'.
+     * @generated
+     */
+    SeffElementSourceCodeLink createSeffElementSourceCodeLink();
+
+    /**
      * Returns the package supported by this factory.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return the package supported by this factory.

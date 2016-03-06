@@ -3,7 +3,6 @@
 package org.somox.sourcecodedecorator.impl;
 
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -20,6 +19,7 @@ import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SEFF2MethodMapping;
+import org.somox.sourcecodedecorator.SeffElementSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
 
@@ -39,6 +39,7 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getAbstractActionClassMethodLink <em>Abstract Action Class Method Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getMethodLevelResourceDemandingInternalBehaviorLink <em>Method Level Resource Demanding Internal Behavior Link</em>}</li>
  *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getSeff2MethodMappings <em>Seff2 Method Mappings</em>}</li>
+ *   <li>{@link org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl#getSeffElementsSourceCodeLinks <em>Seff Elements Source Code Links</em>}</li>
  * </ul>
  *
  * @generated
@@ -135,6 +136,16 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
      * @ordered
      */
     protected EList<SEFF2MethodMapping> seff2MethodMappings;
+
+    /**
+     * The cached value of the '{@link #getSeffElementsSourceCodeLinks() <em>Seff Elements Source Code Links</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getSeffElementsSourceCodeLinks()
+     * @generated
+     * @ordered
+     */
+    protected EList<SeffElementSourceCodeLink> seffElementsSourceCodeLinks;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -262,6 +273,18 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
     }
 
     /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EList<SeffElementSourceCodeLink> getSeffElementsSourceCodeLinks() {
+        if (seffElementsSourceCodeLinks == null) {
+            seffElementsSourceCodeLinks = new EObjectContainmentEList<SeffElementSourceCodeLink>(SeffElementSourceCodeLink.class, this, SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF_ELEMENTS_SOURCE_CODE_LINKS);
+        }
+        return seffElementsSourceCodeLinks;
+    }
+
+    /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
@@ -286,6 +309,8 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
                 return ((InternalEList<?>)getMethodLevelResourceDemandingInternalBehaviorLink()).basicRemove(otherEnd, msgs);
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF2_METHOD_MAPPINGS:
                 return ((InternalEList<?>)getSeff2MethodMappings()).basicRemove(otherEnd, msgs);
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF_ELEMENTS_SOURCE_CODE_LINKS:
+                return ((InternalEList<?>)getSeffElementsSourceCodeLinks()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -315,6 +340,8 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
                 return getMethodLevelResourceDemandingInternalBehaviorLink();
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF2_METHOD_MAPPINGS:
                 return getSeff2MethodMappings();
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF_ELEMENTS_SOURCE_CODE_LINKS:
+                return getSeffElementsSourceCodeLinks();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -363,6 +390,10 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
                 getSeff2MethodMappings().clear();
                 getSeff2MethodMappings().addAll((Collection<? extends SEFF2MethodMapping>)newValue);
                 return;
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF_ELEMENTS_SOURCE_CODE_LINKS:
+                getSeffElementsSourceCodeLinks().clear();
+                getSeffElementsSourceCodeLinks().addAll((Collection<? extends SeffElementSourceCodeLink>)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -401,6 +432,9 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF2_METHOD_MAPPINGS:
                 getSeff2MethodMappings().clear();
                 return;
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF_ELEMENTS_SOURCE_CODE_LINKS:
+                getSeffElementsSourceCodeLinks().clear();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -430,6 +464,8 @@ public class SourceCodeDecoratorRepositoryImpl extends MinimalEObjectImpl.Contai
                 return methodLevelResourceDemandingInternalBehaviorLink != null && !methodLevelResourceDemandingInternalBehaviorLink.isEmpty();
             case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF2_METHOD_MAPPINGS:
                 return seff2MethodMappings != null && !seff2MethodMappings.isEmpty();
+            case SourcecodedecoratorPackage.SOURCE_CODE_DECORATOR_REPOSITORY__SEFF_ELEMENTS_SOURCE_CODE_LINKS:
+                return seffElementsSourceCodeLinks != null && !seffElementsSourceCodeLinks.isEmpty();
         }
         return super.eIsSet(featureID);
     }

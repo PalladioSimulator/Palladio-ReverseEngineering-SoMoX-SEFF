@@ -380,12 +380,21 @@ public interface SourcecodedecoratorPackage extends EPackage {
     int SOURCE_CODE_DECORATOR_REPOSITORY__SEFF2_METHOD_MAPPINGS = 8;
 
     /**
+     * The feature id for the '<em><b>Seff Elements Source Code Links</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SOURCE_CODE_DECORATOR_REPOSITORY__SEFF_ELEMENTS_SOURCE_CODE_LINKS = 9;
+
+    /**
      * The number of structural features of the '<em>Source Code Decorator Repository</em>' class.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SOURCE_CODE_DECORATOR_REPOSITORY_FEATURE_COUNT = 9;
+    int SOURCE_CODE_DECORATOR_REPOSITORY_FEATURE_COUNT = 10;
 
     /**
      * The number of operations of the '<em>Source Code Decorator Repository</em>' class. <!--
@@ -905,6 +914,52 @@ public interface SourcecodedecoratorPackage extends EPackage {
     int SEFF2_METHOD_MAPPING_OPERATION_COUNT = 0;
 
     /**
+     * The meta object id for the '{@link org.somox.sourcecodedecorator.impl.SeffElementSourceCodeLinkImpl <em>Seff Element Source Code Link</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.somox.sourcecodedecorator.impl.SeffElementSourceCodeLinkImpl
+     * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getSeffElementSourceCodeLink()
+     * @generated
+     */
+    int SEFF_ELEMENT_SOURCE_CODE_LINK = 13;
+
+    /**
+     * The feature id for the '<em><b>Seff Element</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SEFF_ELEMENT_SOURCE_CODE_LINK__SEFF_ELEMENT = 0;
+
+    /**
+     * The feature id for the '<em><b>Statement</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SEFF_ELEMENT_SOURCE_CODE_LINK__STATEMENT = 1;
+
+    /**
+     * The number of structural features of the '<em>Seff Element Source Code Link</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SEFF_ELEMENT_SOURCE_CODE_LINK_FEATURE_COUNT = 2;
+
+    /**
+     * The number of operations of the '<em>Seff Element Source Code Link</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SEFF_ELEMENT_SOURCE_CODE_LINK_OPERATION_COUNT = 0;
+
+    /**
      * Returns the meta object for class '{@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink <em>File Level Source Code Link</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return the meta object for class '<em>File Level Source Code Link</em>'.
@@ -1083,6 +1138,17 @@ public interface SourcecodedecoratorPackage extends EPackage {
      * @generated
      */
     EReference getSourceCodeDecoratorRepository_Seff2MethodMappings();
+
+    /**
+     * Returns the meta object for the containment reference list '{@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getSeffElementsSourceCodeLinks <em>Seff Elements Source Code Links</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference list '<em>Seff Elements Source Code Links</em>'.
+     * @see org.somox.sourcecodedecorator.SourceCodeDecoratorRepository#getSeffElementsSourceCodeLinks()
+     * @see #getSourceCodeDecoratorRepository()
+     * @generated
+     */
+    EReference getSourceCodeDecoratorRepository_SeffElementsSourceCodeLinks();
 
     /**
      * Returns the meta object for class '{@link org.somox.sourcecodedecorator.InterfaceSourceCodeLink <em>Interface Source Code Link</em>}'.
@@ -1389,6 +1455,38 @@ public interface SourcecodedecoratorPackage extends EPackage {
     EReference getSEFF2MethodMapping_StatementListContainer();
 
     /**
+     * Returns the meta object for class '{@link org.somox.sourcecodedecorator.SeffElementSourceCodeLink <em>Seff Element Source Code Link</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Seff Element Source Code Link</em>'.
+     * @see org.somox.sourcecodedecorator.SeffElementSourceCodeLink
+     * @generated
+     */
+    EClass getSeffElementSourceCodeLink();
+
+    /**
+     * Returns the meta object for the reference '{@link org.somox.sourcecodedecorator.SeffElementSourceCodeLink#getSeffElement <em>Seff Element</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Seff Element</em>'.
+     * @see org.somox.sourcecodedecorator.SeffElementSourceCodeLink#getSeffElement()
+     * @see #getSeffElementSourceCodeLink()
+     * @generated
+     */
+    EReference getSeffElementSourceCodeLink_SeffElement();
+
+    /**
+     * Returns the meta object for the reference list '{@link org.somox.sourcecodedecorator.SeffElementSourceCodeLink#getStatement <em>Statement</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference list '<em>Statement</em>'.
+     * @see org.somox.sourcecodedecorator.SeffElementSourceCodeLink#getStatement()
+     * @see #getSeffElementSourceCodeLink()
+     * @generated
+     */
+    EReference getSeffElementSourceCodeLink_Statement();
+
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -1556,6 +1654,14 @@ public interface SourcecodedecoratorPackage extends EPackage {
          * @generated
          */
         EReference SOURCE_CODE_DECORATOR_REPOSITORY__SEFF2_METHOD_MAPPINGS = eINSTANCE.getSourceCodeDecoratorRepository_Seff2MethodMappings();
+
+        /**
+         * The meta object literal for the '<em><b>Seff Elements Source Code Links</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference SOURCE_CODE_DECORATOR_REPOSITORY__SEFF_ELEMENTS_SOURCE_CODE_LINKS = eINSTANCE.getSourceCodeDecoratorRepository_SeffElementsSourceCodeLinks();
 
         /**
          * The meta object literal for the '
@@ -1812,6 +1918,32 @@ public interface SourcecodedecoratorPackage extends EPackage {
          * @generated
          */
         EReference SEFF2_METHOD_MAPPING__STATEMENT_LIST_CONTAINER = eINSTANCE.getSEFF2MethodMapping_StatementListContainer();
+
+        /**
+         * The meta object literal for the '{@link org.somox.sourcecodedecorator.impl.SeffElementSourceCodeLinkImpl <em>Seff Element Source Code Link</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.somox.sourcecodedecorator.impl.SeffElementSourceCodeLinkImpl
+         * @see org.somox.sourcecodedecorator.impl.SourcecodedecoratorPackageImpl#getSeffElementSourceCodeLink()
+         * @generated
+         */
+        EClass SEFF_ELEMENT_SOURCE_CODE_LINK = eINSTANCE.getSeffElementSourceCodeLink();
+
+        /**
+         * The meta object literal for the '<em><b>Seff Element</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference SEFF_ELEMENT_SOURCE_CODE_LINK__SEFF_ELEMENT = eINSTANCE.getSeffElementSourceCodeLink_SeffElement();
+
+        /**
+         * The meta object literal for the '<em><b>Statement</b></em>' reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference SEFF_ELEMENT_SOURCE_CODE_LINK__STATEMENT = eINSTANCE.getSeffElementSourceCodeLink_Statement();
 
     }
 
