@@ -52,7 +52,8 @@ import de.uka.ipd.sdq.identifier.Identifier;
  * <code>functionClassificationAnnotation</code> classifies which elements to hold when traversing
  * the GAST behaviour.
  *
- * @author Steffen Becker, Klaus Krogmann
+ * @author Steffen Becker, Klaus Krogmann, Michael Langhammer (adapted to JaMoPP and some
+ *         extensions)
  */
 public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
 
@@ -361,7 +362,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
      * InternalCallAction is created that just calls the SEFF
      */
     @Override
-    protected Object handleClassMethod(final ClassMethod classMethod) {
+    protected Object handleClassMethod(final ClassMethod classMethod, final Statement callStatement) {
         if (null == this.resourceDemandingBehaviourForClassMethodFinding) {
             return this.handleStatementListContainer(classMethod);
         }
@@ -371,17 +372,23 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
             rdBehaviour = this.getOrCreateResourceDemandingInternalBehaviour(classMethod);
         }
         // create an Internal Action that calls the SEFF
-        this.createInternalCallAction(rdBehaviour, classMethod);
+        this.createInternalCallAction(rdBehaviour, callStatement);
         // force an SEFF element for the next statement
         this.doNotSkipNextStatement = true;
         return new Object();
     }
 
     private void createInternalCallAction(final ResourceDemandingBehaviour resourceDemandingBehavior,
-            final ClassMethod classMethod) {
+            final Statement callStatement) {
         final InternalCallAction internalCallAction = SeffFactory.eINSTANCE.createInternalCallAction();
         internalCallAction.setCalledResourceDemandingInternalBehaviour(resourceDemandingBehavior);
-        internalCallAction.setEntityName(this.positionToString(classMethod));
+        internalCallAction.setEntityName(this.positionToString(callStatement));
+        if (null != callStatement) {
+            this.createAbstracActionClassMethodLink(internalCallAction, callStatement);
+        } else {
+            logger.warn(
+                    "Call statement == null: can not create an AbstractActionClassMethodLink for the current InternalCallAction");
+        }
         this.seff.getSteps_Behaviour().add(internalCallAction);
     }
 

@@ -73,7 +73,7 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
 
     protected abstract Object handleSwitch(final Switch switchStatement);
 
-    protected abstract Object handleClassMethod(ClassMethod classMethod);
+    protected abstract Object handleClassMethod(ClassMethod classMethod, Statement callStatement);
 
     protected abstract Object handleTryBlock(final TryBlock object);
 
@@ -145,7 +145,7 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
                         final ClassMethod classMethod = (ClassMethod) method;
 
                         if (classMethod.getStatements() != null) {
-                            this.handleClassMethod(classMethod);
+                            this.handleClassMethod(classMethod, object);
                         } else {
                             String msg = "Behaviour not set in GAST for " + method.getName();
                             if (KDMHelper.getJavaNodeSourceRegion(object) != null
@@ -184,7 +184,7 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
 
         @Override
         public Object caseClassMethod(final ClassMethod classMethod) {
-            return AbstractJaMoPPStatementVisitor.this.handleClassMethod(classMethod);
+            return AbstractJaMoPPStatementVisitor.this.handleClassMethod(classMethod, null);
         }
 
     }
@@ -285,8 +285,8 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
     protected boolean containsExternalCall(final Statement object) {
         final Collection<BitSet> statementTypes = this.functionClassificationAnnotation.get(object);
         for (final BitSet statementType : statementTypes) {
-            final boolean isExternalCall =
-                    statementType.get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
+            final boolean isExternalCall = statementType
+                    .get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
             final boolean isInternalCallContainingExternalCall = statementType.get(FunctionCallClassificationVisitor
                     .getIndex(FunctionCallType.INTERNAL_CALL_CONTAINING_EXTERNAL_CALL));
             if (isExternalCall || isInternalCallContainingExternalCall) {
