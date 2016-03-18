@@ -116,12 +116,13 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
     private void save(final EObject emfObject, final String projectIdentifier, final String path) throws IOException {
         final ResourceSet resourceSet = this.getResourceSetForURI();
         // URI scriptURI = fileURI;
-        String uriString = "";
+        URI uri = null;
         if (!SoMoXUtil.isStandalone()) {
-            uriString += "platform:/resource/" + projectIdentifier + "/";
+            uri = URI.createURI("platform:/resource/" + projectIdentifier + "/");
+        } else {
+            uri = URI.createFileURI(path);
         }
-        uriString += path;
-        final URI uri = URI.createURI(uriString);
+        
         // scriptURI = scriptURI.appendFileExtension(fileExtension);
         // Create a resource for this file.
         final Resource resource = resourceSet.createResource(uri);
