@@ -250,7 +250,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                 bt.setEntityName("parent " + JaMoPPStatementVisitor.this.positionToString(switchStatement) + "/"
                         + (branch.size() > 0 ? JaMoPPStatementVisitor.this
                                 .positionToLineNumber(KDMHelper.getJavaNodeSourceRegion(branch.get(0))) + " to "
-                        // use parent position since branch position is empty
+                                // use parent position since branch position is empty
                                 + JaMoPPStatementVisitor.this.positionToLineNumber(
                                         KDMHelper.getJavaNodeSourceRegion(branch.get(branch.size() - 1)))
                                 : ""));
@@ -539,7 +539,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     }
 
     private void createInternalAction(final Statement statement, final BitSet thisType) {
-        if (!this.shouldSkip(this.lastType, thisType)) {
+        if (!this.shouldSkip(this.lastType, thisType) && !this.isLastTypeInternalAction()) {
             final InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
             this.createAbstracActionClassMethodLink(internalAction, statement);
             this.linkSeffElement(internalAction, statement);
@@ -549,6 +549,11 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
         }
         this.linkSeffElement(this.lastInternalAction, statement);
         this.lastType = thisType;
+    }
+
+    private boolean isLastTypeInternalAction() {
+        final List<AbstractAction> steps = this.seff.getSteps_Behaviour();
+        return !steps.isEmpty() && steps.get(steps.size() - 1) instanceof InternalAction;
     }
 
     private String blockToString(final Block blockstatement) { // GAST2SEFFCHANGE
