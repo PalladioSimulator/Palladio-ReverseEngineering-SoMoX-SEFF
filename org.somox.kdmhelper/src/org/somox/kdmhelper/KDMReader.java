@@ -2,6 +2,8 @@ package org.somox.kdmhelper;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -54,7 +56,6 @@ public class KDMReader {
             }
             this.loadProject(iProjects.toArray(new IProject[iProjects.size()]));
         }
-
     }
 
     public void loadProject(final IProject... projects) throws IOException {
@@ -68,10 +69,9 @@ public class KDMReader {
 
     private void loadPathes(final List<String> projectPaths) {
         final JaMoPPSoftwareModelExtractor softwareModelExtractor = new JaMoPPSoftwareModelExtractor();
-        final String cacheFileDir = System.getProperty("java.io.tmpdir", "/tmp/") + "JaMoPPGeneratorJobCacheDirSoMoX";
-        final File file = new File(cacheFileDir);
+        final Path cacheFileDir = Paths.get(System.getProperty("java.io.tmpdir", "/tmp/"), "JaMoPPGeneratorJobCacheDirSoMoX");
         final boolean extractLayoutInformation = true;
-        softwareModelExtractor.extractSoftwareModel(projectPaths, new NullProgressMonitor(), file.getAbsolutePath(),
+        softwareModelExtractor.extractSoftwareModel(projectPaths, new NullProgressMonitor(), cacheFileDir.toString(),
                 extractLayoutInformation);
         this.addModelsToRoot(softwareModelExtractor.getSourceResources());
         KDMReader.logger.trace("Finished reading projects.");
