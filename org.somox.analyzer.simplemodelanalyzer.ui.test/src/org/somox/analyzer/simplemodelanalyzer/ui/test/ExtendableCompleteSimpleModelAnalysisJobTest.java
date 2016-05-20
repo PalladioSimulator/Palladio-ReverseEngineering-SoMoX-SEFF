@@ -26,7 +26,6 @@ import org.somox.analyzer.simplemodelanalyzer.ui.ExtendableCompleteSimpleModelAn
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.ui.runconfig.SoMoXModelAnalyzerConfiguration;
 
-import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
 
 /**
@@ -95,7 +94,7 @@ public class ExtendableCompleteSimpleModelAnalysisJobTest {
         this.modelAnalyzerConfig.setMoxConfiguration(this.somoxConfig);
         this.somoxConfig.getFileLocations().setProjectName(TEST_PROJECT_NAME);
 
-        final SequentialBlackboardInteractingJob<Blackboard<?>> somoxJob = new ExtendableCompleteSimpleModelAnalysisJob(
+        final SequentialBlackboardInteractingJob<SoMoXBlackboard> somoxJob = new ExtendableCompleteSimpleModelAnalysisJob(
                 this.modelAnalyzerConfig);
         somoxJob.setBlackboard(new SoMoXBlackboard());
         this.job = () -> {
