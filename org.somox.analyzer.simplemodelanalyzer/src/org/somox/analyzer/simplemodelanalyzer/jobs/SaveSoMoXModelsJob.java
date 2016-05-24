@@ -12,10 +12,13 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.palladiosimulator.pcm.allocation.Allocation;
 import org.palladiosimulator.pcm.qosannotations.QoSAnnotations;
 import org.palladiosimulator.pcm.repository.Repository;
+import org.palladiosimulator.pcm.resourceenvironment.ResourceEnvironment;
 import org.palladiosimulator.pcm.system.System;
 import org.somox.analyzer.AnalysisResult;
+import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
 import org.somox.configuration.AbstractMoxConfiguration;
 import org.somox.kdmhelper.SoMoXUtil;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
@@ -43,6 +46,8 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
     private static final String PATH_SYSTEM_MODEL = "/internal_architecture_model.system";
     private static final String PATH_QOS_ANNOTATIONS_MODEL = "/internal_architecture_model.samm_qosannotation";
     private static final String PATH_REPOSITORY_MODEL = "/internal_architecture_model.repository";
+    private static final String PATH_ALLOCATION_MODEL = "/internal_architecture_model.allocation";
+    private static final String PATH_RESOURCE_ENVIRONMENT_MODEL = "/internal_architecture_model.resourceenvironment";
 
     private final Logger logger = Logger.getLogger(SaveSoMoXModelsJob.class);
 
@@ -84,8 +89,11 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
             this.saveRepositoryModel(result.getInternalArchitectureModel(), projectIdentifier, outputFolder);
             this.saveSourceCodeDecoratorRepository(result.getSourceCodeDecoratorRepository(), projectIdentifier,
                     outputFolder);
-            this.saveSammModel(result.getSystemModel(), projectIdentifier, outputFolder);
+            this.saveSystemModel(result.getSystemModel(), projectIdentifier, outputFolder);
             this.saveQoSAnnotationsModel(result.getQosAnnotationModel(), projectIdentifier, outputFolder);
+            this.saveResourceEnvironmentModel(DefaultResourceEnvironment.getDefaultResourceEnvironment(),
+                    projectIdentifier, outputFolder);
+            this.saveAllocationModel(result.getAllocation(), projectIdentifier, outputFolder);
         } catch (final IOException e) {
             this.logger.error("Model Analyzer failed.", e);
             throw new JobFailedException("Unable to save SoMoX Models", e);
@@ -98,7 +106,7 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
         this.save(repository, projectIdentifier, outputFolder + PATH_SOURCECODE_DECORATOR_REPOSITORY);
     }
 
-    private void saveSammModel(final System system, final String projectIdentifier, final String outputFolder)
+    private void saveSystemModel(final System system, final String projectIdentifier, final String outputFolder)
             throws IOException {
         this.save(system, projectIdentifier, outputFolder + PATH_SYSTEM_MODEL);
     }
@@ -113,6 +121,16 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
         this.save(repository, projectIdentifier, outputFolder + PATH_REPOSITORY_MODEL);
     }
 
+    private void saveAllocationModel(final Allocation allocation, final String projectIdentifier,
+            final String outputFolder) throws IOException {
+        this.save(allocation, projectIdentifier, outputFolder + PATH_ALLOCATION_MODEL);
+    }
+
+    private void saveResourceEnvironmentModel(final ResourceEnvironment resourceEnvironment,
+            final String projectIdentifier, final String outputFolder) throws IOException {
+        this.save(resourceEnvironment, projectIdentifier, outputFolder + PATH_RESOURCE_ENVIRONMENT_MODEL);
+    }
+
     private void save(final EObject emfObject, final String projectIdentifier, final String path) throws IOException {
         final ResourceSet resourceSet = this.getResourceSetForURI();
         // URI scriptURI = fileURI;
@@ -122,7 +140,7 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
         } else {
             uri = URI.createFileURI(path);
         }
-        
+
         // scriptURI = scriptURI.appendFileExtension(fileExtension);
         // Create a resource for this file.
         final Resource resource = resourceSet.createResource(uri);
