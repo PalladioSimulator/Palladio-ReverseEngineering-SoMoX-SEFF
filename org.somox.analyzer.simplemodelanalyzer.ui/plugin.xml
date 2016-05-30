@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-<extension point="org.eclipse.debug.core.launchConfigurationTypes">
+	<extension point="org.eclipse.debug.core.launchConfigurationTypes">
 	    <launchConfigurationType
            delegate="org.somox.analyzer.simplemodelanalyzer.ui.SimpleModelAnalyzerConfigurationDelegate"
            id="org.somox.analyzer.simplemodelanalyzer.runconfig.LaunchSimpleModelAnalyzer"
