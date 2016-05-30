@@ -232,8 +232,7 @@ public class MetricValuesWriter {
             e.printStackTrace();
         }
         final URI fileURI = URI
-                .createPlatformResourceURI(new File(this.somoxConfiguration.getFileLocations().getProjectName() + "/"
-                        + this.somoxConfiguration.getFileLocations().getOutputFolder() + "/"
+                .createPlatformResourceURI(new File(this.somoxConfiguration.getFileLocations().getOutputFolder() + "/"
                         + properties.getProperty(CONFIG_METRIC_VALUES_MODEL_PATH)).getPath(), true);
         return fileURI;
     }

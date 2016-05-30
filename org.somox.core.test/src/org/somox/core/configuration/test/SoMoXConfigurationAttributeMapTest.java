@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,8 +23,6 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.Test;
-import org.somox.configuration.SoMoXConfiguration;
-import org.somox.configuration.SoMoXConfiguration;
 import org.somox.configuration.SoMoXConfiguration;
 
 /**
@@ -292,18 +291,12 @@ public class SoMoXConfigurationAttributeMapTest {
      */
     private static Map<String, Supplier<Object>> getValueSuppliers() {
         final Map<String, Supplier<Object>> valueSuppliers = new HashMap<>();
-        final Supplier<Object> stringSupplier = () -> {
-            return UUID.randomUUID().toString();
-        };
-        final Supplier<Object> booleanSupplier = () -> {
-            return Math.random() < 0.5;
-        };
-        final Supplier<Object> double100Supplier = () -> {
-            return Math.random() * 100;
-        };
-        final Supplier<Object> double1Supplier = () -> {
-            return Math.random();
-        };
+        final Supplier<Object> stringSupplier = () -> UUID.randomUUID().toString();
+        final Supplier<Object> stringSetSupplier = () -> Collections.singleton(stringSupplier.get());
+        final Supplier<Object> booleanSupplier = () -> Math.random() < 0.5;
+        final Supplier<Object> double100Supplier = () -> Math.random() * 100;
+        final Supplier<Object> double1Supplier = Math::random;
+
         valueSuppliers.put(SoMoXConfiguration.BLACKLIST_CONFIGURATION_WILDCARDS_ADDITIONAL, stringSupplier);
         valueSuppliers.put(SoMoXConfiguration.SOMOX_ANALYZER_INPUT_FILE, stringSupplier);
         valueSuppliers.put(SoMoXConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES,
@@ -312,7 +305,7 @@ public class SoMoXConfigurationAttributeMapTest {
         valueSuppliers.put(SoMoXConfiguration.SOMOX_EXCLUDED_PREFIXES, stringSupplier);
         valueSuppliers.put(SoMoXConfiguration.SOMOX_EXCLUDED_SUFFIXES, stringSupplier);
         valueSuppliers.put(SoMoXConfiguration.SOMOX_OUTPUT_FOLDER, stringSupplier);
-        valueSuppliers.put(SoMoXConfiguration.SOMOX_PROJECT_NAME, stringSupplier);
+        valueSuppliers.put(SoMoXConfiguration.SOMOX_PROJECT_NAME, stringSetSupplier);
         valueSuppliers.put(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_COMPOSE, double1Supplier);
         valueSuppliers.put(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_MERGE, double1Supplier);
         valueSuppliers.put(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_MAX_COMPOSE, double1Supplier);
@@ -368,7 +361,9 @@ public class SoMoXConfigurationAttributeMapTest {
             c.getFileLocations().setOutputFolder((String) s);
         });
         keysToSetters.put(SoMoXConfiguration.SOMOX_PROJECT_NAME, (final SoMoXConfiguration c, final Object s) -> {
-            c.getFileLocations().setProjectName((String) s);
+            @SuppressWarnings("unchecked")
+            Set<String> s2 = (Set<String>) s;
+            c.getFileLocations().setProjectNames(s2);
         });
         keysToSetters.put(SoMoXConfiguration.SOMOX_WEIGHT_CLUSTERING_THRESHOLD_DECREMENT_COMPOSE,
                 (final SoMoXConfiguration c, final Object d) -> {

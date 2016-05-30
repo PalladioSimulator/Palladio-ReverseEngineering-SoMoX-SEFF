@@ -20,7 +20,6 @@ import org.palladiosimulator.pcm.system.System;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
 import org.somox.configuration.AbstractMoxConfiguration;
-import org.somox.kdmhelper.SoMoXUtil;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
@@ -81,19 +80,16 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
 
         final AnalysisResult result = this.blackboard.getAnalysisResult();
 
-        final String projectIdentifier = this.somoxConfiguration.getFileLocations().getProjectName();
         final String outputFolder = this.somoxConfiguration.getFileLocations().getOutputFolder();
 
         // save the new internal architecture model
         try {
-            this.saveRepositoryModel(result.getInternalArchitectureModel(), projectIdentifier, outputFolder);
-            this.saveSourceCodeDecoratorRepository(result.getSourceCodeDecoratorRepository(), projectIdentifier,
-                    outputFolder);
-            this.saveSystemModel(result.getSystemModel(), projectIdentifier, outputFolder);
-            this.saveQoSAnnotationsModel(result.getQosAnnotationModel(), projectIdentifier, outputFolder);
-            this.saveResourceEnvironmentModel(DefaultResourceEnvironment.getDefaultResourceEnvironment(),
-                    projectIdentifier, outputFolder);
-            this.saveAllocationModel(result.getAllocation(), projectIdentifier, outputFolder);
+            this.saveRepositoryModel(result.getInternalArchitectureModel(), outputFolder);
+            this.saveSourceCodeDecoratorRepository(result.getSourceCodeDecoratorRepository(), outputFolder);
+            this.saveSystemModel(result.getSystemModel(), outputFolder);
+            this.saveQoSAnnotationsModel(result.getQosAnnotationModel(), outputFolder);
+            this.saveResourceEnvironmentModel(DefaultResourceEnvironment.getDefaultResourceEnvironment(), outputFolder);
+            this.saveAllocationModel(result.getAllocation(), outputFolder);
         } catch (final IOException e) {
             this.logger.error("Model Analyzer failed.", e);
             throw new JobFailedException("Unable to save SoMoX Models", e);
@@ -102,48 +98,37 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
     }
 
     private void saveSourceCodeDecoratorRepository(final SourceCodeDecoratorRepository repository,
-            final String projectIdentifier, final String outputFolder) throws IOException {
-        this.save(repository, projectIdentifier, outputFolder + PATH_SOURCECODE_DECORATOR_REPOSITORY);
+            final String outputFolder) throws IOException {
+        this.save(repository, outputFolder + PATH_SOURCECODE_DECORATOR_REPOSITORY);
     }
 
-    private void saveSystemModel(final System system, final String projectIdentifier, final String outputFolder)
+    private void saveSystemModel(final System system, final String outputFolder) throws IOException {
+        this.save(system, outputFolder + PATH_SYSTEM_MODEL);
+    }
+
+    private void saveQoSAnnotationsModel(final QoSAnnotations serviceArchitectureModel, final String outputFolder)
             throws IOException {
-        this.save(system, projectIdentifier, outputFolder + PATH_SYSTEM_MODEL);
+        this.save(serviceArchitectureModel, outputFolder + PATH_QOS_ANNOTATIONS_MODEL);
     }
 
-    private void saveQoSAnnotationsModel(final QoSAnnotations serviceArchitectureModel, final String projectIdentifier,
-            final String outputFolder) throws IOException {
-        this.save(serviceArchitectureModel, projectIdentifier, outputFolder + PATH_QOS_ANNOTATIONS_MODEL);
+    private void saveRepositoryModel(final Repository repository, final String outputFolder) throws IOException {
+        this.save(repository, outputFolder + PATH_REPOSITORY_MODEL);
     }
 
-    private void saveRepositoryModel(final Repository repository, final String projectIdentifier,
-            final String outputFolder) throws IOException {
-        this.save(repository, projectIdentifier, outputFolder + PATH_REPOSITORY_MODEL);
+    private void saveAllocationModel(final Allocation allocation, final String outputFolder) throws IOException {
+        this.save(allocation, outputFolder + PATH_ALLOCATION_MODEL);
     }
 
-    private void saveAllocationModel(final Allocation allocation, final String projectIdentifier,
-            final String outputFolder) throws IOException {
-        this.save(allocation, projectIdentifier, outputFolder + PATH_ALLOCATION_MODEL);
+    private void saveResourceEnvironmentModel(final ResourceEnvironment resourceEnvironment, final String outputFolder)
+            throws IOException {
+        this.save(resourceEnvironment, outputFolder + PATH_RESOURCE_ENVIRONMENT_MODEL);
     }
 
-    private void saveResourceEnvironmentModel(final ResourceEnvironment resourceEnvironment,
-            final String projectIdentifier, final String outputFolder) throws IOException {
-        this.save(resourceEnvironment, projectIdentifier, outputFolder + PATH_RESOURCE_ENVIRONMENT_MODEL);
-    }
-
-    private void save(final EObject emfObject, final String projectIdentifier, final String path) throws IOException {
+    private void save(final EObject emfObject, final String path) throws IOException {
         final ResourceSet resourceSet = this.getResourceSetForURI();
         // URI scriptURI = fileURI;
-        URI uri = null;
-        if (!SoMoXUtil.isStandalone()) {
-            String pathWithoutLeadingOrTrailingSlashes = path.replaceAll("^/+", "").replaceAll("/+$", "");
-            uri = URI.createPlatformResourceURI(projectIdentifier, true)
-                    .appendSegments(pathWithoutLeadingOrTrailingSlashes.split("/"));
-        } else {
-            uri = URI.createFileURI(path);
-        }
+        final URI uri = URI.createPlatformResourceURI(path, true);
 
-        // scriptURI = scriptURI.appendFileExtension(fileExtension);
         // Create a resource for this file.
         final Resource resource = resourceSet.createResource(uri);
         // Add object to the contents.

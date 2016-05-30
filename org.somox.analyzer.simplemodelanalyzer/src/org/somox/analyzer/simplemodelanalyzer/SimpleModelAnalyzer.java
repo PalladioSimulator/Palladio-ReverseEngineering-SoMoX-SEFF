@@ -5,10 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.ModelAnalyzer;
@@ -69,20 +65,16 @@ public class SimpleModelAnalyzer implements ModelAnalyzer<SoMoXConfiguration> {
     @Override
     public AnalysisResult analyze(final SoMoXConfiguration somoxConfiguration,
             final HashMap<String, ExtractionResult> extractionResultMap, final IProgressMonitor progressMonitor)
-                    throws ModelAnalyzerException {
+            throws ModelAnalyzerException {
         this.status = ModelAnalyzer.Status.RUNNING;
         SimpleModelAnalyzer.logger.info("SISSy Analyzer started with" + "\n SOMOX Configuration: " + somoxConfiguration
                 + "\n extractionResultMap " + extractionResultMap);
 
         AnalysisResult analysisResult = null;
 
-        final String projectName = somoxConfiguration.getFileLocations().getProjectName();
-        final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        final IWorkspaceRoot workspaceRoot = workspace.getRoot();
-        final IProject project = workspaceRoot.getProject(projectName);
         final KDMReader modelReader = new KDMReader();
         try {
-            modelReader.loadProject(project);
+            modelReader.loadProject(somoxConfiguration.getFileLocations().getProjectNames().toArray(new String[0]));
         } catch (final IOException e) {
             SimpleModelAnalyzer.logger.error("Failed to load GAST Model", e);
             throw new ModelAnalyzerException("Failed to load GAST model", e);
@@ -178,7 +170,7 @@ public class SimpleModelAnalyzer implements ModelAnalyzer<SoMoXConfiguration> {
     private void clusterComponents(final List<ComponentImplementingClassesLink> initialComponentCandidates,
             final AbstractMoxConfiguration somoxConfiguration, final ComponentBuilder sammBuilder,
             final ISoMoXStrategiesFactory strategiesFactory, final IProgressMonitor progressMonitor)
-                    throws ModelAnalyzerException {
+            throws ModelAnalyzerException {
         final IProgressMonitor subProgressMonitor = new ExecutionTimeLoggingProgressMonitor(progressMonitor, 0);
         subProgressMonitor.beginTask("Cluster components", IProgressMonitor.UNKNOWN);
 

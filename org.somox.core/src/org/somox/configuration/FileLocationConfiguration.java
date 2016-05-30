@@ -1,12 +1,11 @@
 package org.somox.configuration;
 
+import java.util.Set;
+
 public class FileLocationConfiguration {
     private String analyserInputFile;
-    private String projectName;
+    private Set<String> projectNames;
     private String outputFolder;
-
-    public FileLocationConfiguration() {
-    }
 
     /**
      * @param analyserInputFile
@@ -24,24 +23,31 @@ public class FileLocationConfiguration {
     }
 
     /**
-     * @param projectName
+     * @param projectNames
      *            the projectName to set
      */
-    public void setProjectName(final String projectName) {
-        this.projectName = projectName;
+    public void setProjectNames(final Set<String> projectNames) {
+        this.projectNames = projectNames;
     }
 
     /**
-     * @return the projectName
+     * @return The names of all projects to be analysed.
      */
-    public String getProjectName() {
-        return this.projectName;
+    public Set<String> getProjectNames() {
+        return this.projectNames;
     }
 
+    /**
+     * @param outputFolder
+     *            The (workspace-relative) path to the folder to put all analysis results in.
+     */
     public void setOutputFolder(final String outputFolder) {
         this.outputFolder = outputFolder;
     }
 
+    /**
+     * @return The (workspace-relative) path to the folder to put all analysis results in.
+     */
     public String getOutputFolder() {
         return this.outputFolder;
     }

@@ -7,6 +7,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -92,7 +93,7 @@ public class ExtendableCompleteSimpleModelAnalysisJobTest {
         this.modelAnalyzerConfig = new SoMoXModelAnalyzerConfiguration();
         this.somoxConfig = new SoMoXConfiguration();
         this.modelAnalyzerConfig.setMoxConfiguration(this.somoxConfig);
-        this.somoxConfig.getFileLocations().setProjectName(TEST_PROJECT_NAME);
+        this.somoxConfig.getFileLocations().setProjectNames(Collections.singleton(TEST_PROJECT_NAME));
 
         final SequentialBlackboardInteractingJob<SoMoXBlackboard> somoxJob = new ExtendableCompleteSimpleModelAnalysisJob(
                 this.modelAnalyzerConfig);

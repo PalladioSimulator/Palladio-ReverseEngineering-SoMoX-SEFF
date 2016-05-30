@@ -2,6 +2,7 @@ package org.somox.configuration;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -79,6 +80,7 @@ public abstract class AbstractMoxConfiguration extends AbstractComposedJobConfig
         this.reverseEngineerInterfacesNotAssignedToComponent = reverseEngineerInterfacesNotAssignedToComponent;
     }
 
+    @SuppressWarnings("unchecked")
     public void applyAttributeMap(final Map<String, Object> attributeMap) {
         // Debug output
         logger.debug("SoMoX configuration extended by these attributes:");
@@ -92,7 +94,7 @@ public abstract class AbstractMoxConfiguration extends AbstractComposedJobConfig
         }
         final FileLocationConfiguration fileLocations = this.getFileLocations();
         if (attributeMap.get(AbstractMoxConfiguration.SOMOX_PROJECT_NAME) != null) {
-            fileLocations.setProjectName((String) attributeMap.get(AbstractMoxConfiguration.SOMOX_PROJECT_NAME));
+            fileLocations.setProjectNames((Set<String>) attributeMap.get(AbstractMoxConfiguration.SOMOX_PROJECT_NAME));
         }
 
         if (attributeMap.get(AbstractMoxConfiguration.SOMOX_ANALYZER_INPUT_FILE) != null) {
@@ -126,7 +128,7 @@ public abstract class AbstractMoxConfiguration extends AbstractComposedJobConfig
     public Map<String, Object> toMap() {
         final Map<String, Object> result = new HashMap<String, Object>();
 
-        result.put(AbstractMoxConfiguration.SOMOX_PROJECT_NAME, this.getFileLocations().getProjectName());
+        result.put(AbstractMoxConfiguration.SOMOX_PROJECT_NAME, this.getFileLocations().getProjectNames());
         result.put(AbstractMoxConfiguration.SOMOX_ANALYZER_INPUT_FILE, this.getFileLocations().getAnalyserInputFile());
         result.put(AbstractMoxConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES,
                 this.isReverseEngineerInterfacesNotAssignedToComponent());

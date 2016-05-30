@@ -1,27 +1,34 @@
 package org.somox.ui.runconfig.tabs;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
+import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
@@ -37,16 +44,26 @@ import org.somox.configuration.SoMoXConfiguration;
 public class ModelAnalyzerInputTab extends AbstractLaunchConfigurationTab {
 
     /**
-     * The GUI element the user can selecet projects in.
+     * The string to append to a path the user selected for the output location.
+     */
+    private static final String OUTPUT_POSTFIX = "model";
+
+    /**
+     * The GUI element the user can select projects in.
      */
     private ProjectSelector projectSelector;
 
+    /**
+     * The text input field the user can enter the output location in.
+     */
+    private Text outputText;
+
     @Override
     public void performApply(final ILaunchConfigurationWorkingCopy configuration) {
-        final Set<String> selectedProjects = getSelectedProjects()
-                .map(IProject::getName)
+        final Set<String> selectedProjectNames = this.getSelectedProjects().map(IProject::getName)
                 .collect(Collectors.toSet());
-        configuration.setAttribute(AbstractMoxConfiguration.SOMOX_PROJECT_NAME, selectedProjects);
+        configuration.setAttribute(AbstractMoxConfiguration.SOMOX_PROJECT_NAME, selectedProjectNames);
+        configuration.setAttribute(AbstractMoxConfiguration.SOMOX_OUTPUT_FOLDER, this.outputText.getText());
     }
 
     /*
@@ -62,18 +79,44 @@ public class ModelAnalyzerInputTab extends AbstractLaunchConfigurationTab {
     public void createControl(final Composite parent) {
         final Composite container = new Composite(parent, SWT.NONE);
         final GridLayout layout = new GridLayout();
-        layout.numColumns = 1;
+        layout.numColumns = 3;
         container.setLayout(layout);
 
         final Label projectsLabel = new Label(container, SWT.NONE);
         projectsLabel.setText("Projects to analyse:");
 
         projectSelector = new ProjectSelector(container, SWT.BORDER);
-        projectSelector.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        projectSelector.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
         projectSelector.treeViewer.addSelectionChangedListener(event -> {
             this.setDirty(true);
             this.updateLaunchConfigurationDialog();
         });
+
+        final Label outputLabel = new Label(container, SWT.NONE);
+        outputLabel.setText("Analysis output:");
+
+        this.outputText = new Text(container, SWT.BORDER);
+        this.outputText.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+        this.outputText.addModifyListener(event -> {
+            this.setDirty(true);
+            this.updateLaunchConfigurationDialog();
+        });
+
+        final Button browseOutputButton = new Button(container, SWT.NONE);
+        browseOutputButton.setText("Browse…");
+        browseOutputButton.addSelectionListener(new SelectionAdapter() {
+
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                IContainer[] selectedContainers = WorkspaceResourceDialog.openFolderSelection(getShell(),
+                        "Select output folder", "Select a folder to put the analysis results in.", false, null, null);
+                if (selectedContainers.length > 0) {
+                    final String newOutputText = selectedContainers[0].getFullPath().append(OUTPUT_POSTFIX).toString();
+                    ModelAnalyzerInputTab.this.outputText.setText(newOutputText);
+                }
+            }
+        });
+
         this.setControl(container);
     }
 
@@ -83,42 +126,28 @@ public class ModelAnalyzerInputTab extends AbstractLaunchConfigurationTab {
      * @see org.eclipse.debug.ui.ILaunchConfigurationTab#initializeFrom(org.eclipse
      * .debug.core.ILaunchConfiguration)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void initializeFrom(final ILaunchConfiguration configuration) {
-        Object inputProject;
-        final Set<String> selectedProjectNames;
-        try {
-            inputProject = configuration.getAttributes().get(SoMoXConfiguration.SOMOX_PROJECT_NAME);
-        } catch (CoreException e) {
-            inputProject = new String[0];
-        }
+        final Set<IProject> inputProjects = this.getProjectsFrom(configuration);
+        final IProject[] selectedProjects = inputProjects.stream().filter(IProject::exists).toArray(IProject[]::new);
 
-        /*
-         * Backward-compatibility: old versions of SoMoX used single input projects. These
-         * configurations should still be supported.
-         */
-        if (inputProject instanceof String) {
-            selectedProjectNames = new HashSet<>(Arrays.asList((String) inputProject));
-        } else if (inputProject instanceof Set) {
-            selectedProjectNames = (Set<String>) inputProject;
-        } else {
-            selectedProjectNames = Collections.EMPTY_SET;
-        }
-
-        final IProject[] selectedProjects = selectedProjectNames.stream()
-                .map(ResourcesPlugin.getWorkspace().getRoot()::getProject)
-                .filter(IProject::exists)
-                .toArray(IProject[]::new);
-        
-        final int difference = selectedProjectNames.size() - selectedProjects.length; 
-        if (difference != 0) {
+        int projectsNotFound = inputProjects.size() - selectedProjects.length;
+        if (projectsNotFound > 0) {
             // There was a project in the configuration that does not exist in this workspace.
-            this.setMessage(difference + " project" + (difference == 1 ? "" : "s") 
-                    + " could not be found and were removed from the configuration");
+            String removedProjects = inputProjects.stream().filter(project -> !project.exists()).map(IProject::getName)
+                    .collect(Collectors.joining(", ", "“", "”"));
+            this.setMessage("The project" + (projectsNotFound > 1 ? "s" : "") + " " + removedProjects
+                    + " could not be found in the workspace and " + (projectsNotFound > 1 ? "were" : "was")
+                    + " removed from the configuration.");
             this.setDirty(true);
         }
         this.projectSelector.treeViewer.setCheckedElements(selectedProjects);
+        
+        try {
+            this.outputText.setText(configuration.getAttribute(AbstractMoxConfiguration.SOMOX_OUTPUT_FOLDER, ""));
+        } catch (CoreException e) {
+            // ignore the attribute: The user has to enter a new value
+        }
     }
 
     /*
@@ -131,8 +160,31 @@ public class ModelAnalyzerInputTab extends AbstractLaunchConfigurationTab {
     public boolean isValid(final ILaunchConfiguration launchConfig) {
         this.setErrorMessage(null);
 
-        if (!this.getSelectedProjects().findAny().isPresent()) {
-            this.setErrorMessage("No project selected.");
+        final Set<IProject> projects = this.getProjectsFrom(launchConfig);
+        if (projects.isEmpty()) {
+            this.setErrorMessage("No projects to analyse selected!");
+            return false;
+        }
+
+        String outputFolderString;
+        try {
+            outputFolderString = launchConfig.getAttribute(AbstractMoxConfiguration.SOMOX_OUTPUT_FOLDER, "");
+        } catch (CoreException e) {
+            outputFolderString = "";
+        }
+        if (outputFolderString.isEmpty()) {
+            this.setErrorMessage("No output folder defined!");
+            return false;
+        }
+        if (!(Path.isValidPosixPath(outputFolderString) || Path.isValidWindowsPath(outputFolderString))) {
+            this.setErrorMessage("The output folder path “" + outputFolderString + "” is not a valid path!");
+            return false;
+        }
+        final Path outputFolder = new Path(outputFolderString);
+        final String firstSegment = outputFolder.segment(0);
+        if (!(ResourcesPlugin.getWorkspace().getRoot().exists(new Path(firstSegment))
+                || new File(firstSegment).exists())) {
+            this.setErrorMessage("The output folder’s project “" + firstSegment + "” does not exist in the workspace!");
             return false;
         }
 
@@ -152,15 +204,48 @@ public class ModelAnalyzerInputTab extends AbstractLaunchConfigurationTab {
     public boolean canSave() {
         return true;
     }
-    
+
     /**
      * Queries the projects selected in the the {@link #projectSelector}.
      * 
      * @return A stream to the selected projects.
      */
     private Stream<IProject> getSelectedProjects() {
-        return Arrays.stream(projectSelector.treeViewer.getCheckedElements())
-                .map(IProject.class::cast);
+        return Arrays.stream(projectSelector.treeViewer.getCheckedElements()).map(IProject.class::cast);
+    }
+
+    /**
+     * Gets the input projects from the provided {@code launchConfiguration} in a
+     * backward-compatible manner.
+     * 
+     * @param launchConfiguration
+     *            The configuration to read from.
+     * @return The set of the projects to analyse defined in {@code LaunchConfiguration}.
+     */
+    @SuppressWarnings("unchecked")
+    private Set<IProject> getProjectsFrom(ILaunchConfiguration launchConfiguration) {
+        /*
+         * Backward-compatibility: old versions of SoMoX used single input projects. These
+         * configurations should still be supported.
+         */
+        Object inputProject;
+        final Set<String> selectedProjectNames;
+        try {
+            inputProject = launchConfiguration.getAttributes().get(SoMoXConfiguration.SOMOX_PROJECT_NAME);
+        } catch (CoreException e) {
+            inputProject = Collections.emptySet();
+        }
+
+        if (inputProject instanceof String) {
+            selectedProjectNames = Collections.singleton((String) inputProject);
+        } else if (inputProject instanceof Set) {
+            selectedProjectNames = (Set<String>) inputProject;
+        } else {
+            selectedProjectNames = Collections.emptySet();
+        }
+
+        return selectedProjectNames.stream().map(ResourcesPlugin.getWorkspace().getRoot()::getProject)
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -227,7 +312,5 @@ public class ModelAnalyzerInputTab extends AbstractLaunchConfigurationTab {
                 return false;
             }
         }
-
     }
-
 }
