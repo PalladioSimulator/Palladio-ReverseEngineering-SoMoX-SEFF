@@ -14,7 +14,7 @@ public abstract class AbstractMoxConfiguration extends AbstractComposedJobConfig
     private static final Logger logger = Logger.getLogger(AbstractMoxConfiguration.class.getSimpleName());
 
     private static final String SOMOX_OUTPUT_FOLDER_DEFAULT = "/model";
-    
+
     /**
      * attribute key for {@link #getFileLocations()}.{@code getOutputFolder()} /
      * {@link #getFileLocations()}.{@code setOutputFolder(String)}
@@ -105,7 +105,10 @@ public abstract class AbstractMoxConfiguration extends AbstractComposedJobConfig
         if (attributeMap.get(AbstractMoxConfiguration.SOMOX_OUTPUT_FOLDER) != null) {
             fileLocations.setOutputFolder((String) attributeMap.get(AbstractMoxConfiguration.SOMOX_OUTPUT_FOLDER));
         } else {
-            fileLocations.setOutputFolder(SOMOX_OUTPUT_FOLDER_DEFAULT);
+            if (fileLocations.getProjectNames().size() > 0) {
+                fileLocations.setOutputFolder(
+                        "/" + fileLocations.getProjectNames().iterator().next() + SOMOX_OUTPUT_FOLDER_DEFAULT);
+            }
         }
 
         if (attributeMap.get(

@@ -90,6 +90,9 @@ public class ModelAnalyzerInputTab extends AbstractLaunchConfigurationTab {
         projectSelector.treeViewer.addSelectionChangedListener(event -> {
             this.setDirty(true);
             this.updateLaunchConfigurationDialog();
+            if (this.outputText.getText().isEmpty() && this.getSelectedProjects().count() == 1) {
+                this.useContainerForOutput(this.getSelectedProjects().findAny().get());
+            }
         });
 
         final Label outputLabel = new Label(container, SWT.NONE);
@@ -111,13 +114,25 @@ public class ModelAnalyzerInputTab extends AbstractLaunchConfigurationTab {
                 IContainer[] selectedContainers = WorkspaceResourceDialog.openFolderSelection(getShell(),
                         "Select output folder", "Select a folder to put the analysis results in.", false, null, null);
                 if (selectedContainers.length > 0) {
-                    final String newOutputText = selectedContainers[0].getFullPath().append(OUTPUT_POSTFIX).toString();
-                    ModelAnalyzerInputTab.this.outputText.setText(newOutputText);
+                    ModelAnalyzerInputTab.this.useContainerForOutput(selectedContainers[0]);
                 }
             }
         });
 
         this.setControl(container);
+    }
+
+    /**
+     * Uses the provided {@code container} for the output path. {@link #OUTPUT_POSTFIX} will be
+     * appended to {@code container}’s workspace-relative path and the result be set as the output
+     * path.
+     * 
+     * @param container
+     *            The container to put the analysis output in.
+     */
+    private void useContainerForOutput(IContainer container) {
+        final String newOutputText = container.getFullPath().append(OUTPUT_POSTFIX).toString();
+        ModelAnalyzerInputTab.this.outputText.setText(newOutputText);
     }
 
     /*
@@ -142,11 +157,16 @@ public class ModelAnalyzerInputTab extends AbstractLaunchConfigurationTab {
             this.setDirty(true);
         }
         this.projectSelector.treeViewer.setCheckedElements(selectedProjects);
-        
+
+        String outputFolder = "";
         try {
-            this.outputText.setText(configuration.getAttribute(AbstractMoxConfiguration.SOMOX_OUTPUT_FOLDER, ""));
+            outputFolder = configuration.getAttribute(AbstractMoxConfiguration.SOMOX_OUTPUT_FOLDER, "");
         } catch (CoreException e) {
             // ignore the attribute: The user has to enter a new value
+        }
+        this.outputText.setText(outputFolder);
+        if (outputFolder.isEmpty() && selectedProjects.length > 0) {
+            this.useContainerForOutput(selectedProjects[0]);
         }
     }
 
