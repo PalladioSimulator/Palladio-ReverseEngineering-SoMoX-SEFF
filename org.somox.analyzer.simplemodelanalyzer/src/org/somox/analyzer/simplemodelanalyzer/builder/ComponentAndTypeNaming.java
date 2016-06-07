@@ -8,6 +8,8 @@ import org.apache.log4j.Category;
 import org.apache.log4j.Logger;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.types.Type;
+import org.palladiosimulator.pcm.core.composition.ProvidedDelegationConnector;
+import org.palladiosimulator.pcm.core.composition.RequiredDelegationConnector;
 import org.palladiosimulator.pcm.repository.Interface;
 import org.palladiosimulator.pcm.repository.RepositoryComponent;
 import org.somox.kdmhelper.KDMHelper;
@@ -326,5 +328,14 @@ public class ComponentAndTypeNaming {
 
     private String shorten(final String theString) {
         return this.shorten(theString, false);
+    }
+    
+
+    public void createProvidedDelegationConnectorName(final ProvidedDelegationConnector delegationConnector) {
+        delegationConnector.setEntityName(delegationConnector.getInnerProvidedRole_ProvidedDelegationConnector().getProvidedInterface__OperationProvidedRole().getEntityName());
+    }
+
+    public void createRequiredDelegationConnectorName(final RequiredDelegationConnector delegationConnector) {
+        delegationConnector.setEntityName(delegationConnector.getInnerRequiredRole_RequiredDelegationConnector().getRequiredInterface__OperationRequiredRole().getEntityName());
     }
 }

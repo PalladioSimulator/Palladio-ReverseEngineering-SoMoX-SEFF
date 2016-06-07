@@ -149,7 +149,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
             // newProvidedRole.setDocumentation(subComponentInformation.getInterfaceSourceCodeLink().getInterface().getEntityName());
             compositeComponentLink.getComponent().getProvidedRoles_InterfaceProvidingEntity().add(providedRole);
 
-            this.createDelegationConnector(compositeComponentLink, providedRole, subComponentInformation, true);
+            this.createDelegationConnector(compositeComponentLink, providedRole, subComponentInformation);
 
             // Source code decorator:
             // Create interface source code link for parent class.
@@ -245,7 +245,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
         // create required delegation connector -- even for already created required ports (can be
         // used by multiple components)
         if (requiredRole != null) {
-            this.createDelegationConnector(compositeComponentLink, requiredRole, subComponentInformation, false);
+            this.createDelegationConnector(compositeComponentLink, requiredRole, subComponentInformation);
         } else {
             logger.warn("Could not find a required interface port which should have existed.");
         }
@@ -267,8 +267,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
      *            switch provided and required
      */
     private void createDelegationConnector(final ComponentImplementingClassesLink compositeComponentLink,
-            final OperationProvidedRole outerRole, final SubComponentInformation subComponentInformation,
-            final boolean isProvidedDelegationConnector) {
+            final OperationProvidedRole outerRole, final SubComponentInformation subComponentInformation) {
         // new provides delegation connector:
         final ProvidedDelegationConnector delegationConnector = CompositionFactory.eINSTANCE
                 .createProvidedDelegationConnector();
@@ -287,6 +286,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
         } else {
             logger.warn("Role not supported yet: " + innerRole.getClass().getSimpleName());
         }
+        this.componentTypeNaming.createProvidedDelegationConnectorName(delegationConnector);
     }
 
     /**
@@ -302,8 +302,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
      *            switch provided and required
      */
     private void createDelegationConnector(final ComponentImplementingClassesLink compositeComponentLink,
-            final OperationRequiredRole outerRole, final SubComponentInformation subComponentInformation,
-            final boolean isProvidedDelegationConnector) {
+            final OperationRequiredRole outerRole, final SubComponentInformation subComponentInformation) {
 
         final RequiredDelegationConnector delegationConnector = CompositionFactory.eINSTANCE
                 .createRequiredDelegationConnector();
@@ -319,7 +318,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
         } else {
             logger.warn("Role not supported yet: " + innerRole.getClass().getSimpleName());
         }
-
+        this.componentTypeNaming.createRequiredDelegationConnectorName(delegationConnector);
         ((CompositeComponent) compositeComponentLink.getComponent()).getConnectors__ComposedStructure()
                 .add(delegationConnector);
     }
