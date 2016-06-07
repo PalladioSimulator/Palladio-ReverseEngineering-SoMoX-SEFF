@@ -23,7 +23,7 @@ import org.palladiosimulator.pcm.repository.RequiredRole;
 import org.palladiosimulator.pcm.repository.Role;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.InterfacePortBuilderHelper;
-import org.somox.analyzer.simplemodelanalyzer.builder.util.SubComponentInformation;
+import org.somox.analyzer.simplemodelanalyzer.builder.util.EndpointInformation;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
@@ -68,11 +68,11 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
         if (componentLink.getComponent() instanceof ComposedStructure) {
             final ComposedStructure resultCompositeComponent = (ComposedStructure) componentLink.getComponent();
 
-            final Iterable<SubComponentInformation> interfaceLinksNotUsedInConnectors = InterfacePortBuilderHelper
+            final Iterable<EndpointInformation> interfaceLinksNotUsedInConnectors = InterfacePortBuilderHelper
                     .collectInformationOnNonBoundInterfaces(componentLink, resultCompositeComponent, true);
 
             // build each interface + connector
-            for (final SubComponentInformation currentInterfaceLink : interfaceLinksNotUsedInConnectors) {
+            for (final EndpointInformation currentInterfaceLink : interfaceLinksNotUsedInConnectors) {
                 roles.add(this.createProvidedRoleAndConnector(componentLink, currentInterfaceLink));
             }
 
@@ -99,11 +99,11 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
         if (componentLink.getComponent() instanceof ComposedStructure) {
             final ComposedStructure resultCompositeComponent = (ComposedStructure) componentLink.getComponent();
 
-            final Iterable<SubComponentInformation> interfaceLinksNotUsedInConnectors = InterfacePortBuilderHelper
+            final Iterable<EndpointInformation> interfaceLinksNotUsedInConnectors = InterfacePortBuilderHelper
                     .collectInformationOnNonBoundInterfaces(componentLink, resultCompositeComponent, false);
 
             // build each interface + connector
-            for (final SubComponentInformation currentInterfaceLink : interfaceLinksNotUsedInConnectors) {
+            for (final EndpointInformation currentInterfaceLink : interfaceLinksNotUsedInConnectors) {
                 roles.add(this.createRequiredRoleAndConnector(componentLink, currentInterfaceLink));
             }
 
@@ -123,7 +123,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
      */
     private OperationProvidedRole createProvidedRoleAndConnector(
             final ComponentImplementingClassesLink compositeComponentLink,
-            final SubComponentInformation subComponentInformation) {
+            final EndpointInformation subComponentInformation) {
         if (!(compositeComponentLink.getComponent() instanceof CompositeComponent)) {
             throw new RuntimeException("must be a composite component");
         }
@@ -189,7 +189,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
      */
     private OperationRequiredRole createRequiredRoleAndConnector(
             final ComponentImplementingClassesLink compositeComponentLink,
-            final SubComponentInformation subComponentInformation) {
+            final EndpointInformation subComponentInformation) {
 
         OperationRequiredRole requiredRole = null;
         final Set<Interface> allRequiredInterfaces = this.collectInterfacesForComponent(compositeComponentLink, false);
@@ -267,7 +267,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
      *            switch provided and required
      */
     private void createDelegationConnector(final ComponentImplementingClassesLink compositeComponentLink,
-            final OperationProvidedRole outerRole, final SubComponentInformation subComponentInformation) {
+            final OperationProvidedRole outerRole, final EndpointInformation subComponentInformation) {
         // new provides delegation connector:
         final ProvidedDelegationConnector delegationConnector = CompositionFactory.eINSTANCE
                 .createProvidedDelegationConnector();
@@ -302,7 +302,7 @@ public class NonDuplicatingInterfacePortBuilder extends AbstractBuilder implemen
      *            switch provided and required
      */
     private void createDelegationConnector(final ComponentImplementingClassesLink compositeComponentLink,
-            final OperationRequiredRole outerRole, final SubComponentInformation subComponentInformation) {
+            final OperationRequiredRole outerRole, final EndpointInformation subComponentInformation) {
 
         final RequiredDelegationConnector delegationConnector = CompositionFactory.eINSTANCE
                 .createRequiredDelegationConnector();

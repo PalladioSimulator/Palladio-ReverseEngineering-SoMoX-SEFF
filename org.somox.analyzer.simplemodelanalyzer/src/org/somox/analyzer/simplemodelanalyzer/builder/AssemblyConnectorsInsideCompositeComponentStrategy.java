@@ -8,6 +8,8 @@ import org.jgrapht.Graph;
 import org.palladiosimulator.pcm.core.composition.AssemblyConnector;
 import org.palladiosimulator.pcm.core.composition.ComposedStructure;
 import org.palladiosimulator.pcm.core.composition.Connector;
+import org.palladiosimulator.pcm.core.composition.ProvidedDelegationConnector;
+import org.palladiosimulator.pcm.core.composition.RequiredDelegationConnector;
 import org.palladiosimulator.pcm.core.entity.ComposedProvidingRequiringEntity;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
@@ -152,6 +154,14 @@ public class AssemblyConnectorsInsideCompositeComponentStrategy implements IAsse
             if (connector instanceof AssemblyConnector) {
                 final AssemblyConnector assemblyConnector = (AssemblyConnector) connector;
                 if (assemblyConnector.getRequiredRole_AssemblyConnector().equals(requiredRole)) {
+                    return true;
+                }
+            } else if (connector instanceof ProvidedDelegationConnector) {
+                /* Provided delegation connectors can never be connected to required roles */
+                continue;
+            } else if (connector instanceof RequiredDelegationConnector) {
+                final RequiredDelegationConnector reqDelegationConnector = (RequiredDelegationConnector) connector;
+                if (reqDelegationConnector.getInnerRequiredRole_RequiredDelegationConnector().equals(requiredRole)) {
                     return true;
                 }
             } else {

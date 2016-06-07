@@ -7,7 +7,7 @@ import org.palladiosimulator.pcm.repository.Interface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.Role;
-import org.somox.analyzer.simplemodelanalyzer.builder.util.SubComponentInformation;
+import org.somox.analyzer.simplemodelanalyzer.builder.util.EndpointInformation;
 import org.somox.filter.BaseFilter;
 
 /**
@@ -16,45 +16,40 @@ import org.somox.filter.BaseFilter;
  * @author Klaus Krogmann
  *
  */
-public class InterfacesBoundInConnectorFilter extends BaseFilter<SubComponentInformation> {
+public class InterfacesBoundInConnectorFilter extends BaseFilter<EndpointInformation> {
 
-    private static Logger logger = Logger.getLogger(InterfacesBoundInConnectorFilter.class);
+    private static final Logger LOGGER = Logger.getLogger(InterfacesBoundInConnectorFilter.class);
 
-    private final Collection<Role> connectorRoles;
-
-    public InterfacesBoundInConnectorFilter(final Collection<Role> connectorRoles) {
+    private final Collection<EndpointInformation> connectorEndpoints;
+    
+    /**
+     * Filter constructor
+     *
+     * @param connectorEndpoints
+     *            Collection of all roles which are part of any connector in the surrounding
+     *            composed structure
+     */
+    public InterfacesBoundInConnectorFilter(final Collection<EndpointInformation> connectorEndpoints) {
         super();
-        this.connectorRoles = connectorRoles;
+        this.connectorEndpoints = connectorEndpoints;
     }
 
     @Override
-    public boolean passes(final SubComponentInformation subComponentInformation) {
-        for (final Role currentRole : this.connectorRoles) {
-            if (currentRole instanceof OperationProvidedRole) {
-                final Interface interfaceFromConnector = ((OperationProvidedRole) currentRole)
-                        .getProvidedInterface__OperationProvidedRole();
+    public boolean passes(final EndpointInformation endpointInformation) {
+        boolean isUnboundEndpoint = true;
 
-                // if already in connector: remove
-                if (subComponentInformation.getInterfaceSourceCodeLink().getInterface()
-                        .equals(interfaceFromConnector)) {
-                    return false;
-                }
-
-            } else if (currentRole instanceof OperationRequiredRole) {
-                final Interface interfaceFromConnector = ((OperationRequiredRole) currentRole)
-                        .getRequiredInterface__OperationRequiredRole();
-
-                // if already in connector: remove
-                if (subComponentInformation.getInterfaceSourceCodeLink().getInterface()
-                        .equals(interfaceFromConnector)) {
-                    return false;
-                }
-
-            } else {
-                logger.warn("Role type not yet supported: " + currentRole.getClass().getSimpleName());
+        for (final EndpointInformation current : connectorEndpoints) {
+            if (current.getAssemblyContext().equals(endpointInformation.getAssemblyContext()) &&
+                    current.getRole().equals(endpointInformation.getRole())) {
+                isUnboundEndpoint = false;
+                break;
             }
         }
-        return true;
+
+        if (LOGGER.isDebugEnabled() && isUnboundEndpoint) {
+            LOGGER.debug("Found unbound endpoint " + endpointInformation);
+        }
+        return isUnboundEndpoint;
     }
 
 }

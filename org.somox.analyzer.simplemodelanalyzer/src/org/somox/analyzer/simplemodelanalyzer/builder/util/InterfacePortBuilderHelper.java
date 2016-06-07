@@ -2,12 +2,20 @@ package org.somox.analyzer.simplemodelanalyzer.builder.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.palladiosimulator.pcm.core.composition.AssemblyConnector;
 import org.palladiosimulator.pcm.core.composition.AssemblyContext;
 import org.palladiosimulator.pcm.core.composition.ComposedStructure;
+import org.palladiosimulator.pcm.core.composition.Connector;
+import org.palladiosimulator.pcm.core.composition.ProvidedDelegationConnector;
+import org.palladiosimulator.pcm.core.composition.RequiredDelegationConnector;
+import org.palladiosimulator.pcm.core.composition.util.CompositionSwitch;
 import org.palladiosimulator.pcm.repository.CompositeComponent;
 import org.palladiosimulator.pcm.repository.Interface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
@@ -46,23 +54,31 @@ public class InterfacePortBuilderHelper {
      *            Check for provided or required interfaces.
      * @return
      */
-    public static Iterable<SubComponentInformation> collectInformationOnNonBoundInterfaces(
+    public static Iterable<EndpointInformation> collectInformationOnNonBoundInterfaces(
             final ComponentImplementingClassesLink componentLink, final ComposedStructure outerComponentToCheck,
             final boolean isProvided) {
 
-        final Collection<SubComponentInformation> allSubComponentInterfaceLinks = collectInterfaceLinksOfSubComponents(
-                componentLink, isProvided);
-        final Collection<Role> connectorEndpoints = collectConnectorEndpoints(outerComponentToCheck);
+        final Collection<EndpointInformation> allSubComponentEndpoints = collectComponentEndpoints(componentLink,
+                isProvided);
+        final Collection<EndpointInformation> connectorEndpoints = collectConnectorEndpoints(outerComponentToCheck);
 
-        Iterable<SubComponentInformation> interfaceLinksNotUsedInConnectors;
-        if (isProvided && EXHIBIT_ALL_INNER_PROVIDED_INTERFACES) {
-            // exhibit all provided interfaces of inner components
-            interfaceLinksNotUsedInConnectors = allSubComponentInterfaceLinks;
+        Iterable<EndpointInformation> interfaceLinksNotUsedInConnectors;
+        if (isProvided) {
+            if (EXHIBIT_ALL_INNER_PROVIDED_INTERFACES) {
+                // exhibit all provided interfaces of inner components
+                interfaceLinksNotUsedInConnectors = allSubComponentEndpoints;
+            } else {
+                // delegate only provided interfaces which are not bound internally
+                // filter: allSubComponentInterfaceLinks - connectorEndpoints
+                final InterfacesBoundInConnectorFilter filter = new InterfacesBoundInConnectorFilter(
+                        connectorEndpoints);
+                interfaceLinksNotUsedInConnectors = filter.filter(allSubComponentEndpoints);
+            }
         } else {
             // require only interfaces which are not bound internally
             // filter: allSubComponentInterfaceLinks - connectorEndpoints
             final InterfacesBoundInConnectorFilter filter = new InterfacesBoundInConnectorFilter(connectorEndpoints);
-            interfaceLinksNotUsedInConnectors = filter.filter(allSubComponentInterfaceLinks);
+            interfaceLinksNotUsedInConnectors = filter.filter(allSubComponentEndpoints);
         }
         return interfaceLinksNotUsedInConnectors;
     }
@@ -75,16 +91,48 @@ public class InterfacePortBuilderHelper {
      *            Connectors of this component (inner)
      * @return
      */
-    private static Collection<Role> collectConnectorEndpoints(final ComposedStructure compositeComponent) {
-        final Collection<Role> connectorEndpoints = new ArrayList<Role>();
-        for (final AssemblyContext context : compositeComponent.getAssemblyContexts__ComposedStructure()) {
-            final RepositoryComponent component = context.getEncapsulatedComponent__AssemblyContext();
-            for (final ProvidedRole providedRole : component.getProvidedRoles_InterfaceProvidingEntity()) {
-                connectorEndpoints.add(providedRole);
+    private static Collection<EndpointInformation> collectConnectorEndpoints(final ComposedStructure compositeComponent) {
+        final Collection<EndpointInformation> connectorEndpoints = new LinkedList<EndpointInformation>();
+        final CompositionSwitch<Collection<EndpointInformation>> connectorSwitch = new CompositionSwitch<Collection<EndpointInformation>>() {
+
+            @Override
+            public Collection<EndpointInformation> caseProvidedDelegationConnector(
+                    final ProvidedDelegationConnector object) {
+                final List<EndpointInformation> result = new LinkedList<EndpointInformation>();
+                result.add(new EndpointInformation(null, object.getInnerProvidedRole_ProvidedDelegationConnector(),
+                        object.getAssemblyContext_ProvidedDelegationConnector()));
+                return result;
             }
-            for (final RequiredRole requiredRole : component.getRequiredRoles_InterfaceRequiringEntity()) {
-                connectorEndpoints.add(requiredRole);
+
+            @Override
+            public Collection<EndpointInformation> caseRequiredDelegationConnector(
+                    final RequiredDelegationConnector object) {
+                final List<EndpointInformation> result = new LinkedList<EndpointInformation>();
+                result.add(new EndpointInformation(null, object.getInnerRequiredRole_RequiredDelegationConnector(),
+                        object.getAssemblyContext_RequiredDelegationConnector()));
+                return result;
             }
+
+            @Override
+            public Collection<EndpointInformation> caseAssemblyConnector(final AssemblyConnector object) {
+                final List<EndpointInformation> result = new LinkedList<EndpointInformation>();
+                result.add(new EndpointInformation(null, object.getProvidedRole_AssemblyConnector(),
+                        object.getProvidingAssemblyContext_AssemblyConnector()));
+                result.add(new EndpointInformation(null, object.getRequiredRole_AssemblyConnector(),
+                        object.getRequiringAssemblyContext_AssemblyConnector()));
+                return result;
+            }
+
+            @Override
+            public Collection<EndpointInformation> defaultCase(final EObject object) {
+                logger.warn("Unknown connector type found when searching for bound endpoints : " + object.eClass());
+                return Collections.emptyList();
+            }
+
+        };
+
+        for (final Connector connector : compositeComponent.getConnectors__ComposedStructure()) {
+            connectorEndpoints.addAll(connectorSwitch.doSwitch(connector));
         }
 
         return connectorEndpoints;
@@ -100,9 +148,9 @@ public class InterfacePortBuilderHelper {
      *            switch for collecting provided or required interfaces
      * @return interface links of direct sub component
      */
-    private static Collection<SubComponentInformation> collectInterfaceLinksOfSubComponents(
+    private static Collection<EndpointInformation> collectComponentEndpoints(
             final ComponentImplementingClassesLink componentLink, final boolean collectProvided) {
-        final Collection<SubComponentInformation> allInterfaceLinks = new ArrayList<SubComponentInformation>();
+        final Collection<EndpointInformation> allInterfaceLinks = new ArrayList<EndpointInformation>();
         for (final ComponentImplementingClassesLink currentSubComponentLink : componentLink.getSubComponents()) {
             List<InterfaceSourceCodeLink> interfaceLinkSubList;
             if (collectProvided) {
@@ -126,8 +174,8 @@ public class InterfacePortBuilderHelper {
                 final Role role = getInterfacePort(currentSubComponentLink, currentInterfaceLinkSub, collectProvided);
 
                 if (role != null) {
-                    allInterfaceLinks.add(
-                            new SubComponentInformation(currentInterfaceLinkSub, role, matchingSubComponentInstance));
+                    allInterfaceLinks
+                            .add(new EndpointInformation(currentInterfaceLinkSub, role, matchingSubComponentInstance));
                 } else {
                     // if no matching role was found for the component do not try
                     // to create a sub component information for the role.
