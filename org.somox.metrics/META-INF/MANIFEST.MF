@@ -13,8 +13,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.somox.kdmhelper;bundle-version="1.0.0",
  org.somox.sourcecodedecorator;bundle-version="1.0.1",
  org.emftext.language.java,
- net.sourceforge.secondstring;bundle-version="1.0.0",
- uk.ac.shef.dcs.simmetrics;bundle-version="1.6.2"
+ net.sourceforge.secondstring;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.somox.metrics,

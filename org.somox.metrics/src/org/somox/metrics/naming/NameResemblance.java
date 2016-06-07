@@ -23,10 +23,8 @@ import org.somox.metrics.helper.ComponentToImplementingClassesHelper;
 import org.somox.metrics.tabs.MetricTab;
 import org.somox.metrics.tabs.NameResemblanceTab;
 
-import uk.ac.shef.wit.simmetrics.similaritymetrics.InterfaceStringMetric;
-import uk.ac.shef.wit.simmetrics.similaritymetrics.JaroWinkler;
-//import de.fzi.gast.core.Root;
-//import de.fzi.gast.types.GASTClass;
+import com.wcohen.ss.JaroWinkler;
+import com.wcohen.ss.api.StringDistance;
 
 class NamePair {
     private final Type class1;
@@ -90,12 +88,12 @@ public class NameResemblance extends AbstractMetric {
 
     private static Logger logger = Logger.getLogger(NameResemblance.class);
 
-    private static final InterfaceStringMetric resemblanceMetric = new JaroWinkler();
+    private static final StringDistance resemblanceMetric = new JaroWinkler();
 
     /**
      * Cache the pairwise computed name resemblances for a given pair of strings
      */
-    private Map<NamePair, Float> nameResemblanceMap;
+    private Map<NamePair, Double> nameResemblanceMap;
 
     /**
      * Set with prefix Strings that will be excluded in every metric-computation
@@ -119,16 +117,16 @@ public class NameResemblance extends AbstractMetric {
             final DirectedGraph<ConcreteClassifier, ClassAccessGraphEdge> accessGraph,
             final ComponentToImplementingClassesHelper componentToImplementingClassesHelper) {
         super.initialize(gastModel, somoxConfiguration, allMetrics, accessGraph, componentToImplementingClassesHelper);
-        this.nameResemblanceMap = new HashMap<NamePair, Float>();
+        this.nameResemblanceMap = new HashMap<NamePair, Double>();
 
         this.excludedPrefixes = this.tokenizeString(somoxConfiguration.getExcludedPrefixesForNameResemblance());
         this.excludedSuffixes = this.tokenizeString(somoxConfiguration.getExcludedSuffixesForNameResemblance());
 
         for (final Type class1 : accessGraph.vertexSet()) {
             for (final Type class2 : accessGraph.vertexSet()) {
-                Float resemblance = this.nameResemblanceMap.get(new NamePair(class1, class2));
+                Double resemblance = this.nameResemblanceMap.get(new NamePair(class1, class2));
                 if (resemblance == null) {
-                    resemblance = resemblanceMetric.getSimilarity(this.trimString(KDMHelper.getName(class1)),
+                    resemblance = resemblanceMetric.score(this.trimString(KDMHelper.getName(class1)),
                             this.trimString(KDMHelper.getName(class2)));
                     this.nameResemblanceMap.put(new NamePair(class1, class2), resemblance);
                 }
@@ -162,7 +160,7 @@ public class NameResemblance extends AbstractMetric {
         double nameResemblance = 0.0;
         for (final Type class1 : classes1) {
             for (final Type class2 : classes2) {
-                final Float resemblance = this.nameResemblanceMap.get(new NamePair(class1, class2));
+                final Double resemblance = this.nameResemblanceMap.get(new NamePair(class1, class2));
                 if (resemblance == null) {
                     throw new RuntimeException("This should not happen as all classes are precomputed");
                 }
