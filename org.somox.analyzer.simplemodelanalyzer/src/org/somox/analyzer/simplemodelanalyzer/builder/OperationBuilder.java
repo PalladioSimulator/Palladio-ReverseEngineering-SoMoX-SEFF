@@ -44,6 +44,8 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
  *
  */
 public class OperationBuilder extends AbstractBuilder {
+    
+    private static final String VOID_TYPE = "void";
 
     private static Logger logger = Logger.getLogger(OperationBuilder.class);
     private CompositeDataType objectDataType;
@@ -424,7 +426,7 @@ public class OperationBuilder extends AbstractBuilder {
         if (null == typeName) {
             return this.returnDefaultDataType(gastType, repository);
         }
-        if (typeName.equals("void")) {
+        if (typeName.equals(VOID_TYPE)) {
             return null;
         }
         DataType newType = null;
@@ -509,7 +511,7 @@ public class OperationBuilder extends AbstractBuilder {
             final String fieldTypeName = KDMHelper.getName(fieldType);
             // avoid self-references and void as access
             if (!fieldType.equals(concreteClassifier) && !fieldTypeName.equals(typeName)
-                    && !fieldTypeName.equals("void")) {
+                    && !fieldTypeName.equals(VOID_TYPE)) {
                 final InnerDeclaration innerElement = RepositoryFactory.eINSTANCE.createInnerDeclaration();
                 final DataType innerDataType = this.getType(fieldType, repository, field);
                 final String innerTypeName = field.getName();
@@ -628,7 +630,7 @@ public class OperationBuilder extends AbstractBuilder {
     }
 
     private DataType checkAndCreatePrimitiveDataType(final String typeName) {
-        if (typeName.equalsIgnoreCase("void")) {
+        if (typeName.equalsIgnoreCase(VOID_TYPE)) {
             // do nothing
         } else if (typeName.equalsIgnoreCase("integer")) {
             return DefaultResourceEnvironment.getPrimitiveDataTypeInteger();
