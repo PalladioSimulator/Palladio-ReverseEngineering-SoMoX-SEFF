@@ -12,7 +12,6 @@ import org.somox.configuration.SoMoXConfiguration;
 import org.somox.ui.runconfig.SoMoXModelAnalyzerConfiguration;
 
 import de.uka.ipd.sdq.workflow.Workflow;
-import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
 import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.launchconfig.AbstractWorkflowBasedLaunchConfigurationDelegate;
@@ -38,6 +37,12 @@ import de.uka.ipd.sdq.workflow.logging.console.LoggerAppenderStruct;
  */
 public class SimpleModelAnalyzerConfigurationDelegate
         extends AbstractWorkflowBasedLaunchConfigurationDelegate<SoMoXModelAnalyzerConfiguration, Workflow> {
+
+    /**
+     * Package prefixes of classes that may log to the user.
+     */
+    private static final String[] LOG_PACKAGES = new String[] { "org.somox", "org.splevo.jamopp" };
+
     /**
      * Keys of attributes that shall be interpreted as Doubles when being received from the launch
      * configuration. They will be parsed using {@link Double#parseDouble(String)}.
@@ -105,8 +110,10 @@ public class SimpleModelAnalyzerConfigurationDelegate
     @Override
     protected ArrayList<LoggerAppenderStruct> setupLogging(final Level logLevel) throws CoreException {
         final ArrayList<LoggerAppenderStruct> loggerList = super.setupLogging(logLevel);
-        loggerList.add(this.setupLogger("org.somox", logLevel,
-                logLevel.isGreaterOrEqual(Level.DEBUG) ? DETAILED_LOG_PATTERN : SHORT_LOG_PATTERN));
+        for (String logPackage : LOG_PACKAGES) {
+            loggerList.add(this.setupLogger(logPackage, logLevel,
+                    logLevel.isGreaterOrEqual(Level.DEBUG) ? DETAILED_LOG_PATTERN : SHORT_LOG_PATTERN));
+        }
         return loggerList;
     }
 }
