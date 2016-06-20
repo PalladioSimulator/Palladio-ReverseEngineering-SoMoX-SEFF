@@ -3,7 +3,6 @@ package org.splevo.jamopp.extraction;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +13,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Factory;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
@@ -31,7 +35,7 @@ import com.google.common.collect.Lists;
  */
 public class JaMoPPSoftwareModelExtractor {
 
-    private static Logger logger = Logger.getLogger(JaMoPPSoftwareModelExtractor.class);
+    private static final Logger LOGGER = Logger.getLogger(JaMoPPSoftwareModelExtractor.class);
 
     public static final boolean EXTRACTOR_EXTRACT_LAYOUT_BY_DEFAULT = false;
     public static final String EXTRACTOR_ID = "JaMoPPSoftwareModelExtractor";
@@ -45,129 +49,111 @@ public class JaMoPPSoftwareModelExtractor {
      * that this one is used for example for the naming of the root inventory produced etc.
      *
      * @param projectPaths
-     *            Source Paths of the projects to be extracted.
-     * @param monitor
-     *            The monitor to report the progress to.
-     * @return The set of resources containing the extracted model. @ Identifies the extraction was
-     *         not successful.
-     */
-    public ResourceSet extractSoftwareModel(final List<String> projectPaths, final IProgressMonitor monitor) {
-        return this.extractSoftwareModel(projectPaths, monitor, null);
-    }
-
-    /**
-     * Extract all java files and referenced resources to a file named according to
-     * {@link JaMoPPSoftwareModelExtractor#XMI_FILE_SEGMENT} within the provided targetURI.
-     *
-     * <p>
-     * If the sourceModelPath is null, the extractor will not use a cache file for improved
-     * reference resolving.
-     * </p>
-     * {@inheritDoc}
-     */
-
-    public ResourceSet extractSoftwareModel(final List<String> projectPaths, final IProgressMonitor monitor,
-            final String sourceModelPath) {
-        return this.extractSoftwareModel(projectPaths, monitor, sourceModelPath,
-                JaMoPPSoftwareModelExtractor.EXTRACTOR_EXTRACT_LAYOUT_BY_DEFAULT);
-    }
-
-    /**
-     * Extract all java files and referenced resources to a file named according to
-     * {@link JaMoPPSoftwareModelExtractor#XMI_FILE_SEGMENT} within the provided targetURI.
-     *
-     * <p>
-     * If the sourceModelPath is null, the extractor will not use a cache file for improved
-     * reference resolving.
-     * </p>
-     *
-     *
-     * @param projectPaths
-     *            Source Paths of the projects to be extracted.
+     *            The projects to be extracted.
      * @param monitor
      *            The monitor to report the progress to.
      * @param sourceModelPath
      *            The absolute path to the directory to store information for extracted source model
-     *            in.
+     *            in. If {@code null}, no reference cache will be used for result resolving, which
+     *            has negative impacts on performance.
      * @param extractLayoutInfo
      *            Option to extract layout information.
      * @return The set of resources containing the extracted model. @ Identifies the extraction was
      *         not successful.
-     *
      */
-    public ResourceSet extractSoftwareModel(final List<String> projectPaths, final IProgressMonitor monitor,
-            final String sourceModelPath, final boolean extractLayoutInfo) {
-
-        if (sourceModelPath != null) {
-            JaMoPPSoftwareModelExtractor.logger.info("Use cache file: " + sourceModelPath);
+    public ResourceSet extractSoftwareModelFromProjects(final List<IJavaProject> projects,
+            final IProgressMonitor monitor, final String sourceModelPath, final boolean extractLayoutInfo) {
+        List<File> javaFiles = new ArrayList<>();
+        try {
+            for (final IJavaProject sourceProject : projects) {
+                for (final IPackageFragmentRoot packageFragmentRoot : sourceProject.getAllPackageFragmentRoots()) {
+                    for (final IJavaElement packageFragment : packageFragmentRoot.getChildren()) {
+                        for (final IJavaElement sourceFile : ((IPackageFragment) packageFragment).getChildren()) {
+                            if (sourceFile.getElementType() == IJavaElement.COMPILATION_UNIT) {
+                                javaFiles.add(sourceFile.getResource().getRawLocation().toFile());
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (final JavaModelException javaModelError) {
+            LOGGER.warn("Error while accessing an analysed project:\n%s", javaModelError);
         }
 
-        // TODO: Refactor Code for more intuitive
-        // loading-resolving-caching-workflow
+        return this.loadJavaFilesIntoResourceSet(javaFiles, monitor, sourceModelPath, extractLayoutInfo);
+    }
+
+    /**
+     * Extract the source model of a list of source folders. One source folder is the main project
+     * while a list of additional projects to analyze can be specified. The reason for one main
+     * folder is, that this one is used for example for the naming of the root inventory produced
+     * etc. All {@code .java} files recursively contained in the source folders will be used.
+     *
+     * @param sourceFolders
+     *            The source folders to be extracted.
+     * @param monitor
+     *            The monitor to report the progress to.
+     * @param sourceModelPath
+     *            The absolute path to the directory to store information for extracted source model
+     *            in. If {@code null}, no reference cache will be used for result resolving, which
+     *            has negative impacts on performance.
+     * @param extractLayoutInfo
+     *            Option to extract layout information.
+     * @return The set of resources containing the extracted model. @ Identifies the extraction was
+     *         not successful.
+     */
+    public ResourceSet extractSoftwareModelFromFolders(final List<File> sourceFolders, final IProgressMonitor monitor,
+            final String sourceModelPath, final boolean extractLayoutInfo) {
+        List<File> javaFiles = new ArrayList<>();
+        for (File sourceFolder : sourceFolders) {
+            javaFiles.addAll(FileUtils.listFiles(sourceFolder, new String[] { "java" }, true));
+        }
+
+        return this.loadJavaFilesIntoResourceSet(javaFiles, monitor, sourceModelPath, extractLayoutInfo);
+    }
+
+    private ResourceSet loadJavaFilesIntoResourceSet(final List<File> javaFiles, final IProgressMonitor monitor,
+            final String sourceModelPath, final boolean extractLayoutInfo) {
+        if (sourceModelPath != null) {
+            LOGGER.info("Using cache file: " + sourceModelPath);
+        }
+
         final ResourceSet targetResourceSet = this.setUpResourceSet(sourceModelPath, extractLayoutInfo);
-        final List<Resource> resources = this.loadProjectJavaFiles(targetResourceSet, projectPaths);
+        final List<Resource> resources = new ArrayList<>();
+
+        int currentFile = 0;
+        for (final File javaFile : javaFiles) {
+            LOGGER.info("loading file: " + (++currentFile) + "/" + javaFiles.size() + " currentFile name: "
+                    + javaFile.getAbsolutePath() + " currentFile size: " + javaFile.length());
+            Resource resource = null;
+
+            try {
+                resource = this.parseResource(javaFile, targetResourceSet);
+            } catch (IOException e) {
+                // will be handled in else below
+            }
+
+            if (resource != null) {
+                resources.add(resource);
+            } else {
+                LOGGER.warn("Failed to load resource: " + javaFile);
+            }
+        }
 
         // trigger the resource resolving as soon as all resources are parsed.
         final ReferenceCache cache = this.getReferenceCache(targetResourceSet);
         int resourceCount = 0;
         for (final Resource resource : resources) {
-            JaMoPPSoftwareModelExtractor.logger.info("Resolving resource: " + (++resourceCount) + "/" + resources.size()
-                    + " resourceName: " + resource.getURI().toString());
+            LOGGER.info("Resolving resource: " + (++resourceCount) + "/" + resources.size() + " resourceName: "
+                    + resource.getURI().toString());
             cache.resolve(resource);
         }
 
         this.triggerCacheSave(targetResourceSet);
 
+        this.sourceResources = resources;
+
         return targetResourceSet;
-    }
-
-    /**
-     * Load all java files found in the projects into a ResourceSet and return the list of created
-     * resources.
-     *
-     * @param targetResourceSet
-     *            The preconfigured resource set to load to.
-     * @param projectPaths
-     *            The base paths of the projects containing the java files.
-     * @return The list of newly created resources. @ thrown if a java file could not be parsed
-     *         successfully.
-     */
-    protected List<Resource> loadProjectJavaFiles(final ResourceSet targetResourceSet,
-            final Iterable<String> projectPaths) {
-        final List<Resource> resources = Lists.newArrayList();
-        this.sourceResources = Lists.newArrayList();
-        for (final String projectPath : projectPaths) {
-            final List<Resource> projectResources = this.loadProjectJavaFiles(targetResourceSet, projectPath);
-            resources.addAll(projectResources);
-            this.sourceResources.addAll(projectResources);
-        }
-        JaMoPPSoftwareModelExtractor.logger
-                .info(String.format("%d Java files added to resource set", resources.size()));
-
-        return resources;
-    }
-
-    /**
-     * Load all java files found in a project into a ResourceSet and return the list of created
-     * resources.
-     *
-     * @param targetResourceSet
-     *            The preconfigured resource set to load to.
-     * @param projectPath
-     *            The base path of the project containing the java files.
-     * @return The list of newly created resources. @ thrown if a java file could not be parsed
-     *         successfully.
-     */
-    private List<Resource> loadProjectJavaFiles(final ResourceSet targetResourceSet, final String projectPath) {
-        List<Resource> projectResources;
-        try {
-            final File srcFolder = new File(projectPath);
-            srcFolder.isDirectory();
-            projectResources = this.loadAllJavaFilesInResourceSet(srcFolder, targetResourceSet);
-        } catch (final Exception e) {
-            throw new RuntimeException("Failed to parse project resources. Project: " + projectPath, e);
-        }
-        return projectResources;
     }
 
     /**
@@ -178,7 +164,7 @@ public class JaMoPPSoftwareModelExtractor {
      */
     private void triggerCacheSave(final ResourceSet targetResourceSet) {
         final ReferenceCache cache = this.getReferenceCache(targetResourceSet);
-        JaMoPPSoftwareModelExtractor.logger
+        JaMoPPSoftwareModelExtractor.LOGGER
                 .debug("References not resolved from Cache: " + cache.getNotResolvedFromCacheCounterReference());
         cache.save();
     }
@@ -196,38 +182,6 @@ public class JaMoPPSoftwareModelExtractor {
         final JavaSourceOrClassFileResourceCachingFactoryImpl factory = (JavaSourceOrClassFileResourceCachingFactoryImpl) factoryObject;
         final ReferenceCache cache = factory.getReferenceCache();
         return cache;
-    }
-
-    /**
-     * Load a all files as resource in a specific folder and it's sub folders.
-     *
-     * @param rootFolder
-     *            The root folder to recursively load all resources from.
-     * @param rs
-     *            The resource set to add it to.
-     * @return The number of loaded java files.
-     * @throws IOException
-     *             An exception during resource access.
-     */
-    private List<Resource> loadAllJavaFilesInResourceSet(final File rootFolder, final ResourceSet rs)
-            throws IOException {
-
-        final List<Resource> resources = Lists.newArrayList();
-
-        final Collection<File> javaFiles = FileUtils.listFiles(rootFolder, new String[] { "java" }, true);
-        int currentFile = 0;
-        for (final File javaFile : javaFiles) {
-            JaMoPPSoftwareModelExtractor.logger.info("loading file: " + (++currentFile) + "/" + javaFiles.size()
-                    + " currentFile name: " + javaFile.getAbsolutePath() + " currentFile size: " + javaFile.length());
-            final Resource resource = this.parseResource(javaFile, rs);
-            if (resource != null) {
-                resources.add(resource);
-            } else {
-                JaMoPPSoftwareModelExtractor.logger.warn("Failed to load resource: " + javaFile);
-            }
-        }
-
-        return resources;
     }
 
     /**

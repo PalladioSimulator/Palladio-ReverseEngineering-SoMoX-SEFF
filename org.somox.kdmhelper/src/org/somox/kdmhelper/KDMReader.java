@@ -1,5 +1,6 @@
 package org.somox.kdmhelper;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,6 +17,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
@@ -43,18 +46,40 @@ public class KDMReader {
      * @throws IOException
      */
     public void loadProject(final String... projects) throws IOException {
-        final List<IProject> iProjects = new ArrayList<IProject>();
+        final JaMoPPSoftwareModelExtractor softwareModelExtractor = new JaMoPPSoftwareModelExtractor();
+        final Path cacheFileDir = Paths.get(System.getProperty("java.io.tmpdir", "/tmp/"),
+                "JaMoPPGeneratorJobCacheDirSoMoX");
+        final boolean extractLayoutInformation = true;
+
+        KDMReader.logger.trace("Start loading projects: " + Arrays.toString(projects));
+
         if (SoMoXUtil.isStandalone()) {
-            this.loadPathes(Arrays.asList(projects));
+            List<File> sourceFolderPaths = new ArrayList<>();
+            for (String projectPath : projects) {
+                sourceFolderPaths.add(new File(projectPath));
+            }
+            softwareModelExtractor.extractSoftwareModelFromFolders(sourceFolderPaths, new NullProgressMonitor(),
+                    cacheFileDir.toString(), extractLayoutInformation);
         } else {
+            List<IJavaProject> javaProjects = new ArrayList<>();
             for (final String projectName : projects) {
                 final IWorkspace workspace = ResourcesPlugin.getWorkspace();
                 final IWorkspaceRoot workspaceRoot = workspace.getRoot();
                 final IProject project = workspaceRoot.getProject(projectName);
-                iProjects.add(project);
+                IJavaProject javaProject = JavaCore.create(project);
+                if (javaProject.exists()) {
+                    javaProjects.add(javaProject);
+                } else {
+                    KDMReader.logger.warn(String
+                            .format("Project %s is not a java project in this workspace. Ignoring it.", projectName));
+                }
             }
-            this.loadProject(iProjects.toArray(new IProject[iProjects.size()]));
+            softwareModelExtractor.extractSoftwareModelFromProjects(javaProjects, new NullProgressMonitor(),
+                    cacheFileDir.toString(), extractLayoutInformation);
         }
+
+        this.addModelsToRoot(softwareModelExtractor.getSourceResources());
+        KDMReader.logger.trace("Finished reading projects.");
     }
 
     public void loadProject(final IProject... projects) throws IOException {
@@ -62,18 +87,11 @@ public class KDMReader {
         for (final IProject project : projects) {
             projectPaths.add(project.getLocation().toString());
         }
-        KDMReader.logger.trace("Start loading projects: " + projectPaths);
         this.loadPathes(projectPaths);
     }
 
     private void loadPathes(final List<String> projectPaths) {
-        final JaMoPPSoftwareModelExtractor softwareModelExtractor = new JaMoPPSoftwareModelExtractor();
-        final Path cacheFileDir = Paths.get(System.getProperty("java.io.tmpdir", "/tmp/"), "JaMoPPGeneratorJobCacheDirSoMoX");
-        final boolean extractLayoutInformation = true;
-        softwareModelExtractor.extractSoftwareModel(projectPaths, new NullProgressMonitor(), cacheFileDir.toString(),
-                extractLayoutInformation);
-        this.addModelsToRoot(softwareModelExtractor.getSourceResources());
-        KDMReader.logger.trace("Finished reading projects.");
+
     }
 
     public void addModelsToRoot(final Collection<Resource> resources) {

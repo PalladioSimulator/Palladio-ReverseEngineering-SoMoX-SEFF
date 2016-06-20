@@ -2,12 +2,10 @@ package org.somox.test.gast2seff.visitors;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.ClassMethod;
@@ -17,7 +15,7 @@ import org.emftext.language.java.statements.Statement;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.somox.gast2seff.visitors.MethodCallFinder;
-import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
+import org.somox.kdmhelper.KDMReader;
 
 public class MethodCallFinderTest {
 
@@ -28,14 +26,13 @@ public class MethodCallFinderTest {
     private static ConcreteClassifier concreteClassifier;
 
     @BeforeClass
-    public static void beforeClass() {
+    public static void beforeClass() throws IOException {
         // get the statement from the prepared test compilation unit
         JaMoPP2PCMBaseTest.initializeLogger();
         JaMoPPUtil.initialize();
-        final JaMoPPSoftwareModelExtractor softwareModelExtractor = new JaMoPPSoftwareModelExtractor();
-        final ResourceSet resourceSet =
-                softwareModelExtractor.extractSoftwareModel(Arrays.asList(PROJECT_PATH), new NullProgressMonitor());
-        final CompilationUnit cu = (CompilationUnit) resourceSet.getResources().get(0).getContents().get(0);
+        final KDMReader modelReader = new KDMReader();
+        modelReader.loadProject(PROJECT_PATH);
+        final CompilationUnit cu = (CompilationUnit) modelReader.getRoot().getCompilationUnits().get(0);
         concreteClassifier = cu.getClassifiers().get(0);
     }
 
@@ -83,8 +80,8 @@ public class MethodCallFinderTest {
     @Test(timeout = 1000)
     public void visitorUtilTestMethodWithManyMethodCalls() {
         final String testMethodName = JaMoPP2PCMBaseTest.getTestMethodName();
-        final List<Method> calledMethods =
-                this.testDoGetMethodCallsForFirstStatementInMethodWithNameWithoutAssert(testMethodName);
+        final List<Method> calledMethods = this
+                .testDoGetMethodCallsForFirstStatementInMethodWithNameWithoutAssert(testMethodName);
 
         logger.debug("Found " + calledMethods.size() + " calledMethods for method " + testMethodName);
     }
@@ -104,8 +101,8 @@ public class MethodCallFinderTest {
 
     private void testDoGetMethodCallsForFirstStatementInMethodWithName(final String methodName,
             final String... expectedMethodNames) {
-        final List<Method> methodCalls =
-                this.testDoGetMethodCallsForFirstStatementInMethodWithNameWithoutAssert(methodName);
+        final List<Method> methodCalls = this
+                .testDoGetMethodCallsForFirstStatementInMethodWithNameWithoutAssert(methodName);
 
         // assert the correct number of method calls
         assertEquals("Could not find the expected size of method calls", expectedMethodNames.length,
