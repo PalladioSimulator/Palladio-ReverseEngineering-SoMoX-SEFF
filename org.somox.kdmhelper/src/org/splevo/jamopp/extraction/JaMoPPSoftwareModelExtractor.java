@@ -3,7 +3,9 @@ package org.splevo.jamopp.extraction;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +65,7 @@ public class JaMoPPSoftwareModelExtractor {
      */
     public ResourceSet extractSoftwareModelFromProjects(final List<IJavaProject> projects,
             final IProgressMonitor monitor, final String sourceModelPath, final boolean extractLayoutInfo) {
-        List<File> javaFiles = new ArrayList<>();
+        Collection<File> javaFiles = new HashSet<>();
         try {
             for (final IJavaProject sourceProject : projects) {
                 for (final IPackageFragmentRoot packageFragmentRoot : sourceProject.getAllPackageFragmentRoots()) {
@@ -102,7 +104,7 @@ public class JaMoPPSoftwareModelExtractor {
      * @return The set of resources containing the extracted model. @ Identifies the extraction was
      *         not successful.
      */
-    public ResourceSet extractSoftwareModelFromFolders(final List<File> sourceFolders, final IProgressMonitor monitor,
+    public ResourceSet extractSoftwareModelFromFolders(final Iterable<File> sourceFolders, final IProgressMonitor monitor,
             final String sourceModelPath, final boolean extractLayoutInfo) {
         List<File> javaFiles = new ArrayList<>();
         for (File sourceFolder : sourceFolders) {
@@ -112,7 +114,7 @@ public class JaMoPPSoftwareModelExtractor {
         return this.loadJavaFilesIntoResourceSet(javaFiles, monitor, sourceModelPath, extractLayoutInfo);
     }
 
-    private ResourceSet loadJavaFilesIntoResourceSet(final List<File> javaFiles, final IProgressMonitor monitor,
+    private ResourceSet loadJavaFilesIntoResourceSet(final Collection<File> javaFiles, final IProgressMonitor monitor,
             final String sourceModelPath, final boolean extractLayoutInfo) {
         if (sourceModelPath != null) {
             LOGGER.info("Using cache file: " + sourceModelPath);
