@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.internal.resources.WorkspaceRoot;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -29,6 +30,8 @@ public class KDMReader {
     // Resource
 
     private final static Logger logger = Logger.getLogger(KDMReader.class.getName());
+
+    private final static IWorkspaceRoot WORKSPACE_ROOT = ResourcesPlugin.getWorkspace().getRoot();
 
     public KDMReader() {
         this.root = new Root();
@@ -63,10 +66,8 @@ public class KDMReader {
         } else {
             List<IJavaProject> javaProjects = new ArrayList<>();
             for (final String projectName : projects) {
-                final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-                final IWorkspaceRoot workspaceRoot = workspace.getRoot();
-                final IProject project = workspaceRoot.getProject(projectName);
-                IJavaProject javaProject = JavaCore.create(project);
+                final IProject project = WORKSPACE_ROOT.getProject(projectName);
+                final IJavaProject javaProject = JavaCore.create(project);
                 if (javaProject.exists()) {
                     javaProjects.add(javaProject);
                 } else {
