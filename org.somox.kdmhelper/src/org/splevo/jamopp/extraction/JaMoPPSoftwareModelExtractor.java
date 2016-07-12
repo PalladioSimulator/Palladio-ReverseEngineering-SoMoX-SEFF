@@ -63,16 +63,20 @@ public class JaMoPPSoftwareModelExtractor {
      * @return The set of resources containing the extracted model. @ Identifies the extraction was
      *         not successful.
      */
-    public ResourceSet extractSoftwareModelFromProjects(final List<IJavaProject> projects,
+    public ResourceSet extractSoftwareModelFromProjects(final Collection<IJavaProject> projects,
             final IProgressMonitor monitor, final String sourceModelPath, final boolean extractLayoutInfo) {
         Collection<File> javaFiles = new HashSet<>();
+
         try {
             for (final IJavaProject sourceProject : projects) {
                 for (final IPackageFragmentRoot packageFragmentRoot : sourceProject.getAllPackageFragmentRoots()) {
-                    for (final IJavaElement packageFragment : packageFragmentRoot.getChildren()) {
-                        for (final IJavaElement sourceFile : ((IPackageFragment) packageFragment).getChildren()) {
-                            if (sourceFile.getElementType() == IJavaElement.COMPILATION_UNIT) {
-                                javaFiles.add(sourceFile.getResource().getRawLocation().toFile());
+                    if (packageFragmentRoot.getKind() == IPackageFragmentRoot.K_SOURCE) {
+                        for (final IJavaElement rootChild : packageFragmentRoot.getChildren()) {
+                            final IPackageFragment packageFragment = (IPackageFragment) rootChild;
+                            for (final IJavaElement sourceFile : packageFragment.getChildren()) {
+                                if (sourceFile.getElementType() == IJavaElement.COMPILATION_UNIT) {
+                                    javaFiles.add(sourceFile.getResource().getRawLocation().toFile());
+                                }
                             }
                         }
                     }
@@ -104,8 +108,8 @@ public class JaMoPPSoftwareModelExtractor {
      * @return The set of resources containing the extracted model. @ Identifies the extraction was
      *         not successful.
      */
-    public ResourceSet extractSoftwareModelFromFolders(final Iterable<File> sourceFolders, final IProgressMonitor monitor,
-            final String sourceModelPath, final boolean extractLayoutInfo) {
+    public ResourceSet extractSoftwareModelFromFolders(final Iterable<File> sourceFolders,
+            final IProgressMonitor monitor, final String sourceModelPath, final boolean extractLayoutInfo) {
         List<File> javaFiles = new ArrayList<>();
         for (File sourceFolder : sourceFolders) {
             javaFiles.addAll(FileUtils.listFiles(sourceFolder, new String[] { "java" }, true));
