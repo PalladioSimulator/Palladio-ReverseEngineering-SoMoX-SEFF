@@ -140,21 +140,12 @@ public class EqualityChecker {
         return false;
     }
 
-    private static TypeReference getReturnTypeAccess(final Method function) {// REALLYADDED
-        if (function instanceof Method) {// REALLYADDED
-            final Method method = function;// REALLYADDED
-            return method.getTypeReference();// REALLYADDED
-        } else {// REALLYADDED
-            return null;// REALLYADDED
-        } // REALLYADDED
-    }// REALLYADDED
-
-    // SOMOXTODOCHANGE
-    // private static Type getTypeFromTypeAccess(TypeAccess typeAccess){
-    // if(typeAccess == null){
-    // return null;
-    // } else{
-    // return typeAccess.getType();
-    // }
-    // }
+    private static TypeReference getReturnTypeAccess(final Method function) {
+        if (function instanceof Method) {
+            final Method method = function;
+            return method.getTypeReference();
+        } else {
+            return null;
+        }
+    }
 }
