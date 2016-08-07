@@ -10,8 +10,6 @@ import org.emftext.language.java.types.TypeReference;
 
 //import de.fzi.gast.functions.Function;
 
-//SOMOXTODOCHANGE more precise compare of Type (->Parameterized Type)
-
 /**
  * Helper class
  *

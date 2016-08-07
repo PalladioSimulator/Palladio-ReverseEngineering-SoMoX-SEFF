@@ -658,6 +658,9 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
      *            Statements that are represented by {@code seffElement}.
      */
     private void linkSeffElement(final Identifier seffElement, final List<Statement> statements) {
+        if (null == this.sourceCodeDecoratorRepository) {
+            return;
+        }
         final SeffElementSourceCodeLink link;
         if (this.seffElemestSourceCodeLinks.containsKey(seffElement)) {
             link = this.seffElemestSourceCodeLinks.get(seffElement);

@@ -7,6 +7,10 @@ import org.palladiosimulator.pcm.seff.SeffFactory;
 
 public class InternalCallActionTestHelper {
 
+    private InternalCallActionTestHelper() {
+
+    }
+
     public static InternalCallAction createRecursiveInternalCallAction() {
         return createInternalCallAction(true);
     }
@@ -18,8 +22,8 @@ public class InternalCallActionTestHelper {
 
     public static InternalCallAction createInternalCallAction(final boolean recursiveCallsItselfOnly,
             final AbstractAction... expectedBehaviorOfResourceInternalBehaviour) {
-        final ResourceDemandingInternalBehaviour resourceDemandingInternalBehaviour =
-                SeffFactory.eINSTANCE.createResourceDemandingInternalBehaviour();
+        final ResourceDemandingInternalBehaviour resourceDemandingInternalBehaviour = SeffFactory.eINSTANCE
+                .createResourceDemandingInternalBehaviour();
         resourceDemandingInternalBehaviour.getSteps_Behaviour().add(SeffFactory.eINSTANCE.createStartAction());
         if (recursiveCallsItselfOnly) {
             final InternalCallAction recursiveInternalCallAction = SeffFactory.eINSTANCE.createInternalCallAction();
