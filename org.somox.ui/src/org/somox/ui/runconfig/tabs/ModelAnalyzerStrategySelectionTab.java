@@ -83,7 +83,7 @@ public class ModelAnalyzerStrategySelectionTab extends AbstractLaunchConfigurati
         inputFileTypeGroup.setText("Select Reverse Engineering Strategies:");
         inputFileTypeGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-        this.reverseEngineerAllInterfaces = this.createAndAddSWTCheckButton(inputFileTypeGroup,
+        this.reverseEngineerAllInterfaces = createAndAddSWTCheckButton(inputFileTypeGroup,
                 "Reverse engineer interfaces which are not assigned to components",
                 "Reverse engineer interfaces which are not assigned to components. If set to disabled, only interface which are provided or required by compoenents will be reverse engineered.",
                 selectionListener, new SelectionListener() {
@@ -102,7 +102,7 @@ public class ModelAnalyzerStrategySelectionTab extends AbstractLaunchConfigurati
 
                 });
 
-        this.reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour = this.createAndAddSWTCheckButton(
+        this.reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour = createAndAddSWTCheckButton(
                 inputFileTypeGroup, "Reverse engineer internal method calls as ResourceDemandingInternalBehaviour",
                 "Reverse engineer internal method calls as ResourceDemandingInternalBehaviour. If set to disabled, no ResourceDemandingInternalBehaviour (default) will be created. If enabled ResourceDemandingInternalBehaviour are created, which leads to bigger models. ",
                 selectionListener, new SelectionListener() {
@@ -132,7 +132,7 @@ public class ModelAnalyzerStrategySelectionTab extends AbstractLaunchConfigurati
         }
     }
 
-    private Button createAndAddSWTCheckButton(final Composite inputFileTypeGroup, final String label,
+    public static Button createAndAddSWTCheckButton(final Composite inputFileTypeGroup, final String label,
             final String toolTip, final SelectionListener... selectionListeners) {
         final Button button = new Button(inputFileTypeGroup, SWT.CHECK);
         button.setText(label);
@@ -157,7 +157,8 @@ public class ModelAnalyzerStrategySelectionTab extends AbstractLaunchConfigurati
     public void initializeFrom(final ILaunchConfiguration configuration) {
         try {
             this.reverseEngineerAllInterfaces.setSelection(configuration.getAttribute(
-                    AbstractMoxConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES, false));
+                    AbstractMoxConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERFACES_NOT_ASSIGNED_TO_INTERFACES,
+                    false));
             this.reverseEngineerInternalMethodsAsResourceDemandingInternalBehaviour
                     .setSelection(configuration.getAttribute(
                             AbstractMoxConfiguration.SOMOX_ANALYZER_REVERSE_ENGINEER_INTERNAL_METHODS_AS_RESOURCE_DEMANDING_INTERNAL_BEHAVIOUR,
