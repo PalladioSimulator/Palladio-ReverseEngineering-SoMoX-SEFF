@@ -5,7 +5,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.somox.filter.BaseFilter;
 import org.somox.filter.BlacklistFilter;
+import org.somox.filter.ComposedFilter;
+import org.somox.filter.tests.TestFileFilter;
 
 /**
  * SoMoX’ central configuration.
@@ -139,7 +143,8 @@ public class SoMoXConfiguration extends AbstractMoxConfiguration {
 
     private String additionalWildcards = "";
 
-    private BlacklistFilter blacklistFilter = null;
+    private final BlacklistFilter blacklistFilter = new BlacklistFilter();
+    private ComposedFilter<ConcreteClassifier> classifierFilter = new ComposedFilter<>(new TestFileFilter(), blacklistFilter);
 
     private final ClusteringConfiguration clusteringConfig = new ClusteringConfiguration();
     private String excludedPrefixesForNameResemblance = "";
@@ -326,11 +331,10 @@ public class SoMoXConfiguration extends AbstractMoxConfiguration {
     }
 
     /**
-     * @return the {@link BlacklistFilter} or {@code null} if
-     *         {@link #setWildcardKey(String, String)} has not been called yet.
+     * @return The filter to use when deciding which concrete classifiers to take into account. Includes the filters configured through {@link #setAdditionalWildcards(String)}.
      */
-    public BlacklistFilter getBlacklistFilter() {
-        return this.blacklistFilter;
+    public BaseFilter<ConcreteClassifier> getClassifierFilter() {
+        return this.classifierFilter;
     }
 
     /**
@@ -532,7 +536,7 @@ public class SoMoXConfiguration extends AbstractMoxConfiguration {
         if (this.additionalWildcards != null && this.additionalWildcards.length() > 0) {
             wildCardList.add(this.additionalWildcards);
         }
-        this.blacklistFilter = new BlacklistFilter(wildCardList);
+        this.blacklistFilter.setBlacklist(wildCardList);
     }
 
 }

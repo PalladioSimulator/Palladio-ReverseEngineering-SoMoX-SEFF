@@ -56,7 +56,7 @@ public class GastToPrimitiveComponentInitializationStrategy extends AbstractInit
     @SuppressWarnings("unchecked")
     private ComposedFilter<ConcreteClassifier> getFilter(final SoMoXConfiguration config) {
         final ComposedFilter<ConcreteClassifier> gastClassFilter = new ComposedFilter<ConcreteClassifier>(
-                config.getBlacklistFilter(), new EClassBasedFilter<ConcreteClassifier>(
+                config.getClassifierFilter(), new EClassBasedFilter<ConcreteClassifier>(
         /* JavaPackage.eINSTANCE.getEnumDeclaration() */), // SOMOXTODOCHANGE removed because
                 // old version passes enums
                 // /*typesPackage.eINSTANCE.getGASTUnion())*/,//SOMOXTODOCHANGE

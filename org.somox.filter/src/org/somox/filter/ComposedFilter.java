@@ -1,13 +1,16 @@
 package org.somox.filter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class ComposedFilter<T> extends BaseFilter<T> {
 
-    final private BaseFilter<T>[] innerFilter;
+    final private ArrayList<BaseFilter<T>> innerFilter = new ArrayList<>();
 
     public ComposedFilter(final BaseFilter<T>... innerFilter) {
         super();
 
-        this.innerFilter = innerFilter;
+        this.addFilter(innerFilter);
     }
 
     @Override
@@ -18,6 +21,10 @@ public class ComposedFilter<T> extends BaseFilter<T> {
             }
         }
         return true;
+    }
+    
+    public void addFilter(BaseFilter<T>... filters) {
+        this.innerFilter.addAll(Arrays.asList(filters));
     }
 
 }

@@ -9,19 +9,19 @@ import org.somox.kdmhelper.GetAccessedType;
 
 /**
  * This class filters a list of Accesses based on the accessed class. If the accessed class is in
- * the blacklist then the current access is also removed.
+ * the classifier filter, then the current access is also removed.
  *
  * @author Steffen Becker
  */
 public class AccessedTargetBlacklistFilter extends BaseFilter<Member> {
-    private BlacklistFilter blacklistFilter = null;
+    private BaseFilter<ConcreteClassifier> classifierFilter;;
 
-    public AccessedTargetBlacklistFilter(final BlacklistFilter blacklistFilter) {
+    public AccessedTargetBlacklistFilter(final BaseFilter<ConcreteClassifier> classifierFilter) {
         super();
-        if (blacklistFilter == null) {
+        if (classifierFilter == null) {
             throw new IllegalArgumentException("Blacklistfilter must not be null");
         }
-        this.blacklistFilter = blacklistFilter;
+        this.classifierFilter = classifierFilter;
     }
 
     @Override
@@ -30,10 +30,10 @@ public class AccessedTargetBlacklistFilter extends BaseFilter<Member> {
         if (accessedClass == null && !(accessedClass instanceof ConcreteClassifier)) {
             return false;
         }
-        return this.blacklistFilter.passes((ConcreteClassifier) accessedClass);
+        return this.classifierFilter.passes((ConcreteClassifier) accessedClass);
     }
 
-    public BlacklistFilter getBlacklist() {
-        return this.blacklistFilter;
+    public BaseFilter<ConcreteClassifier> getClassifierFilter() {
+        return this.classifierFilter;
     }
 }

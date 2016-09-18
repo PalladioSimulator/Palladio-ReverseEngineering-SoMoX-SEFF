@@ -546,12 +546,12 @@ public class OperationBuilder extends AbstractBuilder {
     }
 
     private boolean isClassifierOnBlacklist(final ConcreteClassifier concreteClassifier) {
-        if (null == this.somoxConfiguration || null == this.somoxConfiguration.getBlacklistFilter()) {
+        if (null == this.somoxConfiguration || null == this.somoxConfiguration.getClassifierFilter()) {
             // if we do not have a somox configuration or a blacklist filter we assume that the
             // classifier is not on the blacklist
             return false;
         }
-        return !super.somoxConfiguration.getBlacklistFilter().passes(concreteClassifier);
+        return !super.somoxConfiguration.getClassifierFilter().passes(concreteClassifier);
     }
 
     private boolean isClassifierInSourceProject(final ConcreteClassifier concreteClassifier) {

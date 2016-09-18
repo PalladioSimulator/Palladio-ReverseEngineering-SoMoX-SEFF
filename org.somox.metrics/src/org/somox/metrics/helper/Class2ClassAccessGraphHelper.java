@@ -68,7 +68,7 @@ public class Class2ClassAccessGraphHelper {
         assert noPrimitiveTypesAsVertexes(accessGraph);
 
         final AccessedTargetBlacklistFilter filter = new AccessedTargetBlacklistFilter(
-                somoxConfiguration.getBlacklistFilter());
+                somoxConfiguration.getClassifierFilter());
 
         for (final ConcreteClassifier clazz : componentsImplementingClasses) {
             addAccessesToGraph(accessGraph, filter, clazz);

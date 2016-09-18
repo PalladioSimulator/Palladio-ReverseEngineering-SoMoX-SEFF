@@ -38,7 +38,7 @@ public class NoGastClassToPrimitiveComponentInitializationStrategy extends Abstr
         final List<ConcreteClassifier> classList = root.getNormalClasses();
 
         final ComposedFilter<ConcreteClassifier> gastClassFilter = new ComposedFilter<ConcreteClassifier>(
-                config.getBlacklistFilter(),
+                config.getClassifierFilter(),
                 new EClassBasedFilter<ConcreteClassifier>(KDMHelper.getNewEClassEnumeration()), // TODO
                                                                                                 // SOMOXTODOCHANGE
                 // typesPackage.eINSTANCE.getGASTUnion()),//SOMOXTODOCHANGE

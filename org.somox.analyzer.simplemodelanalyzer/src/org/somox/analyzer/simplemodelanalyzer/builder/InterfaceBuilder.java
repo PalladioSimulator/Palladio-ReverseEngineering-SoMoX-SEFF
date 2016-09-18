@@ -151,7 +151,7 @@ public class InterfaceBuilder extends AbstractBuilder {
         // remove self accesses inside component (NOT equal to a self access)
         filteredAccessedClasses.removeAll(componentClasses);
 
-        for (final ConcreteClassifier accessedClass : this.somoxConfiguration.getBlacklistFilter()
+        for (final ConcreteClassifier accessedClass : this.somoxConfiguration.getClassifierFilter()
                 .filter(filteredAccessedClasses)) {
             if (this.interfaceStrategy.isComponentInterface(accessedClass)) {
 
@@ -198,7 +198,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 
         for (final ConcreteClassifier gastClass : componentCandidate.getImplementingClasses()) {
             final List<ConcreteClassifier> superTypes = KDMHelper.getSuperTypes(gastClass);
-            for (final ConcreteClassifier superType : this.somoxConfiguration.getBlacklistFilter().filter(superTypes)) {
+            for (final ConcreteClassifier superType : this.somoxConfiguration.getClassifierFilter().filter(superTypes)) {
                 this.createInterfaceForSupertype(componentCandidate, gastClass, superType);
             }
         }
@@ -281,7 +281,7 @@ public class InterfaceBuilder extends AbstractBuilder {
             final ConcreteClassifier gastClass, final ConcreteClassifier superType) {
 
         // Recursively traverse all supertypes
-        for (final ConcreteClassifier ownSuperType : this.somoxConfiguration.getBlacklistFilter()
+        for (final ConcreteClassifier ownSuperType : this.somoxConfiguration.getClassifierFilter()
                 .filter(KDMHelper.getSuperTypes(superType))) {
             this.createInterfaceForSupertype(componentCandidate, gastClass, ownSuperType);
         }
@@ -405,7 +405,7 @@ public class InterfaceBuilder extends AbstractBuilder {
                     .getInheritanceTypeAccesses(interfaceClass)) {
                 final Classifier superType = inheritanceTypeAccess.getTarget();
                 if (superType instanceof ConcreteClassifier) {
-                    if (this.somoxConfiguration.getBlacklistFilter().passes((ConcreteClassifier) superType)
+                    if (this.somoxConfiguration.getClassifierFilter().passes((ConcreteClassifier) superType)
                             && this.interfaceStrategy.isComponentInterface((ConcreteClassifier) superType)) {
                         final Interface parentInterface = this.createInterface(implementingClass,
                                 (ConcreteClassifier) superType);
