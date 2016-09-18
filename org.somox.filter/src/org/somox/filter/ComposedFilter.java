@@ -22,7 +22,7 @@ public class ComposedFilter<T> extends BaseFilter<T> {
         }
         return true;
     }
-    
+
     public void addFilter(BaseFilter<T>... filters) {
         this.innerFilter.addAll(Arrays.asList(filters));
     }

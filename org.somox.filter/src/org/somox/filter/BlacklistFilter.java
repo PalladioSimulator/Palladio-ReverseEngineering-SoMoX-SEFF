@@ -19,7 +19,7 @@ public class BlacklistFilter extends BaseFilter<ConcreteClassifier> {
     private static Logger logger = Logger.getLogger(BlacklistFilter.class);
 
     private Pattern matchPattern = null;
-    
+
     public BlacklistFilter() {
         this.matchPattern = Pattern.compile(".*");
     }
@@ -29,7 +29,7 @@ public class BlacklistFilter extends BaseFilter<ConcreteClassifier> {
 
         this.setBlacklist(blacklist);
     }
-    
+
     public void setBlacklist(final Set<String> blacklist) {
         this.matchPattern = deriveMatchPattern(blacklist);
     }
