@@ -29,7 +29,7 @@ public class TestFileFilter extends BaseFilter<ConcreteClassifier> {
 
     @Override
     public boolean passes(ConcreteClassifier object) {
-        return !cache.computeIfAbsent(object, this::isTestFile);
+        return cache.computeIfAbsent(object, this::isTestFile);
     }
 
     /**
