@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.apache.log4j.Logger;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.containers.CompilationUnit;
 import org.somox.filter.BaseFilter;
 import org.somox.filter.BlacklistFilter;
 
@@ -29,7 +30,7 @@ public class TestFileFilter extends BaseFilter<ConcreteClassifier> {
 
     @Override
     public boolean passes(ConcreteClassifier object) {
-        return cache.computeIfAbsent(object, this::isTestFile);
+        return !cache.computeIfAbsent(object, this::isTestFile);
     }
 
     /**
@@ -41,15 +42,19 @@ public class TestFileFilter extends BaseFilter<ConcreteClassifier> {
      * @return Whether the provided {@code classifier} is a test file.
      */
     private boolean isTestFile(final ConcreteClassifier classifier) {
-        final Path compilationUnitPath = EmfResource.getPath(classifier.getContainingCompilationUnit().eResource());
-        if (compilationUnitPath != null) {
-            final boolean isTestFile = this.isTestFile(compilationUnitPath);
-            if (isTestFile) {
-                logger.debug("Excluded \"" + compilationUnitPath + "\" because it’s a test file.");
-            }
-            return !isTestFile;
+        final CompilationUnit compilationUnit = classifier.getContainingCompilationUnit();
+        if (compilationUnit == null) {
+            return false;
         }
-        return false;
+        final Path compilationUnitPath = EmfResource.getPath(compilationUnit.eResource());
+        if (compilationUnitPath == null) {
+            return false;
+        }
+        final boolean isTestFile = this.isTestFile(compilationUnitPath);
+        if (isTestFile) {
+            logger.debug("Excluded \"" + compilationUnitPath + "\" because it’s a test file.");
+        }
+        return isTestFile;
     }
 
     /**
