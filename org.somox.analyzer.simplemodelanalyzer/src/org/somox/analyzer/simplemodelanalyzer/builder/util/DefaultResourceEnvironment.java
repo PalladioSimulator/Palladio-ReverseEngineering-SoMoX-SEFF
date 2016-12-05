@@ -1,6 +1,7 @@
 package org.somox.analyzer.simplemodelanalyzer.builder.util;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -20,6 +21,7 @@ import org.palladiosimulator.pcm.resourceenvironment.ResourceenvironmentFactory;
 import org.palladiosimulator.pcm.resourceenvironment.ResourceenvironmentPackage;
 import org.palladiosimulator.pcm.resourcetype.ProcessingResourceType;
 import org.palladiosimulator.pcm.resourcetype.ResourceRepository;
+import org.palladiosimulator.pcm.resourcetype.ResourceType;
 import org.palladiosimulator.pcm.resourcetype.SchedulingPolicy;
 
 /**
@@ -30,10 +32,14 @@ import org.palladiosimulator.pcm.resourcetype.SchedulingPolicy;
  *
  */
 public class DefaultResourceEnvironment {
-
+    
     public static final String RESOURCETYPE_URI = "pathmap://PCM_MODELS/Palladio.resourcetype";
 
     public static final String PRIMITIVETYPES_URI = "pathmap://PCM_MODELS/PrimitiveTypes.repository";
+    
+    private static final String CPU_RESOURCETYPE_NAME = "CPU";
+    
+    private static final String DELAY_RESOURCETYPE_NAME = "DELAY";
 
     /** cached instance of default resource environment. */
     private static ResourceEnvironment resourceEnvironment;
@@ -139,9 +145,23 @@ public class DefaultResourceEnvironment {
     }
 
     public static ProcessingResourceType getCPUProcessingResourceType() {
-        return (ProcessingResourceType) getResourceRepository().getAvailableResourceTypes_ResourceRepository().get(0);
+        return getProcessingResourceType(CPU_RESOURCETYPE_NAME);
     }
 
+    public static ProcessingResourceType getDelayProcessingResourceType() {
+        return getProcessingResourceType(DELAY_RESOURCETYPE_NAME);
+    }
+
+    private static ProcessingResourceType getProcessingResourceType(String name) {
+        List<ResourceType> resourceTypes = getResourceRepository().getAvailableResourceTypes_ResourceRepository();
+        for (ResourceType type : resourceTypes) {
+            if (type.getEntityName().equals(name)) {
+                return (ProcessingResourceType) type;
+            }
+        }
+        throw new RuntimeException("Could not find resource type named \"" + name + "\" in " + RESOURCETYPE_URI);
+    }
+    
     protected static Repository getPrimitiveTypesRepository() {
         if (primitiveTypesRepository != null) {
             return primitiveTypesRepository;
