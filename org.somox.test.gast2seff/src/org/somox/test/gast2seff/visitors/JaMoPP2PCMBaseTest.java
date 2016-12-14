@@ -282,7 +282,7 @@ public class JaMoPP2PCMBaseTest {
             project.create(null);
             project.open(null);
         }
-        kdmReader.loadProject(project);
+        kdmReader.loadProject(project.getName());
         compilationUnits = kdmReader.getRoot();
     }
 

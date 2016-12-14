@@ -612,4 +612,12 @@ public class KDMHelper {
         return constructors;
     }
 
+    public static <T> T getFirstChildWithType(final Commentable commentable, final java.lang.Class<T> classType) {
+        final EList<T> children = commentable.getChildrenByType(classType);
+        if (null != children && 0 < children.size()) {
+            return children.get(0);
+        }
+        return null;
+    }
+
 }

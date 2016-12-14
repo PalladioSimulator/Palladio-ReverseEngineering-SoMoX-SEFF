@@ -525,7 +525,7 @@ public class OperationBuilder extends AbstractBuilder {
                             .setEntityName(((CollectionDataType) innerDataType).getEntityName() + "_" + innerTypeName);
                     concreteCollectionDataType.setRepository__DataType(repository);
                     innerElement.setDatatype_InnerDeclaration(concreteCollectionDataType);
-                    final QualifiedTypeArgument qta = this.getFirstChildWithType(field, QualifiedTypeArgument.class);
+                    final QualifiedTypeArgument qta = KDMHelper.getFirstChildWithType(field, QualifiedTypeArgument.class);
                     if (null != qta) {
                         if (null != qta.getTypeReference() && null != qta.getTypeReference().getTarget()) {
                             final Type type = qta.getTypeReference().getTarget();
@@ -583,14 +583,6 @@ public class OperationBuilder extends AbstractBuilder {
         dataTypeSourceCodeLink.setPcmDataType(compositeDataType);
         this.sourceCodeDecorator.getDataTypeSourceCodeLink().add(dataTypeSourceCodeLink);
         return dataTypeSourceCodeLink;
-    }
-
-    private <T> T getFirstChildWithType(final Commentable commentable, final Class<T> classType) {
-        final EList<T> children = commentable.getChildrenByType(classType);
-        if (null != children && 0 < children.size()) {
-            return children.get(0);
-        }
-        return null;
     }
 
     /**

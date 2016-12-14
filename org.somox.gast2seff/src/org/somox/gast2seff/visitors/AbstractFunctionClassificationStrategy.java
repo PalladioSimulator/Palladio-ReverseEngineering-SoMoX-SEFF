@@ -46,6 +46,9 @@ public abstract class AbstractFunctionClassificationStrategy implements IFunctio
                 if (this.isExternalCall(method)) {
                     this.logger.debug("Found external call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
                     currentBitSet.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
+                }else if (this.isEmitEventCall(method)){
+                    this.logger.debug("Found emit event call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                    currentBitSet.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EMITEVENT));
                 } else if (this.isLibraryCall(method)) {
                     this.logger.debug("Found library call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
                     currentBitSet.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.LIBRARY));
@@ -98,6 +101,20 @@ public abstract class AbstractFunctionClassificationStrategy implements IFunctio
      * @return true if the function access is an external call
      */
     protected abstract boolean isExternalCall(Method method);
+    
+    /**
+     * Decide whether the given method, which is called method, is an emit event
+     * call, i.e., a call which results in a emit event action in the SEFF
+     * For backwards compatibility, we provide an empty implemention here that returns false,
+     * i.e., emit event call actions are not created per default.
+     *
+     * @param method
+     *            The method to test
+     * @return true if the method is an external call
+     */
+    protected boolean isEmitEventCall(Method method){
+        return false;
+    }
 
     /**
      * Decide whether the given simple statement which is the given function access is a library

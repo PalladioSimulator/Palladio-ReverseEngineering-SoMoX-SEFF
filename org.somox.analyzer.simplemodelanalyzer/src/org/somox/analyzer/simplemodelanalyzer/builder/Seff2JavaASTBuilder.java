@@ -76,7 +76,7 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
      * @param providedRole
      *            The provided role for which each of its operations is to be added.
      */
-    public void addSeffsToPrimitiveComponent(final BasicComponent component, final ProvidedRole providedRole) {
+    public void addSeffsToBasicComponent(final BasicComponent component, final ProvidedRole providedRole) {
         if (providedRole instanceof OperationProvidedRole) {
             final OperationInterface providedInterface = ((OperationProvidedRole) providedRole)
                     .getProvidedInterface__OperationProvidedRole();

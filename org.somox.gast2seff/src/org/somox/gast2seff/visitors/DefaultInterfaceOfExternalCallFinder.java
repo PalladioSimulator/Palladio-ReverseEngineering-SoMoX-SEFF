@@ -5,9 +5,12 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.Method;
 import org.palladiosimulator.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.repository.Interface;
+import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.RequiredRole;
 import org.palladiosimulator.pcm.repository.Signature;
+import org.palladiosimulator.pcm.repository.SourceRole;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
@@ -40,25 +43,32 @@ public class DefaultInterfaceOfExternalCallFinder implements InterfaceOfExternal
         for (final RequiredRole requiredRole : this.basicComponent.getRequiredRoles_InterfaceRequiringEntity()) {
             for (final InterfaceSourceCodeLink ifLink : this.sourceCodeDecoratorRepository
                     .getInterfaceSourceCodeLink()) {
-                if (requiredRole instanceof OperationRequiredRole) {
-                    final OperationRequiredRole operReqRole = (OperationRequiredRole) requiredRole;
-                    if (operReqRole.getRequiredInterface__OperationRequiredRole().equals(ifLink.getInterface())) {
-                        final ConcreteClassifier gastClass = ifLink.getGastClass();
-                        if (gastClass.equals(accessedConcreteClassifier)) {
-
-                            logger.trace("accessed interface port " + operReqRole.getEntityName());
-                            interfacePortOperationTuple.role = operReqRole;
-                            // query operation:
-                            interfacePortOperationTuple.signature = this.queryInterfaceOperation(calledMethod);
-
-                            return interfacePortOperationTuple;
-                        }
+                Interface pcmInterface = this.getInterfaceFromRequiredRole(requiredRole);
+                if (pcmInterface != null && pcmInterface.equals(ifLink.getInterface())) {
+                    final ConcreteClassifier gastClass = ifLink.getGastClass();
+                    if (gastClass.equals(accessedConcreteClassifier)) {
+                        logger.trace("accessed interface port " + requiredRole.getEntityName());
+                        interfacePortOperationTuple.role = requiredRole;
+                        // query operation:
+                        interfacePortOperationTuple.signature = this.queryInterfaceOperation(calledMethod);
+                        return interfacePortOperationTuple;
                     }
                 }
             }
         }
         logger.warn("found no if port for " + accessedConcreteClassifier);
         return interfacePortOperationTuple;
+    }
+
+    private Interface getInterfaceFromRequiredRole(RequiredRole requiredRole) {
+        if (requiredRole instanceof OperationRequiredRole) {
+            final OperationRequiredRole operReqRole = (OperationRequiredRole) requiredRole;
+            return operReqRole.getRequiredInterface__OperationRequiredRole();
+        } else if (requiredRole instanceof SourceRole) {
+            final SourceRole sourceRole = (SourceRole) requiredRole;
+            return sourceRole.getEventGroup__SourceRole();
+        }
+        return null;
     }
 
     /**

@@ -31,8 +31,6 @@ public class KDMReader {
 
     private final static Logger logger = Logger.getLogger(KDMReader.class.getName());
 
-    private final static IWorkspaceRoot WORKSPACE_ROOT = ResourcesPlugin.getWorkspace().getRoot();
-
     public KDMReader() {
         this.root = new Root();
     }
@@ -66,7 +64,8 @@ public class KDMReader {
         } else {
             List<IJavaProject> javaProjects = new ArrayList<>();
             for (final String projectName : projects) {
-                final IProject project = WORKSPACE_ROOT.getProject(projectName);
+                IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+                final IProject project = workspaceRoot.getProject(projectName);
                 final IJavaProject javaProject = JavaCore.create(project);
                 if (javaProject.exists()) {
                     javaProjects.add(javaProject);
@@ -92,7 +91,7 @@ public class KDMReader {
     }
 
     private void loadPathes(final List<String> projectPaths) {
-
+          throw new RuntimeException("not implemented yet");
     }
 
     public void addModelsToRoot(final Collection<Resource> resources) {

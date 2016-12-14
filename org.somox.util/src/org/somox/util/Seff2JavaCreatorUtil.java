@@ -21,7 +21,7 @@ public final class Seff2JavaCreatorUtil {
             if (repoComponent instanceof BasicComponent) {
                 final BasicComponent bc = (BasicComponent) repoComponent;
                 for (final ProvidedRole providedRole : bc.getProvidedRoles_InterfaceProvidingEntity()) {
-                    seff2JavaASTBuilder.addSeffsToPrimitiveComponent(bc, providedRole);
+                    seff2JavaASTBuilder.addSeffsToBasicComponent(bc, providedRole);
                 }
             }
         }

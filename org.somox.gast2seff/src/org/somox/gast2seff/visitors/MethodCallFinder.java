@@ -96,6 +96,7 @@ public class MethodCallFinder {
                 MethodCallFinder.logger.info("Annotation Attribut found within methodCall in a method of the class"
                         + methodCall.getContainingConcreteClassifier() + " target: "
                         + methodCall.getTarget().getName());
+                calledMethods.add(target);
             } else if (target instanceof Method) {
                 calledMethods.add(target);
             }

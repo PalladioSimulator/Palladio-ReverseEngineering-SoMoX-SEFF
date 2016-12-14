@@ -20,6 +20,7 @@ import org.palladiosimulator.pcm.system.System;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
 import org.somox.configuration.AbstractMoxConfiguration;
+import org.somox.kdmhelper.SoMoXUtil;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
@@ -127,7 +128,13 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
     private void save(final EObject emfObject, final String path) throws IOException {
         final ResourceSet resourceSet = this.getResourceSetForURI();
         // URI scriptURI = fileURI;
-        final URI uri = URI.createPlatformResourceURI(path, true);
+        URI uri = null;
+        if (!SoMoXUtil.isStandalone()) {
+            uri = URI.createPlatformResourceURI(path, true);
+        } else {
+            uri = URI.createFileURI(path);
+        }
+        
 
         // Create a resource for this file.
         final Resource resource = resourceSet.createResource(uri);

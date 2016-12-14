@@ -19,12 +19,15 @@ import org.emftext.language.java.statements.SynchronizedBlock;
 import org.emftext.language.java.statements.TryBlock;
 import org.palladiosimulator.pcm.core.CoreFactory;
 import org.palladiosimulator.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.repository.EventType;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.PassiveResource;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
+import org.palladiosimulator.pcm.repository.SourceRole;
 import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.AcquireAction;
+import org.palladiosimulator.pcm.seff.EmitEventAction;
 import org.palladiosimulator.pcm.seff.ExternalCallAction;
 import org.palladiosimulator.pcm.seff.InternalAction;
 import org.palladiosimulator.pcm.seff.InternalCallAction;
@@ -683,6 +686,25 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     protected void foundExternalCall(final Statement object, final Method calledMethod,
             final BitSet statementAnnotation) {
         this.createExternalCallAction(object, calledMethod, statementAnnotation);
+    }
+    
+    @Override
+    protected void foundEmitEventAction(final Statement object, final Method calledMethod,
+            final BitSet statementAnnotation) {
+        final EmitEventAction emitEventAction = SeffFactory.eINSTANCE.createEmitEventAction();
+        this.createAbstracActionClassMethodLink(emitEventAction, object);
+        this.linkSeffElement(emitEventAction, object);
+        emitEventAction.setEntityName(calledMethod.getName() + this.positionToString(object));
+        final InterfacePortOperationTuple ifOperationTuple = this.interfaceOfExternalCallFinder
+                .getCalledInterfacePort(calledMethod);
+        if (null == ifOperationTuple) {
+            JaMoPPStatementVisitor.logger.warn("ifOperationTuple == null");
+        } else {
+            emitEventAction.setSourceRole__EmitEventAction( (SourceRole) ifOperationTuple.role);
+            emitEventAction.setEventType__EmitEventAction((EventType) ifOperationTuple.signature);
+        }
+        this.seff.getSteps_Behaviour().add(emitEventAction);
+        this.lastType = statementAnnotation;
     }
 
     @Override

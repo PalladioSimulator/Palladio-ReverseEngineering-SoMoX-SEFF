@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.Method;
+import org.palladiosimulator.pcm.repository.Interface;
 import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
@@ -23,8 +24,8 @@ public abstract class JaMoPP2SEFFBaseTest extends JaMoPP2PCMBaseTest {
     protected static final String TEST_DO_LIBRARY_CALL = "testDoLibraryCall";
 
     OperationSignature findOperationSignatureWithName(final String methodName, final String interfaceName) {
-        final OperationInterface opInterface = SEFFCreationHelper.findOperationInterfaceWithName(interfaceName,
-                this.pcmRepository);
+        final OperationInterface opInterface = SEFFCreationHelper.findInterfaceWithName(interfaceName,
+                this.pcmRepository, OperationInterface.class);
         return SEFFCreationHelper.findOperationSignatureInInterface(methodName, opInterface);
     }
 
@@ -70,7 +71,7 @@ public abstract class JaMoPP2SEFFBaseTest extends JaMoPP2PCMBaseTest {
                 .createInterfaceSourceCodeLink();
         interfaecLink.setGastClass(this.findConcreteClassifierWithName(interfaceName));
         interfaecLink
-                .setInterface(SEFFCreationHelper.findOperationInterfaceWithName(interfaceName, this.pcmRepository));
+                .setInterface(SEFFCreationHelper.findInterfaceWithName(interfaceName, this.pcmRepository, Interface.class));
         this.sourceCodeDecorator.getInterfaceSourceCodeLink().add(interfaecLink);
         return interfaecLink;
     }

@@ -8,6 +8,7 @@ import java.util.List;
 import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.AbstractBranchTransition;
 import org.palladiosimulator.pcm.seff.BranchAction;
+import org.palladiosimulator.pcm.seff.EmitEventAction;
 import org.palladiosimulator.pcm.seff.ExternalCallAction;
 import org.palladiosimulator.pcm.seff.InternalAction;
 import org.palladiosimulator.pcm.seff.InternalCallAction;
@@ -50,6 +51,8 @@ public class AssertSEFFHelper {
                 // no need to check anything else
             } else if (abstractAction instanceof LoopAction) {
                 assertLoopAction((LoopAction) abstractAction, (LoopAction) expectedAbstractAction);
+            } else if (abstractAction instanceof EmitEventAction) {
+                assertEmitEventAction((EmitEventAction)abstractAction, (EmitEventAction)expectedAbstractAction);
             } else {
                 fail("Can not asssert AbstractAction " + abstractAction);
             }
@@ -123,6 +126,17 @@ public class AssertSEFFHelper {
         assertEquals("Call service of external call actions is not the same",
                 expectedExternalCallAction.getCalledService_ExternalService().getId(),
                 externalCallAction.getCalledService_ExternalService().getId());
+    }
+    
+    private static void assertEmitEventAction(EmitEventAction emitEventAction,
+            EmitEventAction expectedEmitEventAction) {
+        assertEquals("Role of emit event actions is not the same",
+                emitEventAction.getSourceRole__EmitEventAction().getId(),
+                expectedEmitEventAction.getSourceRole__EmitEventAction().getId());
+        assertEquals("Event type of emit event action is not the same",
+                emitEventAction.getEventType__EmitEventAction().getId(),
+                expectedEmitEventAction.getEventType__EmitEventAction().getId());
+
     }
 
 }

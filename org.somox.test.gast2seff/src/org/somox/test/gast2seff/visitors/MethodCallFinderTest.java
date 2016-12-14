@@ -16,12 +16,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.somox.gast2seff.visitors.MethodCallFinder;
 import org.somox.kdmhelper.KDMReader;
+import org.somox.kdmhelper.SoMoXUtil;
 
 public class MethodCallFinderTest {
 
     private static final Logger logger = Logger.getLogger(MethodCallFinderTest.class.getSimpleName());
 
-    private static final String PROJECT_PATH = "testworkspace/MockupProject/src-for-tests";
+    private static final String PROJECT_NAME = "MockupProject";
+    private static final String PROJECT_PATH = "testworkspace/" + PROJECT_NAME +"/src-for-tests";
+    private static final String COMPUNIT_NAME = "VisitorUtilTestSource";
 
     private static ConcreteClassifier concreteClassifier;
 
@@ -31,9 +34,16 @@ public class MethodCallFinderTest {
         JaMoPP2PCMBaseTest.initializeLogger();
         JaMoPPUtil.initialize();
         final KDMReader modelReader = new KDMReader();
-        modelReader.loadProject(PROJECT_PATH);
-        final CompilationUnit cu = (CompilationUnit) modelReader.getRoot().getCompilationUnits().get(0);
-        concreteClassifier = cu.getClassifiers().get(0);
+        if (SoMoXUtil.isStandalone()) {
+            modelReader.loadProject(PROJECT_PATH);
+        } else {
+            modelReader.loadProject(PROJECT_NAME);
+        }
+        final CompilationUnit compUnit = modelReader.getRoot().getCompilationUnits().stream().filter(cu->cu.getName().contains(COMPUNIT_NAME)).findFirst().get();
+        if(null == compUnit){
+            throw new RuntimeException(COMPUNIT_NAME + " not found");
+        }
+        concreteClassifier = compUnit.getClassifiers().get(0);
     }
 
     @Test

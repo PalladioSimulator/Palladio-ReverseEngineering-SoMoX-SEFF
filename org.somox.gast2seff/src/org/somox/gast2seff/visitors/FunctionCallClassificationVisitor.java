@@ -83,7 +83,11 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
         /**
          * Classifies a call as an internal call that contains an external call
          */
-        INTERNAL_CALL_CONTAINING_EXTERNAL_CALL
+        INTERNAL_CALL_CONTAINING_EXTERNAL_CALL,
+        /**
+         * Classifies a call as an call that emits an event, i.e., it is an external call also
+         */
+        EMITEVENT
     }
 
     private final HashMap<Commentable, List<BitSet>> annotations = new HashMap<Commentable, List<BitSet>>();
@@ -141,8 +145,8 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
             if (FunctionCallClassificationVisitor.this.annotations.containsKey(switchStatement)) {
                 return FunctionCallClassificationVisitor.this.annotations.get(switchStatement);
             }
-            final List<List<Statement>> branches =
-                    SwitchStatementHelper.createBlockListFromSwitchStatement(switchStatement);
+            final List<List<Statement>> branches = SwitchStatementHelper
+                    .createBlockListFromSwitchStatement(switchStatement);
             for (final List<Statement> branch : branches) {
                 // copied from the BlockCase
                 FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(), branch);
@@ -292,7 +296,8 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
                 }
                 for (final BitSet internalType : internalTypes) {
                     // the internal call contains an external call
-                    if (internalType.get(getIndex(FunctionCallType.EXTERNAL))) {
+                    if (internalType.get(getIndex(FunctionCallType.EXTERNAL))
+                            || internalType.get(getIndex(FunctionCallType.EMITEVENT))) {
                         myType.set(getIndex(FunctionCallType.INTERNAL_CALL_CONTAINING_EXTERNAL_CALL));
                     }
                 }
@@ -336,6 +341,8 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
             return 3;
         case INTERNAL_CALL_CONTAINING_EXTERNAL_CALL:
             return 4;
+        case EMITEVENT:
+            return 5;
         }
         throw new UnsupportedOperationException();
     }

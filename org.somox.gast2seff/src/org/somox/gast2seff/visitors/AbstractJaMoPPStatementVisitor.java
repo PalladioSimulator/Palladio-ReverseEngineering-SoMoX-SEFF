@@ -89,6 +89,18 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
     protected abstract void foundInternalAction(Statement object);
 
     protected abstract void foundExternalCall(Statement object, Method calledMethod, BitSet statementAnnotation);
+    
+    /**
+     * The method is if an emit event action has been found. 
+     * As we are currently not able to deal with emit event actions and in order to achieve backwards compatibility, we 
+     * provide a default implementation that treats the calls as library calls.
+     * @param object
+     * @param calledMethod
+     * @param statementAnnotation
+     */
+    protected void foundEmitEventAction(Statement object, Method calledMethod, BitSet statementAnnotation) {
+        foundInternalAction(object);
+    }
 
     /**
      * handleStatementListContainer can be implemented in abstract class, cause it is similar in
@@ -129,6 +141,9 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
                 if (this.isExternalCall(statementAnnotation)) {
                     final Method calledMethod = calledMethods.get(i);
                     this.foundExternalCall(object, calledMethod, statementAnnotation);
+                } else if (this.isEmitEventCall(statementAnnotation)) {
+                    final Method calledMethod = calledMethods.get(i);
+                    this.foundEmitEventAction(object, calledMethod, statementAnnotation);
                 } else if (this.isInternalCall(statementAnnotation)) {
                     if (0 == calledMethods.size()) {
                         continue;
@@ -289,7 +304,9 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
                     .get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
             final boolean isInternalCallContainingExternalCall = statementType.get(FunctionCallClassificationVisitor
                     .getIndex(FunctionCallType.INTERNAL_CALL_CONTAINING_EXTERNAL_CALL));
-            if (isExternalCall || isInternalCallContainingExternalCall) {
+            final boolean isEmitEventCall = statementType
+                    .get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EMITEVENT));
+            if (isExternalCall || isInternalCallContainingExternalCall || isEmitEventCall) {
                 return true;
             }
         }
@@ -348,6 +365,10 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
         return statementAnnotation.get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
     }
 
+    protected boolean isEmitEventCall(final BitSet statementAnnotation) {
+        return statementAnnotation.get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EMITEVENT));
+    }
+
     protected boolean isInternalCall(final BitSet statementAnnotation) {
         return statementAnnotation.get(FunctionCallClassificationVisitor.getIndex(FunctionCallType.INTERNAL));
     }
@@ -389,10 +410,14 @@ public abstract class AbstractJaMoPPStatementVisitor extends ComposedSwitch<Obje
         if (this.isInternalCallContainingExternalCall(thisType)) {
             return false;
         }
+        
+        if(this.isEmitEventCall(thisType)){
+            return false;
+        }
 
         // Here I know that thisType is internal or library
-        // Hence, I can skip this if the last type was not an external call
-        return !this.isExternalCall(lastType);
+        // Hence, I can skip this if the last type was not an external call and not an emit event call
+        return !this.isExternalCall(lastType) && !this.isEmitEventCall(lastType); 
     }
 
 }

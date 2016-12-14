@@ -1,13 +1,19 @@
 package org.somox.test.gast2seff.visitors;
 
 import org.palladiosimulator.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.repository.EventGroup;
+import org.palladiosimulator.pcm.repository.EventType;
 import org.palladiosimulator.pcm.repository.Interface;
 import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.repository.RepositoryComponent;
+import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.repository.RequiredRole;
+import org.palladiosimulator.pcm.repository.SourceRole;
+import org.palladiosimulator.pcm.seff.AbstractAction;
+import org.palladiosimulator.pcm.seff.EmitEventAction;
 import org.palladiosimulator.pcm.seff.ExternalCallAction;
 import org.palladiosimulator.pcm.seff.InternalAction;
 import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
@@ -33,23 +39,40 @@ public class SEFFCreationHelper {
         externalCall.setCalledService_ExternalService(operationSignature);
         return externalCall;
     }
+    
+    public static AbstractAction createEmitEventCallAction(SourceRole sourceRole, EventType eventType) {
+        EmitEventAction emitEventAction = SeffFactory.eINSTANCE.createEmitEventAction();
+        emitEventAction.setEventType__EmitEventAction(eventType);
+        emitEventAction.setSourceRole__EmitEventAction(sourceRole);
+        return emitEventAction;
+    }
 
     public static OperationRequiredRole findOperaitonRequiredRoleInBasicComponent(final BasicComponent basicComponent,
             final String requiredRoleName) {
+        return findRequiredRoleInBasicComponent(basicComponent, requiredRoleName, OperationRequiredRole.class);
+    }
+
+    public static SourceRole findSourceRoleInBasicComponent(BasicComponent basicComponent, String requiredRoleName) {
+        return findRequiredRoleInBasicComponent(basicComponent, requiredRoleName, SourceRole.class);
+    }
+
+    private static <T extends RequiredRole> T findRequiredRoleInBasicComponent(BasicComponent basicComponent,
+            String requiredRoleName, Class<T> requiredRoleClass) {
         for (final RequiredRole requiredRole : basicComponent.getRequiredRoles_InterfaceRequiringEntity()) {
             if (requiredRole.getEntityName().equals(requiredRoleName)
-                    && requiredRole instanceof OperationRequiredRole) {
-                return (OperationRequiredRole) requiredRole;
+                    && requiredRoleClass.isInstance(requiredRole)) {
+                return requiredRoleClass.cast(requiredRole);
             }
         }
         throw new RuntimeException("Could not find OperationRequiredRole " + requiredRoleName + " in BasicComponent "
                 + basicComponent.getEntityName());
     }
 
-    public static OperationInterface findOperationInterfaceWithName(final String interfaceName, final Repository repository) {
-        for (final Interface opInterface : repository.getInterfaces__Repository()) {
-            if (opInterface instanceof OperationInterface && interfaceName.equals(opInterface.getEntityName())) {
-                return (OperationInterface) opInterface;
+    public static <T extends Interface> T findInterfaceWithName(final String interfaceName,
+            final Repository repository, Class<T> interfaceClass) {
+        for (final Interface pcmInterface : repository.getInterfaces__Repository()) {
+            if (interfaceClass.isInstance(pcmInterface) && interfaceName.equals(pcmInterface.getEntityName())) {
+                return interfaceClass.cast(pcmInterface);
             }
         }
         throw new RuntimeException("Could not find OperationInterface " + interfaceName);
@@ -73,6 +96,17 @@ public class SEFFCreationHelper {
         }
         throw new RuntimeException("Could not find OperationSignature " + methodName + " in OperationInterface "
                 + opInterface.getEntityName());
+    }
+    
+    public static EventType findEventTypeInEventGroup(final String methodName,
+            final EventGroup eventGroup) {
+        for (final EventType eventType : eventGroup.getEventTypes__EventGroup()) {
+            if (methodName.equals(eventType.getEntityName())) {
+                return eventType;
+            }
+        }
+        throw new RuntimeException("Could not find EventType " + methodName + " in EventGroup "
+                + eventGroup.getEntityName());
     }
 
 }

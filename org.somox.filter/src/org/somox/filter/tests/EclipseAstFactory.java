@@ -34,11 +34,6 @@ public class EclipseAstFactory {
             .withInitial(() -> ASTParser.newParser(AST.JLS8));
 
     /**
-     * The {@link IWorkspaceRoot} we’re acting in.
-     */
-    private final IWorkspaceRoot rootWorkspace = ResourcesPlugin.getWorkspace().getRoot();
-
-    /**
      * Reads in the Java file at the provided {@code path} and returns the
      * {@linkplain CompilationUnit} found in the file.
      *
@@ -75,7 +70,8 @@ public class EclipseAstFactory {
      */
     public CompilationUnit getCompilationUnit(final Path path, final boolean withBindings) throws IOException {
         final IPath eclipsePath = new org.eclipse.core.runtime.Path(path.toString());
-        final IFile eclipseResource = this.rootWorkspace.getFileForLocation(eclipsePath);
+        IWorkspaceRoot rootWorkspace = ResourcesPlugin.getWorkspace().getRoot();
+        final IFile eclipseResource = rootWorkspace.getFileForLocation(eclipsePath);
         final IJavaElement eclipseElement = JavaCore.create(eclipseResource);
 
         if (!(eclipseElement != null && eclipseElement.getElementType() == IJavaElement.COMPILATION_UNIT)) {

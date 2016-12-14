@@ -308,7 +308,7 @@ public class InterfaceBuilder extends AbstractBuilder {
 
         if (!componentCandidate.isIsCompositeComponent()) {
             // add behaviour
-            this.behaviourBuilder.addSeffsToPrimitiveComponent((BasicComponent) componentCandidate.getComponent(),
+            this.behaviourBuilder.addSeffsToBasicComponent((BasicComponent) componentCandidate.getComponent(),
                     providedRole);
         }
     }
