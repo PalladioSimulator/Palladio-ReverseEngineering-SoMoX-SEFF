@@ -114,16 +114,28 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
             final SourceCodeDecoratorRepository sourceCodeDecorator, final BasicComponent primitiveComponent,
             final MethodCallFinder methodCallFinder) {
         this(functionClassificationAnnotations, resourceDemandingBehaviour, sourceCodeDecorator, primitiveComponent,
-                null, null, methodCallFinder);
+                new InterfaceOfExternalCallFindingFactory() {}, null, methodCallFinder);
     }
 
-    public JaMoPPStatementVisitor(final Map<Commentable, List<BitSet>> map,
+    public JaMoPPStatementVisitor(final Map<Commentable, List<BitSet>> functionClassificationAnnotations,
+            final org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour resourceDemandingBehaviour,
+            final SourceCodeDecoratorRepository sourceCodeDecorator, final BasicComponent primitiveComponent,
+            final InterfaceOfExternalCallFindingFactory interfaceOfExternalCallFinderFactory,
+            final ResourceDemandingBehaviourForClassMethodFinding resourceDemandingBehaviourForClassMethodFinding,
+            final MethodCallFinder methodCallFinder) {
+        this(functionClassificationAnnotations, resourceDemandingBehaviour, sourceCodeDecorator,
+                primitiveComponent, interfaceOfExternalCallFinderFactory
+                        .createInterfaceOfExternalCallFinding(sourceCodeDecorator, primitiveComponent),
+                resourceDemandingBehaviourForClassMethodFinding, methodCallFinder);
+    }
+
+    private JaMoPPStatementVisitor(final Map<Commentable, List<BitSet>> functionClassificationAnnotations,
             final org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour resourceDemandingBehaviour,
             final SourceCodeDecoratorRepository sourceCodeDecorator, final BasicComponent primitiveComponent,
             final InterfaceOfExternalCallFinding interfaceOfExternalCallFinder,
             final ResourceDemandingBehaviourForClassMethodFinding resourceDemandingBehaviourForClassMethodFinding,
             final MethodCallFinder methodCallFinder) {
-        super(map, methodCallFinder);
+        super(functionClassificationAnnotations, methodCallFinder);
         this.seff = resourceDemandingBehaviour;
         this.sourceCodeDecoratorRepository = sourceCodeDecorator;
         this.primitiveComponent = primitiveComponent;
@@ -253,7 +265,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
                 bt.setEntityName("parent " + JaMoPPStatementVisitor.this.positionToString(switchStatement) + "/"
                         + (branch.size() > 0 ? JaMoPPStatementVisitor.this
                                 .positionToLineNumber(KDMHelper.getJavaNodeSourceRegion(branch.get(0))) + " to "
-                                // use parent position since branch position is empty
+                        // use parent position since branch position is empty
                                 + JaMoPPStatementVisitor.this.positionToLineNumber(
                                         KDMHelper.getJavaNodeSourceRegion(branch.get(branch.size() - 1)))
                                 : ""));
@@ -687,20 +699,20 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
             final BitSet statementAnnotation) {
         this.createExternalCallAction(object, calledMethod, statementAnnotation);
     }
-    
+
     @Override
-    protected void foundEmitEventAction(final Statement object, final Method calledMethod,
+    protected void foundEmitEventAction(final Statement statement, final Method calledMethod,
             final BitSet statementAnnotation) {
         final EmitEventAction emitEventAction = SeffFactory.eINSTANCE.createEmitEventAction();
-        this.createAbstracActionClassMethodLink(emitEventAction, object);
-        this.linkSeffElement(emitEventAction, object);
-        emitEventAction.setEntityName(calledMethod.getName() + this.positionToString(object));
+        this.createAbstracActionClassMethodLink(emitEventAction, statement);
+        this.linkSeffElement(emitEventAction, statement);
+        emitEventAction.setEntityName(calledMethod.getName() + this.positionToString(statement));
         final InterfacePortOperationTuple ifOperationTuple = this.interfaceOfExternalCallFinder
-                .getCalledInterfacePort(calledMethod);
+                .getCalledInterfacePort(calledMethod, statement);
         if (null == ifOperationTuple) {
             JaMoPPStatementVisitor.logger.warn("ifOperationTuple == null");
         } else {
-            emitEventAction.setSourceRole__EmitEventAction( (SourceRole) ifOperationTuple.role);
+            emitEventAction.setSourceRole__EmitEventAction((SourceRole) ifOperationTuple.role);
             emitEventAction.setEventType__EmitEventAction((EventType) ifOperationTuple.signature);
         }
         this.seff.getSteps_Behaviour().add(emitEventAction);

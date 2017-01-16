@@ -28,6 +28,7 @@ import org.somox.gast2seff.visitors.DefaultResourceDemandingBehaviourForClassMet
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.IFunctionClassificationStrategyFactory;
+import org.somox.gast2seff.visitors.InterfaceOfExternalCallFindingFactory;
 import org.somox.gast2seff.visitors.MethodCallFinder;
 import org.somox.gast2seff.visitors.ResourceDemandingBehaviourForClassMethodFinding;
 import org.somox.gast2seff.visitors.VisitorUtils;
@@ -80,21 +81,27 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
      */
     private final IFunctionClassificationStrategyFactory iFunctionClassificationStrategyFactory;
 
+    private InterfaceOfExternalCallFindingFactory interfaceOfExternalCallFindingFactory;
+
     public GAST2SEFFJob() {
         this(false, new IFunctionClassificationStrategyFactory() {
+        }, new InterfaceOfExternalCallFindingFactory() {
         });
     }
 
     public GAST2SEFFJob(final boolean createResourceDemandingInternalBehaviour) {
         this(createResourceDemandingInternalBehaviour, new IFunctionClassificationStrategyFactory() {
+        }, new InterfaceOfExternalCallFindingFactory() {
         });
     }
 
     public GAST2SEFFJob(final boolean createResourceDemandingInternalBehaviour,
-            final IFunctionClassificationStrategyFactory iFunctionClassificationStrategyFactory) {
+            final IFunctionClassificationStrategyFactory iFunctionClassificationStrategyFactory,
+            InterfaceOfExternalCallFindingFactory interfaceOfExternalCallFindingFactory) {
         super();
         this.createResourceDemandingInternalBehaviour = createResourceDemandingInternalBehaviour;
         this.iFunctionClassificationStrategyFactory = iFunctionClassificationStrategyFactory;
+        this.interfaceOfExternalCallFindingFactory = interfaceOfExternalCallFindingFactory;
         // performance optimisation:
         final Map<URI, Resource> cache = new HashMap<URI, Resource>();
         ((ResourceSetImpl) this.resourceSet).setURIResourceMap(cache);
@@ -174,11 +181,11 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
                 final ResourceDemandingBehaviourForClassMethodFinding defaultResourceDemandingBehaviourForClassMethodFinder = new DefaultResourceDemandingBehaviourForClassMethodFinder(
                         this.sourceCodeDecoratorModel, basicComponent);
                 VisitorUtils.visitJaMoPPMethod(seff, basicComponent, body, this.sourceCodeDecoratorModel,
-                        this.typeVisitor, null, defaultResourceDemandingBehaviourForClassMethodFinder,
-                        this.methodCallFinder);
+                        this.typeVisitor, interfaceOfExternalCallFindingFactory,
+                        defaultResourceDemandingBehaviourForClassMethodFinder, this.methodCallFinder);
             } else {
                 VisitorUtils.visitJaMoPPMethod(seff, basicComponent, body, this.sourceCodeDecoratorModel,
-                        this.typeVisitor, this.methodCallFinder);
+                        this.typeVisitor, interfaceOfExternalCallFindingFactory, this.methodCallFinder);
             }
 
         } else {

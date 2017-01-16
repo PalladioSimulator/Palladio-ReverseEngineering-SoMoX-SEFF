@@ -4,9 +4,9 @@ import org.apache.log4j.Logger;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.Method;
+import org.emftext.language.java.statements.Statement;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.Interface;
-import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.RequiredRole;
 import org.palladiosimulator.pcm.repository.Signature;
@@ -36,14 +36,14 @@ public class DefaultInterfaceOfExternalCallFinder implements InterfaceOfExternal
      * @return interface port and operation for corresponding to the access.
      */
     @Override
-    public InterfacePortOperationTuple getCalledInterfacePort(final Method calledMethod) { // GAST2SEFFCHANGE
+    public InterfacePortOperationTuple getCalledInterfacePort(final Method calledMethod, Statement statement) { // GAST2SEFFCHANGE
         final InterfacePortOperationTuple interfacePortOperationTuple = new InterfacePortOperationTuple();
         final ConcreteClassifier accessedConcreteClassifier = calledMethod.getContainingConcreteClassifier();
 
-        for (final RequiredRole requiredRole : this.basicComponent.getRequiredRoles_InterfaceRequiringEntity()) {
-            for (final InterfaceSourceCodeLink ifLink : this.sourceCodeDecoratorRepository
+        for (final RequiredRole requiredRole : this.getBasicComponent().getRequiredRoles_InterfaceRequiringEntity()) {
+            Interface pcmInterface = this.getInterfaceFromRequiredRole(requiredRole);
+            for (final InterfaceSourceCodeLink ifLink : this.getSourceCodeDecoratorRepository()
                     .getInterfaceSourceCodeLink()) {
-                Interface pcmInterface = this.getInterfaceFromRequiredRole(requiredRole);
                 if (pcmInterface != null && pcmInterface.equals(ifLink.getInterface())) {
                     final ConcreteClassifier gastClass = ifLink.getGastClass();
                     if (gastClass.equals(accessedConcreteClassifier)) {
@@ -60,6 +60,14 @@ public class DefaultInterfaceOfExternalCallFinder implements InterfaceOfExternal
         return interfacePortOperationTuple;
     }
 
+    protected SourceCodeDecoratorRepository getSourceCodeDecoratorRepository() {
+        return sourceCodeDecoratorRepository;
+    }
+    
+    protected BasicComponent getBasicComponent() {
+        return basicComponent;
+    }
+
     private Interface getInterfaceFromRequiredRole(RequiredRole requiredRole) {
         if (requiredRole instanceof OperationRequiredRole) {
             final OperationRequiredRole operReqRole = (OperationRequiredRole) requiredRole;
@@ -70,7 +78,7 @@ public class DefaultInterfaceOfExternalCallFinder implements InterfaceOfExternal
         }
         return null;
     }
-
+    
     /**
      * Signature query
      *
@@ -79,7 +87,7 @@ public class DefaultInterfaceOfExternalCallFinder implements InterfaceOfExternal
      * @return Signature corresponding to function access
      */
     private Signature queryInterfaceOperation(final Method invokedMethod) { // GAST2SEFFCHANGE
-        for (final MethodLevelSourceCodeLink methodLink : this.sourceCodeDecoratorRepository
+        for (final MethodLevelSourceCodeLink methodLink : this.getSourceCodeDecoratorRepository()
                 .getMethodLevelSourceCodeLink()) {
 
             final Member methodSourceCodeDecorator = methodLink.getFunction();
