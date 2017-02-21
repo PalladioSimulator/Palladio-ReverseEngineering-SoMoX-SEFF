@@ -1,6 +1,7 @@
 package org.somox.analyzer.simplemodelanalyzer.builder;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,6 +34,7 @@ import org.somox.analyzer.AnalysisResult;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.EqualityChecker;
 import org.somox.kdmhelper.KDMHelper;
+import org.somox.kdmhelper.SoMoXUtil;
 import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
@@ -252,23 +254,10 @@ public class Seff2JavaASTBuilder extends AbstractBuilder {
     private StatementListContainer getFunctionImplementationFromInterfaceMethod(final InterfaceMethod interfaceMethod,
             final List<ConcreteClassifier> implementingClasses, final Root astModel,
             final boolean searchInAstModelIfNotFound) {
-        final ConcreteClassifier interfaceOfMethod = interfaceMethod.getContainingConcreteClassifier();
-        final Set<StatementListContainer> implementingStatementListContainers = new HashSet<StatementListContainer>();
-        if (null != implementingClasses) {
-            for (final ConcreteClassifier classInComponent : implementingClasses) {
-                if (KDMHelper.getSuperTypes(classInComponent).contains(interfaceOfMethod)) {
-                    // find the overriden interface method
-                    for (final Method methodInClass : classInComponent.getMethods()) {
-                        if (EqualityChecker.areFunctionsEqual(interfaceMethod, methodInClass)
-                                && methodInClass instanceof ClassMethod) {
-                            logger.info(
-                                    "Found StatementListContainer for interface method " + interfaceMethod.getName());
-                            implementingStatementListContainers.add(KDMHelper.getBody(methodInClass));
-                        }
-                    }
-                }
-            }
-        }
+        final Collection<StatementListContainer> implementingStatementListContainers = SoMoXUtil.findImplementingMethods(interfaceMethod,
+                implementingClasses);
+        logger.info("Found " + implementingStatementListContainers.size()
+                + " implementing StatementListContainers for interface method " + interfaceMethod.getName());
         if (1 < implementingStatementListContainers.size()) {
             logger.info(
                     "Found more than one statement list container for interface method " + interfaceMethod.getName());
