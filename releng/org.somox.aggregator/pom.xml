@@ -11,8 +11,7 @@
   <artifactId>org.somox.aggregator</artifactId>
   <packaging>pom</packaging>
   <modules>
-    <module>../../bundles/net.sourceforge.secondstring</module>
-    <module>../../bundles/org.jgrapht</module>
+    <module>../../bundles/org.palladiosimulator.pcm.modified</module>
     <module>../../bundles/org.somox.analyzer.simplemodelanalyzer</module>
     <module>../../bundles/org.somox.analyzer.simplemodelanalyzer.ui</module>
     <module>../../bundles/org.somox.core</module>
@@ -35,11 +34,11 @@
     <module>../../features/org.somox.feature</module>
     <module>../../features/org.somox.metrics.dsl.sdk</module>
     <module>../../features/org.somox.modisco.feature</module>
-    <!-- <module>../../tests/org.somox.analyzer.simplemodelanalyzer.ui.test</module> -->
+    <module>../../tests/org.somox.analyzer.simplemodelanalyzer.ui.test</module>
     <!-- <module>../../tests/org.somox.core.test</module> -->
-    <!-- <module>../../tests/org.somox.metrics.dsl.tests</module> -->
+    <module>../../tests/org.somox.metrics.dsl.tests</module>
     <!-- <module>../../tests/org.somox.metrics.tests</module> -->
-    <!-- <module>../../tests/org.somox.test.gast2seff</module> -->
+    <module>../../tests/org.somox.test.gast2seff</module>
     <!-- <module>../../tests/org.somox.testcase.somox-test</module> -->
     <!-- <module>../../tests/org.somox.tests.SoMoXCCTest</module> -->
   </modules>

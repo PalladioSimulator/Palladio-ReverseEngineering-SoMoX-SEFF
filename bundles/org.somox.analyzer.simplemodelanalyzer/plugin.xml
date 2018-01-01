@@ -19,7 +19,7 @@
          point="org.somox.core.modelanalyzer">
       <modelanalyzer
             class="org.somox.analyzer.simplemodelanalyzer.SimpleModelAnalyzer"
-            id="org.somox.analyzer.sissymodelanalyzer.modelanalyzer1"
+            id="org.somox.analyzer.simplemodelanalyzer.modelanalyzer1"
             name="SoMoX Simple Model Analyzer">
       </modelanalyzer>
    </extension>

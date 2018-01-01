@@ -120,7 +120,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="de.uka.ipd.sdq.workflow.launchconfig" version="1.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.gmf.runtime.emf.core" version="1.1.1" match="greaterOrEqual"/>
       <import plugin="org.somox.filter" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.jgrapht" version="0.8.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.debug.ui" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.somox.kdmhelper" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.somox.sourcecodedecorator" version="1.0.1" match="greaterOrEqual"/>
@@ -134,9 +133,8 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.emf.common.ui" version="2.4.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.edit.ui" version="2.4.1" match="greaterOrEqual"/>
       <import plugin="org.somox.metrics.dsl" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="net.sourceforge.secondstring" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.runtime" version="3.5.0" match="greaterOrEqual"/>
-      <import plugin="org.somox.analyzer.sissymodelanalyzer" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.somox.analyzer.simplemodelanalyzer" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.somox.gast2seff" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.common" version="2.8.0" match="greaterOrEqual"/>
       <import plugin="org.apache.log4j" version="1.2.13" match="greaterOrEqual"/>
@@ -185,7 +183,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </requires>
 
    <plugin
-         id="org.somox.analyzer.sissymodelanalyzer"
+         id="org.somox.analyzer.simplemodelanalyzer"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -213,17 +211,11 @@ This Agreement is governed by the laws of the State of New York and the intellec
          unpack="false"/>
 
    <plugin
-         id="org.somox.analyzer.sissymodelanalyzer.ui"
+         id="org.somox.analyzer.simplemodelanalyzer.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <plugin
-         id="org.jgrapht"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
    <plugin
          id="org.somox.filter"
@@ -308,11 +300,5 @@ This Agreement is governed by the laws of the State of New York and the intellec
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <plugin
-         id="net.sourceforge.secondstring"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
 </feature>
