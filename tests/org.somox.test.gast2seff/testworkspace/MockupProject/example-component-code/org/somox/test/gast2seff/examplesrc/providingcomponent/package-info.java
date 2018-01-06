@@ -1,1 +1,0 @@
-package org.somox.test.gast2seff.examplesrc.providingcomponent;
