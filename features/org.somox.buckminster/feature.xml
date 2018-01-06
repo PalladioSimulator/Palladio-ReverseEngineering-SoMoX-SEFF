@@ -30,9 +30,9 @@
       <import plugin="org.apache.log4j"/>
       <import plugin="org.junit"/>
       <import plugin="org.hamcrest.core"/>
-      <!-- <import feature="org.palladiosimulator.pcm.diagram.feature" version="3.5.0.201408191624" match="greaterOrEqual"/>
-      <import feature="org.palladiosimulator.pcm.feature" version="3.6.0.201408191624" match="greaterOrEqual"/> -->
-      <import feature="org.somox.modisco.feature" version="1.0.0.qualifier" match="greaterOrEqual"/>
+      <!-- <import feature="org.palladiosimulator.pcm.diagram.feature" version="3.5.0.201408191624" match="greaterOrEqual"/> -->
+      <!-- <import feature="org.palladiosimulator.pcm.feature" version="3.6.0.201408191624" match="greaterOrEqual"/> -->
+      <!-- <import feature="org.somox.modisco.feature" version="1.0.0.qualifier" match="greaterOrEqual"/> -->
       <import feature="org.eclipse.modisco.infrastructure.feature" version="0.12.0.201405261503"/>
       <import feature="org.eclipse.modisco.java.feature" version="0.12.0.201405261503"/>
    </requires>

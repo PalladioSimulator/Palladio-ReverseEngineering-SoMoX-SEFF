@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.somox.buckminster-1.0.0.qualifier.jar" id="org.somox.buckminster" version="1.0.0.qualifier">
+      <category name="somox"/>
+   </feature>
+   <feature id="org.somox.buckminster.source" version="1.0.0.qualifier">
+      <category name="somox"/>
+   </feature>
+   <feature url="features/org.somox.feature-1.0.0.qualifier.jar" id="org.somox.feature" version="1.0.0.qualifier">
+      <category name="somox"/>
+   </feature>
+   <feature id="org.somox.feature.source" version="1.0.0.qualifier">
+      <category name="somox"/>
+   </feature>
+   <feature url="features/org.somox.metrics.dsl.sdk-1.0.0.qualifier.jar" id="org.somox.metrics.dsl.sdk" version="1.0.0.qualifier">
+      <category name="somox"/>
+   </feature>
+   <feature id="org.somox.metrics.dsl.sdk.source" version="1.0.0.qualifier">
+      <category name="somox"/>
+   </feature>
+   <feature url="features/org.somox.modisco.feature-1.0.0.qualifier.jar" id="org.somox.modisco.feature" version="1.0.0.qualifier">
+      <category name="somox"/>
+   </feature>
+   <feature id="org.somox.modisco.feature.source" version="1.0.0.qualifier">
+      <category name="somox"/>
+   </feature>
+   <category-def name="somox" label="SoMoX">
+      <description>
+	<!-- TODO add a category description for the update site and make the label above nicer -->
+      </description>
+   </category-def>
+</site>

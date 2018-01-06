@@ -11,7 +11,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>releng/org.somox.aggregator</module>
-    <!-- <module>releng/org.somox.updatesite</module> -->
-    <!-- <module>releng/org.somox.updatesite.aggregated</module> -->
+    <module>releng/org.somox.updatesite</module>
+    <module>releng/org.somox.updatesite.aggregated</module>
   </modules>
 </project>
