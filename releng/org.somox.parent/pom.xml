@@ -22,11 +22,6 @@
       <url>http://sdqbuild.ipd.kit.edu/nexus/content/groups/eclipse-oxygen-complete</url>
     </repository>
     <repository>
-      <id>Palladio 3.5.0</id>
-      <layout>p2</layout>
-      <url>https://sdqweb.ipd.kit.edu/eclipse/palladio/pcm/releases/3.5.0/</url>
-    </repository>
-    <repository>
       <id>Palladio</id>
       <layout>p2</layout>
       <url>https://sdqbuild.ipd.kit.edu/nexus/content/repositories/palladiosimulator-release/</url>

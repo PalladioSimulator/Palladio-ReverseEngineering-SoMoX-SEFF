@@ -1,6 +1,5 @@
 # Eclipse/Java
 .metadata
-.project
 *.settings/
 bin/
 tmp/

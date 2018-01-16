@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.somox.buckminster-1.0.0.qualifier.jar" id="org.somox.buckminster" version="1.0.0.qualifier">
-      <category name="somox"/>
-   </feature>
-   <feature id="org.somox.buckminster.source" version="1.0.0.qualifier">
-      <category name="somox"/>
-   </feature>
    <feature url="features/org.somox.feature-1.0.0.qualifier.jar" id="org.somox.feature" version="1.0.0.qualifier">
       <category name="somox"/>
    </feature>
