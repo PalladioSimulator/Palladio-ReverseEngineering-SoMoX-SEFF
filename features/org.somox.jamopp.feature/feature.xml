@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.somox.modisco.feature"
-      label="SoMoX MoDisco Feature"
+      id="org.somox.jamopp.feature"
+      label="SoMoX JaMoPP Feature"
       version="1.0.0.qualifier">
 
    <description url="http://www.somox.org">

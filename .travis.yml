@@ -12,4 +12,4 @@ install: true
 script: mvn clean verify
 
 after_success:
-- . /tmp/BuildUtilities/travis-ci/deploy.sh somox/jamopp releng/org.somox.updatesite.aggregated final kit-sdq updatesite
+- . /tmp/BuildUtilities/travis-ci/deploy.sh somox-jamopp/jamopp releng/org.somox.updatesite.aggregated final kit-sdq updatesite

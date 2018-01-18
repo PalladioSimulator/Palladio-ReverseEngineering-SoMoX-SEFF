@@ -109,7 +109,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </url>
 
    <includes
-         id="org.somox.modisco.feature"
+         id="org.somox.jamopp.feature"
          version="0.0.0"/>
 
    <requires>

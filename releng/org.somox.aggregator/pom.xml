@@ -32,7 +32,7 @@
     <module>../../bundles/org.somox.util</module>
     <module>../../features/org.somox.feature</module>
     <module>../../features/org.somox.metrics.dsl.sdk</module>
-    <module>../../features/org.somox.modisco.feature</module>
+    <module>../../features/org.somox.jamopp.feature</module>
     <module>../../tests/org.somox.analyzer.simplemodelanalyzer.ui.test</module>
     <!-- <module>../../tests/org.somox.core.test</module> -->
     <module>../../tests/org.somox.metrics.dsl.tests</module>
