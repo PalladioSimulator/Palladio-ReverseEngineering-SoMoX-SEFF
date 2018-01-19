@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>org.somox.updatesite.aggregated</artifactId>
 	<packaging>pom</packaging>
-	<name>SoMoX Aggregated Update Site</name>
+	<name>SoMoX JaMoPP Aggregated Update Site</name>
 	<build>
 		<plugins>
 			<plugin>

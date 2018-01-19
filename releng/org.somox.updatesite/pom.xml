@@ -9,6 +9,6 @@
 		<relativePath>../org.somox.parent</relativePath>
 	</parent>
 	<artifactId>org.somox.updatesite</artifactId>
-	<name>SoMoX Update Site</name>
+	<name>SoMoX JaMoPP Update Site</name>
 	<packaging>eclipse-repository</packaging>
 </project>

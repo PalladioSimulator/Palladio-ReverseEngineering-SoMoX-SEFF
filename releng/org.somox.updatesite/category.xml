@@ -18,7 +18,7 @@
    <feature id="org.somox.jamopp.feature.source" version="1.0.0.qualifier">
       <category name="somox"/>
    </feature>
-   <category-def name="somox" label="SoMoX">
+   <category-def name="somox-jamopp" label="SoMoX JaMoPP">
       <description>
 	<!-- TODO add a category description for the update site and make the label above nicer -->
       </description>
