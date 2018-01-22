@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
    <feature url="features/org.somox.feature-1.0.0.qualifier.jar" id="org.somox.feature" version="1.0.0.qualifier">
-      <category name="somox"/>
+      <category name="somox-jamopp"/>
    </feature>
    <feature id="org.somox.feature.source" version="1.0.0.qualifier">
-      <category name="somox"/>
+      <category name="somox-jamopp"/>
    </feature>
    <feature url="features/org.somox.metrics.dsl.sdk-1.0.0.qualifier.jar" id="org.somox.metrics.dsl.sdk" version="1.0.0.qualifier">
-      <category name="somox"/>
+      <category name="somox-jamopp"/>
    </feature>
    <feature id="org.somox.metrics.dsl.sdk.source" version="1.0.0.qualifier">
-      <category name="somox"/>
+      <category name="somox-jamopp"/>
    </feature>
    <feature url="features/org.somox.jamopp.feature-1.0.0.qualifier.jar" id="org.somox.jamopp.feature" version="1.0.0.qualifier">
-      <category name="somox"/>
+      <category name="somox-jamopp"/>
    </feature>
    <feature id="org.somox.jamopp.feature.source" version="1.0.0.qualifier">
-      <category name="somox"/>
+      <category name="somox-jamopp"/>
    </feature>
    <category-def name="somox-jamopp" label="SoMoX JaMoPP">
       <description>
