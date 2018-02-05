@@ -34,10 +34,14 @@
     <module>../../features/org.somox.metrics.dsl.sdk</module>
     <module>../../features/org.somox.jamopp.feature</module>
     <module>../../tests/org.somox.analyzer.simplemodelanalyzer.ui.test</module>
-    <!-- <module>../../tests/org.somox.core.test</module> -->
+    <module>../../tests/org.somox.core.test</module>
     <module>../../tests/org.somox.metrics.dsl.tests</module>
-    <!-- <module>../../tests/org.somox.metrics.tests</module> -->
     <module>../../tests/org.somox.test.gast2seff</module>
+    
+    <!-- missing dependencies -->
+    <!-- <module>../../tests/org.somox.metrics.tests</module> -->
+    
+    <!-- missing MANIFEST.MF -->
     <!-- <module>../../tests/org.somox.testcase.somox-test</module> -->
     <!-- <module>../../tests/org.somox.tests.SoMoXCCTest</module> -->
   </modules>

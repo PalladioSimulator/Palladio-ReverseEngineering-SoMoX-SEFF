@@ -3,7 +3,7 @@
 	<name>org.somox.metrics.tests</name>
 	<comment></comment>
 	<projects>
-		<project>org.somox.analyzer.sissymodelanalyzer</project>
+		<project>org.somox.analyzer.simplemodelanalyzer</project>
 		<project>org.somox.metrics</project>
 	</projects>
 	<buildSpec>

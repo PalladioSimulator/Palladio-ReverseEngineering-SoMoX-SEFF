@@ -21,6 +21,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext.junit4.source;bundle-version="2.5.0",
  org.junit;bundle-version="4.11.0",
  de.fzi.se.accuracy;bundle-version="1.0.0",
- org.somox.analyzer.sissymodelanalyzer
+ org.somox.analyzer.simplemodelanalyzer
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
