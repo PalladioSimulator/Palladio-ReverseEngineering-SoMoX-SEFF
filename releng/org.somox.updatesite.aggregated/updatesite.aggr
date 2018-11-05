@@ -5,10 +5,10 @@
       <repositories location="../org.somox.updatesite/target/repository"/>
     </contributions>
     <contributions label="externals">
-      <repositories location="http://sdqbuild.ipd.kit.edu/nexus/content/groups/eclipse-oxygen-complete/" mirrorArtifacts="false">
+      <repositories location="http://download.eclipse.org/releases/oxygen/" mirrorArtifacts="false">
         <features name="org.eclipse.xtend.sdk.feature.group" versionRange="2.12.0"/>
       </repositories>
-      <repositories location="https://sdqbuild.ipd.kit.edu/nexus/content/repositories/palladiosimulator-release/" mirrorArtifacts="false">
+      <repositories location="https://sdqweb.ipd.kit.edu/eclipse/palladiosimulator/releases/latest/" mirrorArtifacts="false">
         <features name="de.uka.ipd.sdq.workflow" versionRange="1.1.0"/>
       </repositories>
       <repositories location="https://kit-sdq.github.io/updatesite/release/jamopp-p2/" mirrorArtifacts="false">
