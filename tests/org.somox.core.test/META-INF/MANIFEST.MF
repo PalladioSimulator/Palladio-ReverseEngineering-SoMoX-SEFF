@@ -4,7 +4,7 @@ Bundle-Name: Test
 Bundle-SymbolicName: org.somox.core.test
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.somox.core.configuration.test
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: de.uka.ipd.sdq.workflow;bundle-version="2.1.0",
  org.junit;bundle-version="4.12.0",
  org.somox.core

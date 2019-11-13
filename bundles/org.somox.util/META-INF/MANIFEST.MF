@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: SoMoX Util
 Bundle-SymbolicName: org.somox.util
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.apache.log4j,
  org.somox.analyzer.simplemodelanalyzer,
  org.somox.sourcecodedecorator,

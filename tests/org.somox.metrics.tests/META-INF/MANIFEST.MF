@@ -23,4 +23,4 @@ Require-Bundle: org.eclipse.ui,
  de.fzi.se.accuracy;bundle-version="1.0.0",
  org.somox.analyzer.simplemodelanalyzer
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-11

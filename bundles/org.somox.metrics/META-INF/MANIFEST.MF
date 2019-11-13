@@ -16,7 +16,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.emftext.language.java,
  net.sourceforge.secondstring;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.somox.metrics,
  org.somox.metrics.abstractmetrics,
  org.somox.metrics.basic,

@@ -17,7 +17,7 @@ Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
  org.eclipse.osgi,
  org.apache.commons.io;bundle-version="2.2.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.somox.kdmhelper,
  org.somox.kdmhelper.metamodeladdition,
  org.splevo.jamopp.extraction
