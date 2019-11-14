@@ -1,17 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.somox</groupId>
-    <artifactId>parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <relativePath>releng/org.somox.parent</relativePath>
-  </parent>
-  <artifactId>org.somox.main</artifactId>
-  <packaging>pom</packaging>
-  <modules>
-    <module>releng/org.somox.aggregator</module>
-    <module>releng/org.somox.updatesite</module>
-    <module>releng/org.somox.updatesite.aggregated</module>
-  </modules>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.palladiosimulator</groupId>
+		<artifactId>eclipse-parent-product</artifactId>
+		<version>0.4.1</version>
+	</parent>
+	<groupId>org.somox</groupId>
+	<artifactId>parent</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>bundles</module>
+		<module>features</module>
+		<module>tests</module>
+		<module>releng</module>
+	</modules>
+
+	<repositories>
+		<repository>
+			<id>Eclipse Photon</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/photon</url>
+		</repository>
+		<repository>
+			<id>Palladio</id>
+			<layout>p2</layout>
+			<url>https://sdqweb.ipd.kit.edu/eclipse/palladiosimulator/releases/latest/</url>
+		</repository>
+		<repository>
+			<id>JaMoPP</id>
+			<layout>p2</layout>
+			<url>https://kit-sdq.github.io/updatesite/release/jamopp-p2/</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-source-plugin</artifactId>
+					<version>${tycho.version}</version>
+					<configuration>
+						<skip>false</skip>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho.extras</groupId>
+					<artifactId>tycho-source-feature-plugin</artifactId>
+					<version>${tycho.version}</version>
+					<configuration>
+						<skip>false</skip>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>

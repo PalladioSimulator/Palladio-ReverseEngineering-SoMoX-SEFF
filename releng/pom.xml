@@ -4,10 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.somox</groupId>
-		<artifactId>org.somox.releng</artifactId>
+		<artifactId>parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>org.somox.updatesite</artifactId>
-	<name>SoMoX JaMoPP Update Site</name>
-	<packaging>eclipse-repository</packaging>
+	<artifactId>org.somox.releng</artifactId>
+	<packaging>pom</packaging>
+	<name>SoMoX Releng Modules</name>
+
+	<modules>
+		<module>org.somox.updatesite</module>
+	</modules>
 </project>

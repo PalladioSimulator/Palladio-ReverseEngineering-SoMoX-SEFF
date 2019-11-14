@@ -6,9 +6,31 @@
 		<groupId>org.somox</groupId>
 		<artifactId>parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>../releng/org.somox.parent</relativePath>
 	</parent>
 	<artifactId>org.somox.bundles</artifactId>
 	<packaging>pom</packaging>
 	<name>SoMoX Bundle Modules</name>
+
+	<modules>
+		<module>org.palladiosimulator.pcm.modified</module>
+		<module>org.somox.analyzer.simplemodelanalyzer</module>
+		<module>org.somox.analyzer.simplemodelanalyzer.ui</module>
+		<module>org.somox.core</module>
+		<module>org.somox.filter</module>
+		<module>org.somox.gast2seff</module>
+		<module>org.somox.kdmhelper</module>
+		<module>org.somox.metrics</module>
+		<module>org.somox.metrics.dsl</module>
+		<module>org.somox.metrics.dsl.ui</module>
+		<module>org.somox.metricvaluesstorage</module>
+		<module>org.somox.seff2javaast</module>
+		<module>org.somox.seff2javaast.edit</module>
+		<module>org.somox.seff2javaast.editor</module>
+		<module>org.somox.sourcecodedecorator</module>
+		<module>org.somox.sourcecodedecorator.edit</module>
+		<module>org.somox.sourcecodedecorator.editor</module>
+		<module>org.somox.ui</module>
+		<module>org.somox.util</module>
+	</modules>
+	
 </project>
