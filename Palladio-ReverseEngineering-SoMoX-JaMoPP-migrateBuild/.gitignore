@@ -1,0 +1,21 @@
+# Eclipse/Java
+.metadata
+*.settings/
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*.class
+
+# Xtend
+xtend-gen/
+*._trace
+*.xtendbin
+
+# Maven
+bundles/*/target/*
+features/*/target/*
+releng/*/target/*
+releng/*/workspace/*
+tests/*/target/*
