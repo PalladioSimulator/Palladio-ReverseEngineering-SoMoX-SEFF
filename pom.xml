@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.palladiosimulator</groupId>
 		<artifactId>eclipse-parent-product</artifactId>
-		<version>0.4.1</version>
+		<version>0.4.3</version>
 	</parent>
 	<groupId>org.somox</groupId>
 	<artifactId>parent</artifactId>
@@ -16,7 +16,204 @@
 		<module>tests</module>
 		<module>releng</module>
 	</modules>
+	
+	
+	  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+    <tycho.version>1.6.0</tycho.version>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <xtext.version>2.16.0</xtext.version>
+  </properties>
+  <repositories>
+    <repository>
+		<id>Eclipse 09-19</id>
+		<layout>p2</layout>
+		<!--<url>http://download.eclipse.org/releases/oxygen</url>-->
+		<!--<url>http://ftp-stud.hs-esslingen.de/pub/Mirrors/eclipse/releases/oxygen</url>-->
+				<url>http://ftp-stud.hs-esslingen.de/pub/Mirrors/eclipse/releases/2019-09/</url>
+	</repository>
+	<repository>
+		<id>Eclipse updates 09-19</id>
+		<layout>p2</layout>
+		<!--<url>http://download.eclipse.org/eclipse/updates/4.7</url>-->
+		<url>http://download.eclipse.org/eclipse/updates/4.13/</url>
+	</repository>
+	<repository>
+		<id>Palladio</id>
+		<layout>p2</layout>
+		<url>https://sdqweb.ipd.kit.edu/eclipse/palladiosimulator/releases/latest/</url>
+	</repository>
+	    <repository>
+      <id>EMFText</id>
+      <layout>p2</layout>
+      <url>http://update.emftext.org/release/</url>
+    </repository>
+    <repository>
+      <id>JaMoPP</id>
+      <layout>p2</layout>
+      <url>https://kit-sdq.github.io/updatesite/release/jamopp-p2/</url>
+    </repository>
 
+
+
+  </repositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>    
+          <environments>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86_64</arch>
+            </environment>
+             <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>x86_64</arch>
+            </environment>
+          </environments>
+        </configuration>
+      </plugin>
+      <!-- Compiles Xtend code -->
+
+<plugin>
+	<groupId>org.eclipse.xtend</groupId>
+	<artifactId>xtend-maven-plugin</artifactId>
+	<version>2.21.0</version>
+	<executions>
+		<execution>
+			<phase>generate-sources</phase>
+			<goals>
+				<goal>compile</goal>
+			</goals>
+			<configuration>
+				<outputDirectory>xtend-gen</outputDirectory>
+			</configuration>
+		</execution>
+	</executions>
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.jdt</groupId>
+			<artifactId>org.eclipse.jdt.core</artifactId>
+			<version>3.21.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.platform</groupId>
+			<artifactId>org.eclipse.core.runtime</artifactId>
+			<version>3.17.100</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.platform</groupId>
+			<artifactId>org.eclipse.equinox.common</artifactId>
+			<version>3.11.0</version>
+		</dependency>
+	</dependencies>
+</plugin>
+
+      <!-- Cleans the xtend-gen folder -->
+      <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-clean-plugin</artifactId>
+	      <version>3.0.0</version>
+	      <executions>
+		      <execution>
+			      <id>gen-clean</id>
+			      <phase>clean</phase>
+			      <goals>
+				      <goal>clean</goal>
+			      </goals>
+			      <configuration>
+				      <filesets>
+					      <fileset>
+						      <directory>xtend-gen</directory>
+					      </fileset>
+				      </filesets>
+			      </configuration>
+		      </execution>
+	      </executions>
+      </plugin>
+            
+      
+      <!-- Creates source versions of bundles -->
+      <plugin>
+	      <groupId>org.eclipse.tycho</groupId>
+	      <artifactId>tycho-source-plugin</artifactId>
+	      <version>${tycho.version}</version>
+	      <executions>
+		      <execution>
+			      <id>plugin-source</id>
+			      <goals>
+				      <goal>plugin-source</goal>
+			      </goals>
+		      </execution>
+	      </executions>
+      </plugin>
+      <!-- Creates source versions of features -->
+      <plugin>
+	      <groupId>org.eclipse.tycho.extras</groupId>
+	      <artifactId>tycho-source-feature-plugin</artifactId>
+	      <version>${tycho.version}</version>
+	      <executions>
+		      <execution>
+			      <id>source-feature</id>
+			      <phase>package</phase>
+			      <goals>
+				      <goal>source-feature</goal>
+			      </goals>
+		      </execution>
+	      </executions>
+      </plugin>
+      <!-- Correctly handles source features on p2 update site -->
+      <plugin>
+	      <groupId>org.eclipse.tycho</groupId>
+	      <artifactId>tycho-p2-plugin</artifactId>
+	      <version>${tycho.version}</version>
+	      <executions>
+		      <execution>
+			      <id>attached-p2-metadata</id>
+			      <phase>package</phase>
+			      <goals>
+				      <goal>p2-metadata</goal>
+			      </goals>
+		      </execution>
+	      </executions>
+      </plugin>
+      
+				
+					     
+      
+    </plugins>
+    
+  </build>
+	
+<!--  Old code
 	<repositories>
 		<repository>
 			<id>Eclipse Photon</id>
@@ -38,6 +235,16 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+			<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <show>private</show>
+          <nohelp>true</nohelp>
+        </configuration>
+      </plugin>
+    
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-source-plugin</artifactId>
@@ -56,5 +263,6 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-	</build>
+	</build>-->
 </project>
+
