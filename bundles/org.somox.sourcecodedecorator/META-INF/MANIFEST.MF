@@ -6,8 +6,9 @@ Bundle-Version: 1.0.1.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-11
-Export-Package: org.somox.sourcecodedecorator,
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: 
+ org.somox.sourcecodedecorator,
  org.somox.sourcecodedecorator.impl,
  org.somox.sourcecodedecorator.util
 Require-Bundle: org.eclipse.core.runtime,
@@ -18,7 +19,7 @@ Require-Bundle: org.eclipse.core.runtime,
  de.uka.ipd.sdq.units;visibility:=reexport,
  org.palladiosimulator.pcm;bundle-version="3.2.0";visibility:=reexport,
  de.uka.ipd.sdq.probfunction;visibility:=reexport,
- org.emftext.language.java;visibility:=reexport,
+ org.emftext.language.java;resolution:=optional;visibility:=reexport,
  org.emftext.commons.layout;visibility:=reexport,
  org.emftext.commons.jdt;bundle-version="1.4.1",
  org.emftext.language.java.resource.java,
@@ -31,3 +32,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.emftext.language.java.resource.java.ui,
  org.emftext.language.java.resource.jdt
 Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.somox.sourcecodedecorator

@@ -16,3 +16,4 @@ Require-Bundle: de.uka.ipd.sdq.workflow.launchconfig;bundle-version="1.1.0",
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: SDQ, KIT + FZI Karlsruhe + EU Q-ImPrESS
 Export-Package: org.somox.analyzer.simplemodelanalyzer.ui
+Automatic-Module-Name: org.somox.analyzer.simplemodelanalyzer.ui

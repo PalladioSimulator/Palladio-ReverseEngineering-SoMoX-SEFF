@@ -6,7 +6,7 @@ Bundle-Version: 1.1.0
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: metricvalues,
  metricvalues.impl,
  metricvalues.util

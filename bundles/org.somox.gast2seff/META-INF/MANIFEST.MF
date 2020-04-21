@@ -21,3 +21,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Export-Package: org.somox.gast2seff.jobs,
  org.somox.gast2seff.visitors
+Automatic-Module-Name: org.somox.gast2seff
