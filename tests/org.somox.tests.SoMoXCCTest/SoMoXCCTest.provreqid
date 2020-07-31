@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<provreqid:ProvReqRepository xmlns:provreqid="http://somox.org/provreqid">
-  <providedServices gastMethod="SoMoXCCTest.gast#_-kEIWGmPEd-DZuNHRWB_Sw"/>
-  <requiredServices gastMethod="SoMoXCCTest.gast#_-lj98WmPEd-DZuNHRWB_Sw"/>
-  <requiredServices gastMethod="SoMoXCCTest.gast#_-lj97WmPEd-DZuNHRWB_Sw"/>
-</provreqid:ProvReqRepository>
