@@ -32,188 +32,192 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  */
 public class SEFF2MethodMappingImpl extends MinimalEObjectImpl.Container implements SEFF2MethodMapping {
     /**
-     * The cached value of the '{@link #getSeff() <em>Seff</em>}' reference.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getSeff() <em>Seff</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getSeff()
-     * @generated
-     * @ordered
-     */
+	 * @see #getSeff()
+	 * @generated
+	 * @ordered
+	 */
     protected ServiceEffectSpecification seff;
 
     /**
-     * The cached value of the '{@link #getStatementListContainer() <em>Statement List Container</em>}' reference.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getStatementListContainer() <em>Statement List Container</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getStatementListContainer()
-     * @generated
-     * @ordered
-     */
+	 * @see #getStatementListContainer()
+	 * @generated
+	 * @ordered
+	 */
     protected StatementListContainer statementListContainer;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected SEFF2MethodMappingImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return SourcecodedecoratorPackage.Literals.SEFF2_METHOD_MAPPING;
-    }
+		return SourcecodedecoratorPackage.Literals.SEFF2_METHOD_MAPPING;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
-    public ServiceEffectSpecification getSeff() {
-        if (seff != null && ((EObject)seff).eIsProxy()) {
-            InternalEObject oldSeff = (InternalEObject)seff;
-            seff = (ServiceEffectSpecification)eResolveProxy(oldSeff);
-            if (seff != oldSeff) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__SEFF, oldSeff, seff));
-            }
-        }
-        return seff;
-    }
+	 * @generated
+	 */
+    @Override
+				public ServiceEffectSpecification getSeff() {
+		if (seff != null && ((EObject)seff).eIsProxy()) {
+			InternalEObject oldSeff = (InternalEObject)seff;
+			seff = (ServiceEffectSpecification)eResolveProxy(oldSeff);
+			if (seff != oldSeff) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__SEFF, oldSeff, seff));
+			}
+		}
+		return seff;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ServiceEffectSpecification basicGetSeff() {
-        return seff;
-    }
+		return seff;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setSeff(ServiceEffectSpecification newSeff) {
-        ServiceEffectSpecification oldSeff = seff;
-        seff = newSeff;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__SEFF, oldSeff, seff));
-    }
+	 * @generated
+	 */
+    @Override
+				public void setSeff(ServiceEffectSpecification newSeff) {
+		ServiceEffectSpecification oldSeff = seff;
+		seff = newSeff;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__SEFF, oldSeff, seff));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
-    public StatementListContainer getStatementListContainer() {
-        if (statementListContainer != null && statementListContainer.eIsProxy()) {
-            InternalEObject oldStatementListContainer = (InternalEObject)statementListContainer;
-            statementListContainer = (StatementListContainer)eResolveProxy(oldStatementListContainer);
-            if (statementListContainer != oldStatementListContainer) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__STATEMENT_LIST_CONTAINER, oldStatementListContainer, statementListContainer));
-            }
-        }
-        return statementListContainer;
-    }
+	 * @generated
+	 */
+    @Override
+				public StatementListContainer getStatementListContainer() {
+		if (statementListContainer != null && statementListContainer.eIsProxy()) {
+			InternalEObject oldStatementListContainer = (InternalEObject)statementListContainer;
+			statementListContainer = (StatementListContainer)eResolveProxy(oldStatementListContainer);
+			if (statementListContainer != oldStatementListContainer) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__STATEMENT_LIST_CONTAINER, oldStatementListContainer, statementListContainer));
+			}
+		}
+		return statementListContainer;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public StatementListContainer basicGetStatementListContainer() {
-        return statementListContainer;
-    }
+		return statementListContainer;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setStatementListContainer(StatementListContainer newStatementListContainer) {
-        StatementListContainer oldStatementListContainer = statementListContainer;
-        statementListContainer = newStatementListContainer;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__STATEMENT_LIST_CONTAINER, oldStatementListContainer, statementListContainer));
-    }
+	 * @generated
+	 */
+    @Override
+				public void setStatementListContainer(StatementListContainer newStatementListContainer) {
+		StatementListContainer oldStatementListContainer = statementListContainer;
+		statementListContainer = newStatementListContainer;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__STATEMENT_LIST_CONTAINER, oldStatementListContainer, statementListContainer));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__SEFF:
-                if (resolve) return getSeff();
-                return basicGetSeff();
-            case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__STATEMENT_LIST_CONTAINER:
-                if (resolve) return getStatementListContainer();
-                return basicGetStatementListContainer();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__SEFF:
+				if (resolve) return getSeff();
+				return basicGetSeff();
+			case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__STATEMENT_LIST_CONTAINER:
+				if (resolve) return getStatementListContainer();
+				return basicGetStatementListContainer();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__SEFF:
-                setSeff((ServiceEffectSpecification)newValue);
-                return;
-            case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__STATEMENT_LIST_CONTAINER:
-                setStatementListContainer((StatementListContainer)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__SEFF:
+				setSeff((ServiceEffectSpecification)newValue);
+				return;
+			case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__STATEMENT_LIST_CONTAINER:
+				setStatementListContainer((StatementListContainer)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__SEFF:
-                setSeff((ServiceEffectSpecification)null);
-                return;
-            case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__STATEMENT_LIST_CONTAINER:
-                setStatementListContainer((StatementListContainer)null);
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__SEFF:
+				setSeff((ServiceEffectSpecification)null);
+				return;
+			case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__STATEMENT_LIST_CONTAINER:
+				setStatementListContainer((StatementListContainer)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__SEFF:
-                return seff != null;
-            case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__STATEMENT_LIST_CONTAINER:
-                return statementListContainer != null;
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__SEFF:
+				return seff != null;
+			case SourcecodedecoratorPackage.SEFF2_METHOD_MAPPING__STATEMENT_LIST_CONTAINER:
+				return statementListContainer != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //SEFF2MethodMappingImpl

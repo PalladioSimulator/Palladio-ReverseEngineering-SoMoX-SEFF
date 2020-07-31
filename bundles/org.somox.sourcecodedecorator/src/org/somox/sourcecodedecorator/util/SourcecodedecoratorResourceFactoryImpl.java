@@ -14,23 +14,23 @@ import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
  */
 public class SourcecodedecoratorResourceFactoryImpl extends ResourceFactoryImpl {
     /**
-     * Creates an instance of the resource factory.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * Creates an instance of the resource factory.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public SourcecodedecoratorResourceFactoryImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * Creates an instance of the resource.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * Creates an instance of the resource.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Resource createResource(URI uri) {
-        Resource result = new SourcecodedecoratorResourceImpl(uri);
-        return result;
-    }
+		Resource result = new SourcecodedecoratorResourceImpl(uri);
+		return result;
+	}
 
 } // SourcecodedecoratorResourceFactoryImpl

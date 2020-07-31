@@ -2,13 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.somox.sourcecodedecorator;singleton:=true
-Bundle-Version: 1.0.1.qualifier
+Bundle-Version: 4.3.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: 
- org.somox.sourcecodedecorator,
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: org.somox.sourcecodedecorator,
  org.somox.sourcecodedecorator.impl,
  org.somox.sourcecodedecorator.util
 Require-Bundle: org.eclipse.core.runtime,
@@ -17,19 +16,12 @@ Require-Bundle: org.eclipse.core.runtime,
  de.uka.ipd.sdq.identifier;visibility:=reexport,
  de.uka.ipd.sdq.stoex;visibility:=reexport,
  de.uka.ipd.sdq.units;visibility:=reexport,
- org.palladiosimulator.pcm;bundle-version="3.2.0";visibility:=reexport,
+ org.palladiosimulator.pcm;visibility:=reexport,
  de.uka.ipd.sdq.probfunction;visibility:=reexport,
- org.emftext.language.java;resolution:=optional;visibility:=reexport,
+ org.emftext.language.java;visibility:=reexport,
  org.emftext.commons.layout;visibility:=reexport,
- org.emftext.commons.jdt;bundle-version="1.4.1",
- org.emftext.language.java.resource.java,
- org.emftext.commons.antlr3_4_0,
- org.emftext.commons.jdt.edit,
+ org.emftext.commons.jdt,
  org.emftext.commons.layout.edit,
- org.emftext.language.java.edit,
- org.emftext.language.java.resource,
- org.emftext.language.java.resource.bcel,
- org.emftext.language.java.resource.java.ui,
- org.emftext.language.java.resource.jdt
+ org.emftext.language.java.edit
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.somox.sourcecodedecorator

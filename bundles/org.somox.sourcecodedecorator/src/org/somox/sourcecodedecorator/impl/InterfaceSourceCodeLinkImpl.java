@@ -48,160 +48,160 @@ public class InterfaceSourceCodeLinkImpl extends MinimalEObjectImpl.Container im
     protected ConcreteClassifier gastClass;
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected InterfaceSourceCodeLinkImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return SourcecodedecoratorPackage.Literals.INTERFACE_SOURCE_CODE_LINK;
-    }
+		return SourcecodedecoratorPackage.Literals.INTERFACE_SOURCE_CODE_LINK;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Interface getInterface() {
-        if (interface_ != null && ((EObject)interface_).eIsProxy()) {
-            InternalEObject oldInterface = (InternalEObject)interface_;
-            interface_ = (Interface)eResolveProxy(oldInterface);
-            if (interface_ != oldInterface) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__INTERFACE, oldInterface, interface_));
-            }
-        }
-        return interface_;
-    }
+		if (interface_ != null && ((EObject)interface_).eIsProxy()) {
+			InternalEObject oldInterface = (InternalEObject)interface_;
+			interface_ = (Interface)eResolveProxy(oldInterface);
+			if (interface_ != oldInterface) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__INTERFACE, oldInterface, interface_));
+			}
+		}
+		return interface_;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public Interface basicGetInterface() {
-        return interface_;
-    }
+		return interface_;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setInterface(Interface newInterface) {
-        Interface oldInterface = interface_;
-        interface_ = newInterface;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__INTERFACE, oldInterface, interface_));
-    }
+		Interface oldInterface = interface_;
+		interface_ = newInterface;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__INTERFACE, oldInterface, interface_));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public ConcreteClassifier getGastClass() {
-        if (gastClass != null && gastClass.eIsProxy()) {
-            InternalEObject oldGastClass = (InternalEObject)gastClass;
-            gastClass = (ConcreteClassifier)eResolveProxy(oldGastClass);
-            if (gastClass != oldGastClass) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__GAST_CLASS, oldGastClass, gastClass));
-            }
-        }
-        return gastClass;
-    }
+		if (gastClass != null && gastClass.eIsProxy()) {
+			InternalEObject oldGastClass = (InternalEObject)gastClass;
+			gastClass = (ConcreteClassifier)eResolveProxy(oldGastClass);
+			if (gastClass != oldGastClass) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__GAST_CLASS, oldGastClass, gastClass));
+			}
+		}
+		return gastClass;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public ConcreteClassifier basicGetGastClass() {
-        return gastClass;
-    }
+		return gastClass;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setGastClass(ConcreteClassifier newGastClass) {
-        ConcreteClassifier oldGastClass = gastClass;
-        gastClass = newGastClass;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__GAST_CLASS, oldGastClass, gastClass));
-    }
+		ConcreteClassifier oldGastClass = gastClass;
+		gastClass = newGastClass;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__GAST_CLASS, oldGastClass, gastClass));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__INTERFACE:
-                if (resolve) return getInterface();
-                return basicGetInterface();
-            case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__GAST_CLASS:
-                if (resolve) return getGastClass();
-                return basicGetGastClass();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__INTERFACE:
+				if (resolve) return getInterface();
+				return basicGetInterface();
+			case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__GAST_CLASS:
+				if (resolve) return getGastClass();
+				return basicGetGastClass();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__INTERFACE:
-                setInterface((Interface)newValue);
-                return;
-            case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__GAST_CLASS:
-                setGastClass((ConcreteClassifier)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__INTERFACE:
+				setInterface((Interface)newValue);
+				return;
+			case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__GAST_CLASS:
+				setGastClass((ConcreteClassifier)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__INTERFACE:
-                setInterface((Interface)null);
-                return;
-            case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__GAST_CLASS:
-                setGastClass((ConcreteClassifier)null);
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__INTERFACE:
+				setInterface((Interface)null);
+				return;
+			case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__GAST_CLASS:
+				setGastClass((ConcreteClassifier)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__INTERFACE:
-                return interface_ != null;
-            case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__GAST_CLASS:
-                return gastClass != null;
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__INTERFACE:
+				return interface_ != null;
+			case SourcecodedecoratorPackage.INTERFACE_SOURCE_CODE_LINK__GAST_CLASS:
+				return gastClass != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
 } // InterfaceSourceCodeLinkImpl

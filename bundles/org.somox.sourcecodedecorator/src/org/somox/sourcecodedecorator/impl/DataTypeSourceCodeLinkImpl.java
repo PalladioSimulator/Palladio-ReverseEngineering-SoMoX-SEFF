@@ -55,207 +55,207 @@ public class DataTypeSourceCodeLinkImpl extends FileLevelSourceCodeLinkImpl impl
     protected DataType pcmDataType;
 
     /**
-     * The cached value of the '{@link #getInnerDatatypeSourceCodeLink() <em>Inner Datatype Source Code Link</em>}' containment reference list.
-     * <!-- begin-user-doc
+	 * The cached value of the '{@link #getInnerDatatypeSourceCodeLink() <em>Inner Datatype Source Code Link</em>}' containment reference list.
+	 * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * @see #getInnerDatatypeSourceCodeLink()
-     * @generated
-     * @ordered
-     */
+	 * @see #getInnerDatatypeSourceCodeLink()
+	 * @generated
+	 * @ordered
+	 */
     protected EList<InnerDatatypeSourceCodeLink> innerDatatypeSourceCodeLink;
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected DataTypeSourceCodeLinkImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return SourcecodedecoratorPackage.Literals.DATA_TYPE_SOURCE_CODE_LINK;
-    }
+		return SourcecodedecoratorPackage.Literals.DATA_TYPE_SOURCE_CODE_LINK;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Type getJaMoPPType() {
-        if (jaMoPPType != null && jaMoPPType.eIsProxy()) {
-            InternalEObject oldJaMoPPType = (InternalEObject)jaMoPPType;
-            jaMoPPType = (Type)eResolveProxy(oldJaMoPPType);
-            if (jaMoPPType != oldJaMoPPType) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__JA_MO_PP_TYPE, oldJaMoPPType, jaMoPPType));
-            }
-        }
-        return jaMoPPType;
-    }
+		if (jaMoPPType != null && jaMoPPType.eIsProxy()) {
+			InternalEObject oldJaMoPPType = (InternalEObject)jaMoPPType;
+			jaMoPPType = (Type)eResolveProxy(oldJaMoPPType);
+			if (jaMoPPType != oldJaMoPPType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__JA_MO_PP_TYPE, oldJaMoPPType, jaMoPPType));
+			}
+		}
+		return jaMoPPType;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public Type basicGetJaMoPPType() {
-        return jaMoPPType;
-    }
+		return jaMoPPType;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setJaMoPPType(Type newJaMoPPType) {
-        Type oldJaMoPPType = jaMoPPType;
-        jaMoPPType = newJaMoPPType;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__JA_MO_PP_TYPE, oldJaMoPPType, jaMoPPType));
-    }
+		Type oldJaMoPPType = jaMoPPType;
+		jaMoPPType = newJaMoPPType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__JA_MO_PP_TYPE, oldJaMoPPType, jaMoPPType));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public DataType getPcmDataType() {
-        if (pcmDataType != null && ((EObject)pcmDataType).eIsProxy()) {
-            InternalEObject oldPcmDataType = (InternalEObject)pcmDataType;
-            pcmDataType = (DataType)eResolveProxy(oldPcmDataType);
-            if (pcmDataType != oldPcmDataType) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__PCM_DATA_TYPE, oldPcmDataType, pcmDataType));
-            }
-        }
-        return pcmDataType;
-    }
+		if (pcmDataType != null && ((EObject)pcmDataType).eIsProxy()) {
+			InternalEObject oldPcmDataType = (InternalEObject)pcmDataType;
+			pcmDataType = (DataType)eResolveProxy(oldPcmDataType);
+			if (pcmDataType != oldPcmDataType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__PCM_DATA_TYPE, oldPcmDataType, pcmDataType));
+			}
+		}
+		return pcmDataType;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public DataType basicGetPcmDataType() {
-        return pcmDataType;
-    }
+		return pcmDataType;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void setPcmDataType(DataType newPcmDataType) {
-        DataType oldPcmDataType = pcmDataType;
-        pcmDataType = newPcmDataType;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__PCM_DATA_TYPE, oldPcmDataType, pcmDataType));
-    }
+		DataType oldPcmDataType = pcmDataType;
+		pcmDataType = newPcmDataType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__PCM_DATA_TYPE, oldPcmDataType, pcmDataType));
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public EList<InnerDatatypeSourceCodeLink> getInnerDatatypeSourceCodeLink() {
-        if (innerDatatypeSourceCodeLink == null) {
-            innerDatatypeSourceCodeLink = new EObjectContainmentEList<InnerDatatypeSourceCodeLink>(InnerDatatypeSourceCodeLink.class, this, SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__INNER_DATATYPE_SOURCE_CODE_LINK);
-        }
-        return innerDatatypeSourceCodeLink;
-    }
+		if (innerDatatypeSourceCodeLink == null) {
+			innerDatatypeSourceCodeLink = new EObjectContainmentEList<InnerDatatypeSourceCodeLink>(InnerDatatypeSourceCodeLink.class, this, SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__INNER_DATATYPE_SOURCE_CODE_LINK);
+		}
+		return innerDatatypeSourceCodeLink;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__INNER_DATATYPE_SOURCE_CODE_LINK:
-                return ((InternalEList<?>)getInnerDatatypeSourceCodeLink()).basicRemove(otherEnd, msgs);
-        }
-        return super.eInverseRemove(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__INNER_DATATYPE_SOURCE_CODE_LINK:
+				return ((InternalEList<?>)getInnerDatatypeSourceCodeLink()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__JA_MO_PP_TYPE:
-                if (resolve) return getJaMoPPType();
-                return basicGetJaMoPPType();
-            case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__PCM_DATA_TYPE:
-                if (resolve) return getPcmDataType();
-                return basicGetPcmDataType();
-            case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__INNER_DATATYPE_SOURCE_CODE_LINK:
-                return getInnerDatatypeSourceCodeLink();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__JA_MO_PP_TYPE:
+				if (resolve) return getJaMoPPType();
+				return basicGetJaMoPPType();
+			case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__PCM_DATA_TYPE:
+				if (resolve) return getPcmDataType();
+				return basicGetPcmDataType();
+			case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__INNER_DATATYPE_SOURCE_CODE_LINK:
+				return getInnerDatatypeSourceCodeLink();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__JA_MO_PP_TYPE:
-                setJaMoPPType((Type)newValue);
-                return;
-            case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__PCM_DATA_TYPE:
-                setPcmDataType((DataType)newValue);
-                return;
-            case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__INNER_DATATYPE_SOURCE_CODE_LINK:
-                getInnerDatatypeSourceCodeLink().clear();
-                getInnerDatatypeSourceCodeLink().addAll((Collection<? extends InnerDatatypeSourceCodeLink>)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__JA_MO_PP_TYPE:
+				setJaMoPPType((Type)newValue);
+				return;
+			case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__PCM_DATA_TYPE:
+				setPcmDataType((DataType)newValue);
+				return;
+			case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__INNER_DATATYPE_SOURCE_CODE_LINK:
+				getInnerDatatypeSourceCodeLink().clear();
+				getInnerDatatypeSourceCodeLink().addAll((Collection<? extends InnerDatatypeSourceCodeLink>)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__JA_MO_PP_TYPE:
-                setJaMoPPType((Type)null);
-                return;
-            case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__PCM_DATA_TYPE:
-                setPcmDataType((DataType)null);
-                return;
-            case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__INNER_DATATYPE_SOURCE_CODE_LINK:
-                getInnerDatatypeSourceCodeLink().clear();
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__JA_MO_PP_TYPE:
+				setJaMoPPType((Type)null);
+				return;
+			case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__PCM_DATA_TYPE:
+				setPcmDataType((DataType)null);
+				return;
+			case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__INNER_DATATYPE_SOURCE_CODE_LINK:
+				getInnerDatatypeSourceCodeLink().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__JA_MO_PP_TYPE:
-                return jaMoPPType != null;
-            case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__PCM_DATA_TYPE:
-                return pcmDataType != null;
-            case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__INNER_DATATYPE_SOURCE_CODE_LINK:
-                return innerDatatypeSourceCodeLink != null && !innerDatatypeSourceCodeLink.isEmpty();
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__JA_MO_PP_TYPE:
+				return jaMoPPType != null;
+			case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__PCM_DATA_TYPE:
+				return pcmDataType != null;
+			case SourcecodedecoratorPackage.DATA_TYPE_SOURCE_CODE_LINK__INNER_DATATYPE_SOURCE_CODE_LINK:
+				return innerDatatypeSourceCodeLink != null && !innerDatatypeSourceCodeLink.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
 } // DataTypeSourceCodeLinkImpl
