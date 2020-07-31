@@ -1,21 +1,61 @@
-# Eclipse/Java
-.metadata
-*.settings/
-bin/
-tmp/
-*.tmp
-*.bak
-*.swp
-*.class
+# General
+.DS_Store
+.polyglot.build.properties
+*.log
+*.META-INF_MANIFEST.MF
+*.polyglot.*
+*.rej
+*.takari_issue_192
+*.tycho
+*~
+heapdump.*
+Snap.*
 
-# Xtend
-xtend-gen/
-*._trace
-*.xtendbin
+# Package Files
+*.ear
+*.jar
+*.nar
+*.rar
+*.tar.gz
+*.war
+*.zip
+
+# Eclipse
+.loadpath
+.metadata
+.recommenders
+.settings/
+.worksheet
+*.bak
+*.class
+*.swp
+*.tmp
+*~.nib
+bin/
+javacore.*
+local.properties
+src-gen/
+tmp/
 
 # Maven
+.mvn/timing.properties
+/*/bin/
+/*/target/
+buildNumber.properties
+dependency-reduced-pom.xml
+pom.xml.next
+pom.xml.releaseBackup
+pom.xml.tag
+pom.xml.versionsBackup
+release.properties
+target/
+
+# Xtend
+*._trace
+*.xtendbin
 bundles/*/target/*
 features/*/target/*
 releng/*/target/*
 releng/*/workspace/*
 tests/*/target/*
+xtend-gen/

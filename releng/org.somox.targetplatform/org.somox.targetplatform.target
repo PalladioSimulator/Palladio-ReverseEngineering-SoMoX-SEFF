@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?><target name="SoMoX - SOftware MOdel eXtractor" sequenceNumber="1">
+<locations>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+			<unit id="org.apache.commons.beanutils" version="1.8.0.v201205091237"/>
+			<unit id="org.apache.commons.collections" version="3.2.2.v201511171945"/>
+			<unit id="org.slf4j.api" version="1.7.2.v20121108-1250"/>
+			<unit id="org.eclipse.equinox.executable.feature.group" version="3.8.800.v20200514-1529"/>
+			<unit id="org.eclipse.equinox.core.feature.feature.group" version="1.11.200.v20200525-1407"/>
+			<repository location="http://download.eclipse.org/releases/2020-06/202006171000"/>
+		</location>
+</locations>
+</target>
