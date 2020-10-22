@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.somox.metricvaluesstorage/src" modelPluginID="org.somox.metricvaluesstorage"
+    modelName="MetricValues2" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    usedGenPackages="../org.emftext.language.java/metamodel/java.genmodel#//java ../org.emftext.commons.layout/metamodel/layout.genmodel#//layout"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>MetricValues2.ecore</foreignModel>
+  <genPackages prefix="Metricvalues" disposableProviderFactory="true" ecorePackage="MetricValues2.ecore#/">
+    <genClasses ecoreClass="MetricValues2.ecore#//Component">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MetricValues2.ecore#//Component/subComponents"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//Component/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//Component/id"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MetricValues2.ecore#//Component/classes"/>
+    </genClasses>
+    <genClasses ecoreClass="MetricValues2.ecore#//ComponentCandidate">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MetricValues2.ecore#//ComponentCandidate/metricValues"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MetricValues2.ecore#//ComponentCandidate/firstComponent"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MetricValues2.ecore#//ComponentCandidate/secondComponent"/>
+    </genClasses>
+    <genClasses ecoreClass="MetricValues2.ecore#//Iteration">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MetricValues2.ecore#//Iteration/componentCandidates"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MetricValues2.ecore#//Iteration/components"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//Iteration/number"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//Iteration/curCompThreshold"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//Iteration/curMergeThreshold"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//Iteration/isMergeIteration"/>
+    </genClasses>
+    <genClasses ecoreClass="MetricValues2.ecore#//MetricValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValue/metricID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValue/value"/>
+    </genClasses>
+    <genClasses ecoreClass="MetricValues2.ecore#//MetricValuesModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MetricValues2.ecore#//MetricValuesModel/iterations"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/minCompThreshold"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/maxMergeThreshold"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/weightLowCoupling"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/weightHighCoupling"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/weightLowNameResemblance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/weightMidNameResemblance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/weightHighNameResemblance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/weightInterfaceViolationRelevant"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/weightInterfaceViolationIrrelevant"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/weightHighSLAQ"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/weightLowSLAQ"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/weightPackageMapping"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/weightDirectoryMapping"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/weightDMS"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/weightHighestNameResemblance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/wildcardKey"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/additionalWildcards"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/minMergeThreshold"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/maxComposeThreshold"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/composeThresholdDecrement"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/mergeThresholdDecrement"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/excludedPrefixesForNameResemblance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MetricValues2.ecore#//MetricValuesModel/excludedSuffixesForNameResemblance"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
