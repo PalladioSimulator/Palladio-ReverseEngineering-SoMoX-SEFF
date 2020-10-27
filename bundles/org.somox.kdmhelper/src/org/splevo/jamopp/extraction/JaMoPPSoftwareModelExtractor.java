@@ -2,6 +2,8 @@ package org.splevo.jamopp.extraction;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,7 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
@@ -112,7 +113,7 @@ public class JaMoPPSoftwareModelExtractor {
             final IProgressMonitor monitor, final String sourceModelPath, final boolean extractLayoutInfo) {
         List<File> javaFiles = new ArrayList<>();
         for (File sourceFolder : sourceFolders) {
-            javaFiles.addAll(FileUtils.listFiles(sourceFolder, new String[] { "java" }, true));
+        	javaFiles.add(sourceFolder);
         }
 
         return this.loadJavaFilesIntoResourceSet(javaFiles, monitor, sourceModelPath, extractLayoutInfo);
@@ -126,25 +127,17 @@ public class JaMoPPSoftwareModelExtractor {
 
         final ResourceSet targetResourceSet = this.setUpResourceSet(sourceModelPath, extractLayoutInfo);
         final List<Resource> resources = new ArrayList<>();
-
-        int currentFile = 0;
-        for (final File javaFile : javaFiles) {
-            LOGGER.info("loading file: " + (++currentFile) + "/" + javaFiles.size() + " currentFile name: "
-                    + javaFile.getAbsolutePath() + " currentFile size: " + javaFile.length());
-            Resource resource = null;
-
-            try {
-                resource = this.parseResource(javaFile, targetResourceSet);
-            } catch (IOException e) {
-                // will be handled in else below
-            }
-
-            if (resource != null) {
-                resources.add(resource);
-            } else {
-                LOGGER.warn("Failed to load resource: " + javaFile);
-            }
+        
+        
+        Path commonParent = findCommonParent(javaFiles).toPath();
+        JaMoPPJDTParser parser = new JaMoPPJDTParser();
+        parser.setResourceSet(targetResourceSet);
+        if (Files.isDirectory(commonParent)) {
+        	parser.parseDirectory(commonParent);
+        } else if (Files.isRegularFile(commonParent)) {
+        	parser.parseFile(commonParent);
         }
+        resources.addAll(targetResourceSet.getResources());
 
         // trigger the resource resolving as soon as all resources are parsed.
         final ReferenceCache cache = this.getReferenceCache(targetResourceSet);
@@ -160,6 +153,36 @@ public class JaMoPPSoftwareModelExtractor {
         this.sourceResources = resources;
 
         return targetResourceSet;
+    }
+    
+    private File findCommonParent(Collection<File> files) {
+    	File first = files.stream().findAny().orElse(null);
+    	if (first == null) {
+    		return null;
+    	}
+    	File[] resultContainer = { first };
+    	files.stream().filter(file -> file != first).forEach(file -> {
+    		File common = findCommonParent(resultContainer[0], file);
+    		if (common != null) {
+    			resultContainer[0] = common;
+    		}
+    	});
+    	return first == resultContainer[0] ? null : resultContainer[0];
+    }
+    
+    private File findCommonParent(File one, File other) {
+    	if (one == null || other == null) {
+    		return null;
+    	}
+    	Path currentParent = one.getAbsoluteFile().toPath().normalize();
+    	Path otherPath = other.getAbsoluteFile().toPath().normalize();
+    	while (currentParent != null) {
+    		if (otherPath.startsWith(currentParent)) {
+    			return currentParent.toFile();
+    		}
+    		currentParent = currentParent.getParent();
+    	}
+    	return null;
     }
 
     /**

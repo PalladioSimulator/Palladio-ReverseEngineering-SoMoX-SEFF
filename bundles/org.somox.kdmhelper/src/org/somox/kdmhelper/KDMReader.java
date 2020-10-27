@@ -10,9 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.internal.resources.WorkspaceRoot;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -54,29 +52,26 @@ public class KDMReader {
 
         KDMReader.logger.trace("Start loading projects: " + Arrays.toString(projects));
 
+        List<File> sourceFolderPaths = new ArrayList<>();
         if (SoMoXUtil.isStandalone()) {
-            List<File> sourceFolderPaths = new ArrayList<>();
             for (String projectPath : projects) {
                 sourceFolderPaths.add(new File(projectPath));
             }
-            softwareModelExtractor.extractSoftwareModelFromFolders(sourceFolderPaths, new NullProgressMonitor(),
-                    cacheFileDir.toString(), extractLayoutInformation);
         } else {
-            List<IJavaProject> javaProjects = new ArrayList<>();
             for (final String projectName : projects) {
                 IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
                 final IProject project = workspaceRoot.getProject(projectName);
                 final IJavaProject javaProject = JavaCore.create(project);
                 if (javaProject.exists()) {
-                    javaProjects.add(javaProject);
+                	sourceFolderPaths.add(project.getRawLocation().toFile());
                 } else {
                     KDMReader.logger.warn(String
                             .format("Project %s is not a java project in this workspace. Ignoring it.", projectName));
                 }
             }
-            softwareModelExtractor.extractSoftwareModelFromProjects(javaProjects, new NullProgressMonitor(),
-                    cacheFileDir.toString(), extractLayoutInformation);
         }
+        softwareModelExtractor.extractSoftwareModelFromFolders(sourceFolderPaths, new NullProgressMonitor(),
+                    cacheFileDir.toString(), extractLayoutInformation);
 
         this.addModelsToRoot(softwareModelExtractor.getSourceResources());
         KDMReader.logger.trace("Finished reading projects.");
