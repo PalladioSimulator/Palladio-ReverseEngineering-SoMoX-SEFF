@@ -29,179 +29,179 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
 public class InnerDatatypeSourceCodeLinkImpl extends MinimalEObjectImpl.Container
         implements InnerDatatypeSourceCodeLink {
     /**
-	 * The cached value of the '{@link #getField() <em>Field</em>}' reference.
-	 * <!-- begin-user-doc
+     * The cached value of the '{@link #getField() <em>Field</em>}' reference.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-	 * @see #getField()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getField()
+     * @generated
+     * @ordered
+     */
     protected Field field;
 
     /**
-	 * The cached value of the '{@link #getInnerDeclaration() <em>Inner Declaration</em>}' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getInnerDeclaration()
-	 * @generated
-	 * @ordered
-	 */
+     * The cached value of the '{@link #getInnerDeclaration() <em>Inner Declaration</em>}' reference.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @see #getInnerDeclaration()
+     * @generated
+     * @ordered
+     */
     protected InnerDeclaration innerDeclaration;
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @generated
+     */
     protected InnerDatatypeSourceCodeLinkImpl() {
-		super();
-	}
+        super();
+    }
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     protected EClass eStaticClass() {
-		return SourcecodedecoratorPackage.Literals.INNER_DATATYPE_SOURCE_CODE_LINK;
-	}
+        return SourcecodedecoratorPackage.Literals.INNER_DATATYPE_SOURCE_CODE_LINK;
+    }
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Field getField() {
-		if (field != null && field.eIsProxy()) {
-			InternalEObject oldField = (InternalEObject)field;
-			field = (Field)eResolveProxy(oldField);
-			if (field != oldField) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__FIELD, oldField, field));
-			}
-		}
-		return field;
-	}
+        if (field != null && field.eIsProxy()) {
+            InternalEObject oldField = (InternalEObject)field;
+            field = (Field)eResolveProxy(oldField);
+            if (field != oldField) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__FIELD, oldField, field));
+            }
+        }
+        return field;
+    }
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @generated
+     */
     public Field basicGetField() {
-		return field;
-	}
+        return field;
+    }
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public void setField(Field newField) {
-		Field oldField = field;
-		field = newField;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__FIELD, oldField, field));
-	}
+        Field oldField = field;
+        field = newField;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__FIELD, oldField, field));
+    }
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public InnerDeclaration getInnerDeclaration() {
-		if (innerDeclaration != null && ((EObject)innerDeclaration).eIsProxy()) {
-			InternalEObject oldInnerDeclaration = (InternalEObject)innerDeclaration;
-			innerDeclaration = (InnerDeclaration)eResolveProxy(oldInnerDeclaration);
-			if (innerDeclaration != oldInnerDeclaration) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION, oldInnerDeclaration, innerDeclaration));
-			}
-		}
-		return innerDeclaration;
-	}
+        if (innerDeclaration != null && ((EObject)innerDeclaration).eIsProxy()) {
+            InternalEObject oldInnerDeclaration = (InternalEObject)innerDeclaration;
+            innerDeclaration = (InnerDeclaration)eResolveProxy(oldInnerDeclaration);
+            if (innerDeclaration != oldInnerDeclaration) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION, oldInnerDeclaration, innerDeclaration));
+            }
+        }
+        return innerDeclaration;
+    }
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @generated
+     */
     public InnerDeclaration basicGetInnerDeclaration() {
-		return innerDeclaration;
-	}
+        return innerDeclaration;
+    }
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public void setInnerDeclaration(InnerDeclaration newInnerDeclaration) {
-		InnerDeclaration oldInnerDeclaration = innerDeclaration;
-		innerDeclaration = newInnerDeclaration;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION, oldInnerDeclaration, innerDeclaration));
-	}
+        InnerDeclaration oldInnerDeclaration = innerDeclaration;
+        innerDeclaration = newInnerDeclaration;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION, oldInnerDeclaration, innerDeclaration));
+    }
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__FIELD:
-				if (resolve) return getField();
-				return basicGetField();
-			case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION:
-				if (resolve) return getInnerDeclaration();
-				return basicGetInnerDeclaration();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__FIELD:
+                if (resolve) return getField();
+                return basicGetField();
+            case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION:
+                if (resolve) return getInnerDeclaration();
+                return basicGetInnerDeclaration();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__FIELD:
-				setField((Field)newValue);
-				return;
-			case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION:
-				setInnerDeclaration((InnerDeclaration)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__FIELD:
+                setField((Field)newValue);
+                return;
+            case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION:
+                setInnerDeclaration((InnerDeclaration)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public void eUnset(int featureID) {
-		switch (featureID) {
-			case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__FIELD:
-				setField((Field)null);
-				return;
-			case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION:
-				setInnerDeclaration((InnerDeclaration)null);
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__FIELD:
+                setField((Field)null);
+                return;
+            case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION:
+                setInnerDeclaration((InnerDeclaration)null);
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
     /**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__FIELD:
-				return field != null;
-			case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION:
-				return innerDeclaration != null;
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__FIELD:
+                return field != null;
+            case SourcecodedecoratorPackage.INNER_DATATYPE_SOURCE_CODE_LINK__INNER_DECLARATION:
+                return innerDeclaration != null;
+        }
+        return super.eIsSet(featureID);
+    }
 
 } // InnerDatatypeSourceCodeLinkImpl

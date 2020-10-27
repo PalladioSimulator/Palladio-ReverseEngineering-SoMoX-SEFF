@@ -60,28 +60,28 @@ public interface ComponentImplementingClassesLink extends EObject {
     boolean isSetIsCompositeComponent();
 
     /**
-	 * Returns the value of the '<em><b>Component</b></em>' reference.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Component</b></em>' reference.
+     * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Component</em>' reference isn't clear, there really should be more
      * of a description here...
      * </p>
      * <!-- end-user-doc -->
-	 * @return the value of the '<em>Component</em>' reference.
-	 * @see #setComponent(RepositoryComponent)
-	 * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getComponentImplementingClassesLink_Component()
-	 * @model required="true" ordered="false"
-	 * @generated
-	 */
+     * @return the value of the '<em>Component</em>' reference.
+     * @see #setComponent(RepositoryComponent)
+     * @see org.somox.sourcecodedecorator.SourcecodedecoratorPackage#getComponentImplementingClassesLink_Component()
+     * @model required="true" ordered="false"
+     * @generated
+     */
     RepositoryComponent getComponent();
 
     /**
-	 * Sets the value of the '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getComponent <em>Component</em>}' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Component</em>' reference.
-	 * @see #getComponent()
-	 * @generated
-	 */
+     * Sets the value of the '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#getComponent <em>Component</em>}' reference.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Component</em>' reference.
+     * @see #getComponent()
+     * @generated
+     */
     void setComponent(RepositoryComponent value);
 
     /**
@@ -167,12 +167,12 @@ public interface ComponentImplementingClassesLink extends EObject {
     boolean isIsInitialComponent();
 
     /**
-	 * Sets the value of the '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsInitialComponent <em>Is Initial Component</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Is Initial Component</em>' attribute.
-	 * @see #isIsInitialComponent()
-	 * @generated
-	 */
+     * Sets the value of the '{@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink#isIsInitialComponent <em>Is Initial Component</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Is Initial Component</em>' attribute.
+     * @see #isIsInitialComponent()
+     * @generated
+     */
     void setIsInitialComponent(boolean value);
 
 } // ComponentImplementingClassesLink
