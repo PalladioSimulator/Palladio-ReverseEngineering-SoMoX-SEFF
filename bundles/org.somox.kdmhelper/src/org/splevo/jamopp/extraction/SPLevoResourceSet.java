@@ -61,6 +61,8 @@ public class SPLevoResourceSet extends ResourceSetImpl {
                     return normalizedURI;
                 }
                 return uri;
+            } else if ("empty".equals(uri.scheme())) {
+            	return uri;
             } else {
                 final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
                 final IPath p = new Path(uri.toFileString());

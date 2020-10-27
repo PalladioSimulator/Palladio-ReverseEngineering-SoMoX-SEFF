@@ -14,10 +14,11 @@ package org.splevo.jamopp.extraction.resource;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
 import org.splevo.jamopp.extraction.cache.ReferenceCache;
 
 import com.google.common.base.Strings;
+
+import jamopp.resource.JavaResource2;
 
 /***
  * JaMoPP java resource using an internal cache for reference resolving.
@@ -25,7 +26,7 @@ import com.google.common.base.Strings;
  * As long as the cache is not explicitly triggered to resolve a resource, proxies will be resolved
  * when required only.
  */
-public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileResource implements CachingResource {
+public class JavaSourceOrClassFileCachingResource extends JavaResource2 implements CachingResource {
 
     @SuppressWarnings("unused")
     private static Logger logger = Logger.getLogger(JavaSourceOrClassFileCachingResource.class);

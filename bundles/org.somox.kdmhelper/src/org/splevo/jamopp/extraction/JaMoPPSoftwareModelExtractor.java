@@ -22,13 +22,13 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.JavaClasspath;
-import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
-import org.emftext.language.java.resource.java.IJavaOptions;
 import org.splevo.jamopp.extraction.FileResourceHandling.ResourceHandlingOptions;
 import org.splevo.jamopp.extraction.cache.ReferenceCache;
 import org.splevo.jamopp.extraction.resource.JavaSourceOrClassFileResourceCachingFactoryImpl;
 
 import com.google.common.collect.Lists;
+import jamopp.parser.jdt.JaMoPPJDTParser;
+import jamopp.resource.JavaResource2Factory;
 
 /**
  * Software Model Extractor for the Java technology based on the Java Model Parser and Printer
@@ -274,28 +274,23 @@ public class JaMoPPSoftwareModelExtractor {
 
     private void initResourceSet(final ResourceSet rs, final List<String> sourceModelPaths,
             final boolean loadLayoutInformation) {
-        final Boolean disableLayoutOption = loadLayoutInformation ? Boolean.FALSE : Boolean.TRUE;
 
         final Map<Object, Object> options = rs.getLoadOptions();
-        options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
-        options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);
         // options.put(IJavaOptions.DISABLE_EMF_VALIDATION, Boolean.TRUE);
-        options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, disableLayoutOption);
-        options.put(IJavaOptions.DISABLE_LOCATION_MAP, disableLayoutOption);
         options.put(ResourceHandlingOptions.USE_PLATFORM_RESOURCE,
                 ResourceHandlingOptions.USE_PLATFORM_RESOURCE.getDefault());
         // options.put(ResourceHandlingOptions.USE_PLATFORM_RESOURCE, false);
 
-        final Factory originalFactory = new JavaSourceOrClassFileResourceFactoryImpl();
+        final Factory originalFactory = new JavaResource2Factory();
         final Factory cachedJaMoPPFactory = new JavaSourceOrClassFileResourceCachingFactoryImpl(originalFactory,
                 sourceModelPaths);
 
-        JavaClasspath.get(rs);
+        JavaClasspath.get();
 
         final Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
         factoryMap.put("java", cachedJaMoPPFactory);
         // DesignDecision No caching for byte code resources to improve performance
-        factoryMap.put("class", originalFactory);
+//        factoryMap.put("class", originalFactory);
     }
 
     public List<Resource> getSourceResources() {
