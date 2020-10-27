@@ -387,13 +387,16 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
             rdBehaviour = this.getOrCreateResourceDemandingInternalBehaviour(classMethod);
         }
         // create an Internal Action that calls the SEFF
-        this.createInternalCallAction(rdBehaviour, callStatement);
+        if (rdBehaviour instanceof ResourceDemandingInternalBehaviour) {
+        	this.createInternalCallAction((ResourceDemandingInternalBehaviour) rdBehaviour, callStatement);
+        }
+        
         // force an SEFF element for the next statement
         this.doNotSkipNextStatement = true;
         return new Object();
     }
 
-    private void createInternalCallAction(final ResourceDemandingBehaviour resourceDemandingBehavior,
+    private void createInternalCallAction(final ResourceDemandingInternalBehaviour resourceDemandingBehavior,
             final Statement callStatement) {
         final InternalCallAction internalCallAction = SeffFactory.eINSTANCE.createInternalCallAction();
         internalCallAction.setCalledResourceDemandingInternalBehaviour(resourceDemandingBehavior);
@@ -434,9 +437,9 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     private ResourceDemandingInternalBehaviour createResourceDemandingInternalBehaviour(final ClassMethod classMethod) {
         final ResourceDemandingInternalBehaviour resourceDemandingInternalBehaviour = SeffFactory.eINSTANCE
                 .createResourceDemandingInternalBehaviour();
-        resourceDemandingInternalBehaviour.setEntityName(classMethod.getName());
-        resourceDemandingInternalBehaviour
-                .setBasicComponent_ResourceDemandingInternalBehaviour(this.primitiveComponent);
+//        resourceDemandingInternalBehaviour.setEntityName(classMethod.getName());
+//        resourceDemandingInternalBehaviour
+//                .setBasicComponent_ResourceDemandingInternalBehaviour(this.primitiveComponent);
         this.createMethodLevelResourceDemandingInternalBehaviorLink(classMethod, resourceDemandingInternalBehaviour);
         final StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
         resourceDemandingInternalBehaviour.getSteps_Behaviour().add(startAction);
