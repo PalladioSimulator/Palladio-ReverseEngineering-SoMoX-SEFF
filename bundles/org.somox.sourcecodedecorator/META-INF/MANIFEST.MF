@@ -6,7 +6,7 @@ Bundle-Version: 1.0.1.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: 
  org.somox.sourcecodedecorator,
  org.somox.sourcecodedecorator.impl,
@@ -21,15 +21,9 @@ Require-Bundle: org.eclipse.core.runtime,
  de.uka.ipd.sdq.probfunction;visibility:=reexport,
  org.emftext.language.java;resolution:=optional;visibility:=reexport,
  org.emftext.commons.layout;visibility:=reexport,
- org.emftext.commons.jdt;bundle-version="1.4.1",
- org.emftext.language.java.resource.java,
- org.emftext.commons.antlr3_4_0,
- org.emftext.commons.jdt.edit,
+ org.emftext.commons.jdt,
  org.emftext.commons.layout.edit,
  org.emftext.language.java.edit,
- org.emftext.language.java.resource,
- org.emftext.language.java.resource.bcel,
- org.emftext.language.java.resource.java.ui,
- org.emftext.language.java.resource.jdt
+ jamopp.resource
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.somox.sourcecodedecorator

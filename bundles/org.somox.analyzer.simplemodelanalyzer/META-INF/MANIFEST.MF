@@ -21,7 +21,7 @@ Require-Bundle: org.somox.core;bundle-version="1.0.0",
  org.palladiosimulator.pcm.resources;bundle-version="1.0.0",
  org.emftext.language.java,
  org.eclipse.emf.common
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Export-Package: org.somox.analyzer.simplemodelanalyzer,
  org.somox.analyzer.simplemodelanalyzer.builder,

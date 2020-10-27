@@ -12,14 +12,14 @@ Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
  org.emftext.language.java,
  org.eclipse.core.resources,
  org.eclipse.equinox.registry,
- org.emftext.language.java.resource,
- org.emftext.language.java.resource.java,
+ jamopp.resource,
  org.eclipse.osgi,
  org.apache.commons.io;bundle-version="2.2.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.somox.kdmhelper,
  org.somox.kdmhelper.metamodeladdition,
  org.splevo.jamopp.extraction
-Import-Package: org.eclipse.emf.ecore.xmi,
+Import-Package: jamopp.parser.jdt,
+ org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.ecore.xmi.impl
