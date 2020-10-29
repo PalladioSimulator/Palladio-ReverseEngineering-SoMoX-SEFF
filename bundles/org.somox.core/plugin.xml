@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="controller" name="SoMoX Controller" schema="schema/controller.exsd"/>
+   <extension-point id="softwareextractor" name="SoMoX Software Extractor" schema="schema/softwareextractor.exsd"/>
+   <extension-point id="modelanalyzer" name="SoMoX Model Analyzer" schema="schema/modelanalyzer.exsd"/>
+   <extension-point id="exporter" name="SoMoX Exporter" schema="schema/exporter.exsd"/>
+   <extension-point id="metric" name="SoMoX Analyzer Metric" schema="schema/metric.exsd"/>
+   <extension
+         id="somox.core.preferences"
+         name="SoMoX Core Preferences"
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.somox.core.SoMoXCoreInitializer">
+      </initializer>
+   </extension>
+
+</plugin>

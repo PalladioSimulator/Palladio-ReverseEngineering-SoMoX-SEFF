@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SoMoX Core
+Bundle-SymbolicName: org.somox.core;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.core.runtime,
+ de.uka.ipd.sdq.workflow;bundle-version="1.1.0";visibility:=reexport,
+ org.somox.filter;bundle-version="1.0.0",
+ org.somox.kdmhelper;bundle-version="1.0.0",
+ org.eclipse.emf.edit;bundle-version="2.7.2",
+ org.somox.sourcecodedecorator;bundle-version="1.0.1",
+ org.palladiosimulator.pcm;bundle-version="3.2.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-Activator: org.somox.core.Activator
+Export-Package: org.somox.analyzer,
+ org.somox.common,
+ org.somox.configuration,
+ org.somox.controller;uses:="org.somox.core.controller.events",
+ org.somox.core;uses:="org.eclipse.core.runtime,org.somox.informationExtractor,org.eclipse.core.runtime.preferences",
+ org.somox.extractor;uses:="org.somox.extractor"
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: SDQ, KIT + FZI Karlsruhe + EU Q-ImPrESS
+Import-Package: org.eclipse.core.resources
+Automatic-Module-Name: org.somox.core
+
