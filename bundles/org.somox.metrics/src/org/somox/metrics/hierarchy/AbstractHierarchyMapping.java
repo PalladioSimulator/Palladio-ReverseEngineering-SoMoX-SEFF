@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.types.Type;
 import org.somox.metrics.ClusteringRelation;
@@ -116,8 +117,8 @@ public abstract class AbstractHierarchyMapping<T extends Object> extends Abstrac
 
         final int maxCommonPackageDirectoryHeigthOfElements = this
                 .getMaxCommonPackageDirectory(element1RootPackagesPath, element2RootPackagesPath);
-        if (this.logger.isTraceEnabled()) {
-            this.logger.trace("maxCommonPackageHeigth: " + maxCommonPackageDirectoryHeigthOfElements);
+        if (this.logger.isDebugEnabled()) {
+            this.logger.log(Priority.DEBUG, "maxCommonPackageHeigth: " + maxCommonPackageDirectoryHeigthOfElements);
         }
 
         final int maxHeight = Math.max(element1RootPackagesPath.getHeight(), element2RootPackagesPath.getHeight());

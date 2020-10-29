@@ -31,5 +31,3 @@ Export-Package: org.somox.analyzer.simplemodelanalyzer,
  org.somox.analyzer.simplemodelanalyzer.factories,
  org.somox.analyzer.simplemodelanalyzer.jobs,
  org.somox.analyzer.simplemodelanalyzer.metrics.tabs
-Bundle-ClassPath: lib/jgrapht-0.8.1.jar,
- .

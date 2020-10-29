@@ -3,6 +3,7 @@ package org.somox.metrics.helper;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.types.Type;
@@ -147,7 +148,7 @@ public class Class2ClassAccessGraphHelper {
                 if (graph.containsVertex(clazz) && graph.containsVertex(accessedClass)) {
                     edge = graph.addEdge(clazz, accessedClass);
                 } else {
-                    logger.trace("Do not add edge between " + clazz + " and " + accessedClass);
+                    logger.log(Priority.DEBUG, "Do not add edge between " + clazz + " and " + accessedClass);
                 }
             }
             if (edge != null) {
