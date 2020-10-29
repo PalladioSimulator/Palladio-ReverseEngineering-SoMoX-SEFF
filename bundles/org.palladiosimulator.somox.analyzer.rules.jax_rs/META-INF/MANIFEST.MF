@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SoMoX Rule JAX-RS
+Bundle-SymbolicName: org.palladiosimulator.somox.analyzer.rules.jax_rs;singleton:=true
+Bundle-Version: 4.3.0.qualifier
+Bundle-Vendor: palladiosimulator.org
+Automatic-Module-Name: org.palladiosimulator.somox.analyzer.rules.jax_rs
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: org.palladiosimulator.somox.analyzer.rules.jax_rs
+Require-Bundle: org.eclipse.core.resources,
+ org.eclipse.xtend.lib,
+ org.emftext.language.java,
+ org.palladiosimulator.pcm,
+ org.palladiosimulator.somox.analyzer.rules.engine
