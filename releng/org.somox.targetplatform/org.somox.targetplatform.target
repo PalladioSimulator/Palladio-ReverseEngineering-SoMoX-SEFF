@@ -43,5 +43,15 @@
                 version="4.3.0.202008200051" />
             <repository location="https://updatesite.palladio-simulator.com/palladio-editors-commons/nightly/" />
         </location>
+        <location includeAllPlatforms="false"
+            includeConfigurePhase="true"
+            includeMode="planner"
+            includeSource="false"
+            refresh="true"
+            type="InstallableUnit">
+            <unit id="org.palladiosimulator.generator.fluent_api"
+                version="4.3.0.202008200051" />
+            <repository location="https://updatesite.palladio-simulator.com/palladio-addons-fluentapimodelgenerator/nightly/" />
+        </location>
     </locations>
 </target>
