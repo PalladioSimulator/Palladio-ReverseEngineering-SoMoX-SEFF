@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://org.somox/qimpressgast"
+            class="org.somox.qimpressgast.qimpressgastPackage"
+            genModel="model/QimpressGast.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="samm_gastbehaviour"
+            class="org.somox.qimpressgast.util.qimpressgastResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated seff2java_ast -->
+      <package
+            uri="http://www.somox.org/seff2method/1.0"
+            class="org.somox.seff2javaast.Seff2javaastPackage"
+            genModel="model/seff2java_ast.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated seff2java_ast -->
+      <parser
+            type="seff2javaast"
+            class="org.somox.seff2javaast.util.Seff2javaastResourceFactoryImpl"/>
+   </extension>
+</plugin>
