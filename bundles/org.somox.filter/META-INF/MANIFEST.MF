@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Somox Filter Plugin
+Bundle-SymbolicName: org.somox.filter
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.somox.filter.Activator
+Bundle-Vendor: SDQ, KIT + FZI Karlsruhe + EU Q-ImPrESS
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.apache.log4j;bundle-version="1.2.13",
+ org.somox.kdmhelper,
+ org.emftext.language.java,
+ org.eclipse.jdt.core,
+ org.eclipse.core.resources
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-ActivationPolicy: lazy
+Export-Package: org.somox.filter,
+ org.somox.filter.tests
+Automatic-Module-Name: org.somox.filter
