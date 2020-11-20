@@ -13,7 +13,6 @@ Snap.*
 
 # Package Files
 *.ear
-*.jar
 *.nar
 *.rar
 *.tar.gz
