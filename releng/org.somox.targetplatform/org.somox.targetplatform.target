@@ -29,9 +29,19 @@
             includeSource="false"
             refresh="true"
             type="InstallableUnit">
-            <unit id="org.emftext.language.java.feature.feature.group"
-                version="4.3.0.202008171246" />
-            <repository location="https://updatesite.palladio-simulator.com/palladio-supporting-eclipsejavadevelopmenttools/nightly/" />
+            <unit id="de.uka.ipd.sdq.workflow"
+                version="4.3.0.202008200051" />
+            <repository location="https://updatesite.palladio-simulator.com/palladio-supporting-workflowengine/nightly/" />
+        </location>
+        <location includeAllPlatforms="false"
+            includeConfigurePhase="true"
+            includeMode="planner"
+            includeSource="false"
+            refresh="true"
+            type="InstallableUnit">
+            <unit id="de.uka.ipd.sdq.workflow.mdsd"
+                version="4.3.0.202008200051" />
+            <repository location="https://updatesite.palladio-simulator.com/palladio-supporting-workflowengine/nightly/" />
         </location>
         <location includeAllPlatforms="false"
             includeConfigurePhase="true"
@@ -42,6 +52,16 @@
             <unit id="org.palladiosimulator.pcm.edit"
                 version="4.3.0.202008200051" />
             <repository location="https://updatesite.palladio-simulator.com/palladio-editors-commons/nightly/" />
+        </location>
+        <location includeAllPlatforms="false"
+            includeConfigurePhase="true"
+            includeMode="planner"
+            includeSource="false"
+            refresh="true"
+            type="InstallableUnit">
+            <unit id="org.emftext.language.java.feature.feature.group"
+                version="4.3.0.202008171246" />
+            <repository location="https://updatesite.palladio-simulator.com/palladio-supporting-eclipsejavadevelopmenttools/nightly/" />
         </location>
         <location includeAllPlatforms="false"
             includeConfigurePhase="true"
