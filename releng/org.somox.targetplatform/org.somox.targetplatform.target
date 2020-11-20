@@ -73,5 +73,25 @@
                 version="4.3.0.202008200051" />
             <repository location="https://updatesite.palladio-simulator.com/palladio-addons-fluentapimodelgenerator/nightly/" />
         </location>
+        <location includeAllPlatforms="false"
+            includeConfigurePhase="true"
+            includeMode="planner"
+            includeSource="false"
+            refresh="true"
+            type="InstallableUnit">
+            <unit id="de.uka.ipd.sdq.workflow"
+                version="4.3.0.202008200051" />
+            <repository location="https://updatesite.palladio-simulator.com/palladio-supporting-workflowengine/nightly/" />
+        </location>
+        <location includeAllPlatforms="false"
+            includeConfigurePhase="true"
+            includeMode="planner"
+            includeSource="false"
+            refresh="true"
+            type="InstallableUnit">
+            <unit id="de.uka.ipd.sdq.workflow.mdsd"
+                version="4.3.0.202008200051" />
+            <repository location="https://updatesite.palladio-simulator.com/palladio-supporting-workflowengine/nightly/" />
+        </location>
     </locations>
 </target>
