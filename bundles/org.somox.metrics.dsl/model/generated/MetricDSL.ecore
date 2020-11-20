@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metricDSL" nsURI="http://www.somox.org/metricDSL/1.0" nsPrefix="metricDSL">
+  <eClassifiers xsi:type="ecore:EClass" name="MetricModel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importURI" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="metrics" upperBound="-1"
+        eType="#//Metric" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Metric">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExternalMetric" eSuperTypes="#//Metric"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InternalMetric" eSuperTypes="#//Metric">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="shortName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" upperBound="-1"
+        eType="#//Number" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definition" eType="#//MetricDefinition"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Number">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//Number">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="shortname" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Constant" eSuperTypes="#//Number">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MetricDefinition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WeightedMetric" eSuperTypes="#//MetricDefinition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="weights" upperBound="-1"
+        eType="#//MetricAndWeight" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StepwiseMetric" eSuperTypes="#//MetricDefinition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="innerMetric" eType="#//Metric"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="steps" upperBound="-1"
+        eType="#//BoundAndWeight" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RatioMetric" eSuperTypes="#//MetricDefinition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nominatorMetric" eType="#//Metric"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="denominatorMetric" eType="#//Metric"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BoundAndWeight">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="upperBound" eType="#//Number"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="weight" eType="#//Number"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MetricAndWeight">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="metric" eType="#//Metric"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="weight" eType="#//Number"/>
+  </eClassifiers>
+</ecore:EPackage>
