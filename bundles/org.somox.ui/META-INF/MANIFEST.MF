@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SoMoX UI Plug-in
+Bundle-SymbolicName: org.somox.ui; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.somox.ui.Activator
+Bundle-Vendor: SDQ, KIT + FZI Karlsruhe + EU Q-ImPrESS
+Require-Bundle: org.somox.core;bundle-version="1.0.0",
+ org.eclipse.debug.ui;bundle-version="3.4.1",
+ org.eclipse.emf.common.ui;bundle-version="2.4.0",
+ de.uka.ipd.sdq.workflow.launchconfig;bundle-version="1.1.0",
+ org.somox.metrics;bundle-version="1.0.0",
+ org.eclipse.core.resources
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-ActivationPolicy: lazy
+Export-Package: org.somox.ui,
+ org.somox.ui.runconfig,
+ org.somox.ui.runconfig.configbuilder,
+ org.somox.ui.runconfig.tabs

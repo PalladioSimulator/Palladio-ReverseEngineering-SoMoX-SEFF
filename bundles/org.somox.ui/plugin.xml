@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <!--<extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               id="somox.menu"
+               label="SoMoX"
+               mnemonic="SoMoX">
+            <command
+                  commandId="org.somox.startextraction"
+                  id="org.somox.ui.menuitem.startextraction"
+                  label="Start Extraction"
+                  style="push"
+                  tooltip="Start the SoMoX Extraction">
+            </command>
+            <command
+                  commandId="org.somox.startanalyzer"
+                  id="org.somox.ui.menuitem.startanalyzer"
+                  label="Start Analyze"
+                  style="push"
+                  tooltip="Start the SoMoX Analyzer">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            category="SoMoX"
+            categoryId="SoMoX"
+            defaultHandler="org.somox.ui.handlers.SoftwareExtractorStartHandler"
+            description="Start the configured Software Extractors"
+            id="org.somox.startextraction"
+            name="Strart Extraction">
+      </command>
+      <command
+            category="SoMoX"
+            categoryId="SoMoX"
+            defaultHandler="org.somox.ui.handlers.AnalyzeStartHandler"
+            description="Start the configured Software Analyze"
+            id="org.somox.startanalyzer"
+            name="Start Analyze">
+      </command>
+   </extension>
+   <extension
+         id="somoxBuilder"
+         name="SoMoX Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="org.somox.ui.nature.SoMoXBuilder">
+         </run>
+      </builder>
+   </extension>-->
+   
+   
+   <!--<extension
+         id="somoxNature"
+         name="SoMoX Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.somox.ui.nature.SoMoXNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.somox.ui.somoxNature">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="org.somox.ui.natureToggle"
+            nameFilter="*"
+            objectClass="org.eclipse.core.resources.IProject">
+         <action
+               class="org.somox.ui.nature.ToggleNatureAction"
+               enablesFor="+"
+               id="org.somox.ui.addRemoveNatureAction"
+               label="Add/Remove SoMoX Nature"
+               menubarPath="additions">
+         </action>
+      </objectContribution>
+   </extension>-->
+   <extension
+         id="xmlProblem"
+         name="XML Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <!--<extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="icons/somox_16x16.gif"
+            id="org.somox.ui.somoxNatureImage"
+            natureId="org.somox.ui.somoxNature">
+      </image>
+   </extension>-->
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.somox.ui.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+      point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.somox.ui.preferences.SoMoXPreferencePage"
+            id="org.somox.ui.preferences.SoMoXPreferencePage"
+            name="SoMoX">
+      </page>
+   </extension>
+   <extension
+         point="org.somox.core.controller">
+      <controller
+            class="org.somox.ui.GUISoMoXCoreController"
+            id="org.somox.ui.controller"
+            name="SoMoX UI Controller">
+      </controller>
+   </extension>
+
+	
+
+
+</plugin>
