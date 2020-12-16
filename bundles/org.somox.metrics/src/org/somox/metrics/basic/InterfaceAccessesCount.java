@@ -3,7 +3,6 @@ package org.somox.metrics.basic;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.somox.filter.BaseFilter;
 import org.somox.filter.FilteredCollectionsFactory;
@@ -36,8 +35,8 @@ public class InterfaceAccessesCount extends AbstractCountingMetric {
 
         final long accessesToInterfaces = this.getAccessGraphCache().calculateNumberOfAccessesToClassesInSet(classes1,
                 FilteredCollectionsFactory.getFilteredHashSet(interfaceClassesFilter, classes2));
-        if (logger.isDebugEnabled()) {
-            logger.log(Priority.DEBUG, relationToCompute.getSourceComponent() + " --> " + relationToCompute.getTargetComponent()
+        if (logger.isTraceEnabled()) {
+            logger.trace(relationToCompute.getSourceComponent() + " --> " + relationToCompute.getTargetComponent()
                     + " Interface Accesses = " + accessesToInterfaces);
         }
 

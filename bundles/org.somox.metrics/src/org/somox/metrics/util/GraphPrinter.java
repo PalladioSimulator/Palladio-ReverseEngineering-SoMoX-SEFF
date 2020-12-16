@@ -44,7 +44,7 @@ public class GraphPrinter {
      *            The folder to delete
      */
     public static void cleanOutputFolder(final String outputFolder) {
-        if (logger.isDebugEnabled()) { // only run in trace mode
+        if (logger.isTraceEnabled()) { // only run in trace mode
             final String fileURIString = getFileURI(outputFolder);
             if (fileURIString != null) {
                 final File baseDirectory = new File(fileURIString + graphFolderSegment);
