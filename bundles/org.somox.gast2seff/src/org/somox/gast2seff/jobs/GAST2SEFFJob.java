@@ -23,7 +23,7 @@ import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
 import org.somox.analyzer.AnalysisResult;
-import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
+// import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
 import org.somox.gast2seff.visitors.DefaultResourceDemandingBehaviourForClassMethodFinder;
 import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
@@ -36,6 +36,7 @@ import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.sourcecodedecorator.SEFF2MethodMapping;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
+import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
 import de.uka.ipd.sdq.workflow.jobs.IBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
@@ -47,12 +48,13 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
  *
  * @author Steffen Becker, Klaus Krogmann
  */
-public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> {
+// public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> {
+public class GAST2SEFFJob implements IBlackboardInteractingJob<Blackboard<Object>> {
 
     private final Logger logger = Logger.getLogger(GAST2SEFFJob.class);
 
     /** The SoMoX blackboard to interact with. */
-    private SoMoXBlackboard blackboard;
+    // private SoMoXBlackboard blackboard;
 
     /**
      * The resource set used to load and store all resources needed for the transformation
@@ -117,7 +119,7 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
 
         monitor.subTask("loading models from blackboard");
 
-        final AnalysisResult result = this.blackboard.getAnalysisResult();
+        final AnalysisResult result = null; // this.blackboard.getAnalysisResult();
         this.sourceCodeDecoratorModel = result.getSourceCodeDecoratorRepository();
         this.root = result.getRoot();
         this.methodCallFinder = new MethodCallFinder();
@@ -311,12 +313,19 @@ public class GAST2SEFFJob implements IBlackboardInteractingJob<SoMoXBlackboard> 
      * @param blackBoard
      *            the blackBoard to set
      */
+    // @Override
+    // public void setBlackboard(final SoMoXBlackboard blackBoard) {
+    // this.blackboard = blackBoard;
+    // }
     @Override
-    public void setBlackboard(final SoMoXBlackboard blackBoard) {
-        this.blackboard = blackBoard;
+    public void setBlackboard(Blackboard<Object> blackboard) {
+        // TODO Auto-generated method stub
+
     }
 
     @Override
     public void cleanup(final IProgressMonitor monitor) throws CleanupFailedException {
     }
+
+
 }
