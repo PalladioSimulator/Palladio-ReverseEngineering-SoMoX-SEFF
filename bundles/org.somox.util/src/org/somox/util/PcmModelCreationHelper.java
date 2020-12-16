@@ -16,32 +16,28 @@ import org.palladiosimulator.pcm.repository.Parameter;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.somox.analyzer.AnalysisResult;
-import org.somox.analyzer.simplemodelanalyzer.builder.OperationBuilder;
+// import org.somox.analyzer.simplemodelanalyzer.builder.OperationBuilder;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 public class PcmModelCreationHelper {
 
 	private static final Logger logger = Logger.getLogger(PcmModelCreationHelper.class.getSimpleName());
 
-	/**
-	 * OperationBuilder from the SoMoX framework is used here to create the data
-	 * types.
-	 */
-	private final OperationBuilder operationBuilder;
-	private final SourceCodeDecoratorHelper sourceCodeDecoratorHelper;
+    private final SourceCodeDecoratorHelper sourceCodeDecoratorHelper = null;
 
-	public PcmModelCreationHelper(final OperationBuilder operationBuilder,
-			final SourceCodeDecoratorRepository sourceCodeDecorator,
-			SourceCodeDecoratorHelper sourceCodeDecoratorHelper) {
-		this.operationBuilder = operationBuilder;
-		this.sourceCodeDecoratorHelper = sourceCodeDecoratorHelper;
-	}
-
-	public PcmModelCreationHelper(final AnalysisResult analysisResult,
-			SourceCodeDecoratorHelper sourceCodeDecoratorHelper) {
-		this(new OperationBuilder(analysisResult.getRoot(), null, analysisResult),
-				analysisResult.getSourceCodeDecoratorRepository(), sourceCodeDecoratorHelper);
-	}
+//	public PcmModelCreationHelper(final OperationBuilder operationBuilder,
+// final SourceCodeDecoratorRepository sourceCodeDecorator,
+// SourceCodeDecoratorHelper sourceCodeDecoratorHelper) {
+// // this.operationBuilder = operationBuilder;
+// this.sourceCodeDecoratorHelper = sourceCodeDecoratorHelper;
+// }
+//
+// public PcmModelCreationHelper(final AnalysisResult analysisResult,
+// SourceCodeDecoratorHelper sourceCodeDecoratorHelper) {
+// // this(new OperationBuilder(analysisResult.getRoot(), null, analysisResult),
+// this(new OperationBuilder(analysisResult.getRoot(), null, analysisResult),
+// analysisResult.getSourceCodeDecoratorRepository(), sourceCodeDecoratorHelper);
+// }
 
 	public OperationSignature createOperationSignatureInInterfaceForJaMoPPMemberAndUpdateSourceCodeDecorator(
 			final OperationInterface opInterface, final Repository repo, final Member jaMoPPMember) {
@@ -61,8 +57,8 @@ public class PcmModelCreationHelper {
 						.info("Could not find an approoriate type for: " + jaMoPPMethod + " in class "
 								+ (null != jaMoPPMember ? jaMoPPMember.getContainingConcreteClassifier() : "null")
 								+ " use Object instead");
-				final DataType defaultDataType = this.operationBuilder.returnDefaultDataType(jaMoPPMethod, repo);
-				opSignature.setReturnType__OperationSignature(defaultDataType);
+                // final DataType defaultDataType = this.operationBuilder.returnDefaultDataType(jaMoPPMethod, repo);
+                // opSignature.setReturnType__OperationSignature(defaultDataType);
 
 			}
 			for (final org.emftext.language.java.parameters.Parameter jaMoPPParam : jaMoPPMethod.getParameters()) {
@@ -121,7 +117,7 @@ public class PcmModelCreationHelper {
 	 */
 	private DataType getDataTypeAndUpdateSourceCodeDecorator(final Repository repo, final Type jaMoPPType,
 			final ArrayTypeable arrayTypeable) {
-		final DataType pcmDataType = this.operationBuilder.getType(jaMoPPType, repo, arrayTypeable);
+        // final DataType pcmDataType = this.operationBuilder.getType(jaMoPPType, repo, arrayTypeable);
 		// getDataType should create the sourcecode decorator
 		// if (!this.createdPCMTypeMap.contains(pcmDataType)) {
 		// this.createdPCMTypeMap.add(pcmDataType);
@@ -139,7 +135,8 @@ public class PcmModelCreationHelper {
 		// sourceCodeDecorator.getDataTypeSourceCodeLink().add(dataTypeSourceCodeLink);
 		// }
 		// }
-		return pcmDataType;
+        // return pcmDataType;
+        throw new UnsupportedOperationException();
 	}
 
 	private void createParameterAndAddParameter(final Repository repo, final OperationSignature opSignature,
@@ -161,8 +158,8 @@ public class PcmModelCreationHelper {
 			PcmModelCreationHelper.logger.info("No PCM param build for parameter: " + jaMoPPParam + " for parameter "
 					+ (null != jaMoPPParam ? jaMoPPParam.getContainingConcreteClassifier() : "null")
 					+ " use Object instead");
-			final DataType defaultDataType = this.operationBuilder.returnDefaultDataType(jaMoPPParam, repo);
-			pcmParam.setDataType__Parameter(defaultDataType);
+            // final DataType defaultDataType = this.operationBuilder.returnDefaultDataType(jaMoPPParam, repo);
+            // pcmParam.setDataType__Parameter(defaultDataType);
 		}
 		return pcmParam;
 	}
