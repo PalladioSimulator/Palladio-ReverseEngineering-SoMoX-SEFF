@@ -16,23 +16,39 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.emftext.language.java.containers.impl.CompilationUnitImpl;
-//import org.yaml.snakeyaml.Yaml;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.Yaml;
 
+/**
+* The DockerParser parses a docker-compose file to extract a mapping between service names (microservices) and JaMoPP model instances.
+* Later, this parser will be replaced with the project in:
+* https://github.com/PalladioSimulator/Palladio-ReverseEngineering-Docker
+*/
 public class DockerParser {
     private final String FILE_NAME = "docker-compose";
     private final String path;
     Map<String, List<CompilationUnitImpl>> mapping;
+    
+    private static final Logger LOG = LoggerFactory.getLogger(DockerParser.class);
 
     public DockerParser(String path) {
+    	
+    	LOG.info("starting docker process");
+    	
         this.path = path;
         final InputStream input = getDockerFile();
         final List<String> services = extractServiceNames(input);
         mapping = createServiceComponentMapping(services);
     }
 
+    /**
+    * Returns a Stream to the docker-compose file found by walking through a given project directory.
+    *
+    * @return the docker-compose file as stream
+    */
     private InputStream getDockerFile() {
 
-        // first, try to automatically find the docker-compose file
         List<Path> paths = new ArrayList<>();
         try (Stream<Path> files = Files.walk(Paths.get(path))) {
             paths = files.filter(f -> f.getFileName().toString().contains(FILE_NAME)).collect(Collectors.toList());
@@ -40,7 +56,7 @@ public class DockerParser {
             e.printStackTrace();
         }
         if (paths.size() <= 0) {
-            System.out.println("No docker compose file detected.");
+        	LOG.info("No docker compose file detected.");
             return null;
         }
         final Path path = paths.get(0);
@@ -56,30 +72,39 @@ public class DockerParser {
         return null;
     }
 
+    /**
+    * Extracts the service names within a docker-compose file. 
+    *
+    * @param  stream the docker-compose file
+    * @return the list of all service names found in the docker-compose file
+    */
     @SuppressWarnings("unchecked")
     private List<String> extractServiceNames(InputStream stream) {
-        // TODO Use
-        // https://github.com/PalladioSimulator/Palladio-ReverseEngineering-Docker
-        // final Yaml yaml = new Yaml();
-        // final Map<String, Object> object = (Map<String, Object>) yaml.load(stream);
-        final Map<String, Object> object = new HashMap<>();
+    	System.out.println(stream.toString());
+
+        final Yaml yaml = new Yaml();
+        final Map<String, Object> object = (Map<String, Object>) yaml.load(stream);
 
         // get all service names from the map
         if (!object.containsKey("services")) {
-            System.out.println("No property with name 'services' in docker compose file. File not usable");
+        	LOG.info("No property with name 'services' in docker compose file. File not usable");
             return null;
         }
         final List<String> serviceNames = new ArrayList<>();
         serviceNames.addAll(((Map<String, Object>) object.get("services")).keySet());
-        serviceNames.forEach(name -> System.out.println(name));
         return serviceNames;
     }
 
+    /**
+    * Creates a mapping between service names and JaMoPP model instances to know which component belongs to which microservice
+    *
+    * @param  serviceNames a list of all service names from a docker-compose file
+    * @return the mapping between service names and JaMoPP model instances
+    */
     private Map<String, List<CompilationUnitImpl>> createServiceComponentMapping(List<String> serviceNames) {
-        // all detected components
+
         final List<CompilationUnitImpl> components = PCMDetectorSimple.getComponents();
 
-        // map each component path to a service name
         final Map<String, List<CompilationUnitImpl>> serviceToCompMapping = new HashMap<>();
 
         components.forEach(comp -> {

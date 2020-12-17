@@ -8,6 +8,7 @@ import org.emftext.language.java.members.Method
 import org.emftext.language.java.members.Field
 import org.emftext.language.java.parameters.Parameter
 import static org.palladiosimulator.somox.analyzer.rules.engine.PCMDetectorSimple.*
+import sun.security.jca.GetInstance.Instance
 
 class SpringRules implements IRule{
 	
@@ -16,7 +17,7 @@ class SpringRules implements IRule{
 		val isAbstract = isAbstraction(unitImpl)
 		
 		// Component detection
-		val isComponent = !isAbstract && isUnitAnnotatedWithName(unitImpl, "Component","Service","Controller","RestController")
+		val isComponent = !isAbstract && isUnitAnnotatedWithName(unitImpl, "Component","Service","Controller","RestController","RequestMapping","ControllerAdvice")
 		
 		if(isComponent) detectComponent(unitImpl)
 		
@@ -43,6 +44,7 @@ class SpringRules implements IRule{
 		if(isComponent && !isImplementingOne) 
 			for(Method m: getMethods(unitImpl)){
 				val annoWithName = isMethodAnnotatedWithName(m,"RequestMapping","GetMapping","PutMapping","PostMapping","DeleteMapping","PatchMapping")
+
 				if(annoWithName || (!annoWithName && m.public)) 
 					detectProvidedInterface(unitImpl, m) detectOperationInterface(unitImpl)
 			}
@@ -62,6 +64,11 @@ class SpringRules implements IRule{
 				if(!annotated && abstr && modi){
 					detectRequiredInterface(unitImpl, f)
 				}
+				// if class of field is annotated
+				if(!abstr && modi && isClassOfFieldAnnotatedWithName(f,"Component","Service","Controller","RestController","RequestMapping","ControllerAdvice")){
+					detectRequiredInterface(unitImpl, f)
+				}
+				
 			}
 			
 			// setter injection
@@ -74,7 +81,7 @@ class SpringRules implements IRule{
 							detectRequiredInterface(unitImpl, p)
 						}
 						// if type is component
-						if(!isParaAbstract && isParameterAClassAnnotatedWith(p,"Component","Service","Controller")){
+						if(!isParaAbstract && isParameterAClassAnnotatedWith(p,"Component","Service","Controller","RestController","RequestMapping","ControllerAdvice")){
 							detectRequiredInterface(unitImpl, p)
 						}
 					}
@@ -85,7 +92,7 @@ class SpringRules implements IRule{
 			getConstructors(unitImpl).forEach[constructor | {
 				if(isConstructorAnnotatedWithName(constructor,"Autowired")){
 					constructor.parameters.forEach[para | {
-					if(isParameterAbstract(para) || isParameterAClassAnnotatedWith(para,"Component","Service","Controller")){
+					if(isParameterAbstract(para) || isParameterAClassAnnotatedWith(para,"Component","Service","Controller","RestController","RequestMapping","ControllerAdvice")){
 						detectRequiredInterface(unitImpl, para)
 					}
 					if(!isParameterAbstract(para) && isParameterAnnotatedWith(para,"LoadBalanced")){

@@ -13,14 +13,21 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.impl.CompilationUnitImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import jamopp.parser.api.JaMoPPParserAPI;
 import jamopp.parser.jdt.JaMoPPJDTParser;
 import jamopp.resource.JavaResource2Factory;
 
+/**
+* This class wraps the JaMoPPJDTParser to parse a project directory and additionally filters and saves the resulting model instances.
+*/
 public class ParserAdapter {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(ParserAdapter.class);
 
-    public static List<CompilationUnitImpl> generateModelForProject(String in, String[] jarEntries) {
+    public static List<CompilationUnitImpl> generateModelForProject(String in) {
 
         // create
         final List<CompilationUnitImpl> roots = new ArrayList<>();
@@ -44,8 +51,12 @@ public class ParserAdapter {
                 }
             }
         });
+        
+        LOG.info("Parsed project directory");
 
         saveModelToDisk(units);
+        
+        LOG.info("Saved generated model to ./standalone_output/model.containers");
 
         return roots;
     }
@@ -64,8 +75,9 @@ public class ParserAdapter {
         for (final Resource javaResource : new ArrayList<>(rs.getResources())) {
 
             if (javaResource.getContents().isEmpty()) {
+            	
+            	LOG.warn("WARNING: Emtpy Resource: " + javaResource.getURI());
 
-                System.out.println("WARNING: Emtpy Resource: " + javaResource.getURI());
                 continue;
             }
 
@@ -89,6 +101,9 @@ public class ParserAdapter {
         }
     }
 
+    /**
+    * This method was important for earlier versions of the JaMoPP model as some model instances did not have a name for example
+    */
     private static boolean isUnitRelevant(CompilationUnit root) {
         return ((root.getClassifiers().size() > 0) && (root.getClassifiers().get(0).getName() != null)
                 && !root.getNamespacesAsString().isEmpty());

@@ -24,7 +24,13 @@ import org.emftext.language.java.modifiers.Modifier;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
+import org.emftext.language.java.variables.Variable;
 
+/**
+* This class is used as a supporting library for writing rules for the rule engine.
+* It contains numerous methods to query a certain state of a java model instance. For example, is a class is annotated with a specific annotation name.
+* Also the helper contains methods for retrieving aspects of a class like the interfaces it is implementing.
+*/
 public class RuleHelper {
 
     public static boolean isAbstraction(CompilationUnitImpl unit) {
@@ -55,8 +61,6 @@ public class RuleHelper {
                 System.out.println("annotation was null, returning false");
                 return false;
             }
-
-            System.out.println("lets have a look: " + anno.toString());
 
             final String annoName = anno.getAnnotation().getName();
             if (annoName.equals(name)) {
@@ -323,6 +327,19 @@ public class RuleHelper {
             }
         }
         return false;
+    }
+    
+    public static boolean isClassOfFieldAnnotatedWithName(Variable v, String... names) {
+    	if(v == null || v.getTypeReference() == null || v.getTypeReference().getPureClassifierReference() == null) {
+    		return false;
+    	}
+    	Classifier currentClassifier = v.getTypeReference().getPureClassifierReference().getTarget();
+    	for(String name: names) {
+    		if(isClassifierAnnotatedWithName(currentClassifier, name)) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
 }

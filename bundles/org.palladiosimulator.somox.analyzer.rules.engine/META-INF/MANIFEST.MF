@@ -15,4 +15,5 @@ Require-Bundle: jamopp.parser,
  org.emftext.language.java,
  org.palladiosimulator.generator.fluent_api,
  org.palladiosimulator.pcm,
- org.somox.sourcecodedecorator
+ org.somox.sourcecodedecorator,
+ org.slf4j.api;bundle-version="1.7.30"

@@ -16,4 +16,6 @@ Require-Bundle: jamopp.parser,
  org.palladiosimulator.somox.analyzer.rules.engine,
  org.palladiosimulator.somox.analyzer.rules.jax_rs,
  org.palladiosimulator.somox.analyzer.rules.spring,
- org.somox.sourcecodedecorator
+ org.somox.sourcecodedecorator,
+ org.slf4j.api;bundle-version="1.7.30",
+ org.palladiosimulator.somox.analyzer.rules.all

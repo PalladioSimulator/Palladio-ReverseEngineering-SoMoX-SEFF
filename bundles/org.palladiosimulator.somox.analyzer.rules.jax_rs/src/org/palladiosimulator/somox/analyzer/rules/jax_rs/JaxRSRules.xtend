@@ -10,57 +10,8 @@ import static org.palladiosimulator.somox.analyzer.rules.engine.RuleHelper.*
 class JaxRSRules implements IRule{
 	
 	override processRules(CompilationUnitImpl unitImpl) {
-		
-		if(unitImpl.name.contains("Test")) return
-		
-		val numPreds = getAllInterfaces(unitImpl).stream.filter(i|i.name.contains("Predicate")).collect(Collectors.toList).size
-		if (numPreds>0){
-			return
-		}
-		
-		if(isAbstraction(unitImpl) || unitImpl.name.startsWith("Abstract")) {
-			return
-		}
-		
-		val compNameIncluded = (unitImpl.name.contains("ImageDB") || 
-			unitImpl.name.contains("CreatorFactory") || 
-			unitImpl.name.contains("Loader") ||
-			unitImpl.name.contains("DatastoreFactory")
-		)
-		
-		if(compNameIncluded){
-			detectDefault(unitImpl)
-			return
-		}
-		
-		// project/package dependent - image service - enums are components
-		if(isUnitAnEnum(unitImpl)){
-			detectDefault(unitImpl)
-			return
-		}
-		
-		
-		// package dependent - image service / recommendation service - cache comps extending abstract caches / ext abstract recomm
-		if(isClassExtending(unitImpl)){
-			if(getExtends(unitImpl).name.contains("Cache") || getExtends(unitImpl).name.contains("Recommender")){
-				detectDefault(unitImpl)
-				return
-			}
-		}
-		
-		// package dependant - acme air , service annotation
-		if(isUnitAnnotatedWithName(unitImpl, "DataService")){
-			detectComponent(unitImpl)
-			detectOperationInterface(unitImpl)
-			getMethods(unitImpl).forEach[m|
-			if(isMethodModifiedExactlyWith(m,"public")) detectProvidedInterface(unitImpl,m)]
-			getFields(unitImpl).forEach[f|if(isFieldAbstract(f)) detectRequiredInterface(unitImpl, f)]
-		return
-		}
-		
-		
+
 		// technology based and general recognition
-		
 		val isConverter = isUnitAnnotatedWithName(unitImpl, "Converter")
 		if(isConverter){
 			detectDefault(unitImpl)

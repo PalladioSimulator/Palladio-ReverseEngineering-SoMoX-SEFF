@@ -22,7 +22,7 @@ public class ProvidesRelation {
     public String toString() {
         String parameterString = "";
         parameterString += method.getParameters().stream().map(Parameter::getName).collect(Collectors.joining(","));
-        return (operationInterface.getName() + "," + method.getName() + "," + parameterString);
+        return (operationInterface.getName() + ": " + method.getName() + "(" + parameterString+")");
     }
 
     @Override

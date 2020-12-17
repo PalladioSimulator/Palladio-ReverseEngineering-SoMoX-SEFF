@@ -10,8 +10,18 @@ import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
 
+/**
+* This class takes a PCM repostory model and fills a SourceCodeDecoratorRepository model with it.
+* Later, the decorator model can be used to extract SEFFs.
+*/
 public class DecoratorModelFiller {
 
+	/**
+    * Creates a SourceCodeDecoratorRepository model.
+    *
+    * @param  	repo the PCM repository model
+    * @return	The SourceCodeDecoratorRepository model
+    */
     public static SourceCodeDecoratorRepository fillModel(Repository repo) {
         final SourceCodeDecoratorRepository sourceCodeDecoratorRepository = SourcecodedecoratorFactory.eINSTANCE
                 .createSourceCodeDecoratorRepository();
