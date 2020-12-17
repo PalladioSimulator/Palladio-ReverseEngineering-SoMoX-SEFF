@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 import org.emftext.language.java.containers.impl.CompilationUnitImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yaml.snakeyaml.Yaml;
+// import org.yaml.snakeyaml.Yaml;
 
 /**
 * The DockerParser parses a docker-compose file to extract a mapping between service names (microservices) and JaMoPP model instances.
@@ -29,13 +29,13 @@ public class DockerParser {
     private final String FILE_NAME = "docker-compose";
     private final String path;
     Map<String, List<CompilationUnitImpl>> mapping;
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(DockerParser.class);
 
     public DockerParser(String path) {
-    	
+
     	LOG.info("starting docker process");
-    	
+
         this.path = path;
         final InputStream input = getDockerFile();
         final List<String> services = extractServiceNames(input);
@@ -73,7 +73,7 @@ public class DockerParser {
     }
 
     /**
-    * Extracts the service names within a docker-compose file. 
+    * Extracts the service names within a docker-compose file.
     *
     * @param  stream the docker-compose file
     * @return the list of all service names found in the docker-compose file
@@ -82,8 +82,8 @@ public class DockerParser {
     private List<String> extractServiceNames(InputStream stream) {
     	System.out.println(stream.toString());
 
-        final Yaml yaml = new Yaml();
-        final Map<String, Object> object = (Map<String, Object>) yaml.load(stream);
+        // final Yaml yaml = new Yaml();
+        final Map<String, Object> object = null; // (Map<String, Object>) yaml.load(stream);
 
         // get all service names from the map
         if (!object.containsKey("services")) {
