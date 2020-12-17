@@ -33,13 +33,11 @@ Snap.*
 bin/
 javacore.*
 local.properties
-src-gen/
+# src-gen/
 tmp/
 
 # Maven
 .mvn/timing.properties
-/*/bin/
-/*/target/
 buildNumber.properties
 dependency-reduced-pom.xml
 pom.xml.next
@@ -47,14 +45,10 @@ pom.xml.releaseBackup
 pom.xml.tag
 pom.xml.versionsBackup
 release.properties
+releng/*/workspace/*
 target/
 
 # Xtend
 *._trace
 *.xtendbin
-bundles/*/target/*
-features/*/target/*
-releng/*/target/*
-releng/*/workspace/*
-tests/*/target/*
 xtend-gen/
