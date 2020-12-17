@@ -16,3 +16,4 @@ Export-Package: org.somox.ui,
  org.somox.ui.runconfig,
  org.somox.ui.runconfig.configbuilder,
  org.somox.ui.runconfig.tabs
+Automatic-Module-Name: org.somox.ui
