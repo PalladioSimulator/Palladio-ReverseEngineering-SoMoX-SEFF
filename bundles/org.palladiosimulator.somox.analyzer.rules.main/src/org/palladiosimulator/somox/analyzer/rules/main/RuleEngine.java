@@ -125,6 +125,10 @@ public class RuleEngine {
 
         // Creates a PCM repository with components, interfaces and roles
         pcm = PCMInstanceCreator.createPCM(mapping);
+
+        // Persist the repository at ./pcm.repository
+        PCMInstanceCreator.saveRepository(pcm, "./", "pcm.repository", true);
+
         /*
         LOG.info("Created PCM");
 

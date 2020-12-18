@@ -72,7 +72,7 @@ public class PCMInstanceCreator {
     * @param  mapping  	a mapping between microservice names and java model instances
     * @return      		the PCM repository model
     */
-    public static Repository createPCM(Map<String, List<CompilationUnitImpl>> mapping) {    	
+    public static Repository createPCM(Map<String, List<CompilationUnitImpl>> mapping) {
         final List<CompilationUnitImpl> components = PCMDetectorSimple.getComponents();
         final List<Classifier> interfaces = PCMDetectorSimple.getOperationInterfaces();
         existingDataTypesMap = new HashMap<>();
@@ -82,29 +82,29 @@ public class PCMInstanceCreator {
         createPCMInterfaces(interfaces);
 
         createPCMComponents(components);
-        
+
         Repository repo = repository.createRepositoryNow();
-        
+
         saveRepository(repo, "/home/nightcrawler/Dokumente/", "meaninglessExample.repository", false);
 
         return repo;
     }
-    
+
     private static void createPCMInterfaces(List<Classifier> interfaces) {
         interfaces.forEach(inter -> {
             final ConcreteClassifier concreteInter = (ConcreteClassifier) inter;
             final String interfaceName = concreteInter.getQualifiedName().replaceAll("\\.", "_");
-            
+
             System.out.println("Current PCM Interface: "+interfaceName);
-            
+
             OperationInterfaceCreator pcmInterface = create.newOperationInterface().withName(interfaceName);
-            
+
             for (final Method m : concreteInter.getMethods()) {
                 OperationSignatureCreator signature = create.newOperationSignature().withName(m.getName());
 
                 // parameter type
                 for (final Parameter p : m.getParameters()) {
-                    
+
                     final TypeReference ref = p.getTypeReference();
                     signature = handleSignatureDataType(signature, p.getName(), p.getTypeReference(), false);
                 }
@@ -114,30 +114,30 @@ public class PCMInstanceCreator {
 
                 pcmInterface.withOperationSignature(signature);
             }
-            
+
             repository.addToRepository(pcmInterface);
         });
     }
-    
+
     private static void createPCMComponents(List<CompilationUnitImpl> components) {
         for (final CompilationUnitImpl comp : components) {
             BasicComponentCreator pcmComp = create.newBasicComponent().withName(getCompName(comp));
-            
-            
+
+
             final List<ProvidesRelation> providedRelations = PCMDetectorSimple.getProvidedInterfaces(comp);
-            
+
             Set<ConcreteClassifier> realInterfaces =  providedRelations.stream().map(relation->(ConcreteClassifier) relation.getOperationInterface()).collect(Collectors.toSet());
             for(ConcreteClassifier realInterface : realInterfaces) {
             	pcmComp.provides(create.fetchOfOperationInterface(realInterface.getQualifiedName().replaceAll("\\.", "_")),"dummy name");
             }
-            
+
             final List<Variable> requiredIs = PCMDetectorSimple.getRequiredInterfaces(comp);
             Set<ConcreteClassifier> requireInterfaces = requiredIs.stream().map(variable -> getConcreteFromVar(variable)).collect(Collectors.toSet());
-            
+
             for(ConcreteClassifier requInter: requireInterfaces) {
             	pcmComp.requires(create.fetchOfOperationInterface(requInter.getQualifiedName().replaceAll("\\.", "_")),"dummy require name");
             }
-           
+
             repository.addToRepository(pcmComp);
         }
     }
@@ -157,7 +157,7 @@ public class PCMInstanceCreator {
     private static ConcreteClassifier getConcreteFromVar(TypedElement var) {
         return ((ConcreteClassifier) var.getTypeReference().getPureClassifierReference().getTarget());
     }
-    
+
 
     private static Primitive convertPrimitive(PrimitiveType primT) {
         if (primT instanceof Boolean) {
@@ -180,7 +180,7 @@ public class PCMInstanceCreator {
 
         return null;
     }
-    
+
     // Copied out from fluent api project
     public static void saveRepository(Repository repo, String path, String name, boolean printToConsole) {
 		String outputFile = path + name;
@@ -192,7 +192,7 @@ public class PCMInstanceCreator {
 			rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put(fileext, new XMLResourceFactoryImpl());
 
 		URI uri = URI.createFileURI(outputFile);
-		
+
 		Resource resource = rs.createResource(uri);
 		((ResourceImpl) resource).setIntrinsicIDToEObjectMap(new HashMap<>());
 
@@ -213,9 +213,9 @@ public class PCMInstanceCreator {
 			throw new RuntimeException(e);
 		}
 	}
-    
+
     private static OperationSignatureCreator handleSignatureDataType(OperationSignatureCreator signature, String varName, TypeReference var, boolean asReturnType) {
-    	
+
     	// Check if type is a primitive type
     	Primitive prim = handlePrimitive(var);
     	if(prim!=null) {
@@ -224,14 +224,14 @@ public class PCMInstanceCreator {
         	}
             return signature.withParameter(varName, prim, ParameterModifier.IN);
     	}
-    	
+
     	// Check if type is void (not part of pcm primitives)
     	if(var instanceof Void) {
     		if(asReturnType) {
     			return signature.withReturnType(create.fetchOfDataType("Void"));
     		}
     	}
-    	
+
         // Parameter is a collection
         DataType collectionType = handleCollectionType(var);
         if(collectionType != null) {
@@ -240,7 +240,7 @@ public class PCMInstanceCreator {
         	}
         	return signature.withParameter(varName, collectionType, ParameterModifier.IN);
         }
-        
+
         // Parameter is Composite Type
         DataType compositeType = handleCompositeType(var);
         if(compositeType != null) {
@@ -249,52 +249,52 @@ public class PCMInstanceCreator {
         	}
             return signature.withParameter(varName,compositeType,ParameterModifier.IN);
         }
-        
+
         return null;
     }
-    
+
     private static DataType handleCollectionType(TypeReference ref) {
-    	
+
     	Classifier classifier = ref.getPureClassifierReference().getTarget();
-    	
+
     	if(!isCollectionType(classifier)) {
     		return null;
     	}
     	// name of the collection data type
     	String typeName = classifier.getName();
-    	
+
     	CollectionDataType collectionType = null;
-    	
+
     	for(TypeArgument typeArg : ref.getPureClassifierReference().getTypeArguments()) {
     		if(typeArg instanceof QualifiedTypeArgument) {
     			QualifiedTypeArgument qualiType = (QualifiedTypeArgument) typeArg;
     			String argumentTypeName = qualiType.getTypeReference().getPureClassifierReference().getTarget().getName();
     			String finalCollectionTypeName = typeName+"<"+argumentTypeName+">";
-    			
+
     			if(existingCollectionDataTypes.containsKey(finalCollectionTypeName)) {
     				return existingCollectionDataTypes.get(finalCollectionTypeName);
     			}
-    			
+
     			System.out.println("Current Argument type name: " + argumentTypeName);
-    			
+
     			// Type argument is primitive
     			Primitive primitiveArg = handlePrimitive(qualiType.getTypeReference());
     			if(primitiveArg != null) {
     				collectionType = create.newCollectionDataType(finalCollectionTypeName, primitiveArg);
     			}
-    			
+
     			// Type argument is a collection again
     			DataType collectionArg = handleCollectionType(qualiType.getTypeReference());
     			if(collectionArg != null) {
     				collectionType = create.newCollectionDataType(finalCollectionTypeName, collectionArg);
     			}
-    			
+
     			// Type argument is a composite data type
     			DataType compositeArg = handleCompositeType(qualiType.getTypeReference());
     			if(compositeArg != null) {
     				collectionType = create.newCollectionDataType(finalCollectionTypeName, compositeArg);
     			}
-    			
+
     			existingCollectionDataTypes.put(finalCollectionTypeName, collectionType);
     			repository.addToRepository(collectionType);
     			return collectionType;
@@ -302,20 +302,20 @@ public class PCMInstanceCreator {
     	}
     	return null;
     }
-    
+
     private static boolean isCollectionType(Classifier varClassifier) {
-    	
+
     	List<TypeReference> refs = new ArrayList<>();
-    	
+
         if(varClassifier instanceof Class) {
-        
-        	
+
+
         	Class varClass = (Class)varClassifier;
         	refs = varClass.getImplements();
         }
         else if(varClassifier instanceof Interface) {
-        	
-        	
+
+
         	Interface varInterf = (Interface) varClassifier;
         	if(varInterf.getName().equals("Collection")) {
         		return true;
@@ -323,18 +323,18 @@ public class PCMInstanceCreator {
         		refs = varInterf.getExtends();
         	}
         }
-        
+
     	for(TypeReference ref: refs) {
     		String interfaceName = ref.getPureClassifierReference().getTarget().getName();
-    		
+
     		if(interfaceName.equals("Collection")) {
     			return true;
     		}
     	}
-    	
+
     	return false;
     }
-    
+
     private static Primitive handlePrimitive(TypeReference var) {
     	if (var instanceof PrimitiveType) {
     		return convertPrimitive((PrimitiveType) var);
@@ -345,20 +345,20 @@ public class PCMInstanceCreator {
         }
     	return null;
     }
-    
+
     private static DataType handleCompositeType(TypeReference ref) {
     	Classifier classifier = ref.getPureClassifierReference().getTarget();
     	String classifierName = classifier.getName();
-    	
+
     	if(!existingDataTypesMap.containsKey(classifierName)) {
     		//existingDataTypesMap.put(type.getName(), createTypesRecursively(type));
     		existingDataTypesMap.put(classifierName, create.newCompositeDataType().withName(classifierName));
     		repository.addToRepository(existingDataTypesMap.get(classifierName));
     	}
-    	
+
     	return create.fetchOfCompositeDataType(classifierName);
     }
-    
+
     private static CompositeDataTypeCreator createTypesRecursively(ConcreteClassifier type) {
     	if(existingDataTypesMap.containsKey(type.getName())) {
     		return existingDataTypesMap.get(type.getName());
@@ -366,7 +366,7 @@ public class PCMInstanceCreator {
 
     	CompositeDataTypeCreator currentDataType = create.newCompositeDataType().withName(type.getName());
     	for(Field f: type.getFields()) {
-    		
+
     		if(f.getTypeReference() instanceof PrimitiveType) {
     			currentDataType = currentDataType.withInnerDeclaration(f.getName(), convertPrimitive((PrimitiveType) f.getTypeReference()));
     		}
@@ -380,7 +380,7 @@ public class PCMInstanceCreator {
     			currentDataType = currentDataType.withInnerDeclaration(f.getName(), createTypesRecursively(getConcreteFromVar(f)).build());
     		}
     	}
-    	
+
     	repository.addToRepository(currentDataType);
     	return currentDataType;
     }

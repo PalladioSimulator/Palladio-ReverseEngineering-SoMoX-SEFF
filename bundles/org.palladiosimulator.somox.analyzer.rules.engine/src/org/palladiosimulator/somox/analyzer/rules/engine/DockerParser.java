@@ -82,7 +82,7 @@ public class DockerParser {
     	System.out.println(stream.toString());
 
         // final Yaml yaml = new Yaml();
-        final Map<String, Object> object = null; // (Map<String, Object>) yaml.load(stream);
+        final Map<String, Object> object = new HashMap<>(); // (Map<String, Object>) yaml.load(stream);
 
         // get all service names from the map
         if (!object.containsKey("services")) {
@@ -119,7 +119,7 @@ public class DockerParser {
                         serviceToCompMapping.get(serviceName).add(comp);
                     }
                 });
-            } catch (final IOException e) {
+            } catch (final Exception e) {
                 e.printStackTrace();
             }
         });
