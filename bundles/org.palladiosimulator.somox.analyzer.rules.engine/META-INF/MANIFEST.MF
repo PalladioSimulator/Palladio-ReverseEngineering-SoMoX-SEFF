@@ -1,4 +1,4 @@
-Manifest-Version: 1.0
+lManifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SoMoX Rule Engine
 Bundle-SymbolicName: org.palladiosimulator.somox.analyzer.rules.engine;singleton:=true
@@ -16,4 +16,4 @@ Require-Bundle: jamopp.parser,
  org.palladiosimulator.generator.fluent_api,
  org.palladiosimulator.pcm,
  org.somox.sourcecodedecorator,
- org.slf4j.api;bundle-version="1.7.30"
+ org.apache.log4j

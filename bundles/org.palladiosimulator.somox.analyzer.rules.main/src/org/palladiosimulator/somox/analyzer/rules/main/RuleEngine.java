@@ -34,8 +34,7 @@ import org.palladiosimulator.somox.analyzer.rules.engine.IRule;
 import org.palladiosimulator.somox.analyzer.rules.engine.PCMDetectorSimple;
 import org.palladiosimulator.somox.analyzer.rules.engine.PCMInstanceCreator;
 import org.palladiosimulator.somox.analyzer.rules.engine.ParserAdapter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 import jamopp.resource.JavaResource2Factory;
@@ -56,7 +55,7 @@ public class RuleEngine {
 
     private static SourceCodeDecoratorRepository deco;
 
-    private static final Logger LOG = LoggerFactory.getLogger(RuleEngine.class);
+    private static final Logger LOG = Logger.getLogger(RuleEngine.class);
 
 
     public static void main(String[] args) {

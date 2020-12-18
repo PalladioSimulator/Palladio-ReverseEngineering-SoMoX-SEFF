@@ -16,8 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.emftext.language.java.containers.impl.CompilationUnitImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 // import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -30,7 +29,7 @@ public class DockerParser {
     private final String path;
     Map<String, List<CompilationUnitImpl>> mapping;
 
-    private static final Logger LOG = LoggerFactory.getLogger(DockerParser.class);
+    private static final Logger LOG = Logger.getLogger(DockerParser.class);
 
     public DockerParser(String path) {
 

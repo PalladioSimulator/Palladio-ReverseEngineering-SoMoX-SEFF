@@ -13,8 +13,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.impl.CompilationUnitImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import jamopp.parser.api.JaMoPPParserAPI;
 import jamopp.parser.jdt.JaMoPPJDTParser;
@@ -24,8 +23,8 @@ import jamopp.resource.JavaResource2Factory;
 * This class wraps the JaMoPPJDTParser to parse a project directory and additionally filters and saves the resulting model instances.
 */
 public class ParserAdapter {
-	
-	private static final Logger LOG = LoggerFactory.getLogger(ParserAdapter.class);
+
+    private static final Logger LOG = Logger.getLogger(ParserAdapter.class);
 
     public static List<CompilationUnitImpl> generateModelForProject(String in) {
 
@@ -51,11 +50,11 @@ public class ParserAdapter {
                 }
             }
         });
-        
+
         LOG.info("Parsed project directory");
 
         saveModelToDisk(units);
-        
+
         LOG.info("Saved generated model to ./standalone_output/model.containers");
 
         return roots;
@@ -75,7 +74,7 @@ public class ParserAdapter {
         for (final Resource javaResource : new ArrayList<>(rs.getResources())) {
 
             if (javaResource.getContents().isEmpty()) {
-            	
+
             	LOG.warn("WARNING: Emtpy Resource: " + javaResource.getURI());
 
                 continue;
