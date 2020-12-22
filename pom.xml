@@ -34,20 +34,14 @@
 		<url>http://ftp-stud.hs-esslingen.de/pub/Mirrors/eclipse/releases/2020-06/</url>
 	</repository>
 	<repository>
-		<id>Eclipse updates 09-19</id>
-		<layout>p2</layout>
-		<!--<url>http://download.eclipse.org/eclipse/updates/4.7</url>-->
-		<url>http://download.eclipse.org/eclipse/updates/4.13/</url>
-	</repository>
-	<repository>
 		<id>Palladio</id>
 		<layout>p2</layout>
 		<url>https://sdqweb.ipd.kit.edu/eclipse/palladiosimulator/releases/latest/</url>
 	</repository>
-	    <repository>
+	<repository>
       <id>EMFText</id>
       <layout>p2</layout>
-      <url>http://update.emftext.org/release/</url>
+      <url>https://updatesite.palladio-simulator.com/palladio-supporting-eclipsejavadevelopmenttools/nightly/</url>
     </repository>
     <repository>
       <id>JaMoPP</id>
