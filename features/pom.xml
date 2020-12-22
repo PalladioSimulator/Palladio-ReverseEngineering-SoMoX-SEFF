@@ -12,8 +12,6 @@
 	<name>SoMoX Feature Modules</name>
 
 	<modules>
-		<module>org.somox.feature</module>
-		<module>org.somox.metrics.dsl.sdk</module>
 		<module>org.somox.jamopp.feature</module>
 	</modules>
 </project>
