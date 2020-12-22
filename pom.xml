@@ -21,19 +21,17 @@
 	  <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>1.8</java.version>
-    <tycho.version>1.6.0</tycho.version>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.compiler.source>1.8</maven.compiler.source>
+    <java.version>11.0.9</java.version>
+    <tycho.version>2.1.0</tycho.version>
+    <maven.compiler.target>3.6.3</maven.compiler.target>
+    <maven.compiler.source>3.6.3</maven.compiler.source>
     <xtext.version>2.16.0</xtext.version>
   </properties>
   <repositories>
     <repository>
-		<id>Eclipse 09-19</id>
+		<id>Eclipse 06-20</id>
 		<layout>p2</layout>
-		<!--<url>http://download.eclipse.org/releases/oxygen</url>-->
-		<!--<url>http://ftp-stud.hs-esslingen.de/pub/Mirrors/eclipse/releases/oxygen</url>-->
-				<url>http://ftp-stud.hs-esslingen.de/pub/Mirrors/eclipse/releases/2019-09/</url>
+		<url>http://ftp-stud.hs-esslingen.de/pub/Mirrors/eclipse/releases/2020-06/</url>
 	</repository>
 	<repository>
 		<id>Eclipse updates 09-19</id>
@@ -54,7 +52,7 @@
     <repository>
       <id>JaMoPP</id>
       <layout>p2</layout>
-      <url>https://kit-sdq.github.io/updatesite/release/jamopp-p2/</url>
+      <url>https://sdqweb.ipd.kit.edu/eclipse/palladiosimulator/releases/latest/</url>
     </repository>
 
 
