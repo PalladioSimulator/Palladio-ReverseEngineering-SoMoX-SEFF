@@ -95,39 +95,7 @@
       </plugin>
       <!-- Compiles Xtend code -->
 
-<plugin>
-	<groupId>org.eclipse.xtend</groupId>
-	<artifactId>xtend-maven-plugin</artifactId>
-	<version>2.21.0</version>
-	<executions>
-		<execution>
-			<phase>generate-sources</phase>
-			<goals>
-				<goal>compile</goal>
-			</goals>
-			<configuration>
-				<outputDirectory>xtend-gen</outputDirectory>
-			</configuration>
-		</execution>
-	</executions>
-	<dependencies>
-		<dependency>
-			<groupId>org.eclipse.jdt</groupId>
-			<artifactId>org.eclipse.jdt.core</artifactId>
-			<version>3.21.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.platform</groupId>
-			<artifactId>org.eclipse.core.runtime</artifactId>
-			<version>3.17.100</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.platform</groupId>
-			<artifactId>org.eclipse.equinox.common</artifactId>
-			<version>3.11.0</version>
-		</dependency>
-	</dependencies>
-</plugin>
+
 
       <!-- Cleans the xtend-gen folder -->
       <plugin>
