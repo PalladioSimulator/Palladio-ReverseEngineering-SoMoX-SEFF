@@ -10,7 +10,6 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Method;
-import org.emftext.language.java.resource.JaMoPPUtil;
 import org.emftext.language.java.statements.Statement;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -32,7 +31,7 @@ public class MethodCallFinderTest {
     public static void beforeClass() throws IOException {
         // get the statement from the prepared test compilation unit
         JaMoPP2PCMBaseTest.initializeLogger();
-        JaMoPPUtil.initialize();
+        //JaMoPPUtil.initialize();
         final KDMReader modelReader = new KDMReader();
         if (SoMoXUtil.isStandalone()) {
             modelReader.loadProject(PROJECT_PATH);
