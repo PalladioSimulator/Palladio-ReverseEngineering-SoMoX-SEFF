@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SoMoX Rule
+Bundle-SymbolicName: org.palladiosimulator.somox.analyzer.rules.all;singleton:=true
+Bundle-Version: 4.3.0.qualifier
+Bundle-Vendor: palladiosimulator.org
+Automatic-Module-Name: org.palladiosimulator.somox.analyzer.rules.all
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: org.palladiosimulator.somox.analyzer.rules.all
+Require-Bundle: org.eclipse.core.resources,
+ org.eclipse.xtend.lib,
+ org.emftext.language.java,
+ org.palladiosimulator.pcm,
+ org.palladiosimulator.somox.analyzer.rules.engine,
+ org.palladiosimulator.somox.analyzer.rules.jax_rs;bundle-version="4.3.0",
+ org.palladiosimulator.somox.analyzer.rules.spring;bundle-version="4.3.0"

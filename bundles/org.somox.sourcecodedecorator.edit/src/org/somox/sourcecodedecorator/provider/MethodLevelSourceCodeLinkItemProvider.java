@@ -19,62 +19,62 @@ import org.somox.sourcecodedecorator.SourcecodedecoratorPackage;
  */
 public class MethodLevelSourceCodeLinkItemProvider extends AbstractMethodLevelSourceCodeLinkItemProvider {
     /**
-     * This constructs an instance from a factory and a notifier.
-     * <!-- begin-user-doc --> <!--
+	 * This constructs an instance from a factory and a notifier.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public MethodLevelSourceCodeLinkItemProvider(AdapterFactory adapterFactory) {
-        super(adapterFactory);
-    }
+		super(adapterFactory);
+	}
 
     /**
-     * This returns the property descriptors for the adapted class.
-     * <!-- begin-user-doc --> <!--
+	 * This returns the property descriptors for the adapted class.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
-        if (itemPropertyDescriptors == null) {
-            super.getPropertyDescriptors(object);
+		if (itemPropertyDescriptors == null) {
+			super.getPropertyDescriptors(object);
 
-            addOperationPropertyDescriptor(object);
-        }
-        return itemPropertyDescriptors;
-    }
+			addOperationPropertyDescriptor(object);
+		}
+		return itemPropertyDescriptors;
+	}
 
     /**
-     * This adds a property descriptor for the Operation feature.
-     * <!-- begin-user-doc --> <!--
+	 * This adds a property descriptor for the Operation feature.
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected void addOperationPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_MethodLevelSourceCodeLink_operation_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_MethodLevelSourceCodeLink_operation_feature", "_UI_MethodLevelSourceCodeLink_type"),
-                 SourcecodedecoratorPackage.Literals.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION,
-                 true,
-                 false,
-                 true,
-                 null,
-                 null,
-                 null));
-    }
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MethodLevelSourceCodeLink_operation_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MethodLevelSourceCodeLink_operation_feature", "_UI_MethodLevelSourceCodeLink_type"),
+				 SourcecodedecoratorPackage.Literals.METHOD_LEVEL_SOURCE_CODE_LINK__OPERATION,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
 
     /**
-     * This returns MethodLevelSourceCodeLink.gif.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * This returns MethodLevelSourceCodeLink.gif.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, getResourceLocator().getImage("full/obj16/MethodLevelSourceCodeLink"));
-    }
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/MethodLevelSourceCodeLink"));
+	}
 
     /**
      * This returns the label text for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc
@@ -84,30 +84,30 @@ public class MethodLevelSourceCodeLinkItemProvider extends AbstractMethodLevelSo
      */
     @Override
     public String getText(Object object) {
-        return getString("_UI_MethodLevelSourceCodeLink_type");
-    }
+		return getString("_UI_MethodLevelSourceCodeLink_type");
+	}
 
     /**
-     * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void notifyChanged(Notification notification) {
-        updateChildren(notification);
-        super.notifyChanged(notification);
-    }
+		updateChildren(notification);
+		super.notifyChanged(notification);
+	}
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
-     * that can be created under this object.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
-        super.collectNewChildDescriptors(newChildDescriptors, object);
-    }
+		super.collectNewChildDescriptors(newChildDescriptors, object);
+	}
 
 }

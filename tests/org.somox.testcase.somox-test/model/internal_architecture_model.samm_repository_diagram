@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:staticstructure="http://q-impress.eu/samm/staticstructure" xmi:id="__sZuYABdEd-Hd9l5eiesvA" type="SAMM Repository" measurementUnit="Pixel">
-  <styles xmi:type="notation:DiagramStyle" xmi:id="__sZuYQBdEd-Hd9l5eiesvA"/>
-  <element xmi:type="staticstructure:Repository" href="internal_architecture_model.samm_repository#_6IG_YABdEd-Hd9l5eiesvA"/>
-</notation:Diagram>

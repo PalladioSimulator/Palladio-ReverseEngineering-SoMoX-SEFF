@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+// import org.emftext.language.java.annotations.AnnotationAttribute;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.references.MethodCall;
@@ -91,7 +92,15 @@ public class MethodCallFinder {
     private void addMethodToCollection(final LinkedList<Method> calledMethods, final MethodCall methodCall) {
         if (methodCall.getTarget() instanceof Method) {
             final Method target = (Method) methodCall.getTarget();
-            calledMethods.add(target);
+            // if (target instanceof AnnotationAttribute) {
+            // MethodCallFinder.logger.info("Annotation Attribut found within methodCall in a method of the
+            // class"
+            // + methodCall.getContainingConcreteClassifier() + " target: "
+            // + methodCall.getTarget().getName());
+            // calledMethods.add(target);
+            // } else if (target instanceof Method) {
+                calledMethods.add(target);
+            // }
         }
     }
 }

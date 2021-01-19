@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.somox.jamopp.feature-1.0.0.qualifier.jar" id="org.somox.jamopp.feature" version="1.0.0.qualifier">
-      <category name="somox-jamopp"/>
-   </feature>
-      <category-def name="somox-jamopp" label="SoMoX JaMoPP">
-      <description>
-	<!-- TODO add a category description for the update site and make the label above nicer -->
-      </description>
-   </category-def>
+    <!-- add features here -->
+    <feature id="org.somox.sourcecodedecorator.feature">
+        <category name="org.palladiosimulator.reverseengineering.category" />
+    </feature>
+
+    <!-- category definitions -->
+    <category-def name="org.palladiosimulator.reverseengineering.category"
+        label="Palladio Bench Reverse Engineering Features">
+        <description>
+            This category contains all features that are part of a full installation of the SOftware MOdel eXtractor features.
+        </description>
+    </category-def>
 </site>

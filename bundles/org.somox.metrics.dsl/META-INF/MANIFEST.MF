@@ -11,7 +11,6 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.apache.commons.logging;bundle-version="1.0.4";resolution:=optional,
  org.eclipse.emf.codegen.ecore;resolution:=optional,
  org.eclipse.emf.mwe.utils;resolution:=optional,
- org.eclipse.emf.mwe2.launch;resolution:=optional,
  org.eclipse.xtext.util,
  org.eclipse.emf.ecore,
  org.eclipse.emf.common,
@@ -32,3 +31,4 @@ Export-Package: org.somox.metrics.dsl,
  org.somox.metrics.dsl.scoping,
  org.somox.metrics.dsl.generator,
  org.somox.metrics.dsl.formatting
+Automatic-Module-Name: org.somox.metrics.dsl

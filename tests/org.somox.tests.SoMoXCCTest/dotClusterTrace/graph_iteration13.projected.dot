@@ -1,7 +1,0 @@
-digraph G {
-"org.somox.core.subcore.sub2.SubSubClass";
-"org.somox.core.subcore2.MySingleClass";
-"org.somox.core.WithCore\norg.somox.core.Core\norg.somox.core.Helper\norg.somox.core.ICoreParent\norg.somox.core.IProvided\norg.somox.core.ICore";
-"org.somox.core.subcore.MyClass1\norg.somox.core.subcore.MyClass2";
-"org.somox.core.subcore.sub2.SubSubClass" -> "org.somox.core.subcore.MyClass1\norg.somox.core.subcore.MyClass2" [label="AfferentCoupling = 2,00\nDefaultMergeIndicatingMetric = ,63\nSubsystemComponent = ,00\nAbstractness = ,00\nPackageMapping = ,80\nExternalAccessesCount = 5,00\nAbstractTypesCount = ,00\nInstability = ,67\nAdherenceToInterfaceCommunication = ,00\nDMS = ,33\nCoupling = 1,00\nSliceLayerArchitectureQuality = 1,00\nTotalTypesCount = 3,00\nEfferentCoupling = 4,00\nInternalAccessesCount = 5,00\nNameResemblance = ,69\nDirectoryMapping = ,89\nDefaultCompositionIndicatingMetric = ,59\nInterfaceAccessesCount = ,00\n"];
-}

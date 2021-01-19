@@ -49,46 +49,46 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
     protected IChangeNotifier changeNotifier = new ChangeNotifier();
 
     /**
-     * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
     /**
-     * This constructs an instance.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * This constructs an instance.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     public SourcecodedecoratorItemProviderAdapterFactory() {
-        supportedTypes.add(IEditingDomainItemProvider.class);
-        supportedTypes.add(IStructuredItemContentProvider.class);
-        supportedTypes.add(ITreeItemContentProvider.class);
-        supportedTypes.add(IItemLabelProvider.class);
-        supportedTypes.add(IItemPropertySource.class);
-    }
+		supportedTypes.add(IEditingDomainItemProvider.class);
+		supportedTypes.add(IStructuredItemContentProvider.class);
+		supportedTypes.add(ITreeItemContentProvider.class);
+		supportedTypes.add(IItemLabelProvider.class);
+		supportedTypes.add(IItemPropertySource.class);
+	}
 
     /**
-     * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink} instances.
-     * <!-- begin-user-doc
+	 * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink} instances.
+	 * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected FileLevelSourceCodeLinkItemProvider fileLevelSourceCodeLinkItemProvider;
 
     /**
-     * This creates an adapter for a {@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink}.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * This creates an adapter for a {@link org.somox.sourcecodedecorator.FileLevelSourceCodeLink}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Adapter createFileLevelSourceCodeLinkAdapter() {
-        if (fileLevelSourceCodeLinkItemProvider == null) {
-            fileLevelSourceCodeLinkItemProvider = new FileLevelSourceCodeLinkItemProvider(this);
-        }
+		if (fileLevelSourceCodeLinkItemProvider == null) {
+			fileLevelSourceCodeLinkItemProvider = new FileLevelSourceCodeLinkItemProvider(this);
+		}
 
-        return fileLevelSourceCodeLinkItemProvider;
-    }
+		return fileLevelSourceCodeLinkItemProvider;
+	}
 
     /**
      * This keeps track of the one adapter used for all
@@ -100,18 +100,18 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
     protected MethodLevelSourceCodeLinkItemProvider methodLevelSourceCodeLinkItemProvider;
 
     /**
-     * This creates an adapter for a {@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink}.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * This creates an adapter for a {@link org.somox.sourcecodedecorator.MethodLevelSourceCodeLink}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Adapter createMethodLevelSourceCodeLinkAdapter() {
-        if (methodLevelSourceCodeLinkItemProvider == null) {
-            methodLevelSourceCodeLinkItemProvider = new MethodLevelSourceCodeLinkItemProvider(this);
-        }
+		if (methodLevelSourceCodeLinkItemProvider == null) {
+			methodLevelSourceCodeLinkItemProvider = new MethodLevelSourceCodeLinkItemProvider(this);
+		}
 
-        return methodLevelSourceCodeLinkItemProvider;
-    }
+		return methodLevelSourceCodeLinkItemProvider;
+	}
 
     /**
      * This keeps track of the one adapter used for all
@@ -123,19 +123,19 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
     protected ControlFlowLevelSourceCodeLinkItemProvider controlFlowLevelSourceCodeLinkItemProvider;
 
     /**
-     * This creates an adapter for a {@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink}.
-     * <!-- begin-user-doc -->
+	 * This creates an adapter for a {@link org.somox.sourcecodedecorator.ControlFlowLevelSourceCodeLink}.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Adapter createControlFlowLevelSourceCodeLinkAdapter() {
-        if (controlFlowLevelSourceCodeLinkItemProvider == null) {
-            controlFlowLevelSourceCodeLinkItemProvider = new ControlFlowLevelSourceCodeLinkItemProvider(this);
-        }
+		if (controlFlowLevelSourceCodeLinkItemProvider == null) {
+			controlFlowLevelSourceCodeLinkItemProvider = new ControlFlowLevelSourceCodeLinkItemProvider(this);
+		}
 
-        return controlFlowLevelSourceCodeLinkItemProvider;
-    }
+		return controlFlowLevelSourceCodeLinkItemProvider;
+	}
 
     /**
      * This keeps track of the one adapter used for all
@@ -147,41 +147,41 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
     protected SourceCodeDecoratorRepositoryItemProvider sourceCodeDecoratorRepositoryItemProvider;
 
     /**
-     * This creates an adapter for a {@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository}.
-     * <!-- begin-user-doc -->
+	 * This creates an adapter for a {@link org.somox.sourcecodedecorator.SourceCodeDecoratorRepository}.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Adapter createSourceCodeDecoratorRepositoryAdapter() {
-        if (sourceCodeDecoratorRepositoryItemProvider == null) {
-            sourceCodeDecoratorRepositoryItemProvider = new SourceCodeDecoratorRepositoryItemProvider(this);
-        }
+		if (sourceCodeDecoratorRepositoryItemProvider == null) {
+			sourceCodeDecoratorRepositoryItemProvider = new SourceCodeDecoratorRepositoryItemProvider(this);
+		}
 
-        return sourceCodeDecoratorRepositoryItemProvider;
-    }
+		return sourceCodeDecoratorRepositoryItemProvider;
+	}
 
     /**
-     * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.InterfaceSourceCodeLink} instances.
-     * <!-- begin-user-doc
+	 * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.InterfaceSourceCodeLink} instances.
+	 * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected InterfaceSourceCodeLinkItemProvider interfaceSourceCodeLinkItemProvider;
 
     /**
-     * This creates an adapter for a {@link org.somox.sourcecodedecorator.InterfaceSourceCodeLink}.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * This creates an adapter for a {@link org.somox.sourcecodedecorator.InterfaceSourceCodeLink}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Adapter createInterfaceSourceCodeLinkAdapter() {
-        if (interfaceSourceCodeLinkItemProvider == null) {
-            interfaceSourceCodeLinkItemProvider = new InterfaceSourceCodeLinkItemProvider(this);
-        }
+		if (interfaceSourceCodeLinkItemProvider == null) {
+			interfaceSourceCodeLinkItemProvider = new InterfaceSourceCodeLinkItemProvider(this);
+		}
 
-        return interfaceSourceCodeLinkItemProvider;
-    }
+		return interfaceSourceCodeLinkItemProvider;
+	}
 
     /**
      * This keeps track of the one adapter used for all
@@ -193,19 +193,19 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
     protected ComponentImplementingClassesLinkItemProvider componentImplementingClassesLinkItemProvider;
 
     /**
-     * This creates an adapter for a {@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink}.
-     * <!-- begin-user-doc
+	 * This creates an adapter for a {@link org.somox.sourcecodedecorator.ComponentImplementingClassesLink}.
+	 * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Adapter createComponentImplementingClassesLinkAdapter() {
-        if (componentImplementingClassesLinkItemProvider == null) {
-            componentImplementingClassesLinkItemProvider = new ComponentImplementingClassesLinkItemProvider(this);
-        }
+		if (componentImplementingClassesLinkItemProvider == null) {
+			componentImplementingClassesLinkItemProvider = new ComponentImplementingClassesLinkItemProvider(this);
+		}
 
-        return componentImplementingClassesLinkItemProvider;
-    }
+		return componentImplementingClassesLinkItemProvider;
+	}
 
     /**
      * This keeps track of the one adapter used for all
@@ -217,41 +217,41 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
     protected PCMSystemImplementatingClassesLinkItemProvider pcmSystemImplementatingClassesLinkItemProvider;
 
     /**
-     * This creates an adapter for a {@link org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink}.
-     * <!-- begin-user-doc
+	 * This creates an adapter for a {@link org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink}.
+	 * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Adapter createPCMSystemImplementatingClassesLinkAdapter() {
-        if (pcmSystemImplementatingClassesLinkItemProvider == null) {
-            pcmSystemImplementatingClassesLinkItemProvider = new PCMSystemImplementatingClassesLinkItemProvider(this);
-        }
+		if (pcmSystemImplementatingClassesLinkItemProvider == null) {
+			pcmSystemImplementatingClassesLinkItemProvider = new PCMSystemImplementatingClassesLinkItemProvider(this);
+		}
 
-        return pcmSystemImplementatingClassesLinkItemProvider;
-    }
+		return pcmSystemImplementatingClassesLinkItemProvider;
+	}
 
     /**
-     * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.DataTypeSourceCodeLink} instances.
-     * <!-- begin-user-doc
+	 * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.DataTypeSourceCodeLink} instances.
+	 * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected DataTypeSourceCodeLinkItemProvider dataTypeSourceCodeLinkItemProvider;
 
     /**
-     * This creates an adapter for a {@link org.somox.sourcecodedecorator.DataTypeSourceCodeLink}.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * This creates an adapter for a {@link org.somox.sourcecodedecorator.DataTypeSourceCodeLink}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Adapter createDataTypeSourceCodeLinkAdapter() {
-        if (dataTypeSourceCodeLinkItemProvider == null) {
-            dataTypeSourceCodeLinkItemProvider = new DataTypeSourceCodeLinkItemProvider(this);
-        }
+		if (dataTypeSourceCodeLinkItemProvider == null) {
+			dataTypeSourceCodeLinkItemProvider = new DataTypeSourceCodeLinkItemProvider(this);
+		}
 
-        return dataTypeSourceCodeLinkItemProvider;
-    }
+		return dataTypeSourceCodeLinkItemProvider;
+	}
 
     /**
      * This keeps track of the one adapter used for all
@@ -263,19 +263,19 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
     protected InnerDatatypeSourceCodeLinkItemProvider innerDatatypeSourceCodeLinkItemProvider;
 
     /**
-     * This creates an adapter for a {@link org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink}.
-     * <!-- begin-user-doc -->
+	 * This creates an adapter for a {@link org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink}.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Adapter createInnerDatatypeSourceCodeLinkAdapter() {
-        if (innerDatatypeSourceCodeLinkItemProvider == null) {
-            innerDatatypeSourceCodeLinkItemProvider = new InnerDatatypeSourceCodeLinkItemProvider(this);
-        }
+		if (innerDatatypeSourceCodeLinkItemProvider == null) {
+			innerDatatypeSourceCodeLinkItemProvider = new InnerDatatypeSourceCodeLinkItemProvider(this);
+		}
 
-        return innerDatatypeSourceCodeLinkItemProvider;
-    }
+		return innerDatatypeSourceCodeLinkItemProvider;
+	}
 
     /**
      * This keeps track of the one adapter used for all
@@ -287,25 +287,25 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
     protected AbstractActionClassMethodLinkItemProvider abstractActionClassMethodLinkItemProvider;
 
     /**
-     * This creates an adapter for a {@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink}.
-     * <!-- begin-user-doc -->
+	 * This creates an adapter for a {@link org.somox.sourcecodedecorator.AbstractActionClassMethodLink}.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Adapter createAbstractActionClassMethodLinkAdapter() {
-        if (abstractActionClassMethodLinkItemProvider == null) {
-            abstractActionClassMethodLinkItemProvider = new AbstractActionClassMethodLinkItemProvider(this);
-        }
+		if (abstractActionClassMethodLinkItemProvider == null) {
+			abstractActionClassMethodLinkItemProvider = new AbstractActionClassMethodLinkItemProvider(this);
+		}
 
-        return abstractActionClassMethodLinkItemProvider;
-    }
+		return abstractActionClassMethodLinkItemProvider;
+	}
 
     /**
-     * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink} instances.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.MethodLevelResourceDemandingInternalBehaviorLink} instances.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     protected MethodLevelResourceDemandingInternalBehaviorLinkItemProvider methodLevelResourceDemandingInternalBehaviorLinkItemProvider;
 
     /**
@@ -317,89 +317,89 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
      */
     @Override
     public Adapter createMethodLevelResourceDemandingInternalBehaviorLinkAdapter() {
-        if (methodLevelResourceDemandingInternalBehaviorLinkItemProvider == null) {
-            methodLevelResourceDemandingInternalBehaviorLinkItemProvider = new MethodLevelResourceDemandingInternalBehaviorLinkItemProvider(this);
-        }
+		if (methodLevelResourceDemandingInternalBehaviorLinkItemProvider == null) {
+			methodLevelResourceDemandingInternalBehaviorLinkItemProvider = new MethodLevelResourceDemandingInternalBehaviorLinkItemProvider(this);
+		}
 
-        return methodLevelResourceDemandingInternalBehaviorLinkItemProvider;
-    }
+		return methodLevelResourceDemandingInternalBehaviorLinkItemProvider;
+	}
 
     /**
-     * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.SEFF2MethodMapping} instances.
-     * <!-- begin-user-doc -->
+	 * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.SEFF2MethodMapping} instances.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected SEFF2MethodMappingItemProvider seff2MethodMappingItemProvider;
 
     /**
-     * This creates an adapter for a {@link org.somox.sourcecodedecorator.SEFF2MethodMapping}.
-     * <!-- begin-user-doc -->
+	 * This creates an adapter for a {@link org.somox.sourcecodedecorator.SEFF2MethodMapping}.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Adapter createSEFF2MethodMappingAdapter() {
-        if (seff2MethodMappingItemProvider == null) {
-            seff2MethodMappingItemProvider = new SEFF2MethodMappingItemProvider(this);
-        }
+		if (seff2MethodMappingItemProvider == null) {
+			seff2MethodMappingItemProvider = new SEFF2MethodMappingItemProvider(this);
+		}
 
-        return seff2MethodMappingItemProvider;
-    }
+		return seff2MethodMappingItemProvider;
+	}
 
     /**
-     * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.SeffElementSourceCodeLink} instances.
-     * <!-- begin-user-doc -->
+	 * This keeps track of the one adapter used for all {@link org.somox.sourcecodedecorator.SeffElementSourceCodeLink} instances.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected SeffElementSourceCodeLinkItemProvider seffElementSourceCodeLinkItemProvider;
 
     /**
-     * This creates an adapter for a {@link org.somox.sourcecodedecorator.SeffElementSourceCodeLink}.
-     * <!-- begin-user-doc -->
+	 * This creates an adapter for a {@link org.somox.sourcecodedecorator.SeffElementSourceCodeLink}.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Adapter createSeffElementSourceCodeLinkAdapter() {
-        if (seffElementSourceCodeLinkItemProvider == null) {
-            seffElementSourceCodeLinkItemProvider = new SeffElementSourceCodeLinkItemProvider(this);
-        }
+		if (seffElementSourceCodeLinkItemProvider == null) {
+			seffElementSourceCodeLinkItemProvider = new SeffElementSourceCodeLinkItemProvider(this);
+		}
 
-        return seffElementSourceCodeLinkItemProvider;
-    }
+		return seffElementSourceCodeLinkItemProvider;
+	}
 
     /**
-     * This returns the root adapter factory that contains this factory.
-     * <!-- begin-user-doc -->
+	 * This returns the root adapter factory that contains this factory.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public ComposeableAdapterFactory getRootAdapterFactory() {
-        return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
-    }
+		return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
+	}
 
     /**
-     * This sets the composed adapter factory that contains this factory.
-     * <!-- begin-user-doc -->
+	 * This sets the composed adapter factory that contains this factory.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public void setParentAdapterFactory(ComposedAdapterFactory parentAdapterFactory) {
-        this.parentAdapterFactory = parentAdapterFactory;
-    }
+		this.parentAdapterFactory = parentAdapterFactory;
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public boolean isFactoryForType(Object type) {
-        return supportedTypes.contains(type) || super.isFactoryForType(type);
-    }
+		return supportedTypes.contains(type) || super.isFactoryForType(type);
+	}
 
     /**
      * This implementation substitutes the factory itself as the key for the adapter. <!--
@@ -409,44 +409,44 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
      */
     @Override
     public Adapter adapt(Notifier notifier, Object type) {
-        return super.adapt(notifier, this);
-    }
+		return super.adapt(notifier, this);
+	}
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public Object adapt(Object object, Object type) {
-        if (isFactoryForType(type)) {
-            Object adapter = super.adapt(object, type);
-            if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter))) {
-                return adapter;
-            }
-        }
+		if (isFactoryForType(type)) {
+			Object adapter = super.adapt(object, type);
+			if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter))) {
+				return adapter;
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * This adds a listener.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * This adds a listener.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void addListener(INotifyChangedListener notifyChangedListener) {
-        changeNotifier.addListener(notifyChangedListener);
-    }
+		changeNotifier.addListener(notifyChangedListener);
+	}
 
     /**
-     * This removes a listener.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * @generated
-     */
+	 * This removes a listener.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     @Override
     public void removeListener(INotifyChangedListener notifyChangedListener) {
-        changeNotifier.removeListener(notifyChangedListener);
-    }
+		changeNotifier.removeListener(notifyChangedListener);
+	}
 
     /**
      * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}. <!--
@@ -456,34 +456,34 @@ public class SourcecodedecoratorItemProviderAdapterFactory extends Sourcecodedec
      */
     @Override
     public void fireNotifyChanged(Notification notification) {
-        changeNotifier.fireNotifyChanged(notification);
+		changeNotifier.fireNotifyChanged(notification);
 
-        if (parentAdapterFactory != null) {
-            parentAdapterFactory.fireNotifyChanged(notification);
-        }
-    }
+		if (parentAdapterFactory != null) {
+			parentAdapterFactory.fireNotifyChanged(notification);
+		}
+	}
 
     /**
-     * This disposes all of the item providers created by this factory. 
-     * <!-- begin-user-doc --> <!--
+	 * This disposes all of the item providers created by this factory. 
+	 * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public void dispose() {
-        if (fileLevelSourceCodeLinkItemProvider != null) fileLevelSourceCodeLinkItemProvider.dispose();
-        if (methodLevelSourceCodeLinkItemProvider != null) methodLevelSourceCodeLinkItemProvider.dispose();
-        if (controlFlowLevelSourceCodeLinkItemProvider != null) controlFlowLevelSourceCodeLinkItemProvider.dispose();
-        if (sourceCodeDecoratorRepositoryItemProvider != null) sourceCodeDecoratorRepositoryItemProvider.dispose();
-        if (interfaceSourceCodeLinkItemProvider != null) interfaceSourceCodeLinkItemProvider.dispose();
-        if (componentImplementingClassesLinkItemProvider != null) componentImplementingClassesLinkItemProvider.dispose();
-        if (pcmSystemImplementatingClassesLinkItemProvider != null) pcmSystemImplementatingClassesLinkItemProvider.dispose();
-        if (dataTypeSourceCodeLinkItemProvider != null) dataTypeSourceCodeLinkItemProvider.dispose();
-        if (innerDatatypeSourceCodeLinkItemProvider != null) innerDatatypeSourceCodeLinkItemProvider.dispose();
-        if (abstractActionClassMethodLinkItemProvider != null) abstractActionClassMethodLinkItemProvider.dispose();
-        if (methodLevelResourceDemandingInternalBehaviorLinkItemProvider != null) methodLevelResourceDemandingInternalBehaviorLinkItemProvider.dispose();
-        if (seff2MethodMappingItemProvider != null) seff2MethodMappingItemProvider.dispose();
-        if (seffElementSourceCodeLinkItemProvider != null) seffElementSourceCodeLinkItemProvider.dispose();
-    }
+		if (fileLevelSourceCodeLinkItemProvider != null) fileLevelSourceCodeLinkItemProvider.dispose();
+		if (methodLevelSourceCodeLinkItemProvider != null) methodLevelSourceCodeLinkItemProvider.dispose();
+		if (controlFlowLevelSourceCodeLinkItemProvider != null) controlFlowLevelSourceCodeLinkItemProvider.dispose();
+		if (sourceCodeDecoratorRepositoryItemProvider != null) sourceCodeDecoratorRepositoryItemProvider.dispose();
+		if (interfaceSourceCodeLinkItemProvider != null) interfaceSourceCodeLinkItemProvider.dispose();
+		if (componentImplementingClassesLinkItemProvider != null) componentImplementingClassesLinkItemProvider.dispose();
+		if (pcmSystemImplementatingClassesLinkItemProvider != null) pcmSystemImplementatingClassesLinkItemProvider.dispose();
+		if (dataTypeSourceCodeLinkItemProvider != null) dataTypeSourceCodeLinkItemProvider.dispose();
+		if (innerDatatypeSourceCodeLinkItemProvider != null) innerDatatypeSourceCodeLinkItemProvider.dispose();
+		if (abstractActionClassMethodLinkItemProvider != null) abstractActionClassMethodLinkItemProvider.dispose();
+		if (methodLevelResourceDemandingInternalBehaviorLinkItemProvider != null) methodLevelResourceDemandingInternalBehaviorLinkItemProvider.dispose();
+		if (seff2MethodMappingItemProvider != null) seff2MethodMappingItemProvider.dispose();
+		if (seffElementSourceCodeLinkItemProvider != null) seffElementSourceCodeLinkItemProvider.dispose();
+	}
 
 }

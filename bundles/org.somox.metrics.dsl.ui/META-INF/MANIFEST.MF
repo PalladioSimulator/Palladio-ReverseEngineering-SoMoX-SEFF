@@ -18,9 +18,10 @@ Require-Bundle: org.somox.metrics.dsl;visibility:=reexport,
  org.eclipse.compare
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.xbase.lib
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.somox.metrics.dsl.ui.quickfix,
  org.somox.metrics.dsl.ui.contentassist,
  org.somox.metrics.dsl.ui.contentassist.antlr,
  org.somox.metrics.dsl.ui.internal
 Bundle-Activator: org.somox.metrics.dsl.ui.internal.MetricDSLActivator
+Automatic-Module-Name: org.somox.metrics.dsl.ui

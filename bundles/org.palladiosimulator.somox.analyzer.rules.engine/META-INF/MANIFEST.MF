@@ -1,0 +1,19 @@
+lManifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SoMoX Rule Engine
+Bundle-SymbolicName: org.palladiosimulator.somox.analyzer.rules.engine;singleton:=true
+Bundle-Version: 4.3.0.qualifier
+Bundle-Vendor: palladiosimulator.org
+Automatic-Module-Name: org.palladiosimulator.somox.analyzer.rules.engine
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: org.palladiosimulator.somox.analyzer.rules.engine
+Require-Bundle: jamopp.parser,
+ jamopp.parser.jdt,
+ jamopp.resource,
+ org.eclipse.core.resources,
+ org.eclipse.jdt.core,
+ org.emftext.language.java,
+ org.palladiosimulator.generator.fluent_api,
+ org.palladiosimulator.pcm,
+ org.somox.sourcecodedecorator,
+ org.apache.log4j

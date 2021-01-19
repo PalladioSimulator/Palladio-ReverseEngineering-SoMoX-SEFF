@@ -2,7 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.somox.sourcecodedecorator.editor;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: org.somox.sourcecodedecorator.editor
+Bundle-Version: 4.3.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.somox.sourcecodedecorator.presentation.FEditorPlugin$Implementation
 Bundle-Vendor: %providerName
@@ -10,16 +11,16 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.somox.sourcecodedecorator.presentation
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.core.resources;visibility:=reexport,
+ org.eclipse.core.resources,
  org.somox.sourcecodedecorator.edit;visibility:=reexport,
- org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.eclipse.emf.edit.ui;visibility:=reexport,
- org.eclipse.ui.ide;visibility:=reexport,
- de.uka.ipd.sdq.identifier.edit;visibility:=reexport,
- org.emftext.language.java.edit;visibility:=reexport,
- org.emftext.commons.layout.edit;visibility:=reexport,
- org.palladiosimulator.pcm.edit;visibility:=reexport,
- de.uka.ipd.sdq.probfunction.edit;visibility:=reexport,
- de.uka.ipd.sdq.stoex.edit;visibility:=reexport,
- de.uka.ipd.sdq.units.edit;visibility:=reexport
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.emf.edit.ui,
+ org.eclipse.ui.ide,
+ de.uka.ipd.sdq.identifier.edit,
+ org.emftext.language.java.edit,
+ org.emftext.commons.layout.edit,
+ org.palladiosimulator.pcm.edit,
+ de.uka.ipd.sdq.probfunction.edit,
+ de.uka.ipd.sdq.stoex.edit,
+ de.uka.ipd.sdq.units.edit
 Bundle-ActivationPolicy: lazy

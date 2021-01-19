@@ -11,19 +11,6 @@
 <plugin>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://somox.org/SourceCodeDecorator/2.0"
-            class="org.somox.sourcecodedecorator.SourceCodeDecoratorPackage"
-            genModel="model/sourcecodedecorator.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.extension_parser">
-      <parser
-            type="sourcecodedecoratorkdm"
-            class="org.somox.sourcecodedecorator.util.SourceCodeDecoratorResourceFactoryImpl"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated f -->
       <package
             uri="http://q-impress.eu/sourcecodedecorator"

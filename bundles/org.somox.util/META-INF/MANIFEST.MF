@@ -4,9 +4,9 @@ Bundle-Name: SoMoX Util
 Bundle-SymbolicName: org.somox.util
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Require-Bundle: org.somox.sourcecodedecorator,
- org.apache.log4j,
- org.somox.analyzer.simplemodelanalyzer,
+Require-Bundle: org.apache.log4j,
+ org.somox.sourcecodedecorator,
  org.somox.core,
  org.somox.kdmhelper
 Export-Package: org.somox.util
+Automatic-Module-Name: org.somox.util

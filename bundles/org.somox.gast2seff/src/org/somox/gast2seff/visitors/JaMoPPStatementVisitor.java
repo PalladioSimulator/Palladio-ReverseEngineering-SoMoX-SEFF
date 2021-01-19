@@ -399,7 +399,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     private void createInternalCallAction(final ResourceDemandingInternalBehaviour resourceDemandingBehavior,
             final Statement callStatement) {
         final InternalCallAction internalCallAction = SeffFactory.eINSTANCE.createInternalCallAction();
-        internalCallAction.setCalledResourceDemandingInternalBehaviour(resourceDemandingBehavior);
+        // internalCallAction.setCalledResourceDemandingInternalBehaviour(resourceDemandingBehavior);
         internalCallAction.setEntityName(this.positionToString(callStatement));
         if (null != callStatement) {
             this.createAbstracActionClassMethodLink(internalCallAction, callStatement);
@@ -437,9 +437,9 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     private ResourceDemandingInternalBehaviour createResourceDemandingInternalBehaviour(final ClassMethod classMethod) {
         final ResourceDemandingInternalBehaviour resourceDemandingInternalBehaviour = SeffFactory.eINSTANCE
                 .createResourceDemandingInternalBehaviour();
-//        resourceDemandingInternalBehaviour.setEntityName(classMethod.getName());
-//        resourceDemandingInternalBehaviour
-//                .setBasicComponent_ResourceDemandingInternalBehaviour(this.primitiveComponent);
+        // resourceDemandingInternalBehaviour.setEntityName(classMethod.getName());
+        // resourceDemandingInternalBehaviour
+        // .setBasicComponent_ResourceDemandingInternalBehaviour(this.primitiveComponent);
         this.createMethodLevelResourceDemandingInternalBehaviorLink(classMethod, resourceDemandingInternalBehaviour);
         final StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
         resourceDemandingInternalBehaviour.getSteps_Behaviour().add(startAction);
