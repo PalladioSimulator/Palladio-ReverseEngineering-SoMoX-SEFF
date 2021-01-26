@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.somox.seff.feature"
+      label="Seff reconstructor"
+      version="4.3.0.qualifier"
+      provider-name="somox.org"
+      plugin="org.palladiosimulator.branding"
+      license-feature="org.palladiosimulator.license.epl2"
+      license-feature-version="1.0.0">
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="de.uka.ipd.sdq.workflow"/>
+      <import plugin="de.uka.ipd.sdq.workflow.mdsd"/>
+      <import plugin="org.eclipse.emf"/>
+      <import plugin="org.emftext.language.java"/>
+      
+      <import plugin="org.somox.sourcecodedecorator"/>
+      <import plugin="org.somox.core"/>
+      <import plugin="org.somox.kdmhelper"/>
+      <import plugin="org.palladiosimulator.pcm"/>
+      <import plugin="org.emftext.language.java"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.somox.gast2seff"/>
+   </requires>
+
+   <plugin
+         id="org.somox.gast2seff"
+         download-size="0"
+         install-size="0"
+         version="4.3.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.somox.core"
+         download-size="0"
+         install-size="0"
+         version="4.3.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.somox.sourcecodedecorator"
+         download-size="0"
+         install-size="0"
+         version="4.3.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.somox.kdmhelper"
+         download-size="0"
+         install-size="0"
+         version="4.3.0.qualifier"
+         unpack="false"/>
+
+</feature>
