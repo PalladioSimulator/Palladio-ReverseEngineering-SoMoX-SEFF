@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.somox.core.feature"
+      label="SoMoX core"
+      version="4.3.0.qualifier"
+      provider-name="somox.org"
+      plugin="org.palladiosimulator.branding"
+      license-feature="org.palladiosimulator.license.epl2"
+      license-feature-version="1.0.0">
+
+   <requires>
+
+      <import plugin="de.uka.ipd.sdq.workflow"/>
+  	  <import plugin="org.eclipse.emf.edit"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="de.uka.ipd.sdq.identifier"/>
+      <import plugin="de.uka.ipd.sdq.stoex"/>
+      <import plugin="de.uka.ipd.sdq.units"/>
+      <import plugin="org.palladiosimulator.pcm"/>
+      <import plugin="de.uka.ipd.sdq.probfunction"/>
+      <import plugin="org.emftext.language.java"/>
+      <import plugin="org.emftext.commons.layout"/>
+      <import plugin="org.emftext.commons.jdt"/>
+      <import plugin="org.emftext.commons.layout.edit"/>
+      <import plugin="org.emftext.language.java.edit"/>
+      <import plugin="org.somox.core"/>
+      <import plugin="org.eclipse.emf.edit"/>
+      <import plugin="de.uka.ipd.sdq.identifier.edit"/>
+      <import plugin="org.palladiosimulator.pcm.edit"/>
+      <import plugin="de.uka.ipd.sdq.probfunction.edit"/>
+      <import plugin="de.uka.ipd.sdq.stoex.edit"/>
+      <import plugin="de.uka.ipd.sdq.units.edit"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.emf.edit.ui"/>
+      <import plugin="org.eclipse.ui.ide"/>
+	  <import plugin="org.somox.core"/>
+	  <import plugin="org.somox.filter"/>
+	  <import plugin="org.somox.kdmhelper"/>
+	  <import plugin="org.somox.ui"/>
+	  <import plugin="org.somox.util"/>
+ 
+   
+   </requires>
+ 
+	 <plugin
+         id="org.somox.core"
+         download-size="0"
+         install-size="0"
+         version="4.3.0.qualifier"
+         unpack="false"/>
+	 <plugin
+         id="org.somox.filter"
+         download-size="0"
+         install-size="0"
+         version="4.3.0.qualifier"
+         unpack="false"/>
+	
+	 <plugin
+         id="org.somox.kdmhelper"
+         download-size="0"
+         install-size="0"
+         version="4.3.0.qualifier"
+         unpack="false"/>
+		 
+		 <plugin
+         id="org.somox.ui"
+         download-size="0"
+         install-size="0"
+         version="4.3.0.qualifier"
+         unpack="false"/>
+	 <plugin
+         id="org.somox.util"
+         download-size="0"
+         install-size="0"
+         version="4.3.0.qualifier"
+         unpack="false"/>		 
+</feature>
