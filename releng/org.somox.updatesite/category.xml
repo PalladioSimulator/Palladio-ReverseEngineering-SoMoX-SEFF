@@ -7,7 +7,7 @@
     <feature id="org.somox.core.feature">
         <category name="org.palladiosimulator.reverseengineering.category" />
     </feature>
-        <feature id="org.somox.seff.feature">
+	<feature id="org.somox.seff.feature">
         <category name="org.palladiosimulator.reverseengineering.category" />
     </feature>
     <!-- category definitions -->
