@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+<extension point="org.eclipse.debug.core.launchConfigurationTypes">
+	    <launchConfigurationType
+           delegate="org.annotationsmox.ui.AnnotationsMoxModelAnalyzerConfigurationDelegate"
+           id="org.annotationsmox.analyzer.ejbmodelanalyzer.runconfig.LaunchEJBModelAnalyzer"
+           modes="run, debug"
+           name="Launch AnnotationsMox"
+           public="true">        
+	    </launchConfigurationType>
+   </extension>
+   <extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+	    <launchConfigurationTabGroup
+	        type="org.annotationsmox.analyzer.ejbmodelanalyzer.runconfig.LaunchEJBModelAnalyzer"
+	        class="org.annotationsmox.ui.AnnotationsMoxModelAnalyzerTabGroup"
+	        id="org.somox.analyzer.ejbmoxanalyzer.ui.launchConfigurationTabGroupAnalyzer">
+	    </launchConfigurationTabGroup>
+	</extension>
+	<extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+		<launchConfigurationTypeImage
+	        icon="icons/annotationsmox_16x16.gif"
+	        configTypeID="org.annotationsmox.analyzer.ejbmodelanalyzer.runconfig.LaunchEJBModelAnalyzer"
+	        id="org.somox.ejbmox.ui.runconfig.LaunchSimpleModelAnalyzerImage">
+	    </launchConfigurationTypeImage>
+	</extension>
+</plugin>

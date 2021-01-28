@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: AnnotationsMox Architecture Extractor
+Bundle-SymbolicName: org.annotationsmox;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.somox.core,
+ org.somox.ui,
+ de.uka.ipd.sdq.workflow.launchconfig,
+ org.eclipse.debug.core;bundle-version="3.10.0",
+ org.somox.analyzer.simplemodelanalyzer,
+ org.somox.analyzer.simplemodelanalyzer.ui,
+ org.eclipse.debug.ui,
+ org.emftext.language.java,
+ org.palladiosimulator.pcm,
+ org.somox.sourcecodedecorator,
+ org.somox.gast2seff,
+ org.somox.kdmhelper,
+ org.somox.util
+Export-Package: org.annotationsmox.analyzer,
+ org.annotationsmox.commandline,
+ org.annotationsmox.seffhelper.functionclassification,
+ org.annotationsmox.util
