@@ -19,7 +19,8 @@ Require-Bundle: org.somox.core;bundle-version="1.0.0",
  org.palladiosimulator.pcm.resources;bundle-version="1.0.0",
  org.emftext.language.java,
  org.eclipse.emf.common,
- org.somox.metricvaluesstorage;bundle-version="1.1.0"
+ org.somox.metricvaluesstorage;bundle-version="1.1.0",
+ org.somox.metrics;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.somox.analyzer.simplemodelanalyzer,
@@ -30,5 +31,5 @@ Export-Package: org.somox.analyzer.simplemodelanalyzer,
  org.somox.analyzer.simplemodelanalyzer.factories,
  org.somox.analyzer.simplemodelanalyzer.jobs,
  org.somox.analyzer.simplemodelanalyzer.metrics.tabs
-Bundle-ClassPath: lib/jgrapht-0.8.1.jar,
- .
+Bundle-ClassPath: .,
+ lib/jgrapht-0.8.1.jar
