@@ -399,7 +399,7 @@ public class JaMoPPStatementVisitor extends AbstractJaMoPPStatementVisitor {
     private void createInternalCallAction(final ResourceDemandingInternalBehaviour resourceDemandingBehavior,
             final Statement callStatement) {
         final InternalCallAction internalCallAction = SeffFactory.eINSTANCE.createInternalCallAction();
-        // internalCallAction.setCalledResourceDemandingInternalBehaviour(resourceDemandingBehavior);
+        internalCallAction.setCalledResourceDemandingInternalBehaviour(resourceDemandingBehavior);
         internalCallAction.setEntityName(this.positionToString(callStatement));
         if (null != callStatement) {
             this.createAbstracActionClassMethodLink(internalCallAction, callStatement);
