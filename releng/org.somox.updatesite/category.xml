@@ -10,6 +10,9 @@
 	<feature id="org.somox.seff.feature">
         <category name="org.palladiosimulator.reverseengineering.category" />
     </feature>
+    <feature id="org.annotationmox.feature">
+        <category name="org.palladiosimulator.reverseengineering.category" />
+    </feature>
     <!-- category definitions -->
     <category-def name="org.palladiosimulator.reverseengineering.category"
         label="Palladio Bench Reverse Engineering Features">
