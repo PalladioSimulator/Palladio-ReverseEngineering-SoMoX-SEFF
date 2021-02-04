@@ -2,7 +2,7 @@
 <feature
       id="org.annotationmox.feature"
       label="AnnotaionMoX core"
-      version="4.3.0.qualifier"
+      version="5.0.0.qualifier"
       provider-name="annotationmox.org"
       plugin="org.palladiosimulator.branding"
       license-feature="org.palladiosimulator.license.epl2"
@@ -49,35 +49,35 @@
          id="org.somox.core"
          download-size="0"
          install-size="0"
-         version="4.3.0.qualifier"
+         version="5.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.somox.filter"
          download-size="0"
          install-size="0"
-         version="4.3.0.qualifier"
+         version="5.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.somox.kdmhelper"
          download-size="0"
          install-size="0"
-         version="4.3.0.qualifier"
+         version="5.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.somox.ui"
          download-size="0"
          install-size="0"
-         version="4.3.0.qualifier"
+         version="5.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.somox.util"
          download-size="0"
          install-size="0"
-         version="4.3.0.qualifier"
+         version="5.0.0.qualifier"
          unpack="false"/>
 
    <plugin
