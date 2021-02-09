@@ -12,7 +12,7 @@ import org.palladiosimulator.pcm.seff.ProbabilisticBranchTransition;
 import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.pcm.seff.seff_performance.ParametricResourceDemand;
 import org.palladiosimulator.pcm.seff.seff_performance.SeffPerformanceFactory;
-// import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
+import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
 import org.somox.sourcecodedecorator.SEFF2MethodMapping;
 
 /**
@@ -90,7 +90,7 @@ public class DefaultQosAnnotationsBuilder {
         randomVar.setSpecification("0");
         prd.setSpecification_ParametericResourceDemand(randomVar);
         internalAction.getResourceDemand_Action().add(prd);
-        // prd.setRequiredResource_ParametricResourceDemand(DefaultResourceEnvironment.getCPUProcessingResourceType());
+        prd.setRequiredResource_ParametricResourceDemand(DefaultResourceEnvironment.getCPUProcessingResourceType());
         prd.setAction_ParametricResourceDemand(internalAction);
     }
 }

@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Series-Parallel Graph Learner
+Bundle-SymbolicName: org.annotationsmox.graphlearner
+Bundle-Version: 5.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: org.apache.log4j;bundle-version="1.2.15"
+Export-Package: difflib,
+ difflib.myers,
+ org.annotationsmox.graphlearner,
+ org.annotationsmox.graphlearner.node,
+ org.annotationsmox.graphlearner.util,
+ org.annotationsmox.graphlearner.visitor
+Automatic-Module-Name: org.annotationsmox.graphlearner

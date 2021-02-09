@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension point="org.eclipse.debug.core.launchConfigurationTypes">
+	    <launchConfigurationType
+           delegate="org.somox.analyzer.simplemodelanalyzer.ui.SimpleModelAnalyzerConfigurationDelegate"
+           id="org.somox.analyzer.simplemodelanalyzer.runconfig.LaunchSimpleModelAnalyzer"
+           modes="run, debug"
+           name="Launch SoMoX"
+           public="true">        
+	    </launchConfigurationType>
+   </extension>
+   <extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+	    <launchConfigurationTabGroup
+	        type="org.somox.analyzer.simplemodelanalyzer.runconfig.LaunchSimpleModelAnalyzer"
+	        class="org.somox.analyzer.simplemodelanalyzer.ui.SimpleModelAnalyzerTabGroup"
+	        id="org.somox.analyzer.simplemodelanalyzer.ui.launchConfigurationTabGroupAnalyzer">
+	    </launchConfigurationTabGroup>
+	</extension>
+	<extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+		<launchConfigurationTypeImage
+	        icon="icons/somox_16x16.gif"
+	        configTypeID="org.somox.analyzer.simplemodelanalyzer.runconfig.LaunchSimpleModelAnalyzer"
+	        id="org.somox.ui.runconfig.LaunchSimpleModelAnalyzerImage">
+	    </launchConfigurationTypeImage>
+	</extension>
+</plugin>

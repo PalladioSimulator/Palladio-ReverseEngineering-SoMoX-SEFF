@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: AnnotationsMox Architecture Extractor
+Bundle-SymbolicName: org.annotationsmox;singleton:=true
+Bundle-Version: 5.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: de.uka.ipd.sdq.workflow.launchconfig,
+ org.eclipse.debug.core;bundle-version="3.10.0",
+ org.eclipse.debug.ui,
+ org.emftext.language.java,
+ org.eclipse.debug.ui.source;bundle-version="3.14.500",
+ org.somox.core;bundle-version="5.0.0",
+ org.somox.ui;bundle-version="5.0.0",
+ org.somox.analyzer.simplemodelanalyzer;bundle-version="5.0.0",
+ org.somox.analyzer.simplemodelanalyzer.ui;bundle-version="5.0.0",
+ org.somox.sourcecodedecorator;bundle-version="5.0.0",
+ org.somox.gast2seff;bundle-version="5.0.0",
+ org.somox.util;bundle-version="5.0.0",
+ org.somox.kdmhelper;bundle-version="5.0.0",
+ org.palladiosimulator.pcm.resources;bundle-version="5.0.0"
+Export-Package: org.annotationsmox.analyzer,
+ org.annotationsmox.commandline,
+ org.annotationsmox.seffhelper.functionclassification,
+ org.annotationsmox.util
+Automatic-Module-Name: org.annotationsmox

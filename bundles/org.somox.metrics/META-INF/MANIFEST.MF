@@ -1,0 +1,36 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SoMoX Metrics Plug-in
+Bundle-SymbolicName: org.somox.metrics;singleton:=true
+Bundle-Version: 5.0.0.qualifier
+Bundle-Activator: org.somox.metrics.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.somox.metrics.dsl;bundle-version="5.0.0",
+ org.eclipse.emf.edit.ui;bundle-version="2.4.1",
+ org.eclipse.debug.ui;bundle-version="3.4.1",
+ org.somox.core;bundle-version="5.0.0",
+ org.somox.filter;bundle-version="5.0.0",
+ org.somox.kdmhelper;bundle-version="5.0.0",
+ org.somox.sourcecodedecorator;bundle-version="5.0.0",
+ org.emftext.language.java
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: org.somox.metrics,
+ org.somox.metrics.abstractmetrics,
+ org.somox.metrics.basic,
+ org.somox.metrics.dslvisitor,
+ org.somox.metrics.helper,
+ org.somox.metrics.hierarchy,
+ org.somox.metrics.naming,
+ org.somox.metrics.parameter,
+ org.somox.metrics.ratio,
+ org.somox.metrics.registry,
+ org.somox.metrics.structure,
+ org.somox.metrics.tabs,
+ org.somox.metrics.util
+Bundle-Vendor: SDQ, KIT + FZI Karlsruhe + EU Q-ImPrESS
+Bundle-ClassPath: bundles/org.somox.metrics/lib/swt.jar,
+ lib/jgrapht-0.8.1.jar,
+ lib/com.wcohen.secondstring-0.1.jar,
+ lib/log4j-1.2.8.jar,
+ .
