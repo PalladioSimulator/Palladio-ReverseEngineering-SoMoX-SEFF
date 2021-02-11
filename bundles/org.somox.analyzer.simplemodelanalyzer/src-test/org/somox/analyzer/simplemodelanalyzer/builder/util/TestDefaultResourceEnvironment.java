@@ -8,6 +8,7 @@ import org.palladiosimulator.pcm.resourceenvironment.ResourceEnvironment;
 import org.palladiosimulator.pcm.resourcetype.ProcessingResourceType;
 import org.palladiosimulator.pcm.resourcetype.ResourceRepository;
 import org.palladiosimulator.pcm.resourcetype.SchedulingPolicy;
+import org.somox.util.DefaultResourceEnvironment;
 
 /**
  * Must be run as a Junit-Plugin-Test!

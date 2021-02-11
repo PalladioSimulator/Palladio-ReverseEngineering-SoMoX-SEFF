@@ -1,4 +1,4 @@
-package org.somox.analyzer.simplemodelanalyzer.jobs;
+package org.somox.gast2seff.jobs;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.resourceenvironment.ResourceEnvironment;
 import org.palladiosimulator.pcm.system.System;
 import org.somox.analyzer.AnalysisResult;
-import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
+import org.somox.util.DefaultResourceEnvironment;
 import org.somox.configuration.AbstractMoxConfiguration;
 import org.somox.kdmhelper.SoMoXUtil;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
@@ -134,7 +134,7 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
         } else {
             uri = URI.createFileURI(path);
         }
-        
+
 
         // Create a resource for this file.
         final Resource resource = resourceSet.createResource(uri);
