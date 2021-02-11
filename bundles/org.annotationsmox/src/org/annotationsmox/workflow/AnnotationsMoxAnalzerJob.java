@@ -7,7 +7,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.ModelAnalyzerException;
-import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
+import org.somox.gast2seff.jobs.SoMoXBlackboard;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;

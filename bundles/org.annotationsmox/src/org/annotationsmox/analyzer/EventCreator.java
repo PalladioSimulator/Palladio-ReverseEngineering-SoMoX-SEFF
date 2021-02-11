@@ -25,7 +25,7 @@ import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.EventGroup;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.somox.kdmhelper.SoMoXUtil;
-import org.somox.util.PcmModelCreationHelper;
+import org.somox.analyzer.simplemodelanalyzer.builder.util.PcmModelCreationHelper;
 import org.somox.util.SourceCodeDecoratorHelper;
 
 public class EventCreator {
