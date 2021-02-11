@@ -1,4 +1,4 @@
-package org.somox.analyzer.simplemodelanalyzer.builder.util;
+package org.somox.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -8,7 +8,6 @@ import org.palladiosimulator.pcm.resourceenvironment.ResourceEnvironment;
 import org.palladiosimulator.pcm.resourcetype.ProcessingResourceType;
 import org.palladiosimulator.pcm.resourcetype.ResourceRepository;
 import org.palladiosimulator.pcm.resourcetype.SchedulingPolicy;
-import org.somox.util.DefaultResourceEnvironment;
 
 /**
  * Must be run as a Junit-Plugin-Test!
