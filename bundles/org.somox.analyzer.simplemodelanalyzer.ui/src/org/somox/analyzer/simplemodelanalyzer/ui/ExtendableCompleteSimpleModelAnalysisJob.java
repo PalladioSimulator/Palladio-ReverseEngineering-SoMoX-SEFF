@@ -3,11 +3,11 @@ package org.somox.analyzer.simplemodelanalyzer.ui;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
-import org.somox.analyzer.simplemodelanalyzer.jobs.SaveSoMoXModelsJob;
 import org.somox.analyzer.simplemodelanalyzer.jobs.SimpleModelAnalyzerJob;
-import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.gast2seff.jobs.GAST2SEFFJob;
+import org.somox.gast2seff.jobs.SaveSoMoXModelsJob;
+import org.somox.gast2seff.jobs.SoMoXBlackboard;
 import org.somox.ui.runconfig.SoMoXModelAnalyzerConfiguration;
 
 import de.uka.ipd.sdq.workflow.extension.AbstractExtendableJob;

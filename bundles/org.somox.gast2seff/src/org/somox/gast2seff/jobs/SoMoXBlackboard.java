@@ -1,4 +1,4 @@
-package org.somox.analyzer.simplemodelanalyzer.jobs;
+package org.somox.gast2seff.jobs;
 
 import org.somox.analyzer.AnalysisResult;
 

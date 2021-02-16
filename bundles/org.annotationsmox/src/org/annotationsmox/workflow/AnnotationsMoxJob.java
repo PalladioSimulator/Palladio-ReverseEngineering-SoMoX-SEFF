@@ -6,8 +6,8 @@ import org.annotationsmox.analyzer.AnnotationsMoxAnalyzerConfiguration;
 import org.annotationsmox.analyzer.AnnotationsMoxConfiguration;
 import org.annotationsmox.seffhelper.externalcallfinder.EJBInterfaceOfExternalCallFindingFactory;
 import org.annotationsmox.seffhelper.functionclassification.AnnotationsMoxFunctionClassificationStrategyFactory;
-import org.somox.analyzer.simplemodelanalyzer.jobs.SaveSoMoXModelsJob;
-import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard;
+import org.somox.gast2seff.jobs.SaveSoMoXModelsJob;
+import org.somox.gast2seff.jobs.SoMoXBlackboard;
 import org.somox.gast2seff.jobs.GAST2SEFFJob;
 
 import de.uka.ipd.sdq.workflow.extension.AbstractExtendableJob;

@@ -15,6 +15,7 @@ import org.somox.analyzer.ModelAnalyzerException;
 import org.somox.analyzer.simplemodelanalyzer.Activator;
 import org.somox.analyzer.simplemodelanalyzer.SimpleModelAnalyzer;
 import org.somox.configuration.SoMoXConfiguration;
+import org.somox.gast2seff.jobs.SoMoXBlackboard;
 import org.somox.ui.GUISoMoXCoreController;
 import org.somox.ui.runconfig.SoMoXModelAnalyzerConfiguration;
 

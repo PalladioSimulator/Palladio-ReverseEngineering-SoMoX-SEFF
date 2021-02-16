@@ -1,4 +1,4 @@
-package org.somox.util;
+package org.somox.analyzer.simplemodelanalyzer.builder.util;
 
 import org.apache.log4j.Logger;
 import org.emftext.language.java.arrays.ArrayTypeable;
@@ -18,6 +18,7 @@ import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.somox.analyzer.AnalysisResult;
 import org.somox.analyzer.simplemodelanalyzer.builder.OperationBuilder;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
+import org.somox.util.SourceCodeDecoratorHelper;
 
 public class PcmModelCreationHelper {
 

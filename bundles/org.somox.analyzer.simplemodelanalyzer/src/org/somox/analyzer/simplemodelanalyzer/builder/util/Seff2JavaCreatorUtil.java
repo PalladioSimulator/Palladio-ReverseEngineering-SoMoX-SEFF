@@ -1,4 +1,4 @@
-package org.somox.util;
+package org.somox.analyzer.simplemodelanalyzer.builder.util;
 
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.ProvidedRole;

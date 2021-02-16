@@ -1,4 +1,4 @@
-package org.somox.analyzer.simplemodelanalyzer.builder.util;
+package org.somox.util;
 
 import java.util.HashMap;
 import java.util.List;

@@ -23,7 +23,6 @@ import org.palladiosimulator.pcm.resourceenvironment.ResourceContainer;
 import org.palladiosimulator.pcm.resourceenvironment.ResourceEnvironment;
 import org.palladiosimulator.pcm.system.System;
 import org.somox.analyzer.AnalysisResult;
-import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.InterfacePortBuilderHelper;
 import org.somox.analyzer.simplemodelanalyzer.builder.util.EndpointInformation;
 import org.somox.configuration.SoMoXConfiguration;
@@ -31,6 +30,7 @@ import org.somox.kdmhelper.metamodeladdition.Root;
 import org.somox.sourcecodedecorator.ComponentImplementingClassesLink;
 import org.somox.sourcecodedecorator.PCMSystemImplementatingClassesLink;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
+import org.somox.util.DefaultResourceEnvironment;
 
 //import de.fzi.gast.core.Root;
 

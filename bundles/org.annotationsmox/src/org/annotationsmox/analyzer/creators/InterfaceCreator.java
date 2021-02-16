@@ -19,7 +19,7 @@ import org.palladiosimulator.pcm.repository.Repository;
 import org.somox.kdmhelper.GetAccessedType;
 import org.somox.sourcecodedecorator.InterfaceSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
-import org.somox.util.PcmModelCreationHelper;
+import org.somox.analyzer.simplemodelanalyzer.builder.util.PcmModelCreationHelper;
 import org.somox.util.SourceCodeDecoratorHelper;
 
 public class InterfaceCreator {

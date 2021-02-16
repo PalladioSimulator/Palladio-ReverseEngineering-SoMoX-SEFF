@@ -25,7 +25,6 @@ import org.palladiosimulator.pcm.repository.PrimitiveDataType;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.somox.analyzer.AnalysisResult;
-import org.somox.analyzer.simplemodelanalyzer.builder.util.DefaultResourceEnvironment;
 import org.somox.configuration.SoMoXConfiguration;
 import org.somox.kdmhelper.GetAccessedType;
 import org.somox.kdmhelper.KDMHelper;
@@ -35,6 +34,7 @@ import org.somox.sourcecodedecorator.InnerDatatypeSourceCodeLink;
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory;
+import org.somox.util.DefaultResourceEnvironment;
 
 /**
  * Builder for operations, parameters, message types, and data types. Keeps the source code

@@ -13,8 +13,8 @@ import org.emftext.language.java.containers.CompilationUnit;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.somox.analyzer.AnalysisResult;
-import org.somox.util.PcmModelCreationHelper;
-import org.somox.util.Seff2JavaCreatorUtil;
+import org.somox.analyzer.simplemodelanalyzer.builder.util.PcmModelCreationHelper;
+import org.somox.analyzer.simplemodelanalyzer.builder.util.Seff2JavaCreatorUtil;
 import org.somox.util.SourceCodeDecoratorHelper;
 
 /**
