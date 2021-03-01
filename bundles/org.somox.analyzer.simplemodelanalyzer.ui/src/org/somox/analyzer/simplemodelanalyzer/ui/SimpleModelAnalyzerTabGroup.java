@@ -2,8 +2,14 @@ package org.somox.analyzer.simplemodelanalyzer.ui;
 
 import java.util.ArrayList;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
+import org.somox.analyzer.ModelAnalyzerTabGroupBlackboard;
+import org.somox.metrics.abstractmetrics.AbstractMetric;
+import org.somox.metrics.tabs.MetricTab;
 import org.somox.metrics.tabs.MetricTabGroup;
 import org.somox.ui.runconfig.ModelAnalyzerTabGroup;
 
@@ -37,6 +43,34 @@ public class SimpleModelAnalyzerTabGroup extends ModelAnalyzerTabGroup {
         tabList.add(tab);
         tabList.add(new DebugEnabledCommonTab());
         this.setTabs(tabList.toArray(new ILaunchConfigurationTab[0]));
+    }
+
+    public static ArrayList<MetricTab> getMetricTabs(
+            final ModelAnalyzerTabGroupBlackboard modelAnalyzerTabGroupBlackboard) {
+        final ArrayList<MetricTab> tabList = new ArrayList<MetricTab>();
+        final IConfigurationElement[] metrics = Platform.getExtensionRegistry()
+                .getConfigurationElementsFor("org.somox.core.metric");
+        for (final IConfigurationElement metric2 : metrics) {
+            Object o = null;
+            try {
+                o = metric2.createExecutableExtension("class");
+            } catch (final CoreException e) {
+                // Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Warning:
+                // Specified Analyzer Metric " + metric2.getName() + " cannot be loaded."));
+            }
+            if (o == null) {
+                continue;
+            }
+            if (o instanceof AbstractMetric) {
+                final AbstractMetric metric = (AbstractMetric) o;
+                final MetricTab metricTab = metric.getLaunchConfigurationTab();
+                if (metricTab != null) {
+                    metricTab.setModelAnalyzerTabGroupBlackboard(modelAnalyzerTabGroupBlackboard);
+                    tabList.add(metricTab);
+                }
+            }
+        }
+        return tabList;
     }
 
 }
