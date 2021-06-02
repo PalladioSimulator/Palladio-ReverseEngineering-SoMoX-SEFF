@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
     <!-- add features here -->
+    <feature id="org.palladiosimulator.somox.core.feature">
+        <category name="org.palladiosimulator.reverseengineering.category" />
+    </feature>
     <feature id="org.somox.sourcecodedecorator.feature">
         <category name="org.palladiosimulator.reverseengineering.category" />
     </feature>

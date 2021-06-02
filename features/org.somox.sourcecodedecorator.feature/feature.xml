@@ -24,15 +24,15 @@
       <import plugin="org.emftext.language.java.edit"/>
       <import plugin="org.somox.sourcecodedecorator"/>
       <import plugin="org.eclipse.emf.edit"/>
-      <import plugin="de.uka.ipd.sdq.identifier.edit"/>
       <import plugin="org.palladiosimulator.pcm.edit"/>
-      <import plugin="de.uka.ipd.sdq.probfunction.edit"/>
-      <import plugin="de.uka.ipd.sdq.stoex.edit"/>
-      <import plugin="de.uka.ipd.sdq.units.edit"/>
+      <import plugin="de.uka.ipd.sdq.identifier.edit"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.somox.sourcecodedecorator.edit"/>
       <import plugin="org.eclipse.emf.edit.ui"/>
       <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="de.uka.ipd.sdq.probfunction.edit"/>
+      <import plugin="de.uka.ipd.sdq.stoex.edit"/>
+      <import plugin="de.uka.ipd.sdq.units.edit"/>
    </requires>
 
    <plugin
