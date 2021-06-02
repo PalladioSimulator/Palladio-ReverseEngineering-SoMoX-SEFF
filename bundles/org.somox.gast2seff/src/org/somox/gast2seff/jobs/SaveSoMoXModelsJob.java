@@ -42,12 +42,13 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
     // ---------------------------------
 
     /** The path inside the project to store the internal architecture model */
-    private static final String PATH_SOURCECODE_DECORATOR_REPOSITORY = "/internal_architecture_model.sourcecodedecorator";
-    private static final String PATH_SYSTEM_MODEL = "/internal_architecture_model.system";
-    private static final String PATH_QOS_ANNOTATIONS_MODEL = "/internal_architecture_model.samm_qosannotation";
-    private static final String PATH_REPOSITORY_MODEL = "/internal_architecture_model.repository";
-    private static final String PATH_ALLOCATION_MODEL = "/internal_architecture_model.allocation";
-    private static final String PATH_RESOURCE_ENVIRONMENT_MODEL = "/internal_architecture_model.resourceenvironment";
+    private static final String PATH_SEPARATOR = "/";
+    private static final String PATH_SOURCECODE_DECORATOR_REPOSITORY = "internal_architecture_model.sourcecodedecorator";
+    private static final String PATH_SYSTEM_MODEL = "internal_architecture_model.system";
+    private static final String PATH_QOS_ANNOTATIONS_MODEL = "internal_architecture_model.samm_qosannotation";
+    private static final String PATH_REPOSITORY_MODEL = "internal_architecture_model.repository";
+    private static final String PATH_ALLOCATION_MODEL = "internal_architecture_model.allocation";
+    private static final String PATH_RESOURCE_ENVIRONMENT_MODEL = "internal_architecture_model.resourceenvironment";
 
     private final Logger logger = Logger.getLogger(SaveSoMoXModelsJob.class);
 
@@ -63,8 +64,9 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
     public SaveSoMoXModelsJob(final AbstractMoxConfiguration somoxConfiguration) {
         this.somoxConfiguration = somoxConfiguration;
         this.resourceSet = new ResourceSetImpl();
-        this.resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
-                .put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
+        this.resourceSet.getResourceFactoryRegistry()
+            .getExtensionToFactoryMap()
+            .put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
     }
 
     /**
@@ -81,16 +83,37 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
 
         final AnalysisResult result = this.blackboard.getAnalysisResult();
 
-        final String outputFolder = this.somoxConfiguration.getFileLocations().getOutputFolder();
+        final String outputFolder = this.somoxConfiguration.getFileLocations()
+            .getOutputFolder();
+
+        URI outputFolderURI = null;
+        boolean isValidURI;
+        try {
+            outputFolderURI = URI.createURI(outputFolder);
+            isValidURI = outputFolderURI.isPlatformResource() || outputFolderURI.isFile();
+        } catch (IllegalArgumentException e) {
+            isValidURI = false;
+        }
 
         // save the new internal architecture model
         try {
-            this.saveRepositoryModel(result.getInternalArchitectureModel(), outputFolder);
-            this.saveSourceCodeDecoratorRepository(result.getSourceCodeDecoratorRepository(), outputFolder);
-            this.saveSystemModel(result.getSystemModel(), outputFolder);
-            this.saveQoSAnnotationsModel(result.getQosAnnotationModel(), outputFolder);
-            this.saveResourceEnvironmentModel(DefaultResourceEnvironment.getDefaultResourceEnvironment(), outputFolder);
-            this.saveAllocationModel(result.getAllocation(), outputFolder);
+            if (isValidURI) {
+                this.saveRepositoryModel(result.getInternalArchitectureModel(), outputFolderURI);
+                this.saveSourceCodeDecoratorRepository(result.getSourceCodeDecoratorRepository(), outputFolderURI);
+                this.saveSystemModel(result.getSystemModel(), outputFolderURI);
+                this.saveQoSAnnotationsModel(result.getQosAnnotationModel(), outputFolderURI);
+                this.saveResourceEnvironmentModel(DefaultResourceEnvironment.getDefaultResourceEnvironment(),
+                        outputFolderURI);
+                this.saveAllocationModel(result.getAllocation(), outputFolderURI);
+            } else {
+                this.saveRepositoryModel(result.getInternalArchitectureModel(), outputFolder);
+                this.saveSourceCodeDecoratorRepository(result.getSourceCodeDecoratorRepository(), outputFolder);
+                this.saveSystemModel(result.getSystemModel(), outputFolder);
+                this.saveQoSAnnotationsModel(result.getQosAnnotationModel(), outputFolder);
+                this.saveResourceEnvironmentModel(DefaultResourceEnvironment.getDefaultResourceEnvironment(),
+                        outputFolder);
+                this.saveAllocationModel(result.getAllocation(), outputFolder);
+            }
         } catch (final IOException e) {
             this.logger.error("Model Analyzer failed.", e);
             throw new JobFailedException("Unable to save SoMoX Models", e);
@@ -100,34 +123,59 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
 
     private void saveSourceCodeDecoratorRepository(final SourceCodeDecoratorRepository repository,
             final String outputFolder) throws IOException {
-        this.save(repository, outputFolder + PATH_SOURCECODE_DECORATOR_REPOSITORY);
+        this.save(repository, outputFolder + PATH_SEPARATOR + PATH_SOURCECODE_DECORATOR_REPOSITORY);
+    }
+
+    private void saveSourceCodeDecoratorRepository(final SourceCodeDecoratorRepository repository,
+            final URI outputFolder) throws IOException {
+        this.save(repository, outputFolder.appendSegment(PATH_SOURCECODE_DECORATOR_REPOSITORY));
     }
 
     private void saveSystemModel(final System system, final String outputFolder) throws IOException {
-        this.save(system, outputFolder + PATH_SYSTEM_MODEL);
+        this.save(system, outputFolder + PATH_SEPARATOR + PATH_SYSTEM_MODEL);
+    }
+
+    private void saveSystemModel(final System system, final URI outputFolder) throws IOException {
+        this.save(system, outputFolder.appendSegment(PATH_SYSTEM_MODEL));
     }
 
     private void saveQoSAnnotationsModel(final QoSAnnotations serviceArchitectureModel, final String outputFolder)
             throws IOException {
-        this.save(serviceArchitectureModel, outputFolder + PATH_QOS_ANNOTATIONS_MODEL);
+        this.save(serviceArchitectureModel, outputFolder + PATH_SEPARATOR + PATH_QOS_ANNOTATIONS_MODEL);
+    }
+
+    private void saveQoSAnnotationsModel(final QoSAnnotations serviceArchitectureModel, final URI outputFolder)
+            throws IOException {
+        this.save(serviceArchitectureModel, outputFolder.appendSegment(PATH_QOS_ANNOTATIONS_MODEL));
     }
 
     private void saveRepositoryModel(final Repository repository, final String outputFolder) throws IOException {
-        this.save(repository, outputFolder + PATH_REPOSITORY_MODEL);
+        this.save(repository, outputFolder + PATH_SEPARATOR + PATH_REPOSITORY_MODEL);
+    }
+
+    private void saveRepositoryModel(final Repository repository, final URI outputFolder) throws IOException {
+        this.save(repository, outputFolder.appendSegment(PATH_REPOSITORY_MODEL));
     }
 
     private void saveAllocationModel(final Allocation allocation, final String outputFolder) throws IOException {
-        this.save(allocation, outputFolder + PATH_ALLOCATION_MODEL);
+        this.save(allocation, outputFolder + PATH_SEPARATOR + PATH_ALLOCATION_MODEL);
+    }
+
+    private void saveAllocationModel(final Allocation allocation, final URI outputFolder) throws IOException {
+        this.save(allocation, outputFolder.appendSegment(PATH_ALLOCATION_MODEL));
     }
 
     private void saveResourceEnvironmentModel(final ResourceEnvironment resourceEnvironment, final String outputFolder)
             throws IOException {
-        this.save(resourceEnvironment, outputFolder + PATH_RESOURCE_ENVIRONMENT_MODEL);
+        this.save(resourceEnvironment, outputFolder + PATH_SEPARATOR + PATH_RESOURCE_ENVIRONMENT_MODEL);
+    }
+
+    private void saveResourceEnvironmentModel(final ResourceEnvironment resourceEnvironment, final URI outputFolder)
+            throws IOException {
+        this.save(resourceEnvironment, outputFolder.appendSegment(PATH_RESOURCE_ENVIRONMENT_MODEL));
     }
 
     private void save(final EObject emfObject, final String path) throws IOException {
-        final ResourceSet resourceSet = this.getResourceSetForURI();
-        // URI scriptURI = fileURI;
         URI uri = null;
         if (!SoMoXUtil.isStandalone()) {
             uri = URI.createPlatformResourceURI(path, true);
@@ -135,24 +183,20 @@ public class SaveSoMoXModelsJob implements IBlackboardInteractingJob<SoMoXBlackb
             uri = URI.createFileURI(path);
         }
 
+        save(emfObject, uri);
+    }
 
+    private void save(final EObject emfObject, final URI uri) throws IOException {
         // Create a resource for this file.
         final Resource resource = resourceSet.createResource(uri);
         // Add object to the contents.
-        resource.getContents().add(emfObject);
+        resource.getContents()
+            .add(emfObject);
 
         final HashMap<Object, Object> saveOptions = new HashMap<Object, Object>();
         saveOptions.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
 
         resource.save(saveOptions);
-    }
-
-    private ResourceSet getResourceSetForURI() {
-        final ResourceSet resourceSet = new ResourceSetImpl();
-        // Register the default resource factory -- only needed for stand-alone!
-        resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
-                .put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
-        return resourceSet;
     }
 
     @Override
