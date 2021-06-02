@@ -39,14 +39,16 @@ public class FileLocationConfiguration {
 
     /**
      * @param outputFolder
-     *            The (workspace-relative) path to the folder to put all analysis results in.
+     *            The (workspace-relative) path to the folder to put all analysis results in. May
+     *            also be a platform resource URI or a file URI.
      */
     public void setOutputFolder(final String outputFolder) {
         this.outputFolder = outputFolder;
     }
 
     /**
-     * @return The (workspace-relative) path to the folder to put all analysis results in.
+     * @return The (workspace-relative) path to the folder to put all analysis results in. May also
+     *         be a platform resource URI or a file URI.
      */
     public String getOutputFolder() {
         return this.outputFolder;
