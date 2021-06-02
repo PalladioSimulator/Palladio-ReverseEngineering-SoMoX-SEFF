@@ -105,7 +105,7 @@ public abstract class AbstractMoxConfiguration extends AbstractComposedJobConfig
         if (attributeMap.get(AbstractMoxConfiguration.SOMOX_OUTPUT_FOLDER) != null) {
             fileLocations.setOutputFolder((String) attributeMap.get(AbstractMoxConfiguration.SOMOX_OUTPUT_FOLDER));
         } else {
-            if (fileLocations.getProjectNames().size() > 0) {
+            if (fileLocations.getProjectNames() != null && fileLocations.getProjectNames().size() > 0) {
                 fileLocations.setOutputFolder(
                         "/" + fileLocations.getProjectNames().iterator().next() + SOMOX_OUTPUT_FOLDER_DEFAULT);
             }
