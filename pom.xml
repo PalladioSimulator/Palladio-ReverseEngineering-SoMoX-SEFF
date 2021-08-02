@@ -25,8 +25,7 @@
         <module>releng</module>
         <module>bundles</module>
         <module>features</module>
-        <!--<module>tests</module>-->
-        <!--<module>products</module>-->
+        <module>tests</module>
     </modules>
 
 </project>
