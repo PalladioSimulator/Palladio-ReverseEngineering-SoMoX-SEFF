@@ -61,7 +61,7 @@
             type="InstallableUnit">
             <unit id="org.emftext.language.java.feature.feature.group"
                 version="4.3.0.202008171246" />
-            <repository location="https://updatesite.palladio-simulator.com/palladio-supporting-eclipsejavadevelopmenttools/nightly/" />
+            <repository location="https://updatesite.palladio-simulator.com/palladio-reverseengineering-java/nightly/" />
         </location>
         <location includeAllPlatforms="false"
             includeConfigurePhase="true"
