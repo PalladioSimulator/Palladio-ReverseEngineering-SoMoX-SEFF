@@ -69,8 +69,8 @@
             includeSource="false"
             refresh="true"
             type="InstallableUnit">
-            <unit id="org.palladiosimulator.generator.fluent_api"
-                version="4.3.0.202008200051" />
+            <unit id="org.palladiosimulator.generator.fluent"
+                version="5.0.0.202110221124" />
             <repository location="https://updatesite.palladio-simulator.com/palladio-addons-fluentapimodelgenerator/nightly/" />
         </location>
         <location includeAllPlatforms="false"
