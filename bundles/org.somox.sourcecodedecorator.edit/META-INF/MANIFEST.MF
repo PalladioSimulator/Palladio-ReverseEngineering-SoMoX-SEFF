@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.somox.sourcecodedecorator.edit;singleton:=true
 Automatic-Module-Name: org.somox.sourcecodedecorator.edit
-Bundle-Version: 5.0.0.qualifier
+Bundle-Version: 5.1.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.somox.sourcecodedecorator.provider.FEditPlugin$Implementation
 Bundle-Vendor: %providerName
