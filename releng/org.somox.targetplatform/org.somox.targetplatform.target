@@ -61,6 +61,7 @@
             type="InstallableUnit">
             <unit id="org.emftext.language.java" version="0.0.0"/>
 			<unit id="org.emftext.commons.jdt" version="0.0.0"/>
+			<unit id="org.emftext.commons.layout.edit" version="0.0.0"/>
 			<unit id="jamopp.resource" version="0.0.0"/>
             <repository location="https://updatesite.palladio-simulator.com/palladio-reverseengineering-java/nightly/" />
         </location>
