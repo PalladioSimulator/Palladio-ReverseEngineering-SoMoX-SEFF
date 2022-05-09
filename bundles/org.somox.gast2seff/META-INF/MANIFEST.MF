@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf,
  org.somox.sourcecodedecorator,
  org.palladiosimulator.pcm,
- org.emftext.language.java
+ org.emftext.language.java,
+ org.eclipse.jdt.core
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Export-Package: org.somox.gast2seff.jobs,
