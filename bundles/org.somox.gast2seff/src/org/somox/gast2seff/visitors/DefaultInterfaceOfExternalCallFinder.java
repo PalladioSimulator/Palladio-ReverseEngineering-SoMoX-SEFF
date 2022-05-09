@@ -36,7 +36,7 @@ public class DefaultInterfaceOfExternalCallFinder implements InterfaceOfExternal
      * @return interface port and operation for corresponding to the access.
      */
     @Override
-    public InterfacePortOperationTuple getCalledInterfacePort(final Method calledMethod, Statement statement) { // GAST2SEFFCHANGE
+    public InterfacePortOperationTuple getCalledInterfacePort(final Method calledMethod, Statement statement) {
         final InterfacePortOperationTuple interfacePortOperationTuple = new InterfacePortOperationTuple();
         final ConcreteClassifier accessedConcreteClassifier = calledMethod.getContainingConcreteClassifier();
 
@@ -63,7 +63,7 @@ public class DefaultInterfaceOfExternalCallFinder implements InterfaceOfExternal
     protected SourceCodeDecoratorRepository getSourceCodeDecoratorRepository() {
         return sourceCodeDecoratorRepository;
     }
-    
+
     protected BasicComponent getBasicComponent() {
         return basicComponent;
     }
@@ -72,13 +72,14 @@ public class DefaultInterfaceOfExternalCallFinder implements InterfaceOfExternal
         if (requiredRole instanceof OperationRequiredRole) {
             final OperationRequiredRole operReqRole = (OperationRequiredRole) requiredRole;
             return operReqRole.getRequiredInterface__OperationRequiredRole();
-        } else if (requiredRole instanceof SourceRole) {
+        }
+		if (requiredRole instanceof SourceRole) {
             final SourceRole sourceRole = (SourceRole) requiredRole;
             return sourceRole.getEventGroup__SourceRole();
         }
         return null;
     }
-    
+
     /**
      * Signature query
      *
@@ -86,12 +87,12 @@ public class DefaultInterfaceOfExternalCallFinder implements InterfaceOfExternal
      *            The method invocation to find in the SAMM
      * @return Signature corresponding to function access
      */
-    private Signature queryInterfaceOperation(final Method invokedMethod) { // GAST2SEFFCHANGE
+    private Signature queryInterfaceOperation(final Method invokedMethod) {
         for (final MethodLevelSourceCodeLink methodLink : this.getSourceCodeDecoratorRepository()
                 .getMethodLevelSourceCodeLink()) {
 
             final Member methodSourceCodeDecorator = methodLink.getFunction();
-            if (methodSourceCodeDecorator.equals(invokedMethod)) { // GAST2SEFFCHANGE
+            if (methodSourceCodeDecorator.equals(invokedMethod)) {
 
                 logger.trace("accessed operation " + methodLink.getOperation().getEntityName());
                 return methodLink.getOperation();
@@ -99,7 +100,7 @@ public class DefaultInterfaceOfExternalCallFinder implements InterfaceOfExternal
         }
 
         logger.warn("no accessed operation found for " + invokedMethod.getContainingConcreteClassifier() + "::"
-                + invokedMethod.getName()); // GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                + invokedMethod.getName());
         return null;
     }
 

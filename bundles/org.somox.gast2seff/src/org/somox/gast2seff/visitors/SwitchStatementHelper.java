@@ -22,7 +22,7 @@ public class SwitchStatementHelper {
     private static final Logger logger = Logger.getLogger(SwitchStatementHelper.class.getSimpleName());
 
     public static List<List<Statement>> createBlockListFromSwitchStatement(final Switch switchStatement) {
-        final ArrayList<List<Statement>> blockList = new ArrayList<List<Statement>>();
+        final ArrayList<List<Statement>> blockList = new ArrayList<>();
 
         for (final SwitchCase switchCase : switchStatement.getCases()) {
             final List<Statement> currentBlock = findNextBlock(switchCase, switchStatement);
@@ -35,7 +35,7 @@ public class SwitchStatementHelper {
         if (endsWithBreakStatement(switchCase) || isLastBlock(switchCase, switchStatement.getCases())) {
             return switchCase.getStatements();
         }
-        final List<Statement> currentBlock = new ArrayList<Statement>(switchCase.getStatements().size() * 4);
+        final List<Statement> currentBlock = new ArrayList<>(switchCase.getStatements().size() * 4);
         currentBlock.addAll(switchCase.getStatements());
         final int nextIndex = switchStatement.getCases().indexOf(switchCase) + 1;
         final SwitchCase nextSwitchCase = switchStatement.getCases().get(nextIndex);

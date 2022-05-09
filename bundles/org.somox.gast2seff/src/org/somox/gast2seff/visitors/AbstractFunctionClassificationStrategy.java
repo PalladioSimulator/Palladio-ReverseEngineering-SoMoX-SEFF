@@ -33,27 +33,27 @@ public abstract class AbstractFunctionClassificationStrategy implements IFunctio
      * .gast.statements.SimpleStatement)
      */
     @Override
-    public List<BitSet> classifySimpleStatement(final Statement object) {// GAST2SEFFCHANGE
+    public List<BitSet> classifySimpleStatement(final Statement object) {
                                                                          // //can/should
         // be replaced with Statement
 
-        final Collection<Method> methods = this.methodCallFinder.getMethodCalls(object);// GAST2SEFFCHANGE
-        final List<BitSet> result = new ArrayList<BitSet>(methods.size());
+        final Collection<Method> methods = this.methodCallFinder.getMethodCalls(object);
+        final List<BitSet> result = new ArrayList<>(methods.size());
 
         for (final Method method : methods) {
             final BitSet currentBitSet = new BitSet();
             if (method != null) {
                 if (this.isExternalCall(method)) {
-                    this.logger.debug("Found external call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                    this.logger.debug("Found external call: " + method.getName());
                     currentBitSet.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EXTERNAL));
                 }else if (this.isEmitEventCall(method)){
-                    this.logger.debug("Found emit event call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                    this.logger.debug("Found emit event call: " + method.getName());
                     currentBitSet.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.EMITEVENT));
                 } else if (this.isLibraryCall(method)) {
-                    this.logger.debug("Found library call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                    this.logger.debug("Found library call: " + method.getName());
                     currentBitSet.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.LIBRARY));
                 } else { // default: internal call
-                    this.logger.debug("Found internal call: " + method.getName());// GAST2SEFFCHANGE//GAST2SEFFCHANGE
+                    this.logger.debug("Found internal call: " + method.getName());
                     currentBitSet.set(FunctionCallClassificationVisitor.getIndex(FunctionCallType.INTERNAL));
                 }
             }
@@ -101,7 +101,7 @@ public abstract class AbstractFunctionClassificationStrategy implements IFunctio
      * @return true if the function access is an external call
      */
     protected abstract boolean isExternalCall(Method method);
-    
+
     /**
      * Decide whether the given method, which is called method, is an emit event
      * call, i.e., a call which results in a emit event action in the SEFF

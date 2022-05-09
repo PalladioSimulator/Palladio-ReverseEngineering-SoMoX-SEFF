@@ -42,7 +42,7 @@ import org.somox.kdmhelper.KDMHelper;
 // TODO: constructor calls
 // TODO: Method calls within method calls
 // TODO: Method calls in conditions (expressions)
-public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection<BitSet>> {// GAST2SEFFCHANGE
+public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection<BitSet>> {
 
     private static final Logger logger = Logger.getLogger(JaMoPPStatementVisitor.class);
 
@@ -50,8 +50,6 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
 
     public FunctionCallClassificationVisitor(final IFunctionClassificationStrategy strategy,
             final MethodCallFinder methodCallFinder) {
-        super();
-
         this.methodCallFinder = methodCallFinder;
         this.myStrategy = strategy;
         this.addSwitch(new MembersClassification());
@@ -90,7 +88,7 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
         EMITEVENT
     }
 
-    private final HashMap<Commentable, List<BitSet>> annotations = new HashMap<Commentable, List<BitSet>>();
+    private final HashMap<Commentable, List<BitSet>> annotations = new HashMap<>();
     private IFunctionClassificationStrategy myStrategy = null;
 
     private class MembersClassification extends MembersSwitch<Collection<BitSet>> {
@@ -119,7 +117,7 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
                 return FunctionCallClassificationVisitor.this.annotations.get(condition);
             }
 
-            final List<Statement> branchStatements = new ArrayList<Statement>();
+            final List<Statement> branchStatements = new ArrayList<>();
             if (null != condition.getCondition()) {
                 this.doSwitch(condition.getCondition());
             }
@@ -151,7 +149,7 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
                 // copied from the BlockCase
                 FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(), branch);
             }
-            final List<Statement> branchStatements = new ArrayList<Statement>();
+            final List<Statement> branchStatements = new ArrayList<>();
             for (final List<Statement> branch : branches) {
                 branchStatements.addAll(branch);
             }
@@ -190,9 +188,7 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
 
             // handle try block
             FunctionCallClassificationVisitor.this.handleStatementListContainer(object);
-            final List<Statement> allChildStatements = new ArrayList<Statement>();
-            allChildStatements.addAll(object.getStatements());
-
+            final List<Statement> allChildStatements = new ArrayList<>(object.getStatements());
             // handle guarded blocks
             for (final CatchBlock catchBlock : object.getCatcheBlocks()) {
                 this.doSwitch(catchBlock);
@@ -226,7 +222,7 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
     }
 
     // TODO: implement expression switch
-    private class ExpressionClassification extends ExpressionsSwitch<Collection<BitSet>> {
+    private static class ExpressionClassification extends ExpressionsSwitch<Collection<BitSet>> {
 
     }
 
@@ -286,7 +282,7 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
                 // Also annotate the internal method
                 final Method calledMethod = calledMethods.get(i);
                 final StatementListContainer targetFunctionBody = KDMHelper.getBody(calledMethod);
-                Collection<BitSet> internalTypes = new ArrayList<BitSet>();
+                Collection<BitSet> internalTypes = new ArrayList<>();
                 if (targetFunctionBody != null) {
                     logger.trace("visiting internal call. accessed class: "
                             + calledMethod.getContainingConcreteClassifier());

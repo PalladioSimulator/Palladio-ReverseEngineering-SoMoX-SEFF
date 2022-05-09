@@ -40,5 +40,5 @@ public interface IFunctionClassificationStrategy {
      * @return A BitSet where the flags indicate the type of the statement. See
      *         {@link FunctionCallClassificationVisitor} for details on this.
      */
-    List<BitSet> classifySimpleStatement(Statement object);// GAST2SEFFCHANGE
+    List<BitSet> classifySimpleStatement(Statement object);
 }

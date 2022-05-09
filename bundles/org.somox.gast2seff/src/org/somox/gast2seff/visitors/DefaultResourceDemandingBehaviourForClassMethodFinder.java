@@ -27,11 +27,9 @@ public class DefaultResourceDemandingBehaviourForClassMethodFinder
             final ClassMethod classMethod) {
         for (final MethodLevelResourceDemandingInternalBehaviorLink methodLevelResourceDemandingInternalBehaviorLink : this.sourceCodeDecoratorRepository
                 .getMethodLevelResourceDemandingInternalBehaviorLink()) {
-            if (methodLevelResourceDemandingInternalBehaviorLink.getFunction() == classMethod) {
-                if (null != methodLevelResourceDemandingInternalBehaviorLink.getResourceDemandingInternalBehaviour()) {
-                    return methodLevelResourceDemandingInternalBehaviorLink.getResourceDemandingInternalBehaviour();
-                }
-            }
+            if ((methodLevelResourceDemandingInternalBehaviorLink.getFunction() == classMethod) && (null != methodLevelResourceDemandingInternalBehaviorLink.getResourceDemandingInternalBehaviour())) {
+			    return methodLevelResourceDemandingInternalBehaviorLink.getResourceDemandingInternalBehaviour();
+			}
         }
         return null;
     }
