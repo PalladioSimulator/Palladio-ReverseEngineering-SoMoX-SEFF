@@ -6,3 +6,6 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: somox.org
 Automatic-Module-Name: org.somox.gast2seff.test
 Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: org.somox.gast2seff,
+ org.junit.jupiter.api,
+ de.uka.ipd.sdq.workflow
