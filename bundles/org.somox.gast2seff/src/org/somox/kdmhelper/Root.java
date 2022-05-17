@@ -13,7 +13,8 @@ import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.containers.CompilationUnit;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.PackageDeclaration;
 
 public class Root {
 
@@ -28,45 +29,38 @@ public class Root {
         this.addPackagesToIDMapping(modelsFromResource);
     }
 
-    private static HashMap<Commentable, String> nodeToIDMap = new HashMap<>();
+    private static HashMap<PackageDeclaration, String> nodeToIDMap = new HashMap<>();
 
-    // TODO test
-    public static String getIdForPackage(final Commentable pack) {
-        if (nodeToIDMap.containsKey(pack)) {
-            return nodeToIDMap.get(pack);
+    public static String getIdForPackage(final PackageDeclaration packageDec) {
+        if (nodeToIDMap.containsKey(packageDec)) {
+            return nodeToIDMap.get(packageDec);
         }
 		return null;
     }
 
     private void addPackagesToIDMapping(final Collection<CompilationUnit> modelsFromResource) {
         for (final CompilationUnit model : modelsFromResource) {
-            for (final Iterator<EObject> it = model.eAllContents(); it.hasNext();) {
-                final EObject element = it.next();
-                if ((element instanceof Package) && !nodeToIDMap.containsKey(element)) {
-				    nodeToIDMap.put((Commentable) element, EcoreUtil.generateUUID());
-				}
-            }
+        	
+        	//TODO: What does getPackage returns?
+        	PackageDeclaration packageDeclaration = model.getPackage();
+        	
+        	if (nodeToIDMap.containsKey(packageDeclaration)) {
+        		 nodeToIDMap.put(packageDeclaration, EcoreUtil.generateUUID());
+        	}
         }
     }
 
-    // TODO fix for UI
-    public Collection<Package> getPackages() {
-        final Collection<Package> result = new ArrayList<>();
+    // TODO Is this really adding all necessary packages?
+    public Collection<PackageDeclaration> getPackages() {
+        final Collection<PackageDeclaration> result = new ArrayList<>();
         for (final CompilationUnit model : this.models) {
-            // (Collection<? extends Package>) added
-            result.addAll((Collection<? extends Package>) model.eResource().getAllContents());// getOwnedElements
-            // for (Iterator<EObject> it = model.eAllContents(); it.hasNext();) {
-            // EObject element = it.next();
-            // if (element instanceof Package) {
-            // result.add((Package) element);
-            // }
-            // }
+            result.add(model.getPackage());
         }
         return result;
     }
 
     /**
-     * Returns ClassDeclaration, EnumDeclaration
+     * Returns TypeDeclaration, EnumDeclaration
      *
      * @return
      */
