@@ -4,17 +4,15 @@ package org.somox.kdmhelper;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.emftext.language.java.classifiers.Class;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.classifiers.Enumeration;
-import org.emftext.language.java.commons.Commentable;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 public class Root {
 
@@ -45,7 +43,7 @@ public class Root {
         	PackageDeclaration packageDeclaration = model.getPackage();
         	
         	if (nodeToIDMap.containsKey(packageDeclaration)) {
-        		 nodeToIDMap.put(packageDeclaration, EcoreUtil.generateUUID());
+        		 nodeToIDMap.put(packageDeclaration, UUID.randomUUID().toString());
         	}
         }
     }
@@ -64,20 +62,15 @@ public class Root {
      *
      * @return
      */
-    public List<ConcreteClassifier> getNormalClasses() {
-        final List<ConcreteClassifier> result = new ArrayList<>();
+    public List<CompilationUnit> getNormalClasses() {
+        final List<CompilationUnit> result = new ArrayList<>();
         for (final CompilationUnit model : this.models) {
-            for (final Iterator<EObject> it = model.eAllContents(); it.hasNext();) {
-                final EObject element = it.next();
-                if (element instanceof Class) {
-                    final Class clazz = (Class) element;
-                    if (!KDMHelper.isInnerClass(clazz)) {
-                        result.add((Class) element);
-                    }
-                } else if (element instanceof Enumeration) {
-                    result.add((ConcreteClassifier) element);
-                }
-            }
+        	List<AbstractTypeDeclaration> types = model.types();
+        	for (final AbstractTypeDeclaration type : types) {        		
+        		if (type instanceof TypeDeclaration || type instanceof EnumDeclaration) {
+        			result.add(model);
+        		}
+        	}
         }
         return result;
     }
