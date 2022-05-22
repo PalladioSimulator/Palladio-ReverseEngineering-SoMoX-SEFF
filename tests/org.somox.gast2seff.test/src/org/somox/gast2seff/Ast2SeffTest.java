@@ -1,6 +1,8 @@
 package org.somox.gast2seff;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.somox.gast2seff.jobs.Ast2Seff;
@@ -20,5 +22,6 @@ public class Ast2SeffTest {
         NullProgressMonitor progressMonitor = new NullProgressMonitor();
         ast2SeffJob.execute(progressMonitor);
         // TODO Formulate assertions for blackboard content (= results of execution)
-    }
+    } 
+    
 }

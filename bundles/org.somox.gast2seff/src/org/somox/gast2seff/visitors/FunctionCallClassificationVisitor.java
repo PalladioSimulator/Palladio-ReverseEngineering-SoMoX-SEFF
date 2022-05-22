@@ -11,7 +11,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
+import org.eclipse.emf.ecore.util.Switch;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.expressions.util.ExpressionsSwitch;
 import org.emftext.language.java.members.Method;
@@ -102,8 +104,10 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
 
 	private final HashMap<Commentable, List<BitSet>> annotations = new HashMap<>();
 	private IFunctionClassificationStrategy myStrategy = null;
+	
 
 	private class MembersClassification extends MembersSwitch<Collection<BitSet>> {
+		
 		@Override
 		public Collection<BitSet> caseStatementListContainer(final StatementListContainer object) {
 			return FunctionCallClassificationVisitor.this.handleStatementListContainer(object);
@@ -339,18 +343,18 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
 
 	public static int getIndex(final FunctionCallType type) {
 		switch (type) {
-		case INTERNAL:
-			return 0;
-		case EXTERNAL:
-			return 1;
-		case LIBRARY:
-			return 2;
-		case VISITED:
-			return 3;
-		case INTERNAL_CALL_CONTAINING_EXTERNAL_CALL:
-			return 4;
-		case EMITEVENT:
-			return 5;
+			case INTERNAL:
+				return 0;
+			case EXTERNAL:
+				return 1;
+			case LIBRARY:
+				return 2;
+			case VISITED:
+				return 3;
+			case INTERNAL_CALL_CONTAINING_EXTERNAL_CALL:
+				return 4;
+			case EMITEVENT:
+				return 5;
 		}
 		throw new UnsupportedOperationException();
 	}

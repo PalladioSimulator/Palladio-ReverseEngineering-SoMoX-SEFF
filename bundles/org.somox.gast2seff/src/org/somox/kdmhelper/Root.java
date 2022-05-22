@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
+// Frage: Was beinhaltet Root? Alle Methoden? Alle Pakete? Was wird hier übergeben?
 public class Root {
 
     private final List<CompilationUnit> models = new ArrayList<>();
@@ -22,17 +22,19 @@ public class Root {
         return this.models;
     }
 
+    // TODO: Was beinhaltet die Collection?
     public void addModels(final Collection<CompilationUnit> modelsFromResource) {
         this.models.addAll(modelsFromResource);
         this.addPackagesToIDMapping(modelsFromResource);
     }
 
     private static HashMap<PackageDeclaration, String> nodeToIDMap = new HashMap<>();
-
+    
     public static String getIdForPackage(final PackageDeclaration packageDec) {
         if (nodeToIDMap.containsKey(packageDec)) {
             return nodeToIDMap.get(packageDec);
         }
+        
 		return null;
     }
 
@@ -74,4 +76,5 @@ public class Root {
         }
         return result;
     }
+    
 }

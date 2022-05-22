@@ -56,3 +56,24 @@ Notizen zum Meeting:
   - Kann in Zukunft über das Blackboard geholt werden
 - Typen aus dem Model können wir nicht so schnell ändern, falls dort Informationen rausgezogen werden
 - Schauen das kein .emftext mehr drin steht
+
+
+### 23.05
+
+Bearbeitete Aufgaben:
+- Root.java analysiert und umgeschrieben
+- SwitchStatementHelper.java analysiert und umgeschrieben
+- Erste Testklassen und Testfälle angelegt
+
+Fragen:
+- Was beinhaltet Root? Alle Methoden? Alle Pakete? Was wird hier übergeben?
+- Was beinhaltet die Collection bei addModels?
+- Uns fällt es schwer einen Startpunkt zu sehen. Wo sollten wir beginnen?
+  - Wir haben uns X überlegt
+- Was macht er SourceCodeDecorator? Warum können wir von ihm loskommen?
+
+Neue Aufgaben:
+- 
+
+Notizen zum Meeting:
+- 

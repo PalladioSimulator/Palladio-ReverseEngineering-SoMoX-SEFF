@@ -102,6 +102,8 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		// TODO this.sourceCodeDecoratorModel =
 		// this.blackboard.getSourceCodeDecoratorRepository();
 		// TODO this.root = this.blackboard.getRoot();
+		
+		
 		this.methodCallFinder = new MethodCallFinder();
 
 		final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
