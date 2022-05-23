@@ -44,7 +44,7 @@ public class Root {
         	//TODO: What does getPackage returns?
         	PackageDeclaration packageDeclaration = model.getPackage();
         	
-        	if (nodeToIDMap.containsKey(packageDeclaration)) {
+        	if (!nodeToIDMap.containsKey(packageDeclaration)) {
         		 nodeToIDMap.put(packageDeclaration, UUID.randomUUID().toString());
         	}
         }

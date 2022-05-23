@@ -66,11 +66,12 @@ Bearbeitete Aufgaben:
 - Erste Testklassen und Testfälle angelegt
 
 Fragen:
-- Was beinhaltet Root? Alle Methoden? Alle Pakete? Was wird hier übergeben?
-- Was beinhaltet die Collection bei addModels?
 - Uns fällt es schwer einen Startpunkt zu sehen. Wo sollten wir beginnen?
-  - Wir haben uns X überlegt
-- Was macht er SourceCodeDecorator? Warum können wir von ihm loskommen?
+  - Wo sollen wir uns entlang hangeln?
+- Switch Model von EMF? Brauchen wir ein eigenes Switch-Konzept?
+- Was beinhaltet Root? Alle Methoden? Alle Pakete? Was wird hier übergeben?
+  - Wahrscheinlich alle Compilation Units (Eine Datei je Compilation Unit)
+- Was macht er SourceCodeDecorator? Warum müssen wir von ihm loskommen?
 
 Neue Aufgaben:
 - 
