@@ -60,11 +60,13 @@ public class Root {
     }
 
     /**
+     * ?currently unused?
+     * 
      * Returns TypeDeclaration, EnumDeclaration
      *
      * @return
      */
-    public List<CompilationUnit> getNormalClasses() {
+    public List<CompilationUnit> getNormalClasses() { //zurzeit vermutlich falsch, vermute wir müssen AST entlang laufen bis wir ClassDeclaration, EnumDeclaration finden
         final List<CompilationUnit> result = new ArrayList<>();
         for (final CompilationUnit model : this.models) {
         	List<AbstractTypeDeclaration> types = model.types();
