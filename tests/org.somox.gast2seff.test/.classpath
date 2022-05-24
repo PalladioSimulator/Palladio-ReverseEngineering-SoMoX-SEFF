@@ -9,6 +9,7 @@
 		<accessrules>
 			<accessrule kind="accessible" pattern="org/e*/**"/>
 			<accessrule kind="accessible" pattern="de/uka/**"/>
+			<accessrule kind="accessible" pattern="org/palladiosimulator/**"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src">

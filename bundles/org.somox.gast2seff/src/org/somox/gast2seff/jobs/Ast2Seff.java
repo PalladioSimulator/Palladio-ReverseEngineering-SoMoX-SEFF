@@ -3,11 +3,14 @@
  */
 package org.somox.gast2seff.jobs;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.palladiosimulator.pcm.repository.BasicComponent;
@@ -46,6 +49,8 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 
 	/** The SoMoX blackboard to interact with. */
 	private Blackboard<Object> blackboard;
+	
+	private Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = new HashMap<>();
 
 	/**
 	 * Resources containing the models
@@ -103,26 +108,36 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		// this.blackboard.getSourceCodeDecoratorRepository();
 		// TODO this.root = this.blackboard.getRoot();
 		
+		this.methodBindingMap = (Map<MethodDeclaration, ResourceDemandingSEFF>) this.blackboard.getPartition("methodBindingMap");
 		
 		this.methodCallFinder = new MethodCallFinder();
 
 		final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
 		subMonitor.setTaskName("Creating SEFF behaviour");
-
-		final Iterator<SEFF2MethodMapping> iterator = this.sourceCodeDecoratorModel.getSeff2MethodMappings().iterator();
-		while (iterator.hasNext()) {
-			final SEFF2MethodMapping astBehaviour = iterator.next();
-			final ResourceDemandingSEFF seff = (ResourceDemandingSEFF) astBehaviour.getSeff();
+		
+		for (var entry : methodBindingMap.entrySet()) {
+			final ResourceDemandingSEFF seff = entry.getValue();
 			final String name = seff.getId();
 			LOGGER.info("Found AST behaviour, generating SEFF behaviour for it: " + name);
-
+			
 			this.generateSEFFForGASTBehaviour(seff);
 			monitor.worked(1);
 		}
 
+//		final Iterator<SEFF2MethodMapping> iterator = this.sourceCodeDecoratorModel.getSeff2MethodMappings().iterator();
+//		while (iterator.hasNext()) {
+//			final SEFF2MethodMapping astBehaviour = iterator.next();
+//			final ResourceDemandingSEFF seff = (ResourceDemandingSEFF) astBehaviour.getSeff();
+//			final String name = seff.getId();
+//			LOGGER.info("Found AST behaviour, generating SEFF behaviour for it: " + name);
+//
+//			this.generateSEFFForGASTBehaviour(seff);
+//			monitor.worked(1);
+//		}
+
 		// Create default annotations
 		final DefaultQosAnnotationsBuilder qosAnnotationBuilder = new DefaultQosAnnotationsBuilder();
-		qosAnnotationBuilder.buildDefaultQosAnnotations(this.sourceCodeDecoratorModel.getSeff2MethodMappings());
+//		qosAnnotationBuilder.buildDefaultQosAnnotations(this.sourceCodeDecoratorModel.getSeff2MethodMappings());
 
 		subMonitor.done();
 	}
@@ -152,30 +167,30 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 
 		// initialise for new component / seff to reverse engineer:
 		final BasicComponent basicComponent = (BasicComponent) seff.eContainer();
-		final IFunctionClassificationStrategy basicFunctionClassifierStrategy = this.iFunctionClassificationStrategyFactory
-				.createIFunctionClassificationStrategy(this.sourceCodeDecoratorModel, basicComponent, this.root,
-						this.methodCallFinder);
-		FunctionCallClassificationVisitor typeVisitor = new FunctionCallClassificationVisitor(
-				basicFunctionClassifierStrategy,
-				this.methodCallFinder);
-
-		final StatementListContainer body = this.findBody(seff);
-		Ast2Seff.LOGGER.trace("visiting (seff entry): " + seff.getId());
-		if (body != null) {
-			if (this.createResourceDemandingInternalBehaviour) {
-				final ResourceDemandingBehaviourForClassMethodFinding defaultResourceDemandingBehaviourForClassMethodFinder = new DefaultResourceDemandingBehaviourForClassMethodFinder(
-						this.sourceCodeDecoratorModel, basicComponent);
-				VisitorUtils.visitJaMoPPMethod(seff, basicComponent, body, this.sourceCodeDecoratorModel,
-						typeVisitor, interfaceOfExternalCallFindingFactory,
-						defaultResourceDemandingBehaviourForClassMethodFinder, this.methodCallFinder);
-			} else {
-				VisitorUtils.visitJaMoPPMethod(seff, basicComponent, body, this.sourceCodeDecoratorModel,
-						typeVisitor, interfaceOfExternalCallFindingFactory, this.methodCallFinder);
-			}
-
-		} else {
-			Ast2Seff.LOGGER.warn("Found GAST behaviour (" + seff.getId() + ") without a method body... Skipping it...");
-		}
+//		final IFunctionClassificationStrategy basicFunctionClassifierStrategy = this.iFunctionClassificationStrategyFactory
+//				.createIFunctionClassificationStrategy(this.sourceCodeDecoratorModel, basicComponent, this.root,
+//						this.methodCallFinder);
+//		FunctionCallClassificationVisitor typeVisitor = new FunctionCallClassificationVisitor(
+//				basicFunctionClassifierStrategy,
+//				this.methodCallFinder);
+//
+//		final StatementListContainer body = this.findBody(seff);
+//		Ast2Seff.LOGGER.trace("visiting (seff entry): " + seff.getId());
+//		if (body != null) {
+//			if (this.createResourceDemandingInternalBehaviour) {
+//				final ResourceDemandingBehaviourForClassMethodFinding defaultResourceDemandingBehaviourForClassMethodFinder = new DefaultResourceDemandingBehaviourForClassMethodFinder(
+//						this.sourceCodeDecoratorModel, basicComponent);
+//				VisitorUtils.visitJaMoPPMethod(seff, basicComponent, body, this.sourceCodeDecoratorModel,
+//						typeVisitor, interfaceOfExternalCallFindingFactory,
+//						defaultResourceDemandingBehaviourForClassMethodFinder, this.methodCallFinder);
+//			} else {
+//				VisitorUtils.visitJaMoPPMethod(seff, basicComponent, body, this.sourceCodeDecoratorModel,
+//						typeVisitor, interfaceOfExternalCallFindingFactory, this.methodCallFinder);
+//			}
+//
+//		} else {
+//			Ast2Seff.LOGGER.warn("Found GAST behaviour (" + seff.getId() + ") without a method body... Skipping it...");
+//		}
 
 		seff.getSteps_Behaviour().add(stop);
 		VisitorUtils.connectActions(seff);

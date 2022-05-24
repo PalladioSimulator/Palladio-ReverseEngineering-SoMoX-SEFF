@@ -74,7 +74,21 @@ Fragen:
 - Was macht er SourceCodeDecorator? Warum müssen wir von ihm loskommen?
 
 Neue Aufgaben:
-- 
+- Bei SEFF einsteigen
 
 Notizen zum Meeting:
-- 
+- Type Bindung -> Über die Bindings gehen und schauen wo die Methode überhaupt ist
+  - Korrespondierende Methodendeklaration aus dem Aufruf finden (über andere Compilation Unit gehen)
+  - AST Parser erstellt Bindungs erst später, deswegen ist das getrennt
+- Im besten Falle migirieren zu den JDT Visitatoren
+  - Verwenden von den bereitgestellten Bibliotheken
+- Filtern von AbstractTypeDeclaration mit instanceof
+- SourceCodeDecorator -> Datenhaltungsablage
+  - Ziel ist es durch was sinnvolleres zu ersetzen, es soll komplett rausfallen
+  - Alle Informationen wurden da reingeschmissen
+  - Speichern zu welcher Methodendeklaration der SEFF gehört (SEFF to Method Mapping)
+    - Start ist meist Schnittstellenfunktion
+    - Wir bekommen HashMap/Liste für welche Methoden eine SEFF erstellt wird
+  - Ersetzen der Klasse durch eine HashMap
+- Start ist Ast2Seff Job
+- Test Cases kopieren und erweitern, um alle einfachen Fälle noch immer abzudecken und Seiteneffekte zu beobachten/vermeiden
