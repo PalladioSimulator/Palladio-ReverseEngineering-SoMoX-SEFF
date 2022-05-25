@@ -1,5 +1,10 @@
 package org.somox.gast2seff.visitors;
 
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.palladiosimulator.pcm.repository.BasicComponent;
@@ -43,6 +48,11 @@ public final class VisitorUtils {
 
 	}
 	
+	public static void acceptNodeVisitors(ASTNode node, List<ASTVisitor> astVisitorList) {
+		for (ASTVisitor visitor : astVisitorList) {
+			node.accept(visitor);
+		}
+	}
 
 	/**
 	 * Add connections to the SEFF actions assuming the actions are stored in a sequential order

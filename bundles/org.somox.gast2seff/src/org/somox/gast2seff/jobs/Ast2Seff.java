@@ -25,6 +25,7 @@ import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
 import org.somox.gast2seff.visitors.IFunctionClassificationStrategyFactory;
 import org.somox.gast2seff.visitors.InterfaceOfExternalCallFindingFactory;
 import org.somox.gast2seff.visitors.MethodCallFinder;
+import org.somox.gast2seff.visitors.NewFunctionCallClassificationVisitor;
 import org.somox.gast2seff.visitors.ResourceDemandingBehaviourForClassMethodFinding;
 import org.somox.gast2seff.visitors.VisitorUtils;
 import org.somox.kdmhelper.Root;
@@ -120,7 +121,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 			final String name = seff.getId();
 			LOGGER.info("Found AST behaviour, generating SEFF behaviour for it: " + name);
 			
-			this.generateSEFFForGASTBehaviour(seff);
+			this.createSeff(seff, entry.getKey());
 			monitor.worked(1);
 		}
 
@@ -157,14 +158,17 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 *
 	 * @param seff
 	 *            The SEFF which is filled by this method
+	 * @param methodDeclaration
 	 * @return The completed SEFF, returned for convenience
 	 * @throws JobFailedException
 	 */
-	private ResourceDemandingSEFF createSeff(final ResourceDemandingSEFF seff) throws JobFailedException {
+	private ResourceDemandingSEFF createSeff(final ResourceDemandingSEFF seff, MethodDeclaration methodDeclaration) throws JobFailedException {
 		final StartAction start = SeffFactory.eINSTANCE.createStartAction();
 		final StopAction stop = SeffFactory.eINSTANCE.createStopAction();
 		seff.getSteps_Behaviour().add(start);
 
+		NewFunctionCallClassificationVisitor.perform(methodDeclaration, seff);
+		
 		// initialise for new component / seff to reverse engineer:
 		final BasicComponent basicComponent = (BasicComponent) seff.eContainer();
 //		final IFunctionClassificationStrategy basicFunctionClassifierStrategy = this.iFunctionClassificationStrategyFactory
@@ -265,7 +269,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		// SeffFactory.eINSTANCE.createResourceDemandingSEFF();
 
 		// createSeff(gastBehaviourStub,resourceDemandingSEFF);
-		this.createSeff(gastBehaviourStub);
+//		this.createSeff(gastBehaviourStub);
 
 		// SeffBehaviourStub seffBehaviourStub = findOrCreateBehaviourStub(gastBehaviourStub);
 		// resourceDemandingSEFF.setSeffBehaviourStub(seffBehaviourStub);

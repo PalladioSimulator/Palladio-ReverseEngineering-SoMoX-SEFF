@@ -60,15 +60,6 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
 		this.addSwitch(new StatementClassification());
 		this.addSwitch(new ExpressionClassification());
 
-		// TODO
-
-		ForStatement fs = null;
-		ForLoop fl = null;
-		Expression efs = fs.getExpression();
-		org.emftext.language.java.expressions.Expression efl = fl.getCondition();
-
-		// TODO
-
 	}
 
 	public enum FunctionCallType {
@@ -104,7 +95,6 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
 
 	private final HashMap<Commentable, List<BitSet>> annotations = new HashMap<>();
 	private IFunctionClassificationStrategy myStrategy = null;
-	
 
 	private class MembersClassification extends MembersSwitch<Collection<BitSet>> {
 		
