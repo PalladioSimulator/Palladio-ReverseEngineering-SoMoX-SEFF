@@ -29,18 +29,24 @@ public class NewFunctionCallClassificationVisitor extends ASTVisitor {
 		node.accept(newFunctionCallClassificationVisitor);
 	}
 	
-	public boolean visit(final MethodDeclaration methodDeclaration) {
-		
-		final Block body = methodDeclaration.getBody();
-		List<Statement> bodyStatement = body.statements();
-		for (Statement statement : bodyStatement) {
-			if (statement instanceof ExpressionStatement) {
-				InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
-				this.resourceDemandingSEFF.getSteps_Behaviour().add(internalAction);
-			}
-		}
-		
-		return super.visit(methodDeclaration);
+//	public boolean visit(final MethodDeclaration methodDeclaration) {
+//		
+//		final Block body = methodDeclaration.getBody();
+//		List<Statement> bodyStatement = body.statements();
+//		for (Statement statement : bodyStatement) {
+//			if (statement instanceof ExpressionStatement) {
+//				InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
+//				this.resourceDemandingSEFF.getSteps_Behaviour().add(internalAction);
+//			}
+//		}
+//		
+//		return super.visit(methodDeclaration);
+//	}
+	
+	public boolean visit(final ExpressionStatement expressionStatement) {
+		InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
+		this.resourceDemandingSEFF.getSteps_Behaviour().add(internalAction);
+		return super.visit(expressionStatement);
 	}
 	
 	

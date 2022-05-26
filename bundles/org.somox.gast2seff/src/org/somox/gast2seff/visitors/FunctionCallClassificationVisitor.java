@@ -149,21 +149,22 @@ public class FunctionCallClassificationVisitor extends ComposedSwitch<Collection
 			if (FunctionCallClassificationVisitor.this.annotations.containsKey(switchStatement)) {
 				return FunctionCallClassificationVisitor.this.annotations.get(switchStatement);
 			}
-			final List<List<Statement>> branches = SwitchStatementHelper
-					.createBlockListFromSwitchStatement(switchStatement);
-			for (final List<Statement> branch : branches) {
-				// copied from the BlockCase
-				FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(), branch);
-			}
-			final List<Statement> branchStatements = new ArrayList<>();
-			for (final List<Statement> branch : branches) {
-				branchStatements.addAll(branch);
-			}
-			final List<BitSet> myType = Arrays.asList(
-					FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(), branchStatements));
-			FunctionCallClassificationVisitor.this.putBitSetInAnnotations(switchStatement, myType);
+//			final List<List<Statement>> branches = SwitchStatementHelper
+//					.createBlockListFromSwitchStatement(switchStatement);
+//			for (final List<Statement> branch : branches) {
+//				// copied from the BlockCase
+//				FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(), branch);
+//			}
+//			final List<Statement> branchStatements = new ArrayList<>();
+//			for (final List<Statement> branch : branches) {
+//				branchStatements.addAll(branch);
+//			}
+//			final List<BitSet> myType = Arrays.asList(
+//					FunctionCallClassificationVisitor.this.computeChildAnnotations(new BitSet(), branchStatements));
+//			FunctionCallClassificationVisitor.this.putBitSetInAnnotations(switchStatement, myType);
 
-			return myType;
+//			return myType;
+			return null;
 		}
 
 		@Override
