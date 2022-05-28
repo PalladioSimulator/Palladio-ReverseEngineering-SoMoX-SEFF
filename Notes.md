@@ -14,7 +14,7 @@ Noitzen
 - Abstrakter Syntax Baum hat die gesamten Informationen, deswegen bietet sich das Vistor Pattern an um den Baum zu erkunden/iterieren
 - Wie kommen wir an das Java Model?
 
-Aufghaben:
+Aufgaben:
 - Installation die Technik-Infrastruktur
 - Repository ausbuchen (seff-branch funktioniert, main-branch funktioniert nicht)
 - maven clean verify im Root-Verzeichnis um das Projekt zu bauen
@@ -93,7 +93,7 @@ Notizen zum Meeting:
 - Start ist Ast2Seff Job
 - Test Cases kopieren und erweitern, um alle einfachen Fälle noch immer abzudecken und Seiteneffekte zu beobachten/vermeiden
 
-### 23.05
+### 30.05
 Bearbeitete Aufgaben:
 
 
