@@ -14,7 +14,7 @@ public class SimpleClass {
 		System.out.println("Hello World!");
 		
 		for (int i = 0; i < 10; i++) {
-			
+			System.out.println("Current position: " + i);
 		}
 
 	}
@@ -22,8 +22,11 @@ public class SimpleClass {
 	public void whileMethod() {
 		System.out.println("Hello World!");
 		
-		while (true) {
-			
+		int i = 0;
+		boolean work = true;
+		while (work) {
+			System.out.println("Current position: " + i);
+			work = false;
 		}
 
 	}

@@ -10,9 +10,13 @@ import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.PostfixExpression;
 import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.WhileStatement;
+import org.eclipse.jdt.core.dom.Expression;
 import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.AbstractBranchTransition;
 import org.palladiosimulator.pcm.seff.BranchAction;
@@ -86,14 +90,59 @@ public class NewFunctionCallClassificationVisitor extends ASTVisitor {
 	
 	public boolean visit(final ForStatement forStatement) {
 		LoopAction loopAction = SeffFactory.eINSTANCE.createLoopAction();
+		ResourceDemandingBehaviour bodyBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+		loopAction.setBodyBehaviour_Loop(bodyBehaviour);
+		StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
+		bodyBehaviour.getSteps_Behaviour().add(startAction);
+		
+		Expression initializers = (Expression) forStatement.initializers().get(0);
+		Expression updaters = (Expression) forStatement.updaters().get(0);
+		loopAction.setEntityName(this.forStatementToString(initializers, forStatement.getExpression(), updaters));
+		
+		Block block = (Block) forStatement.getBody();
+		NewFunctionCallClassificationVisitor.perform(block, bodyBehaviour.getSteps_Behaviour());
+		
+		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
+		bodyBehaviour.getSteps_Behaviour().add(stopAction);
 		this.actionList.add(loopAction);
-		return super.visit(forStatement);
+		//VisitorUtils.connectActions(bodyBehaviour);
+		return false;
 	}
 	
 	public boolean visit(final WhileStatement whileStatement) {
 		LoopAction loopAction = SeffFactory.eINSTANCE.createLoopAction();
+		ResourceDemandingBehaviour bodyBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+		loopAction.setBodyBehaviour_Loop(bodyBehaviour);
+		StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
+		bodyBehaviour.getSteps_Behaviour().add(startAction);
+		
+		loopAction.setEntityName(this.whileStatementToString(whileStatement.getExpression()));
+		
+		Block block = (Block) whileStatement.getBody();
+		NewFunctionCallClassificationVisitor.perform(block, bodyBehaviour.getSteps_Behaviour());
+		
+		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
+		bodyBehaviour.getSteps_Behaviour().add(stopAction);
 		this.actionList.add(loopAction);
-		return super.visit(whileStatement);
+		//VisitorUtils.connectActions(bodyBehaviour);
+		return false;
 	}
 	
+
+	protected String whileStatementToString(Expression expression) {
+		final StringBuilder positionString = new StringBuilder(" @position: ");
+		positionString.append("expression name \"").append(expression).append("\"");
+		return positionString.toString();
+	}
+	
+	protected String forStatementToString(Expression initializers, Expression expression, Expression updaters) {
+		final StringBuilder positionString = new StringBuilder(" @position: ");
+		if(initializers instanceof VariableDeclarationExpression && expression instanceof InfixExpression && updaters instanceof PostfixExpression)
+		{
+			positionString.append(" from ").append(initializers).append(" to ").append(expression).append(" with ").append(updaters);
+		} else {
+			positionString.append("no position information available");
+		}
+		return positionString.toString();
+	}
 }
