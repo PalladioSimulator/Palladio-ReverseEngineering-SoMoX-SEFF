@@ -170,7 +170,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		NewFunctionCallClassificationVisitor.perform(methodDeclaration, seff);
 		
 		// initialise for new component / seff to reverse engineer:
-		final BasicComponent basicComponent = (BasicComponent) seff.eContainer();
+//		final BasicComponent basicComponent = (BasicComponent) seff.eContainer();
 //		final IFunctionClassificationStrategy basicFunctionClassifierStrategy = this.iFunctionClassificationStrategyFactory
 //				.createIFunctionClassificationStrategy(this.sourceCodeDecoratorModel, basicComponent, this.root,
 //						this.methodCallFinder);
