@@ -167,7 +167,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		final StopAction stop = SeffFactory.eINSTANCE.createStopAction();
 		seff.getSteps_Behaviour().add(start);
 
-		NewFunctionCallClassificationVisitor.perform(methodDeclaration, seff);
+		NewFunctionCallClassificationVisitor.perform(methodDeclaration, seff.getSteps_Behaviour());
 		
 		// initialise for new component / seff to reverse engineer:
 //		final BasicComponent basicComponent = (BasicComponent) seff.eContainer();

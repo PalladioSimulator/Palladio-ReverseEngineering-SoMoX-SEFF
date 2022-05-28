@@ -92,3 +92,16 @@ Notizen zum Meeting:
   - Ersetzen der Klasse durch eine HashMap
 - Start ist Ast2Seff Job
 - Test Cases kopieren und erweitern, um alle einfachen Fälle noch immer abzudecken und Seiteneffekte zu beobachten/vermeiden
+
+### 23.05
+Bearbeitete Aufgaben:
+
+
+Fragen:
+- Wie tief betrachten wir den AST einer Methode?
+
+Neue Aufgaben:
+
+
+Notizen zum Meeting:
+
