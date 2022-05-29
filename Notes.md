@@ -95,13 +95,18 @@ Notizen zum Meeting:
 
 ### 30.05
 Bearbeitete Aufgaben:
-
+- Implementierung einer neuen ASTVisitor-Unterklasse (Ast2SeffVisitor)
+  - Innere Verschachtelungen werden auch berücksichtigt 
+- Ersten Ast2Seff Test geschrieben
+  - Einbindung einer Beispielklasse, welche in einen AST geparst wird
+- Weitere Analyse von alten Visitor-Klassen
 
 Fragen:
 - Wie tief betrachten wir den AST einer Methode?
+- Passt die Vorgehensweise unserer Implementierung?
 
 Neue Aufgaben:
-
+- 
 
 Notizen zum Meeting:
-
+- 

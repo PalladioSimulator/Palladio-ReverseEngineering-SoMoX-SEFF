@@ -28,19 +28,19 @@ import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
 
-public class NewFunctionCallClassificationVisitor extends ASTVisitor {
+public class Ast2SeffVisitor extends ASTVisitor {
 
-	private static final Logger logger = Logger.getLogger(NewFunctionCallClassificationVisitor.class);
+	private static final Logger logger = Logger.getLogger(Ast2SeffVisitor.class);
 		
 	private IFunctionClassificationStrategy functionClassificationStrategy = null;
 	private  EList<AbstractAction> actionList; 
 	
-	public NewFunctionCallClassificationVisitor(EList<AbstractAction> actionList) {
+	public Ast2SeffVisitor(EList<AbstractAction> actionList) {
 		this.actionList = actionList;
 	}
 	
 	public static void perform(ASTNode node, EList<AbstractAction> actionList) {
-		NewFunctionCallClassificationVisitor newFunctionCallClassificationVisitor = new NewFunctionCallClassificationVisitor(actionList);
+		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(actionList);
 		node.accept(newFunctionCallClassificationVisitor);
 	}
 	
@@ -78,7 +78,7 @@ public class NewFunctionCallClassificationVisitor extends ASTVisitor {
 		branchBehaviour.getSteps_Behaviour().add(startAction);
 		
 		Block block = (Block) ifStatement.getThenStatement();
-		NewFunctionCallClassificationVisitor.perform(block, branchBehaviour.getSteps_Behaviour());
+		Ast2SeffVisitor.perform(block, branchBehaviour.getSteps_Behaviour());
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		branchBehaviour.getSteps_Behaviour().add(stopAction);
@@ -100,7 +100,7 @@ public class NewFunctionCallClassificationVisitor extends ASTVisitor {
 		loopAction.setEntityName(this.forStatementToString(initializers, forStatement.getExpression(), updaters));
 		
 		Block block = (Block) forStatement.getBody();
-		NewFunctionCallClassificationVisitor.perform(block, bodyBehaviour.getSteps_Behaviour());
+		Ast2SeffVisitor.perform(block, bodyBehaviour.getSteps_Behaviour());
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		bodyBehaviour.getSteps_Behaviour().add(stopAction);
@@ -119,7 +119,7 @@ public class NewFunctionCallClassificationVisitor extends ASTVisitor {
 		loopAction.setEntityName(this.whileStatementToString(whileStatement.getExpression()));
 		
 		Block block = (Block) whileStatement.getBody();
-		NewFunctionCallClassificationVisitor.perform(block, bodyBehaviour.getSteps_Behaviour());
+		Ast2SeffVisitor.perform(block, bodyBehaviour.getSteps_Behaviour());
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		bodyBehaviour.getSteps_Behaviour().add(stopAction);
