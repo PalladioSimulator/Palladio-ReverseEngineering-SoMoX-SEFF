@@ -77,8 +77,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
 		branchBehaviour.getSteps_Behaviour().add(startAction);
 		
-		Block block = (Block) ifStatement.getThenStatement();
-		Ast2SeffVisitor.perform(block, branchBehaviour.getSteps_Behaviour());
+		Ast2SeffVisitor.perform(ifStatement.getThenStatement(), branchBehaviour.getSteps_Behaviour());
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		branchBehaviour.getSteps_Behaviour().add(stopAction);
@@ -92,8 +91,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			StartAction startActionElse = SeffFactory.eINSTANCE.createStartAction();
 			branchBehaviourElse.getSteps_Behaviour().add(startActionElse);
 			
-			Block elseBlock = (Block) ifStatement.getElseStatement();
-			Ast2SeffVisitor.perform(elseBlock, branchBehaviourElse.getSteps_Behaviour());
+			//Block elseBlock = (Block) ifStatement.getElseStatement();
+			Ast2SeffVisitor.perform(ifStatement.getElseStatement(), branchBehaviourElse.getSteps_Behaviour());
 			
 			StopAction stopActionElse = SeffFactory.eINSTANCE.createStopAction();
 			branchBehaviourElse.getSteps_Behaviour().add(stopActionElse);
@@ -115,8 +114,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		Expression updaters = (Expression) forStatement.updaters().get(0);
 		loopAction.setEntityName(this.forStatementToString(initializers, forStatement.getExpression(), updaters));
 		
-		Block block = (Block) forStatement.getBody();
-		Ast2SeffVisitor.perform(block, bodyBehaviour.getSteps_Behaviour());
+		Ast2SeffVisitor.perform(forStatement.getBody(), bodyBehaviour.getSteps_Behaviour());
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		bodyBehaviour.getSteps_Behaviour().add(stopAction);
@@ -134,8 +132,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 		loopAction.setEntityName(this.whileStatementToString(whileStatement.getExpression()));
 		
-		Block block = (Block) whileStatement.getBody();
-		Ast2SeffVisitor.perform(block, bodyBehaviour.getSteps_Behaviour());
+		Ast2SeffVisitor.perform(whileStatement.getBody(), bodyBehaviour.getSteps_Behaviour());
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		bodyBehaviour.getSteps_Behaviour().add(stopAction);
