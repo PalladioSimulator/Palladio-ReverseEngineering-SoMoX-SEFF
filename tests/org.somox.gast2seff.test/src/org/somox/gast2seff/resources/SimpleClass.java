@@ -66,4 +66,36 @@ public class SimpleClass {
 		}
 	}
 	
+	public void switchMethod(String caseString) {
+		System.out.println("Hello World!");
+				
+		switch (caseString) {
+		case "first":
+			System.out.println("Inside the first case.");
+			break;
+		case "second":
+			System.out.println("Inside the second case.");
+			break;
+		case "third":
+		case "fourth":
+			System.out.println("Inside the third/fourth case.");
+			break;
+		default:
+			System.out.println("Inside the default case.");
+			break;
+		}
+	}
+	
+	public void externalCallMethod() {
+		ifAndElseMethod(true);
+		ifAndElseIfMethod(false, true);
+		whileMethod();
+	}
+	
+	
+	// TODO: Eine Methode ruft andere Methode auf
+	// TODO: Parameterübergabe
+	// TODO: Switch Case
+	// TODO: External Calls
+	
 }

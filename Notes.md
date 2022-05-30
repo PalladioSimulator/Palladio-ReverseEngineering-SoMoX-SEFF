@@ -104,9 +104,14 @@ Bearbeitete Aufgaben:
 Fragen:
 - Wie tief betrachten wir den AST einer Methode?
 - Passt die Vorgehensweise unserer Implementierung?
+- Wie kann man ein SEFF Objekt grafisch im Editor anzeigen?
 
 Neue Aufgaben:
-- 
+- Eine Methode ruft andere Methode auf
+- Parameterübergabe
+- Switch Case
+- External Calls
 
 Notizen zum Meeting:
-- 
+- SEFF brauch ein Root Element wo man das ranhängt
+- GetInterfaceSourceCodeLink -> Sind die Methoden, die ein SEFF benötigen

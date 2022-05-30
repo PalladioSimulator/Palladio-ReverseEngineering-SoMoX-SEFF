@@ -1,5 +1,6 @@
 package org.somox.gast2seff.visitors;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -14,6 +15,7 @@ import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PostfixExpression;
 import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.Expression;
@@ -81,11 +83,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		branchBehaviour.getSteps_Behaviour().add(stopAction);
+		VisitorUtils.connectActions(branchBehaviour);
 		branchTransition.setBranchBehaviour_BranchTransition(branchBehaviour);
 		branchAction.getBranches_Branch().add(branchTransition);
 		
-		if(ifStatement.getElseStatement() != null)
-		{
+		if(ifStatement.getElseStatement() != null) {
 			ResourceDemandingBehaviour branchBehaviourElse = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
 			AbstractBranchTransition branchTransitionElse = SeffFactory.eINSTANCE.createGuardedBranchTransition();
 			StartAction startActionElse = SeffFactory.eINSTANCE.createStartAction();
@@ -96,9 +98,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			
 			StopAction stopActionElse = SeffFactory.eINSTANCE.createStopAction();
 			branchBehaviourElse.getSteps_Behaviour().add(stopActionElse);
+			VisitorUtils.connectActions(branchBehaviourElse);
 			branchTransitionElse.setBranchBehaviour_BranchTransition(branchBehaviourElse);
 			branchAction.getBranches_Branch().add(branchTransition);
 		}
+		
 		this.actionList.add(branchAction);
 		return false;
 	}
@@ -118,8 +122,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		bodyBehaviour.getSteps_Behaviour().add(stopAction);
+		VisitorUtils.connectActions(bodyBehaviour);
 		this.actionList.add(loopAction);
-		//VisitorUtils.connectActions(bodyBehaviour);
 		return false;
 	}
 	
@@ -137,7 +141,33 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		bodyBehaviour.getSteps_Behaviour().add(stopAction);
 		this.actionList.add(loopAction);
-		//VisitorUtils.connectActions(bodyBehaviour);
+		VisitorUtils.connectActions(bodyBehaviour);
+		return false;
+	}
+	
+	public boolean visit(final SwitchStatement switchStatement) {
+		BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
+		
+		List<List<Statement>> blockList = SwitchStatementHelper.createBlockListFromSwitchStatement(switchStatement);
+		// TODO: Do we need to build an ASTNode to enable the visitor pattern?
+		for (List<Statement> block : blockList) {
+			ResourceDemandingBehaviour branchBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+			AbstractBranchTransition branchTransition = SeffFactory.eINSTANCE.createGuardedBranchTransition();
+			StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
+			branchBehaviour.getSteps_Behaviour().add(startAction);
+			
+			for (Statement statement : block) {
+				Ast2SeffVisitor.perform(statement, branchBehaviour.getSteps_Behaviour());
+			}
+			
+			StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
+			branchBehaviour.getSteps_Behaviour().add(stopAction);
+			VisitorUtils.connectActions(branchBehaviour);
+			branchTransition.setBranchBehaviour_BranchTransition(branchBehaviour);
+			branchAction.getBranches_Branch().add(branchTransition);
+		}
+		
+		this.actionList.add(branchAction);
 		return false;
 	}
 	

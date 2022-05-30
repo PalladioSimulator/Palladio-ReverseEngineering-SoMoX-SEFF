@@ -3,6 +3,8 @@
  */
 package org.somox.gast2seff.jobs;
 
+import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -11,6 +13,11 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
 import org.emftext.language.java.statements.StatementListContainer;
@@ -204,6 +211,18 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		VisitorUtils.connectActions(seff);
 
 		return seff;
+	}
+	
+	private void generateSeffXmlFile(final ResourceDemandingSEFF seff, String methodName) {
+		EcorePlugin.ExtensionProcessor.process(null);
+		Resource resource = new ResourceSetImpl().createResource(URI.createFileURI("SEFF_" + methodName +".xml"));
+        resource.getContents().add(seff);
+
+        try {
+        	resource.save(Collections.EMPTY_MAP);
+     	} catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 
 	/**

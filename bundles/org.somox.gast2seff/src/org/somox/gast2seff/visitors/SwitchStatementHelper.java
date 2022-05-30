@@ -24,8 +24,6 @@ public class SwitchStatementHelper {
     public static List<List<Statement>> createBlockListFromSwitchStatement(final SwitchStatement switchStatement) {
         final ArrayList<List<Statement>> blockList = new ArrayList<>();
         final List<Statement> statementList = switchStatement.statements();
-        boolean firstSwitchCase = true;
-        boolean foundBreakStatement = false;
         int statementListSize = statementList.size();
         
         List<Statement> currentBlock = new ArrayList<>();
@@ -33,25 +31,16 @@ public class SwitchStatementHelper {
         for (int index = 0; index < statementListSize; index++) {
         	Statement statementElement = statementList.get(index);
         	
-            if (statementElement instanceof BreakStatement) {
-            	foundBreakStatement = true;
-            }
-            
-        	if (statementElement instanceof SwitchCase) {
-        		if (firstSwitchCase) {
-        			firstSwitchCase = false;
-        		} else if (foundBreakStatement) {
-        			blockList.add(currentBlock);
-        			currentBlock = new ArrayList<>();
-        		}
-        	}
-        	
         	currentBlock.add(statementElement);
         	
         	if (index == statementListSize - 1) {
         		blockList.add(currentBlock);
-        	}
+        	} else if (statementElement instanceof BreakStatement) {
+    			blockList.add(currentBlock);
+    			currentBlock = new ArrayList<>();
+            }
 		}
+        
         
         return blockList;
     }
