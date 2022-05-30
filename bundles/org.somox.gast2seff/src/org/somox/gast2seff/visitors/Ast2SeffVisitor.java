@@ -84,6 +84,22 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		branchBehaviour.getSteps_Behaviour().add(stopAction);
 		branchTransition.setBranchBehaviour_BranchTransition(branchBehaviour);
 		branchAction.getBranches_Branch().add(branchTransition);
+		
+		if(ifStatement.getElseStatement() != null)
+		{
+			ResourceDemandingBehaviour branchBehaviourElse = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+			AbstractBranchTransition branchTransitionElse = SeffFactory.eINSTANCE.createGuardedBranchTransition();
+			StartAction startActionElse = SeffFactory.eINSTANCE.createStartAction();
+			branchBehaviourElse.getSteps_Behaviour().add(startActionElse);
+			
+			Block elseBlock = (Block) ifStatement.getElseStatement();
+			Ast2SeffVisitor.perform(elseBlock, branchBehaviourElse.getSteps_Behaviour());
+			
+			StopAction stopActionElse = SeffFactory.eINSTANCE.createStopAction();
+			branchBehaviourElse.getSteps_Behaviour().add(stopActionElse);
+			branchTransitionElse.setBranchBehaviour_BranchTransition(branchBehaviourElse);
+			branchAction.getBranches_Branch().add(branchTransition);
+		}
 		this.actionList.add(branchAction);
 		return false;
 	}

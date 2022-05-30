@@ -5,6 +5,7 @@ package org.somox.gast2seff.jobs;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -58,6 +59,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 */
 	private SourceCodeDecoratorRepository sourceCodeDecoratorModel;
 	private Root root;
+	private EList<SEFF2MethodMapping> Seff2MethodMappings;
 
 	private MethodCallFinder methodCallFinder;
 
@@ -112,6 +114,8 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		this.methodBindingMap = (Map<MethodDeclaration, ResourceDemandingSEFF>) this.blackboard.getPartition("methodBindingMap");
 		
 		this.methodCallFinder = new MethodCallFinder();
+		
+		//this.Seff2MethodMappings = new List;
 
 		final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
 		subMonitor.setTaskName("Creating SEFF behaviour");
