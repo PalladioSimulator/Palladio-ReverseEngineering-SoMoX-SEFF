@@ -25,19 +25,34 @@ public class SwitchStatementHelper {
         final ArrayList<List<Statement>> blockList = new ArrayList<>();
         final List<Statement> statementList = switchStatement.statements();
         int statementListSize = statementList.size();
+        boolean firstSwitchCase = true;
         
         List<Statement> currentBlock = new ArrayList<>();
+        List<List<Statement>> currentBreakList = new ArrayList<>();
+        currentBreakList.add(currentBlock);
         
         for (int index = 0; index < statementListSize; index++) {
         	Statement statementElement = statementList.get(index);
+
+        	if (statementElement instanceof SwitchCase) {
+				if (firstSwitchCase) {
+        			firstSwitchCase = false;
+        		} else {        			
+        			List<Statement> newSwitchCaseBlock = new ArrayList<>();
+        			currentBreakList.add(newSwitchCaseBlock);
+        		}
+        	}
         	
-        	currentBlock.add(statementElement);
+        	currentBreakList.forEach(block -> block.add(statementElement));
         	
         	if (index == statementListSize - 1) {
-        		blockList.add(currentBlock);
+        		currentBreakList.forEach(block -> blockList.add(block));
         	} else if (statementElement instanceof BreakStatement) {
-    			blockList.add(currentBlock);
+    			currentBreakList.forEach(block -> blockList.add(block));
     			currentBlock = new ArrayList<>();
+    			currentBreakList = new ArrayList<>();
+    			currentBreakList.add(currentBlock);
+    			firstSwitchCase = true;
             }
 		}
         
