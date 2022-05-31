@@ -209,6 +209,9 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 
 		seff.getSteps_Behaviour().add(stop);
 		VisitorUtils.connectActions(seff);
+		
+		String methodName = methodDeclaration.getName().toString();
+		this.generateSeffXmlFile(seff, methodName);
 
 		return seff;
 	}

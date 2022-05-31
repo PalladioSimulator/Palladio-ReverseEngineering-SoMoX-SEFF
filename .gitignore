@@ -52,3 +52,6 @@ target/
 *._trace
 *.xtendbin
 xtend-gen/
+
+# Builds
+*.xml
