@@ -79,6 +79,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
 		branchBehaviour.getSteps_Behaviour().add(startAction);
 		
+		branchTransition.setEntityName(this.ifStatementToString(ifStatement.getExpression()));
+		
 		Ast2SeffVisitor.perform(ifStatement.getThenStatement(), branchBehaviour.getSteps_Behaviour());
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
@@ -92,6 +94,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			AbstractBranchTransition branchTransitionElse = SeffFactory.eINSTANCE.createGuardedBranchTransition();
 			StartAction startActionElse = SeffFactory.eINSTANCE.createStartAction();
 			branchBehaviourElse.getSteps_Behaviour().add(startActionElse);
+			branchTransitionElse.setEntityName(this.elseStatementToString(ifStatement.getExpression()));
 			
 			//Block elseBlock = (Block) ifStatement.getElseStatement();
 			Ast2SeffVisitor.perform(ifStatement.getElseStatement(), branchBehaviourElse.getSteps_Behaviour());
@@ -100,7 +103,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			branchBehaviourElse.getSteps_Behaviour().add(stopActionElse);
 			VisitorUtils.connectActions(branchBehaviourElse);
 			branchTransitionElse.setBranchBehaviour_BranchTransition(branchBehaviourElse);
-			branchAction.getBranches_Branch().add(branchTransition);
+			branchAction.getBranches_Branch().add(branchTransitionElse);
 		}
 		
 		this.actionList.add(branchAction);
@@ -175,6 +178,18 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	protected String whileStatementToString(Expression expression) {
 		final StringBuilder positionString = new StringBuilder(" @position: ");
 		positionString.append("expression name \"").append(expression).append("\"");
+		return positionString.toString();
+	}
+
+	protected String ifStatementToString(Expression expression) {
+		final StringBuilder positionString = new StringBuilder(" @position: ");
+		positionString.append("Cond: ").append(expression).append("");
+		return positionString.toString();
+	}
+	
+	protected String elseStatementToString(Expression expression) {
+		final StringBuilder positionString = new StringBuilder(" @position: ");
+		positionString.append("Cond: !").append(expression).append("");
 		return positionString.toString();
 	}
 	

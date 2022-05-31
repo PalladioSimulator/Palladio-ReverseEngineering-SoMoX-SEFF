@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.palladiosimulator.pcm.repository.BasicComponent;
@@ -210,7 +211,8 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		seff.getSteps_Behaviour().add(stop);
 		VisitorUtils.connectActions(seff);
 		
-		String methodName = methodDeclaration.getName().toString();
+		TypeDeclaration parent = (TypeDeclaration) methodDeclaration.getParent();
+		String methodName = parent.getName().toString() + "_" + methodDeclaration.getName().toString();
 		this.generateSeffXmlFile(seff, methodName);
 
 		return seff;
