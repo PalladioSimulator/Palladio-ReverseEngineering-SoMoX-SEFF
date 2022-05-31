@@ -86,16 +86,8 @@ public class SimpleClass {
 		}
 	}
 	
-	public void externalCallMethod() {
-		ifAndElseMethod(true);
-		ifAndElseIfMethod(false, true);
-		whileMethod();
-	}
-	
 	
 	// TODO: Eine Methode ruft andere Methode auf
-	// TODO: Parameterübergabe
 	// TODO: Switch Case
-	// TODO: External Calls
 	
 }
