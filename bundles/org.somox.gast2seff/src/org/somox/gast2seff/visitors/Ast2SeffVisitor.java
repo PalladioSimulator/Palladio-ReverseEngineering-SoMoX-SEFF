@@ -38,15 +38,15 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 	private IFunctionClassificationStrategy functionClassificationStrategy = null;
 	private EList<AbstractAction> actionList; 
-	private Blackboard<Object> blackboard;
+	private Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap;
 	
-	public Ast2SeffVisitor(EList<AbstractAction> actionList, Blackboard<Object> blackboard) {
+	public Ast2SeffVisitor(EList<AbstractAction> actionList, Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap) {
 		this.actionList = actionList;
-		this.blackboard = blackboard;
+		this.methodBindingMap = methodBindingMap;
 	}
 	
-	public static void perform(ASTNode node, EList<AbstractAction> actionList, Blackboard blackboard) {
-		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(actionList, blackboard);
+	public static void perform(ASTNode node, EList<AbstractAction> actionList, Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap) {
+		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(actionList, methodBindingMap);
 		node.accept(newFunctionCallClassificationVisitor);
 	}
 	
@@ -86,7 +86,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 		branchTransition.setEntityName(this.ifStatementToString(ifStatement.getExpression()));
 		
-		Ast2SeffVisitor.perform(ifStatement.getThenStatement(), branchBehaviour.getSteps_Behaviour(), this.blackboard);
+		Ast2SeffVisitor.perform(ifStatement.getThenStatement(), branchBehaviour.getSteps_Behaviour(), this.methodBindingMap);
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		branchBehaviour.getSteps_Behaviour().add(stopAction);
@@ -102,7 +102,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			branchTransitionElse.setEntityName(this.elseStatementToString(ifStatement.getExpression()));
 			
 			//Block elseBlock = (Block) ifStatement.getElseStatement();
-			Ast2SeffVisitor.perform(ifStatement.getElseStatement(), branchBehaviourElse.getSteps_Behaviour(), this.blackboard);
+			Ast2SeffVisitor.perform(ifStatement.getElseStatement(), branchBehaviourElse.getSteps_Behaviour(), this.methodBindingMap);
 			
 			StopAction stopActionElse = SeffFactory.eINSTANCE.createStopAction();
 			branchBehaviourElse.getSteps_Behaviour().add(stopActionElse);
@@ -126,7 +126,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		Expression updaters = (Expression) forStatement.updaters().get(0);
 		loopAction.setEntityName(this.forStatementToString(initializers, forStatement.getExpression(), updaters));
 		
-		Ast2SeffVisitor.perform(forStatement.getBody(), bodyBehaviour.getSteps_Behaviour(), this.blackboard);
+		Ast2SeffVisitor.perform(forStatement.getBody(), bodyBehaviour.getSteps_Behaviour(), this.methodBindingMap);
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		bodyBehaviour.getSteps_Behaviour().add(stopAction);
@@ -144,7 +144,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 		loopAction.setEntityName(this.whileStatementToString(whileStatement.getExpression()));
 		
-		Ast2SeffVisitor.perform(whileStatement.getBody(), bodyBehaviour.getSteps_Behaviour(), this.blackboard);
+		Ast2SeffVisitor.perform(whileStatement.getBody(), bodyBehaviour.getSteps_Behaviour(), this.methodBindingMap);
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		bodyBehaviour.getSteps_Behaviour().add(stopAction);
@@ -165,7 +165,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			branchBehaviour.getSteps_Behaviour().add(startAction);
 			
 			for (Statement statement : block) {
-				Ast2SeffVisitor.perform(statement, branchBehaviour.getSteps_Behaviour(), this.blackboard);
+				Ast2SeffVisitor.perform(statement, branchBehaviour.getSteps_Behaviour(), this.methodBindingMap);
 			}
 			
 			StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
@@ -181,8 +181,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 
 	protected boolean isExternal(MethodDeclaration methodDeclaration) {
-		Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = (Map<MethodDeclaration, ResourceDemandingSEFF>) this.blackboard.getPartition("methodBindingMap");
-		//methodBindingMap.containsKey()
+//		this.methodBindingMap.containsKey("");
 		return false;
 	}
 	
