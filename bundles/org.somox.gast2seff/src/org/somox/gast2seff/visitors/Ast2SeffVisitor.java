@@ -78,23 +78,22 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	public boolean visit(final ExpressionStatement expressionStatement) {
 		
 		Expression expression = expressionStatement.getExpression();
-		if(expression instanceof MethodInvocation && this.isExternal((MethodInvocation) expression))
-		{
+		if (expression instanceof MethodInvocation && this.isExternal((MethodInvocation) expression)) {
 			MethodInvocation transformedExpression = (MethodInvocation) expression;
-			ExternalCallAction call = SeffFactory.eINSTANCE.createExternalCallAction();
-			if(transformedExpression.arguments().isEmpty())
-				call.setEntityName(transformedExpression.getName().toString());
-			else
-				call.setEntityName(transformedExpression.getName().toString() + "(" + transformedExpression.arguments().toString() + ")");
+			ExternalCallAction externalCall = SeffFactory.eINSTANCE.createExternalCallAction();
+			if (transformedExpression.arguments().isEmpty()) {
+				externalCall.setEntityName(transformedExpression.getName().toString());				
+			} else {
+				externalCall.setEntityName(transformedExpression.getName().toString() + "(" + transformedExpression.arguments().toString() + ")");				
+			}
 			//call.setRole_ExternalService((OperationRequiredRole) ifOperationTuple.role);
 			//call.setCalledService_ExternalService((OperationSignature) ifOperationTuple.signature);
-			this.actionList.add(call);
-			return super.visit(expressionStatement);
+			this.actionList.add(externalCall);
 		} else {
 			InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
 			this.actionList.add(internalAction);
-			return super.visit(expressionStatement);
 		}
+		return super.visit(expressionStatement);
 	}
 	
 	
@@ -122,7 +121,6 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			branchBehaviourElse.getSteps_Behaviour().add(startActionElse);
 			branchTransitionElse.setEntityName(this.elseStatementToString(ifStatement.getExpression()));
 			
-			//Block elseBlock = (Block) ifStatement.getElseStatement();
 			Ast2SeffVisitor.perform(ifStatement.getElseStatement(), branchBehaviourElse.getSteps_Behaviour(), this.methodNameMap);
 			
 			StopAction stopActionElse = SeffFactory.eINSTANCE.createStopAction();
