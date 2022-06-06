@@ -86,8 +86,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			} else {
 				externalCall.setEntityName(transformedExpression.getName().toString() + "(" + transformedExpression.arguments().toString() + ")");				
 			}
-			//call.setRole_ExternalService((OperationRequiredRole) ifOperationTuple.role);
-			//call.setCalledService_ExternalService((OperationSignature) ifOperationTuple.signature);
+			//externalCall.setRole_ExternalService((OperationRequiredRole) ifOperationTuple.role);
+			//externalCall.setCalledService_ExternalService((OperationSignature) ifOperationTuple.signature);
 			this.actionList.add(externalCall);
 		} else {
 			InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
@@ -114,7 +114,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		branchTransition.setBranchBehaviour_BranchTransition(branchBehaviour);
 		branchAction.getBranches_Branch().add(branchTransition);
 		
-		if(ifStatement.getElseStatement() != null) {
+		if (ifStatement.getElseStatement() != null) {
 			ResourceDemandingBehaviour branchBehaviourElse = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
 			AbstractBranchTransition branchTransitionElse = SeffFactory.eINSTANCE.createGuardedBranchTransition();
 			StartAction startActionElse = SeffFactory.eINSTANCE.createStartAction();
@@ -200,10 +200,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 
 	protected boolean isExternal(MethodInvocation methodInvocation) {
-		IMethodBinding binding = methodInvocation.resolveMethodBinding(); //TODO: recheck if functions like System.out.println are external (isGenericMethod())
-		SimpleName name = methodInvocation.getName();
-		if(this.methodNameMap.containsKey(name.toString()))
-		{
+		//TODO: recheck if functions like System.out.println are external (isGenericMethod())
+//		IMethodBinding binding = methodInvocation.resolveMethodBinding(); 
+		String methodName = methodInvocation.getName().toString();
+		if (this.methodNameMap.containsKey(methodName)) {
 			return false;
 		} else {
 			return true;
@@ -230,8 +230,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	protected String forStatementToString(Expression initializers, Expression expression, Expression updaters) {
 		final StringBuilder positionString = new StringBuilder(" @position: ");
-		if(initializers instanceof VariableDeclarationExpression && expression instanceof InfixExpression && updaters instanceof PostfixExpression)
-		{
+		if (initializers instanceof VariableDeclarationExpression && expression instanceof InfixExpression && updaters instanceof PostfixExpression) {
 			positionString.append(" from ").append(initializers).append(" to ").append(expression).append(" with ").append(updaters);
 		} else {
 			positionString.append("no position information available");

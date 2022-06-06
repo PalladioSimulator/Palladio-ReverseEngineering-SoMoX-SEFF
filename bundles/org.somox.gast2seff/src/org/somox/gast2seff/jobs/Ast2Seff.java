@@ -24,6 +24,8 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.palladiosimulator.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.repository.Repository;
+import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
@@ -123,6 +125,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		
 		this.methodBindingMap = (Map<MethodDeclaration, ResourceDemandingSEFF>) this.blackboard.getPartition("methodBindingMap");
 		
+		// TODO: Same method name from different files?
 		for (var entry : methodBindingMap.entrySet()) {
 			if(!this.methodNameMap.containsKey(entry.getKey().getName().toString()))
 				this.methodNameMap.put(entry.getKey().getName().toString(), entry.getKey());
@@ -226,9 +229,15 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	}
 	
 	private void generateSeffXmlFile(final ResourceDemandingSEFF seff, String methodName) {
+		
+		Repository repository = RepositoryFactory.eINSTANCE.createRepository();
+		BasicComponent basicComponent = RepositoryFactory.eINSTANCE.createBasicComponent();
+		basicComponent.getServiceEffectSpecifications__BasicComponent().add(seff);
+		repository.getComponents__Repository().add(basicComponent);
+		
 		EcorePlugin.ExtensionProcessor.process(null);
 		Resource resource = new ResourceSetImpl().createResource(URI.createFileURI("SEFF_" + methodName +".xml"));
-        resource.getContents().add(seff);
+        resource.getContents().add(repository);
 
         try {
         	resource.save(Collections.EMPTY_MAP);
