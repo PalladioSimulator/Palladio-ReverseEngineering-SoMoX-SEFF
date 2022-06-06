@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
 import org.emftext.language.java.statements.StatementListContainer;
@@ -61,6 +62,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	private Blackboard<Object> blackboard;
 	
 	private Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = new HashMap<>();
+	private Map<String, MethodDeclaration> methodNameMap = new HashMap<>();
 
 	/**
 	 * Resources containing the models
@@ -121,6 +123,11 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		
 		this.methodBindingMap = (Map<MethodDeclaration, ResourceDemandingSEFF>) this.blackboard.getPartition("methodBindingMap");
 		
+		for (var entry : methodBindingMap.entrySet()) {
+			if(!this.methodNameMap.containsKey(entry.getKey().getName().toString()))
+				this.methodNameMap.put(entry.getKey().getName().toString(), entry.getKey());
+		}
+		
 		this.methodCallFinder = new MethodCallFinder();
 		
 		//this.Seff2MethodMappings = new List;
@@ -179,7 +186,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		final StopAction stop = SeffFactory.eINSTANCE.createStopAction();
 		seff.getSteps_Behaviour().add(start);
 
-		Ast2SeffVisitor.perform(methodDeclaration, seff.getSteps_Behaviour(), this.methodBindingMap);
+		Ast2SeffVisitor.perform(methodDeclaration, seff.getSteps_Behaviour(), this.methodNameMap);
 		
 		// initialise for new component / seff to reverse engineer:
 //		final BasicComponent basicComponent = (BasicComponent) seff.eContainer();

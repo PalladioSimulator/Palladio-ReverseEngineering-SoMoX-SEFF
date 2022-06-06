@@ -86,8 +86,10 @@ public class SimpleClass {
 		}
 	}
 	
-	
-	// TODO: Eine Methode ruft andere Methode auf
-	// TODO: Switch Case
+	public void internalMethod(String caseString) {
+		this.ifMethod();
+		this.ifAndElseMethod(true);
+		this.ifAndElseMethod(false);
+	}
 	
 }
