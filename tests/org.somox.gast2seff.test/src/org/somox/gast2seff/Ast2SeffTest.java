@@ -28,7 +28,9 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FileASTRequestor;
+import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.Modifier;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
@@ -55,7 +57,7 @@ public class Ast2SeffTest {
         // TODO Formulate assertions for blackboard content (= results of execution)
     }
 	
-	private String[] getEntries(java.nio.file.Path dir, String suffix) {
+	private String[] getEntries(Path dir, String suffix) {
         try (Stream<Path> paths = Files.walk(dir)) {
             return paths
                     .filter(path -> Files.isRegularFile(path)
@@ -122,6 +124,44 @@ public class Ast2SeffTest {
             methodBindingMap.put(methodDeclaration, seff);
         }
 
+        Ast2Seff ast2SeffJob = new Ast2Seff();
+        // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
+        Blackboard<Object> blackboard = new Blackboard<>();
+        
+        blackboard.addPartition("methodBindingMap", methodBindingMap);
+        
+        ast2SeffJob.setBlackboard(blackboard);
+        NullProgressMonitor progressMonitor = new NullProgressMonitor();
+        ast2SeffJob.execute(progressMonitor);
+        // TODO Formulate assertions for blackboard content (= results of execution)
+    }
+    
+    @Test
+    public void testAllClassesInDirectory() throws JobFailedException, UserCanceledException, IOException {
+    	
+    	Path directoryPath = Path.of("src/org/somox/gast2seff/resources");
+    	Map<String, CompilationUnit> compUnitMap = parseDirectory(directoryPath);
+        
+        Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = new HashMap<>();
+        
+        for (var entry : compUnitMap.entrySet()) {
+			List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(entry.getValue());
+			for (MethodDeclaration methodDeclaration : methodDeclarations) {
+				List<IExtendedModifier> modifierList = methodDeclaration.modifiers();
+				
+				// Generate a seff for public methods only
+				IExtendedModifier firstModifier = modifierList.get(0);
+				if (firstModifier.isModifier()) {
+					Modifier modifier = (Modifier) firstModifier;
+					if (modifier.isPublic()) {
+						ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+						methodBindingMap.put(methodDeclaration, seff);
+					}
+				}
+			}
+		}
+        
+       
         Ast2Seff ast2SeffJob = new Ast2Seff();
         // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
         Blackboard<Object> blackboard = new Blackboard<>();
