@@ -204,9 +204,9 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		IMethodBinding binding = methodInvocation.resolveMethodBinding(); 
 		String methodName = methodInvocation.getName().toString();
 		if (this.methodNameMap.containsKey(methodName)) {
-			return false;
-		} else {
 			return true;
+		} else {
+			return false;
 		}
 	}
 	

@@ -125,11 +125,18 @@ Bearbeitete Aufgaben:
 
 Fragen:
 - Wie sollen Switch Expressions im SEFF modeliert werden?
-  - Je Switch Case ein Branch?
+  - Je Switch Case ein Branch? -> Ja, Verhalten kann redundant modeliert sein
 - Sind andere Bibliotheken External oder Internal Calls?
 
 Neue Aufgaben:
 - Testfälle für die visit-Methoden
+- Kontrollstrukturen aus den alten Visitatoren einbauen
+- External Calls korrekt umsetzen und richtig referenzieren
 
 Notizen zum Meeting:
--
+- Was ist der vollquantifizierte Paketname einer Methode?
+  - Wenn es mit java. anfängt 
+  - Liste von Liste von Zeichenketten um zu überprüfen
+- Type Bindings
+- Source Code Decorator
+- Wir müssen noch die lokalen Variablen deklarieren

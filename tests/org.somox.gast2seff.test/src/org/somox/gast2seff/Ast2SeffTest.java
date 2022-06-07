@@ -2,19 +2,23 @@ package org.somox.gast2seff;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -23,6 +27,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.FileASTRequestor;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -48,6 +53,50 @@ public class Ast2SeffTest {
         NullProgressMonitor progressMonitor = new NullProgressMonitor();
         ast2SeffJob.execute(progressMonitor);
         // TODO Formulate assertions for blackboard content (= results of execution)
+    }
+	
+	private String[] getEntries(java.nio.file.Path dir, String suffix) {
+        try (Stream<Path> paths = Files.walk(dir)) {
+            return paths
+                    .filter(path -> Files.isRegularFile(path)
+                            && path.getFileName().toString().toLowerCase().endsWith(suffix))
+                    .map(Path::toAbsolutePath).map(Path::normalize).map(Path::toString).toArray(i -> new String[i]);
+        } catch (final IOException e) {
+        	e.printStackTrace();
+            return new String[0];
+        }
+	}
+	
+    private ASTParser getJavaParser() {
+        String  javaCoreVersion = JavaCore.latestSupportedJavaVersion();
+        final ASTParser parser = ASTParser.newParser(AST.getJLSLatest());
+        parser.setResolveBindings(true);
+        parser.setBindingsRecovery(true);
+        parser.setStatementsRecovery(true);
+        parser.setCompilerOptions(Map.of(JavaCore.COMPILER_SOURCE, javaCoreVersion, JavaCore.COMPILER_COMPLIANCE,
+                javaCoreVersion, JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, javaCoreVersion));
+        return parser;
+    }
+    
+    private Map<String, CompilationUnit> parseDirectory(Path dir) {
+        ASTParser parser = getJavaParser();
+        String[] classpathEntries = getEntries(dir, ".jar");
+        final String[] sources = getEntries(dir, ".java");
+        final String[] encodings = new String[sources.length];
+        Arrays.fill(encodings,  StandardCharsets.UTF_8.toString());
+        final Map<String, CompilationUnit> compilationUnits = new HashMap<>();
+        try {
+            parser.setEnvironment(classpathEntries, new String[0], new String[0], true);
+            parser.createASTs(sources, encodings, new String[0], new FileASTRequestor() {
+                @Override
+                public void acceptAST(final String sourceFilePath, final CompilationUnit ast) {
+                    compilationUnits.put(sourceFilePath, ast);
+                }
+            }, new NullProgressMonitor());
+        } catch (IllegalArgumentException | IllegalStateException e) {
+        	e.printStackTrace();
+        }
+        return compilationUnits;
     }
     
     @Test

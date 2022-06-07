@@ -77,6 +77,7 @@ public class SimpleClass {
 			System.out.println("Inside the second case.");
 			break;
 		case "third":
+			System.out.println("Inside the third case.");
 		case "fourth":
 			System.out.println("Inside the third/fourth case.");
 			break;
@@ -86,7 +87,7 @@ public class SimpleClass {
 		}
 	}
 	
-	public void internalMethod(String caseString) {
+	public void callExternalMethod(String caseString) {
 		this.ifMethod();
 		this.ifAndElseMethod(true);
 		this.ifAndElseMethod(false);
