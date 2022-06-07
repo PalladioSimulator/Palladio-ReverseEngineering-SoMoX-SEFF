@@ -130,7 +130,8 @@ Fragen:
 
 Neue Aufgaben:
 - Testfälle für die visit-Methoden
-- Kontrollstrukturen aus den alten Visitatoren einbauen
+- Alle Kontrollstrukturen aus den alten Visitatoren einbauen
+  - visit-Methode für EnhancedForStatement 
 - External Calls korrekt umsetzen und richtig referenzieren
 
 Notizen zum Meeting:
@@ -140,3 +141,17 @@ Notizen zum Meeting:
 - Type Bindings
 - Source Code Decorator
 - Wir müssen noch die lokalen Variablen deklarieren
+
+### 13.06
+
+Bearbeitete Aufgaben:
+- Directory Scan Test Case implementiert
+
+Fragen:
+- 
+
+Neue Aufgaben:
+- 
+
+Notizen zum Meeting:
+- 

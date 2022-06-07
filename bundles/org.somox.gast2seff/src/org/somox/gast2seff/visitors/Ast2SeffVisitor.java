@@ -9,6 +9,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Block;
+import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IMethodBinding;
@@ -153,6 +154,28 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		this.actionList.add(loopAction);
 		return false;
 	}
+	
+	public boolean visit(final EnhancedForStatement forStatement) {
+		LoopAction loopAction = SeffFactory.eINSTANCE.createLoopAction();
+		ResourceDemandingBehaviour bodyBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+		loopAction.setBodyBehaviour_Loop(bodyBehaviour);
+		StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
+		bodyBehaviour.getSteps_Behaviour().add(startAction);
+		
+//		Expression initializers = (Expression) forStatement.initializers().get(0);
+//		Expression updaters = (Expression) forStatement.updaters().get(0);
+//		loopAction.setEntityName(this.forStatementToString(initializers, forStatement.getExpression(), updaters));
+		
+		Ast2SeffVisitor.perform(forStatement.getBody(), bodyBehaviour.getSteps_Behaviour(), this.methodNameMap);
+		
+		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
+		bodyBehaviour.getSteps_Behaviour().add(stopAction);
+		VisitorUtils.connectActions(bodyBehaviour);
+		this.actionList.add(loopAction);
+		return false;
+	}
+	
+	
 	
 	public boolean visit(final WhileStatement whileStatement) {
 		LoopAction loopAction = SeffFactory.eINSTANCE.createLoopAction();
