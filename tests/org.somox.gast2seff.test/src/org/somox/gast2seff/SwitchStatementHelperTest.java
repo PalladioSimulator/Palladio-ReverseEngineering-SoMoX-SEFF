@@ -43,7 +43,7 @@ public class SwitchStatementHelperTest {
     	switchStatement.statements().add(switchCase2);
     	switchStatement.statements().add(breakStatement2);
     	List<List<Statement>> blockList = SwitchStatementHelper.createBlockListFromSwitchStatement(switchStatement);
-    	assertEquals(blockList.size(), 1);
+    	assertEquals(blockList.size(), 2);
     	assertEquals(blockList.get(0).size(), 3);
 	}
     
@@ -58,7 +58,7 @@ public class SwitchStatementHelperTest {
     	switchStatement.statements().add(switchCase1);
     	switchStatement.statements().add(switchCase2);
     	List<List<Statement>> blockList = SwitchStatementHelper.createBlockListFromSwitchStatement(switchStatement);
-    	assertEquals(blockList.size(), 1);
+    	assertEquals(blockList.size(), 2);
     	assertEquals(blockList.get(0).size(), 2);
     	
 	}

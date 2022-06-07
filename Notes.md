@@ -115,3 +115,21 @@ Neue Aufgaben:
 Notizen zum Meeting:
 - SEFF brauch ein Root Element wo man das ranhängt
 - GetInterfaceSourceCodeLink -> Sind die Methoden, die ein SEFF benötigen
+
+### 07.06
+
+Bearbeitete Aufgaben:
+- External Calls implementiert
+- Switch Case implementiert
+- Erweiterte XML Generierung (Repository + Component) umgesetzt
+
+Fragen:
+- Wie sollen Switch Expressions im SEFF modeliert werden?
+  - Je Switch Case ein Branch?
+- Sind andere Bibliotheken External oder Internal Calls?
+
+Neue Aufgaben:
+- Testfälle für die visit-Methoden
+
+Notizen zum Meeting:
+-

@@ -231,7 +231,9 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	private void generateSeffXmlFile(final ResourceDemandingSEFF seff, String methodName) {
 		
 		Repository repository = RepositoryFactory.eINSTANCE.createRepository();
+		repository.setEntityName("Simple Repository");
 		BasicComponent basicComponent = RepositoryFactory.eINSTANCE.createBasicComponent();
+		basicComponent.setEntityName("Simple Basic Component");
 		basicComponent.getServiceEffectSpecifications__BasicComponent().add(seff);
 		repository.getComponents__Repository().add(basicComponent);
 		

@@ -201,7 +201,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 
 	protected boolean isExternal(MethodInvocation methodInvocation) {
 		//TODO: recheck if functions like System.out.println are external (isGenericMethod())
-//		IMethodBinding binding = methodInvocation.resolveMethodBinding(); 
+		IMethodBinding binding = methodInvocation.resolveMethodBinding(); 
 		String methodName = methodInvocation.getName().toString();
 		if (this.methodNameMap.containsKey(methodName)) {
 			return false;
