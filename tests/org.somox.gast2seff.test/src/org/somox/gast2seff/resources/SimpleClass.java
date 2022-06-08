@@ -1,5 +1,8 @@
 package org.somox.gast2seff.resources;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SimpleClass {
 
 	public void ifMethod() {
@@ -17,6 +20,16 @@ public class SimpleClass {
 			System.out.println("Current position: " + i);
 		}
 
+	}
+	
+	public void forEachMethod() {
+		System.out.println("Hello World!");
+		
+		List<String> stringList = new ArrayList<>(); 
+		for (String string: stringList) {
+			System.out.println(string);
+		}
+		
 	}
 	
 	public void whileMethod() {
