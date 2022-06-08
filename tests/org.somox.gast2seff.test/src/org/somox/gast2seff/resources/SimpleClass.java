@@ -22,6 +22,30 @@ public class SimpleClass {
 
 	}
 	
+	public void tryCatchMethod() {
+		System.out.println("Hello World!");
+		
+		try {
+			System.out.println("Hello World!");
+		} catch (NullPointerException e) {
+			System.out.println("Hello World!");
+		} catch (IllegalArgumentException e) {
+			System.out.println("Hello World!");
+		} catch (Exception e) {
+			System.out.println("Hello World!");
+		}
+
+	}
+	
+	public void synchronizedMethod() {
+		System.out.println("Hello World!");
+
+		synchronized (this) {
+			System.out.println("Inside synchronize block!");
+		}
+
+	}
+	
 	public void forEachMethod() {
 		System.out.println("Hello World!");
 		

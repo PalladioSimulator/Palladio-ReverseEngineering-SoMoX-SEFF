@@ -9,6 +9,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Block;
+import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
@@ -21,22 +22,31 @@ import org.eclipse.jdt.core.dom.PostfixExpression;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.SwitchStatement;
+import org.eclipse.jdt.core.dom.SynchronizedStatement;
+import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.Expression;
+import org.palladiosimulator.pcm.core.CoreFactory;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
+import org.palladiosimulator.pcm.repository.PassiveResource;
+import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.AbstractBranchTransition;
+import org.palladiosimulator.pcm.seff.AcquireAction;
 import org.palladiosimulator.pcm.seff.BranchAction;
 import org.palladiosimulator.pcm.seff.ExternalCallAction;
 import org.palladiosimulator.pcm.seff.InternalAction;
 import org.palladiosimulator.pcm.seff.LoopAction;
+import org.palladiosimulator.pcm.seff.ReleaseAction;
 import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
+import org.somox.kdmhelper.KDMHelper;
+
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 
 public class Ast2SeffVisitor extends ASTVisitor {
@@ -129,6 +139,74 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			VisitorUtils.connectActions(branchBehaviourElse);
 			branchTransitionElse.setBranchBehaviour_BranchTransition(branchBehaviourElse);
 			branchAction.getBranches_Branch().add(branchTransitionElse);
+		}
+		
+		this.actionList.add(branchAction);
+		return false;
+	}
+	
+	// TODO: finish SynchronizedStatement
+	public boolean visit(final SynchronizedStatement synchronizedStatement) {
+		final PassiveResource passiveResource = RepositoryFactory.eINSTANCE.createPassiveResource();
+//		passiveResource.setEntityName(this.positionToString(KDMHelper.getJavaNodeSourceRegion(synchronizedBlock)));
+
+		passiveResource.setCapacity_PassiveResource(CoreFactory.eINSTANCE.createPCMRandomVariable());
+//		this.primitiveComponent.getPassiveResource_BasicComponent().add(passiveResource);
+//		passiveResource.getCapacity_PassiveResource().setSpecification("1");
+
+//		JaMoPPStatementVisitor.logger.debug("start handling synchronized statement");
+		final AcquireAction acquireAction = SeffFactory.eINSTANCE.createAcquireAction();
+//		JaMoPPStatementVisitor.logger.debug("create acquireAction");
+
+		this.actionList.add(acquireAction);
+
+		acquireAction.setPassiveresource_AcquireAction(passiveResource);
+//		acquireAction.setEntityName(this.positionToString(KDMHelper.getJavaNodeSourceRegion(synchronizedBlock)));
+
+		Ast2SeffVisitor.perform(synchronizedStatement.getBody(), this.actionList, this.methodNameMap);
+//		final Object ret = this.handleStatementListContainer(synchronizedBlock);
+
+//		JaMoPPStatementVisitor.logger.debug("create releaseAction");
+		final ReleaseAction releaseAction = SeffFactory.eINSTANCE.createReleaseAction();
+
+		this.actionList.add(releaseAction);
+		releaseAction.setPassiveResource_ReleaseAction(passiveResource);
+//		releaseAction.setEntityName(this.positionToString(KDMHelper.getJavaNodeSourceRegion(synchronizedBlock)));
+		return false;
+	}
+	
+	public boolean visit(final TryStatement tryStatement) {
+		
+		BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
+		ResourceDemandingBehaviour branchBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+		AbstractBranchTransition branchTransition = SeffFactory.eINSTANCE.createGuardedBranchTransition();
+		StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
+		branchBehaviour.getSteps_Behaviour().add(startAction);
+
+//		branchTransition.setEntityName(this.ifStatementToString(tryStatement.getExpression()));
+		
+		Ast2SeffVisitor.perform(tryStatement.getBody(), branchBehaviour.getSteps_Behaviour(), this.methodNameMap);
+		
+		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
+		branchBehaviour.getSteps_Behaviour().add(stopAction);
+		VisitorUtils.connectActions(branchBehaviour);
+		branchTransition.setBranchBehaviour_BranchTransition(branchBehaviour);
+		branchAction.getBranches_Branch().add(branchTransition);
+		
+		List<CatchClause> catchClauseList = tryStatement.catchClauses();
+		for (CatchClause catchClause : catchClauseList) {
+			ResourceDemandingBehaviour catchBranchBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+			AbstractBranchTransition catchBranchTransition = SeffFactory.eINSTANCE.createGuardedBranchTransition();
+			StartAction catchStartAction = SeffFactory.eINSTANCE.createStartAction();
+			catchBranchBehaviour.getSteps_Behaviour().add(catchStartAction);
+			
+			Ast2SeffVisitor.perform(catchClause.getBody(), catchBranchBehaviour.getSteps_Behaviour(), this.methodNameMap);
+			
+			StopAction catchStopAction = SeffFactory.eINSTANCE.createStopAction();
+			catchBranchBehaviour.getSteps_Behaviour().add(catchStopAction);
+			VisitorUtils.connectActions(catchBranchBehaviour);
+			catchBranchTransition.setBranchBehaviour_BranchTransition(catchBranchBehaviour);
+			branchAction.getBranches_Branch().add(catchBranchTransition);
 		}
 		
 		this.actionList.add(branchAction);
