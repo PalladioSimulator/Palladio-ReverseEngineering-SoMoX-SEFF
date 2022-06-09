@@ -125,24 +125,41 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		branchTransition.setBranchBehaviour_BranchTransition(branchBehaviour);
 		branchAction.getBranches_Branch().add(branchTransition);
 		
-		if (ifStatement.getElseStatement() != null) {
+		handleElseStatement(ifStatement.getElseStatement(), branchAction);
+		
+		this.actionList.add(branchAction);
+		return false;
+	}
+	
+	//TODO: Correct the entity name fpr 
+	private void handleElseStatement(Statement statement, BranchAction branchAction) {
+		if (statement != null) {
 			ResourceDemandingBehaviour branchBehaviourElse = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
 			AbstractBranchTransition branchTransitionElse = SeffFactory.eINSTANCE.createGuardedBranchTransition();
 			StartAction startActionElse = SeffFactory.eINSTANCE.createStartAction();
 			branchBehaviourElse.getSteps_Behaviour().add(startActionElse);
-			branchTransitionElse.setEntityName(this.elseStatementToString(ifStatement.getExpression()));
-			
-			Ast2SeffVisitor.perform(ifStatement.getElseStatement(), branchBehaviourElse.getSteps_Behaviour(), this.methodNameMap);
-			
+			if (statement instanceof IfStatement) {
+				IfStatement elseIfStatement = (IfStatement) statement;
+				branchTransitionElse.setEntityName(this.ifStatementToString(elseIfStatement.getExpression()));
+				
+				Ast2SeffVisitor.perform(elseIfStatement.getThenStatement(), branchBehaviourElse.getSteps_Behaviour(), this.methodNameMap);
+				
+			} else {
+				Block elseStatement = (Block) statement;
+				Ast2SeffVisitor.perform(elseStatement, branchBehaviourElse.getSteps_Behaviour(), this.methodNameMap);
+			}
+
 			StopAction stopActionElse = SeffFactory.eINSTANCE.createStopAction();
 			branchBehaviourElse.getSteps_Behaviour().add(stopActionElse);
 			VisitorUtils.connectActions(branchBehaviourElse);
 			branchTransitionElse.setBranchBehaviour_BranchTransition(branchBehaviourElse);
 			branchAction.getBranches_Branch().add(branchTransitionElse);
+			
+			if (statement instanceof IfStatement) {
+				IfStatement elseIfStatement = (IfStatement) statement;
+				handleElseStatement(elseIfStatement.getElseStatement(), branchAction);
+			}
 		}
-		
-		this.actionList.add(branchAction);
-		return false;
 	}
 	
 	// TODO: finish SynchronizedStatement
