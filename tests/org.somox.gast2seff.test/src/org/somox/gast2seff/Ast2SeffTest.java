@@ -181,6 +181,7 @@ public class Ast2SeffTest {
         parser.setResolveBindings(true);
         parser.setKind(ASTParser.K_COMPILATION_UNIT);
         parser.setBindingsRecovery(true);
+        parser.setStatementsRecovery(true);
         File resource = new File("src/org/somox/gast2seff/resources/SimpleExternalClass.java");
         java.nio.file.Path sourcePath = Paths.get(resource.toURI());
         String sourceString = new String(Files.readAllBytes(sourcePath));
