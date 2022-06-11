@@ -14,6 +14,7 @@ import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IMethodBinding;
+import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
@@ -24,7 +25,9 @@ import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.SynchronizedStatement;
 import org.eclipse.jdt.core.dom.TryStatement;
+import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
+import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.Expression;
 import org.palladiosimulator.pcm.core.CoreFactory;
@@ -316,16 +319,28 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
+	public boolean visit(final VariableDeclarationStatement variableDeclarationStatement) {
+		Type test = variableDeclarationStatement.getType();
+		return super.visit(variableDeclarationStatement);
+	}
 
 	protected boolean isExternal(MethodInvocation methodInvocation) {
-		//TODO: recheck if functions like System.out.println are external (isGenericMethod())
-		IMethodBinding binding = methodInvocation.resolveMethodBinding(); 
 		String methodName = methodInvocation.getName().toString();
-		if (this.methodNameMap.containsKey(methodName)) {
+		String className = this.getClassName(methodInvocation);
+		if (this.methodNameMap.containsKey(className + "." + methodName)) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+	
+	protected String getClassName(MethodInvocation methodInvocation) {
+		String result = "unknown";
+		Expression calledClass = methodInvocation.getExpression();
+		ITypeBinding bindingExpression = calledClass.resolveTypeBinding();
+		ITypeBinding bindingMethodInvocation = methodInvocation.resolveTypeBinding();
+		IMethodBinding methodbinding = methodInvocation.resolveMethodBinding();
+		return result;
 	}
 	
 	protected String whileStatementToString(Expression expression) {

@@ -18,7 +18,10 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
@@ -127,8 +130,16 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		
 		// TODO: Same method name from different files?
 		for (var entry : methodBindingMap.entrySet()) {
-			if(!this.methodNameMap.containsKey(entry.getKey().getName().toString()))
-				this.methodNameMap.put(entry.getKey().getName().toString(), entry.getKey());
+			MethodDeclaration currentMethod = entry.getKey();
+			String strPackageName = "unknown";
+			ASTNode root = currentMethod.getRoot();
+			if(root instanceof CompilationUnit)
+			{
+				PackageDeclaration packageName = ((CompilationUnit) root).getPackage();
+				strPackageName = packageName.getName().toString();
+			}
+			if(!this.methodNameMap.containsKey(strPackageName + "." + currentMethod.getName().toString()))
+				this.methodNameMap.put(strPackageName + "." + currentMethod.getName().toString(), entry.getKey());
 		}
 		
 		this.methodCallFinder = new MethodCallFinder();
