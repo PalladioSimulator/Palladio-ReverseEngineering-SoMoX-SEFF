@@ -146,8 +146,14 @@ Notizen zum Meeting:
 
 Bearbeitete Aufgaben:
 - Directory Scan Test Case implementiert
+- visit-Methode für EnhancedForStatement implementiert
+- visit-Methode für SynchronizedStatement implementiert
+- visit-Methode für IfStatements mit else if Blöcken repariert
+- Erstellung der Test-Klassen für die einzelnen Visitatoren
+  - Erster Tests für den IfStatement-Visitor implementiert
 
 Fragen:
+- Stimmt die Transformation des Synchronized Statements?
 - 
 
 Neue Aufgaben:

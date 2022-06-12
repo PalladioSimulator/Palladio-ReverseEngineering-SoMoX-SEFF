@@ -103,6 +103,20 @@ public class SimpleClass {
 		}
 	}
 	
+	public void ifAndDoubleElseIfMethod(boolean decision, boolean decision2, boolean decision3) {
+		System.out.println("Hello World!");
+				
+		if (decision) {
+			System.out.println("Inside the ifStatement.");
+		} else if (decision2) {
+			System.out.println("Inside the first elseIfStatement.");
+		} else if (decision3) {
+			System.out.println("Inside the second elseIfStatement.");
+		} else {
+			System.out.println("Inside the elseStatement.");
+		}
+	}
+	
 	public void switchMethod(String caseString) {
 		System.out.println("Hello World!");
 				

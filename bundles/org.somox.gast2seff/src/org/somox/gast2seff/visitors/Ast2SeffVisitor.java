@@ -70,25 +70,6 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		node.accept(newFunctionCallClassificationVisitor);
 	}
 	
-//	public boolean visit(final MethodDeclaration methodDeclaration) {
-//		
-//		final Block body = methodDeclaration.getBody();
-//		List<Statement> bodyStatement = body.statements();
-//		for (Statement statement : bodyStatement) {
-//			if (statement instanceof ExpressionStatement) {
-//				InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
-//				this.resourceDemandingSEFF.getSteps_Behaviour().add(internalAction);
-//			}
-//			
-//			if (statement instanceof IfStatement) {
-//				BranchAction branchAction = generateBranchAction((IfStatement) statement);
-//				this.resourceDemandingSEFF.getSteps_Behaviour().add(branchAction);
-//			}
-//		}
-//		
-//		return super.visit(methodDeclaration);
-//	}
-	
 	public boolean visit(final ExpressionStatement expressionStatement) {
 		
 		Expression expression = expressionStatement.getExpression();
@@ -134,7 +115,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
-	//TODO: Correct the entity name fpr 
+	//TODO: Correct the entity name for the else if statement 
 	private void handleElseStatement(Statement statement, BranchAction branchAction) {
 		if (statement != null) {
 			ResourceDemandingBehaviour branchBehaviourElse = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
@@ -253,6 +234,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
+	// TODO: Set entitiy name for the loop action
 	public boolean visit(final EnhancedForStatement forStatement) {
 		LoopAction loopAction = SeffFactory.eINSTANCE.createLoopAction();
 		ResourceDemandingBehaviour bodyBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
