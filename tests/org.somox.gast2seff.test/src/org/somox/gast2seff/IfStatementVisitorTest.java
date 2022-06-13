@@ -15,6 +15,7 @@ import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.AbstractBranchTransition;
 import org.palladiosimulator.pcm.seff.BranchAction;
 import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
+import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
 import org.somox.gast2seff.visitors.Ast2SeffVisitor;
@@ -24,7 +25,7 @@ public class IfStatementVisitorTest {
 	@Test
 	public void emptyIfStatementVisitorTest() {
 		EList<AbstractAction> actionList = new BasicEList();
-		Map<String, MethodDeclaration> methodNameMap = new HashMap<>();
+		Map<String, ResourceDemandingSEFF> methodNameMap = new HashMap<>();
 		Ast2SeffVisitor visitor = new Ast2SeffVisitor(actionList, methodNameMap);
 		AST ast = AST.newAST(AST.getJLSLatest(), false);
 		IfStatement ifStatement = ast.newIfStatement();
