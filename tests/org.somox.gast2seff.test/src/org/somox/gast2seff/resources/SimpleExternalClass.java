@@ -6,6 +6,11 @@ public class SimpleExternalClass {
 		externalClass.ifAndElseMethod(true);
 		externalClass.ifAndElseIfMethod(false, true);
 		externalClass.whileMethod();
+		this.internalCallMethod();
+	}
+	
+	private void internalCallMethod() {
+		System.out.println("just some logging");
 	}
 	
 	// TODO: Parameterübergabe

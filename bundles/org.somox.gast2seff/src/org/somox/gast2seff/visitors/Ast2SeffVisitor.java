@@ -14,6 +14,7 @@ import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IMethodBinding;
+import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.InfixExpression;
@@ -58,14 +59,14 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 	private IFunctionClassificationStrategy functionClassificationStrategy = null;
 	private EList<AbstractAction> actionList; 
-	private Map<String, MethodDeclaration> methodNameMap;
+	private Map<String, ResourceDemandingSEFF> methodNameMap;
 	
-	public Ast2SeffVisitor(EList<AbstractAction> actionList, Map<String, MethodDeclaration> methodNameMap) {
+	public Ast2SeffVisitor(EList<AbstractAction> actionList, Map<String, ResourceDemandingSEFF> methodNameMap) {
 		this.actionList = actionList;
 		this.methodNameMap = methodNameMap;
 	}
 	
-	public static void perform(ASTNode node, EList<AbstractAction> actionList, Map<String, MethodDeclaration> methodNameMap) {
+	public static void perform(ASTNode node, EList<AbstractAction> actionList, Map<String, ResourceDemandingSEFF> methodNameMap) {
 		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(actionList, methodNameMap);
 		node.accept(newFunctionCallClassificationVisitor);
 	}
@@ -81,6 +82,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			} else {
 				externalCall.setEntityName(transformedExpression.getName().toString() + "(" + transformedExpression.arguments().toString() + ")");				
 			}
+			ResourceDemandingSEFF externalSeff = this.getExternalSeff(transformedExpression);
 			//externalCall.setRole_ExternalService((OperationRequiredRole) ifOperationTuple.role);
 			//externalCall.setCalledService_ExternalService((OperationSignature) ifOperationTuple.signature);
 			this.actionList.add(externalCall);
@@ -316,12 +318,22 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		}
 	}
 	
+	protected ResourceDemandingSEFF getExternalSeff(MethodInvocation methodInvocation) {
+		String methodName = methodInvocation.getName().toString();
+		String className = this.getClassName(methodInvocation);
+		if (this.methodNameMap.containsKey(className + "." + methodName)) {
+			return this.methodNameMap.get(className + "." + methodName);
+		} else {
+			return null;
+		}
+	}
+	
 	protected String getClassName(MethodInvocation methodInvocation) {
 		String result = "unknown";
 		Expression calledClass = methodInvocation.getExpression();
 		ITypeBinding bindingExpression = calledClass.resolveTypeBinding();
-		ITypeBinding bindingMethodInvocation = methodInvocation.resolveTypeBinding();
-		IMethodBinding methodbinding = methodInvocation.resolveMethodBinding();
+		if(bindingExpression != null && bindingExpression.getPackage() != null)
+			result = bindingExpression.getPackage().getName().toString();
 		return result;
 	}
 	

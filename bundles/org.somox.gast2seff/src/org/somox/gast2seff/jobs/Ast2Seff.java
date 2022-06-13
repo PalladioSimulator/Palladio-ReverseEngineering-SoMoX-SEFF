@@ -67,7 +67,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	private Blackboard<Object> blackboard;
 	
 	private Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = new HashMap<>();
-	private Map<String, MethodDeclaration> methodNameMap = new HashMap<>();
+	private Map<String, ResourceDemandingSEFF> methodNameMap = new HashMap<>();
 
 	/**
 	 * Resources containing the models
@@ -139,7 +139,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 				strPackageName = packageName.getName().toString();
 			}
 			if(!this.methodNameMap.containsKey(strPackageName + "." + currentMethod.getName().toString()))
-				this.methodNameMap.put(strPackageName + "." + currentMethod.getName().toString(), entry.getKey());
+				this.methodNameMap.put(strPackageName + "." + currentMethod.getName().toString(), entry.getValue());
 		}
 		
 		this.methodCallFinder = new MethodCallFinder();
