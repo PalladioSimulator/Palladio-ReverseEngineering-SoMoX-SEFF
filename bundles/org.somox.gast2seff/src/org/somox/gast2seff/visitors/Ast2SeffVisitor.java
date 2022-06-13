@@ -303,6 +303,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
+	// TODO: Further work
 	public boolean visit(final VariableDeclarationStatement variableDeclarationStatement) {
 		Type test = variableDeclarationStatement.getType();
 		return super.visit(variableDeclarationStatement);

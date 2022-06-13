@@ -175,6 +175,7 @@ public class Ast2SeffTest {
     }
     
     @Test
+    @Disabled
     public void testSimpleExternalClass() throws JobFailedException, UserCanceledException, IOException {
     	
         ASTParser parser = ASTParser.newParser(AST.getJLSLatest());
