@@ -146,18 +146,32 @@ Notizen zum Meeting:
 
 Bearbeitete Aufgaben:
 - Directory Scan Test Case implementiert
+- externalCalls weiter implementiert
 - visit-Methode für EnhancedForStatement implementiert
 - visit-Methode für SynchronizedStatement implementiert
 - visit-Methode für IfStatements mit else if Blöcken repariert
 - Erstellung der Test-Klassen für die einzelnen Visitatoren
   - Erster Tests für den IfStatement-Visitor implementiert
 
-Fragen:
-- Stimmt die Transformation des Synchronized Statements?
-- 
-
 Neue Aufgaben:
+- External Calls weiter implementieren
+  - Komponentenzugehörigkeit und Interface mit Provided Schnittstelle implementieren
+- Wie können Variablen Declarations umgesetzt werden
 - 
 
 Notizen zum Meeting:
-- 
+- Für die Type Bindings muss ein Directory Scan umgesetzt werden
+  - Ein Scan einzelner Klassen führt nicht zur Setzung der Type Bindings
+- Wir linken gar nicht auf den SEFF
+  - Komponente stellt Schnittstelle bereit
+  - SEFF ist in der Komponente
+  - Komponenten ruft externen SEFF auf (andere Schnittstelle)
+  - Eigentlich wird nur auf die Schnittstelle gelinkt
+  - Zu Beginn 
+- Wir bekommen welche Methode zur welcher Komponente
+  - HashMap mit der Zugehörigkeit wird bereitgestellt
+- VariablenDeclaration
+  - Sind interessant für Verzweigungen und Schleifen
+  - Ist die Variable immer true?
+  - Hat die Liste sehr viele Elemente?
+  - Wir sollen schauen, wie wir Variablen im SEFF setzen können
