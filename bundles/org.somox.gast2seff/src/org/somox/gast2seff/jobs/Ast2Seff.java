@@ -4,6 +4,7 @@
 package org.somox.gast2seff.jobs;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,6 +28,9 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.palladiosimulator.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.repository.OperationInterface;
+import org.palladiosimulator.pcm.repository.OperationProvidedRole;
+import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
@@ -43,6 +47,7 @@ import org.somox.gast2seff.visitors.MethodCallFinder;
 import org.somox.gast2seff.visitors.Ast2SeffVisitor;
 import org.somox.gast2seff.visitors.ResourceDemandingBehaviourForClassMethodFinding;
 import org.somox.gast2seff.visitors.VisitorUtils;
+import org.somox.kdmhelper.MethodAssociation;
 import org.somox.kdmhelper.Root;
 import org.somox.sourcecodedecorator.SEFF2MethodMapping;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
@@ -66,9 +71,9 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	/** The SoMoX blackboard to interact with. */
 	private Blackboard<Object> blackboard;
 	
-	private Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = new HashMap<>();
 	private Map<String, ResourceDemandingSEFF> methodNameMap = new HashMap<>();
-
+	List<MethodAssociation> methodAssociationList = new ArrayList();
+	
 	/**
 	 * Resources containing the models
 	 */
@@ -126,20 +131,49 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		// this.blackboard.getSourceCodeDecoratorRepository();
 		// TODO this.root = this.blackboard.getRoot();
 		
-		this.methodBindingMap = (Map<MethodDeclaration, ResourceDemandingSEFF>) this.blackboard.getPartition("methodBindingMap");
+		this.methodAssociationList = (List<MethodAssociation>) this.blackboard.getPartition("methodAssociationList");
+		
+        Repository repository = RepositoryFactory.eINSTANCE.createRepository();
+        
+        Map<BasicComponent, MethodAssociation> map = new HashMap();
+        
+        for (MethodAssociation methodAssociation : methodAssociationList) {
+        	BasicComponent basicComponent = methodAssociation.getBasicComponent();
+        	basicComponent.getServiceEffectSpecifications__BasicComponent().add(methodAssociation.getSeff());
+        	OperationSignature operationSignature =  RepositoryFactory.eINSTANCE.createOperationSignature();
+        	operationSignature.setEntityName(methodAssociation.getMethodDeclaration().getName().toString());
+        	if (map.containsKey(basicComponent)) {
+        		OperationProvidedRole operationProvidedRole = (OperationProvidedRole) basicComponent.getProvidedRoles_InterfaceProvidingEntity().get(0);
+        		OperationInterface operationInterface = operationProvidedRole.getProvidedInterface__OperationProvidedRole();
+            	operationInterface.getSignatures__OperationInterface().add(operationSignature);
+            	methodAssociation.getSeff().setDescribedService__SEFF(operationSignature);
+        	} else {
+        		map.put(basicComponent, methodAssociation);
+        		repository.getComponents__Repository().add(basicComponent);
+        		OperationProvidedRole operationProvidedRole = RepositoryFactory.eINSTANCE.createOperationProvidedRole();
+        		OperationInterface operationInterface =  RepositoryFactory.eINSTANCE.createOperationInterface();
+            	operationInterface.setRepository__Interface(repository);
+            	operationInterface.getSignatures__OperationInterface().add(operationSignature);
+            	methodAssociation.getSeff().setDescribedService__SEFF(operationSignature);
+            	methodAssociation.getSeff().getDescribedService__SEFF();
+            	operationProvidedRole.setProvidedInterface__OperationProvidedRole(operationInterface);
+            	basicComponent.getProvidedRoles_InterfaceProvidingEntity().add(operationProvidedRole);
+        	}
+        	
+        }
 		
 		// TODO: Same method name from different files?
-		for (var entry : methodBindingMap.entrySet()) {
-			MethodDeclaration currentMethod = entry.getKey();
+		for (MethodAssociation methodAssociation : methodAssociationList) {
+			MethodDeclaration currentMethod = methodAssociation.getMethodDeclaration();
 			String strPackageName = "unknown";
 			ASTNode root = currentMethod.getRoot();
-			if(root instanceof CompilationUnit)
-			{
+			if (root instanceof CompilationUnit) {
 				PackageDeclaration packageName = ((CompilationUnit) root).getPackage();
 				strPackageName = packageName.getName().toString();
 			}
-			if(!this.methodNameMap.containsKey(strPackageName + "." + currentMethod.getName().toString()))
-				this.methodNameMap.put(strPackageName + "." + currentMethod.getName().toString(), entry.getValue());
+			
+			if (!this.methodNameMap.containsKey(strPackageName + "." + currentMethod.getName().toString()))
+				this.methodNameMap.put(strPackageName + "." + currentMethod.getName().toString(), methodAssociation.getSeff());
 		}
 		
 		this.methodCallFinder = new MethodCallFinder();
@@ -149,14 +183,16 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
 		subMonitor.setTaskName("Creating SEFF behaviour");
 		
-		for (var entry : methodBindingMap.entrySet()) {
-			final ResourceDemandingSEFF seff = entry.getValue();
+		for (MethodAssociation methodAssociation : methodAssociationList) {
+			final ResourceDemandingSEFF seff = methodAssociation.getSeff();
 			final String name = seff.getId();
 			LOGGER.info("Found AST behaviour, generating SEFF behaviour for it: " + name);
 			
-			this.createSeff(seff, entry.getKey());
+			this.createSeff(seff, methodAssociation.getMethodDeclaration());
 			monitor.worked(1);
 		}
+		
+		this.generateSeffXmlFile(repository);
 
 //		final Iterator<SEFF2MethodMapping> iterator = this.sourceCodeDecoratorModel.getSeff2MethodMappings().iterator();
 //		while (iterator.hasNext()) {
@@ -234,22 +270,16 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		
 		TypeDeclaration parent = (TypeDeclaration) methodDeclaration.getParent();
 		String methodName = parent.getName().toString() + "_" + methodDeclaration.getName().toString();
-		this.generateSeffXmlFile(seff, methodName);
 
 		return seff;
 	}
 	
-	private void generateSeffXmlFile(final ResourceDemandingSEFF seff, String methodName) {
+	private void generateSeffXmlFile(final Repository repository) {
 		
-		Repository repository = RepositoryFactory.eINSTANCE.createRepository();
 		repository.setEntityName("Simple Repository");
-		BasicComponent basicComponent = RepositoryFactory.eINSTANCE.createBasicComponent();
-		basicComponent.setEntityName("Simple Basic Component");
-		basicComponent.getServiceEffectSpecifications__BasicComponent().add(seff);
-		repository.getComponents__Repository().add(basicComponent);
 		
 		EcorePlugin.ExtensionProcessor.process(null);
-		Resource resource = new ResourceSetImpl().createResource(URI.createFileURI("SEFF_" + methodName +".xml"));
+		Resource resource = new ResourceSetImpl().createResource(URI.createFileURI("Repository.xml"));
         resource.getContents().add(repository);
 
         try {
