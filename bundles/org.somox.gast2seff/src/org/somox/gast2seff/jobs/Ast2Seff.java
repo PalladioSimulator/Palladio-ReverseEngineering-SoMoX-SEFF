@@ -189,7 +189,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 			final String name = seff.getId();
 			LOGGER.info("Found AST behaviour, generating SEFF behaviour for it: " + name);
 			
-			this.createSeff(seff, methodAssociation.getMethodDeclaration());
+			this.createSeff(seff, methodAssociation);
 			monitor.worked(1);
 		}
 		
@@ -232,12 +232,15 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 * @return The completed SEFF, returned for convenience
 	 * @throws JobFailedException
 	 */
-	private ResourceDemandingSEFF createSeff(final ResourceDemandingSEFF seff, MethodDeclaration methodDeclaration) throws JobFailedException {
+	private ResourceDemandingSEFF createSeff(final ResourceDemandingSEFF seff, MethodAssociation methodAssociation) throws JobFailedException {
 		final StartAction start = SeffFactory.eINSTANCE.createStartAction();
 		final StopAction stop = SeffFactory.eINSTANCE.createStopAction();
 		seff.getSteps_Behaviour().add(start);
-
-		Ast2SeffVisitor.perform(methodDeclaration, seff.getSteps_Behaviour(), this.methodNameMap);
+		
+		final MethodDeclaration methodDeclaration = methodAssociation.getMethodDeclaration();
+		final BasicComponent basicComponent = methodAssociation.getBasicComponent();
+		
+		Ast2SeffVisitor.perform(methodDeclaration, seff.getSteps_Behaviour(), this.methodNameMap, basicComponent);
 		
 		// initialise for new component / seff to reverse engineer:
 //		final BasicComponent basicComponent = (BasicComponent) seff.eContainer();

@@ -175,3 +175,17 @@ Notizen zum Meeting:
   - Ist die Variable immer true?
   - Hat die Liste sehr viele Elemente?
   - Wir sollen schauen, wie wir Variablen im SEFF setzen können
+
+### 21.06
+
+Bearbeitete Aufgaben:
+- 
+
+Fragen:
+- 
+
+Neue Aufgaben:
+- 
+
+Notizen zum Meeting:
+- 
