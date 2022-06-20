@@ -30,8 +30,7 @@ public class IfStatementVisitorTest {
 	public void emptyIfStatementVisitorTest() {
 		EList<AbstractAction> actionList = new BasicEList();
 		Map<String, MethodAssociation> methodNameMap = new HashMap<>();
-		List<PassiveResource> passiveResourceList = new ArrayList<PassiveResource>();
-		Ast2SeffVisitor visitor = new Ast2SeffVisitor(actionList, methodNameMap, passiveResourceList);
+		Ast2SeffVisitor visitor = new Ast2SeffVisitor(actionList, methodNameMap);
 		AST ast = AST.newAST(AST.getJLSLatest(), false);
 		IfStatement ifStatement = ast.newIfStatement();
 		visitor.visit(ifStatement);

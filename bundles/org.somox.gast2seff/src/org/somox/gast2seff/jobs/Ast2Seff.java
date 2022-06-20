@@ -135,7 +135,6 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		this.methodAssociationList = (List<MethodAssociation>) this.blackboard.getPartition("methodAssociationList");
 		
         Repository repository = RepositoryFactory.eINSTANCE.createRepository();
-        List<PassiveResource> passiveResourceList = new ArrayList<PassiveResource>();
         
         Map<BasicComponent, MethodAssociation> map = new HashMap<BasicComponent, MethodAssociation>();
         
@@ -190,11 +189,11 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 			final String name = seff.getId();
 			LOGGER.info("Found AST behaviour, generating SEFF behaviour for it: " + name);
 			
-			this.createSeff(seff, methodAssociation.getMethodDeclaration(), passiveResourceList);
+			this.createSeff(seff, methodAssociation.getMethodDeclaration());
 			monitor.worked(1);
 		}
 		
-		this.generateSeffXmlFile(repository, passiveResourceList);
+		this.generateSeffXmlFile(repository);
 
 //		final Iterator<SEFF2MethodMapping> iterator = this.sourceCodeDecoratorModel.getSeff2MethodMappings().iterator();
 //		while (iterator.hasNext()) {
@@ -233,12 +232,12 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 * @return The completed SEFF, returned for convenience
 	 * @throws JobFailedException
 	 */
-	private ResourceDemandingSEFF createSeff(final ResourceDemandingSEFF seff, MethodDeclaration methodDeclaration, List<PassiveResource> passiveResourceList) throws JobFailedException {
+	private ResourceDemandingSEFF createSeff(final ResourceDemandingSEFF seff, MethodDeclaration methodDeclaration) throws JobFailedException {
 		final StartAction start = SeffFactory.eINSTANCE.createStartAction();
 		final StopAction stop = SeffFactory.eINSTANCE.createStopAction();
 		seff.getSteps_Behaviour().add(start);
 
-		Ast2SeffVisitor.perform(methodDeclaration, seff.getSteps_Behaviour(), this.methodNameMap, passiveResourceList);
+		Ast2SeffVisitor.perform(methodDeclaration, seff.getSteps_Behaviour(), this.methodNameMap);
 		
 		// initialise for new component / seff to reverse engineer:
 //		final BasicComponent basicComponent = (BasicComponent) seff.eContainer();
@@ -276,16 +275,13 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		return seff;
 	}
 	
-	private void generateSeffXmlFile(final Repository repository, List<PassiveResource> passiveResourceList) {
+	private void generateSeffXmlFile(final Repository repository) {
 		
 		repository.setEntityName("Simple Repository");
 		
 		EcorePlugin.ExtensionProcessor.process(null);
 		Resource resource = new ResourceSetImpl().createResource(URI.createFileURI("Repository.xml"));
         resource.getContents().add(repository);
-        for (PassiveResource passiveResource : passiveResourceList) {
-        	//resource.getContents().add(passiveResourceList); ???
-        }
 
         try {
         	resource.save(Collections.EMPTY_MAP);
