@@ -2,7 +2,9 @@ package org.somox.gast2seff;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -11,6 +13,7 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.junit.jupiter.api.Test;
+import org.palladiosimulator.pcm.repository.PassiveResource;
 import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.AbstractBranchTransition;
 import org.palladiosimulator.pcm.seff.BranchAction;
@@ -27,7 +30,8 @@ public class IfStatementVisitorTest {
 	public void emptyIfStatementVisitorTest() {
 		EList<AbstractAction> actionList = new BasicEList();
 		Map<String, MethodAssociation> methodNameMap = new HashMap<>();
-		Ast2SeffVisitor visitor = new Ast2SeffVisitor(actionList, methodNameMap);
+		List<PassiveResource> passiveResourceList = new ArrayList<PassiveResource>();
+		Ast2SeffVisitor visitor = new Ast2SeffVisitor(actionList, methodNameMap, passiveResourceList);
 		AST ast = AST.newAST(AST.getJLSLatest(), false);
 		IfStatement ifStatement = ast.newIfStatement();
 		visitor.visit(ifStatement);

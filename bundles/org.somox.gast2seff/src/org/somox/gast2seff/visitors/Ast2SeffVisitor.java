@@ -92,8 +92,9 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			}
 			MethodAssociation externalMethodAssociation = this.getExternalMethodAssociation(transformedExpression);
 			ResourceDemandingSEFF externalSeff = externalMethodAssociation.getSeff();
-			//externalCall.setRole_ExternalService((OperationRequiredRole) ifOperationTuple.role);
-			//externalCall.setCalledService_ExternalService((OperationSignature) ifOperationTuple.signature);
+			//BasicComponent externalBasicComponent = externalMethodAssociation.getBasicComponent();
+			externalCall.setCalledService_ExternalService((OperationSignature) externalSeff.getDescribedService__SEFF());
+			//externalCall.setRole_ExternalService((OperationRequiredRole) externalBasicComponent.getProvidedRoles_InterfaceProvidingEntity());
 			this.actionList.add(externalCall);
 		} else {
 			InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
@@ -168,6 +169,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		{
 			String className = this.getClassName(exp);
 			this.passiveResourceList.add(passiveResource);
+			String methodName = this.getMethodDeclaration(synchronizedStatement).getName().toString();
+			MethodAssociation methodAssociation = this.methodNameMap.get(className + "." + methodName);
+			methodAssociation.getBasicComponent().getPassiveResource_BasicComponent().add(passiveResource);
+			
+			
 //			if(this.methodNameMap.containsKey(className))
 //			{
 //				this.methodNameMap.get(className).getBasicComponent();
@@ -345,6 +351,15 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		} else {
 			return false;
 		}
+	}
+	
+	protected MethodDeclaration getMethodDeclaration(ASTNode node) {
+		if(node instanceof MethodDeclaration)
+			return (MethodDeclaration) node;
+		else if(node.getParent() != null)
+			return getMethodDeclaration(node.getParent());
+		else
+			return null;
 	}
 	
 	protected MethodAssociation getExternalMethodAssociation(MethodInvocation methodInvocation) {
