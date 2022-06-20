@@ -31,6 +31,7 @@ import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
+import org.palladiosimulator.pcm.repository.PassiveResource;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
@@ -71,7 +72,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	/** The SoMoX blackboard to interact with. */
 	private Blackboard<Object> blackboard;
 	
-	private Map<String, ResourceDemandingSEFF> methodNameMap = new HashMap<>();
+	private Map<String, MethodAssociation> methodNameMap = new HashMap<>();
 	List<MethodAssociation> methodAssociationList = new ArrayList();
 	
 	/**
@@ -134,8 +135,9 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		this.methodAssociationList = (List<MethodAssociation>) this.blackboard.getPartition("methodAssociationList");
 		
         Repository repository = RepositoryFactory.eINSTANCE.createRepository();
+        List<PassiveResource> passiveResourceList = new ArrayList<PassiveResource>();
         
-        Map<BasicComponent, MethodAssociation> map = new HashMap();
+        Map<BasicComponent, MethodAssociation> map = new HashMap<BasicComponent, MethodAssociation>();
         
         for (MethodAssociation methodAssociation : methodAssociationList) {
         	BasicComponent basicComponent = methodAssociation.getBasicComponent();
@@ -173,7 +175,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 			}
 			
 			if (!this.methodNameMap.containsKey(strPackageName + "." + currentMethod.getName().toString()))
-				this.methodNameMap.put(strPackageName + "." + currentMethod.getName().toString(), methodAssociation.getSeff());
+				this.methodNameMap.put(strPackageName + "." + currentMethod.getName().toString(), methodAssociation);
 		}
 		
 		this.methodCallFinder = new MethodCallFinder();
@@ -188,11 +190,11 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 			final String name = seff.getId();
 			LOGGER.info("Found AST behaviour, generating SEFF behaviour for it: " + name);
 			
-			this.createSeff(seff, methodAssociation.getMethodDeclaration());
+			this.createSeff(seff, methodAssociation.getMethodDeclaration(), passiveResourceList);
 			monitor.worked(1);
 		}
 		
-		this.generateSeffXmlFile(repository);
+		this.generateSeffXmlFile(repository, passiveResourceList);
 
 //		final Iterator<SEFF2MethodMapping> iterator = this.sourceCodeDecoratorModel.getSeff2MethodMappings().iterator();
 //		while (iterator.hasNext()) {
@@ -231,12 +233,12 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 * @return The completed SEFF, returned for convenience
 	 * @throws JobFailedException
 	 */
-	private ResourceDemandingSEFF createSeff(final ResourceDemandingSEFF seff, MethodDeclaration methodDeclaration) throws JobFailedException {
+	private ResourceDemandingSEFF createSeff(final ResourceDemandingSEFF seff, MethodDeclaration methodDeclaration, List<PassiveResource> passiveResourceList) throws JobFailedException {
 		final StartAction start = SeffFactory.eINSTANCE.createStartAction();
 		final StopAction stop = SeffFactory.eINSTANCE.createStopAction();
 		seff.getSteps_Behaviour().add(start);
 
-		Ast2SeffVisitor.perform(methodDeclaration, seff.getSteps_Behaviour(), this.methodNameMap);
+		Ast2SeffVisitor.perform(methodDeclaration, seff.getSteps_Behaviour(), this.methodNameMap, passiveResourceList);
 		
 		// initialise for new component / seff to reverse engineer:
 //		final BasicComponent basicComponent = (BasicComponent) seff.eContainer();
@@ -274,13 +276,16 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		return seff;
 	}
 	
-	private void generateSeffXmlFile(final Repository repository) {
+	private void generateSeffXmlFile(final Repository repository, List<PassiveResource> passiveResourceList) {
 		
 		repository.setEntityName("Simple Repository");
 		
 		EcorePlugin.ExtensionProcessor.process(null);
 		Resource resource = new ResourceSetImpl().createResource(URI.createFileURI("Repository.xml"));
         resource.getContents().add(repository);
+        for (PassiveResource passiveResource : passiveResourceList) {
+        	//resource.getContents().add(passiveResourceList); ???
+        }
 
         try {
         	resource.save(Collections.EMPTY_MAP);

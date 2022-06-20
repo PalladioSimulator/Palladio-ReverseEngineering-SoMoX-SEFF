@@ -19,13 +19,14 @@ import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
 import org.somox.gast2seff.visitors.Ast2SeffVisitor;
+import org.somox.kdmhelper.MethodAssociation;
 
 public class IfStatementVisitorTest {
 	
 	@Test
 	public void emptyIfStatementVisitorTest() {
 		EList<AbstractAction> actionList = new BasicEList();
-		Map<String, ResourceDemandingSEFF> methodNameMap = new HashMap<>();
+		Map<String, MethodAssociation> methodNameMap = new HashMap<>();
 		Ast2SeffVisitor visitor = new Ast2SeffVisitor(actionList, methodNameMap);
 		AST ast = AST.newAST(AST.getJLSLatest(), false);
 		IfStatement ifStatement = ast.newIfStatement();

@@ -147,8 +147,8 @@ public class Ast2SeffTest {
     	Map<String, CompilationUnit> compUnitMap = parseDirectory(directoryPath);
         
         Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = new HashMap<>();
-        List<MethodAssociation> methodAssociationList = new ArrayList();
-        Map<String, BasicComponent> basicComponentMap = new HashMap();
+        List<MethodAssociation> methodAssociationList = new ArrayList<MethodAssociation>();
+        Map<String, BasicComponent> basicComponentMap = new HashMap<String, BasicComponent>();
         
         for (var entry : compUnitMap.entrySet()) {
 			List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(entry.getValue());
