@@ -6,6 +6,7 @@
     <semanticResources>pathmap://PCM_MODELS/PrimitiveTypes.repository</semanticResources>
     <semanticResources>pathmap://PCM_MODELS/FailureTypes.repository</semanticResources>
     <semanticResources>SEFF_SimpleExternalClass_externalCallMethod.xml</semanticResources>
+    <semanticResources>Repository.repository</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_Dfcq0N_wEeyHScd4P3PaXg">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']"/>
       <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_Dh9MQN_wEeyHScd4P3PaXg" name="new Repository Diagram" repPath="#_Df1FUN_wEeyHScd4P3PaXg" changeId="2a23d160-785d-4b5c-8508-626fc6e12204">

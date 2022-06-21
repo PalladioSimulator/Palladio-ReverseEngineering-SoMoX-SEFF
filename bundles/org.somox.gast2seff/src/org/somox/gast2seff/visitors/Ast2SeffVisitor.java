@@ -97,9 +97,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			BasicComponent externalBasicComponent = externalMethodAssociation.getBasicComponent();
 			OperationProvidedRole operationProvidedRole = (OperationProvidedRole) externalBasicComponent.getProvidedRoles_InterfaceProvidingEntity().get(0);
 			OperationInterface operationInterface = operationProvidedRole.getProvidedInterface__OperationProvidedRole();
-			OperationRequiredRole operationRequiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
+			OperationRequiredRole operationRequiredRole = null;
 			if (basicComponent.getRequiredRoles_InterfaceRequiringEntity().size() == 0) {
+				operationRequiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
 				basicComponent.getRequiredRoles_InterfaceRequiringEntity().add(operationRequiredRole);
+			} else {
+				operationRequiredRole = (OperationRequiredRole) basicComponent.getRequiredRoles_InterfaceRequiringEntity().get(0);
 			}
 			operationRequiredRole.setRequiredInterface__OperationRequiredRole(operationInterface);
 			externalCall.setRole_ExternalService(operationRequiredRole);
