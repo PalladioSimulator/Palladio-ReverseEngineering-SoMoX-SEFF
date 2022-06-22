@@ -1,17 +1,18 @@
 package org.somox.kdmhelper;
 
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 
 public class MethodAssociation {
 	
-	private MethodDeclaration methodDeclaration;
+	private ASTNode astNode;
 	private ResourceDemandingSEFF seff;
 	private BasicComponent basicComponent;
 		
-	public MethodAssociation(MethodDeclaration methodDeclaration, ResourceDemandingSEFF seff, BasicComponent basicComponent) {
-		this.methodDeclaration = methodDeclaration;
+	public MethodAssociation(ASTNode node, ResourceDemandingSEFF seff, BasicComponent basicComponent) {
+		this.astNode = node;
 		this.seff = seff;
 		this.basicComponent = basicComponent;
 	}
@@ -20,8 +21,8 @@ public class MethodAssociation {
 		return basicComponent;
 	}
 
-	public MethodDeclaration getMethodDeclaration() {
-		return methodDeclaration;
+	public ASTNode getAstNode() {
+		return astNode;
 	}
 
 	public ResourceDemandingSEFF getSeff() {

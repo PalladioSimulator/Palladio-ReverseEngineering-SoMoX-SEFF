@@ -1,7 +1,5 @@
 package org.somox.gast2seff.visitors;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,36 +10,30 @@ import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
+import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
-import org.eclipse.jdt.core.dom.IMethodBinding;
-import org.eclipse.jdt.core.dom.IPackageBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.PostfixExpression;
-import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.SwitchCase;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.SynchronizedStatement;
-import org.eclipse.jdt.core.dom.ThisExpression;
 import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
-import org.eclipse.jdt.core.dom.Expression;
 import org.palladiosimulator.pcm.core.CoreFactory;
-import org.palladiosimulator.pcm.core.entity.impl.EntityImpl;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
-import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.PassiveResource;
-import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.AbstractBranchTransition;
@@ -52,66 +44,80 @@ import org.palladiosimulator.pcm.seff.InternalAction;
 import org.palladiosimulator.pcm.seff.LoopAction;
 import org.palladiosimulator.pcm.seff.ReleaseAction;
 import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
-import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
-import org.somox.kdmhelper.KDMHelper;
 import org.somox.kdmhelper.MethodAssociation;
-
-import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 
 public class Ast2SeffVisitor extends ASTVisitor {
 
 	private static final Logger logger = Logger.getLogger(Ast2SeffVisitor.class);
 		
-	private IFunctionClassificationStrategy functionClassificationStrategy = null;
 	private EList<AbstractAction> actionList; 
 	private Map<String, MethodAssociation> methodNameMap;
 	private BasicComponent basicComponent;
+	private ASTNode node;
+	private MethodAssociation methodAssociation;
 	
-	public Ast2SeffVisitor(EList<AbstractAction> actionList, Map<String, MethodAssociation> methodNameMap, BasicComponent basicComponent) {
+	public Ast2SeffVisitor(MethodAssociation methodAssociation, EList<AbstractAction> actionList, Map<String, MethodAssociation> methodNameMap) {
 		this.actionList = actionList;
 		this.methodNameMap = methodNameMap;
-		this.basicComponent = basicComponent;
+		this.methodAssociation = methodAssociation;
+		this.basicComponent = methodAssociation.getBasicComponent();
+		this.node = methodAssociation.getAstNode();
 	}
 	
-	public static void perform(ASTNode node, EList<AbstractAction> actionList, Map<String, MethodAssociation> methodNameMap, BasicComponent basicComponent) {
-		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(actionList, methodNameMap, basicComponent);
-		node.accept(newFunctionCallClassificationVisitor);
+	public static void perform(MethodAssociation methodAssociation, EList<AbstractAction> actionList, Map<String, MethodAssociation> methodNameMap) {
+		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodAssociation, actionList, methodNameMap);
+		methodAssociation.getAstNode().accept(newFunctionCallClassificationVisitor);
 	}
+	
 	
 	public boolean visit(final ExpressionStatement expressionStatement) {
 		
 		Expression expression = expressionStatement.getExpression();
+
 		if (expression instanceof MethodInvocation && this.isExternal((MethodInvocation) expression)) {
-			MethodInvocation transformedExpression = (MethodInvocation) expression;
-			ExternalCallAction externalCall = SeffFactory.eINSTANCE.createExternalCallAction();
-			if (transformedExpression.arguments().isEmpty()) {
-				externalCall.setEntityName(transformedExpression.getName().toString());				
-			} else {
-				externalCall.setEntityName(transformedExpression.getName().toString() + "(" + transformedExpression.arguments().toString() + ")");				
-			}
-			MethodAssociation externalMethodAssociation = this.getExternalMethodAssociation(transformedExpression);
-			ResourceDemandingSEFF externalSeff = externalMethodAssociation.getSeff();
+			MethodInvocation methodInvocation = (MethodInvocation) expression;
+			MethodAssociation externalMethodAssociation = this.getExternalMethodAssociation(methodInvocation);
 			BasicComponent externalBasicComponent = externalMethodAssociation.getBasicComponent();
-			OperationProvidedRole operationProvidedRole = (OperationProvidedRole) externalBasicComponent.getProvidedRoles_InterfaceProvidingEntity().get(0);
-			OperationInterface operationInterface = operationProvidedRole.getProvidedInterface__OperationProvidedRole();
-			OperationRequiredRole operationRequiredRole = null;
-			if (basicComponent.getRequiredRoles_InterfaceRequiringEntity().size() == 0) {
-				operationRequiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
-				basicComponent.getRequiredRoles_InterfaceRequiringEntity().add(operationRequiredRole);
+			
+			if (!externalBasicComponent.equals(basicComponent)) {
+				createExternalCallAction(methodInvocation, externalBasicComponent);
 			} else {
-				operationRequiredRole = (OperationRequiredRole) basicComponent.getRequiredRoles_InterfaceRequiringEntity().get(0);
+				createInternalAction();	
 			}
-			operationRequiredRole.setRequiredInterface__OperationRequiredRole(operationInterface);
-			externalCall.setRole_ExternalService(operationRequiredRole);
-			this.actionList.add(externalCall);
 		} else {
-			InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
-			this.actionList.add(internalAction);
+			createInternalAction();
 		}
 		return super.visit(expressionStatement);
+	}
+	
+	private void createExternalCallAction(MethodInvocation methodInvocation, BasicComponent externalBasicComponent) {
+		ExternalCallAction externalCall = SeffFactory.eINSTANCE.createExternalCallAction();
+		if (methodInvocation.arguments().isEmpty()) {
+			externalCall.setEntityName(methodInvocation.getName().toString());				
+		} else {
+			externalCall.setEntityName(methodInvocation.getName().toString() + "(" + methodInvocation.arguments().toString() + ")");				
+		}
+
+		OperationProvidedRole operationProvidedRole = (OperationProvidedRole) externalBasicComponent.getProvidedRoles_InterfaceProvidingEntity().get(0);
+		OperationInterface operationInterface = operationProvidedRole.getProvidedInterface__OperationProvidedRole();
+		OperationRequiredRole operationRequiredRole = null;
+		if (basicComponent.getRequiredRoles_InterfaceRequiringEntity().size() == 0) {
+			operationRequiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
+			basicComponent.getRequiredRoles_InterfaceRequiringEntity().add(operationRequiredRole);
+		} else {
+			operationRequiredRole = (OperationRequiredRole) basicComponent.getRequiredRoles_InterfaceRequiringEntity().get(0);
+		}
+		operationRequiredRole.setRequiredInterface__OperationRequiredRole(operationInterface);
+		externalCall.setRole_ExternalService(operationRequiredRole);
+		this.actionList.add(externalCall);
+	}
+	
+	private void createInternalAction() {
+		InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
+		this.actionList.add(internalAction);
 	}
 	
 	
@@ -124,7 +130,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 		branchTransition.setEntityName(this.ifStatementToString(ifStatement.getExpression()));
 		
-		Ast2SeffVisitor.perform(ifStatement.getThenStatement(), branchBehaviour.getSteps_Behaviour(), this.methodNameMap, this.basicComponent);
+		ifStatement.getThenStatement().accept(this);
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		branchBehaviour.getSteps_Behaviour().add(stopAction);
@@ -148,12 +154,9 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			if (statement instanceof IfStatement) {
 				IfStatement elseIfStatement = (IfStatement) statement;
 				branchTransitionElse.setEntityName(this.ifStatementToString(elseIfStatement.getExpression()));
-				
-				Ast2SeffVisitor.perform(elseIfStatement.getThenStatement(), branchBehaviourElse.getSteps_Behaviour(), this.methodNameMap, this.basicComponent);
-				
+				elseIfStatement.getThenStatement().accept(this);
 			} else {
-				Block elseStatement = (Block) statement;
-				Ast2SeffVisitor.perform(elseStatement, branchBehaviourElse.getSteps_Behaviour(), this.methodNameMap, this.basicComponent);
+				statement.accept(this);
 			}
 
 			StopAction stopActionElse = SeffFactory.eINSTANCE.createStopAction();
@@ -189,7 +192,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		acquireAction.setPassiveresource_AcquireAction(passiveResource);
 		acquireAction.setEntityName(className + "." + methodName);
 
-		Ast2SeffVisitor.perform(synchronizedStatement.getBody(), this.actionList, this.methodNameMap, this.basicComponent);
+		synchronizedStatement.getBody().accept(this);
 
 		final ReleaseAction releaseAction = SeffFactory.eINSTANCE.createReleaseAction();
 		this.actionList.add(releaseAction);
@@ -208,7 +211,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 
 //		branchTransition.setEntityName(this.ifStatementToString(tryStatement.getExpression()));
 		
-		Ast2SeffVisitor.perform(tryStatement.getBody(), branchBehaviour.getSteps_Behaviour(), this.methodNameMap, this.basicComponent);
+		tryStatement.getBody().accept(this);
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		branchBehaviour.getSteps_Behaviour().add(stopAction);
@@ -223,7 +226,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			StartAction catchStartAction = SeffFactory.eINSTANCE.createStartAction();
 			catchBranchBehaviour.getSteps_Behaviour().add(catchStartAction);
 			
-			Ast2SeffVisitor.perform(catchClause.getBody(), catchBranchBehaviour.getSteps_Behaviour(), this.methodNameMap, this.basicComponent);
+			catchClause.getBody().accept(this);
 			
 			StopAction catchStopAction = SeffFactory.eINSTANCE.createStopAction();
 			catchBranchBehaviour.getSteps_Behaviour().add(catchStopAction);
@@ -247,7 +250,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		Expression updaters = (Expression) forStatement.updaters().get(0);
 		loopAction.setEntityName(this.forStatementToString(initializers, forStatement.getExpression(), updaters));
 		
-		Ast2SeffVisitor.perform(forStatement.getBody(), bodyBehaviour.getSteps_Behaviour(), this.methodNameMap, this.basicComponent);
+		forStatement.getBody().accept(this);
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		bodyBehaviour.getSteps_Behaviour().add(stopAction);
@@ -268,7 +271,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 //		Expression updaters = (Expression) forStatement.updaters().get(0);
 //		loopAction.setEntityName(this.forStatementToString(initializers, forStatement.getExpression(), updaters));
 		
-		Ast2SeffVisitor.perform(forStatement.getBody(), bodyBehaviour.getSteps_Behaviour(), this.methodNameMap, this.basicComponent);
+		forStatement.getBody().accept(this);
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		bodyBehaviour.getSteps_Behaviour().add(stopAction);
@@ -288,7 +291,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 		loopAction.setEntityName(this.whileStatementToString(whileStatement.getExpression()));
 		
-		Ast2SeffVisitor.perform(whileStatement.getBody(), bodyBehaviour.getSteps_Behaviour(), this.methodNameMap, this.basicComponent);
+		whileStatement.getBody().accept(this);
 		
 		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
 		bodyBehaviour.getSteps_Behaviour().add(stopAction);
@@ -309,7 +312,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			branchBehaviour.getSteps_Behaviour().add(startAction);
 			
 			for (Statement statement : block) {
-				Ast2SeffVisitor.perform(statement, branchBehaviour.getSteps_Behaviour(), this.methodNameMap, this.basicComponent);
+				statement.accept(this);
 			}
 			
 			StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();

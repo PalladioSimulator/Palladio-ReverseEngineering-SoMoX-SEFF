@@ -142,7 +142,8 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         	BasicComponent basicComponent = methodAssociation.getBasicComponent();
         	basicComponent.getServiceEffectSpecifications__BasicComponent().add(methodAssociation.getSeff());
         	OperationSignature operationSignature =  RepositoryFactory.eINSTANCE.createOperationSignature();
-        	operationSignature.setEntityName(methodAssociation.getMethodDeclaration().getName().toString());
+        	MethodDeclaration methodDeclaration = (MethodDeclaration) methodAssociation.getAstNode();
+        	operationSignature.setEntityName(methodDeclaration.getName().toString());
         	if (map.containsKey(basicComponent)) {
         		OperationProvidedRole operationProvidedRole = (OperationProvidedRole) basicComponent.getProvidedRoles_InterfaceProvidingEntity().get(0);
         		OperationInterface operationInterface = operationProvidedRole.getProvidedInterface__OperationProvidedRole();
@@ -165,16 +166,16 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		
 		// TODO: Same method name from different files?
 		for (MethodAssociation methodAssociation : methodAssociationList) {
-			MethodDeclaration currentMethod = methodAssociation.getMethodDeclaration();
+			MethodDeclaration methodDeclaration = (MethodDeclaration) methodAssociation.getAstNode();
 			String strPackageName = "unknown";
-			ASTNode root = currentMethod.getRoot();
+			ASTNode root = methodDeclaration.getRoot();
 			if (root instanceof CompilationUnit) {
 				PackageDeclaration packageName = ((CompilationUnit) root).getPackage();
 				strPackageName = packageName.getName().toString();
 			}
 			
-			if (!this.methodNameMap.containsKey(strPackageName + "." + currentMethod.getName().toString()))
-				this.methodNameMap.put(strPackageName + "." + currentMethod.getName().toString(), methodAssociation);
+			if (!this.methodNameMap.containsKey(strPackageName + "." + methodDeclaration.getName().toString()))
+				this.methodNameMap.put(strPackageName + "." + methodDeclaration.getName().toString(), methodAssociation);
 		}
 		
 		this.methodCallFinder = new MethodCallFinder();
@@ -237,10 +238,10 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		final StopAction stop = SeffFactory.eINSTANCE.createStopAction();
 		seff.getSteps_Behaviour().add(start);
 		
-		final MethodDeclaration methodDeclaration = methodAssociation.getMethodDeclaration();
+		final MethodDeclaration methodDeclaration = (MethodDeclaration) methodAssociation.getAstNode();
 		final BasicComponent basicComponent = methodAssociation.getBasicComponent();
 		
-		Ast2SeffVisitor.perform(methodDeclaration, seff.getSteps_Behaviour(), this.methodNameMap, basicComponent);
+		Ast2SeffVisitor.perform(methodAssociation, seff.getSteps_Behaviour(), this.methodNameMap);
 		
 		// initialise for new component / seff to reverse engineer:
 //		final BasicComponent basicComponent = (BasicComponent) seff.eContainer();

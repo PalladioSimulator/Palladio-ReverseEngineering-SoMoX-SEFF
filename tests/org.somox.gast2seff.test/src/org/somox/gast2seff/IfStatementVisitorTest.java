@@ -31,13 +31,15 @@ public class IfStatementVisitorTest {
 	
 	@Test
 	public void emptyIfStatementVisitorTest() {
+		
 		EList<AbstractAction> actionList = new BasicEList();
 		Map<String, MethodAssociation> methodNameMap = new HashMap<>();
 		BasicComponent basicComponent = RepositoryFactory.eINSTANCE.createBasicComponent();
-		Ast2SeffVisitor visitor = new Ast2SeffVisitor(actionList, methodNameMap, basicComponent);
+		ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
 		AST ast = AST.newAST(AST.getJLSLatest(), false);
 		IfStatement ifStatement = ast.newIfStatement();
-		visitor.visit(ifStatement);
+		MethodAssociation methodAssociation = new MethodAssociation(ifStatement, seff, basicComponent);
+		Ast2SeffVisitor.perform(methodAssociation, actionList, methodNameMap);
 
 		assertEquals(actionList.size(), 1);
 		assertEquals(actionList.get(0) instanceof BranchAction, true);
