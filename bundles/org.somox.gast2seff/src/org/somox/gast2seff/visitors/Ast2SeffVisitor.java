@@ -176,7 +176,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	public boolean visit(final SynchronizedStatement synchronizedStatement) {
 		Expression exp = synchronizedStatement.getExpression();
-		String className = this.getClassName(exp);
+		String className = this.getClassName(exp) + ".class";
 		
 		PassiveResource passiveResource = RepositoryFactory.eINSTANCE.createPassiveResource();
 		passiveResource.setCapacity_PassiveResource(CoreFactory.eINSTANCE.createPCMRandomVariable());
@@ -374,16 +374,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	protected String getClassName(MethodInvocation methodInvocation) {
-		String result = "unknown";
-		Expression calledClass = methodInvocation.getExpression();
-		ITypeBinding bindingExpression = calledClass.resolveTypeBinding();
-		if(bindingExpression != null && bindingExpression.getPackage() != null)
-			result = bindingExpression.getBinaryName();
-		else
-			logger.warn("No Class Name found for: " + methodInvocation.toString());
-		return result;
+		return this.getClassName(methodInvocation.getExpression());
 	}
-	
 	protected String getClassName(Expression calledClass) {
 		String result = "unknown";
 		ITypeBinding bindingExpression = calledClass.resolveTypeBinding();
@@ -392,7 +384,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		else
 			logger.warn("No Class Name found for: " + calledClass.toString());
 		
-		return result + ".class";
+		return result;
 	}
 	
 	protected String whileStatementToString(Expression expression) {
@@ -400,19 +392,16 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		positionString.append("expression name \"").append(expression).append("\"");
 		return positionString.toString();
 	}
-
 	protected String ifStatementToString(Expression expression) {
 		final StringBuilder positionString = new StringBuilder(" @position: ");
 		positionString.append("Cond: ").append(expression).append("");
 		return positionString.toString();
 	}
-	
 	protected String elseStatementToString(Expression expression) {
 		final StringBuilder positionString = new StringBuilder(" @position: ");
 		positionString.append("Cond: !").append(expression).append("");
 		return positionString.toString();
 	}
-	
 	protected String forStatementToString(Expression initializers, Expression expression, Expression updaters) {
 		final StringBuilder positionString = new StringBuilder(" @position: ");
 		if (initializers instanceof VariableDeclarationExpression && expression instanceof InfixExpression && updaters instanceof PostfixExpression) {
