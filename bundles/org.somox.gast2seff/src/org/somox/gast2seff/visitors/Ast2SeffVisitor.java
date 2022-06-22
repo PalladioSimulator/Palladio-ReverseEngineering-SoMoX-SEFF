@@ -23,6 +23,7 @@ import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.SwitchCase;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.SynchronizedStatement;
+import org.eclipse.jdt.core.dom.ThisExpression;
 import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
@@ -174,31 +175,41 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	public boolean visit(final SynchronizedStatement synchronizedStatement) {
-		PassiveResource passiveResource = RepositoryFactory.eINSTANCE.createPassiveResource();
-
-		passiveResource.setCapacity_PassiveResource(CoreFactory.eINSTANCE.createPCMRandomVariable());
 		Expression exp = synchronizedStatement.getExpression();
-		
-		//TODO: Check for other things then "this"
 		String className = this.getClassName(exp);
-		String methodName = this.getMethodDeclaration(synchronizedStatement).getName().toString();
-		MethodAssociation methodAssociation = this.methodNameMap.get(className + "." + methodName);
-		passiveResource.setEntityName(className + "." + methodName);
-		methodAssociation.getBasicComponent().getPassiveResource_BasicComponent().add(passiveResource);
+		
+		PassiveResource passiveResource = RepositoryFactory.eINSTANCE.createPassiveResource();
+		passiveResource.setCapacity_PassiveResource(CoreFactory.eINSTANCE.createPCMRandomVariable());
+		passiveResource.setEntityName(className);
 		passiveResource.getCapacity_PassiveResource().setSpecification("1");
-		//passiveResource.getCapacity_PassiveResource().setSpecification(String.valueOf(Integer.parseInt(passiveResource.getCapacity_PassiveResource().getSpecification()) + 1));
+		if(this.basicComponent.getPassiveResource_BasicComponent().isEmpty())
+			this.basicComponent.getPassiveResource_BasicComponent().add(passiveResource);
+		else {
+			EList<PassiveResource> passiveResoceList = this.basicComponent.getPassiveResource_BasicComponent();
+			boolean found = false;
+			for (PassiveResource entry : passiveResoceList) {
+				if(found)
+					break;
+				if(entry.getEntityName() == className) {
+					found = true;
+					passiveResource = entry;
+				}
+			}
+			if(!found)
+				this.basicComponent.getPassiveResource_BasicComponent().add(passiveResource);
+		}
 
 		final AcquireAction acquireAction = SeffFactory.eINSTANCE.createAcquireAction();
 		this.actionList.add(acquireAction);
 		acquireAction.setPassiveresource_AcquireAction(passiveResource);
-		acquireAction.setEntityName(className + "." + methodName);
+		acquireAction.setEntityName(className);
 
 		synchronizedStatement.getBody().accept(this);
 
 		final ReleaseAction releaseAction = SeffFactory.eINSTANCE.createReleaseAction();
 		this.actionList.add(releaseAction);
 		releaseAction.setPassiveResource_ReleaseAction(passiveResource);
-		releaseAction.setEntityName(className + "." + methodName);
+		releaseAction.setEntityName(className);
 		return false;
 	}
 	
@@ -367,7 +378,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		Expression calledClass = methodInvocation.getExpression();
 		ITypeBinding bindingExpression = calledClass.resolveTypeBinding();
 		if(bindingExpression != null && bindingExpression.getPackage() != null)
-			result = bindingExpression.getPackage().getName().toString();
+			result = bindingExpression.getBinaryName();
 		else
 			logger.warn("No Class Name found for: " + methodInvocation.toString());
 		return result;
@@ -377,10 +388,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		String result = "unknown";
 		ITypeBinding bindingExpression = calledClass.resolveTypeBinding();
 		if(bindingExpression != null && bindingExpression.getPackage() != null)
-			result = bindingExpression.getPackage().getName().toString();
+			result = bindingExpression.getBinaryName();
 		else
 			logger.warn("No Class Name found for: " + calledClass.toString());
-		return result;
+		
+		return result + ".class";
 	}
 	
 	protected String whileStatementToString(Expression expression) {

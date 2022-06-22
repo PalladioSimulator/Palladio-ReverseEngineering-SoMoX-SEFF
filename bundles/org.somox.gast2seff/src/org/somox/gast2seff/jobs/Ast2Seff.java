@@ -173,6 +173,9 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 			if (root instanceof CompilationUnit) {
 				PackageDeclaration packageName = ((CompilationUnit) root).getPackage();
 				strPackageName = packageName.getName().toString();
+				strPackageName += "." + methodAssociation.getBasicComponent().getEntityName();
+			} else {
+				LOGGER.warn("No CompilationUnit found for: " + methodDeclaration.toString());
 			}
 			
 			if (!this.methodNameMap.containsKey(strPackageName + "." + methodDeclaration.getName().toString()))

@@ -179,7 +179,9 @@ Notizen zum Meeting:
 ### 21.06
 
 Bearbeitete Aufgaben:
-- 
+- Provides / Requires Pfeile fixen
+- BasicComponent Namen setzen
+- PassiveResources Namen richtig setzen
 
 Fragen:
 - 
@@ -191,6 +193,7 @@ Neue Aufgaben:
 - Übergabeparameter hinzufügen
 - PassiveResources Namen richtig setzen
 - Methoden Testen
+- Aufräumen
 
 Notizen zum Meeting:
 - 
