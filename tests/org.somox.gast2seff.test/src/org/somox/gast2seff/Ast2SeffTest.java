@@ -168,6 +168,7 @@ public class Ast2SeffTest {
 							methodAssociationList.add(new MethodAssociation(methodDeclaration, seff, basicComponentMap.get(className))); 
 						} else {
 							BasicComponent basicComponent = RepositoryFactory.eINSTANCE.createBasicComponent();
+							basicComponent.setEntityName(className);
 							basicComponentMap.put(className, basicComponent);
 							methodAssociationList.add(new MethodAssociation(methodDeclaration, seff, basicComponent)); 
 						}

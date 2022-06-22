@@ -17,6 +17,10 @@
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']"/>
         <target xmi:type="repository:Repository" href="Repository.repository#_YT810PIKEey-9NfpIlMTUw"/>
       </ownedRepresentationDescriptors>
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_OKLtgPIrEeyj3pF3hjhoQQ" name="Ast2Seff" repPath="#_OIENoPIrEeyj3pF3hjhoQQ" changeId="be8df193-1d2a-4d05-9caf-4e336989d717">
+        <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']"/>
+        <target xmi:type="repository:Repository" href="Repository.repository#_YRnjcPIeEeyd-K7TOsz9BA"/>
+      </ownedRepresentationDescriptors>
     </ownedViews>
     <ownedViews xmi:type="viewpoint:DView" uid="_M-CFIN_wEeyHScd4P3PaXg">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.palladiosimulator.editors.sirius.seff/description/seff.odesign#//@ownedViewpoints[name='Seff']"/>
@@ -1479,5 +1483,633 @@
     <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@additionalLayers[name='Event-Based%20Communication']"/>
     <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@additionalLayers[name='DataTypes']"/>
     <target xmi:type="repository:Repository" href="Repository.repository#_YT810PIKEey-9NfpIlMTUw"/>
+  </diagram:DSemanticDiagram>
+  <diagram:DSemanticDiagram uid="_OIENoPIrEeyj3pF3hjhoQQ">
+    <ownedAnnotationEntries xmi:type="description:AnnotationEntry" uid="_OKpnkPIrEeyj3pF3hjhoQQ" source="GMF_DIAGRAMS">
+      <data xmi:type="notation:Diagram" xmi:id="_OKpnkfIrEeyj3pF3hjhoQQ" type="Sirius" element="_OIENoPIrEeyj3pF3hjhoQQ" measurementUnit="Pixel">
+        <children xmi:type="notation:Node" xmi:id="_OP8XQPIrEeyj3pF3hjhoQQ" type="2003" element="_OKz_oPIrEeyj3pF3hjhoQQ">
+          <children xmi:type="notation:Node" xmi:id="_OQFhMPIrEeyj3pF3hjhoQQ" type="5007"/>
+          <children xmi:type="notation:Node" xmi:id="_OQGIQPIrEeyj3pF3hjhoQQ" type="7004">
+            <children xmi:type="notation:Node" xmi:id="_OQQgUPIrEeyj3pF3hjhoQQ" type="3010" element="_OLEeUPIrEeyj3pF3hjhoQQ">
+              <styles xmi:type="notation:FontStyle" xmi:id="_OQQgUfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OQQgUvIrEeyj3pF3hjhoQQ"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_OQGIQfIrEeyj3pF3hjhoQQ"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_OQGIQvIrEeyj3pF3hjhoQQ"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_OP8XQfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OP8-UPIrEeyj3pF3hjhoQQ"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_OQNdAPIrEeyj3pF3hjhoQQ" type="2003" element="_OLDQMPIrEeyj3pF3hjhoQQ">
+          <children xmi:type="notation:Node" xmi:id="_OQNdA_IrEeyj3pF3hjhoQQ" type="5007"/>
+          <children xmi:type="notation:Node" xmi:id="_OQNdBPIrEeyj3pF3hjhoQQ" type="7004">
+            <children xmi:type="notation:Node" xmi:id="_OQRHYPIrEeyj3pF3hjhoQQ" type="3010" element="_OOu2UPIrEeyj3pF3hjhoQQ">
+              <styles xmi:type="notation:FontStyle" xmi:id="_OQRHYfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OQRHYvIrEeyj3pF3hjhoQQ"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQRHY_IrEeyj3pF3hjhoQQ" type="3010" element="_OOwEcfIrEeyj3pF3hjhoQQ">
+              <styles xmi:type="notation:FontStyle" xmi:id="_OQRHZPIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OQRHZfIrEeyj3pF3hjhoQQ"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQRucPIrEeyj3pF3hjhoQQ" type="3010" element="_OOxSkPIrEeyj3pF3hjhoQQ">
+              <styles xmi:type="notation:FontStyle" xmi:id="_OQRucfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OQRucvIrEeyj3pF3hjhoQQ"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQRuc_IrEeyj3pF3hjhoQQ" type="3010" element="_OOx5ofIrEeyj3pF3hjhoQQ">
+              <styles xmi:type="notation:FontStyle" xmi:id="_OQRudPIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OQRudfIrEeyj3pF3hjhoQQ"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQRudvIrEeyj3pF3hjhoQQ" type="3010" element="_OOzHwPIrEeyj3pF3hjhoQQ">
+              <styles xmi:type="notation:FontStyle" xmi:id="_OQRud_IrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OQRuePIrEeyj3pF3hjhoQQ"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQRuefIrEeyj3pF3hjhoQQ" type="3010" element="_OOzu0fIrEeyj3pF3hjhoQQ">
+              <styles xmi:type="notation:FontStyle" xmi:id="_OQRuevIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OQRue_IrEeyj3pF3hjhoQQ"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQSVgPIrEeyj3pF3hjhoQQ" type="3010" element="_OO0V4PIrEeyj3pF3hjhoQQ">
+              <styles xmi:type="notation:FontStyle" xmi:id="_OQSVgfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OQSVgvIrEeyj3pF3hjhoQQ"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQS8kPIrEeyj3pF3hjhoQQ" type="3010" element="_OO088fIrEeyj3pF3hjhoQQ">
+              <styles xmi:type="notation:FontStyle" xmi:id="_OQS8kfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OQS8kvIrEeyj3pF3hjhoQQ"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQS8k_IrEeyj3pF3hjhoQQ" type="3010" element="_OO1kAfIrEeyj3pF3hjhoQQ">
+              <styles xmi:type="notation:FontStyle" xmi:id="_OQS8lPIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OQS8lfIrEeyj3pF3hjhoQQ"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQS8lvIrEeyj3pF3hjhoQQ" type="3010" element="_OO2LEfIrEeyj3pF3hjhoQQ">
+              <styles xmi:type="notation:FontStyle" xmi:id="_OQS8l_IrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OQS8mPIrEeyj3pF3hjhoQQ"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQS8mfIrEeyj3pF3hjhoQQ" type="3010" element="_OO3ZMfIrEeyj3pF3hjhoQQ">
+              <styles xmi:type="notation:FontStyle" xmi:id="_OQS8mvIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OQS8m_IrEeyj3pF3hjhoQQ"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQTjoPIrEeyj3pF3hjhoQQ" type="3010" element="_OO4AQfIrEeyj3pF3hjhoQQ">
+              <styles xmi:type="notation:FontStyle" xmi:id="_OQTjofIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OQTjovIrEeyj3pF3hjhoQQ"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_OQNdBfIrEeyj3pF3hjhoQQ"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_OQNdBvIrEeyj3pF3hjhoQQ"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_OQNdAfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQNdAvIrEeyj3pF3hjhoQQ" x="260"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_OQOrIPIrEeyj3pF3hjhoQQ" type="2002" element="_OO4nUfIrEeyj3pF3hjhoQQ">
+          <children xmi:type="notation:Node" xmi:id="_OQOrI_IrEeyj3pF3hjhoQQ" type="5006"/>
+          <children xmi:type="notation:Node" xmi:id="_OQPSMPIrEeyj3pF3hjhoQQ" type="7001">
+            <children xmi:type="notation:Node" xmi:id="_OQUKsPIrEeyj3pF3hjhoQQ" type="3009" element="_OO7DkPIrEeyj3pF3hjhoQQ">
+              <children xmi:type="notation:Node" xmi:id="_OQUxwPIrEeyj3pF3hjhoQQ" type="5004"/>
+              <children xmi:type="notation:Node" xmi:id="_OQUxwfIrEeyj3pF3hjhoQQ" type="7003">
+                <children xmi:type="notation:Node" xmi:id="_OQYcIfIrEeyj3pF3hjhoQQ" type="3010" element="_OO7qoPIrEeyj3pF3hjhoQQ">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_OQYcIvIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_OQYcI_IrEeyj3pF3hjhoQQ"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_OQUxwvIrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_OQUxw_IrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:DrawerStyle" xmi:id="_OQVY0PIrEeyj3pF3hjhoQQ"/>
+              </children>
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_OQUKsfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQUKsvIrEeyj3pF3hjhoQQ"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQVY0fIrEeyj3pF3hjhoQQ" type="3009" element="_OPH34PIrEeyj3pF3hjhoQQ">
+              <children xmi:type="notation:Node" xmi:id="_OQV_4PIrEeyj3pF3hjhoQQ" type="5004"/>
+              <children xmi:type="notation:Node" xmi:id="_OQV_4fIrEeyj3pF3hjhoQQ" type="7003">
+                <styles xmi:type="notation:SortingStyle" xmi:id="_OQV_4vIrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_OQV_4_IrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:DrawerStyle" xmi:id="_OQV_5PIrEeyj3pF3hjhoQQ"/>
+              </children>
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_OQVY0vIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQVY0_IrEeyj3pF3hjhoQQ" y="40"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQWm8PIrEeyj3pF3hjhoQQ" type="3008" element="_OPIe8PIrEeyj3pF3hjhoQQ">
+              <children xmi:type="notation:Node" xmi:id="_OQXOAPIrEeyj3pF3hjhoQQ" type="5005"/>
+              <children xmi:type="notation:Node" xmi:id="_OQX1EPIrEeyj3pF3hjhoQQ" type="7002">
+                <styles xmi:type="notation:SortingStyle" xmi:id="_OQX1EfIrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_OQX1EvIrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:DrawerStyle" xmi:id="_OQX1E_IrEeyj3pF3hjhoQQ"/>
+              </children>
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_OQWm8fIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQWm8vIrEeyj3pF3hjhoQQ" y="80"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQX1FPIrEeyj3pF3hjhoQQ" type="3009" element="_OPJtEPIrEeyj3pF3hjhoQQ">
+              <children xmi:type="notation:Node" xmi:id="_OQX1F_IrEeyj3pF3hjhoQQ" type="5004"/>
+              <children xmi:type="notation:Node" xmi:id="_OQX1GPIrEeyj3pF3hjhoQQ" type="7003">
+                <styles xmi:type="notation:SortingStyle" xmi:id="_OQX1GfIrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_OQX1GvIrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:DrawerStyle" xmi:id="_OQYcIPIrEeyj3pF3hjhoQQ"/>
+              </children>
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_OQX1FfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQX1FvIrEeyj3pF3hjhoQQ" y="120"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_OQPSMfIrEeyj3pF3hjhoQQ"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_OQPSMvIrEeyj3pF3hjhoQQ"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_OQOrIfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQOrIvIrEeyj3pF3hjhoQQ" x="7" y="255"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_OQPSM_IrEeyj3pF3hjhoQQ" type="2002" element="_OO51cvIrEeyj3pF3hjhoQQ">
+          <children xmi:type="notation:Node" xmi:id="_OQPSNvIrEeyj3pF3hjhoQQ" type="5006"/>
+          <children xmi:type="notation:Node" xmi:id="_OQPSN_IrEeyj3pF3hjhoQQ" type="7001">
+            <children xmi:type="notation:Node" xmi:id="_OQYcJPIrEeyj3pF3hjhoQQ" type="3009" element="_OPKUIPIrEeyj3pF3hjhoQQ">
+              <children xmi:type="notation:Node" xmi:id="_OQZDMPIrEeyj3pF3hjhoQQ" type="5004"/>
+              <children xmi:type="notation:Node" xmi:id="_OQZDMfIrEeyj3pF3hjhoQQ" type="7003">
+                <children xmi:type="notation:Node" xmi:id="_OQaRU_IrEeyj3pF3hjhoQQ" type="3010" element="_OPK7MfIrEeyj3pF3hjhoQQ">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_OQaRVPIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_OQaRVfIrEeyj3pF3hjhoQQ"/>
+                </children>
+                <children xmi:type="notation:Node" xmi:id="_OQa4YPIrEeyj3pF3hjhoQQ" type="3010" element="_OPMJUPIrEeyj3pF3hjhoQQ">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_OQa4YfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_OQa4YvIrEeyj3pF3hjhoQQ"/>
+                </children>
+                <children xmi:type="notation:Node" xmi:id="_OQa4Y_IrEeyj3pF3hjhoQQ" type="3010" element="_OPMwYfIrEeyj3pF3hjhoQQ">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_OQa4ZPIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_OQa4ZfIrEeyj3pF3hjhoQQ"/>
+                </children>
+                <children xmi:type="notation:Node" xmi:id="_OQbfcPIrEeyj3pF3hjhoQQ" type="3010" element="_OPNXcfIrEeyj3pF3hjhoQQ">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_OQbfcfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_OQbfcvIrEeyj3pF3hjhoQQ"/>
+                </children>
+                <children xmi:type="notation:Node" xmi:id="_OQbfc_IrEeyj3pF3hjhoQQ" type="3010" element="_OPOlkPIrEeyj3pF3hjhoQQ">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_OQbfdPIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_OQbfdfIrEeyj3pF3hjhoQQ"/>
+                </children>
+                <children xmi:type="notation:Node" xmi:id="_OQbfdvIrEeyj3pF3hjhoQQ" type="3010" element="_OPPMofIrEeyj3pF3hjhoQQ">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_OQbfd_IrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_OQbfePIrEeyj3pF3hjhoQQ"/>
+                </children>
+                <children xmi:type="notation:Node" xmi:id="_OQbfefIrEeyj3pF3hjhoQQ" type="3010" element="_OPPzsfIrEeyj3pF3hjhoQQ">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_OQbfevIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_OQbfe_IrEeyj3pF3hjhoQQ"/>
+                </children>
+                <children xmi:type="notation:Node" xmi:id="_OQcGgPIrEeyj3pF3hjhoQQ" type="3010" element="_OPQawfIrEeyj3pF3hjhoQQ">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_OQcGgfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_OQcGgvIrEeyj3pF3hjhoQQ"/>
+                </children>
+                <children xmi:type="notation:Node" xmi:id="_OQcGg_IrEeyj3pF3hjhoQQ" type="3010" element="_OPRB0fIrEeyj3pF3hjhoQQ">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_OQcGhPIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_OQcGhfIrEeyj3pF3hjhoQQ"/>
+                </children>
+                <children xmi:type="notation:Node" xmi:id="_OQcGhvIrEeyj3pF3hjhoQQ" type="3010" element="_OPRo4fIrEeyj3pF3hjhoQQ">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_OQcGh_IrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_OQcGiPIrEeyj3pF3hjhoQQ"/>
+                </children>
+                <children xmi:type="notation:Node" xmi:id="_OQcGifIrEeyj3pF3hjhoQQ" type="3010" element="_OPSP8fIrEeyj3pF3hjhoQQ">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_OQcGivIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_OQcGi_IrEeyj3pF3hjhoQQ"/>
+                </children>
+                <children xmi:type="notation:Node" xmi:id="_OQctkPIrEeyj3pF3hjhoQQ" type="3010" element="_OPS3AfIrEeyj3pF3hjhoQQ">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_OQctkfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_OQctkvIrEeyj3pF3hjhoQQ"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_OQZDMvIrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_OQZDM_IrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:DrawerStyle" xmi:id="_OQZDNPIrEeyj3pF3hjhoQQ"/>
+              </children>
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_OQYcJfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQYcJvIrEeyj3pF3hjhoQQ"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQZDNfIrEeyj3pF3hjhoQQ" type="3009" element="_OPTeEPIrEeyj3pF3hjhoQQ">
+              <children xmi:type="notation:Node" xmi:id="_OQZDOPIrEeyj3pF3hjhoQQ" type="5004"/>
+              <children xmi:type="notation:Node" xmi:id="_OQZDOfIrEeyj3pF3hjhoQQ" type="7003">
+                <children xmi:type="notation:Node" xmi:id="_OQctk_IrEeyj3pF3hjhoQQ" type="3010" element="_OPTeE_IrEeyj3pF3hjhoQQ">
+                  <styles xmi:type="notation:FontStyle" xmi:id="_OQctlPIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+                  <layoutConstraint xmi:type="notation:Location" xmi:id="_OQctlfIrEeyj3pF3hjhoQQ"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_OQZDOvIrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_OQZDO_IrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:DrawerStyle" xmi:id="_OQZDPPIrEeyj3pF3hjhoQQ"/>
+              </children>
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_OQZDNvIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQZDN_IrEeyj3pF3hjhoQQ" y="40"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQZqQPIrEeyj3pF3hjhoQQ" type="3008" element="_OPVTQPIrEeyj3pF3hjhoQQ">
+              <children xmi:type="notation:Node" xmi:id="_OQZqQ_IrEeyj3pF3hjhoQQ" type="5005"/>
+              <children xmi:type="notation:Node" xmi:id="_OQZqRPIrEeyj3pF3hjhoQQ" type="7002">
+                <styles xmi:type="notation:SortingStyle" xmi:id="_OQZqRfIrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_OQZqRvIrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:DrawerStyle" xmi:id="_OQZqR_IrEeyj3pF3hjhoQQ"/>
+              </children>
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_OQZqQfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQZqQvIrEeyj3pF3hjhoQQ" y="80"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_OQZqSPIrEeyj3pF3hjhoQQ" type="3009" element="_OPV6UPIrEeyj3pF3hjhoQQ">
+              <children xmi:type="notation:Node" xmi:id="_OQZqS_IrEeyj3pF3hjhoQQ" type="5004"/>
+              <children xmi:type="notation:Node" xmi:id="_OQZqTPIrEeyj3pF3hjhoQQ" type="7003">
+                <styles xmi:type="notation:SortingStyle" xmi:id="_OQaRUPIrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_OQaRUfIrEeyj3pF3hjhoQQ"/>
+                <styles xmi:type="notation:DrawerStyle" xmi:id="_OQaRUvIrEeyj3pF3hjhoQQ"/>
+              </children>
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_OQZqSfIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQZqSvIrEeyj3pF3hjhoQQ" y="120"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_OQPSOPIrEeyj3pF3hjhoQQ"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_OQPSOfIrEeyj3pF3hjhoQQ"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_OQPSNPIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQPSNfIrEeyj3pF3hjhoQQ" x="255" y="255"/>
+        </children>
+        <styles xmi:type="notation:DiagramStyle" xmi:id="_OKpnkvIrEeyj3pF3hjhoQQ"/>
+        <edges xmi:type="notation:Edge" xmi:id="_OQrXEPIrEeyj3pF3hjhoQQ" type="4001" element="_OPgSYPIrEeyj3pF3hjhoQQ" source="_OQOrIPIrEeyj3pF3hjhoQQ" target="_OQNdAPIrEeyj3pF3hjhoQQ">
+          <children xmi:type="notation:Node" xmi:id="_OQslMPIrEeyj3pF3hjhoQQ" type="6001">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQslMfIrEeyj3pF3hjhoQQ" y="-10"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_OQtzUPIrEeyj3pF3hjhoQQ" type="6002">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQtzUfIrEeyj3pF3hjhoQQ" y="10"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_OQuaYPIrEeyj3pF3hjhoQQ" type="6003">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQuaYfIrEeyj3pF3hjhoQQ" y="10"/>
+          </children>
+          <styles xmi:type="notation:ConnectorStyle" xmi:id="_OQrXEfIrEeyj3pF3hjhoQQ"/>
+          <styles xmi:type="notation:FontStyle" xmi:id="_OQrXEvIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+          <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_OQrXE_IrEeyj3pF3hjhoQQ" points="[-1, 0, -261, 60]$[259, -60, -1, 0]"/>
+          <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_OQ71wPIrEeyj3pF3hjhoQQ" id="(0.5054347826086957,0.0)"/>
+          <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_OQ71wfIrEeyj3pF3hjhoQQ" id="(0.5050505050505051,1.0)"/>
+        </edges>
+        <edges xmi:type="notation:Edge" xmi:id="_OQ71wvIrEeyj3pF3hjhoQQ" type="4001" element="_OPiHkPIrEeyj3pF3hjhoQQ" source="_OQOrIPIrEeyj3pF3hjhoQQ" target="_OP8XQPIrEeyj3pF3hjhoQQ">
+          <children xmi:type="notation:Node" xmi:id="_OQ8c0PIrEeyj3pF3hjhoQQ" type="6001">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQ8c0fIrEeyj3pF3hjhoQQ" y="-10"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_OQ8c0vIrEeyj3pF3hjhoQQ" type="6002">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQ8c0_IrEeyj3pF3hjhoQQ" y="10"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_OQ8c1PIrEeyj3pF3hjhoQQ" type="6003">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQ8c1fIrEeyj3pF3hjhoQQ" y="10"/>
+          </children>
+          <styles xmi:type="notation:ConnectorStyle" xmi:id="_OQ71w_IrEeyj3pF3hjhoQQ"/>
+          <styles xmi:type="notation:FontStyle" xmi:id="_OQ71xPIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+          <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_OQ71xfIrEeyj3pF3hjhoQQ" points="[-1, 0, -1, 60]$[-1, -60, -1, 0]"/>
+          <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_OQ9D4PIrEeyj3pF3hjhoQQ" id="(0.5054347826086957,0.0)"/>
+          <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_OQ9D4fIrEeyj3pF3hjhoQQ" id="(0.5050505050505051,1.0)"/>
+        </edges>
+        <edges xmi:type="notation:Edge" xmi:id="_OQ9D4vIrEeyj3pF3hjhoQQ" type="4001" element="_OPjVsPIrEeyj3pF3hjhoQQ" source="_OQPSM_IrEeyj3pF3hjhoQQ" target="_OQNdAPIrEeyj3pF3hjhoQQ">
+          <children xmi:type="notation:Node" xmi:id="_OQ9D5vIrEeyj3pF3hjhoQQ" type="6001">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQ9D5_IrEeyj3pF3hjhoQQ" y="-10"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_OQ9D6PIrEeyj3pF3hjhoQQ" type="6002">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQ9D6fIrEeyj3pF3hjhoQQ" y="10"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_OQ9D6vIrEeyj3pF3hjhoQQ" type="6003">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OQ9D6_IrEeyj3pF3hjhoQQ" y="10"/>
+          </children>
+          <styles xmi:type="notation:ConnectorStyle" xmi:id="_OQ9D4_IrEeyj3pF3hjhoQQ"/>
+          <styles xmi:type="notation:FontStyle" xmi:id="_OQ9D5PIrEeyj3pF3hjhoQQ" fontName="Segoe UI" fontHeight="8"/>
+          <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_OQ9D5fIrEeyj3pF3hjhoQQ" points="[-1, 0, 77, 60]$[-79, -60, -1, 0]"/>
+          <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_OQ9q8PIrEeyj3pF3hjhoQQ" id="(0.5027173913043478,0.0)"/>
+          <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_OQ9q8fIrEeyj3pF3hjhoQQ" id="(0.5050505050505051,1.0)"/>
+        </edges>
+      </data>
+    </ownedAnnotationEntries>
+    <ownedAnnotationEntries xmi:type="description:AnnotationEntry" uid="_OPlK4PIrEeyj3pF3hjhoQQ" source="DANNOTATION_CUSTOMIZATION_KEY">
+      <data xmi:type="diagram:ComputedStyleDescriptionRegistry" uid="_OPlx8PIrEeyj3pF3hjhoQQ"/>
+    </ownedAnnotationEntries>
+    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_OKz_oPIrEeyj3pF3hjhoQQ" name="&lt;&lt;Interface>>&#xA;aName" incomingEdges="_OPiHkPIrEeyj3pF3hjhoQQ" width="20" height="10">
+      <target xmi:type="repository:OperationInterface" href="Repository.repository#_YRvfQPIeEeyd-K7TOsz9BA"/>
+      <semanticElements xmi:type="repository:OperationInterface" href="Repository.repository#_YRvfQPIeEeyd-K7TOsz9BA"/>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_OK--wPIrEeyj3pF3hjhoQQ" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']"/>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_OLEeUPIrEeyj3pF3hjhoQQ" name="void externalCallMethod()">
+        <target xmi:type="repository:OperationSignature" href="Repository.repository#_YRtqEPIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:OperationSignature" href="Repository.repository#_YRtqEPIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_OOuPQPIrEeyj3pF3hjhoQQ" showIcon="false" labelPosition="node">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']/@conditionnalStyles.0/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']"/>
+      </ownedElements>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_OLDQMPIrEeyj3pF3hjhoQQ" name="&lt;&lt;Interface>>&#xA;aName" incomingEdges="_OPgSYPIrEeyj3pF3hjhoQQ _OPjVsPIrEeyj3pF3hjhoQQ" width="20" height="10">
+      <target xmi:type="repository:OperationInterface" href="Repository.repository#_YRwGUvIeEeyd-K7TOsz9BA"/>
+      <semanticElements xmi:type="repository:OperationInterface" href="Repository.repository#_YRwGUvIeEeyd-K7TOsz9BA"/>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_OLDQMfIrEeyj3pF3hjhoQQ" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']"/>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_OOu2UPIrEeyj3pF3hjhoQQ" name="void ifMethod()">
+        <target xmi:type="repository:OperationSignature" href="Repository.repository#_YRwGUPIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:OperationSignature" href="Repository.repository#_YRwGUPIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_OOwEcPIrEeyj3pF3hjhoQQ" showIcon="false" labelPosition="node">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']/@conditionnalStyles.0/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']"/>
+      </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_OOwEcfIrEeyj3pF3hjhoQQ" name="void forMethod()">
+        <target xmi:type="repository:OperationSignature" href="Repository.repository#_YRwtYPIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:OperationSignature" href="Repository.repository#_YRwtYPIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_OOwrgPIrEeyj3pF3hjhoQQ" showIcon="false" labelPosition="node">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']/@conditionnalStyles.0/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']"/>
+      </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_OOxSkPIrEeyj3pF3hjhoQQ" name="void tryCatchMethod()">
+        <target xmi:type="repository:OperationSignature" href="Repository.repository#_YRwtYfIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:OperationSignature" href="Repository.repository#_YRwtYfIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_OOx5oPIrEeyj3pF3hjhoQQ" showIcon="false" labelPosition="node">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']/@conditionnalStyles.0/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']"/>
+      </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_OOx5ofIrEeyj3pF3hjhoQQ" name="void synchronizedMethod()">
+        <target xmi:type="repository:OperationSignature" href="Repository.repository#_YRwtYvIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:OperationSignature" href="Repository.repository#_YRwtYvIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_OOygsPIrEeyj3pF3hjhoQQ" showIcon="false" labelPosition="node">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']/@conditionnalStyles.0/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']"/>
+      </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_OOzHwPIrEeyj3pF3hjhoQQ" name="void forEachMethod()">
+        <target xmi:type="repository:OperationSignature" href="Repository.repository#_YRwtY_IeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:OperationSignature" href="Repository.repository#_YRwtY_IeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_OOzu0PIrEeyj3pF3hjhoQQ" showIcon="false" labelPosition="node">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']/@conditionnalStyles.0/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']"/>
+      </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_OOzu0fIrEeyj3pF3hjhoQQ" name="void whileMethod()">
+        <target xmi:type="repository:OperationSignature" href="Repository.repository#_YRwtZPIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:OperationSignature" href="Repository.repository#_YRwtZPIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_OOzu0vIrEeyj3pF3hjhoQQ" showIcon="false" labelPosition="node">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']/@conditionnalStyles.0/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']"/>
+      </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_OO0V4PIrEeyj3pF3hjhoQQ" name="void ifAndForMethod()">
+        <target xmi:type="repository:OperationSignature" href="Repository.repository#_YRwtZfIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:OperationSignature" href="Repository.repository#_YRwtZfIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_OO088PIrEeyj3pF3hjhoQQ" showIcon="false" labelPosition="node">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']/@conditionnalStyles.0/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']"/>
+      </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_OO088fIrEeyj3pF3hjhoQQ" name="void ifAndElseMethod()">
+        <target xmi:type="repository:OperationSignature" href="Repository.repository#_YRwtZvIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:OperationSignature" href="Repository.repository#_YRwtZvIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_OO1kAPIrEeyj3pF3hjhoQQ" showIcon="false" labelPosition="node">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']/@conditionnalStyles.0/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']"/>
+      </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_OO1kAfIrEeyj3pF3hjhoQQ" name="void ifAndElseIfMethod()">
+        <target xmi:type="repository:OperationSignature" href="Repository.repository#_YRxUcPIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:OperationSignature" href="Repository.repository#_YRxUcPIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_OO2LEPIrEeyj3pF3hjhoQQ" showIcon="false" labelPosition="node">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']/@conditionnalStyles.0/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']"/>
+      </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_OO2LEfIrEeyj3pF3hjhoQQ" name="void ifAndDoubleElseIfMethod()">
+        <target xmi:type="repository:OperationSignature" href="Repository.repository#_YRxUcfIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:OperationSignature" href="Repository.repository#_YRxUcfIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_OO3ZMPIrEeyj3pF3hjhoQQ" showIcon="false" labelPosition="node">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']/@conditionnalStyles.0/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']"/>
+      </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_OO3ZMfIrEeyj3pF3hjhoQQ" name="void switchMethod()">
+        <target xmi:type="repository:OperationSignature" href="Repository.repository#_YRxUcvIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:OperationSignature" href="Repository.repository#_YRxUcvIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_OO4AQPIrEeyj3pF3hjhoQQ" showIcon="false" labelPosition="node">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']/@conditionnalStyles.0/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']"/>
+      </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_OO4AQfIrEeyj3pF3hjhoQQ" name="void callExternalMethod()">
+        <target xmi:type="repository:OperationSignature" href="Repository.repository#_YRxUc_IeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:OperationSignature" href="Repository.repository#_YRxUc_IeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_OO4nUPIrEeyj3pF3hjhoQQ" showIcon="false" labelPosition="node">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']/@conditionnalStyles.0/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='Interface']/@subNodeMappings[name='OperationSignature']"/>
+      </ownedElements>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_OO4nUfIrEeyj3pF3hjhoQQ" name="&lt;&lt;BasicComponent>>&#xA;aName" outgoingEdges="_OPgSYPIrEeyj3pF3hjhoQQ _OPiHkPIrEeyj3pF3hjhoQQ" childrenPresentation="VerticalStack">
+      <target xmi:type="repository:BasicComponent" href="Repository.repository#_YQF5cPIeEeyd-K7TOsz9BA"/>
+      <semanticElements xmi:type="repository:BasicComponent" href="Repository.repository#_YQF5cPIeEeyd-K7TOsz9BA"/>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_OO51cPIrEeyj3pF3hjhoQQ" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_OO7DkPIrEeyj3pF3hjhoQQ" name="SEFFCompartment">
+        <target xmi:type="repository:BasicComponent" href="Repository.repository#_YQF5cPIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:BasicComponent" href="Repository.repository#_YQF5cPIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_OO7DkfIrEeyj3pF3hjhoQQ" showIcon="false" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
+          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']"/>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_OO7qoPIrEeyj3pF3hjhoQQ" name="aName.externalCallMethod">
+          <target xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YP8vgPIeEeyd-K7TOsz9BA"/>
+          <semanticElements xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YP8vgPIeEeyd-K7TOsz9BA"/>
+          <ownedStyle xmi:type="diagram:Square" uid="_OPGpwPIrEeyj3pF3hjhoQQ" labelPosition="node" color="255,255,255">
+            <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']"/>
+        </ownedElements>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_OPH34PIrEeyj3pF3hjhoQQ" name="PassiveResourcesCompartment">
+        <target xmi:type="repository:BasicComponent" href="Repository.repository#_YQF5cPIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:BasicComponent" href="Repository.repository#_YQF5cPIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_OPH34fIrEeyj3pF3hjhoQQ" showIcon="false" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
+          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='PassiveResourcesCompartment']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='PassiveResourcesCompartment']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_OPIe8PIrEeyj3pF3hjhoQQ" name="ComponentParameterCompartment">
+        <target xmi:type="repository:BasicComponent" href="Repository.repository#_YQF5cPIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:BasicComponent" href="Repository.repository#_YQF5cPIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_OPIe8fIrEeyj3pF3hjhoQQ" showIcon="false" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
+          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='ComponentParameterCompartment']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='ComponentParameterCompartment']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_OPJtEPIrEeyj3pF3hjhoQQ" name="ResourceRequiredRoles">
+        <target xmi:type="repository:BasicComponent" href="Repository.repository#_YQF5cPIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:BasicComponent" href="Repository.repository#_YQF5cPIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_OPJtEfIrEeyj3pF3hjhoQQ" showIcon="false" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
+          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='ResourceRequiredRolesCompartment']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='ResourceRequiredRolesCompartment']"/>
+      </ownedDiagramElements>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_OO51cvIrEeyj3pF3hjhoQQ" name="&lt;&lt;BasicComponent>>&#xA;aName" outgoingEdges="_OPjVsPIrEeyj3pF3hjhoQQ" childrenPresentation="VerticalStack">
+      <target xmi:type="repository:BasicComponent" href="Repository.repository#_YQGggfIeEeyd-K7TOsz9BA"/>
+      <semanticElements xmi:type="repository:BasicComponent" href="Repository.repository#_YQGggfIeEeyd-K7TOsz9BA"/>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_OO51c_IrEeyj3pF3hjhoQQ" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_OPKUIPIrEeyj3pF3hjhoQQ" name="SEFFCompartment">
+        <target xmi:type="repository:BasicComponent" href="Repository.repository#_YQGggfIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:BasicComponent" href="Repository.repository#_YQGggfIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_OPKUIfIrEeyj3pF3hjhoQQ" showIcon="false" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
+          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']"/>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_OPK7MfIrEeyj3pF3hjhoQQ" name="aName.ifMethod">
+          <target xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGggPIeEeyd-K7TOsz9BA"/>
+          <semanticElements xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGggPIeEeyd-K7TOsz9BA"/>
+          <ownedStyle xmi:type="diagram:Square" uid="_OPLiQPIrEeyj3pF3hjhoQQ" labelPosition="node" color="255,255,255">
+            <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_OPMJUPIrEeyj3pF3hjhoQQ" name="aName.forMethod">
+          <target xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGggvIeEeyd-K7TOsz9BA"/>
+          <semanticElements xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGggvIeEeyd-K7TOsz9BA"/>
+          <ownedStyle xmi:type="diagram:Square" uid="_OPMwYPIrEeyj3pF3hjhoQQ" labelPosition="node" color="255,255,255">
+            <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_OPMwYfIrEeyj3pF3hjhoQQ" name="aName.tryCatchMethod">
+          <target xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGgg_IeEeyd-K7TOsz9BA"/>
+          <semanticElements xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGgg_IeEeyd-K7TOsz9BA"/>
+          <ownedStyle xmi:type="diagram:Square" uid="_OPNXcPIrEeyj3pF3hjhoQQ" labelPosition="node" color="255,255,255">
+            <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_OPNXcfIrEeyj3pF3hjhoQQ" name="aName.synchronizedMethod">
+          <target xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGghPIeEeyd-K7TOsz9BA"/>
+          <semanticElements xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGghPIeEeyd-K7TOsz9BA"/>
+          <ownedStyle xmi:type="diagram:Square" uid="_OPN-gPIrEeyj3pF3hjhoQQ" labelPosition="node" color="255,255,255">
+            <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_OPOlkPIrEeyj3pF3hjhoQQ" name="aName.forEachMethod">
+          <target xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGghfIeEeyd-K7TOsz9BA"/>
+          <semanticElements xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGghfIeEeyd-K7TOsz9BA"/>
+          <ownedStyle xmi:type="diagram:Square" uid="_OPPMoPIrEeyj3pF3hjhoQQ" labelPosition="node" color="255,255,255">
+            <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_OPPMofIrEeyj3pF3hjhoQQ" name="aName.whileMethod">
+          <target xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGghvIeEeyd-K7TOsz9BA"/>
+          <semanticElements xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGghvIeEeyd-K7TOsz9BA"/>
+          <ownedStyle xmi:type="diagram:Square" uid="_OPPzsPIrEeyj3pF3hjhoQQ" labelPosition="node" color="255,255,255">
+            <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_OPPzsfIrEeyj3pF3hjhoQQ" name="aName.ifAndForMethod">
+          <target xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGgh_IeEeyd-K7TOsz9BA"/>
+          <semanticElements xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGgh_IeEeyd-K7TOsz9BA"/>
+          <ownedStyle xmi:type="diagram:Square" uid="_OPQawPIrEeyj3pF3hjhoQQ" labelPosition="node" color="255,255,255">
+            <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_OPQawfIrEeyj3pF3hjhoQQ" name="aName.ifAndElseMethod">
+          <target xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGgiPIeEeyd-K7TOsz9BA"/>
+          <semanticElements xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGgiPIeEeyd-K7TOsz9BA"/>
+          <ownedStyle xmi:type="diagram:Square" uid="_OPRB0PIrEeyj3pF3hjhoQQ" labelPosition="node" color="255,255,255">
+            <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_OPRB0fIrEeyj3pF3hjhoQQ" name="aName.ifAndElseIfMethod">
+          <target xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGgifIeEeyd-K7TOsz9BA"/>
+          <semanticElements xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGgifIeEeyd-K7TOsz9BA"/>
+          <ownedStyle xmi:type="diagram:Square" uid="_OPRo4PIrEeyj3pF3hjhoQQ" labelPosition="node" color="255,255,255">
+            <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_OPRo4fIrEeyj3pF3hjhoQQ" name="aName.ifAndDoubleElseIfMethod">
+          <target xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGgivIeEeyd-K7TOsz9BA"/>
+          <semanticElements xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGgivIeEeyd-K7TOsz9BA"/>
+          <ownedStyle xmi:type="diagram:Square" uid="_OPSP8PIrEeyj3pF3hjhoQQ" labelPosition="node" color="255,255,255">
+            <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_OPSP8fIrEeyj3pF3hjhoQQ" name="aName.switchMethod">
+          <target xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGgi_IeEeyd-K7TOsz9BA"/>
+          <semanticElements xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGgi_IeEeyd-K7TOsz9BA"/>
+          <ownedStyle xmi:type="diagram:Square" uid="_OPS3APIrEeyj3pF3hjhoQQ" labelPosition="node" color="255,255,255">
+            <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_OPS3AfIrEeyj3pF3hjhoQQ" name="aName.callExternalMethod">
+          <target xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGgjPIeEeyd-K7TOsz9BA"/>
+          <semanticElements xmi:type="seff:ResourceDemandingSEFF" href="Repository.repository#_YQGgjPIeEeyd-K7TOsz9BA"/>
+          <ownedStyle xmi:type="diagram:Square" uid="_OPS3AvIrEeyj3pF3hjhoQQ" labelPosition="node" color="255,255,255">
+            <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='SEFFCompartment']/@subNodeMappings[name='SEFF']"/>
+        </ownedElements>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_OPTeEPIrEeyj3pF3hjhoQQ" name="PassiveResourcesCompartment">
+        <target xmi:type="repository:BasicComponent" href="Repository.repository#_YQGggfIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:BasicComponent" href="Repository.repository#_YQGggfIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_OPTeEfIrEeyj3pF3hjhoQQ" showIcon="false" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
+          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='PassiveResourcesCompartment']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='PassiveResourcesCompartment']"/>
+        <ownedElements xmi:type="diagram:DNodeListElement" uid="_OPTeE_IrEeyj3pF3hjhoQQ" name="org.somox.gast2seff.resources.synchronizedMethod&lt;Capacity: 1>">
+          <target xmi:type="repository:PassiveResource" href="Repository.repository#_YSBMEPIeEeyd-K7TOsz9BA"/>
+          <semanticElements xmi:type="repository:PassiveResource" href="Repository.repository#_YSBMEPIeEeyd-K7TOsz9BA"/>
+          <ownedStyle xmi:type="diagram:Square" uid="_OPUsMPIrEeyj3pF3hjhoQQ" labelPosition="node" color="255,255,255">
+            <description xmi:type="style:SquareDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='PassiveResourcesCompartment']/@subNodeMappings[name='PassiveResource']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='PassiveResourcesCompartment']/@subNodeMappings[name='PassiveResource']"/>
+        </ownedElements>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_OPVTQPIrEeyj3pF3hjhoQQ" name="ComponentParameterCompartment">
+        <target xmi:type="repository:BasicComponent" href="Repository.repository#_YQGggfIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:BasicComponent" href="Repository.repository#_YQGggfIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_OPVTQfIrEeyj3pF3hjhoQQ" showIcon="false" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
+          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='ComponentParameterCompartment']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='ComponentParameterCompartment']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_OPV6UPIrEeyj3pF3hjhoQQ" name="ResourceRequiredRoles">
+        <target xmi:type="repository:BasicComponent" href="Repository.repository#_YQGggfIeEeyd-K7TOsz9BA"/>
+        <semanticElements xmi:type="repository:BasicComponent" href="Repository.repository#_YQGggfIeEeyd-K7TOsz9BA"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_OPV6UfIrEeyj3pF3hjhoQQ" showIcon="false" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
+          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='ResourceRequiredRolesCompartment']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@containerMappings[name='BasicComponent']/@subContainerMappings[name='ResourceRequiredRolesCompartment']"/>
+      </ownedDiagramElements>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_OPgSYPIrEeyj3pF3hjhoQQ" name="&lt;&lt;Requires>>&#xA;aName" sourceNode="_OO4nUfIrEeyj3pF3hjhoQQ" targetNode="_OLDQMPIrEeyj3pF3hjhoQQ">
+      <target xmi:type="repository:OperationRequiredRole" href="Repository.repository#_YR4CIPIeEeyd-K7TOsz9BA"/>
+      <semanticElements xmi:type="repository:OperationRequiredRole" href="Repository.repository#_YR4CIPIeEeyd-K7TOsz9BA"/>
+      <ownedStyle xmi:type="diagram:EdgeStyle" uid="_OPg5cPIrEeyj3pF3hjhoQQ" strokeColor="0,0,0">
+        <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@edgeMappings[name='RequiredRole']/@style"/>
+        <centerLabelStyle xmi:type="diagram:CenterLabelStyle" uid="_OPg5cfIrEeyj3pF3hjhoQQ" showIcon="false"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@edgeMappings[name='RequiredRole']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_OPiHkPIrEeyj3pF3hjhoQQ" name="&lt;&lt;Provides>>&#xA;aName" sourceNode="_OO4nUfIrEeyj3pF3hjhoQQ" targetNode="_OKz_oPIrEeyj3pF3hjhoQQ">
+      <target xmi:type="repository:OperationProvidedRole" href="Repository.repository#_YRuRIPIeEeyd-K7TOsz9BA"/>
+      <semanticElements xmi:type="repository:OperationProvidedRole" href="Repository.repository#_YRuRIPIeEeyd-K7TOsz9BA"/>
+      <ownedStyle xmi:type="diagram:EdgeStyle" uid="_OPiHkfIrEeyj3pF3hjhoQQ" strokeColor="0,0,0">
+        <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@edgeMappings[name='ProvidedRole']/@style"/>
+        <centerLabelStyle xmi:type="diagram:CenterLabelStyle" uid="_OPiuoPIrEeyj3pF3hjhoQQ" showIcon="false"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@edgeMappings[name='ProvidedRole']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_OPjVsPIrEeyj3pF3hjhoQQ" name="&lt;&lt;Provides>>&#xA;aName" sourceNode="_OO51cvIrEeyj3pF3hjhoQQ" targetNode="_OLDQMPIrEeyj3pF3hjhoQQ">
+      <target xmi:type="repository:OperationProvidedRole" href="Repository.repository#_YRwGUfIeEeyd-K7TOsz9BA"/>
+      <semanticElements xmi:type="repository:OperationProvidedRole" href="Repository.repository#_YRwGUfIeEeyd-K7TOsz9BA"/>
+      <ownedStyle xmi:type="diagram:EdgeStyle" uid="_OPjVsfIrEeyj3pF3hjhoQQ" strokeColor="0,0,0">
+        <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@edgeMappings[name='ProvidedRole']/@style"/>
+        <centerLabelStyle xmi:type="diagram:CenterLabelStyle" uid="_OPjVsvIrEeyj3pF3hjhoQQ" showIcon="false"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer/@edgeMappings[name='ProvidedRole']"/>
+    </ownedDiagramElements>
+    <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']"/>
+    <filterVariableHistory xmi:type="diagram:FilterVariableHistory" uid="_OJ8c8PIrEeyj3pF3hjhoQQ"/>
+    <activatedLayers xmi:type="description_1:Layer" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@defaultLayer"/>
+    <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@additionalLayers[name='Component%20Types']"/>
+    <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@additionalLayers[name='Event-Based%20Communication']"/>
+    <activatedLayers xmi:type="description_1:AdditionalLayer" href="platform:/plugin/org.palladiosimulator.editors.sirius.repository/description/repository.odesign#//@ownedViewpoints[name='Repository']/@ownedRepresentations[name='Repository%20Diagram']/@additionalLayers[name='DataTypes']"/>
+    <target xmi:type="repository:Repository" href="Repository.repository#_YRnjcPIeEeyd-K7TOsz9BA"/>
   </diagram:DSemanticDiagram>
 </xmi:XMI>

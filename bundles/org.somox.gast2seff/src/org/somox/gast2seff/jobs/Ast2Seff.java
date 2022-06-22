@@ -156,9 +156,10 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         		OperationInterface operationInterface =  RepositoryFactory.eINSTANCE.createOperationInterface();
             	operationInterface.setRepository__Interface(repository);
             	operationInterface.getSignatures__OperationInterface().add(operationSignature);
+            	operationInterface.setEntityName(basicComponent.getEntityName());
             	methodAssociation.getSeff().setDescribedService__SEFF(operationSignature);
-            	methodAssociation.getSeff().getDescribedService__SEFF();
             	operationProvidedRole.setProvidedInterface__OperationProvidedRole(operationInterface);
+            	operationProvidedRole.setEntityName(basicComponent.getEntityName());
             	basicComponent.getProvidedRoles_InterfaceProvidingEntity().add(operationProvidedRole);
         	}
         	

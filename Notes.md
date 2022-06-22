@@ -185,7 +185,12 @@ Fragen:
 - 
 
 Neue Aufgaben:
-- 
+- Provides / Requires Pfeile fixen
+- BasicComponent Namen setzen
+- Interface methoden parameter setzen
+- Übergabeparameter hinzufügen
+- PassiveResources Namen richtig setzen
+- Methoden Testen
 
 Notizen zum Meeting:
 - 

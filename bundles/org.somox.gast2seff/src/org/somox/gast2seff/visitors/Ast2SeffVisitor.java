@@ -96,9 +96,9 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private void createExternalCallAction(MethodInvocation methodInvocation, BasicComponent externalBasicComponent) {
 		ExternalCallAction externalCall = SeffFactory.eINSTANCE.createExternalCallAction();
 		if (methodInvocation.arguments().isEmpty()) {
-			externalCall.setEntityName(methodInvocation.getName().toString());				
+			externalCall.setEntityName(methodInvocation.getName().toString());
 		} else {
-			externalCall.setEntityName(methodInvocation.getName().toString() + "(" + methodInvocation.arguments().toString() + ")");				
+			externalCall.setEntityName(methodInvocation.getName().toString() + "(" + methodInvocation.arguments().toString() + ")");
 		}
 
 		OperationProvidedRole operationProvidedRole = (OperationProvidedRole) externalBasicComponent.getProvidedRoles_InterfaceProvidingEntity().get(0);
@@ -106,6 +106,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		OperationRequiredRole operationRequiredRole = null;
 		if (basicComponent.getRequiredRoles_InterfaceRequiringEntity().size() == 0) {
 			operationRequiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
+			operationRequiredRole.setEntityName(basicComponent.getEntityName());
 			basicComponent.getRequiredRoles_InterfaceRequiringEntity().add(operationRequiredRole);
 		} else {
 			operationRequiredRole = (OperationRequiredRole) basicComponent.getRequiredRoles_InterfaceRequiringEntity().get(0);
