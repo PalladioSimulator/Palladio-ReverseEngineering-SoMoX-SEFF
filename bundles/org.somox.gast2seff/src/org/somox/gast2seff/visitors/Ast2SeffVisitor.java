@@ -124,23 +124,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	
 	public boolean visit(final IfStatement ifStatement) {
-		BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
-		ResourceDemandingBehaviour branchBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
-		AbstractBranchTransition branchTransition = SeffFactory.eINSTANCE.createGuardedBranchTransition();
-		StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
-		branchBehaviour.getSteps_Behaviour().add(startAction);
+		BranchAction branchAction = generateBranchAction(ifStatement.getThenStatement());
 		
-		branchTransition.setEntityName(this.ifStatementToString(ifStatement.getExpression()));
-		
-		ifStatement.getThenStatement().accept(this);
-		
-		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
-		branchBehaviour.getSteps_Behaviour().add(stopAction);
-		VisitorUtils.connectActions(branchBehaviour);
-		branchTransition.setBranchBehaviour_BranchTransition(branchBehaviour);
-		branchAction.getBranches_Branch().add(branchTransition);
-		
-		handleElseStatement(ifStatement.getElseStatement(), branchAction);
+		if (ifStatement.getElseStatement() != null) {
+			handleElseStatement(ifStatement.getElseStatement(), branchAction);			
+		}
 		
 		this.actionList.add(branchAction);
 		return false;
@@ -148,30 +136,29 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	//TODO: Correct the entity name for the else if statement 
 	private void handleElseStatement(Statement statement, BranchAction branchAction) {
-		if (statement != null) {
-			ResourceDemandingBehaviour branchBehaviourElse = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
-			AbstractBranchTransition branchTransitionElse = SeffFactory.eINSTANCE.createGuardedBranchTransition();
-			StartAction startActionElse = SeffFactory.eINSTANCE.createStartAction();
-			branchBehaviourElse.getSteps_Behaviour().add(startActionElse);
-			if (statement instanceof IfStatement) {
-				IfStatement elseIfStatement = (IfStatement) statement;
-				branchTransitionElse.setEntityName(this.ifStatementToString(elseIfStatement.getExpression()));
-				elseIfStatement.getThenStatement().accept(this);
-			} else {
-				statement.accept(this);
-			}
-
-			StopAction stopActionElse = SeffFactory.eINSTANCE.createStopAction();
-			branchBehaviourElse.getSteps_Behaviour().add(stopActionElse);
-			VisitorUtils.connectActions(branchBehaviourElse);
-			branchTransitionElse.setBranchBehaviour_BranchTransition(branchBehaviourElse);
-			branchAction.getBranches_Branch().add(branchTransitionElse);
-			
-			if (statement instanceof IfStatement) {
-				IfStatement elseIfStatement = (IfStatement) statement;
-				handleElseStatement(elseIfStatement.getElseStatement(), branchAction);
-			}
+		ResourceDemandingBehaviour branchBehaviourElse = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+		AbstractBranchTransition branchTransitionElse = SeffFactory.eINSTANCE.createGuardedBranchTransition();
+		StartAction startActionElse = SeffFactory.eINSTANCE.createStartAction();
+		branchBehaviourElse.getSteps_Behaviour().add(startActionElse);
+		if (statement instanceof IfStatement) {
+			IfStatement elseIfStatement = (IfStatement) statement;
+			branchTransitionElse.setEntityName(this.ifStatementToString(elseIfStatement.getExpression()));
+			elseIfStatement.getThenStatement().accept(this);
+		} else {
+			statement.accept(this);
 		}
+
+		StopAction stopActionElse = SeffFactory.eINSTANCE.createStopAction();
+		branchBehaviourElse.getSteps_Behaviour().add(stopActionElse);
+		branchTransitionElse.setBranchBehaviour_BranchTransition(branchBehaviourElse);
+		VisitorUtils.connectActions(branchBehaviourElse);
+		branchAction.getBranches_Branch().add(branchTransitionElse);
+		
+		if (statement instanceof IfStatement) {
+			IfStatement elseIfStatement = (IfStatement) statement;
+			handleElseStatement(elseIfStatement.getElseStatement(), branchAction);
+		}
+	
 	}
 	
 	public boolean visit(final SynchronizedStatement synchronizedStatement) {
@@ -213,23 +200,15 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
+	public interface BodyParsing {
+		public void accept(ASTNode node);
+	}
+	
+
+	
 	public boolean visit(final TryStatement tryStatement) {
 		
-		BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
-		ResourceDemandingBehaviour branchBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
-		AbstractBranchTransition branchTransition = SeffFactory.eINSTANCE.createGuardedBranchTransition();
-		StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
-		branchBehaviour.getSteps_Behaviour().add(startAction);
-
-//		branchTransition.setEntityName(this.ifStatementToString(tryStatement.getExpression()));
-		
-		tryStatement.getBody().accept(this);
-		
-		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
-		branchBehaviour.getSteps_Behaviour().add(stopAction);
-		VisitorUtils.connectActions(branchBehaviour);
-		branchTransition.setBranchBehaviour_BranchTransition(branchBehaviour);
-		branchAction.getBranches_Branch().add(branchTransition);
+		BranchAction branchAction = generateBranchAction(tryStatement.getBody());
 		
 		List<CatchClause> catchClauseList = tryStatement.catchClauses();
 		for (CatchClause catchClause : catchClauseList) {
@@ -251,64 +230,30 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
+
+	
 	public boolean visit(final ForStatement forStatement) {
-		LoopAction loopAction = SeffFactory.eINSTANCE.createLoopAction();
-		ResourceDemandingBehaviour bodyBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
-		loopAction.setBodyBehaviour_Loop(bodyBehaviour);
-		StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
-		bodyBehaviour.getSteps_Behaviour().add(startAction);
+		LoopAction loopAction = generateLoopAction(forStatement.getBody());
 		
 		Expression initializers = (Expression) forStatement.initializers().get(0);
 		Expression updaters = (Expression) forStatement.updaters().get(0);
 		loopAction.setEntityName(this.forStatementToString(initializers, forStatement.getExpression(), updaters));
 		
-		forStatement.getBody().accept(this);
-		
-		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
-		bodyBehaviour.getSteps_Behaviour().add(stopAction);
-		VisitorUtils.connectActions(bodyBehaviour);
 		this.actionList.add(loopAction);
 		return false;
 	}
 	
-	// TODO: Set entitiy name for the loop action
 	public boolean visit(final EnhancedForStatement forStatement) {
-		LoopAction loopAction = SeffFactory.eINSTANCE.createLoopAction();
-		ResourceDemandingBehaviour bodyBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
-		loopAction.setBodyBehaviour_Loop(bodyBehaviour);
-		StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
-		bodyBehaviour.getSteps_Behaviour().add(startAction);
-		
-//		Expression initializers = (Expression) forStatement.initializers().get(0);
-//		Expression updaters = (Expression) forStatement.updaters().get(0);
-//		loopAction.setEntityName(this.forStatementToString(initializers, forStatement.getExpression(), updaters));
-		
-		forStatement.getBody().accept(this);
-		
-		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
-		bodyBehaviour.getSteps_Behaviour().add(stopAction);
-		VisitorUtils.connectActions(bodyBehaviour);
+		LoopAction loopAction = generateLoopAction(forStatement.getBody());
+		// TODO: Add Entitiy Name to LoopAction
 		this.actionList.add(loopAction);
 		return false;
 	}
-	
-	
 	
 	public boolean visit(final WhileStatement whileStatement) {
-		LoopAction loopAction = SeffFactory.eINSTANCE.createLoopAction();
-		ResourceDemandingBehaviour bodyBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
-		loopAction.setBodyBehaviour_Loop(bodyBehaviour);
-		StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
-		bodyBehaviour.getSteps_Behaviour().add(startAction);
-		
+		LoopAction loopAction = generateLoopAction(whileStatement.getBody());
 		loopAction.setEntityName(this.whileStatementToString(whileStatement.getExpression()));
-		
-		whileStatement.getBody().accept(this);
-		
-		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
-		bodyBehaviour.getSteps_Behaviour().add(stopAction);
 		this.actionList.add(loopAction);
-		VisitorUtils.connectActions(bodyBehaviour);
 		return false;
 	}
 	
@@ -344,23 +289,45 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return super.visit(variableDeclarationStatement);
 	}
 
+	private BranchAction generateBranchAction(ASTNode astNode) {
+		BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
+		ResourceDemandingBehaviour branchBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+		AbstractBranchTransition branchTransition = SeffFactory.eINSTANCE.createGuardedBranchTransition();
+		StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
+		branchBehaviour.getSteps_Behaviour().add(startAction);
+
+//		branchTransition.setEntityName(this.ifStatementToString(tryStatement.getExpression()));
+		
+		astNode.accept(this);
+//		tryStatement.getBody().accept(this);
+		
+		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
+		branchBehaviour.getSteps_Behaviour().add(stopAction);
+		VisitorUtils.connectActions(branchBehaviour);
+		branchTransition.setBranchBehaviour_BranchTransition(branchBehaviour);
+		branchAction.getBranches_Branch().add(branchTransition);
+		return branchAction;
+	}
+	
+	private LoopAction generateLoopAction(ASTNode node) {
+		LoopAction loopAction = SeffFactory.eINSTANCE.createLoopAction();
+		ResourceDemandingBehaviour bodyBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
+		loopAction.setBodyBehaviour_Loop(bodyBehaviour);
+		StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
+		bodyBehaviour.getSteps_Behaviour().add(startAction);
+		
+		node.accept(this);
+		
+		StopAction stopAction = SeffFactory.eINSTANCE.createStopAction();
+		bodyBehaviour.getSteps_Behaviour().add(stopAction);
+		VisitorUtils.connectActions(bodyBehaviour);
+		return loopAction;
+	}
+	
 	protected boolean isExternal(MethodInvocation methodInvocation) {
 		String methodName = methodInvocation.getName().toString();
 		String className = this.getClassName(methodInvocation);
-		if (this.methodNameMap.containsKey(className + "." + methodName)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	protected MethodDeclaration getMethodDeclaration(ASTNode node) {
-		if(node instanceof MethodDeclaration)
-			return (MethodDeclaration) node;
-		else if(node.getParent() != null)
-			return getMethodDeclaration(node.getParent());
-		else
-			return null;
+		return this.methodNameMap.containsKey(className + "." + methodName);
 	}
 	
 	protected MethodAssociation getExternalMethodAssociation(MethodInvocation methodInvocation) {
@@ -369,6 +336,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		if (this.methodNameMap.containsKey(className + "." + methodName)) {
 			return this.methodNameMap.get(className + "." + methodName);
 		} else {
+			// TODO: handle the return of null
 			return null;
 		}
 	}
@@ -392,16 +360,19 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		positionString.append("expression name \"").append(expression).append("\"");
 		return positionString.toString();
 	}
+	
 	protected String ifStatementToString(Expression expression) {
 		final StringBuilder positionString = new StringBuilder(" @position: ");
 		positionString.append("Cond: ").append(expression).append("");
 		return positionString.toString();
 	}
+	
 	protected String elseStatementToString(Expression expression) {
 		final StringBuilder positionString = new StringBuilder(" @position: ");
 		positionString.append("Cond: !").append(expression).append("");
 		return positionString.toString();
 	}
+	
 	protected String forStatementToString(Expression initializers, Expression expression, Expression updaters) {
 		final StringBuilder positionString = new StringBuilder(" @position: ");
 		if (initializers instanceof VariableDeclarationExpression && expression instanceof InfixExpression && updaters instanceof PostfixExpression) {
