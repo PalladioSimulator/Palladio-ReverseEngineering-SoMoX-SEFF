@@ -23,15 +23,23 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
+import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.PrimitiveType.Code;
 import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.palladiosimulator.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.repository.DataType;
 import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
+import org.palladiosimulator.pcm.repository.Parameter;
 import org.palladiosimulator.pcm.repository.PassiveResource;
+import org.palladiosimulator.pcm.repository.PrimitiveDataType;
+import org.palladiosimulator.pcm.repository.PrimitiveTypeEnum;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
@@ -144,6 +152,45 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         	OperationSignature operationSignature =  RepositoryFactory.eINSTANCE.createOperationSignature();
         	MethodDeclaration methodDeclaration = (MethodDeclaration) methodAssociation.getAstNode();
         	operationSignature.setEntityName(methodDeclaration.getName().toString());
+        	List<SingleVariableDeclaration> singleVariableDeclarationList = methodDeclaration.parameters();
+        	
+        	if (singleVariableDeclarationList != null && singleVariableDeclarationList.size() > 0) {
+        		for (SingleVariableDeclaration variableDeclaration : singleVariableDeclarationList) {
+        			Type type = variableDeclaration.getType();
+        			if (type.isPrimitiveType()) {
+        				PrimitiveType primitiveType = (PrimitiveType) type;
+        				Parameter parameter = RepositoryFactory.eINSTANCE.createParameter();
+        				parameter.setParameterName(variableDeclaration.getName().toString());
+        				PrimitiveDataType dataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
+
+        				String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode().toString();
+        				
+        				if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
+        					dataType.setType(PrimitiveTypeEnum.INT);
+        				} else if (primitiveTypeCodeString.equals(PrimitiveType.SHORT.toString())) {
+        					dataType.setType(PrimitiveTypeEnum.INT);
+        				} else if (primitiveTypeCodeString.equals(PrimitiveType.DOUBLE.toString())) {
+        					dataType.setType(PrimitiveTypeEnum.DOUBLE);
+        				} else if (primitiveTypeCodeString.equals(PrimitiveType.FLOAT.toString())) {
+        					dataType.setType(PrimitiveTypeEnum.DOUBLE);
+        				} else if (primitiveTypeCodeString.equals(PrimitiveType.CHAR.toString())) {
+        					dataType.setType(PrimitiveTypeEnum.CHAR);
+        				} else if (primitiveTypeCodeString.equals(PrimitiveType.BYTE.toString())) {
+        					dataType.setType(PrimitiveTypeEnum.BYTE);
+        				} else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
+        					dataType.setType(PrimitiveTypeEnum.BOOL);
+        				} else {
+        					// TODO: handle error
+        				}
+        				
+        				dataType.setRepository__DataType(repository);
+        				parameter.setDataType__Parameter(dataType);
+        				
+        				operationSignature.getParameters__OperationSignature().add(parameter);
+        			}
+        		}
+        	}
+        	
         	if (map.containsKey(basicComponent)) {
         		OperationProvidedRole operationProvidedRole = (OperationProvidedRole) basicComponent.getProvidedRoles_InterfaceProvidingEntity().get(0);
         		OperationInterface operationInterface = operationProvidedRole.getProvidedInterface__OperationProvidedRole();
@@ -162,7 +209,6 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
             	operationProvidedRole.setEntityName(basicComponent.getEntityName());
             	basicComponent.getProvidedRoles_InterfaceProvidingEntity().add(operationProvidedRole);
         	}
-        	
         }
 		
 		// TODO: Same method name from different files?
