@@ -147,6 +147,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			StaticNameMethods.setEntityName(branchTransitionElse, elseIfStatement);
 			elseIfStatement.getThenStatement().accept(this);
 		} else {
+			StaticNameMethods.setEntityName(branchTransitionElse, statement);
 			statement.accept(this);
 		}
 		this.actionList = oldActionList;
