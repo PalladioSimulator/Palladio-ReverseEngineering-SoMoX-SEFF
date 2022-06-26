@@ -49,6 +49,7 @@ import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
 import org.somox.kdmhelper.MethodAssociation;
+import org.somox.kdmhelper.StaticNameMethods;
 
 public class Ast2SeffVisitor extends ASTVisitor {
 
@@ -86,28 +87,24 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			if (!externalBasicComponent.equals(basicComponent)) {
 				createExternalCallAction(methodInvocation, externalBasicComponent);
 			} else {
-				createInternalAction();	
+				createInternalAction(expressionStatement);	
 			}
 		} else {
-			createInternalAction();
+			createInternalAction(expressionStatement);
 		}
 		return super.visit(expressionStatement);
 	}
 	
 	private void createExternalCallAction(MethodInvocation methodInvocation, BasicComponent externalBasicComponent) {
 		ExternalCallAction externalCall = SeffFactory.eINSTANCE.createExternalCallAction();
-		if (methodInvocation.arguments().isEmpty()) {
-			externalCall.setEntityName(methodInvocation.getName().toString());
-		} else {
-			externalCall.setEntityName(methodInvocation.getName().toString() + "(" + methodInvocation.arguments().toString() + ")");
-		}
+		StaticNameMethods.setEntityName(externalCall, methodInvocation);
 
 		OperationProvidedRole operationProvidedRole = (OperationProvidedRole) externalBasicComponent.getProvidedRoles_InterfaceProvidingEntity().get(0);
 		OperationInterface operationInterface = operationProvidedRole.getProvidedInterface__OperationProvidedRole();
 		OperationRequiredRole operationRequiredRole = null;
 		if (basicComponent.getRequiredRoles_InterfaceRequiringEntity().size() == 0) {
 			operationRequiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
-			operationRequiredRole.setEntityName(basicComponent.getEntityName());
+			StaticNameMethods.setEntityName(operationRequiredRole, basicComponent.getEntityName());
 			basicComponent.getRequiredRoles_InterfaceRequiringEntity().add(operationRequiredRole);
 		} else {
 			operationRequiredRole = (OperationRequiredRole) basicComponent.getRequiredRoles_InterfaceRequiringEntity().get(0);
@@ -117,14 +114,17 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		this.actionList.add(externalCall);
 	}
 	
-	private void createInternalAction() {
+	private void createInternalAction(final ExpressionStatement expressionStatement) {
 		InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
+		Expression expression = expressionStatement.getExpression();
+		StaticNameMethods.setEntityName(internalAction, expression);
 		this.actionList.add(internalAction);
 	}
 	
 	
 	public boolean visit(final IfStatement ifStatement) {
 		BranchAction branchAction = generateBranchAction(ifStatement.getThenStatement());
+		StaticNameMethods.setEntityName(branchAction, ifStatement);
 		
 		if (ifStatement.getElseStatement() != null) {
 			handleElseStatement(ifStatement.getElseStatement(), branchAction);			
@@ -142,7 +142,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		branchBehaviourElse.getSteps_Behaviour().add(startActionElse);
 		if (statement instanceof IfStatement) {
 			IfStatement elseIfStatement = (IfStatement) statement;
-			branchTransitionElse.setEntityName(this.ifStatementToString(elseIfStatement.getExpression()));
+			StaticNameMethods.setEntityName(branchTransitionElse, elseIfStatement);
 			elseIfStatement.getThenStatement().accept(this);
 		} else {
 			statement.accept(this);
@@ -163,11 +163,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	public boolean visit(final SynchronizedStatement synchronizedStatement) {
 		Expression exp = synchronizedStatement.getExpression();
-		String className = this.getClassName(exp) + ".class";
+		String className = StaticNameMethods.getClassName(exp) + ".class";
 		
 		PassiveResource passiveResource = RepositoryFactory.eINSTANCE.createPassiveResource();
 		passiveResource.setCapacity_PassiveResource(CoreFactory.eINSTANCE.createPCMRandomVariable());
-		passiveResource.setEntityName(className);
+		StaticNameMethods.setEntityName(passiveResource, className);
 		passiveResource.getCapacity_PassiveResource().setSpecification("1");
 		if(this.basicComponent.getPassiveResource_BasicComponent().isEmpty())
 			this.basicComponent.getPassiveResource_BasicComponent().add(passiveResource);
@@ -189,14 +189,14 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		final AcquireAction acquireAction = SeffFactory.eINSTANCE.createAcquireAction();
 		this.actionList.add(acquireAction);
 		acquireAction.setPassiveresource_AcquireAction(passiveResource);
-		acquireAction.setEntityName(className);
+		StaticNameMethods.setEntityName(acquireAction, className);
 
 		synchronizedStatement.getBody().accept(this);
 
 		final ReleaseAction releaseAction = SeffFactory.eINSTANCE.createReleaseAction();
 		this.actionList.add(releaseAction);
 		releaseAction.setPassiveResource_ReleaseAction(passiveResource);
-		releaseAction.setEntityName(className);
+		StaticNameMethods.setEntityName(releaseAction, className);
 		return false;
 	}
 	
@@ -234,31 +234,28 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	public boolean visit(final ForStatement forStatement) {
 		LoopAction loopAction = generateLoopAction(forStatement.getBody());
-		
-		Expression initializers = (Expression) forStatement.initializers().get(0);
-		Expression updaters = (Expression) forStatement.updaters().get(0);
-		loopAction.setEntityName(this.forStatementToString(initializers, forStatement.getExpression(), updaters));
-		
+		StaticNameMethods.setEntityName(loopAction, forStatement);
 		this.actionList.add(loopAction);
 		return false;
 	}
 	
 	public boolean visit(final EnhancedForStatement forStatement) {
 		LoopAction loopAction = generateLoopAction(forStatement.getBody());
-		// TODO: Add Entitiy Name to LoopAction
+		StaticNameMethods.setEntityName(loopAction, forStatement);
 		this.actionList.add(loopAction);
 		return false;
 	}
 	
 	public boolean visit(final WhileStatement whileStatement) {
 		LoopAction loopAction = generateLoopAction(whileStatement.getBody());
-		loopAction.setEntityName(this.whileStatementToString(whileStatement.getExpression()));
+		StaticNameMethods.setEntityName(loopAction, whileStatement);
 		this.actionList.add(loopAction);
 		return false;
 	}
 	
 	public boolean visit(final SwitchStatement switchStatement) {
 		BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
+		StaticNameMethods.setEntityName(branchAction, switchStatement);
 		
 		List<List<Statement>> blockList = SwitchStatementHelper.createBlockListFromSwitchStatement(switchStatement);
 		// TODO: Do we need to build an ASTNode to enable the visitor pattern?
@@ -326,60 +323,18 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	protected boolean isExternal(MethodInvocation methodInvocation) {
 		String methodName = methodInvocation.getName().toString();
-		String className = this.getClassName(methodInvocation);
+		String className = StaticNameMethods.getClassName(methodInvocation);
 		return this.methodNameMap.containsKey(className + "." + methodName);
 	}
 	
 	protected MethodAssociation getExternalMethodAssociation(MethodInvocation methodInvocation) {
 		String methodName = methodInvocation.getName().toString();
-		String className = this.getClassName(methodInvocation);
+		String className = StaticNameMethods.getClassName(methodInvocation);
 		if (this.methodNameMap.containsKey(className + "." + methodName)) {
 			return this.methodNameMap.get(className + "." + methodName);
 		} else {
 			// TODO: handle the return of null
 			return null;
 		}
-	}
-	
-	protected String getClassName(MethodInvocation methodInvocation) {
-		return this.getClassName(methodInvocation.getExpression());
-	}
-	protected String getClassName(Expression calledClass) {
-		String result = "unknown";
-		ITypeBinding bindingExpression = calledClass.resolveTypeBinding();
-		if(bindingExpression != null && bindingExpression.getPackage() != null)
-			result = bindingExpression.getBinaryName();
-		else
-			logger.warn("No Class Name found for: " + calledClass.toString());
-		
-		return result;
-	}
-	
-	protected String whileStatementToString(Expression expression) {
-		final StringBuilder positionString = new StringBuilder(" @position: ");
-		positionString.append("expression name \"").append(expression).append("\"");
-		return positionString.toString();
-	}
-	
-	protected String ifStatementToString(Expression expression) {
-		final StringBuilder positionString = new StringBuilder(" @position: ");
-		positionString.append("Cond: ").append(expression).append("");
-		return positionString.toString();
-	}
-	
-	protected String elseStatementToString(Expression expression) {
-		final StringBuilder positionString = new StringBuilder(" @position: ");
-		positionString.append("Cond: !").append(expression).append("");
-		return positionString.toString();
-	}
-	
-	protected String forStatementToString(Expression initializers, Expression expression, Expression updaters) {
-		final StringBuilder positionString = new StringBuilder(" @position: ");
-		if (initializers instanceof VariableDeclarationExpression && expression instanceof InfixExpression && updaters instanceof PostfixExpression) {
-			positionString.append(" from ").append(initializers).append(" to ").append(expression).append(" with ").append(updaters);
-		} else {
-			positionString.append("no position information available");
-		}
-		return positionString.toString();
 	}
 }

@@ -194,6 +194,8 @@ Neue Aufgaben:
 - PassiveResources Namen richtig setzen
 - Methoden Testen
 - Aufräumen
+- Weitere Namen setzen
+- SimpleClass.callExternalMethod umbenennen + seff für internalFunctionCalls erstellen
 
 Notizen zum Meeting:
 - 
