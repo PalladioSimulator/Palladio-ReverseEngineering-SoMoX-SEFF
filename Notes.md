@@ -199,3 +199,48 @@ Neue Aufgaben:
 
 Notizen zum Meeting:
 - 
+
+### 27.06
+
+Bearbeitete Aufgaben:
+- Provides / Requires Pfeile fixen
+- BasicComponent Namen setzen
+- Interface methoden parameter setzen
+- Übergabeparameter hinzufügen
+- PassiveResources Namen richtig setzen
+- Methoden Testen
+- Aufräumen
+- Weitere Namen setzen
+- SimpleClass.callExternalMethod umbenennen + seff für internalFunctionCalls erstellen
+
+Neue Aufgaben:
+- Private und öffentliche Methoden die nicht in der SEFF-Liste stehen müssen auch generiert werden
+- STRG F -> Suchen im alten Quelltext, für was eine Interne Action generiert wird (wshl. im JaMoPP Visitor)
+- Variablendeklarationen auch modellieren
+- Composite- und Collection Data Types für Parameter erstellen und setzen
+- Master in Seff-Branch mergen
+- Variablen für external Calls (nachschauen im MediaStore)
+- Set Variable Action modellieren (erstmal für Primitive Datentypen, danach die Klassen Datentypen)
+- Listenarten als Collection Data Type modellieren
+- Simple Statement modellieren (JaMoPPVisitor)
+- Aufschreiben: Was wurde im JaMoPPVisitor erstellt, wie ist das Mapping auf unsere eingenen Methoden
+  - Dieser Inhalt kommt in unsere Dokumentation
+  - Tabelle erstellen für JaMoPP und Modisco Quelltext
+  - Implementierung soll sich gleich verhalten
+- Schauen, was in den Palladio Modisco Visitatoren erstellt wurde 
+  - https://github.com/PalladioSimulator/Palladio-ReverseEngineering-SoMoX-MoDisco 
+- https://sdqweb.ipd.kit.edu/publications/pdfs/krogmann2010a.pdf 
+  - Als Hauptreferenz verstehen
+- Schauen, ob wir im Media Store eine Internal Call Action wiederfinden
+
+Notizen zum Meeting:
+- Wie weit steigen wir im Baum ab, ab welchem Level machen wir eine Internal Action?
+- Condition Felder auslassen und @position string wie im alten Model setzen
+- Collection Data Type (Struct) und Composite Data Type 
+  - Bibliothek für das Erstellen von Data Types verwenden
+  - https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator/blob/master/documentation/repository.md#data-types
+- https://svnserver.informatik.kit.edu/i43/svn/code/CaseStudies/MediaStore3/trunk/Model/MediaStore3_Model/
+  - UserId: anonymous PW: anonymous   
+  - https://sdqweb.ipd.kit.edu/wiki/Anonymous_SVN_Access 
+- Aktive Teilnahme in den Abschlusspräsentationen
+- Gut vorbereitete Abschlusspräsentation
