@@ -56,3 +56,8 @@ xtend-gen/
 # Builds
 *.xml
 PCM-Editor-Test/
+bundles/org.somox.core/
+bundles/org.somox.filter/
+bundles/org.somox.kdmhelper/
+bundles/org.somox.ui/
+bundles/org.somox.util/
