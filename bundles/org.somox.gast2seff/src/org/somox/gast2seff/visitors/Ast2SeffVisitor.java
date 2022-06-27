@@ -234,8 +234,6 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
-
-	
 	public boolean visit(final ForStatement forStatement) {
 		LoopAction loopAction = generateLoopAction(forStatement.getBody());
 		StaticNameMethods.setEntityName(loopAction, forStatement);

@@ -232,6 +232,8 @@ Neue Aufgaben:
 - https://sdqweb.ipd.kit.edu/publications/pdfs/krogmann2010a.pdf 
   - Als Hauptreferenz verstehen
 - Schauen, ob wir im Media Store eine Internal Call Action wiederfinden
+- Weitere Namen setzen
+- Alte Classen / Alten Code raus moven
 
 Notizen zum Meeting:
 - Wie weit steigen wir im Baum ab, ab welchem Level machen wir eine Internal Action?
@@ -244,3 +246,6 @@ Notizen zum Meeting:
   - https://sdqweb.ipd.kit.edu/wiki/Anonymous_SVN_Access 
 - Aktive Teilnahme in den Abschlusspräsentationen
 - Gut vorbereitete Abschlusspräsentation
+- Bei Branch, Condition in Name, nicht zwingend in Condition Feld (Probleme bei Zuweisung wegen Typ)
+- Fluent API einbinden für Datentype modellierungen
+- Bei MediaStore3 iFileStorage für return
