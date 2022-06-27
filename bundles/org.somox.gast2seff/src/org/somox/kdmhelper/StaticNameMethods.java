@@ -39,18 +39,6 @@ public class StaticNameMethods {
 		return result;
 	}
 	
-	public static String whileStatementToString(Expression expression) {
-		final StringBuilder positionString = new StringBuilder(" @position: ");
-		positionString.append("expression name \"").append(expression).append("\"");
-		return positionString.toString();
-	}
-	
-	public static String elseStatementToString(Expression expression) {
-		final StringBuilder positionString = new StringBuilder(" @position: ");
-		positionString.append("Cond: !").append(expression).append("");
-		return positionString.toString();
-	}
-	
 	/*
 	 * Dynamically sets the Name of the supplied action
 	 */
@@ -89,12 +77,9 @@ public class StaticNameMethods {
 		}
 		loopAction.setEntityName(positionString.toString());
 	}
-	//TODO: Fix
 	public static void setEntityName(LoopAction loopAction, final EnhancedForStatement forStatement) {
-		//Expression initializers = (Expression) forStatement.initializers().get(0);
-		//Expression updaters = (Expression) forStatement.updaters().get(0);
 		SingleVariableDeclaration variableDeclaration = forStatement.getParameter();
-		Expression expression = forStatement.getExpression(); 
+		Expression expression = forStatement.getExpression();
 		
 		final StringBuilder positionString = new StringBuilder(" @position: ");
 		positionString.append("for (").append(variableDeclaration).append(" : ").append(expression).append(")");
@@ -116,4 +101,17 @@ public class StaticNameMethods {
 	public static void setEntityName(Entity defaultResource, String className) {
 		defaultResource.setEntityName(className);
 	}
+	
+	
+//	public static String whileStatementToString(Expression expression) {
+//		final StringBuilder positionString = new StringBuilder(" @position: ");
+//		positionString.append("expression name \"").append(expression).append("\"");
+//		return positionString.toString();
+//	}
+	
+//	public static String elseStatementToString(Expression expression) {
+//		final StringBuilder positionString = new StringBuilder(" @position: ");
+//		positionString.append("Cond: !").append(expression).append("");
+//		return positionString.toString();
+//	}
 }
