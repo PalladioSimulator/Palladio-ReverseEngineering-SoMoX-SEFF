@@ -35,7 +35,6 @@ javacore.*
 local.properties
 # src-gen/
 tmp/
-bundles/
 
 # Maven
 .mvn/timing.properties
