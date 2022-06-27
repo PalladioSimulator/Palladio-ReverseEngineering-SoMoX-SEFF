@@ -199,3 +199,23 @@ Neue Aufgaben:
 
 Notizen zum Meeting:
 - 
+
+### 27.06
+Bearbeitete Aufgaben:
+- 
+
+Fragen:
+- 
+
+Neue Aufgaben:
+- Weitere Namen setzen
+- Datentypen modellieren
+- Variablendeclarationen hinzufügen
+- Master in Seff mergen
+- SetVariableAction für Variablenzuweisungen hinzufügen
+- Alte Classen / Alten Code raus moven
+
+Notizen zum Meeting:
+- Bei Branch, Condition in Name, nicht zwingend in Condition Feld (probleme bei Zuweisung wegen Typ)
+- Fluent API einbinden für Datentype modellierungen
+- Bei MediaStore3 iFileStorage für return
