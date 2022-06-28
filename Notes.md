@@ -249,3 +249,4 @@ Notizen zum Meeting:
 - Bei Branch, Condition in Name, nicht zwingend in Condition Feld (Probleme bei Zuweisung wegen Typ)
 - Fluent API einbinden für Datentype modellierungen
 - Bei MediaStore3 iFileStorage für return
+- https://bwsyncandshare.kit.edu/s/eYmydsSWMSxCmdk
