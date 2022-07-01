@@ -212,14 +212,18 @@ Bearbeitete Aufgaben:
 - Aufräumen
 - Weitere Namen setzen
 - SimpleClass.callExternalMethod umbenennen + seff für internalFunctionCalls erstellen
+---------------------------
+- Master in Seff-Branch mergen
+- Set Variable Action modellieren (erstmal für Primitive Datentypen, danach die Klassen Datentypen)
+- Variablendeklarationen auch modellieren
 
 Neue Aufgaben:
 - Private und öffentliche Methoden die nicht in der SEFF-Liste stehen müssen auch generiert werden
 - STRG F -> Suchen im alten Quelltext, für was eine Interne Action generiert wird (wshl. im JaMoPP Visitor)
-- Variablendeklarationen auch modellieren
 - Composite- und Collection Data Types für Parameter erstellen und setzen
 - Master in Seff-Branch mergen
 - Variablen für external Calls (nachschauen im MediaStore)
+- Variablendeklarationen auch modellieren
 - Set Variable Action modellieren (erstmal für Primitive Datentypen, danach die Klassen Datentypen)
 - Listenarten als Collection Data Type modellieren
 - Simple Statement modellieren (JaMoPPVisitor)

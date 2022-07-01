@@ -8,6 +8,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Block;
+import org.eclipse.jdt.core.dom.BooleanLiteral;
 import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.Expression;
@@ -19,6 +20,7 @@ import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.PostfixExpression;
+import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.SwitchCase;
 import org.eclipse.jdt.core.dom.SwitchStatement;
@@ -30,11 +32,17 @@ import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.palladiosimulator.pcm.core.CoreFactory;
+import org.palladiosimulator.pcm.parameter.CharacterisedVariable;
+import org.palladiosimulator.pcm.parameter.ParameterFactory;
+import org.palladiosimulator.pcm.parameter.VariableCharacterisation;
+import org.palladiosimulator.pcm.parameter.VariableCharacterisationType;
+import org.palladiosimulator.pcm.parameter.VariableUsage;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.PassiveResource;
+import org.palladiosimulator.pcm.repository.PrimitiveTypeEnum;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.AbstractBranchTransition;
@@ -46,10 +54,14 @@ import org.palladiosimulator.pcm.seff.LoopAction;
 import org.palladiosimulator.pcm.seff.ReleaseAction;
 import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
 import org.palladiosimulator.pcm.seff.SeffFactory;
+import org.palladiosimulator.pcm.seff.SetVariableAction;
 import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
 import org.somox.kdmhelper.MethodAssociation;
 import org.somox.kdmhelper.StaticNameMethods;
+
+import de.uka.ipd.sdq.stoex.AbstractNamedReference;
+import de.uka.ipd.sdq.stoex.StoexPackage;
 
 public class Ast2SeffVisitor extends ASTVisitor {
 
@@ -119,7 +131,16 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		}
 		operationRequiredRole.setRequiredInterface__OperationRequiredRole(operationInterface);
 		externalCall.setRole_ExternalService(operationRequiredRole);
+		
 		this.actionList.add(externalCall);
+		if(!methodInvocation.arguments().isEmpty())
+		{
+			EList<VariableUsage> inputVariables = externalCall.getInputVariableUsages__CallAction();
+			for(Object argument : methodInvocation.arguments()) {
+				Expression castedArgument = (Expression) argument;
+				generateVariables(castedArgument, inputVariables);
+			}
+		}
 	}
 	
 	private void createInternalAction(final ExpressionStatement expressionStatement) {
@@ -286,6 +307,46 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	public boolean visit(final VariableDeclarationStatement variableDeclarationStatement) {
 		Type test = variableDeclarationStatement.getType();
 		return super.visit(variableDeclarationStatement);
+	}
+	
+	/*
+	 * Neu in Ast2Seff dazu gekommen, war nicht in JaMoPP vorhanden
+	 * Verhalten aus "MediaStore3 -> AudioWatermarking" abgeschaut
+	 * https://updatesite.palladio-simulator.com/archive/pcm_archive/revisions/2009-03-07_PCM_javadoc/de/uka/ipd/sdq/pcm/parameter/ParameterFactory.html
+	 */
+	private void generateVariables(Expression variable, EList<VariableUsage> variablesList) {
+		////TODO: Für auftreten von return mit variable diese action setzen 
+		//SetVariableAction variableAction = SeffFactory.eINSTANCE.createSetVariableAction();
+		//this.actionList.add(variableAction);
+		
+		if(variable instanceof BooleanLiteral) {
+			//BooleanLiteral transformedVariable = (BooleanLiteral) variable;
+			VariableCharacterisation booleanVariable = ParameterFactory.eINSTANCE.createVariableCharacterisation();
+			booleanVariable.setType(VariableCharacterisationType.VALUE);
+			VariableUsage variableUsage = ParameterFactory.eINSTANCE.createVariableUsage();
+			variableUsage.getVariableCharacterisation_VariableUsage().add(booleanVariable);
+			//variableUsage.setNamedReference__VariableUsage((AbstractNamedReference) StoexPackage.Literals.ABSTRACT_NAMED_REFERENCE);
+
+			variablesList.add(variableUsage);
+		}
+		
+		//if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
+		//	dataType.setType(PrimitiveTypeEnum.INT);
+		//} else if (primitiveTypeCodeString.equals(PrimitiveType.SHORT.toString())) {
+		//	dataType.setType(PrimitiveTypeEnum.INT);
+		//} else if (primitiveTypeCodeString.equals(PrimitiveType.DOUBLE.toString())) {
+		//	dataType.setType(PrimitiveTypeEnum.DOUBLE);
+		//} else if (primitiveTypeCodeString.equals(PrimitiveType.FLOAT.toString())) {
+		//	dataType.setType(PrimitiveTypeEnum.DOUBLE);
+		//} else if (primitiveTypeCodeString.equals(PrimitiveType.CHAR.toString())) {
+		//	dataType.setType(PrimitiveTypeEnum.CHAR);
+		//} else if (primitiveTypeCodeString.equals(PrimitiveType.BYTE.toString())) {
+		//	dataType.setType(PrimitiveTypeEnum.BYTE);
+		//} else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
+		//	dataType.setType(PrimitiveTypeEnum.BOOL);
+		//} else {
+		//	// TODO: handle error
+		//}
 	}
 
 	private BranchAction generateBranchAction(ASTNode node) {
