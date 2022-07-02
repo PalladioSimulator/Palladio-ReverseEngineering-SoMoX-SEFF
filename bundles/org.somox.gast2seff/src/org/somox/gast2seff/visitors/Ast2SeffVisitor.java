@@ -307,9 +307,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		this.actionList.add(branchAction);
 		return false;
 	}
-	
+
+	/*
+	 * Neu in Ast2Seff dazu gekommen, war nicht in JaMoPP vorhanden
+	 * Verhalten aus "MediaStore3 -> AudioWatermarking" abgeschaut
+	 */
 	public boolean visit(final ReturnStatement returnStatement) {
-		////TODO: Für auftreten von return mit variable diese action setzen 
 		SetVariableAction variableAction = SeffFactory.eINSTANCE.createSetVariableAction();
 		Expression returnExpression = returnStatement.getExpression();
 		this.generateVariables(returnExpression, variableAction.getLocalVariableUsages_SetVariableAction());
