@@ -32,6 +32,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.palladiosimulator.pcm.core.CoreFactory;
+import org.palladiosimulator.pcm.core.PCMRandomVariable;
 import org.palladiosimulator.pcm.parameter.CharacterisedVariable;
 import org.palladiosimulator.pcm.parameter.ParameterFactory;
 import org.palladiosimulator.pcm.parameter.VariableCharacterisation;
@@ -61,7 +62,10 @@ import org.somox.kdmhelper.MethodAssociation;
 import org.somox.kdmhelper.StaticNameMethods;
 
 import de.uka.ipd.sdq.stoex.AbstractNamedReference;
+import de.uka.ipd.sdq.stoex.NamespaceReference;
+import de.uka.ipd.sdq.stoex.StoexFactory;
 import de.uka.ipd.sdq.stoex.StoexPackage;
+import de.uka.ipd.sdq.stoex.VariableReference;
 
 public class Ast2SeffVisitor extends ASTVisitor {
 
@@ -322,10 +326,20 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		if(variable instanceof BooleanLiteral) {
 			//BooleanLiteral transformedVariable = (BooleanLiteral) variable;
 			VariableCharacterisation booleanVariable = ParameterFactory.eINSTANCE.createVariableCharacterisation();
-			booleanVariable.setType(VariableCharacterisationType.VALUE);
 			VariableUsage variableUsage = ParameterFactory.eINSTANCE.createVariableUsage();
+			NamespaceReference namespaceReference = StoexFactory.eINSTANCE.createNamespaceReference();
+			VariableReference variableReference = StoexFactory.eINSTANCE.createVariableReference();
+			PCMRandomVariable randomPCMVariable = CoreFactory.eINSTANCE.createPCMRandomVariable();
+			
+			booleanVariable.setType(VariableCharacterisationType.VALUE);
 			variableUsage.getVariableCharacterisation_VariableUsage().add(booleanVariable);
-			//variableUsage.setNamedReference__VariableUsage((AbstractNamedReference) StoexPackage.Literals.ABSTRACT_NAMED_REFERENCE);
+			namespaceReference.setReferenceName("PrimitiveType");
+			variableReference.setReferenceName("BOOLEAN");
+			namespaceReference.setInnerReference_NamespaceReference(variableReference);
+			variableUsage.setNamedReference__VariableUsage(namespaceReference);
+			
+			randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
+			booleanVariable.setSpecification_VariableCharacterisation(randomPCMVariable);
 
 			variablesList.add(variableUsage);
 		}
