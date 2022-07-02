@@ -32,7 +32,9 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.palladiosimulator.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.repository.CompositeDataType;
 import org.palladiosimulator.pcm.repository.DataType;
+import org.palladiosimulator.pcm.repository.InnerDeclaration;
 import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
@@ -243,6 +245,21 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 			this.createSeff(seff, methodAssociation);
 			monitor.worked(1);
 		}
+		
+		//Composite Data Type Snipped
+		EList<DataType> repositoryDataTypes = repository.getDataTypes__Repository();
+		CompositeDataType compositeDataType = RepositoryFactory.eINSTANCE.createCompositeDataType();
+		PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
+		primitiveDataType.setType(PrimitiveTypeEnum.INT);
+		primitiveDataType.setRepository__DataType(repository);
+		compositeDataType.setEntityName("TestDataType");
+		compositeDataType.setRepository__DataType(repository);
+		InnerDeclaration innerDataType = RepositoryFactory.eINSTANCE.createInnerDeclaration();
+		innerDataType.setEntityName("TestInnerName");
+		innerDataType.setDatatype_InnerDeclaration(primitiveDataType);
+		compositeDataType.getInnerDeclaration_CompositeDataType().add(innerDataType);
+		repositoryDataTypes.add(compositeDataType);
+		//end Snipped
 		
 		this.generateSeffXmlFile(repository);
 
