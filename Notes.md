@@ -214,6 +214,7 @@ Bearbeitete Aufgaben:
 - SimpleClass.callExternalMethod umbenennen + seff für internalFunctionCalls erstellen
 ---------------------------
 - Master in Seff-Branch mergen
+- Variablen für external Calls (nachschauen im MediaStore)
 - Set Variable Action modellieren (erstmal für Primitive Datentypen, danach die Klassen Datentypen)
 - Variablendeklarationen auch modellieren
 

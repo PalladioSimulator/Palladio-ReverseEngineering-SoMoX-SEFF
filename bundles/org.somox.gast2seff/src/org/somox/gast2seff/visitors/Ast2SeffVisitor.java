@@ -21,6 +21,7 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.PostfixExpression;
 import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.SwitchCase;
 import org.eclipse.jdt.core.dom.SwitchStatement;
@@ -307,6 +308,15 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
+	public boolean visit(final ReturnStatement returnStatement) {
+		////TODO: Für auftreten von return mit variable diese action setzen 
+		SetVariableAction variableAction = SeffFactory.eINSTANCE.createSetVariableAction();
+		Expression returnExpression = returnStatement.getExpression();
+		this.generateVariables(returnExpression, variableAction.getLocalVariableUsages_SetVariableAction());
+		this.actionList.add(variableAction);
+		return false;
+	}
+	
 	// TODO: Further work
 	public boolean visit(final VariableDeclarationStatement variableDeclarationStatement) {
 		Type test = variableDeclarationStatement.getType();
@@ -319,48 +329,25 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	 * https://updatesite.palladio-simulator.com/archive/pcm_archive/revisions/2009-03-07_PCM_javadoc/de/uka/ipd/sdq/pcm/parameter/ParameterFactory.html
 	 */
 	private void generateVariables(Expression variable, EList<VariableUsage> variablesList) {
-		////TODO: Für auftreten von return mit variable diese action setzen 
-		//SetVariableAction variableAction = SeffFactory.eINSTANCE.createSetVariableAction();
-		//this.actionList.add(variableAction);
-		
-		if(variable instanceof BooleanLiteral) {
-			//BooleanLiteral transformedVariable = (BooleanLiteral) variable;
-			VariableCharacterisation booleanVariable = ParameterFactory.eINSTANCE.createVariableCharacterisation();
-			VariableUsage variableUsage = ParameterFactory.eINSTANCE.createVariableUsage();
-			NamespaceReference namespaceReference = StoexFactory.eINSTANCE.createNamespaceReference();
-			VariableReference variableReference = StoexFactory.eINSTANCE.createVariableReference();
-			PCMRandomVariable randomPCMVariable = CoreFactory.eINSTANCE.createPCMRandomVariable();
-			
-			booleanVariable.setType(VariableCharacterisationType.VALUE);
-			variableUsage.getVariableCharacterisation_VariableUsage().add(booleanVariable);
-			namespaceReference.setReferenceName("PrimitiveType");
-			variableReference.setReferenceName("BOOLEAN");
-			namespaceReference.setInnerReference_NamespaceReference(variableReference);
-			variableUsage.setNamedReference__VariableUsage(namespaceReference);
-			
-			randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
-			booleanVariable.setSpecification_VariableCharacterisation(randomPCMVariable);
+		VariableCharacterisation booleanVariable = ParameterFactory.eINSTANCE.createVariableCharacterisation();
+		VariableUsage variableUsage = ParameterFactory.eINSTANCE.createVariableUsage();
+		NamespaceReference namespaceReference = StoexFactory.eINSTANCE.createNamespaceReference();
+		VariableReference variableReference = StoexFactory.eINSTANCE.createVariableReference();
+		PCMRandomVariable randomPCMVariable = CoreFactory.eINSTANCE.createPCMRandomVariable();
 
-			variablesList.add(variableUsage);
-		}
+		booleanVariable.setType(VariableCharacterisationType.VALUE);
+		variableUsage.getVariableCharacterisation_VariableUsage().add(booleanVariable);
+		namespaceReference.setReferenceName("PrimitiveType");
+		variableReference.setReferenceName(StaticNameMethods.getExpressionClassName(variable));
+		namespaceReference.setInnerReference_NamespaceReference(variableReference);
+		variableUsage.setNamedReference__VariableUsage(namespaceReference);
+
+		randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
+		booleanVariable.setSpecification_VariableCharacterisation(randomPCMVariable);
+
+		variablesList.add(variableUsage);
 		
-		//if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
-		//	dataType.setType(PrimitiveTypeEnum.INT);
-		//} else if (primitiveTypeCodeString.equals(PrimitiveType.SHORT.toString())) {
-		//	dataType.setType(PrimitiveTypeEnum.INT);
-		//} else if (primitiveTypeCodeString.equals(PrimitiveType.DOUBLE.toString())) {
-		//	dataType.setType(PrimitiveTypeEnum.DOUBLE);
-		//} else if (primitiveTypeCodeString.equals(PrimitiveType.FLOAT.toString())) {
-		//	dataType.setType(PrimitiveTypeEnum.DOUBLE);
-		//} else if (primitiveTypeCodeString.equals(PrimitiveType.CHAR.toString())) {
-		//	dataType.setType(PrimitiveTypeEnum.CHAR);
-		//} else if (primitiveTypeCodeString.equals(PrimitiveType.BYTE.toString())) {
-		//	dataType.setType(PrimitiveTypeEnum.BYTE);
-		//} else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
-		//	dataType.setType(PrimitiveTypeEnum.BOOL);
-		//} else {
-		//	// TODO: handle error
-		//}
+		//missing types: PrimitiveType.INT, PrimitiveType.DOUBLE, PrimitiveType.FLOAT, PrimitiveType.BYTE, CLASS, STRUCT
 	}
 
 	private BranchAction generateBranchAction(ASTNode node) {

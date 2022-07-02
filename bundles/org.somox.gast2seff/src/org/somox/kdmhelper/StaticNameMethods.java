@@ -1,6 +1,8 @@
 package org.somox.kdmhelper;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jdt.core.dom.BooleanLiteral;
+import org.eclipse.jdt.core.dom.CharacterLiteral;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ForStatement;
@@ -11,6 +13,7 @@ import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.PostfixExpression;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.StringLiteral;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.WhileStatement;
@@ -37,6 +40,17 @@ public class StaticNameMethods {
 			logger.warn("No Class Name found for: " + calledClass.toString());
 		
 		return result;
+	}
+	public static String getExpressionClassName(Expression variable) {
+		if(variable instanceof BooleanLiteral) {
+			return "BOOLEAN";
+		} else if (variable instanceof CharacterLiteral) {
+			return "CHAR";
+		} else if (variable instanceof StringLiteral) {
+			return "STRING";
+		}
+		
+		return "UnknownType";
 	}
 	
 	/*

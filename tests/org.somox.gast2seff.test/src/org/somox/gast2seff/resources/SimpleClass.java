@@ -138,7 +138,14 @@ public class SimpleClass {
 		}
 	}
 	
-	public void callExternalMethod(String caseString) {
+	public boolean charMethodBoolReturn(char input) {
+		if(input == 'a')
+			return true;
+		else
+			return false;
+	}
+	
+	public void callInternalMethods(String caseString) {
 		this.ifMethod();
 		this.ifAndElseMethod(true);
 		this.ifAndElseMethod(false);

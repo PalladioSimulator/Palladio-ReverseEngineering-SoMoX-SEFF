@@ -9,6 +9,19 @@ public class SimpleExternalClass {
 		this.internalCallMethod();
 	}
 	
+	public void externalCallBoolean(SimpleClass externalClass) {
+		externalClass.ifAndElseMethod(true);
+	}
+	
+	public void externalCallString(SimpleClass externalClass) {
+		externalClass.switchMethod("third");
+	}
+	
+	public void externalCallChar(SimpleClass externalClass) {
+		if(externalClass.charMethodBoolReturn('a'))
+			System.out.println("return worked");
+	}
+	
 	private void internalCallMethod() {
 		System.out.println("just some logging");
 	}
