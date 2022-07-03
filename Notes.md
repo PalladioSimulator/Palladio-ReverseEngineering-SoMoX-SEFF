@@ -259,3 +259,33 @@ Notizen zum Meeting:
 Fragen:
 - Was ist Stoex? (https://updatesite.palladio-simulator.com/archive/pcm_archive/revisions/2009-03-07_PCM_javadoc/de/uka/ipd/sdq/stoex/StoexPackage.html)
 - Variablen aktuell anhand von übergabe, nicht anhand von requiredInterface
+
+### JaMoPPStatemenVisitor
+
+| **Alte Implementierung** | **Aktuelle Implementierung**                       |
+|--------------------------|----------------------------------------------------|
+| LoopStatement            | ForStatement, EnhancedForStatement, WhileStatement |
+| Switch                   | SwitchStatement                                    |
+| TryBlock                 | TryStatement                                       |
+| ClassMethod              | ExpressionStatement                                |
+| SynchronizedBlock        | SynchronizedStatement                              |
+| SimpleStatement          | ExpressionStatement                                |
+| Condition                | IfStatement                                        |
+
+### Modisco GastStatementVisitor
+
+| **Alte Implementierung** | **Aktuelle Implementierung** |
+|--------------------------|------------------------------|
+| EnhancedForStatement     | EnhancedForStatement         |
+| SwitchStatement          | SwitchStatement              |
+| TryStatement             | TryStatement                 |
+| ClassMethod              | ExpressionStatement          |
+| SynchronizedStatement    | SynchronizedStatement        |
+| ExpressionStatement      | ExpressionStatement          |
+| IfStatement              | IfStatement                  |
+| WhileStatement           | WhileStatement               |
+| ForStatement             | ForStatement                 |
+| ReturnStatement          | ReturnStatement              |
+| Block                    |                              |
+
+
