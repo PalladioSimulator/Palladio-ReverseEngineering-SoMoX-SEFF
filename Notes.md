@@ -294,3 +294,13 @@ Fragen:
 | Block                    |                              |
 
 
+### Offene Aufgaben
+
+- Präsentation
+- Readme
+- Variablendeklaration modellieren
+- Composite/Collection Data Types modellieren
+  - FluentApi Einsatz?
+- Benamung aller SEFF-Elemente
+- Code aufräumen
+- FluentAPI überprüfen
