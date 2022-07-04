@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -147,6 +149,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         Repository repository = RepositoryFactory.eINSTANCE.createRepository();
         
         Map<BasicComponent, MethodAssociation> map = new HashMap<BasicComponent, MethodAssociation>();
+        Map<BasicComponent, List<PrimitiveDataType>> componentDataTypeMap = new HashMap<>();
         
         for (MethodAssociation methodAssociation : methodAssociationList) {
         	BasicComponent basicComponent = methodAssociation.getBasicComponent();
@@ -163,32 +166,49 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         				PrimitiveType primitiveType = (PrimitiveType) type;
         				Parameter parameter = RepositoryFactory.eINSTANCE.createParameter();
         				parameter.setParameterName(variableDeclaration.getName().toString());
-        				PrimitiveDataType dataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
+        				PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
 
         				String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode().toString();
         				
         				if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
-        					dataType.setType(PrimitiveTypeEnum.INT);
+        					primitiveDataType.setType(PrimitiveTypeEnum.INT);
         				} else if (primitiveTypeCodeString.equals(PrimitiveType.SHORT.toString())) {
-        					dataType.setType(PrimitiveTypeEnum.INT);
+        					primitiveDataType.setType(PrimitiveTypeEnum.INT);
         				} else if (primitiveTypeCodeString.equals(PrimitiveType.DOUBLE.toString())) {
-        					dataType.setType(PrimitiveTypeEnum.DOUBLE);
+        					primitiveDataType.setType(PrimitiveTypeEnum.DOUBLE);
         				} else if (primitiveTypeCodeString.equals(PrimitiveType.FLOAT.toString())) {
-        					dataType.setType(PrimitiveTypeEnum.DOUBLE);
+        					primitiveDataType.setType(PrimitiveTypeEnum.DOUBLE);
         				} else if (primitiveTypeCodeString.equals(PrimitiveType.CHAR.toString())) {
-        					dataType.setType(PrimitiveTypeEnum.CHAR);
+        					primitiveDataType.setType(PrimitiveTypeEnum.CHAR);
         				} else if (primitiveTypeCodeString.equals(PrimitiveType.BYTE.toString())) {
-        					dataType.setType(PrimitiveTypeEnum.BYTE);
+        					primitiveDataType.setType(PrimitiveTypeEnum.BYTE);
         				} else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
-        					dataType.setType(PrimitiveTypeEnum.BOOL);
+        					primitiveDataType.setType(PrimitiveTypeEnum.BOOL);
         				} else {
         					// TODO: handle error
         				}
         				
-        				dataType.setRepository__DataType(repository);
-        				parameter.setDataType__Parameter(dataType);
         				
+        				if (componentDataTypeMap.get(basicComponent) != null) {
+        					List<PrimitiveDataType> filteredList = componentDataTypeMap.get(basicComponent).stream().filter(dataType -> dataType.getType() == primitiveDataType.getType()).collect(Collectors.toList());
+        					
+        					if (filteredList.size() == 0) {
+        						primitiveDataType.setRepository__DataType(repository);
+            					parameter.setDataType__Parameter(primitiveDataType);
+            					componentDataTypeMap.get(basicComponent).add(primitiveDataType);
+        					} else {
+        						parameter.setDataType__Parameter(filteredList.get(0));
+        					}
+        				} else {
+        					primitiveDataType.setRepository__DataType(repository);
+        					parameter.setDataType__Parameter(primitiveDataType);
+        					
+        					List<PrimitiveDataType> list = new ArrayList<>();
+        					list.add(primitiveDataType);
+        					componentDataTypeMap.put(basicComponent, list);
+        				}
         				operationSignature.getParameters__OperationSignature().add(parameter);
+        				
         			}
         		}
         	}
