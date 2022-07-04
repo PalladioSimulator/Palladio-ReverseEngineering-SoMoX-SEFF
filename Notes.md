@@ -259,6 +259,9 @@ Notizen zum Meeting:
 Fragen:
 - Was ist Stoex? (https://updatesite.palladio-simulator.com/archive/pcm_archive/revisions/2009-03-07_PCM_javadoc/de/uka/ipd/sdq/stoex/StoexPackage.html)
 - Variablen aktuell anhand von übergabe, nicht anhand von requiredInterface
+- representations.aird resetten?
+- Try Catch Namen?
+- OutputVariableUsageCompartment?
 
 ### JaMoPPStatemenVisitor
 

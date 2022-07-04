@@ -157,7 +157,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	
 	public boolean visit(final IfStatement ifStatement) {
-		BranchAction branchAction = generateBranchAction(ifStatement.getThenStatement());
+		BranchAction branchAction = generateBranchAction(ifStatement);
 		StaticNameMethods.setEntityName(branchAction, ifStatement);
 		
 		if (ifStatement.getElseStatement() != null) {
@@ -168,7 +168,6 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
-	//TODO: Correct the entity name for the else if statement 
 	private void handleElseStatement(Statement statement, BranchAction branchAction) {
 		ResourceDemandingBehaviour branchBehaviourElse = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
 		AbstractBranchTransition branchTransitionElse = SeffFactory.eINSTANCE.createGuardedBranchTransition();
@@ -238,7 +237,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	public boolean visit(final TryStatement tryStatement) {
 		
-		BranchAction branchAction = generateBranchAction(tryStatement.getBody());
+		BranchAction branchAction = generateBranchAction(tryStatement);
+		StaticNameMethods.setEntityName(branchAction, tryStatement);
 		
 		List<CatchClause> catchClauseList = tryStatement.catchClauses();
 		for (CatchClause catchClause : catchClauseList) {
@@ -292,6 +292,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			AbstractBranchTransition branchTransition = SeffFactory.eINSTANCE.createGuardedBranchTransition();
 			StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
 			branchBehaviour.getSteps_Behaviour().add(startAction);
+			StaticNameMethods.setEntityName(branchTransition, block);
 			
 			for (Statement statement : block) {
 				this.perform(statement, branchBehaviour.getSteps_Behaviour());
@@ -357,6 +358,17 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		BranchAction branchAction = SeffFactory.eINSTANCE.createBranchAction();
 		ResourceDemandingBehaviour branchBehaviour = SeffFactory.eINSTANCE.createResourceDemandingBehaviour();
 		AbstractBranchTransition branchTransition = SeffFactory.eINSTANCE.createGuardedBranchTransition();
+		if(node instanceof IfStatement)
+		{
+			IfStatement ifStatement = (IfStatement) node;
+			node = ifStatement.getThenStatement();
+			StaticNameMethods.setEntityName(branchTransition, ifStatement);
+		}
+		else if (node instanceof TryStatement) {
+			TryStatement tryStatement = (TryStatement) node;
+			node = tryStatement.getBody();
+			StaticNameMethods.setEntityName(branchTransition, tryStatement);
+		}
 		StartAction startAction = SeffFactory.eINSTANCE.createStartAction();
 		branchBehaviour.getSteps_Behaviour().add(startAction);
 

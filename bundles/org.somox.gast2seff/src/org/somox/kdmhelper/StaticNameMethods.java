@@ -1,5 +1,7 @@
 package org.somox.kdmhelper;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
 import org.eclipse.jdt.core.dom.CharacterLiteral;
@@ -15,6 +17,7 @@ import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.StringLiteral;
 import org.eclipse.jdt.core.dom.SwitchStatement;
+import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.palladiosimulator.pcm.core.entity.Entity;
@@ -66,17 +69,33 @@ public class StaticNameMethods {
 			externalCall.setEntityName(methodInvocation.getName().toString() + "(" + methodInvocation.arguments().toString() + ")");
 		}
 	}
-	public static void setEntityName(AbstractBranchTransition branchTransitionElse, IfStatement elseIfStatement) {
-		Expression expression = elseIfStatement.getExpression();
+	public static void setEntityName(AbstractBranchTransition branchTransition, IfStatement ifStatement) {
+		Expression expression = ifStatement.getExpression();
 		
 		final StringBuilder positionString = new StringBuilder(" @position: ");
-		positionString.append("Cond: ").append(expression).append("");
-		branchTransitionElse.setEntityName(positionString.toString());
+		positionString.append("Cond: if(").append(expression).append(")");
+		branchTransition.setEntityName(positionString.toString());
 	}
 	public static void setEntityName(AbstractBranchTransition branchTransitionElse, Statement elseStatement) {		
 		final StringBuilder positionString = new StringBuilder(" @position: ");
 		positionString.append("Cond: ").append("else").append("");
 		branchTransitionElse.setEntityName(positionString.toString());
+	}
+	public static void setEntityName(AbstractBranchTransition branchTransition, TryStatement tryStatement) {
+		//Expression expression = tryStatement.catchClauses();
+		
+		//final StringBuilder positionString = new StringBuilder(" @position: ");
+		//positionString.append("Cond: if(").append(expression).append(")");
+		//branchTransitionElse.setEntityName(positionString.toString());
+	}
+	public static void setEntityName(AbstractBranchTransition branchTransition, List<Statement> block) {
+		//cant access block name. mb need to rewrite Blocklist
+		
+		//Expression expression = tryStatement.catchClauses();
+		
+		//final StringBuilder positionString = new StringBuilder(" @position: ");
+		//positionString.append("Cond: if(").append(expression).append(")");
+		//branchTransitionElse.setEntityName(positionString.toString());
 	}
 	public static void setEntityName(LoopAction loopAction, final ForStatement forStatement) {
 		Expression initializers = (Expression) forStatement.initializers().get(0);
@@ -107,10 +126,13 @@ public class StaticNameMethods {
 		loopAction.setEntityName(positionString.toString());
 	}
 	public static void setEntityName(BranchAction branchAction, final SwitchStatement switchStatement) {
-		branchAction.setEntityName("switch (" + switchStatement.getExpression().toString() + ")");
+		branchAction.setEntityName("Switch Branch");
 	}
 	public static void setEntityName(BranchAction branchAction, final IfStatement ifStatement) {
-		branchAction.setEntityName("if (" + ifStatement.getExpression().toString() + ")");
+		branchAction.setEntityName("If Branch");
+	}
+	public static void setEntityName(BranchAction branchAction, final TryStatement tryStatement) {
+		branchAction.setEntityName("Try Catch Branch");
 	}
 	public static void setEntityName(Entity defaultResource, String className) {
 		defaultResource.setEntityName(className);
