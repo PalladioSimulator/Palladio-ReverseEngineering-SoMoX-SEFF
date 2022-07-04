@@ -256,6 +256,8 @@ Notizen zum Meeting:
 - Bei MediaStore3 iFileStorage für return
 - https://bwsyncandshare.kit.edu/s/eYmydsSWMSxCmdk
 
+### 04.07
+
 Fragen:
 - Was ist Stoex? (https://updatesite.palladio-simulator.com/archive/pcm_archive/revisions/2009-03-07_PCM_javadoc/de/uka/ipd/sdq/stoex/StoexPackage.html)
 - Variablen aktuell anhand von übergabe, nicht anhand von requiredInterface

@@ -7,34 +7,24 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
-import org.eclipse.jdt.core.dom.Block;
-import org.eclipse.jdt.core.dom.BooleanLiteral;
 import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
-import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IfStatement;
-import org.eclipse.jdt.core.dom.InfixExpression;
-import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
-import org.eclipse.jdt.core.dom.PostfixExpression;
-import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.Statement;
-import org.eclipse.jdt.core.dom.SwitchCase;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.SynchronizedStatement;
-import org.eclipse.jdt.core.dom.ThisExpression;
 import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.Type;
-import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
+import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
 import org.palladiosimulator.pcm.core.CoreFactory;
 import org.palladiosimulator.pcm.core.PCMRandomVariable;
-import org.palladiosimulator.pcm.parameter.CharacterisedVariable;
 import org.palladiosimulator.pcm.parameter.ParameterFactory;
 import org.palladiosimulator.pcm.parameter.VariableCharacterisation;
 import org.palladiosimulator.pcm.parameter.VariableCharacterisationType;
@@ -44,7 +34,6 @@ import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.PassiveResource;
-import org.palladiosimulator.pcm.repository.PrimitiveTypeEnum;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.AbstractBranchTransition;
@@ -62,16 +51,15 @@ import org.palladiosimulator.pcm.seff.StopAction;
 import org.somox.kdmhelper.MethodAssociation;
 import org.somox.kdmhelper.StaticNameMethods;
 
-import de.uka.ipd.sdq.stoex.AbstractNamedReference;
 import de.uka.ipd.sdq.stoex.NamespaceReference;
 import de.uka.ipd.sdq.stoex.StoexFactory;
-import de.uka.ipd.sdq.stoex.StoexPackage;
 import de.uka.ipd.sdq.stoex.VariableReference;
 
 public class Ast2SeffVisitor extends ASTVisitor {
 
 	private static final Logger logger = Logger.getLogger(Ast2SeffVisitor.class);
-		
+	private static final FluentRepositoryFactory create = new FluentRepositoryFactory();	
+	
 	private EList<AbstractAction> actionList;
 	private Map<String, MethodAssociation> methodNameMap;
 	private MethodAssociation methodAssociation;
@@ -128,6 +116,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		OperationInterface operationInterface = operationProvidedRole.getProvidedInterface__OperationProvidedRole();
 		OperationRequiredRole operationRequiredRole = null;
 		if (basicComponent.getRequiredRoles_InterfaceRequiringEntity().size() == 0) {
+			
 			operationRequiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
 			StaticNameMethods.setEntityName(operationRequiredRole, basicComponent.getEntityName());
 			basicComponent.getRequiredRoles_InterfaceRequiringEntity().add(operationRequiredRole);
