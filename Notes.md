@@ -265,11 +265,6 @@ Fragen:
 - Try Catch Namen?
 - OutputVariableUsageCompartment?
 
-Neue Aufgaben:
-- Variablen aus Interface ziehen anstatt von Übergabe Parametern
-- return Variablen setzen
-- Fluent API checken
-
 ### JaMoPPStatemenVisitor
 
 | **Alte Implementierung** | **Aktuelle Implementierung**                       |
@@ -298,8 +293,17 @@ Neue Aufgaben:
 | ReturnStatement          | ReturnStatement              |
 | Block                    |                              |
 
+### HowTo: Fix representation.aird
 
-### Offene Aufgaben
+- Alles aus XML-Element "diagram:DSemanticDiagram" löschen (nicht sicher ob nötig)
+- rechtsklick auf Projekt Bundle indem representation.aird enthalten ist
+- Copy
+- Mit Paste als neues Projekt anlegen
+- Representations für repositories neu erstellen
+- ???
+- Profit
+
+### Offene Aufgaben (Aufschrieb Fabi)
 
 - Präsentation
 - Readme
@@ -309,3 +313,8 @@ Neue Aufgaben:
 - Benamung aller SEFF-Elemente
 - Code aufräumen
 - FluentAPI überprüfen
+
+Neue Aufgaben (Aufschrieb Marcel):
+- Variablen aus Interface ziehen anstatt von Übergabe Parametern
+- return Variablen setzen
+- Fluent API checken
