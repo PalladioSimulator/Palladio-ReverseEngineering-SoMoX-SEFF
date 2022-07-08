@@ -263,6 +263,12 @@ Fragen:
 - Try Catch Namen?
 - OutputVariableUsageCompartment?
 
+### 04.07
+Neue Aufgaben:
+- Variablen aus Interface ziehen anstatt von Übergabe Parametern
+- return Variablen setzen
+- Fluent API checken
+
 ### JaMoPPStatemenVisitor
 
 | **Alte Implementierung** | **Aktuelle Implementierung**                       |
