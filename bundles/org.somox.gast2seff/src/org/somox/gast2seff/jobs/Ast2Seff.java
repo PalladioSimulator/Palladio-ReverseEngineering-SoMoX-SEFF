@@ -7,10 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
@@ -20,17 +18,13 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.PrimitiveType;
-import org.eclipse.jdt.core.dom.PrimitiveType.Code;
-import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
-import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
@@ -43,27 +37,14 @@ import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.Parameter;
-import org.palladiosimulator.pcm.repository.PassiveResource;
 import org.palladiosimulator.pcm.repository.PrimitiveDataType;
 import org.palladiosimulator.pcm.repository.PrimitiveTypeEnum;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
-import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
-import org.palladiosimulator.pcm.seff.StartAction;
-import org.palladiosimulator.pcm.seff.StopAction;
-import org.somox.gast2seff.visitors.DefaultResourceDemandingBehaviourForClassMethodFinder;
-import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
-import org.somox.gast2seff.visitors.IFunctionClassificationStrategy;
-import org.somox.gast2seff.visitors.IFunctionClassificationStrategyFactory;
-import org.somox.gast2seff.visitors.InterfaceOfExternalCallFindingFactory;
-import org.somox.gast2seff.visitors.MethodCallFinder;
 import org.somox.gast2seff.visitors.Ast2SeffVisitor;
-import org.somox.gast2seff.visitors.ResourceDemandingBehaviourForClassMethodFinding;
-import org.somox.gast2seff.visitors.VisitorUtils;
 import org.somox.kdmhelper.MethodAssociation;
-import org.somox.kdmhelper.Root;
 import org.somox.sourcecodedecorator.SEFF2MethodMapping;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
@@ -94,10 +75,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 * Resources containing the models
 	 */
 	private SourceCodeDecoratorRepository sourceCodeDecoratorModel;
-	private Root root;
 	private EList<SEFF2MethodMapping> Seff2MethodMappings;
-
-	private MethodCallFinder methodCallFinder;
 
 	/**
 	 * Field that indicates whether ResourceDemandingInternalBehaviour should be created for
@@ -106,31 +84,12 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 */
 	private final boolean createResourceDemandingInternalBehaviour;
 
-	/**
-	 * factory to create the used IFunctionClassifcationStrategy
-	 */
-	private final IFunctionClassificationStrategyFactory iFunctionClassificationStrategyFactory;
-
-	private InterfaceOfExternalCallFindingFactory interfaceOfExternalCallFindingFactory;
-
 	public Ast2Seff() {
-		this(false, new IFunctionClassificationStrategyFactory() {
-		}, new InterfaceOfExternalCallFindingFactory() {
-		});
+		this(false);
 	}
 
 	public Ast2Seff(final boolean createResourceDemandingInternalBehaviour) {
-		this(createResourceDemandingInternalBehaviour, new IFunctionClassificationStrategyFactory() {
-		}, new InterfaceOfExternalCallFindingFactory() {
-		});
-	}
-
-	public Ast2Seff(final boolean createResourceDemandingInternalBehaviour,
-			final IFunctionClassificationStrategyFactory iFunctionClassificationStrategyFactory,
-			InterfaceOfExternalCallFindingFactory interfaceOfExternalCallFindingFactory) {
 		this.createResourceDemandingInternalBehaviour = createResourceDemandingInternalBehaviour;
-		this.iFunctionClassificationStrategyFactory = iFunctionClassificationStrategyFactory;
-		this.interfaceOfExternalCallFindingFactory = interfaceOfExternalCallFindingFactory;
 	}
 
 	/*
@@ -142,10 +101,6 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	public void execute(final IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
 		monitor.subTask("loading models from blackboard");
-
-		// TODO this.sourceCodeDecoratorModel =
-		// this.blackboard.getSourceCodeDecoratorRepository();
-		// TODO this.root = this.blackboard.getRoot();
 		
 		this.methodAssociationList = (List<MethodAssociation>) this.blackboard.getPartition("methodAssociationList");
 		
@@ -251,8 +206,6 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 			if (!this.methodNameMap.containsKey(strPackageName + "." + methodDeclaration.getName().toString()))
 				this.methodNameMap.put(strPackageName + "." + methodDeclaration.getName().toString(), methodAssociation);
 		}
-		
-		this.methodCallFinder = new MethodCallFinder();
 
 		final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
 		subMonitor.setTaskName("Creating SEFF behaviour");

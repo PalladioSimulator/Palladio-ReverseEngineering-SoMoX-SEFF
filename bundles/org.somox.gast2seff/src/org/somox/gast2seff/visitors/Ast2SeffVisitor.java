@@ -221,6 +221,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		actionSeff = this.perform(synchronizedStatement.getBody(), actionSeff)
 				.releaseAction().withPassiveResource(passiveResource).followedBy();
 
+
 //		StaticNameMethods.setEntityName(releaseAction, className);
 		return false;
 	}
