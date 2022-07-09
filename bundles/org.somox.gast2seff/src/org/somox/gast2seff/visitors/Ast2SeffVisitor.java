@@ -22,6 +22,8 @@ import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
+import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
+import org.palladiosimulator.generator.fluent.repository.api.seff.Seff;
 import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
 import org.palladiosimulator.pcm.core.CoreFactory;
 import org.palladiosimulator.pcm.core.PCMRandomVariable;
@@ -64,6 +66,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private Map<String, MethodAssociation> methodNameMap;
 	private MethodAssociation methodAssociation;
 	private BasicComponent basicComponent;
+	private ActionSeff actionSeff;
 	
 	public Ast2SeffVisitor(MethodAssociation methodAssociation, EList<AbstractAction> actionList, Map<String, MethodAssociation> methodNameMap) {
 		this.actionList = actionList;
@@ -138,6 +141,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	private void createInternalAction(final ExpressionStatement expressionStatement) {
+		
+		actionSeff = actionSeff.internalAction().withName("").followedBy();
 		InternalAction internalAction = SeffFactory.eINSTANCE.createInternalAction();
 		Expression expression = expressionStatement.getExpression();
 		StaticNameMethods.setEntityName(internalAction, expression);
@@ -147,6 +152,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	public boolean visit(final IfStatement ifStatement) {
 		BranchAction branchAction = generateBranchAction(ifStatement);
+		actionSeff.branchAction().withGuardedBranchTransition("", create.newSeff().withSeffBehaviour().withStartAction().followedBy().stopAction().createBehaviourNow());
 		StaticNameMethods.setEntityName(branchAction, ifStatement);
 		
 		if (ifStatement.getElseStatement() != null) {
