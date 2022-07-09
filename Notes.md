@@ -318,3 +318,6 @@ Neue Aufgaben (Aufschrieb Marcel):
 - Variablen aus Interface ziehen anstatt von Übergabe Parametern
 - return Variablen setzen
 - Fluent API checken
+
+Fragen:
+- External call bei überladenen Funktionen (welche wird aufgerufen?)

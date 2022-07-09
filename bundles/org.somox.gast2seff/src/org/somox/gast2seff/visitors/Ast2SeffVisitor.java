@@ -33,6 +33,8 @@ import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
+import org.palladiosimulator.pcm.repository.OperationSignature;
+import org.palladiosimulator.pcm.repository.Parameter;
 import org.palladiosimulator.pcm.repository.PassiveResource;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.AbstractAction;
@@ -129,10 +131,20 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		this.actionList.add(externalCall);
 		if(!methodInvocation.arguments().isEmpty())
 		{
+			OperationSignature calledFunctionSignature = this.getOperationSignatureFromInterfaceByName(operationInterface, methodInvocation.getName().toString());
 			EList<VariableUsage> inputVariables = externalCall.getInputVariableUsages__CallAction();
-			for(Object argument : methodInvocation.arguments()) {
-				Expression castedArgument = (Expression) argument;
-				generateVariables(castedArgument, inputVariables);
+			if(calledFunctionSignature != null) {
+				//try to get variables from interface
+				EList<Parameter> calledFunctParameterList = calledFunctionSignature.getParameters__OperationSignature();
+				for(Parameter para : calledFunctParameterList) {
+					generateVariables(para, inputVariables);
+				}
+			} else {
+				//fallback if interface is not found
+				for(Object argument : methodInvocation.arguments()) {
+					Expression castedArgument = (Expression) argument;
+					generateVariables(castedArgument, inputVariables);
+				}
 			}
 		}
 	}
@@ -150,7 +162,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		StaticNameMethods.setEntityName(branchAction, ifStatement);
 		
 		if (ifStatement.getElseStatement() != null) {
-			handleElseStatement(ifStatement.getElseStatement(), branchAction);			
+			handleElseStatement(ifStatement.getElseStatement(), branchAction);
 		}
 		
 		this.actionList.add(branchAction);
@@ -316,6 +328,17 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return super.visit(variableDeclarationStatement);
 	}
 	
+	private OperationSignature getOperationSignatureFromInterfaceByName(OperationInterface operationInterface, String name) {
+		EList<OperationSignature> functionList = operationInterface.getSignatures__OperationInterface();
+		if(!functionList.isEmpty() && name != "") {
+			for(OperationSignature signature : functionList) {
+				if(signature.getEntityName() == name)
+					return signature;
+			}
+		}
+		return null;
+	}
+	
 	/*
 	 * Neu in Ast2Seff dazu gekommen, war nicht in JaMoPP vorhanden
 	 * Verhalten aus "MediaStore3 -> AudioWatermarking" abgeschaut
@@ -341,6 +364,27 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		variablesList.add(variableUsage);
 		
 		//missing types: PrimitiveType.INT, PrimitiveType.DOUBLE, PrimitiveType.FLOAT, PrimitiveType.BYTE, CLASS, STRUCT
+	}
+	private void generateVariables(Parameter para, EList<VariableUsage> variablesList) {
+		//Note that it was an explicit design decision to refer to variable names instead of the actual variables (i.e., by refering to Parameter class). 
+		VariableCharacterisation booleanVariable = ParameterFactory.eINSTANCE.createVariableCharacterisation();
+		VariableUsage variableUsage = ParameterFactory.eINSTANCE.createVariableUsage();
+		NamespaceReference namespaceReference = StoexFactory.eINSTANCE.createNamespaceReference();
+		VariableReference variableReference = StoexFactory.eINSTANCE.createVariableReference();
+		PCMRandomVariable randomPCMVariable = CoreFactory.eINSTANCE.createPCMRandomVariable();
+
+		para.getDataType__Parameter();
+		booleanVariable.setType(VariableCharacterisationType.VALUE);
+		variableUsage.getVariableCharacterisation_VariableUsage().add(booleanVariable);
+		namespaceReference.setReferenceName(para.getParameterName());
+		//variableReference.setReferenceName(StaticNameMethods.getExpressionClassName(variable));
+		namespaceReference.setInnerReference_NamespaceReference(variableReference);
+		variableUsage.setNamedReference__VariableUsage(namespaceReference);
+
+		randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
+		booleanVariable.setSpecification_VariableCharacterisation(randomPCMVariable);
+
+		variablesList.add(variableUsage);
 	}
 
 	private BranchAction generateBranchAction(ASTNode node) {
