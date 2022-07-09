@@ -4,6 +4,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
+import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 
 public class MethodAssociation {
 	
@@ -29,6 +30,9 @@ public class MethodAssociation {
 		return seff;
 	}
 	
+	public void setSeff(ResourceDemandingSEFF seff) {
+		this.seff = seff;
+	}
 	
 
 }

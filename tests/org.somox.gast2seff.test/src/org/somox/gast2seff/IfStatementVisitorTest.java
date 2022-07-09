@@ -13,6 +13,8 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.junit.jupiter.api.Test;
+import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
+import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.PassiveResource;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
@@ -29,18 +31,23 @@ import org.somox.kdmhelper.MethodAssociation;
 
 public class IfStatementVisitorTest {
 	
+	private static final FluentRepositoryFactory create = new FluentRepositoryFactory();
+	
 	@Test
 	public void emptyIfStatementVisitorTest() {
 		
-		EList<AbstractAction> actionList = new BasicEList();
+		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
 		Map<String, MethodAssociation> methodNameMap = new HashMap<>();
 		BasicComponent basicComponent = RepositoryFactory.eINSTANCE.createBasicComponent();
 		ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
 		AST ast = AST.newAST(AST.getJLSLatest(), false);
 		IfStatement ifStatement = ast.newIfStatement();
 		MethodAssociation methodAssociation = new MethodAssociation(ifStatement, seff, basicComponent);
-		Ast2SeffVisitor.perform(methodAssociation, actionList, methodNameMap);
+		actionSeff = Ast2SeffVisitor.perform(methodAssociation, actionSeff, methodNameMap);
 
+		seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+		
 		assertEquals(actionList.size(), 1);
 		assertEquals(actionList.get(0) instanceof BranchAction, true);
 		

@@ -33,6 +33,8 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
 import org.emftext.language.java.statements.StatementListContainer;
+import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
+import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.CompositeDataType;
 import org.palladiosimulator.pcm.repository.DataType;
@@ -80,7 +82,8 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 
 	private static final Logger LOGGER = Logger.getLogger(Ast2Seff.class);
-
+	private static final FluentRepositoryFactory create = new FluentRepositoryFactory();
+	
 	/** The SoMoX blackboard to interact with. */
 	private Blackboard<Object> blackboard;
 	
@@ -153,7 +156,6 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         
         for (MethodAssociation methodAssociation : methodAssociationList) {
         	BasicComponent basicComponent = methodAssociation.getBasicComponent();
-        	basicComponent.getServiceEffectSpecifications__BasicComponent().add(methodAssociation.getSeff());
         	OperationSignature operationSignature =  RepositoryFactory.eINSTANCE.createOperationSignature();
         	MethodDeclaration methodDeclaration = (MethodDeclaration) methodAssociation.getAstNode();
         	operationSignature.setEntityName(methodDeclaration.getName().toString());
@@ -251,20 +253,24 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		}
 		
 		this.methodCallFinder = new MethodCallFinder();
-		
-		//this.Seff2MethodMappings = new List;
 
 		final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
 		subMonitor.setTaskName("Creating SEFF behaviour");
 		
 		for (MethodAssociation methodAssociation : methodAssociationList) {
-			final ResourceDemandingSEFF seff = methodAssociation.getSeff();
+			ResourceDemandingSEFF seff = methodAssociation.getSeff();
 			final String name = seff.getId();
 			LOGGER.info("Found AST behaviour, generating SEFF behaviour for it: " + name);
 			
-			this.createSeff(seff, methodAssociation);
+			seff = this.createSeff(seff, methodAssociation);
+			methodAssociation.setSeff(seff);
+			
+			BasicComponent basicComponent = methodAssociation.getBasicComponent();
+        	basicComponent.getServiceEffectSpecifications__BasicComponent().add(methodAssociation.getSeff());
+			
 			monitor.worked(1);
 		}
+		
 		
 		//Composite Data Type Snipped
 		EList<DataType> repositoryDataTypes = repository.getDataTypes__Repository();
@@ -295,7 +301,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 //		}
 
 		// Create default annotations
-		final DefaultQosAnnotationsBuilder qosAnnotationBuilder = new DefaultQosAnnotationsBuilder();
+//		final DefaultQosAnnotationsBuilder qosAnnotationBuilder = new DefaultQosAnnotationsBuilder();
 //		qosAnnotationBuilder.buildDefaultQosAnnotations(this.sourceCodeDecoratorModel.getSeff2MethodMappings());
 
 		subMonitor.done();
@@ -320,50 +326,11 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 * @return The completed SEFF, returned for convenience
 	 * @throws JobFailedException
 	 */
-	private ResourceDemandingSEFF createSeff(final ResourceDemandingSEFF seff, MethodAssociation methodAssociation) throws JobFailedException {
-		final StartAction start = SeffFactory.eINSTANCE.createStartAction();
-		final StopAction stop = SeffFactory.eINSTANCE.createStopAction();
-		seff.getSteps_Behaviour().add(start);
+	private ResourceDemandingSEFF createSeff(ResourceDemandingSEFF seff, MethodAssociation methodAssociation) throws JobFailedException {
+		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
 		
-		final MethodDeclaration methodDeclaration = (MethodDeclaration) methodAssociation.getAstNode();
-		final BasicComponent basicComponent = methodAssociation.getBasicComponent();
-		
-		Ast2SeffVisitor.perform(methodAssociation, seff.getSteps_Behaviour(), this.methodNameMap);
-		
-		// initialise for new component / seff to reverse engineer:
-//		final BasicComponent basicComponent = (BasicComponent) seff.eContainer();
-//		final IFunctionClassificationStrategy basicFunctionClassifierStrategy = this.iFunctionClassificationStrategyFactory
-//				.createIFunctionClassificationStrategy(this.sourceCodeDecoratorModel, basicComponent, this.root,
-//						this.methodCallFinder);
-//		FunctionCallClassificationVisitor typeVisitor = new FunctionCallClassificationVisitor(
-//				basicFunctionClassifierStrategy,
-//				this.methodCallFinder);
-//
-//		final StatementListContainer body = this.findBody(seff);
-//		Ast2Seff.LOGGER.trace("visiting (seff entry): " + seff.getId());
-//		if (body != null) {
-//			if (this.createResourceDemandingInternalBehaviour) {
-//				final ResourceDemandingBehaviourForClassMethodFinding defaultResourceDemandingBehaviourForClassMethodFinder = new DefaultResourceDemandingBehaviourForClassMethodFinder(
-//						this.sourceCodeDecoratorModel, basicComponent);
-//				VisitorUtils.visitJaMoPPMethod(seff, basicComponent, body, this.sourceCodeDecoratorModel,
-//						typeVisitor, interfaceOfExternalCallFindingFactory,
-//						defaultResourceDemandingBehaviourForClassMethodFinder, this.methodCallFinder);
-//			} else {
-//				VisitorUtils.visitJaMoPPMethod(seff, basicComponent, body, this.sourceCodeDecoratorModel,
-//						typeVisitor, interfaceOfExternalCallFindingFactory, this.methodCallFinder);
-//			}
-//
-//		} else {
-//			Ast2Seff.LOGGER.warn("Found GAST behaviour (" + seff.getId() + ") without a method body... Skipping it...");
-//		}
-
-		seff.getSteps_Behaviour().add(stop);
-		VisitorUtils.connectActions(seff);
-		
-		TypeDeclaration parent = (TypeDeclaration) methodDeclaration.getParent();
-		String methodName = parent.getName().toString() + "_" + methodDeclaration.getName().toString();
-
-		return seff;
+		return Ast2SeffVisitor.perform(methodAssociation, actionSeff, this.methodNameMap)
+				.stopAction().createBehaviourNow().buildRDSeff();
 	}
 	
 	private void generateSeffXmlFile(final Repository repository) {
