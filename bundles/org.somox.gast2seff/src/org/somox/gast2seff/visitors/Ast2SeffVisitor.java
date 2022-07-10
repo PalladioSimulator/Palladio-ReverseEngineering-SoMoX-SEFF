@@ -132,9 +132,9 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		externalCall.setRole_ExternalService(operationRequiredRole);
 		
 		this.actionList.add(externalCall);
+		OperationSignature calledFunctionSignature = this.getOperationSignatureFromInterfaceByName(operationInterface, methodInvocation.getName().toString());
 		if(!methodInvocation.arguments().isEmpty())
 		{
-			OperationSignature calledFunctionSignature = this.getOperationSignatureFromInterfaceByName(operationInterface, methodInvocation.getName().toString());
 			EList<VariableUsage> inputVariables = externalCall.getInputVariableUsages__CallAction();
 			if(calledFunctionSignature != null && (calledFunctionSignature.getParameters__OperationSignature().size() == methodInvocation.arguments().size())) {
 				//try to get variables from interface
@@ -151,6 +151,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 					generateVariables(null, castedArgument, inputVariables);
 				}
 			}
+		}
+		if(calledFunctionSignature != null && calledFunctionSignature.getReturnType__OperationSignature() != null) {
+			DataType returnType = calledFunctionSignature.getReturnType__OperationSignature();
+			EList<VariableUsage> outputVariables = externalCall.getReturnVariableUsage__CallReturnAction();
+			generateVariables(returnType, outputVariables);
 		}
 	}
 	
@@ -368,19 +373,54 @@ public class Ast2SeffVisitor extends ASTVisitor {
 
 		if(para != null) {
 			DataType paraDataType = para.getDataType__Parameter();
-			if(paraDataType instanceof PrimitiveDataType)
+			if(paraDataType instanceof PrimitiveDataType) {
 				booleanVariable.setType(VariableCharacterisationType.VALUE);
-			else if(paraDataType instanceof CompositeDataType)
+				namespaceReference.setReferenceName(((PrimitiveDataType) paraDataType).getType().toString());
+			}
+			else if(paraDataType instanceof CompositeDataType) {
 				booleanVariable.setType(VariableCharacterisationType.BYTESIZE);
-			else
+				namespaceReference.setReferenceName(((CompositeDataType) paraDataType).getEntityName());
+			}
+			else {
 				booleanVariable.setType(VariableCharacterisationType.VALUE);
-			namespaceReference.setReferenceName(para.getParameterName());
+				namespaceReference.setReferenceName(para.getParameterName());
+			}
 			variableReference.setReferenceName(variable.toString());
 		} else {
 			booleanVariable.setType(VariableCharacterisationType.VALUE);
 			namespaceReference.setReferenceName("PrimitiveType");
 			variableReference.setReferenceName(StaticNameMethods.getExpressionClassName(variable));
 		}
+		
+		variableUsage.getVariableCharacterisation_VariableUsage().add(booleanVariable);
+		namespaceReference.setInnerReference_NamespaceReference(variableReference);
+		variableUsage.setNamedReference__VariableUsage(namespaceReference);
+
+		randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
+		//randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString());
+		booleanVariable.setSpecification_VariableCharacterisation(randomPCMVariable);
+
+		variablesList.add(variableUsage);
+	}
+	private void generateVariables(DataType returnType, EList<VariableUsage> variablesList) {
+		//From ParameterFactory Docs: Note that it was an explicit design decision to refer to variable names instead of the actual variables (i.e., by refering to Parameter class).
+		VariableCharacterisation booleanVariable = ParameterFactory.eINSTANCE.createVariableCharacterisation();
+		VariableUsage variableUsage = ParameterFactory.eINSTANCE.createVariableUsage();
+		NamespaceReference namespaceReference = StoexFactory.eINSTANCE.createNamespaceReference();
+		VariableReference variableReference = StoexFactory.eINSTANCE.createVariableReference();
+		PCMRandomVariable randomPCMVariable = CoreFactory.eINSTANCE.createPCMRandomVariable();
+
+		if(returnType instanceof PrimitiveDataType) {
+			booleanVariable.setType(VariableCharacterisationType.VALUE);
+			namespaceReference.setReferenceName(((PrimitiveDataType) returnType).getType().toString());
+		}
+		else if(returnType instanceof CompositeDataType) {
+			booleanVariable.setType(VariableCharacterisationType.BYTESIZE);
+			namespaceReference.setReferenceName(((CompositeDataType) returnType).getEntityName());
+		}
+		else
+			booleanVariable.setType(VariableCharacterisationType.VALUE);
+		variableReference.setReferenceName("tempVariable");
 		
 		variableUsage.getVariableCharacterisation_VariableUsage().add(booleanVariable);
 		namespaceReference.setInnerReference_NamespaceReference(variableReference);
