@@ -213,6 +213,8 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         				compositeDataType.setEntityName(simpleType.toString());
         				IVariableBinding binding = variableDeclaration.resolveBinding();
         				if(binding.getDeclaringClass() != null) {
+        					int test = 3;
+        					int testasdf = 5;
         					//TODO: add primitiveTypes
             				////Composite Data Type Snipped
             				//EList<DataType> repositoryDataTypes = repository.getDataTypes__Repository();
@@ -239,6 +241,43 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         				
         				operationSignature.getParameters__OperationSignature().add(parameter);
         			}
+        		}
+        	}
+        	Type returnType = methodDeclaration.getReturnType2();
+        	if(returnType != null && returnType.isPrimitiveType()) {
+        		PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
+        		PrimitiveType primitiveType = (PrimitiveType) returnType;
+        		String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode().toString();
+        		
+        		//TODO: refactor
+        		if (!primitiveTypeCodeString.equals(PrimitiveType.VOID.toString())) {
+				
+					if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
+						primitiveDataType.setType(PrimitiveTypeEnum.INT);
+					} else if (primitiveTypeCodeString.equals(PrimitiveType.SHORT.toString())) {
+						primitiveDataType.setType(PrimitiveTypeEnum.INT);
+					} else if (primitiveTypeCodeString.equals(PrimitiveType.DOUBLE.toString())) {
+						primitiveDataType.setType(PrimitiveTypeEnum.DOUBLE);
+					} else if (primitiveTypeCodeString.equals(PrimitiveType.FLOAT.toString())) {
+						primitiveDataType.setType(PrimitiveTypeEnum.DOUBLE);
+					} else if (primitiveTypeCodeString.equals(PrimitiveType.CHAR.toString())) {
+						primitiveDataType.setType(PrimitiveTypeEnum.CHAR);
+					} else if (primitiveTypeCodeString.equals(PrimitiveType.BYTE.toString())) {
+						primitiveDataType.setType(PrimitiveTypeEnum.BYTE);
+					} else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
+						primitiveDataType.setType(PrimitiveTypeEnum.BOOL);
+					} else {
+						// TODO: handle error
+					}
+				
+					List<DataType> filteredList = dataTypeList.stream().filter(dataType -> dataType instanceof PrimitiveDataType)
+							.filter(dataType -> ((PrimitiveDataType) dataType).getType() == primitiveDataType.getType()).collect(Collectors.toList());
+					
+					if (filteredList.size() == 0) {
+						primitiveDataType.setRepository__DataType(repository);
+					}
+					primitiveDataType.setRepository__DataType(repository);
+        			operationSignature.setReturnType__OperationSignature(primitiveDataType);
         		}
         	}
         	

@@ -321,3 +321,9 @@ Neue Aufgaben (Aufschrieb Marcel):
 
 Fragen:
 - External call bei überladenen Funktionen (welche wird aufgerufen?)
+- Wie sollen Variablen aussehen? MediaStore gibt nicht viel her
+
+Bearbeitete Aufgaben:
+- Composite/Collection Data Types modellieren (ohne weitere parameter)
+- Variablen aus Interface ziehen anstatt von Übergabe Parametern
+- return Variablen setzen (bisher nur primitive, muss refactored werden)

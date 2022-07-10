@@ -5,6 +5,12 @@ import java.util.List;
 
 public class SimpleClass {
 
+	int TestVariable;
+	
+	public SimpleClass(int classDefinitionInt) {
+		this.TestVariable = classDefinitionInt;
+	}
+	
 	public void ifMethod() {
 		System.out.println("Hello World!");
 		

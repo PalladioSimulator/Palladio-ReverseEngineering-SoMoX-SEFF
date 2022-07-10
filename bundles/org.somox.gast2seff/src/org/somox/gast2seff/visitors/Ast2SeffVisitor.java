@@ -386,8 +386,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		namespaceReference.setInnerReference_NamespaceReference(variableReference);
 		variableUsage.setNamedReference__VariableUsage(namespaceReference);
 
-		//randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
-		randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString());
+		randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
+		//randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString());
 		booleanVariable.setSpecification_VariableCharacterisation(randomPCMVariable);
 
 		variablesList.add(variableUsage);
