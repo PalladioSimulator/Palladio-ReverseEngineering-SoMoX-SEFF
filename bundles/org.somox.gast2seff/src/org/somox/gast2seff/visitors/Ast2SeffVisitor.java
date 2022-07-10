@@ -30,12 +30,15 @@ import org.palladiosimulator.pcm.parameter.VariableCharacterisation;
 import org.palladiosimulator.pcm.parameter.VariableCharacterisationType;
 import org.palladiosimulator.pcm.parameter.VariableUsage;
 import org.palladiosimulator.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.repository.CompositeDataType;
+import org.palladiosimulator.pcm.repository.DataType;
 import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.Parameter;
 import org.palladiosimulator.pcm.repository.PassiveResource;
+import org.palladiosimulator.pcm.repository.PrimitiveDataType;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.AbstractBranchTransition;
@@ -133,17 +136,19 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		{
 			OperationSignature calledFunctionSignature = this.getOperationSignatureFromInterfaceByName(operationInterface, methodInvocation.getName().toString());
 			EList<VariableUsage> inputVariables = externalCall.getInputVariableUsages__CallAction();
-			if(calledFunctionSignature != null) {
+			if(calledFunctionSignature != null && (calledFunctionSignature.getParameters__OperationSignature().size() == methodInvocation.arguments().size())) {
 				//try to get variables from interface
 				EList<Parameter> calledFunctParameterList = calledFunctionSignature.getParameters__OperationSignature();
-				for(Parameter para : calledFunctParameterList) {
-					generateVariables(para, inputVariables);
+				for(int i=0; i < calledFunctParameterList.size(); i++) {
+					Parameter para = calledFunctParameterList.get(i);
+					Expression castedArgument = (Expression) methodInvocation.arguments().get(i);
+					generateVariables(para, castedArgument, inputVariables);
 				}
 			} else {
-				//fallback if interface is not found
+				//fallback if interface is not found or argumentsArrays have different sizes
 				for(Object argument : methodInvocation.arguments()) {
 					Expression castedArgument = (Expression) argument;
-					generateVariables(castedArgument, inputVariables);
+					generateVariables(null, castedArgument, inputVariables);
 				}
 			}
 		}
@@ -317,7 +322,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	public boolean visit(final ReturnStatement returnStatement) {
 		SetVariableAction variableAction = SeffFactory.eINSTANCE.createSetVariableAction();
 		Expression returnExpression = returnStatement.getExpression();
-		this.generateVariables(returnExpression, variableAction.getLocalVariableUsages_SetVariableAction());
+		this.generateVariables(null, returnExpression, variableAction.getLocalVariableUsages_SetVariableAction());
 		this.actionList.add(variableAction);
 		return false;
 	}
@@ -332,7 +337,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		EList<OperationSignature> functionList = operationInterface.getSignatures__OperationInterface();
 		if(!functionList.isEmpty() && name != "") {
 			for(OperationSignature signature : functionList) {
-				if(signature.getEntityName() == name)
+				String signatureName = signature.getEntityName();
+				if(name.equals(signatureName))
 					return signature;
 			}
 		}
@@ -342,46 +348,46 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	/*
 	 * Neu in Ast2Seff dazu gekommen, war nicht in JaMoPP vorhanden
 	 * Verhalten aus "MediaStore3 -> AudioWatermarking" abgeschaut
-	 * https://updatesite.palladio-simulator.com/archive/pcm_archive/revisions/2009-03-07_PCM_javadoc/de/uka/ipd/sdq/pcm/parameter/ParameterFactory.html
+	 * +
+	 * zusätzliche infos von: https://www.palladio-simulator.com/tools/tutorials/ (PCM Parameter (PDF) -> 18)
+	 * 
+	 *** The following types are available
+	 * BYTESIZE: Memory footprint of a parameter
+	 * VALUE: The actual value of a parameter for primitive types
+	 * STRUCTURE: Structure of data, like „sorted“ or „unsorted“
+	 * NUMBER_OF_ELEMENTS: The number of elements in a collection
+	 * TYPE: The actual type of a parameter (vs. the declared type)
 	 */
-	private void generateVariables(Expression variable, EList<VariableUsage> variablesList) {
+	private void generateVariables(Parameter para, Expression variable, EList<VariableUsage> variablesList) {
+		//From ParameterFactory Docs: Note that it was an explicit design decision to refer to variable names instead of the actual variables (i.e., by refering to Parameter class).
 		VariableCharacterisation booleanVariable = ParameterFactory.eINSTANCE.createVariableCharacterisation();
 		VariableUsage variableUsage = ParameterFactory.eINSTANCE.createVariableUsage();
 		NamespaceReference namespaceReference = StoexFactory.eINSTANCE.createNamespaceReference();
 		VariableReference variableReference = StoexFactory.eINSTANCE.createVariableReference();
 		PCMRandomVariable randomPCMVariable = CoreFactory.eINSTANCE.createPCMRandomVariable();
 
-		booleanVariable.setType(VariableCharacterisationType.VALUE);
-		variableUsage.getVariableCharacterisation_VariableUsage().add(booleanVariable);
-		namespaceReference.setReferenceName("PrimitiveType");
-		variableReference.setReferenceName(StaticNameMethods.getExpressionClassName(variable));
-		namespaceReference.setInnerReference_NamespaceReference(variableReference);
-		variableUsage.setNamedReference__VariableUsage(namespaceReference);
-
-		randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
-		booleanVariable.setSpecification_VariableCharacterisation(randomPCMVariable);
-
-		variablesList.add(variableUsage);
+		if(para != null) {
+			DataType paraDataType = para.getDataType__Parameter();
+			if(paraDataType instanceof PrimitiveDataType)
+				booleanVariable.setType(VariableCharacterisationType.VALUE);
+			else if(paraDataType instanceof CompositeDataType)
+				booleanVariable.setType(VariableCharacterisationType.BYTESIZE);
+			else
+				booleanVariable.setType(VariableCharacterisationType.VALUE);
+			namespaceReference.setReferenceName(para.getParameterName());
+			variableReference.setReferenceName(variable.toString());
+		} else {
+			booleanVariable.setType(VariableCharacterisationType.VALUE);
+			namespaceReference.setReferenceName("PrimitiveType");
+			variableReference.setReferenceName(StaticNameMethods.getExpressionClassName(variable));
+		}
 		
-		//missing types: PrimitiveType.INT, PrimitiveType.DOUBLE, PrimitiveType.FLOAT, PrimitiveType.BYTE, CLASS, STRUCT
-	}
-	private void generateVariables(Parameter para, EList<VariableUsage> variablesList) {
-		//Note that it was an explicit design decision to refer to variable names instead of the actual variables (i.e., by refering to Parameter class). 
-		VariableCharacterisation booleanVariable = ParameterFactory.eINSTANCE.createVariableCharacterisation();
-		VariableUsage variableUsage = ParameterFactory.eINSTANCE.createVariableUsage();
-		NamespaceReference namespaceReference = StoexFactory.eINSTANCE.createNamespaceReference();
-		VariableReference variableReference = StoexFactory.eINSTANCE.createVariableReference();
-		PCMRandomVariable randomPCMVariable = CoreFactory.eINSTANCE.createPCMRandomVariable();
-
-		para.getDataType__Parameter();
-		booleanVariable.setType(VariableCharacterisationType.VALUE);
 		variableUsage.getVariableCharacterisation_VariableUsage().add(booleanVariable);
-		namespaceReference.setReferenceName(para.getParameterName());
-		//variableReference.setReferenceName(StaticNameMethods.getExpressionClassName(variable));
 		namespaceReference.setInnerReference_NamespaceReference(variableReference);
 		variableUsage.setNamedReference__VariableUsage(namespaceReference);
 
-		randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
+		//randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
+		randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString());
 		booleanVariable.setSpecification_VariableCharacterisation(randomPCMVariable);
 
 		variablesList.add(variableUsage);
