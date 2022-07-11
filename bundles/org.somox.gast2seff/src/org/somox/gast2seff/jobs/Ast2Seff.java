@@ -27,8 +27,12 @@ import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
 import org.emftext.language.java.statements.StatementListContainer;
+import org.palladiosimulator.generator.fluent.repository.api.Repo;
+import org.palladiosimulator.generator.fluent.repository.api.RepoAddition;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
 import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
+import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationInterfaceCreator;
+import org.palladiosimulator.generator.fluent.repository.structure.internals.Primitive;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.CompositeDataType;
 import org.palladiosimulator.pcm.repository.DataType;
@@ -37,6 +41,7 @@ import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.Parameter;
+import org.palladiosimulator.pcm.repository.ParameterModifier;
 import org.palladiosimulator.pcm.repository.PrimitiveDataType;
 import org.palladiosimulator.pcm.repository.PrimitiveTypeEnum;
 import org.palladiosimulator.pcm.repository.Repository;
@@ -103,92 +108,68 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		monitor.subTask("loading models from blackboard");
 		
 		this.methodAssociationList = (List<MethodAssociation>) this.blackboard.getPartition("methodAssociationList");
-		
-        Repository repository = RepositoryFactory.eINSTANCE.createRepository();
+
+        RepoAddition repoAddition = create.newRepository().withName("Simple Repository");
         
-        Map<BasicComponent, MethodAssociation> map = new HashMap<BasicComponent, MethodAssociation>();
-        Map<BasicComponent, List<PrimitiveDataType>> componentDataTypeMap = new HashMap<>();
+        Map<BasicComponent, OperationInterfaceCreator> componentOperationInterfaceMap = new HashMap<>();
         
         for (MethodAssociation methodAssociation : methodAssociationList) {
-        	BasicComponent basicComponent = methodAssociation.getBasicComponent();
-        	OperationSignature operationSignature =  RepositoryFactory.eINSTANCE.createOperationSignature();
+			BasicComponent basicComponent = methodAssociation.getBasicComponent();
+			
         	MethodDeclaration methodDeclaration = (MethodDeclaration) methodAssociation.getAstNode();
-        	operationSignature.setEntityName(methodDeclaration.getName().toString());
         	List<SingleVariableDeclaration> singleVariableDeclarationList = methodDeclaration.parameters();
+
+        	OperationInterfaceCreator operationInterfaceCreator = null;
+        	
+        	if (componentOperationInterfaceMap.containsKey(basicComponent)) {
+        		operationInterfaceCreator = componentOperationInterfaceMap.get(basicComponent);
+        	} else {
+        		operationInterfaceCreator = create.newOperationInterface()
+        				.withName(basicComponent.getEntityName());
+        	}
         	
         	if (singleVariableDeclarationList != null && singleVariableDeclarationList.size() > 0) {
         		for (SingleVariableDeclaration variableDeclaration : singleVariableDeclarationList) {
         			Type type = variableDeclaration.getType();
+        			String parameterName = variableDeclaration.getName().toString();
         			if (type.isPrimitiveType()) {
+        	        	Primitive primitive = Primitive.STRING;
         				PrimitiveType primitiveType = (PrimitiveType) type;
-        				Parameter parameter = RepositoryFactory.eINSTANCE.createParameter();
-        				parameter.setParameterName(variableDeclaration.getName().toString());
-        				PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
-
         				String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode().toString();
         				
         				if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
-        					primitiveDataType.setType(PrimitiveTypeEnum.INT);
+        					primitive = Primitive.INTEGER;
         				} else if (primitiveTypeCodeString.equals(PrimitiveType.SHORT.toString())) {
-        					primitiveDataType.setType(PrimitiveTypeEnum.INT);
+        					primitive = Primitive.INTEGER;
         				} else if (primitiveTypeCodeString.equals(PrimitiveType.DOUBLE.toString())) {
-        					primitiveDataType.setType(PrimitiveTypeEnum.DOUBLE);
+        					primitive = Primitive.DOUBLE;
         				} else if (primitiveTypeCodeString.equals(PrimitiveType.FLOAT.toString())) {
-        					primitiveDataType.setType(PrimitiveTypeEnum.DOUBLE);
+        					primitive = Primitive.DOUBLE;
         				} else if (primitiveTypeCodeString.equals(PrimitiveType.CHAR.toString())) {
-        					primitiveDataType.setType(PrimitiveTypeEnum.CHAR);
+        					primitive = Primitive.CHAR;
         				} else if (primitiveTypeCodeString.equals(PrimitiveType.BYTE.toString())) {
-        					primitiveDataType.setType(PrimitiveTypeEnum.BYTE);
+        					primitive = Primitive.BYTE;
         				} else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
-        					primitiveDataType.setType(PrimitiveTypeEnum.BOOL);
+        					primitive = Primitive.BOOLEAN;
         				} else {
-        					// TODO: handle error
+        					// TODO: handle error        					
         				}
         				
-        				
-        				if (componentDataTypeMap.get(basicComponent) != null) {
-        					List<PrimitiveDataType> filteredList = componentDataTypeMap.get(basicComponent).stream().filter(dataType -> dataType.getType() == primitiveDataType.getType()).collect(Collectors.toList());
-        					
-        					if (filteredList.size() == 0) {
-        						primitiveDataType.setRepository__DataType(repository);
-            					parameter.setDataType__Parameter(primitiveDataType);
-            					componentDataTypeMap.get(basicComponent).add(primitiveDataType);
-        					} else {
-        						parameter.setDataType__Parameter(filteredList.get(0));
-        					}
-        				} else {
-        					primitiveDataType.setRepository__DataType(repository);
-        					parameter.setDataType__Parameter(primitiveDataType);
-        					
-        					List<PrimitiveDataType> list = new ArrayList<>();
-        					list.add(primitiveDataType);
-        					componentDataTypeMap.put(basicComponent, list);
-        				}
-        				operationSignature.getParameters__OperationSignature().add(parameter);
-        				
-        			}
+        				operationInterfaceCreator = operationInterfaceCreator.withOperationSignature(create.newOperationSignature()
+                				.withName(methodDeclaration.getName().toString())
+                				.withParameter(parameterName, primitive, ParameterModifier.NONE));
+        			}	
         		}
         	}
-        	
-        	if (map.containsKey(basicComponent)) {
-        		OperationProvidedRole operationProvidedRole = (OperationProvidedRole) basicComponent.getProvidedRoles_InterfaceProvidingEntity().get(0);
-        		OperationInterface operationInterface = operationProvidedRole.getProvidedInterface__OperationProvidedRole();
-            	operationInterface.getSignatures__OperationInterface().add(operationSignature);
-            	methodAssociation.getSeff().setDescribedService__SEFF(operationSignature);
-        	} else {
-        		map.put(basicComponent, methodAssociation);
-        		repository.getComponents__Repository().add(basicComponent);
-        		OperationProvidedRole operationProvidedRole = RepositoryFactory.eINSTANCE.createOperationProvidedRole();
-        		OperationInterface operationInterface =  RepositoryFactory.eINSTANCE.createOperationInterface();
-            	operationInterface.setRepository__Interface(repository);
-            	operationInterface.getSignatures__OperationInterface().add(operationSignature);
-            	operationInterface.setEntityName(basicComponent.getEntityName());
-            	methodAssociation.getSeff().setDescribedService__SEFF(operationSignature);
-            	operationProvidedRole.setProvidedInterface__OperationProvidedRole(operationInterface);
-            	operationProvidedRole.setEntityName(basicComponent.getEntityName());
-            	basicComponent.getProvidedRoles_InterfaceProvidingEntity().add(operationProvidedRole);
-        	}
+        	componentOperationInterfaceMap.put(basicComponent, operationInterfaceCreator);
         }
+        
+        for (Map.Entry<BasicComponent, OperationInterfaceCreator> entry : componentOperationInterfaceMap.entrySet()) {
+			OperationInterfaceCreator operationInterfaceCreator = entry.getValue();
+			repoAddition = repoAddition.addToRepository(operationInterfaceCreator);
+		}
+        
+        Repository repository = repoAddition.createRepositoryNow();
 		
 		// TODO: Same method name from different files?
 		for (MethodAssociation methodAssociation : methodAssociationList) {
@@ -225,7 +206,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		}
 		
 		
-		//Composite Data Type Snipped
+		//Composite Data Type snippet
 		EList<DataType> repositoryDataTypes = repository.getDataTypes__Repository();
 		CompositeDataType compositeDataType = RepositoryFactory.eINSTANCE.createCompositeDataType();
 		PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
@@ -238,7 +219,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		innerDataType.setDatatype_InnerDeclaration(primitiveDataType);
 		compositeDataType.getInnerDeclaration_CompositeDataType().add(innerDataType);
 		repositoryDataTypes.add(compositeDataType);
-		//end Snipped
+		//end snippet
 		
 		this.generateSeffXmlFile(repository);
 

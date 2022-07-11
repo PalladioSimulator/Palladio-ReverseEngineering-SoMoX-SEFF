@@ -22,9 +22,10 @@ import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
+import org.palladiosimulator.generator.fluent.exceptions.FluentApiException;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
-import org.palladiosimulator.generator.fluent.repository.api.seff.Seff;
 import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
+import org.palladiosimulator.generator.fluent.repository.structure.components.BasicComponentCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.components.seff.BranchActionCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.components.seff.ExternalCallActionCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.components.seff.LoopActionCreator;
@@ -41,19 +42,8 @@ import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.PassiveResource;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
-import org.palladiosimulator.pcm.seff.AbstractAction;
-import org.palladiosimulator.pcm.seff.AbstractBranchTransition;
-import org.palladiosimulator.pcm.seff.AcquireAction;
-import org.palladiosimulator.pcm.seff.BranchAction;
-import org.palladiosimulator.pcm.seff.ExternalCallAction;
-import org.palladiosimulator.pcm.seff.InternalAction;
-import org.palladiosimulator.pcm.seff.LoopAction;
-import org.palladiosimulator.pcm.seff.ReleaseAction;
-import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
 import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.palladiosimulator.pcm.seff.SetVariableAction;
-import org.palladiosimulator.pcm.seff.StartAction;
-import org.palladiosimulator.pcm.seff.StopAction;
 import org.somox.kdmhelper.MethodAssociation;
 import org.somox.kdmhelper.StaticNameMethods;
 
@@ -70,6 +60,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private MethodAssociation methodAssociation;
 	private BasicComponent basicComponent;
 	private ActionSeff actionSeff;
+	private BasicComponentCreator basicComponentCreator;
 	
 	public Ast2SeffVisitor(MethodAssociation methodAssociation, ActionSeff actionSeff, Map<String, MethodAssociation> methodNameMap) {
 		this.actionSeff = actionSeff;
@@ -124,7 +115,16 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		OperationProvidedRole operationProvidedRole = (OperationProvidedRole) externalBasicComponent.getProvidedRoles_InterfaceProvidingEntity().get(0);
 		OperationInterface operationInterface = operationProvidedRole.getProvidedInterface__OperationProvidedRole();
 		OperationRequiredRole operationRequiredRole = null;
-		if (basicComponent.getRequiredRoles_InterfaceRequiringEntity().size() == 0) {
+		
+		try {
+			operationRequiredRole = create.fetchOfOperationRequiredRole("");
+		} catch (FluentApiException e) {
+			// TODO: handle exception
+			basicComponentCreator.requires(create.fetchOfOperationInterface(""));
+		}
+		
+
+		if (operationRequiredRole == null) {
 			operationRequiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
 			StaticNameMethods.setEntityName(operationRequiredRole, basicComponent.getEntityName());
 			basicComponent.getRequiredRoles_InterfaceRequiringEntity().add(operationRequiredRole);
@@ -133,6 +133,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		}
 		operationRequiredRole.setRequiredInterface__OperationRequiredRole(operationInterface);
 		externalCallActionCreator.withRequiredRole(operationRequiredRole);
+
 		actionSeff = externalCallActionCreator.followedBy();
 		
 		// TODO: Change to Fluent Api
