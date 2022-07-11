@@ -327,3 +327,4 @@ Bearbeitete Aufgaben:
 - Composite/Collection Data Types modellieren (ohne weitere parameter)
 - Variablen aus Interface ziehen anstatt von Übergabe Parametern
 - return Variablen setzen (bisher nur primitive, muss refactored werden)
+- FluentAPI überprüfen

@@ -275,9 +275,11 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 					
 					if (filteredList.size() == 0) {
 						primitiveDataType.setRepository__DataType(repository);
+						operationSignature.setReturnType__OperationSignature(primitiveDataType);
+						dataTypeList.add(primitiveDataType);
+					} else {
+						operationSignature.setReturnType__OperationSignature((PrimitiveDataType) filteredList.get(0));
 					}
-					primitiveDataType.setRepository__DataType(repository);
-        			operationSignature.setReturnType__OperationSignature(primitiveDataType);
         		}
         	}
         	
