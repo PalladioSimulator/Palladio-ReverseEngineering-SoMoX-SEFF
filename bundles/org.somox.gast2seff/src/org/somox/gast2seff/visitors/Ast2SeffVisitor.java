@@ -49,7 +49,8 @@ import org.palladiosimulator.pcm.repository.PrimitiveDataType;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.palladiosimulator.pcm.seff.SetVariableAction;
-import org.somox.kdmhelper.MethodAssociation;
+import org.somox.kdmhelper.MethodBundlePair;
+import org.somox.kdmhelper.MethodPalladioInformation;
 import org.somox.kdmhelper.StaticNameMethods;
 
 import de.uka.ipd.sdq.stoex.NamespaceReference;
@@ -61,20 +62,18 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private static final Logger logger = Logger.getLogger(Ast2SeffVisitor.class);
 	private static final FluentRepositoryFactory create = new FluentRepositoryFactory();	
 	
-	private Map<String, MethodAssociation> methodNameMap;
-	private MethodAssociation methodAssociation;
-	private BasicComponent basicComponent;
+	private Map<String, MethodPalladioInformation> methodNameMap;
+	private MethodBundlePair methodAssociation;
 	private ActionSeff actionSeff;
 	private BasicComponentCreator basicComponentCreator;
 	
-	public Ast2SeffVisitor(MethodAssociation methodAssociation, ActionSeff actionSeff, Map<String, MethodAssociation> methodNameMap) {
+	public Ast2SeffVisitor(MethodBundlePair methodAssociation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodNameMap) {
 		this.actionSeff = actionSeff;
 		this.methodNameMap = methodNameMap;
 		this.methodAssociation = methodAssociation;
-		this.basicComponent = methodAssociation.getBasicComponent();
 	}
 	
-	public static ActionSeff perform(MethodAssociation methodAssociation, ActionSeff actionSeff, Map<String, MethodAssociation> methodNameMap) {
+	public static ActionSeff perform(MethodBundlePair methodAssociation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodNameMap) {
 		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodAssociation, actionSeff, methodNameMap);
 		methodAssociation.getAstNode().accept(newFunctionCallClassificationVisitor);
 		return actionSeff;
@@ -92,7 +91,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 
 		if (expression instanceof MethodInvocation && this.isExternal((MethodInvocation) expression)) {
 			MethodInvocation methodInvocation = (MethodInvocation) expression;
-			MethodAssociation externalMethodAssociation = this.getExternalMethodAssociation(methodInvocation);
+			MethodBundlePair externalMethodAssociation = this.getExternalMethodAssociation(methodInvocation);
 			BasicComponent externalBasicComponent = externalMethodAssociation.getBasicComponent();
 			
 			if (!externalBasicComponent.equals(basicComponent)) {
@@ -108,7 +107,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return super.visit(expressionStatement);
 	}
 	
-	private void generateClassMethodSeff(MethodAssociation methodAssociation) {
+	private void generateClassMethodSeff(MethodBundlePair methodAssociation) {
 		perform(methodAssociation.getAstNode(), actionSeff);
 	}
 	
@@ -470,7 +469,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return this.methodNameMap.containsKey(className + "." + methodName);
 	}
 	
-	private MethodAssociation getExternalMethodAssociation(MethodInvocation methodInvocation) {
+	private MethodBundlePair getExternalMethodAssociation(MethodInvocation methodInvocation) {
 		String methodName = methodInvocation.getName().toString();
 		String className = StaticNameMethods.getClassName(methodInvocation);
 		if (this.methodNameMap.containsKey(className + "." + methodName)) {

@@ -27,7 +27,7 @@ import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
 import org.somox.gast2seff.visitors.Ast2SeffVisitor;
-import org.somox.kdmhelper.MethodAssociation;
+import org.somox.kdmhelper.MethodBundlePair;
 
 public class IfStatementVisitorTest {
 	
@@ -37,12 +37,12 @@ public class IfStatementVisitorTest {
 	public void emptyIfStatementVisitorTest() {
 		
 		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-		Map<String, MethodAssociation> methodNameMap = new HashMap<>();
+		Map<String, MethodBundlePair> methodNameMap = new HashMap<>();
 		BasicComponent basicComponent = RepositoryFactory.eINSTANCE.createBasicComponent();
 		ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
 		AST ast = AST.newAST(AST.getJLSLatest(), false);
 		IfStatement ifStatement = ast.newIfStatement();
-		MethodAssociation methodAssociation = new MethodAssociation(ifStatement, seff, basicComponent);
+		MethodBundlePair methodAssociation = new MethodBundlePair(ifStatement, seff, basicComponent);
 		actionSeff = Ast2SeffVisitor.perform(methodAssociation, actionSeff, methodNameMap);
 
 		seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();

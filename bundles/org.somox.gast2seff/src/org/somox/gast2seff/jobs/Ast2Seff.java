@@ -32,8 +32,10 @@ import org.emftext.language.java.statements.StatementListContainer;
 import org.palladiosimulator.generator.fluent.repository.api.Repo;
 import org.palladiosimulator.generator.fluent.repository.api.RepoAddition;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
+import org.palladiosimulator.generator.fluent.repository.api.seff.Seff;
 import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
 import org.palladiosimulator.generator.fluent.repository.structure.components.BasicComponentCreator;
+import org.palladiosimulator.generator.fluent.repository.structure.components.seff.SeffCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationInterfaceCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationSignatureCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.internals.Primitive;
@@ -54,7 +56,8 @@ import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.somox.gast2seff.visitors.Ast2SeffVisitor;
-import org.somox.kdmhelper.MethodAssociation;
+import org.somox.kdmhelper.MethodBundlePair;
+import org.somox.kdmhelper.MethodPalladioInformation;
 import org.somox.sourcecodedecorator.SEFF2MethodMapping;
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
@@ -78,8 +81,8 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	/** The SoMoX blackboard to interact with. */
 	private Blackboard<Object> blackboard;
 	
-	private Map<String, MethodAssociation> methodNameMap = new HashMap<>();
-	private Map<String, List<MethodAssociation>> bundleName2methodAssociationMap;
+	private Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
+	private Map<String, List<MethodBundlePair>> bundleName2methodAssociationMap;
 	//List<MethodAssociation> methodAssociationList = new ArrayList();
 	
 	/**
@@ -115,7 +118,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		
 		//this.methodAssociationList = (List<MethodAssociation>) this.blackboard.getPartition("methodAssociationList");
 		try {
-			this.bundleName2methodAssociationMap = (Map<String, List<MethodAssociation>>) this.blackboard.getPartition("bundleName2methodAssociationMap");
+			this.bundleName2methodAssociationMap = (Map<String, List<MethodBundlePair>>) this.blackboard.getPartition("bundleName2methodAssociationMap");
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
@@ -126,18 +129,16 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         
         LOGGER.info("Found " + bundleName2methodAssociationMap.size() + " Bundles. Computing Interfaces.");
         
-        for(Map.Entry<String, List<MethodAssociation>> entry : bundleName2methodAssociationMap.entrySet()) {
+        for(Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodAssociationMap.entrySet()) {
         	String bundleName = entry.getKey();
-        	List<MethodAssociation> methodAssociationListOfBundle = entry.getValue();
+        	List<MethodBundlePair> methodAssociationListOfBundle = entry.getValue();
         	LOGGER.info("Found " + methodAssociationListOfBundle.size() + " methods to " + bundleName + ". Computing Interfaces.");
         	
-        	BasicComponentCreator basicComponent = create.newBasicComponent().withName(bundleName);
         	OperationInterfaceCreator bundleOperationInterfaceCreator = create.newOperationInterface().withName(bundleName);
         	
-        	for (MethodAssociation methodAssociation : methodAssociationListOfBundle) {
+        	for (MethodBundlePair methodAssociation : methodAssociationListOfBundle) {
         		MethodDeclaration methodDeclaration = (MethodDeclaration) methodAssociation.getAstNode();
         		OperationSignatureCreator methodOperationSignature = create.newOperationSignature().withName(methodDeclaration.getName().toString());
-        		methodAssociation.setBasicComponentCreator(basicComponent);
         		
     			//How is Bundle defined? Can one Bundle have multiple CompilationUnits?
         		String strPackageName = "unknown";
@@ -149,8 +150,11 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
     				LOGGER.warn("No CompilationUnit found for: " + methodDeclaration.toString());
     			}
     			
-    			if (!this.methodNameMap.containsKey(strPackageName + "." + methodDeclaration.getName().toString()))
-    				this.methodNameMap.put(strPackageName + "." + methodDeclaration.getName().toString(), methodAssociation);
+    			String key = strPackageName + "." + methodDeclaration.getName().toString();
+    			String operationSignatureName = methodDeclaration.getName().toString();
+    			String operationInterfaceName = bundleName;
+    			if (!this.methodNameMap.containsKey(key))
+    				this.methodNameMap.put(key, new MethodPalladioInformation(key, operationSignatureName, operationInterfaceName));
         		
         		List<SingleVariableDeclaration> singleVariableDeclarationList = methodDeclaration.parameters();
         		
@@ -246,33 +250,28 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         		bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature);
         	}
         	repoAddition.addToRepository(bundleOperationInterfaceCreator);
-        	repoAddition.addToRepository(basicComponent);
         }
-        
-        Repository repository = repoAddition.createRepositoryNow();
 
 		final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
 		subMonitor.setTaskName("Creating SEFF behaviour");
 		
-		for (MethodAssociation methodAssociation : methodAssociationList) {
-			ResourceDemandingSEFF seff = methodAssociation.getSeff();
-			final String name = seff.getId();
-			LOGGER.info("Found AST behaviour, generating SEFF behaviour for it: " + name);
+		for(Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodAssociationMap.entrySet()) {
+        	String bundleName = entry.getKey();
+        	List<MethodBundlePair> methodAssociationListOfBundle = entry.getValue();
+        	LOGGER.info("Found " + methodAssociationListOfBundle.size() + " methods to " + bundleName + ". Computing Interfaces.");
+        	
+        	BasicComponentCreator basicComponent = create.newBasicComponent().withName(bundleName);
+        	
+			for (MethodBundlePair methodAssociation : methodAssociationListOfBundle) {
+				basicComponent.withServiceEffectSpecification(this.createSeff(methodAssociation));
+				monitor.worked(1);
+			}
 			
-			seff = this.createSeff(seff, methodAssociation);
-			methodAssociation.setSeff(seff);
-			
-			BasicComponent basicComponent = methodAssociation.getBasicComponent();
-        	basicComponent.getServiceEffectSpecifications__BasicComponent().add(methodAssociation.getSeff());
-			
-			monitor.worked(1);
+			repoAddition.addToRepository(basicComponent);
 		}
 		
+		Repository repository = repoAddition.createRepositoryNow();		
 		this.generateSeffXmlFile(repository);
-
-		// Create default annotations
-//		final DefaultQosAnnotationsBuilder qosAnnotationBuilder = new DefaultQosAnnotationsBuilder();
-//		qosAnnotationBuilder.buildDefaultQosAnnotations(this.sourceCodeDecoratorModel.getSeff2MethodMappings());
 
 		subMonitor.done();
 	}
@@ -296,11 +295,11 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 * @return The completed SEFF, returned for convenience
 	 * @throws JobFailedException
 	 */
-	private ResourceDemandingSEFF createSeff(ResourceDemandingSEFF seff, MethodAssociation methodAssociation) throws JobFailedException {
+	private SeffCreator createSeff(MethodBundlePair methodAssociation) throws JobFailedException {
 		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
 		
 		return Ast2SeffVisitor.perform(methodAssociation, actionSeff, this.methodNameMap)
-				.stopAction().createBehaviourNow().buildRDSeff();
+				.stopAction().createBehaviourNow();
 	}
 	
 	private void generateSeffXmlFile(final Repository repository) {

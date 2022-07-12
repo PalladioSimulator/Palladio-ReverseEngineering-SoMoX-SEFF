@@ -30,7 +30,7 @@ import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.somox.gast2seff.jobs.Ast2Seff;
-import org.somox.kdmhelper.MethodAssociation;
+import org.somox.kdmhelper.MethodBundlePair;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
@@ -125,7 +125,7 @@ public class Ast2SeffTest {
     	Map<String, CompilationUnit> compUnitMap = parseDirectory(directoryPath);
         
         Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = new HashMap<>();
-        Map<String, List<MethodAssociation>> bundleName2methodAssociationMap = new HashMap<String, List<MethodAssociation>>();
+        Map<String, List<MethodBundlePair>> bundleName2methodAssociationMap = new HashMap<String, List<MethodBundlePair>>();
         
         for (var entry : compUnitMap.entrySet()) {
 			List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(entry.getValue());
@@ -140,10 +140,10 @@ public class Ast2SeffTest {
 						TypeDeclaration typeDeclaration = (TypeDeclaration) methodDeclaration.getParent();
 						String className = typeDeclaration.getName().toString();
 						if (bundleName2methodAssociationMap.containsKey(className)) {
-							bundleName2methodAssociationMap.get(className).add(new MethodAssociation(className, methodDeclaration, null, null)); 
+							bundleName2methodAssociationMap.get(className).add(new MethodBundlePair(className, methodDeclaration)); 
 						} else {
-							List<MethodAssociation> methodAssociationList = new ArrayList<MethodAssociation>();
-							methodAssociationList.add(new MethodAssociation(className, methodDeclaration, null, null));
+							List<MethodBundlePair> methodAssociationList = new ArrayList<MethodBundlePair>();
+							methodAssociationList.add(new MethodBundlePair(className, methodDeclaration));
 							bundleName2methodAssociationMap.put(className, methodAssociationList); 
 						}
 					}
