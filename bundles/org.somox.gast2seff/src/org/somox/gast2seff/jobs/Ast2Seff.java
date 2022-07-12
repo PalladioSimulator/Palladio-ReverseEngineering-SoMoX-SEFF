@@ -33,6 +33,7 @@ import org.palladiosimulator.generator.fluent.repository.api.Repo;
 import org.palladiosimulator.generator.fluent.repository.api.RepoAddition;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
 import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
+import org.palladiosimulator.generator.fluent.repository.structure.components.BasicComponentCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationInterfaceCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationSignatureCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.internals.Primitive;
@@ -78,7 +79,8 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	private Blackboard<Object> blackboard;
 	
 	private Map<String, MethodAssociation> methodNameMap = new HashMap<>();
-	List<MethodAssociation> methodAssociationList = new ArrayList();
+	private Map<String, List<MethodAssociation>> bundleName2methodAssociationMap;
+	//List<MethodAssociation> methodAssociationList = new ArrayList();
 	
 	/**
 	 * Resources containing the models
@@ -111,34 +113,113 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 
 		monitor.subTask("loading models from blackboard");
 		
-		this.methodAssociationList = (List<MethodAssociation>) this.blackboard.getPartition("methodAssociationList");
+		//this.methodAssociationList = (List<MethodAssociation>) this.blackboard.getPartition("methodAssociationList");
+		try {
+			this.bundleName2methodAssociationMap = (Map<String, List<MethodAssociation>>) this.blackboard.getPartition("bundleName2methodAssociationMap");
+		} catch (Exception e) {
+			LOGGER.error(e);
+		}
 
         RepoAddition repoAddition = create.newRepository().withName("Simple Repository");
         
-        Map<BasicComponent, OperationInterfaceCreator> componentOperationInterfaceMap = new HashMap<>();
+        //Map<BasicComponent, OperationInterfaceCreator> componentOperationInterfaceMap = new HashMap<>();
         
-        for (MethodAssociation methodAssociation : methodAssociationList) {
-        	BasicComponent basicComponent = methodAssociation.getBasicComponent();
-        	MethodDeclaration methodDeclaration = (MethodDeclaration) methodAssociation.getAstNode();
-        	OperationInterfaceCreator bundleOperationInterfaceCreator = null;
-        	if (componentOperationInterfaceMap.containsKey(basicComponent)) {
-        		bundleOperationInterfaceCreator = componentOperationInterfaceMap.get(basicComponent);
-        	} else {
-        		bundleOperationInterfaceCreator = create.newOperationInterface()
-        				.withName(basicComponent.getEntityName());
-        	}
-        	OperationSignatureCreator methodOperationSignature = create.newOperationSignature().withName(methodDeclaration.getName().toString());
-			
-        	List<SingleVariableDeclaration> singleVariableDeclarationList = methodDeclaration.parameters();
+        LOGGER.info("Found " + bundleName2methodAssociationMap.size() + " Bundles. Computing Interfaces.");
+        
+        for(Map.Entry<String, List<MethodAssociation>> entry : bundleName2methodAssociationMap.entrySet()) {
+        	String bundleName = entry.getKey();
+        	List<MethodAssociation> methodAssociationListOfBundle = entry.getValue();
+        	LOGGER.info("Found " + methodAssociationListOfBundle.size() + " methods to " + bundleName + ". Computing Interfaces.");
         	
-        	if (singleVariableDeclarationList != null && singleVariableDeclarationList.size() > 0) {
-        		for (SingleVariableDeclaration variableDeclaration : singleVariableDeclarationList) {
-        			Type type = variableDeclaration.getType();
-        			String parameterName = variableDeclaration.getName().toString();
-        			if (type.isPrimitiveType()) {
-        	        	Primitive primitive = Primitive.STRING;
-        				PrimitiveType primitiveType = (PrimitiveType) type;
-        				String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode().toString();
+        	BasicComponentCreator basicComponent = create.newBasicComponent().withName(bundleName);
+        	OperationInterfaceCreator bundleOperationInterfaceCreator = create.newOperationInterface().withName(bundleName);
+        	
+        	for (MethodAssociation methodAssociation : methodAssociationListOfBundle) {
+        		MethodDeclaration methodDeclaration = (MethodDeclaration) methodAssociation.getAstNode();
+        		OperationSignatureCreator methodOperationSignature = create.newOperationSignature().withName(methodDeclaration.getName().toString());
+        		methodAssociation.setBasicComponentCreator(basicComponent);
+        		
+    			//How is Bundle defined? Can one Bundle have multiple CompilationUnits?
+        		String strPackageName = "unknown";
+    			ASTNode root = methodDeclaration.getRoot();
+    			if (root instanceof CompilationUnit) {
+    				PackageDeclaration packageName = ((CompilationUnit) root).getPackage();
+    				strPackageName = packageName.getName().toString() + "." + bundleName;
+    			} else {
+    				LOGGER.warn("No CompilationUnit found for: " + methodDeclaration.toString());
+    			}
+    			
+    			if (!this.methodNameMap.containsKey(strPackageName + "." + methodDeclaration.getName().toString()))
+    				this.methodNameMap.put(strPackageName + "." + methodDeclaration.getName().toString(), methodAssociation);
+        		
+        		List<SingleVariableDeclaration> singleVariableDeclarationList = methodDeclaration.parameters();
+        		
+        		if (singleVariableDeclarationList != null && singleVariableDeclarationList.size() > 0) {
+        			for (SingleVariableDeclaration variableDeclaration : singleVariableDeclarationList) {
+        				Type type = variableDeclaration.getType();
+        				String parameterName = variableDeclaration.getName().toString();
+        				if (type.isPrimitiveType()) {
+        					Primitive primitive = Primitive.STRING;
+        					PrimitiveType primitiveType = (PrimitiveType) type;
+        					String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode().toString();
+        					
+        					if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
+        						primitive = Primitive.INTEGER;
+        					} else if (primitiveTypeCodeString.equals(PrimitiveType.SHORT.toString())) {
+        						primitive = Primitive.INTEGER;
+        					} else if (primitiveTypeCodeString.equals(PrimitiveType.DOUBLE.toString())) {
+        						primitive = Primitive.DOUBLE;
+        					} else if (primitiveTypeCodeString.equals(PrimitiveType.FLOAT.toString())) {
+        						primitive = Primitive.DOUBLE;
+        					} else if (primitiveTypeCodeString.equals(PrimitiveType.CHAR.toString())) {
+        						primitive = Primitive.CHAR;
+        					} else if (primitiveTypeCodeString.equals(PrimitiveType.BYTE.toString())) {
+        						primitive = Primitive.BYTE;
+        					} else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
+        						primitive = Primitive.BOOLEAN;
+        					} else {
+        						// TODO: handle error
+        					}
+        					
+        					methodOperationSignature.withParameter(parameterName, primitive, ParameterModifier.IN);
+        				} else if(type.isSimpleType()) {
+        					SimpleType simpleType = (SimpleType) type;
+        					CompositeDataTypeCreator compositeDataType = create.newCompositeDataType().withName(simpleType.toString());
+        					
+        					//testing stuff
+        					compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
+        					IVariableBinding binding = variableDeclaration.resolveBinding();
+        					if(binding.getDeclaringClass() != null) {
+        						int test = 3;
+        						int testasdf = 5;
+        						//TODO: add primitiveTypes
+        						////Composite Data Type Snipped
+        						//EList<DataType> repositoryDataTypes = repository.getDataTypes__Repository();
+        						//PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
+        						//primitiveDataType.setType(PrimitiveTypeEnum.INT);
+        						//primitiveDataType.setRepository__DataType(repository);
+        						//InnerDeclaration innerDataType = RepositoryFactory.eINSTANCE.createInnerDeclaration();
+        						//innerDataType.setEntityName("TestInnerName");
+        						//innerDataType.setDatatype_InnerDeclaration(primitiveDataType);
+        						//compositeDataType.getInnerDeclaration_CompositeDataType().add(innerDataType);
+        						//repositoryDataTypes.add(compositeDataType);
+        						////end Snipped
+        					}
+        					//end testing stuff
+        					methodOperationSignature.withParameter(parameterName, compositeDataType.build(), ParameterModifier.IN);
+        				}
+        			}
+        		}
+        		
+        		Type returnType = methodDeclaration.getReturnType2();
+        		if(returnType != null && returnType.isPrimitiveType()) {
+        			Primitive primitive = Primitive.STRING;
+        			//PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
+        			PrimitiveType primitiveType = (PrimitiveType) returnType;
+        			String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode().toString();
+        			
+        			//TODO: refactor
+        			if (!primitiveTypeCodeString.equals(PrimitiveType.VOID.toString())) {
         				
         				if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
         					primitive = Primitive.INTEGER;
@@ -158,98 +239,17 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         					// TODO: handle error
         				}
         				
-        				bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature
-                				.withParameter(parameterName, primitive, ParameterModifier.IN));
-        			} else if(type.isSimpleType()) {
-        				SimpleType simpleType = (SimpleType) type;
-        				CompositeDataTypeCreator compositeDataType = create.newCompositeDataType().withName(simpleType.toString());
-        				
-        				//testing stuff
-        				compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
-        				IVariableBinding binding = variableDeclaration.resolveBinding();
-        				if(binding.getDeclaringClass() != null) {
-        					int test = 3;
-        					int testasdf = 5;
-        					//TODO: add primitiveTypes
-            				////Composite Data Type Snipped
-            				//EList<DataType> repositoryDataTypes = repository.getDataTypes__Repository();
-            				//PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
-            				//primitiveDataType.setType(PrimitiveTypeEnum.INT);
-            				//primitiveDataType.setRepository__DataType(repository);
-            				//InnerDeclaration innerDataType = RepositoryFactory.eINSTANCE.createInnerDeclaration();
-            				//innerDataType.setEntityName("TestInnerName");
-            				//innerDataType.setDatatype_InnerDeclaration(primitiveDataType);
-            				//compositeDataType.getInnerDeclaration_CompositeDataType().add(innerDataType);
-            				//repositoryDataTypes.add(compositeDataType);
-            				////end Snipped
-        				}
-        				//end testing stuff
-        				
-        				bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature
-                				.withParameter(parameterName, create.fetchOfDataType(simpleType.toString()), ParameterModifier.IN));
+        				methodOperationSignature.withParameter("OutputPara", primitive, ParameterModifier.OUT);
         			}
         		}
-        	}
-        	
-        	Type returnType = methodDeclaration.getReturnType2();
-        	if(returnType != null && returnType.isPrimitiveType()) {
-        		Primitive primitive = Primitive.STRING;
-        		//PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
-        		PrimitiveType primitiveType = (PrimitiveType) returnType;
-        		String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode().toString();
         		
-        		//TODO: refactor
-        		if (!primitiveTypeCodeString.equals(PrimitiveType.VOID.toString())) {
-				
-    				if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
-    					primitive = Primitive.INTEGER;
-    				} else if (primitiveTypeCodeString.equals(PrimitiveType.SHORT.toString())) {
-    					primitive = Primitive.INTEGER;
-    				} else if (primitiveTypeCodeString.equals(PrimitiveType.DOUBLE.toString())) {
-    					primitive = Primitive.DOUBLE;
-    				} else if (primitiveTypeCodeString.equals(PrimitiveType.FLOAT.toString())) {
-    					primitive = Primitive.DOUBLE;
-    				} else if (primitiveTypeCodeString.equals(PrimitiveType.CHAR.toString())) {
-    					primitive = Primitive.CHAR;
-    				} else if (primitiveTypeCodeString.equals(PrimitiveType.BYTE.toString())) {
-    					primitive = Primitive.BYTE;
-    				} else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
-    					primitive = Primitive.BOOLEAN;
-    				} else {
-    					// TODO: handle error
-    				}
-    				
-    				bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature
-            				.withParameter("OutputPara", primitive, ParameterModifier.OUT));
-        		}
+        		bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature);
         	}
-        	
-        	componentOperationInterfaceMap.put(basicComponent, bundleOperationInterfaceCreator);
+        	repoAddition.addToRepository(bundleOperationInterfaceCreator);
+        	repoAddition.addToRepository(basicComponent);
         }
         
-        for (Map.Entry<BasicComponent, OperationInterfaceCreator> entry : componentOperationInterfaceMap.entrySet()) {
-			OperationInterfaceCreator operationInterfaceCreator = entry.getValue();
-			repoAddition = repoAddition.addToRepository(operationInterfaceCreator);
-		}
-        
         Repository repository = repoAddition.createRepositoryNow();
-		
-		// TODO: Same method name from different files?
-		for (MethodAssociation methodAssociation : methodAssociationList) {
-			MethodDeclaration methodDeclaration = (MethodDeclaration) methodAssociation.getAstNode();
-			String strPackageName = "unknown";
-			ASTNode root = methodDeclaration.getRoot();
-			if (root instanceof CompilationUnit) {
-				PackageDeclaration packageName = ((CompilationUnit) root).getPackage();
-				strPackageName = packageName.getName().toString();
-				strPackageName += "." + methodAssociation.getBasicComponent().getEntityName();
-			} else {
-				LOGGER.warn("No CompilationUnit found for: " + methodDeclaration.toString());
-			}
-			
-			if (!this.methodNameMap.containsKey(strPackageName + "." + methodDeclaration.getName().toString()))
-				this.methodNameMap.put(strPackageName + "." + methodDeclaration.getName().toString(), methodAssociation);
-		}
 
 		final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
 		subMonitor.setTaskName("Creating SEFF behaviour");
@@ -269,17 +269,6 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		}
 		
 		this.generateSeffXmlFile(repository);
-
-//		final Iterator<SEFF2MethodMapping> iterator = this.sourceCodeDecoratorModel.getSeff2MethodMappings().iterator();
-//		while (iterator.hasNext()) {
-//			final SEFF2MethodMapping astBehaviour = iterator.next();
-//			final ResourceDemandingSEFF seff = (ResourceDemandingSEFF) astBehaviour.getSeff();
-//			final String name = seff.getId();
-//			LOGGER.info("Found AST behaviour, generating SEFF behaviour for it: " + name);
-//
-//			this.generateSEFFForGASTBehaviour(seff);
-//			monitor.worked(1);
-//		}
 
 		// Create default annotations
 //		final DefaultQosAnnotationsBuilder qosAnnotationBuilder = new DefaultQosAnnotationsBuilder();
@@ -315,8 +304,6 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	}
 	
 	private void generateSeffXmlFile(final Repository repository) {
-		
-		repository.setEntityName("Simple Repository");
 		
 		EcorePlugin.ExtensionProcessor.process(null);
 		Resource resource = new ResourceSetImpl().createResource(URI.createFileURI("Repository.xml"));
