@@ -18,7 +18,9 @@ public class SimpleExternalClass {
 	}
 	
 	public void externalCallChar(SimpleClass externalClass) {
-		if(externalClass.charMethodBoolReturn('a'))
+		externalClass.charMethodBoolReturn('a');
+		boolean returnValue = externalClass.charMethodBoolReturn('a');
+		if(returnValue)
 			System.out.println("return worked");
 	}
 	

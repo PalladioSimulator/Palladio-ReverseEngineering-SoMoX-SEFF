@@ -20,9 +20,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
@@ -32,7 +34,9 @@ import org.palladiosimulator.generator.fluent.repository.api.RepoAddition;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
 import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
 import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationInterfaceCreator;
+import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationSignatureCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.internals.Primitive;
+import org.palladiosimulator.generator.fluent.repository.structure.types.CompositeDataTypeCreator;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.CompositeDataType;
 import org.palladiosimulator.pcm.repository.DataType;
@@ -114,19 +118,18 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         Map<BasicComponent, OperationInterfaceCreator> componentOperationInterfaceMap = new HashMap<>();
         
         for (MethodAssociation methodAssociation : methodAssociationList) {
-			BasicComponent basicComponent = methodAssociation.getBasicComponent();
-			
+        	BasicComponent basicComponent = methodAssociation.getBasicComponent();
         	MethodDeclaration methodDeclaration = (MethodDeclaration) methodAssociation.getAstNode();
-        	List<SingleVariableDeclaration> singleVariableDeclarationList = methodDeclaration.parameters();
-
-        	OperationInterfaceCreator operationInterfaceCreator = null;
-        	
+        	OperationInterfaceCreator bundleOperationInterfaceCreator = null;
         	if (componentOperationInterfaceMap.containsKey(basicComponent)) {
-        		operationInterfaceCreator = componentOperationInterfaceMap.get(basicComponent);
+        		bundleOperationInterfaceCreator = componentOperationInterfaceMap.get(basicComponent);
         	} else {
-        		operationInterfaceCreator = create.newOperationInterface()
+        		bundleOperationInterfaceCreator = create.newOperationInterface()
         				.withName(basicComponent.getEntityName());
         	}
+        	OperationSignatureCreator methodOperationSignature = create.newOperationSignature().withName(methodDeclaration.getName().toString());
+			
+        	List<SingleVariableDeclaration> singleVariableDeclarationList = methodDeclaration.parameters();
         	
         	if (singleVariableDeclarationList != null && singleVariableDeclarationList.size() > 0) {
         		for (SingleVariableDeclaration variableDeclaration : singleVariableDeclarationList) {
@@ -155,13 +158,73 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         					// TODO: handle error
         				}
         				
-        				operationInterfaceCreator = operationInterfaceCreator.withOperationSignature(create.newOperationSignature()
-                				.withName(methodDeclaration.getName().toString())
-                				.withParameter(parameterName, primitive, ParameterModifier.NONE));
-        			}	
+        				bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature
+                				.withParameter(parameterName, primitive, ParameterModifier.IN));
+        			} else if(type.isSimpleType()) {
+        				SimpleType simpleType = (SimpleType) type;
+        				CompositeDataTypeCreator compositeDataType = create.newCompositeDataType().withName(simpleType.toString());
+        				
+        				//testing stuff
+        				compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
+        				IVariableBinding binding = variableDeclaration.resolveBinding();
+        				if(binding.getDeclaringClass() != null) {
+        					int test = 3;
+        					int testasdf = 5;
+        					//TODO: add primitiveTypes
+            				////Composite Data Type Snipped
+            				//EList<DataType> repositoryDataTypes = repository.getDataTypes__Repository();
+            				//PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
+            				//primitiveDataType.setType(PrimitiveTypeEnum.INT);
+            				//primitiveDataType.setRepository__DataType(repository);
+            				//InnerDeclaration innerDataType = RepositoryFactory.eINSTANCE.createInnerDeclaration();
+            				//innerDataType.setEntityName("TestInnerName");
+            				//innerDataType.setDatatype_InnerDeclaration(primitiveDataType);
+            				//compositeDataType.getInnerDeclaration_CompositeDataType().add(innerDataType);
+            				//repositoryDataTypes.add(compositeDataType);
+            				////end Snipped
+        				}
+        				//end testing stuff
+        				
+        				bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature
+                				.withParameter(parameterName, create.fetchOfDataType(simpleType.toString()), ParameterModifier.IN));
+        			}
         		}
         	}
-        	componentOperationInterfaceMap.put(basicComponent, operationInterfaceCreator);
+        	
+        	Type returnType = methodDeclaration.getReturnType2();
+        	if(returnType != null && returnType.isPrimitiveType()) {
+        		Primitive primitive = Primitive.STRING;
+        		//PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
+        		PrimitiveType primitiveType = (PrimitiveType) returnType;
+        		String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode().toString();
+        		
+        		//TODO: refactor
+        		if (!primitiveTypeCodeString.equals(PrimitiveType.VOID.toString())) {
+				
+    				if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
+    					primitive = Primitive.INTEGER;
+    				} else if (primitiveTypeCodeString.equals(PrimitiveType.SHORT.toString())) {
+    					primitive = Primitive.INTEGER;
+    				} else if (primitiveTypeCodeString.equals(PrimitiveType.DOUBLE.toString())) {
+    					primitive = Primitive.DOUBLE;
+    				} else if (primitiveTypeCodeString.equals(PrimitiveType.FLOAT.toString())) {
+    					primitive = Primitive.DOUBLE;
+    				} else if (primitiveTypeCodeString.equals(PrimitiveType.CHAR.toString())) {
+    					primitive = Primitive.CHAR;
+    				} else if (primitiveTypeCodeString.equals(PrimitiveType.BYTE.toString())) {
+    					primitive = Primitive.BYTE;
+    				} else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
+    					primitive = Primitive.BOOLEAN;
+    				} else {
+    					// TODO: handle error
+    				}
+    				
+    				bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature
+            				.withParameter("OutputPara", primitive, ParameterModifier.OUT));
+        		}
+        	}
+        	
+        	componentOperationInterfaceMap.put(basicComponent, bundleOperationInterfaceCreator);
         }
         
         for (Map.Entry<BasicComponent, OperationInterfaceCreator> entry : componentOperationInterfaceMap.entrySet()) {
@@ -204,22 +267,6 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 			
 			monitor.worked(1);
 		}
-		
-		
-		//Composite Data Type snippet
-		EList<DataType> repositoryDataTypes = repository.getDataTypes__Repository();
-		CompositeDataType compositeDataType = RepositoryFactory.eINSTANCE.createCompositeDataType();
-		PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
-		primitiveDataType.setType(PrimitiveTypeEnum.INT);
-		primitiveDataType.setRepository__DataType(repository);
-		compositeDataType.setEntityName("TestDataType");
-		compositeDataType.setRepository__DataType(repository);
-		InnerDeclaration innerDataType = RepositoryFactory.eINSTANCE.createInnerDeclaration();
-		innerDataType.setEntityName("TestInnerName");
-		innerDataType.setDatatype_InnerDeclaration(primitiveDataType);
-		compositeDataType.getInnerDeclaration_CompositeDataType().add(innerDataType);
-		repositoryDataTypes.add(compositeDataType);
-		//end snippet
 		
 		this.generateSeffXmlFile(repository);
 

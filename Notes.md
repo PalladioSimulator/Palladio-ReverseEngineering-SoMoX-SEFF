@@ -293,14 +293,38 @@ Fragen:
 | ReturnStatement          | ReturnStatement              |
 | Block                    |                              |
 
+### HowTo: Fix representation.aird
 
-### Offene Aufgaben
+- Alles aus XML-Element "diagram:DSemanticDiagram" lÃ¶schen (nicht sicher ob nÃ¶tig)
+- rechtsklick auf Projekt Bundle indem representation.aird enthalten ist
+- Copy
+- Mit Paste als neues Projekt anlegen
+- Representations fÃ¼r repositories neu erstellen
+- ???
+- Profit
 
-- Präsentation
+### Offene Aufgaben (Aufschrieb Fabi)
+
+- PrÃ¤sentation
 - Readme
 - Variablendeklaration modellieren
 - Composite/Collection Data Types modellieren
   - FluentApi Einsatz?
 - Benamung aller SEFF-Elemente
-- Code aufräumen
-- FluentAPI überprüfen
+- Code aufrÃ¤umen
+- FluentAPI Ã¼berprÃ¼fen
+
+Neue Aufgaben (Aufschrieb Marcel):
+- Variablen aus Interface ziehen anstatt von Ãœbergabe Parametern
+- return Variablen setzen
+- Fluent API checken
+
+Fragen:
+- External call bei Ã¼berladenen Funktionen (welche wird aufgerufen?)
+- Wie sollen Variablen aussehen? MediaStore gibt nicht viel her
+
+Bearbeitete Aufgaben:
+- Composite/Collection Data Types modellieren (ohne weitere parameter)
+- Variablen aus Interface ziehen anstatt von Ãœbergabe Parametern
+- return Variablen setzen (bisher nur primitive, muss refactored werden)
+- FluentAPI Ã¼berprÃ¼fen
