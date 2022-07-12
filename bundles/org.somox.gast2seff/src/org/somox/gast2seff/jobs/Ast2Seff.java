@@ -152,7 +152,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         				} else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
         					primitive = Primitive.BOOLEAN;
         				} else {
-        					// TODO: handle error        					
+        					// TODO: handle error
         				}
         				
         				operationInterfaceCreator = operationInterfaceCreator.withOperationSignature(create.newOperationSignature()
