@@ -1,5 +1,7 @@
 package org.somox.gast2seff.visitors;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +38,7 @@ import org.palladiosimulator.pcm.parameter.ParameterFactory;
 import org.palladiosimulator.pcm.parameter.VariableCharacterisation;
 import org.palladiosimulator.pcm.parameter.VariableCharacterisationType;
 import org.palladiosimulator.pcm.parameter.VariableUsage;
+import org.palladiosimulator.pcm.reliability.ResourceTimeoutFailureType;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.CompositeDataType;
 import org.palladiosimulator.pcm.repository.DataType;
@@ -63,24 +66,27 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private static final FluentRepositoryFactory create = new FluentRepositoryFactory();	
 	
 	private Map<String, MethodPalladioInformation> methodNameMap;
-	private MethodBundlePair methodAssociation;
+	private Map<String, List<String>> componentRequiredListMap = new HashMap<>();
+	private MethodBundlePair methodBundlePair;
 	private ActionSeff actionSeff;
 	private BasicComponentCreator basicComponentCreator;
+	private boolean isPassiveResourceSet = false;
 	
-	public Ast2SeffVisitor(MethodBundlePair methodAssociation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodNameMap) {
+	public Ast2SeffVisitor(MethodBundlePair methodBundlePair, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodNameMap, BasicComponentCreator basicComponentCreator) {
 		this.actionSeff = actionSeff;
 		this.methodNameMap = methodNameMap;
-		this.methodAssociation = methodAssociation;
+		this.methodBundlePair = methodBundlePair;
+		this.basicComponentCreator = basicComponentCreator;
 	}
 	
-	public static ActionSeff perform(MethodBundlePair methodAssociation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodNameMap) {
-		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodAssociation, actionSeff, methodNameMap);
-		methodAssociation.getAstNode().accept(newFunctionCallClassificationVisitor);
+	public static ActionSeff perform(MethodBundlePair methodBundlePair, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodNameMap, BasicComponentCreator basicComponentCreator) {
+		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodBundlePair, actionSeff, methodNameMap, basicComponentCreator);
+		methodBundlePair.getAstNode().accept(newFunctionCallClassificationVisitor);
 		return actionSeff;
 	}
 	
 	private ActionSeff perform(ASTNode node, ActionSeff actionSeff) {
-		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodAssociation, actionSeff, methodNameMap);
+		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodBundlePair, actionSeff, methodNameMap, basicComponentCreator);
 		node.accept(newFunctionCallClassificationVisitor);
 		return actionSeff;
 	}
@@ -91,13 +97,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 
 		if (expression instanceof MethodInvocation && this.isExternal((MethodInvocation) expression)) {
 			MethodInvocation methodInvocation = (MethodInvocation) expression;
-			MethodBundlePair externalMethodAssociation = this.getExternalMethodAssociation(methodInvocation);
-			BasicComponent externalBasicComponent = externalMethodAssociation.getBasicComponent();
+			MethodPalladioInformation methodPalladioInformation = this.getExternalMethodPalladioInformation(methodInvocation);
 			
-			if (!externalBasicComponent.equals(basicComponent)) {
-				createExternalCallAction(methodInvocation, externalBasicComponent);
+			if (!methodBundlePair.getBundleName().equals(methodPalladioInformation.getOperationInterfaceName())) {
+				createExternalCallAction(methodInvocation, methodNameMap.get(methodPalladioInformation.getOperationInterfaceName()));
 			} else {
-				generateClassMethodSeff(externalMethodAssociation);
+				generateClassMethodSeff(methodPalladioInformation);
 			}
 		} else {
 			// TODO: check if we need to detect if expression statement is a class method 
@@ -107,38 +112,19 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return super.visit(expressionStatement);
 	}
 	
-	private void generateClassMethodSeff(MethodBundlePair methodAssociation) {
-		perform(methodAssociation.getAstNode(), actionSeff);
+	private void generateClassMethodSeff(MethodPalladioInformation methodPalladioInformation) {
+		// TODO: Internal Call Action?
+//		perform(methodPalladioInformation.getAstNode(), actionSeff);
 	}
 	
-	private void createExternalCallAction(MethodInvocation methodInvocation, BasicComponent externalBasicComponent) {
+	private void createExternalCallAction(MethodInvocation methodInvocation, MethodPalladioInformation externalMethodInformation) {
 
 		ExternalCallActionCreator externalCallActionCreator = actionSeff.externalCallAction();
 //		StaticNameMethods.setEntityName(externalCall, methodInvocation);
 
-		OperationProvidedRole operationProvidedRole = (OperationProvidedRole) externalBasicComponent.getProvidedRoles_InterfaceProvidingEntity().get(0);
-		OperationInterface operationInterface = operationProvidedRole.getProvidedInterface__OperationProvidedRole();
-		OperationRequiredRole operationRequiredRole = null;
-		
-		try {
-			operationRequiredRole = create.fetchOfOperationRequiredRole("");
-		} catch (FluentApiException e) {
-			// TODO: handle exception
-			basicComponentCreator.requires(create.fetchOfOperationInterface(""));
-		}
-		
-
-		if (operationRequiredRole == null) {
-			operationRequiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
-			StaticNameMethods.setEntityName(operationRequiredRole, basicComponent.getEntityName());
-			basicComponent.getRequiredRoles_InterfaceRequiringEntity().add(operationRequiredRole);
-		} else {
-			operationRequiredRole = (OperationRequiredRole) basicComponent.getRequiredRoles_InterfaceRequiringEntity().get(0);
-		}
-		operationRequiredRole.setRequiredInterface__OperationRequiredRole(operationInterface);
-		externalCallActionCreator.withRequiredRole(operationRequiredRole);
-
-		actionSeff = externalCallActionCreator.followedBy();
+		externalCallActionCreator.withCalledService(create.fetchOfOperationSignature(externalMethodInformation.getOperationSignatureName()));
+		externalCallActionCreator.followedBy();
+		addRequiredInterfaceToComponent(externalMethodInformation.getOperationInterfaceName());
 		
 		//// TODO: Change to Fluent Api
 		//OperationSignature calledFunctionSignature = this.getOperationSignatureFromInterfaceByName(operationInterface, methodInvocation.getName().toString());
@@ -168,9 +154,25 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		//}
 	}
 	
+	private void addRequiredInterfaceToComponent(String requiredInterfaceName) {
+		String basicComponentName = methodBundlePair.getBundleName();
+		if (componentRequiredListMap.containsKey(basicComponentName)) {
+			List<String> requiredList = componentRequiredListMap.get(basicComponentName);
+			if (!requiredList.contains(requiredInterfaceName)) {
+				basicComponentCreator.requires(create.fetchOfOperationInterface(requiredInterfaceName));
+				requiredList.add(requiredInterfaceName);
+			}
+		} else {
+			basicComponentCreator.requires(create.fetchOfOperationInterface(requiredInterfaceName));
+			List<String> requiredList = new ArrayList<>();
+			requiredList.add(requiredInterfaceName);
+			componentRequiredListMap.put(basicComponentName, requiredList);
+		}
+	}
+	
 	private void createInternalAction(final ExpressionStatement expressionStatement) {
 		
-		actionSeff = actionSeff.internalAction().withName("").followedBy();
+		actionSeff.internalAction().withName("").followedBy();
 //		StaticNameMethods.setEntityName(internalAction, expression);
 	}
 	
@@ -216,33 +218,40 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		Expression exp = synchronizedStatement.getExpression();
 		String className = StaticNameMethods.getClassName(exp) + ".class";
 		
-		PassiveResource passiveResource = RepositoryFactory.eINSTANCE.createPassiveResource();
-		passiveResource.setCapacity_PassiveResource(CoreFactory.eINSTANCE.createPCMRandomVariable());
-		StaticNameMethods.setEntityName(passiveResource, className);
-		passiveResource.getCapacity_PassiveResource().setSpecification("1");
-		if(this.basicComponent.getPassiveResource_BasicComponent().isEmpty())
-			this.basicComponent.getPassiveResource_BasicComponent().add(passiveResource);
-		else {
-			EList<PassiveResource> passiveResoceList = this.basicComponent.getPassiveResource_BasicComponent();
-			boolean found = false;
-			for (PassiveResource entry : passiveResoceList) {
-				if(found)
-					break;
-				if(entry.getEntityName() == className) {
-					found = true;
-					passiveResource = entry;
-				}
-			}
-			if(!found)
-				this.basicComponent.getPassiveResource_BasicComponent().add(passiveResource);
+		if (!isPassiveResourceSet) {
+			basicComponentCreator.withPassiveResource("1", (ResourceTimeoutFailureType) create.newResourceTimeoutFailureType(className).build());
+			isPassiveResourceSet = true;
 		}
+		
+		
+		
+//		PassiveResource passiveResource = RepositoryFactory.eINSTANCE.createPassiveResource();
+//		passiveResource.setCapacity_PassiveResource(CoreFactory.eINSTANCE.createPCMRandomVariable());
+//		StaticNameMethods.setEntityName(passiveResource, className);
+//		passiveResource.getCapacity_PassiveResource().setSpecification("1");
+//		if (this.basicComponent.getPassiveResource_BasicComponent().isEmpty())
+//			this.basicComponent.getPassiveResource_BasicComponent().add(passiveResource);
+//		else {
+//			EList<PassiveResource> passiveResoceList = this.basicComponent.getPassiveResource_BasicComponent();
+//			boolean found = false;
+//			for (PassiveResource entry : passiveResoceList) {
+//				if (found)
+//					break;
+//				if (entry.getEntityName() == className) {
+//					found = true;
+//					passiveResource = entry;
+//				}
+//			}
+//			if(!found)
+//				this.basicComponent.getPassiveResource_BasicComponent().add(passiveResource);
+//		}
 
-		actionSeff = actionSeff.acquireAction().withPassiveResource(passiveResource).followedBy();
+		actionSeff = actionSeff.acquireAction().withPassiveResource(create.fetchOfPassiveResource(className)).followedBy();
 
 //		StaticNameMethods.setEntityName(acquireAction, className);
 
 		actionSeff = this.perform(synchronizedStatement.getBody(), actionSeff)
-				.releaseAction().withPassiveResource(passiveResource).followedBy();
+				.releaseAction().withPassiveResource(create.fetchOfPassiveResource(className)).followedBy();
 
 
 //		StaticNameMethods.setEntityName(releaseAction, className);
@@ -469,7 +478,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return this.methodNameMap.containsKey(className + "." + methodName);
 	}
 	
-	private MethodBundlePair getExternalMethodAssociation(MethodInvocation methodInvocation) {
+	private MethodPalladioInformation getExternalMethodPalladioInformation(MethodInvocation methodInvocation) {
 		String methodName = methodInvocation.getName().toString();
 		String className = StaticNameMethods.getClassName(methodInvocation);
 		if (this.methodNameMap.containsKey(className + "." + methodName)) {

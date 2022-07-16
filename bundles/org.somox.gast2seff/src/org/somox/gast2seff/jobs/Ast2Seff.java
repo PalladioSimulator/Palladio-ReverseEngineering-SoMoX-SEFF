@@ -196,6 +196,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         					if(binding.getDeclaringClass() != null) {
         						int test = 3;
         						int testasdf = 5;
+        						
         						//TODO: add primitiveTypes
         						////Composite Data Type Snipped
         						//EList<DataType> repositoryDataTypes = repository.getDataTypes__Repository();
@@ -260,14 +261,14 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         	List<MethodBundlePair> methodAssociationListOfBundle = entry.getValue();
         	LOGGER.info("Found " + methodAssociationListOfBundle.size() + " methods to " + bundleName + ". Computing Interfaces.");
         	
-        	BasicComponentCreator basicComponent = create.newBasicComponent().withName(bundleName);
+        	BasicComponentCreator basicComponentCreator = create.newBasicComponent().withName(bundleName);
         	
 			for (MethodBundlePair methodAssociation : methodAssociationListOfBundle) {
-				basicComponent.withServiceEffectSpecification(this.createSeff(methodAssociation));
+				basicComponentCreator.withServiceEffectSpecification(this.createSeff(methodAssociation, basicComponentCreator));
 				monitor.worked(1);
 			}
 			
-			repoAddition.addToRepository(basicComponent);
+			repoAddition.addToRepository(basicComponentCreator);
 		}
 		
 		Repository repository = repoAddition.createRepositoryNow();		
@@ -275,6 +276,8 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 
 		subMonitor.done();
 	}
+	
+
 
 	/*
 	 * (non-Javadoc)
@@ -295,10 +298,10 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 * @return The completed SEFF, returned for convenience
 	 * @throws JobFailedException
 	 */
-	private SeffCreator createSeff(MethodBundlePair methodAssociation) throws JobFailedException {
+	private SeffCreator createSeff(MethodBundlePair methodAssociation, BasicComponentCreator basicComponentCreator) throws JobFailedException {
 		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
 		
-		return Ast2SeffVisitor.perform(methodAssociation, actionSeff, this.methodNameMap)
+		return Ast2SeffVisitor.perform(methodAssociation, actionSeff, this.methodNameMap, basicComponentCreator)
 				.stopAction().createBehaviourNow();
 	}
 	
