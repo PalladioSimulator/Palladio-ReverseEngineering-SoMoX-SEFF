@@ -82,7 +82,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	private Blackboard<Object> blackboard;
 	
 	private Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-	private Map<String, List<MethodBundlePair>> bundleName2methodAssociationMap;
+	private Map<String, List<MethodBundlePair>> bundleName2methodBundleMap;
 	//List<MethodAssociation> methodAssociationList = new ArrayList();
 	
 	/**
@@ -118,7 +118,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		
 		//this.methodAssociationList = (List<MethodAssociation>) this.blackboard.getPartition("methodAssociationList");
 		try {
-			this.bundleName2methodAssociationMap = (Map<String, List<MethodBundlePair>>) this.blackboard.getPartition("bundleName2methodAssociationMap");
+			this.bundleName2methodBundleMap = (Map<String, List<MethodBundlePair>>) this.blackboard.getPartition("bundleName2methodAssociationMap");
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
@@ -127,9 +127,9 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         
         //Map<BasicComponent, OperationInterfaceCreator> componentOperationInterfaceMap = new HashMap<>();
         
-        LOGGER.info("Found " + bundleName2methodAssociationMap.size() + " Bundles. Computing Interfaces.");
+        LOGGER.info("Found " + bundleName2methodBundleMap.size() + " Bundles. Computing Interfaces.");
         
-        for(Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodAssociationMap.entrySet()) {
+        for(Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
         	String bundleName = entry.getKey();
         	List<MethodBundlePair> methodAssociationListOfBundle = entry.getValue();
         	LOGGER.info("Found " + methodAssociationListOfBundle.size() + " methods to " + bundleName + ". Computing Interfaces.");
@@ -256,15 +256,15 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
 		subMonitor.setTaskName("Creating SEFF behaviour");
 		
-		for(Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodAssociationMap.entrySet()) {
+		for(Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
         	String bundleName = entry.getKey();
-        	List<MethodBundlePair> methodAssociationListOfBundle = entry.getValue();
-        	LOGGER.info("Found " + methodAssociationListOfBundle.size() + " methods to " + bundleName + ". Computing Interfaces.");
+        	List<MethodBundlePair> methodBundleList = entry.getValue();
+        	LOGGER.info("Found " + methodBundleList.size() + " methods to " + bundleName + ". Computing Interfaces.");
         	
         	BasicComponentCreator basicComponentCreator = create.newBasicComponent().withName(bundleName);
         	
-			for (MethodBundlePair methodAssociation : methodAssociationListOfBundle) {
-				basicComponentCreator.withServiceEffectSpecification(this.createSeff(methodAssociation, basicComponentCreator));
+			for (MethodBundlePair methodBundlePair : methodBundleList) {
+				basicComponentCreator.withServiceEffectSpecification(this.createSeff(methodBundlePair, basicComponentCreator));
 				monitor.worked(1);
 			}
 			
@@ -301,7 +301,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	private SeffCreator createSeff(MethodBundlePair methodAssociation, BasicComponentCreator basicComponentCreator) throws JobFailedException {
 		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
 		
-		return Ast2SeffVisitor.perform(methodAssociation, actionSeff, this.methodNameMap, basicComponentCreator)
+		return Ast2SeffVisitor.perform(methodAssociation, actionSeff, this.methodNameMap, basicComponentCreator, create)
 				.stopAction().createBehaviourNow();
 	}
 	

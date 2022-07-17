@@ -63,8 +63,8 @@ import de.uka.ipd.sdq.stoex.VariableReference;
 public class Ast2SeffVisitor extends ASTVisitor {
 
 	private static final Logger logger = Logger.getLogger(Ast2SeffVisitor.class);
-	private static final FluentRepositoryFactory create = new FluentRepositoryFactory();	
 	
+	private FluentRepositoryFactory create;	
 	private Map<String, MethodPalladioInformation> methodNameMap;
 	private Map<String, List<String>> componentRequiredListMap = new HashMap<>();
 	private MethodBundlePair methodBundlePair;
@@ -72,21 +72,22 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private BasicComponentCreator basicComponentCreator;
 	private boolean isPassiveResourceSet = false;
 	
-	public Ast2SeffVisitor(MethodBundlePair methodBundlePair, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodNameMap, BasicComponentCreator basicComponentCreator) {
+	public Ast2SeffVisitor(MethodBundlePair methodBundlePair, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodNameMap, BasicComponentCreator basicComponentCreator, FluentRepositoryFactory create) {
 		this.actionSeff = actionSeff;
 		this.methodNameMap = methodNameMap;
 		this.methodBundlePair = methodBundlePair;
 		this.basicComponentCreator = basicComponentCreator;
+		this.create = create;
 	}
 	
-	public static ActionSeff perform(MethodBundlePair methodBundlePair, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodNameMap, BasicComponentCreator basicComponentCreator) {
-		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodBundlePair, actionSeff, methodNameMap, basicComponentCreator);
+	public static ActionSeff perform(MethodBundlePair methodBundlePair, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodNameMap, BasicComponentCreator basicComponentCreator, FluentRepositoryFactory create) {
+		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodBundlePair, actionSeff, methodNameMap, basicComponentCreator, create);
 		methodBundlePair.getAstNode().accept(newFunctionCallClassificationVisitor);
 		return actionSeff;
 	}
 	
 	private ActionSeff perform(ASTNode node, ActionSeff actionSeff) {
-		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodBundlePair, actionSeff, methodNameMap, basicComponentCreator);
+		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodBundlePair, actionSeff, methodNameMap, basicComponentCreator, create);
 		node.accept(newFunctionCallClassificationVisitor);
 		return actionSeff;
 	}
@@ -100,7 +101,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			MethodPalladioInformation methodPalladioInformation = this.getExternalMethodPalladioInformation(methodInvocation);
 			
 			if (!methodBundlePair.getBundleName().equals(methodPalladioInformation.getOperationInterfaceName())) {
-				createExternalCallAction(methodInvocation, methodNameMap.get(methodPalladioInformation.getOperationInterfaceName()));
+				createExternalCallAction(methodInvocation, methodPalladioInformation);
 			} else {
 				generateClassMethodSeff(methodPalladioInformation);
 			}
@@ -218,12 +219,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		Expression exp = synchronizedStatement.getExpression();
 		String className = StaticNameMethods.getClassName(exp) + ".class";
 		
-		if (!isPassiveResourceSet) {
-			basicComponentCreator.withPassiveResource("1", (ResourceTimeoutFailureType) create.newResourceTimeoutFailureType(className).build());
-			isPassiveResourceSet = true;
-		}
-		
-		
+//		if (!isPassiveResourceSet) {
+//			basicComponentCreator.withPassiveResource("1", (ResourceTimeoutFailureType) create.newResourceTimeoutFailureType(className).build(), className);
+//			isPassiveResourceSet = true;
+//		}
 		
 //		PassiveResource passiveResource = RepositoryFactory.eINSTANCE.createPassiveResource();
 //		passiveResource.setCapacity_PassiveResource(CoreFactory.eINSTANCE.createPCMRandomVariable());
@@ -246,12 +245,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 //				this.basicComponent.getPassiveResource_BasicComponent().add(passiveResource);
 //		}
 
-		actionSeff = actionSeff.acquireAction().withPassiveResource(create.fetchOfPassiveResource(className)).followedBy();
+//		actionSeff = actionSeff.acquireAction().withPassiveResource(create.fetchOfPassiveResource(className)).followedBy();
 
 //		StaticNameMethods.setEntityName(acquireAction, className);
-
-		actionSeff = this.perform(synchronizedStatement.getBody(), actionSeff)
-				.releaseAction().withPassiveResource(create.fetchOfPassiveResource(className)).followedBy();
+//
+//		actionSeff = this.perform(synchronizedStatement.getBody(), actionSeff)
+//				.releaseAction().withPassiveResource(create.fetchOfPassiveResource(className)).followedBy();
 
 
 //		StaticNameMethods.setEntityName(releaseAction, className);
