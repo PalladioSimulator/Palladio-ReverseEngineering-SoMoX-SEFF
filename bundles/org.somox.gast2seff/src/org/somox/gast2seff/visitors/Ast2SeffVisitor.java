@@ -52,6 +52,7 @@ import org.palladiosimulator.pcm.repository.PrimitiveDataType;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.palladiosimulator.pcm.seff.SetVariableAction;
+import org.somox.kdmhelper.ComponentInformation;
 import org.somox.kdmhelper.MethodBundlePair;
 import org.somox.kdmhelper.MethodPalladioInformation;
 import org.somox.kdmhelper.StaticNameMethods;
@@ -65,29 +66,32 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private static final Logger logger = Logger.getLogger(Ast2SeffVisitor.class);
 	
 	private FluentRepositoryFactory create;	
-	private Map<String, MethodPalladioInformation> methodNameMap;
-	private Map<String, List<String>> componentRequiredListMap = new HashMap<>();
+	private Map<String, MethodPalladioInformation> methodPalladioInfoMap;
+	private MethodPalladioInformation methodPalladioInfo;
 	private MethodBundlePair methodBundlePair;
 	private ActionSeff actionSeff;
 	private BasicComponentCreator basicComponentCreator;
+	private ComponentInformation componentInformation;
 	private boolean isPassiveResourceSet = false;
 	
-	public Ast2SeffVisitor(MethodBundlePair methodBundlePair, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodNameMap, BasicComponentCreator basicComponentCreator, FluentRepositoryFactory create) {
+	public Ast2SeffVisitor(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create) {
 		this.actionSeff = actionSeff;
-		this.methodNameMap = methodNameMap;
-		this.methodBundlePair = methodBundlePair;
-		this.basicComponentCreator = basicComponentCreator;
+		this.methodPalladioInfoMap = methodPalladionInfoMap;
+		this.methodBundlePair = methodPalladioInformation.getMethodBundlePair();
+		this.methodPalladioInfo = methodPalladioInformation;
+		this.componentInformation = componentInformation;
+		this.basicComponentCreator = componentInformation.getBasicComponentCreator();
 		this.create = create;
 	}
 	
-	public static ActionSeff perform(MethodBundlePair methodBundlePair, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodNameMap, BasicComponentCreator basicComponentCreator, FluentRepositoryFactory create) {
-		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodBundlePair, actionSeff, methodNameMap, basicComponentCreator, create);
-		methodBundlePair.getAstNode().accept(newFunctionCallClassificationVisitor);
+	public static ActionSeff perform(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create) {
+		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodPalladioInformation, actionSeff, methodPalladionInfoMap, componentInformation, create);
+		methodPalladioInformation.getMethodBundlePair().getAstNode().accept(newFunctionCallClassificationVisitor);
 		return actionSeff;
 	}
 	
 	private ActionSeff perform(ASTNode node, ActionSeff actionSeff) {
-		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodBundlePair, actionSeff, methodNameMap, basicComponentCreator, create);
+		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodPalladioInfo, actionSeff, methodPalladioInfoMap, componentInformation, create);
 		node.accept(newFunctionCallClassificationVisitor);
 		return actionSeff;
 	}
@@ -98,7 +102,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 
 		if (expression instanceof MethodInvocation && this.isExternal((MethodInvocation) expression)) {
 			MethodInvocation methodInvocation = (MethodInvocation) expression;
-			MethodPalladioInformation methodPalladioInformation = this.getExternalMethodPalladioInformation(methodInvocation);
+			MethodPalladioInformation methodPalladioInformation = this.getMethodPalladioInformation(methodInvocation);
 			
 			if (!methodBundlePair.getBundleName().equals(methodPalladioInformation.getOperationInterfaceName())) {
 				createExternalCallAction(methodInvocation, methodPalladioInformation);
@@ -157,6 +161,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	private void addRequiredInterfaceToComponent(String requiredInterfaceName) {
 		String basicComponentName = methodBundlePair.getBundleName();
+		Map<String, List<String>> componentRequiredListMap = componentInformation.getComponentRequiredListMap();
 		if (componentRequiredListMap.containsKey(basicComponentName)) {
 			List<String> requiredList = componentRequiredListMap.get(basicComponentName);
 			if (!requiredList.contains(requiredInterfaceName)) {
@@ -326,9 +331,9 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	 */
 	public boolean visit(final ReturnStatement returnStatement) {
 		// TODO: Implement with Fluent Api
-		SetVariableAction variableAction = SeffFactory.eINSTANCE.createSetVariableAction();
-		Expression returnExpression = returnStatement.getExpression();
-		this.generateVariables(null, returnExpression, variableAction.getLocalVariableUsages_SetVariableAction());
+//		SetVariableAction variableAction = SeffFactory.eINSTANCE.createSetVariableAction();
+//		Expression returnExpression = returnStatement.getExpression();
+//		this.generateVariables(null, returnExpression, variableAction.getLocalVariableUsages_SetVariableAction());
 //		this.actionList.add(variableAction);
 		return false;
 	}
@@ -474,14 +479,14 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private boolean isExternal(MethodInvocation methodInvocation) {
 		String methodName = methodInvocation.getName().toString();
 		String className = StaticNameMethods.getClassName(methodInvocation);
-		return this.methodNameMap.containsKey(className + "." + methodName);
+		return this.methodPalladioInfoMap.containsKey(className + "." + methodName);
 	}
 	
-	private MethodPalladioInformation getExternalMethodPalladioInformation(MethodInvocation methodInvocation) {
+	private MethodPalladioInformation getMethodPalladioInformation(MethodInvocation methodInvocation) {
 		String methodName = methodInvocation.getName().toString();
 		String className = StaticNameMethods.getClassName(methodInvocation);
-		if (this.methodNameMap.containsKey(className + "." + methodName)) {
-			return this.methodNameMap.get(className + "." + methodName);
+		if (this.methodPalladioInfoMap.containsKey(className + "." + methodName)) {
+			return this.methodPalladioInfoMap.get(className + "." + methodName);
 		} else {
 			// TODO: handle the return of null
 			return null;

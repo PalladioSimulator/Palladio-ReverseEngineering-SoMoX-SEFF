@@ -4,12 +4,10 @@
 package org.somox.gast2seff.jobs;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -29,10 +27,8 @@ import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
 import org.emftext.language.java.statements.StatementListContainer;
-import org.palladiosimulator.generator.fluent.repository.api.Repo;
 import org.palladiosimulator.generator.fluent.repository.api.RepoAddition;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
-import org.palladiosimulator.generator.fluent.repository.api.seff.Seff;
 import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
 import org.palladiosimulator.generator.fluent.repository.structure.components.BasicComponentCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.components.seff.SeffCreator;
@@ -40,22 +36,12 @@ import org.palladiosimulator.generator.fluent.repository.structure.interfaces.Op
 import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationSignatureCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.internals.Primitive;
 import org.palladiosimulator.generator.fluent.repository.structure.types.CompositeDataTypeCreator;
-import org.palladiosimulator.pcm.repository.BasicComponent;
-import org.palladiosimulator.pcm.repository.CompositeDataType;
-import org.palladiosimulator.pcm.repository.DataType;
-import org.palladiosimulator.pcm.repository.InnerDeclaration;
-import org.palladiosimulator.pcm.repository.OperationInterface;
-import org.palladiosimulator.pcm.repository.OperationProvidedRole;
-import org.palladiosimulator.pcm.repository.OperationSignature;
-import org.palladiosimulator.pcm.repository.Parameter;
 import org.palladiosimulator.pcm.repository.ParameterModifier;
-import org.palladiosimulator.pcm.repository.PrimitiveDataType;
-import org.palladiosimulator.pcm.repository.PrimitiveTypeEnum;
 import org.palladiosimulator.pcm.repository.Repository;
-import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.somox.gast2seff.visitors.Ast2SeffVisitor;
+import org.somox.kdmhelper.ComponentInformation;
 import org.somox.kdmhelper.MethodBundlePair;
 import org.somox.kdmhelper.MethodPalladioInformation;
 import org.somox.sourcecodedecorator.SEFF2MethodMapping;
@@ -81,7 +67,8 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	/** The SoMoX blackboard to interact with. */
 	private Blackboard<Object> blackboard;
 	
-	private Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
+	private Map<String, MethodPalladioInformation> methodPalladioInfoMap = new HashMap<>();
+	private Map<MethodBundlePair, MethodPalladioInformation> methodBundlePalladioInfoMap = new HashMap<>();
 	private Map<String, List<MethodBundlePair>> bundleName2methodBundleMap;
 	//List<MethodAssociation> methodAssociationList = new ArrayList();
 	
@@ -136,8 +123,8 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         	
         	OperationInterfaceCreator bundleOperationInterfaceCreator = create.newOperationInterface().withName(bundleName);
         	
-        	for (MethodBundlePair methodAssociation : methodAssociationListOfBundle) {
-        		MethodDeclaration methodDeclaration = (MethodDeclaration) methodAssociation.getAstNode();
+        	for (MethodBundlePair methodBundlePair : methodAssociationListOfBundle) {
+        		MethodDeclaration methodDeclaration = (MethodDeclaration) methodBundlePair.getAstNode();
         		OperationSignatureCreator methodOperationSignature = create.newOperationSignature().withName(methodDeclaration.getName().toString());
         		
     			//How is Bundle defined? Can one Bundle have multiple CompilationUnits?
@@ -147,15 +134,18 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
     				PackageDeclaration packageName = ((CompilationUnit) root).getPackage();
     				strPackageName = packageName.getName().toString() + "." + bundleName;
     			} else {
-    				LOGGER.warn("No CompilationUnit found for: " + methodDeclaration.toString());
+    				LOGGER.error("No CompilationUnit found for: " + methodDeclaration.toString());
     			}
     			
     			String key = strPackageName + "." + methodDeclaration.getName().toString();
     			String operationSignatureName = methodDeclaration.getName().toString();
     			String operationInterfaceName = bundleName;
-    			if (!this.methodNameMap.containsKey(key))
-    				this.methodNameMap.put(key, new MethodPalladioInformation(key, operationSignatureName, operationInterfaceName));
-        		
+    			if (!this.methodPalladioInfoMap.containsKey(key)) {
+    				MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation(key, operationSignatureName, operationInterfaceName, methodBundlePair);
+    				this.methodPalladioInfoMap.put(key, methodPalladioInformation);
+    				this.methodBundlePalladioInfoMap.put(methodBundlePair, methodPalladioInformation);
+    			}
+        			
         		List<SingleVariableDeclaration> singleVariableDeclarationList = methodDeclaration.parameters();
         		
         		if (singleVariableDeclarationList != null && singleVariableDeclarationList.size() > 0) {
@@ -261,10 +251,11 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         	List<MethodBundlePair> methodBundleList = entry.getValue();
         	LOGGER.info("Found " + methodBundleList.size() + " methods to " + bundleName + ". Computing Interfaces.");
         	
-        	BasicComponentCreator basicComponentCreator = create.newBasicComponent().withName(bundleName);
+        	BasicComponentCreator basicComponentCreator = create.newBasicComponent().withName(bundleName).provides(create.fetchOfOperationInterface(bundleName));
+        	ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
         	
 			for (MethodBundlePair methodBundlePair : methodBundleList) {
-				basicComponentCreator.withServiceEffectSpecification(this.createSeff(methodBundlePair, basicComponentCreator));
+				basicComponentCreator.withServiceEffectSpecification(this.createSeff(methodBundlePalladioInfoMap.get(methodBundlePair), componentInformation));
 				monitor.worked(1);
 			}
 			
@@ -298,10 +289,10 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 * @return The completed SEFF, returned for convenience
 	 * @throws JobFailedException
 	 */
-	private SeffCreator createSeff(MethodBundlePair methodAssociation, BasicComponentCreator basicComponentCreator) throws JobFailedException {
+	private SeffCreator createSeff(MethodPalladioInformation methodPalladioInformation, ComponentInformation componentInformation) throws JobFailedException {
 		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
 		
-		return Ast2SeffVisitor.perform(methodAssociation, actionSeff, this.methodNameMap, basicComponentCreator, create)
+		return Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, this.methodPalladioInfoMap, componentInformation, create)
 				.stopAction().createBehaviourNow();
 	}
 	
