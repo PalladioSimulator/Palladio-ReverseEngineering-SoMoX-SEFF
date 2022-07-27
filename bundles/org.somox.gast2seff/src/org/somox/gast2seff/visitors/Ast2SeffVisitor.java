@@ -1,7 +1,6 @@
 package org.somox.gast2seff.visitors;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +23,6 @@ import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
-import org.palladiosimulator.generator.fluent.exceptions.FluentApiException;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
 import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
 import org.palladiosimulator.generator.fluent.repository.structure.components.BasicComponentCreator;
@@ -38,20 +36,12 @@ import org.palladiosimulator.pcm.parameter.ParameterFactory;
 import org.palladiosimulator.pcm.parameter.VariableCharacterisation;
 import org.palladiosimulator.pcm.parameter.VariableCharacterisationType;
 import org.palladiosimulator.pcm.parameter.VariableUsage;
-import org.palladiosimulator.pcm.reliability.ResourceTimeoutFailureType;
-import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.CompositeDataType;
 import org.palladiosimulator.pcm.repository.DataType;
 import org.palladiosimulator.pcm.repository.OperationInterface;
-import org.palladiosimulator.pcm.repository.OperationProvidedRole;
-import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.Parameter;
-import org.palladiosimulator.pcm.repository.PassiveResource;
 import org.palladiosimulator.pcm.repository.PrimitiveDataType;
-import org.palladiosimulator.pcm.repository.RepositoryFactory;
-import org.palladiosimulator.pcm.seff.SeffFactory;
-import org.palladiosimulator.pcm.seff.SetVariableAction;
 import org.somox.kdmhelper.ComponentInformation;
 import org.somox.kdmhelper.MethodBundlePair;
 import org.somox.kdmhelper.MethodPalladioInformation;
@@ -127,9 +117,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		ExternalCallActionCreator externalCallActionCreator = actionSeff.externalCallAction();
 //		StaticNameMethods.setEntityName(externalCall, methodInvocation);
 
-		externalCallActionCreator.withCalledService(create.fetchOfOperationSignature(externalMethodInformation.getOperationSignatureName()));
-		externalCallActionCreator.followedBy();
 		addRequiredInterfaceToComponent(externalMethodInformation.getOperationInterfaceName());
+		externalCallActionCreator.withCalledService(create.fetchOfOperationSignature(externalMethodInformation.getOperationSignatureName()));
+		externalCallActionCreator.withRequiredRole(create.fetchOfOperationRequiredRole(externalMethodInformation.getOperationInterfaceName()));
+		externalCallActionCreator.followedBy();
 		
 		//// TODO: Change to Fluent Api
 		//OperationSignature calledFunctionSignature = this.getOperationSignatureFromInterfaceByName(operationInterface, methodInvocation.getName().toString());
@@ -165,11 +156,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		if (componentRequiredListMap.containsKey(basicComponentName)) {
 			List<String> requiredList = componentRequiredListMap.get(basicComponentName);
 			if (!requiredList.contains(requiredInterfaceName)) {
-				basicComponentCreator.requires(create.fetchOfOperationInterface(requiredInterfaceName));
+				basicComponentCreator.requires(create.fetchOfOperationInterface(requiredInterfaceName), requiredInterfaceName);
 				requiredList.add(requiredInterfaceName);
 			}
 		} else {
-			basicComponentCreator.requires(create.fetchOfOperationInterface(requiredInterfaceName));
+			basicComponentCreator.requires(create.fetchOfOperationInterface(requiredInterfaceName), requiredInterfaceName);
 			List<String> requiredList = new ArrayList<>();
 			requiredList.add(requiredInterfaceName);
 			componentRequiredListMap.put(basicComponentName, requiredList);

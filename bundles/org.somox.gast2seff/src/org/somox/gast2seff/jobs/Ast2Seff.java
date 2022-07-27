@@ -176,32 +176,32 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         					}
         					
         					methodOperationSignature.withParameter(parameterName, primitive, ParameterModifier.IN);
-        				} else if(type.isSimpleType()) {
-        					SimpleType simpleType = (SimpleType) type;
-        					CompositeDataTypeCreator compositeDataType = create.newCompositeDataType().withName(simpleType.toString());
-        					
-        					//testing stuff
-        					compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
-        					IVariableBinding binding = variableDeclaration.resolveBinding();
-        					if(binding.getDeclaringClass() != null) {
-        						int test = 3;
-        						int testasdf = 5;
-        						
-        						//TODO: add primitiveTypes
-        						////Composite Data Type Snipped
-        						//EList<DataType> repositoryDataTypes = repository.getDataTypes__Repository();
-        						//PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
-        						//primitiveDataType.setType(PrimitiveTypeEnum.INT);
-        						//primitiveDataType.setRepository__DataType(repository);
-        						//InnerDeclaration innerDataType = RepositoryFactory.eINSTANCE.createInnerDeclaration();
-        						//innerDataType.setEntityName("TestInnerName");
-        						//innerDataType.setDatatype_InnerDeclaration(primitiveDataType);
-        						//compositeDataType.getInnerDeclaration_CompositeDataType().add(innerDataType);
-        						//repositoryDataTypes.add(compositeDataType);
-        						////end Snipped
-        					}
+//        				} else if(type.isSimpleType()) {
+//        					SimpleType simpleType = (SimpleType) type;
+//        					CompositeDataTypeCreator compositeDataType = create.newCompositeDataType().withName(simpleType.toString());
+//        					
+//        					//testing stuff
+//        					compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
+//        					IVariableBinding binding = variableDeclaration.resolveBinding();
+//        					if(binding.getDeclaringClass() != null) {
+//        						int test = 3;
+//        						int testasdf = 5;
+//        						
+//        						//TODO: add primitiveTypes
+//        						////Composite Data Type Snipped
+//        						//EList<DataType> repositoryDataTypes = repository.getDataTypes__Repository();
+//        						//PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
+//        						//primitiveDataType.setType(PrimitiveTypeEnum.INT);
+//        						//primitiveDataType.setRepository__DataType(repository);
+//        						//InnerDeclaration innerDataType = RepositoryFactory.eINSTANCE.createInnerDeclaration();
+//        						//innerDataType.setEntityName("TestInnerName");
+//        						//innerDataType.setDatatype_InnerDeclaration(primitiveDataType);
+//        						//compositeDataType.getInnerDeclaration_CompositeDataType().add(innerDataType);
+//        						//repositoryDataTypes.add(compositeDataType);
+//        						////end Snipped
+//        					}
         					//end testing stuff
-        					methodOperationSignature.withParameter(parameterName, compositeDataType.build(), ParameterModifier.IN);
+//        					methodOperationSignature.withParameter(parameterName, compositeDataType.build(), ParameterModifier.IN);
         				}
         			}
         		}
@@ -290,7 +290,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 * @throws JobFailedException
 	 */
 	private SeffCreator createSeff(MethodPalladioInformation methodPalladioInformation, ComponentInformation componentInformation) throws JobFailedException {
-		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
+		ActionSeff actionSeff = create.newSeff().onSignature(create.fetchOfSignature(methodPalladioInformation.getOperationSignatureName())).withSeffBehaviour().withStartAction().followedBy();
 		
 		return Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, this.methodPalladioInfoMap, componentInformation, create)
 				.stopAction().createBehaviourNow();
