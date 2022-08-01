@@ -46,7 +46,7 @@ public class IfStatementVisitorTest {
 		AST ast = AST.newAST(AST.getJLSLatest(), false);
 		IfStatement ifStatement = ast.newIfStatement();
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", ifStatement);
-		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, basicComponentCreator, create);
+		//actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, basicComponentCreator, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
