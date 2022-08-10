@@ -114,8 +114,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	private void createExternalCallAction(MethodInvocation methodInvocation, MethodPalladioInformation externalMethodInformation) {
 
-		ExternalCallActionCreator externalCallActionCreator = actionSeff.externalCallAction();
-//		StaticNameMethods.setEntityName(externalCall, methodInvocation);
+		ExternalCallActionCreator externalCallActionCreator = actionSeff.externalCallAction().withName(StaticNameMethods.getEntityName(methodInvocation));
 
 		addRequiredInterfaceToComponent(externalMethodInformation.getOperationInterfaceName());
 		externalCallActionCreator.withCalledService(create.fetchOfOperationSignature(externalMethodInformation.getOperationSignatureName()));
@@ -124,8 +123,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 		//// TODO: Change to Fluent Api
 		//OperationSignature calledFunctionSignature = this.getOperationSignatureFromInterfaceByName(operationInterface, methodInvocation.getName().toString());
-		//if(!methodInvocation.arguments().isEmpty())
-		//{
+		//if(!methodInvocation.arguments().isEmpty()) {
 		//	EList<VariableUsage> inputVariables = externalCall.getInputVariableUsages__CallAction();
 		//	if(calledFunctionSignature != null && (calledFunctionSignature.getParameters__OperationSignature().size() == methodInvocation.arguments().size())) {
 		//		//try to get variables from interface
@@ -169,8 +167,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	private void createInternalAction(final ExpressionStatement expressionStatement) {
 		
-		actionSeff.internalAction().withName("").followedBy();
-//		StaticNameMethods.setEntityName(internalAction, expression);
+		actionSeff.internalAction().withName(StaticNameMethods.getEntityName(expressionStatement)).followedBy();
 	}
 	
 	
@@ -356,12 +353,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	 * Neu in Ast2Seff dazu gekommen, war nicht in JaMoPP vorhanden
 	 * Verhalten aus "MediaStore3 -> AudioWatermarking" abgeschaut
 	 * +
-	 * zusätzliche infos von: https://www.palladio-simulator.com/tools/tutorials/ (PCM Parameter (PDF) -> 18)
+	 * zusï¿½tzliche infos von: https://www.palladio-simulator.com/tools/tutorials/ (PCM Parameter (PDF) -> 18)
 	 * 
 	 *** The following types are available
 	 * BYTESIZE: Memory footprint of a parameter
 	 * VALUE: The actual value of a parameter for primitive types
-	 * STRUCTURE: Structure of data, like „sorted“ or „unsorted“
+	 * STRUCTURE: Structure of data, like ï¿½sortedï¿½ or ï¿½unsortedï¿½
 	 * NUMBER_OF_ELEMENTS: The number of elements in a collection
 	 * TYPE: The actual type of a parameter (vs. the declared type)
 	 */

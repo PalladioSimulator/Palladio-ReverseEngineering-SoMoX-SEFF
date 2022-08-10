@@ -59,36 +59,41 @@ public class StaticNameMethods {
 	/*
 	 * Dynamically sets the Name of the supplied action
 	 */
-	public static void setEntityName(InternalAction internalAction, Expression expression) {
-		internalAction.setEntityName(expression.toString());
+	public static String getEntityName(Expression expression) {
+		return expression.toString();
 	}
-	public static void setEntityName(ExternalCallAction externalCall, MethodInvocation methodInvocation) {
+	
+	public static String getEntityName(MethodInvocation methodInvocation) {
 		if (methodInvocation.arguments().isEmpty()) {
-			externalCall.setEntityName(methodInvocation.getName().toString());
+			return methodInvocation.getName().toString();
 		} else {
-			externalCall.setEntityName(methodInvocation.getName().toString() + "(" + methodInvocation.arguments().toString() + ")");
+			return methodInvocation.getName().toString() + "(" + methodInvocation.arguments().toString() + ")";
 		}
 	}
-	public static void setEntityName(AbstractBranchTransition branchTransition, IfStatement ifStatement) {
+	
+	public static String getConditiontring(IfStatement ifStatement) {
 		Expression expression = ifStatement.getExpression();
 		
 		final StringBuilder positionString = new StringBuilder(" @position: ");
 		positionString.append("Cond: if(").append(expression).append(")");
-		branchTransition.setEntityName(positionString.toString());
+		return positionString.toString();
 	}
-	public static void setEntityName(AbstractBranchTransition branchTransitionElse, Statement elseStatement) {		
+	
+	public static String getEntityName(Statement elseStatement) {		
 		final StringBuilder positionString = new StringBuilder(" @position: ");
 		positionString.append("Cond: ").append("else").append("");
-		branchTransitionElse.setEntityName(positionString.toString());
+		return positionString.toString();
 	}
-	public static void setEntityName(AbstractBranchTransition branchTransition, TryStatement tryStatement) {
+	
+//	public static String getEntityName(TryStatement tryStatement) {
 		//Expression expression = tryStatement.catchClauses();
 		
 		//final StringBuilder positionString = new StringBuilder(" @position: ");
 		//positionString.append("Cond: if(").append(expression).append(")");
 		//branchTransitionElse.setEntityName(positionString.toString());
-	}
-	public static void setEntityName(AbstractBranchTransition branchTransition, List<Statement> block) {
+//	}
+	
+//	public static String getEntityName(List<Statement> block) {
 		//cant access block name. mb need to rewrite Blocklist
 		
 		//Expression expression = tryStatement.catchClauses();
@@ -96,8 +101,9 @@ public class StaticNameMethods {
 		//final StringBuilder positionString = new StringBuilder(" @position: ");
 		//positionString.append("Cond: if(").append(expression).append(")");
 		//branchTransitionElse.setEntityName(positionString.toString());
-	}
-	public static void setEntityName(LoopAction loopAction, final ForStatement forStatement) {
+//	}
+	
+	public static String getEntityName(final ForStatement forStatement) {
 		Expression initializers = (Expression) forStatement.initializers().get(0);
 		Expression updaters = (Expression) forStatement.updaters().get(0);
 		Expression expression = forStatement.getExpression(); 
@@ -108,34 +114,37 @@ public class StaticNameMethods {
 		} else {
 			positionString.append("no position information available");
 		}
-		loopAction.setEntityName(positionString.toString());
+		return positionString.toString();
 	}
-	public static void setEntityName(LoopAction loopAction, final EnhancedForStatement forStatement) {
+	
+	public static String getEntityName(final EnhancedForStatement forStatement) {
 		SingleVariableDeclaration variableDeclaration = forStatement.getParameter();
 		Expression expression = forStatement.getExpression();
 		
 		final StringBuilder positionString = new StringBuilder(" @position: ");
 		positionString.append("for (").append(variableDeclaration).append(" : ").append(expression).append(")");
-		loopAction.setEntityName(positionString.toString());
+		return positionString.toString();
 	}
-	public static void setEntityName(LoopAction loopAction, final WhileStatement whileStatement) {
+	
+	public static String getEntityName(final WhileStatement whileStatement) {
 		Expression expression = whileStatement.getExpression();
 		
 		final StringBuilder positionString = new StringBuilder(" @position: ");
 		positionString.append("expression name \"").append(expression).append("\"");
-		loopAction.setEntityName(positionString.toString());
+		return positionString.toString();
 	}
-	public static void setEntityName(BranchAction branchAction, final SwitchStatement switchStatement) {
-		branchAction.setEntityName("Switch Branch");
+	
+	public static String getEntityName(final SwitchStatement switchStatement) {
+		return "Switch Branch";			
 	}
-	public static void setEntityName(BranchAction branchAction, final IfStatement ifStatement) {
-		branchAction.setEntityName("If Branch");
+	public static String getEntityName(final IfStatement ifStatement) {
+		return "If Branch";
 	}
-	public static void setEntityName(BranchAction branchAction, final TryStatement tryStatement) {
-		branchAction.setEntityName("Try Catch Branch");
+	public static String getEntityName(final TryStatement tryStatement) {
+		return "Try Catch Branch";
 	}
-	public static void setEntityName(Entity defaultResource, String className) {
-		defaultResource.setEntityName(className);
+	public static String getEntityName(String className) {
+		return className;
 	}
 	
 	
