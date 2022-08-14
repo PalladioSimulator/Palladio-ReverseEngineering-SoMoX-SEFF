@@ -12,6 +12,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
 import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
@@ -36,6 +37,7 @@ public class IfStatementVisitorTest {
 	private static final FluentRepositoryFactory create = new FluentRepositoryFactory();
 	
 	@Test
+	@Disabled
 	public void emptyIfStatementVisitorTest() {
 		
 		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();

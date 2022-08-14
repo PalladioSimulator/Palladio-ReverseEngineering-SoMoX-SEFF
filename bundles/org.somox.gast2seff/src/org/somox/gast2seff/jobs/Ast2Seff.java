@@ -145,6 +145,13 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
     				this.methodPalladioInfoMap.put(key, methodPalladioInformation);
     				this.methodBundlePalladioInfoMap.put(methodBundlePair, methodPalladioInformation);
     			}
+    			
+    			//if(!this.methodPalladioInfoMap.containsKey(strPackageName + "dummy")) {
+	    		//	OperationSignatureCreator dummyOperationSignature = create.newOperationSignature().withName(strPackageName + "dummySignature");
+	            //    OperationInterfaceCreator dummyOperationInterfaceCreator = create.newOperationInterface().withName(strPackageName + "dummyInterface").withOperationSignature(dummyOperationSignature);
+	            //	repoAddition.addToRepository(dummyOperationInterfaceCreator);
+	            //	this.methodPalladioInfoMap.put(strPackageName + "dummy", null);
+    			//}
         			
         		List<SingleVariableDeclaration> singleVariableDeclarationList = methodDeclaration.parameters();
         		

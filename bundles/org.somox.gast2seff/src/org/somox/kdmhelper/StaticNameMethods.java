@@ -3,6 +3,7 @@ package org.somox.kdmhelper;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
 import org.eclipse.jdt.core.dom.CharacterLiteral;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
