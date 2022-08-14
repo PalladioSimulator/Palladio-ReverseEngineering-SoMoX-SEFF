@@ -115,11 +115,13 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         //Map<BasicComponent, OperationInterfaceCreator> componentOperationInterfaceMap = new HashMap<>();
         
         LOGGER.info("Found " + bundleName2methodBundleMap.size() + " Bundles. Computing Interfaces.");
+		int counter = 0;
         
         for(Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
         	String bundleName = entry.getKey();
         	List<MethodBundlePair> methodAssociationListOfBundle = entry.getValue();
         	LOGGER.info("Found " + methodAssociationListOfBundle.size() + " methods to " + bundleName + ". Computing Interfaces.");
+        	counter += methodAssociationListOfBundle.size();
         	
         	OperationInterfaceCreator bundleOperationInterfaceCreator = create.newOperationInterface().withName(bundleName);
         	
@@ -252,11 +254,11 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 
 		final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
 		subMonitor.setTaskName("Creating SEFF behaviour");
+    	LOGGER.info("Interfaces done. Computing " + counter + " Basic Components.");
 		
 		for(Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
         	String bundleName = entry.getKey();
         	List<MethodBundlePair> methodBundleList = entry.getValue();
-        	LOGGER.info("Found " + methodBundleList.size() + " methods to " + bundleName + ". Computing Interfaces.");
         	
         	BasicComponentCreator basicComponentCreator = create.newBasicComponent().withName(bundleName).provides(create.fetchOfOperationInterface(bundleName));
         	ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
