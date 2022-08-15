@@ -311,7 +311,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	public boolean visit(final SwitchStatement switchStatement) {
 		BranchActionCreator branchActionCreator = actionSeff.branchAction();
-//		StaticNameMethods.setEntityName(branchAction, switchStatement);
+		branchActionCreator.withName(StaticNameMethods.getEntityName(switchStatement));
 		
 		List<List<Statement>> blockList = SwitchStatementHelper.createBlockListFromSwitchStatement(switchStatement);
 		for (List<Statement> block : blockList) {
@@ -479,8 +479,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	private LoopActionCreator generateLoopAction(ASTNode node, LoopActionCreator loopActionCreator) {
-		ActionSeff innerActionSeff = create.newInternalBehaviour().withStartAction().followedBy();
-		//ActionSeff innerActionSeff = create.newSeff().onSignature(create.fetchOfSignature(this.methodPalladioInfo.getOperationSignatureName())).withSeffBehaviour().withStartAction().followedBy();
+		//ActionSeff innerActionSeff = create.newInternalBehaviour().withStartAction().followedBy();
+		ActionSeff innerActionSeff = create.newSeff().onSignature(create.fetchOfSignature(this.methodPalladioInfo.getOperationSignatureName())).withSeffBehaviour().withStartAction().followedBy();
 		//ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
 		innerActionSeff = this.perform(node, innerActionSeff);
 		SeffCreator seffCreator = innerActionSeff.stopAction().createBehaviourNow();
