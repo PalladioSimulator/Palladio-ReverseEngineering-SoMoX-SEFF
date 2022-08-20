@@ -44,8 +44,8 @@ import org.somox.gast2seff.visitors.Ast2SeffVisitor;
 import org.somox.kdmhelper.ComponentInformation;
 import org.somox.kdmhelper.MethodBundlePair;
 import org.somox.kdmhelper.MethodPalladioInformation;
-import org.somox.sourcecodedecorator.SEFF2MethodMapping;
-import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
+//import org.somox.sourcecodedecorator.SEFF2MethodMapping;
+//import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
@@ -75,8 +75,8 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	/**
 	 * Resources containing the models
 	 */
-	private SourceCodeDecoratorRepository sourceCodeDecoratorModel;
-	private EList<SEFF2MethodMapping> Seff2MethodMappings;
+	//private SourceCodeDecoratorRepository sourceCodeDecoratorModel;
+	//private EList<SEFF2MethodMapping> Seff2MethodMappings;
 
 	/**
 	 * Field that indicates whether ResourceDemandingInternalBehaviour should be created for
@@ -271,9 +271,13 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 			repoAddition.addToRepository(basicComponentCreator);
 		}
 		
-		Repository repository = repoAddition.createRepositoryNow();		
+		LOGGER.info("Basic Components done. Creating Repository.");
+		Repository repository = repoAddition.createRepositoryNow();
+		
+		LOGGER.info("Repository done. Creating XML.");
 		this.generateSeffXmlFile(repository);
 
+		LOGGER.info("Task finished.");
 		subMonitor.done();
 	}
 	
@@ -327,23 +331,23 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 * @throws JobFailedException
 	 *             Thrown if the gast behaviour is missing in the model file
 	 */
-	private StatementListContainer findBody(final ResourceDemandingSEFF seff) throws JobFailedException {
-
-		// assert
-		// onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getSeff2MethodMappings(),
-		// seff);
-		// TODO burkha 16.05.2013 remove this after checking
-		this.onlyOnceAsGastBehaviour(this.sourceCodeDecoratorModel.getSeff2MethodMappings(), seff);
-
-		for (final SEFF2MethodMapping behaviour : this.sourceCodeDecoratorModel.getSeff2MethodMappings()) {
-			if (((ResourceDemandingSEFF) behaviour.getSeff()).getId().equals(seff.getId())) {
-				Ast2Seff.LOGGER.debug("Matching SEFF found " + seff.getId());
-				return behaviour.getStatementListContainer();
-			}
-		}
-		Ast2Seff.LOGGER.warn("Checked gastBehaviourRepository for " + seff.getId() + " but found none");
-		throw new JobFailedException("Unable to find operation body for given method");
-	}
+	//private StatementListContainer findBody(final ResourceDemandingSEFF seff) throws JobFailedException {
+    //
+	//	// assert
+	//	// onlyOnceAsGastBehaviour(this.gastBehaviourRepositoryModel.getSeff2MethodMappings(),
+	//	// seff);
+	//	// TODO burkha 16.05.2013 remove this after checking
+	//	this.onlyOnceAsGastBehaviour(this.sourceCodeDecoratorModel.getSeff2MethodMappings(), seff);
+    //
+	//	for (final SEFF2MethodMapping behaviour : this.sourceCodeDecoratorModel.getSeff2MethodMappings()) {
+	//		if (((ResourceDemandingSEFF) behaviour.getSeff()).getId().equals(seff.getId())) {
+	//			Ast2Seff.LOGGER.debug("Matching SEFF found " + seff.getId());
+	//			return behaviour.getStatementListContainer();
+	//		}
+	//	}
+	//	Ast2Seff.LOGGER.warn("Checked gastBehaviourRepository for " + seff.getId() + " but found none");
+	//	throw new JobFailedException("Unable to find operation body for given method");
+	//}
 
 	/**
 	 * For assertion only
@@ -352,24 +356,24 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 * @param seff
 	 * @return
 	 */
-	private boolean onlyOnceAsGastBehaviour(final EList<SEFF2MethodMapping> seff2MethodMappings,
-			final ServiceEffectSpecification seff) {
-		int i = 0;
-		for (final SEFF2MethodMapping mapping : seff2MethodMappings) {
-			final ResourceDemandingSEFF seffMapping = (ResourceDemandingSEFF) mapping.getSeff();
-			final ResourceDemandingSEFF seffInput = (ResourceDemandingSEFF) seff;
-			if (seffMapping.getId().equals(seffInput.getId())) {
-				i++;
-			}
-		}
-
-		if (i != 1) {
-			Ast2Seff.LOGGER.error("Assertion fails - onlyOnceAsGastBehaviour: i = " + i + " for "
-					+ ((ResourceDemandingSEFF) seff).getId());
-		}
-
-		return i == 1; // must be exactly one
-	}
+	//private boolean onlyOnceAsGastBehaviour(final EList<SEFF2MethodMapping> seff2MethodMappings,
+	//		final ServiceEffectSpecification seff) {
+	//	int i = 0;
+	//	for (final SEFF2MethodMapping mapping : seff2MethodMappings) {
+	//		final ResourceDemandingSEFF seffMapping = (ResourceDemandingSEFF) mapping.getSeff();
+	//		final ResourceDemandingSEFF seffInput = (ResourceDemandingSEFF) seff;
+	//		if (seffMapping.getId().equals(seffInput.getId())) {
+	//			i++;
+	//		}
+	//	}
+    //
+	//	if (i != 1) {
+	//		Ast2Seff.LOGGER.error("Assertion fails - onlyOnceAsGastBehaviour: i = " + i + " for "
+	//				+ ((ResourceDemandingSEFF) seff).getId());
+	//	}
+    //
+	//	return i == 1; // must be exactly one
+	//}
 
 	/**
 	 * Generate a SEFF for the given GAST behaviour
@@ -379,19 +383,19 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 * @return The generated SEFF
 	 * @throws JobFailedException
 	 */
-	private ResourceDemandingSEFF generateSEFFForGASTBehaviour(final ResourceDemandingSEFF gastBehaviourStub)
-			throws JobFailedException {
-		// ResourceDemandingSEFF resourceDemandingSEFF =
-		// SeffFactory.eINSTANCE.createResourceDemandingSEFF();
-
-		// createSeff(gastBehaviourStub,resourceDemandingSEFF);
-//		this.createSeff(gastBehaviourStub);
-
-		// SeffBehaviourStub seffBehaviourStub = findOrCreateBehaviourStub(gastBehaviourStub);
-		// resourceDemandingSEFF.setSeffBehaviourStub(seffBehaviourStub);
-
-		return gastBehaviourStub;
-	}
+	//private ResourceDemandingSEFF generateSEFFForGASTBehaviour(final ResourceDemandingSEFF gastBehaviourStub)
+	//		throws JobFailedException {
+	//	// ResourceDemandingSEFF resourceDemandingSEFF =
+	//	// SeffFactory.eINSTANCE.createResourceDemandingSEFF();
+    //
+	//	// createSeff(gastBehaviourStub,resourceDemandingSEFF);
+//	//	this.createSeff(gastBehaviourStub);
+    //
+	//	// SeffBehaviourStub seffBehaviourStub = findOrCreateBehaviourStub(gastBehaviourStub);
+	//	// resourceDemandingSEFF.setSeffBehaviourStub(seffBehaviourStub);
+    //
+	//	return gastBehaviourStub;
+	//}
 
 	/**
 	 * Finds an existing SEFF behaviour stub and reuses it or creates a new SEFF behaviour stub if

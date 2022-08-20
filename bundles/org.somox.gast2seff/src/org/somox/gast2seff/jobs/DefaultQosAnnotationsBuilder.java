@@ -12,7 +12,7 @@ import org.palladiosimulator.pcm.seff.ProbabilisticBranchTransition;
 import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.pcm.seff.seff_performance.ParametricResourceDemand;
 import org.palladiosimulator.pcm.seff.seff_performance.SeffPerformanceFactory;
-import org.somox.sourcecodedecorator.SEFF2MethodMapping;
+//import org.somox.sourcecodedecorator.SEFF2MethodMapping;
 
 /**
  * Creates default QoS annotations for behaviour. Same probabilities for all branches and 1
@@ -31,31 +31,31 @@ public class DefaultQosAnnotationsBuilder {
 	 * @param listofSEFF2MethodMappings
 	 *
 	 */
-	public void buildDefaultQosAnnotations(final EList<SEFF2MethodMapping> listofSEFF2MethodMappings) {
-		for (final SEFF2MethodMapping mapping : listofSEFF2MethodMappings) {
-			final ServiceEffectSpecification seff = mapping.getSeff();
-
-			final TreeIterator<Object> elements = EcoreUtil.getAllContents(seff, true);
-			while (elements.hasNext()) {
-				final EObject eObject = (EObject) elements.next();
-
-				if (eObject instanceof org.palladiosimulator.pcm.seff.LoopAction) {
-					final org.palladiosimulator.pcm.seff.LoopAction loopAction = (org.palladiosimulator.pcm.seff.LoopAction) eObject;
-					this.createDefaultLoopCount(loopAction);
-				}
-				if (eObject instanceof org.palladiosimulator.pcm.seff.BranchAction) {
-					final org.palladiosimulator.pcm.seff.BranchAction branchAction = (org.palladiosimulator.pcm.seff.BranchAction) eObject;
-					this.createDefaultBranchProbability(branchAction);
-				}
-				if (eObject instanceof org.palladiosimulator.pcm.seff.InternalAction) {
-					final org.palladiosimulator.pcm.seff.InternalAction internalAction = (org.palladiosimulator.pcm.seff.InternalAction) eObject;
-					this.createDefaultCpuResourceDemand(internalAction);
-				}
-			}
-		}
-
-		// this.qosAnnotationsModel.setEntityName("SoMoX Default QoS Annotations");
-	}
+	//public void buildDefaultQosAnnotations(final EList<SEFF2MethodMapping> listofSEFF2MethodMappings) {
+	//	for (final SEFF2MethodMapping mapping : listofSEFF2MethodMappings) {
+	//		final ServiceEffectSpecification seff = mapping.getSeff();
+    //
+	//		final TreeIterator<Object> elements = EcoreUtil.getAllContents(seff, true);
+	//		while (elements.hasNext()) {
+	//			final EObject eObject = (EObject) elements.next();
+    //
+	//			if (eObject instanceof org.palladiosimulator.pcm.seff.LoopAction) {
+	//				final org.palladiosimulator.pcm.seff.LoopAction loopAction = (org.palladiosimulator.pcm.seff.LoopAction) eObject;
+	//				this.createDefaultLoopCount(loopAction);
+	//			}
+	//			if (eObject instanceof org.palladiosimulator.pcm.seff.BranchAction) {
+	//				final org.palladiosimulator.pcm.seff.BranchAction branchAction = (org.palladiosimulator.pcm.seff.BranchAction) eObject;
+	//				this.createDefaultBranchProbability(branchAction);
+	//			}
+	//			if (eObject instanceof org.palladiosimulator.pcm.seff.InternalAction) {
+	//				final org.palladiosimulator.pcm.seff.InternalAction internalAction = (org.palladiosimulator.pcm.seff.InternalAction) eObject;
+	//				this.createDefaultCpuResourceDemand(internalAction);
+	//			}
+	//		}
+	//	}
+    //
+	//	// this.qosAnnotationsModel.setEntityName("SoMoX Default QoS Annotations");
+	//}
 
 	private void createDefaultBranchProbability(final BranchAction branchAction) {
 

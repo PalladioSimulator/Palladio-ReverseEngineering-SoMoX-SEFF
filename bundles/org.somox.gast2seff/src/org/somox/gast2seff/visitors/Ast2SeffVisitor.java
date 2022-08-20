@@ -188,9 +188,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	private BranchActionCreator handleElseStatement(Statement statement, BranchActionCreator branchActionCreator) {
 		
-		//ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-		//ActionSeff innerActionSeff = create.newInternalBehaviour().withStartAction().followedBy();
-		ActionSeff innerActionSeff = create.newSeff().onSignature(create.fetchOfSignature(this.methodPalladioInfo.getOperationSignatureName())).withSeffBehaviour().withStartAction().followedBy();
+		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
 		
 		if (statement instanceof IfStatement) {
 			IfStatement elseIfStatement = (IfStatement) statement;
@@ -261,9 +259,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 		List<CatchClause> catchClauseList = tryStatement.catchClauses();
 		for (CatchClause catchClause : catchClauseList) {
-			//ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-			//ActionSeff innerActionSeff = create.newInternalBehaviour().withStartAction().followedBy();
-			ActionSeff innerActionSeff = create.newSeff().onSignature(create.fetchOfSignature(this.methodPalladioInfo.getOperationSignatureName())).withSeffBehaviour().withStartAction().followedBy();
+			ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
 			innerActionSeff = this.perform(catchClause.getBody(), innerActionSeff);
 			SeffCreator seffCreator = innerActionSeff.stopAction().createBehaviourNow();
 			branchActionCreator = branchActionCreator.withGuardedBranchTransition("expression", seffCreator);
@@ -316,9 +312,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		List<List<Statement>> blockList = SwitchStatementHelper.createBlockListFromSwitchStatement(switchStatement);
 		for (List<Statement> block : blockList) {
 			
-			//ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-			//ActionSeff innerActionSeff = create.newInternalBehaviour().withStartAction().followedBy();
-			ActionSeff innerActionSeff = create.newSeff().onSignature(create.fetchOfSignature(this.methodPalladioInfo.getOperationSignatureName())).withSeffBehaviour().withStartAction().followedBy();
+			ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
 			
 			for (Statement statement : block) {
 				innerActionSeff = this.perform(statement, innerActionSeff);
@@ -467,9 +461,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 
 //		branchTransition.setEntityName(this.ifStatementToString(tryStatement.getExpression()));
 		
-		//ActionSeff innerActionSeff = create.newInternalBehaviour().withStartAction().followedBy();
-		//ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-		ActionSeff innerActionSeff = create.newSeff().onSignature(create.fetchOfSignature(this.methodPalladioInfo.getOperationSignatureName())).withSeffBehaviour().withStartAction().followedBy();
+		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
 		innerActionSeff = this.perform(node, innerActionSeff);
 		SeffCreator seffCreator = innerActionSeff.stopAction().createBehaviourNow();
 		
@@ -479,9 +471,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	private LoopActionCreator generateLoopAction(ASTNode node, LoopActionCreator loopActionCreator) {
-		//ActionSeff innerActionSeff = create.newInternalBehaviour().withStartAction().followedBy();
-		ActionSeff innerActionSeff = create.newSeff().onSignature(create.fetchOfSignature(this.methodPalladioInfo.getOperationSignatureName())).withSeffBehaviour().withStartAction().followedBy();
-		//ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
+		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
 		innerActionSeff = this.perform(node, innerActionSeff);
 		SeffCreator seffCreator = innerActionSeff.stopAction().createBehaviourNow();
 		loopActionCreator = loopActionCreator.withLoopBody(seffCreator);
