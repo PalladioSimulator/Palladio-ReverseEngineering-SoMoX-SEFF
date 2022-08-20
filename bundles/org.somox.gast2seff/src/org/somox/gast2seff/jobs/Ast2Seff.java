@@ -243,7 +243,8 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         					// TODO: handle error
         				}
         				
-        				methodOperationSignature.withParameter("OutputPara", primitive, ParameterModifier.OUT);
+        				//methodOperationSignature.withParameter("OutputPara", primitive, ParameterModifier.OUT);
+        				methodOperationSignature.withReturnType(primitive);
         			}
         		}
         		
