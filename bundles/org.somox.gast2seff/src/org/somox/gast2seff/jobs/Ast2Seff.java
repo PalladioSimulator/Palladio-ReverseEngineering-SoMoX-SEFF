@@ -11,22 +11,18 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.PrimitiveType;
-import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
-import org.emftext.language.java.statements.StatementListContainer;
 import org.palladiosimulator.generator.fluent.repository.api.RepoAddition;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
 import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
@@ -35,17 +31,12 @@ import org.palladiosimulator.generator.fluent.repository.structure.components.se
 import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationInterfaceCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationSignatureCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.internals.Primitive;
-import org.palladiosimulator.generator.fluent.repository.structure.types.CompositeDataTypeCreator;
 import org.palladiosimulator.pcm.repository.ParameterModifier;
 import org.palladiosimulator.pcm.repository.Repository;
-import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
-import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.somox.gast2seff.visitors.Ast2SeffVisitor;
 import org.somox.kdmhelper.ComponentInformation;
 import org.somox.kdmhelper.MethodBundlePair;
 import org.somox.kdmhelper.MethodPalladioInformation;
-//import org.somox.sourcecodedecorator.SEFF2MethodMapping;
-//import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
@@ -304,10 +295,11 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	 * @throws JobFailedException
 	 */
 	private SeffCreator createSeff(MethodPalladioInformation methodPalladioInformation, ComponentInformation componentInformation) throws JobFailedException {
-		ActionSeff actionSeff = create.newSeff().onSignature(create.fetchOfSignature(methodPalladioInformation.getOperationSignatureName())).withSeffBehaviour().withStartAction().followedBy();
+		ActionSeff actionSeff = create.newSeff().onSignature(create.fetchOfSignature(methodPalladioInformation.getOperationSignatureName()))
+				.withSeffBehaviour().withStartAction().withName("Start Action").followedBy();
 		
 		return Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, this.methodPalladioInfoMap, componentInformation, create)
-				.stopAction().createBehaviourNow();
+				.stopAction().withName("Stop Action").createBehaviourNow();
 	}
 	
 	private void generateSeffXmlFile(final Repository repository) {

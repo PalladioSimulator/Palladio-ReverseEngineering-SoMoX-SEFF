@@ -1,13 +1,11 @@
 package org.somox.kdmhelper;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
-import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
 import org.eclipse.jdt.core.dom.CharacterLiteral;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.IfStatement;
@@ -21,12 +19,6 @@ import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.WhileStatement;
-import org.palladiosimulator.pcm.core.entity.Entity;
-import org.palladiosimulator.pcm.seff.AbstractBranchTransition;
-import org.palladiosimulator.pcm.seff.BranchAction;
-import org.palladiosimulator.pcm.seff.ExternalCallAction;
-import org.palladiosimulator.pcm.seff.InternalAction;
-import org.palladiosimulator.pcm.seff.LoopAction;
 import org.somox.gast2seff.visitors.Ast2SeffVisitor;
 
 public class StaticNameMethods {
@@ -62,6 +54,10 @@ public class StaticNameMethods {
 	 */
 	public static String getEntityName(Expression expression) {
 		return expression.toString();
+	}
+	
+	public static String getEntityName(ExpressionStatement expressionStatement) {
+		return expressionStatement.getExpression().toString();
 	}
 	
 	public static String getEntityName(MethodInvocation methodInvocation) {

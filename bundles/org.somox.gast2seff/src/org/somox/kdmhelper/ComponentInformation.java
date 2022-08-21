@@ -10,6 +10,7 @@ public class ComponentInformation {
 
 	private BasicComponentCreator basicComponentCreator;
 	private Map<String, List<String>> componentRequiredListMap = new HashMap<>();
+	private boolean isPassiveResourceSet = false;
 	
 	public ComponentInformation(BasicComponentCreator basicComponentCreator) {
 		this.basicComponentCreator = basicComponentCreator;
@@ -23,4 +24,11 @@ public class ComponentInformation {
 		return basicComponentCreator;
 	} 
 	
+	public void setPassiveResourceSetTrue() {
+		this.isPassiveResourceSet = true;
+	}
+	
+	public boolean getIsPassiveResourceSet() {
+		return this.isPassiveResourceSet;
+	}
 }
