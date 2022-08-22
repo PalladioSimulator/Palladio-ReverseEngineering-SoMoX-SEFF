@@ -330,18 +330,6 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return super.visit(variableDeclarationStatement);
 	}
 	
-	private OperationSignature getOperationSignatureFromInterfaceByName(OperationInterface operationInterface, String name) {
-		EList<OperationSignature> functionList = operationInterface.getSignatures__OperationInterface();
-		if(!functionList.isEmpty() && name != "") {
-			for(OperationSignature signature : functionList) {
-				String signatureName = signature.getEntityName();
-				if(name.equals(signatureName))
-					return signature;
-			}
-		}
-		return null;
-	}
-	
 	/*
 	 * generates Input Variables
 	 * 
