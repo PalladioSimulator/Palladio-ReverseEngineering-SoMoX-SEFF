@@ -256,7 +256,8 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         	ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
         	
 			for (MethodBundlePair methodBundlePair : methodBundleList) {
-				basicComponentCreator.withServiceEffectSpecification(this.createSeff(methodBundlePalladioInfoMap.get(methodBundlePair), componentInformation));
+				MethodPalladioInformation methodPalladioInformation = methodBundlePalladioInfoMap.get(methodBundlePair);
+				basicComponentCreator.withServiceEffectSpecification(this.createSeff(methodPalladioInformation, componentInformation).withName(methodPalladioInformation.getMethodName()));
 				monitor.worked(1);
 			}
 			

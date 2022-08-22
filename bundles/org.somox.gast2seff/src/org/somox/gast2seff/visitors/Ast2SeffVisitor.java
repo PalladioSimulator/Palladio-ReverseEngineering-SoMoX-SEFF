@@ -203,10 +203,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		Expression exp = synchronizedStatement.getExpression();
 		String className = StaticNameMethods.getClassName(exp) + ".class";
 		
-		if (!isPassiveResourceSet) {
-			basicComponentCreator.withPassiveResource("1", (ResourceTimeoutFailureType) create.newResourceTimeoutFailureType(className).build(), className);
-			isPassiveResourceSet = true;
+		if (!componentInformation.getIsPassiveResourceSet()) {
+			basicComponentCreator.withPassiveResource("1", (ResourceTimeoutFailureType) create.newResourceTimeoutFailureType("PassiveResourceTimeoutFailure").build(), "Passive Resource");
+			componentInformation.setPassiveResourceSetTrue();
 		}
+		
 		
 //		PassiveResource passiveResource = RepositoryFactory.eINSTANCE.createPassiveResource();
 //		passiveResource.setCapacity_PassiveResource(CoreFactory.eINSTANCE.createPCMRandomVariable());
@@ -229,15 +230,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 //				this.basicComponent.getPassiveResource_BasicComponent().add(passiveResource);
 //		}
 
-//		actionSeff = actionSeff.acquireAction().withPassiveResource(create.fetchOfPassiveResource(className)).followedBy();
+		actionSeff = actionSeff.acquireAction().withName("Aquire Action").withPassiveResource(create.fetchOfPassiveResource("Passive Resource")).followedBy();
 
-//		StaticNameMethods.setEntityName(acquireAction, className);
-//
-//		actionSeff = this.perform(synchronizedStatement.getBody(), actionSeff)
-//				.releaseAction().withPassiveResource(create.fetchOfPassiveResource(className)).followedBy();
+		actionSeff = this.perform(synchronizedStatement.getBody(), actionSeff)
+				.releaseAction().withName("Release Action").withPassiveResource(create.fetchOfPassiveResource("Passive Resource")).followedBy();
 
-
-//		StaticNameMethods.setEntityName(releaseAction, className);
 		return false;
 	}
 	
