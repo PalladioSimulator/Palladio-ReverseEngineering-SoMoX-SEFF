@@ -330,7 +330,15 @@ Bearbeitete Aufgaben:
 - FluentAPI Ã¼berprÃ¼fen
 
 ### Offene Aufgaben (Aufschrieb Marcel 22.08)
-- Aufr�umen
-- ToDo f�r Probabilistic setzen 
-- compositeDataType
-- checkstyle (SpotBugs Eclipse Plugin)
+- Aufr�umen -> Alte Dateien raus + überflüssigen/auskommentierten Code
+- ToDo f�r Probabilistic setzen (Limitation)
+- CompositeDataType
+- Checkstyle + SpotBugs Eclipse Plugin
+- InternallCallAction fertigstellen
+- Event Based Communication
+- Expression aus if Condition (ggf. Limitation)
+- Entity Names richtig setzen
+- Refactoring ?
+- Tests + Testplan (Überdeckung?)
+- Doku (Überschriften planen, an anderen Projekten orientieren)
+- Sekretariat schreiben wegen Präsentation, nacheinander oder zusammen, gemeinsame Fragerunde) 
