@@ -20,6 +20,7 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
@@ -31,6 +32,7 @@ import org.palladiosimulator.generator.fluent.repository.structure.components.se
 import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationInterfaceCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationSignatureCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.internals.Primitive;
+import org.palladiosimulator.generator.fluent.repository.structure.types.CompositeDataTypeCreator;
 import org.palladiosimulator.pcm.repository.ParameterModifier;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.somox.gast2seff.visitors.Ast2SeffVisitor;
@@ -176,12 +178,12 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         					}
         					
         					methodOperationSignature.withParameter(parameterName, primitive, ParameterModifier.IN);
-//        				} else if(type.isSimpleType()) {
-//        					SimpleType simpleType = (SimpleType) type;
-//        					CompositeDataTypeCreator compositeDataType = create.newCompositeDataType().withName(simpleType.toString());
+        				} else if(type.isSimpleType()) {
+        					//SimpleType simpleType = (SimpleType) type;
+        					//CompositeDataTypeCreator compositeDataType = create.newCompositeDataType().withName(simpleType.toString());
 //        					
 //        					//testing stuff
-//        					compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
+        					//compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
 //        					IVariableBinding binding = variableDeclaration.resolveBinding();
 //        					if(binding.getDeclaringClass() != null) {
 //        						int test = 3;
@@ -199,9 +201,9 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 //        						//compositeDataType.getInnerDeclaration_CompositeDataType().add(innerDataType);
 //        						//repositoryDataTypes.add(compositeDataType);
 //        						////end Snipped
-//        					}
+        					//}
         					//end testing stuff
-//        					methodOperationSignature.withParameter(parameterName, compositeDataType.build(), ParameterModifier.IN);
+        					//methodOperationSignature.withParameter(parameterName, compositeDataType.build(), ParameterModifier.IN);
         				}
         			}
         		}
@@ -246,7 +248,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 
 		final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
 		subMonitor.setTaskName("Creating SEFF behaviour");
-    	LOGGER.info("Interfaces done. Computing " + counter + " Basic Components.");
+    	LOGGER.info("Interfaces done. Computing " + counter + " SEFFs.");
 		
 		for(Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
         	String bundleName = entry.getKey();
@@ -264,7 +266,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 			repoAddition.addToRepository(basicComponentCreator);
 		}
 		
-		LOGGER.info("Basic Components done. Creating Repository.");
+		LOGGER.info("SEFFs done. Creating Repository.");
 		Repository repository = repoAddition.createRepositoryNow();
 		
 		LOGGER.info("Repository done. Creating XML.");

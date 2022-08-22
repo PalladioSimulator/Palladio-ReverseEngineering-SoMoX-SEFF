@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.Expression;
@@ -86,7 +87,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 		Expression expression = expressionStatement.getExpression();
 
-		if (expression instanceof MethodInvocation && this.isExternal((MethodInvocation) expression)) {
+		if(expression instanceof Assignment) {
+			//Variable Assignment
+		} else if (expression instanceof MethodInvocation && this.isExternal((MethodInvocation) expression)) {
+			//internal / external Action
 			MethodInvocation methodInvocation = (MethodInvocation) expression;
 			MethodPalladioInformation methodPalladioInformation = this.getMethodPalladioInformation(methodInvocation);
 			
