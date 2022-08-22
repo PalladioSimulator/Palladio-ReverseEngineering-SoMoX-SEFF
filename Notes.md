@@ -328,3 +328,9 @@ Bearbeitete Aufgaben:
 - Variablen aus Interface ziehen anstatt von Ãœbergabe Parametern
 - return Variablen setzen (bisher nur primitive, muss refactored werden)
 - FluentAPI Ã¼berprÃ¼fen
+
+### Offene Aufgaben (Aufschrieb Marcel 22.08)
+- Aufr�umen
+- ToDo f�r Probabilistic setzen 
+- compositeDataType
+- checkstyle (SpotBugs Eclipse Plugin)
