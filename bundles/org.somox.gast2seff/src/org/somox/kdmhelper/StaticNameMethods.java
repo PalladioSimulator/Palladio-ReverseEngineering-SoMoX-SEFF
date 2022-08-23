@@ -46,7 +46,7 @@ public class StaticNameMethods {
 			return "STRING";
 		}
 		
-		return "UnknownType";
+		return variable.toString();
 	}
 	
 	/*

@@ -89,8 +89,9 @@ public class Ast2SeffVisitor extends ASTVisitor {
 
 		if(expression instanceof Assignment) {
 			//Variable Assignment
+			Assignment transformedExpression = (Assignment) expression;
 			SetVariableActionCreator setVariableActionCreator = actionSeff.setVariableAction();
-			VariableUsageCreator inputVariable = this.generateInputVariableUsage(expression);
+			VariableUsageCreator inputVariable = this.generateInputVariableUsage(transformedExpression.getRightHandSide());
 			setVariableActionCreator.withLocalVariableUsage(inputVariable);
 			this.actionSeff = setVariableActionCreator.followedBy();
 		} else if (expression instanceof MethodInvocation && this.isExternal((MethodInvocation) expression)) {
@@ -173,7 +174,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	private void createInternalAction(final ExpressionStatement expressionStatement) {
-		actionSeff.internalAction().withName(StaticNameMethods.getEntityName(expressionStatement)).followedBy();
+		actionSeff = actionSeff.internalAction().withName(StaticNameMethods.getEntityName(expressionStatement)).followedBy();
 	}
 	
 	public boolean visit(final IfStatement ifStatement) {
