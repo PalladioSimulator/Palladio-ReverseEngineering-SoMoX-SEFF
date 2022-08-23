@@ -89,6 +89,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 
 		if(expression instanceof Assignment) {
 			//Variable Assignment
+			SetVariableActionCreator setVariableActionCreator = actionSeff.setVariableAction();
+			VariableUsageCreator inputVariable = this.generateInputVariableUsage(expression);
+			setVariableActionCreator.withLocalVariableUsage(inputVariable);
+			this.actionSeff = setVariableActionCreator.followedBy();
 		} else if (expression instanceof MethodInvocation && this.isExternal((MethodInvocation) expression)) {
 			//internal / external Action
 			MethodInvocation methodInvocation = (MethodInvocation) expression;
@@ -122,6 +126,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 		// TODO: Change to Fluent Api
 		OperationSignature calledFunctionSignature = create.fetchOfOperationSignature(externalMethodInformation.getOperationSignatureName());
+		VariableUsageCreator variableUsage;
 		if(!methodInvocation.arguments().isEmpty()) {
 			if(calledFunctionSignature != null && (calledFunctionSignature.getParameters__OperationSignature().size() == methodInvocation.arguments().size())) {
 				//try to get variables from interface
@@ -129,19 +134,22 @@ public class Ast2SeffVisitor extends ASTVisitor {
 				for(int i=0; i < calledFunctParameterList.size(); i++) {
 					Parameter para = calledFunctParameterList.get(i);
 					Expression castedArgument = (Expression) methodInvocation.arguments().get(i);
-					generateVariables(para, castedArgument, externalCallActionCreator);
+					variableUsage = generateInputVariableUsage(castedArgument, para);
+					externalCallActionCreator.withInputVariableUsage(variableUsage);
 				}
 			} else {
 				//fallback if interface is not found or argumentsArrays have different sizes
 				for(Object argument : methodInvocation.arguments()) {
 					Expression castedArgument = (Expression) argument;
-					generateVariables(null, castedArgument, externalCallActionCreator);
+					variableUsage = generateInputVariableUsage(castedArgument);
+					externalCallActionCreator.withInputVariableUsage(variableUsage);
 				}
 			}
 		}
 		if(calledFunctionSignature != null && calledFunctionSignature.getReturnType__OperationSignature() != null) {
 			DataType returnType = calledFunctionSignature.getReturnType__OperationSignature();
-			generateVariables(returnType, externalCallActionCreator);
+			variableUsage = generateOutputVariableUsage(returnType);
+			externalCallActionCreator.withReturnVariableUsage(variableUsage);
 		}
 		
 		actionSeff = externalCallActionCreator.withName(StaticNameMethods.getEntityName(methodInvocation)).followedBy();
@@ -167,7 +175,6 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private void createInternalAction(final ExpressionStatement expressionStatement) {
 		actionSeff.internalAction().withName(StaticNameMethods.getEntityName(expressionStatement)).followedBy();
 	}
-	
 	
 	public boolean visit(final IfStatement ifStatement) {
 		BranchActionCreator branchActionCreator = actionSeff.branchAction();
@@ -319,7 +326,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	public boolean visit(final ReturnStatement returnStatement) {
 		Expression returnExpression = returnStatement.getExpression();
 		SetVariableActionCreator setVariableActionCreator = actionSeff.setVariableAction();
-		this.generateVariables(null, returnExpression, setVariableActionCreator);
+		VariableUsageCreator returnVariable = this.generateInputVariableUsage(returnExpression);
+		setVariableActionCreator.withLocalVariableUsage(returnVariable);
 		this.actionSeff = setVariableActionCreator.followedBy();
 		return false;
 	}
@@ -331,7 +339,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	/*
-	 * generates Input Variables
+	 * generates Input Variable Usages
+	 * 
+	 * Parameters:  
+	 * 	Expression: Expression of variable that is passed in AST
+	 *	Parameter: optional parameter, if matching interface to function was found for additional 
 	 * 
 	 * Neu in Ast2Seff dazu gekommen, war nicht in JaMoPP vorhanden
 	 * Verhalten aus "MediaStore3 -> AudioWatermarking" abgeschaut +
@@ -340,69 +352,46 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	 *** The following types are available
 	 * BYTESIZE: Memory footprint of a parameter
 	 * VALUE: The actual value of a parameter for primitive types
-	 * STRUCTURE: Structure of data, like �sorted� or �unsorted�
+	 * STRUCTURE: Structure of data, like sorted or unsorted
 	 * NUMBER_OF_ELEMENTS: The number of elements in a collection
 	 * TYPE: The actual type of a parameter (vs. the declared type)
 	 */
-	private void generateVariables(Parameter para, Expression variable, ExternalCallActionCreator externalCallActionCreator) {
-		//From ParameterFactory Docs: Note that it was an explicit design decision to refer to variable names instead of the actual variables (i.e., by refering to Parameter class).
-		
-		VariableUsageCreator variableUsage = createVariableUsage(para, variable);
-		
-		externalCallActionCreator.withInputVariableUsage(variableUsage);
-	}
-	/*
-	 * generates Variable Actions the same way as Input Variables
-	 */
-	private void generateVariables(Parameter para, Expression variable, SetVariableActionCreator externalCallActionCreator) {
-		//From ParameterFactory Docs: Note that it was an explicit design decision to refer to variable names instead of the actual variables (i.e., by refering to Parameter class).
-		
-		VariableUsageCreator variableUsage = createVariableUsage(para, variable);
-		
-		externalCallActionCreator.withLocalVariableUsage(variableUsage);
-	}
-	
-	private VariableUsageCreator createVariableUsage(Parameter para, Expression variable) {
+	private VariableUsageCreator generateInputVariableUsage(Expression variable, Parameter para) {
 		VariableUsageCreator variableUsage = create.newVariableUsage();
 		
 		//randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
 		String randomPCMName;
-
-		if(para != null) {
-			DataType paraDataType = para.getDataType__Parameter();
-			if(paraDataType instanceof PrimitiveDataType) {
-				variableUsage.withNamespaceReference(((PrimitiveDataType) paraDataType).getType().toString(), variable.toString());
-				randomPCMName = ((PrimitiveDataType) paraDataType).getType().toString() + "." + variable.toString();
-				variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
-			}
-			else if(paraDataType instanceof CompositeDataType) {
-				variableUsage.withNamespaceReference(((CompositeDataType) paraDataType).getEntityName(), variable.toString());
-				randomPCMName = ((CompositeDataType) paraDataType).getEntityName() + "." + variable.toString();
-				variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.BYTESIZE);
-			}
-			else {
-				variableUsage.withNamespaceReference(para.getParameterName(), variable.toString());
-				randomPCMName = para.getParameterName() + "." + variable.toString();
-				variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
-			}
-			//variableUsage.withVariableReference(variable.toString());
-		} else {
-			variableUsage.withNamespaceReference("PrimitiveType", StaticNameMethods.getExpressionClassName(variable));
-			randomPCMName = "PrimitiveType" + "." + StaticNameMethods.getExpressionClassName(variable);
-			//variableUsage.withVariableReference(StaticNameMethods.getExpressionClassName(variable));
+		DataType paraDataType = para.getDataType__Parameter();
+		if(paraDataType instanceof PrimitiveDataType) {
+			variableUsage.withNamespaceReference(((PrimitiveDataType) paraDataType).getType().toString(), variable.toString());
+			randomPCMName = ((PrimitiveDataType) paraDataType).getType().toString() + "." + variable.toString();
 			variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
 		}
+		else if(paraDataType instanceof CompositeDataType) {
+			variableUsage.withNamespaceReference(((CompositeDataType) paraDataType).getEntityName(), variable.toString());
+			randomPCMName = ((CompositeDataType) paraDataType).getEntityName() + "." + variable.toString();
+			variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.BYTESIZE);
+		}
+		else {
+			variableUsage.withNamespaceReference(para.getParameterName(), variable.toString());
+			randomPCMName = para.getParameterName() + "." + variable.toString();
+			variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
+		}
+		return variableUsage;
+	}
+	private VariableUsageCreator generateInputVariableUsage(Expression variable) {
+		VariableUsageCreator variableUsage = create.newVariableUsage();
+		variableUsage.withNamespaceReference("PrimitiveType", StaticNameMethods.getExpressionClassName(variable));
+		String randomPCMName = "PrimitiveType" + "." + StaticNameMethods.getExpressionClassName(variable);
+		variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
 		return variableUsage;
 	}
 	/*
 	 * Same as generateVariables above, but for Output Variables 
 	 */
-	private void generateVariables(DataType returnType, ExternalCallActionCreator externalCallActionCreator) {
+	private VariableUsageCreator generateOutputVariableUsage(DataType returnType) {
 		//From ParameterFactory Docs: Note that it was an explicit design decision to refer to variable names instead of the actual variables (i.e., by refering to Parameter class).
 		VariableUsageCreator variableUsage = create.newVariableUsage();
-		
-		//randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
-		//randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString());
 		String randomPCMName;
 
 		if(returnType instanceof PrimitiveDataType) {
@@ -420,8 +409,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			randomPCMName = "tempVariable";
 			variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
 		}
-
-		externalCallActionCreator.withReturnVariableUsage(variableUsage);
+		return variableUsage;
 	}
 
 	private BranchActionCreator generateBranchAction(ASTNode node, BranchActionCreator branchActionCreator) {
