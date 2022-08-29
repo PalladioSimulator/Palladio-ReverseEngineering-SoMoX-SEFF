@@ -303,8 +303,8 @@ Fragen:
 - ???
 - Profit
 
-### Offene Aufgaben (Aufschrieb Fabi)
 
+### Offene Aufgaben (Aufschrieb Fabi)
 - PrÃ¤sentation
 - Readme
 - Variablendeklaration modellieren
@@ -316,6 +316,7 @@ Fragen:
 
 Neue Aufgaben (Aufschrieb Marcel):
 - Variablen aus Interface ziehen anstatt von Ãœbergabe Parametern
+
 - return Variablen setzen
 - Fluent API checken
 

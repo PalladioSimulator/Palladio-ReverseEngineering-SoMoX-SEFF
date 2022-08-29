@@ -16,10 +16,13 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ChildListPropertyDescriptor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.PrimitiveType;
+
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
@@ -84,10 +87,9 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		}
 
         RepoAddition repoAddition = create.newRepository().withName("Simple Repository");
-        
+
         LOGGER.info("Found " + bundleName2methodBundleMap.size() + " Bundles. Computing Interfaces.");
-		int counter = 0;
-        
+		int counter = 0
         for(Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
         	String bundleName = entry.getKey();
         	List<MethodBundlePair> methodAssociationListOfBundle = entry.getValue();
@@ -214,6 +216,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         		
         		bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature);
         	}
+
         	repoAddition.addToRepository(bundleOperationInterfaceCreator);
         }
 
@@ -241,6 +244,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		Repository repository = repoAddition.createRepositoryNow();
 		
 		LOGGER.info("Repository done. Creating XML.");
+
 		this.generateSeffXmlFile(repository);
 
 		LOGGER.info("Task finished.");

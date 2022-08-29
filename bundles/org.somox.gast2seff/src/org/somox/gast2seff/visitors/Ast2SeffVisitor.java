@@ -171,6 +171,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			requiredList.add(requiredInterfaceName);
 			componentRequiredListMap.put(basicComponentName, requiredList);
 		}
+		if(calledFunctionSignature != null && calledFunctionSignature.getReturnType__OperationSignature() != null) {
+			DataType returnType = calledFunctionSignature.getReturnType__OperationSignature();
+			EList<VariableUsage> outputVariables = externalCall.getReturnVariableUsage__CallReturnAction();
+			generateVariables(returnType, outputVariables);
+		}
 	}
 	
 	private void createInternalAction(final ExpressionStatement expressionStatement) {
@@ -339,6 +344,18 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return super.visit(variableDeclarationStatement);
 	}
 	
+	private OperationSignature getOperationSignatureFromInterfaceByName(OperationInterface operationInterface, String name) {
+		EList<OperationSignature> functionList = operationInterface.getSignatures__OperationInterface();
+		if(!functionList.isEmpty() && name != "") {
+			for(OperationSignature signature : functionList) {
+				String signatureName = signature.getEntityName();
+				if(name.equals(signatureName))
+					return signature;
+			}
+		}
+		return null;
+	}
+	
 	/*
 	 * generates Input Variable Usages
 	 * 
@@ -348,7 +365,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	 * 
 	 * Neu in Ast2Seff dazu gekommen, war nicht in JaMoPP vorhanden
 	 * Verhalten aus "MediaStore3 -> AudioWatermarking" abgeschaut +
-	 * zusätzliche infos von: https://www.palladio-simulator.com/tools/tutorials/ (PCM Parameter (PDF) -> 18)
+	 * zusÃ¤tzliche infos von: https://www.palladio-simulator.com/tools/tutorials/ (PCM Parameter (PDF) -> 18)
 	 * 
 	 *** The following types are available
 	 * BYTESIZE: Memory footprint of a parameter

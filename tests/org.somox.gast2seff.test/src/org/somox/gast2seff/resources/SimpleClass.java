@@ -11,6 +11,12 @@ public class SimpleClass {
 		this.TestVariable = classDefinitionInt;
 	}
 
+	int TestVariable;
+	
+	public SimpleClass(int classDefinitionInt) {
+		this.TestVariable = classDefinitionInt;
+	}
+	
 	public void ifMethod() {
 		System.out.println("Hello World!");
 		
