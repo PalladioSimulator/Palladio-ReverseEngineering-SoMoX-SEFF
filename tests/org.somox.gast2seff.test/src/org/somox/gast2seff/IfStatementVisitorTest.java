@@ -105,13 +105,24 @@ public class IfStatementVisitorTest {
 		assertTrue(actionList.get(1) instanceof BranchAction);
 		
 		BranchAction branchAction = (BranchAction) actionList.get(1);
-		AbstractBranchTransition branchTransition = branchAction.getBranches_Branch().get(0);
-		ResourceDemandingBehaviour resourceDemandingBehaviour = branchTransition.getBranchBehaviour_BranchTransition();
+		AbstractBranchTransition firstBranchTransition = branchAction.getBranches_Branch().get(0);
+		AbstractBranchTransition secondBranchTransition = branchAction.getBranches_Branch().get(1);
+
+		AbstractBranchTransition thirdBranchTransition = branchAction.getBranches_Branch().get(2);
+		ResourceDemandingBehaviour firstResourceDemandingBehaviour = firstBranchTransition.getBranchBehaviour_BranchTransition();
+		ResourceDemandingBehaviour secondResourceDemandingBehaviour = secondBranchTransition.getBranchBehaviour_BranchTransition();
+		ResourceDemandingBehaviour thirdResourceDemandingBehaviour = thirdBranchTransition.getBranchBehaviour_BranchTransition();
 		
 		assertEquals(branchAction.getBranches_Branch().size(), 3);
-		assertEquals(resourceDemandingBehaviour.getSteps_Behaviour().size(), 2);
-		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
-		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof StopAction);
+		assertEquals(firstResourceDemandingBehaviour.getSteps_Behaviour().size(), 2);
+		assertTrue(firstResourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
+		assertTrue(firstResourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof StopAction);
+		assertEquals(secondResourceDemandingBehaviour.getSteps_Behaviour().size(), 2);
+		assertTrue(secondResourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
+		assertTrue(secondResourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof StopAction);
+		assertEquals(thirdResourceDemandingBehaviour.getSteps_Behaviour().size(), 2);
+		assertTrue(thirdResourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
+		assertTrue(thirdResourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof StopAction);
 	}
 	
 	@Test
