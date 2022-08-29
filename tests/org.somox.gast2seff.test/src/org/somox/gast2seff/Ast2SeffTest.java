@@ -25,12 +25,10 @@ import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.palladiosimulator.pcm.repository.BasicComponent;
-import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.somox.gast2seff.jobs.Ast2Seff;
-import org.somox.kdmhelper.MethodAssociation;
+import org.somox.kdmhelper.MethodBundlePair;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
@@ -125,8 +123,7 @@ public class Ast2SeffTest {
     	Map<String, CompilationUnit> compUnitMap = parseDirectory(directoryPath);
         
         Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = new HashMap<>();
-        List<MethodAssociation> methodAssociationList = new ArrayList<MethodAssociation>();
-        Map<String, BasicComponent> basicComponentMap = new HashMap<String, BasicComponent>();
+        Map<String, List<MethodBundlePair>> bundleName2methodAssociationMap = new HashMap<String, List<MethodBundlePair>>();
         
         for (var entry : compUnitMap.entrySet()) {
 			List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(entry.getValue());
@@ -138,17 +135,14 @@ public class Ast2SeffTest {
 				if (firstModifier.isModifier()) {
 					Modifier modifier = (Modifier) firstModifier;
 					if (modifier.isPublic()) {
-						ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
-						methodBindingMap.put(methodDeclaration, seff);
 						TypeDeclaration typeDeclaration = (TypeDeclaration) methodDeclaration.getParent();
 						String className = typeDeclaration.getName().toString();
-						if (basicComponentMap.containsKey(className)) {
-							methodAssociationList.add(new MethodAssociation(methodDeclaration, seff, basicComponentMap.get(className))); 
+						if (bundleName2methodAssociationMap.containsKey(className)) {
+							bundleName2methodAssociationMap.get(className).add(new MethodBundlePair(className, methodDeclaration)); 
 						} else {
-							BasicComponent basicComponent = RepositoryFactory.eINSTANCE.createBasicComponent();
-							basicComponent.setEntityName(className);
-							basicComponentMap.put(className, basicComponent);
-							methodAssociationList.add(new MethodAssociation(methodDeclaration, seff, basicComponent)); 
+							List<MethodBundlePair> methodAssociationList = new ArrayList<MethodBundlePair>();
+							methodAssociationList.add(new MethodBundlePair(className, methodDeclaration));
+							bundleName2methodAssociationMap.put(className, methodAssociationList); 
 						}
 					}
 				}
@@ -160,8 +154,7 @@ public class Ast2SeffTest {
         // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
         Blackboard<Object> blackboard = new Blackboard<>();
         
-        blackboard.addPartition("methodBindingMap", methodBindingMap);
-        blackboard.addPartition("methodAssociationList", methodAssociationList);
+        blackboard.addPartition("bundleName2methodAssociationMap", bundleName2methodAssociationMap);
         
         ast2SeffJob.setBlackboard(blackboard);
         NullProgressMonitor progressMonitor = new NullProgressMonitor();

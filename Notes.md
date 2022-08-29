@@ -295,36 +295,51 @@ Fragen:
 
 ### HowTo: Fix representation.aird
 
-- Alles aus XML-Element "diagram:DSemanticDiagram" löschen (nicht sicher ob nötig)
+- Alles aus XML-Element "diagram:DSemanticDiagram" lÃ¶schen (nicht sicher ob nÃ¶tig)
 - rechtsklick auf Projekt Bundle indem representation.aird enthalten ist
 - Copy
 - Mit Paste als neues Projekt anlegen
-- Representations für repositories neu erstellen
+- Representations fÃ¼r repositories neu erstellen
 - ???
 - Profit
 
-### Offene Aufgaben (Aufschrieb Fabi)
 
-- Präsentation
+### Offene Aufgaben (Aufschrieb Fabi)
+- PrÃ¤sentation
 - Readme
 - Variablendeklaration modellieren
 - Composite/Collection Data Types modellieren
   - FluentApi Einsatz?
 - Benamung aller SEFF-Elemente
-- Code aufräumen
-- FluentAPI überprüfen
+- Code aufrÃ¤umen
+- FluentAPI Ã¼berprÃ¼fen
 
 Neue Aufgaben (Aufschrieb Marcel):
-- Variablen aus Interface ziehen anstatt von Übergabe Parametern
+- Variablen aus Interface ziehen anstatt von Ãœbergabe Parametern
+
 - return Variablen setzen
 - Fluent API checken
 
 Fragen:
-- External call bei überladenen Funktionen (welche wird aufgerufen?)
+- External call bei Ã¼berladenen Funktionen (welche wird aufgerufen?)
 - Wie sollen Variablen aussehen? MediaStore gibt nicht viel her
 
 Bearbeitete Aufgaben:
 - Composite/Collection Data Types modellieren (ohne weitere parameter)
-- Variablen aus Interface ziehen anstatt von Übergabe Parametern
+- Variablen aus Interface ziehen anstatt von Ãœbergabe Parametern
 - return Variablen setzen (bisher nur primitive, muss refactored werden)
-- FluentAPI überprüfen
+- FluentAPI Ã¼berprÃ¼fen
+
+### Offene Aufgaben (Aufschrieb Marcel 22.08)
+- (Marcel) Aufräumen -> Alte Dateien raus + überflüssigen/auskommentierten Code
+- (Marcel) CompositeDataType
+- (Marcel) InternallCallAction fertigstellen
+- (Fabi) Entity Names richtig setzen
+- (Fabi) Tests + Testplan (Überdeckung?)
+- (Fabi) Sekretariat schreiben wegen Präsentation, nacheinander oder zusammen, gemeinsame Fragerunde) 
+- (Fabi) ToDo für Probabilistic setzen (Limitation)
+- (Beide) Refactoring ?
+- (Beide) Checkstyle + SpotBugs Eclipse Plugin
+- Event Based Communication
+- Expression aus if Condition (ggf. Limitation)
+- Doku (Überschriften planen, an anderen Projekten orientieren)

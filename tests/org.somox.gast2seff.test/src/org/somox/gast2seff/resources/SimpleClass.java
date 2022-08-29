@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleClass {
+	
+	int TestVariable;
+	
+	public SimpleClass(int classDefinitionInt) {
+		this.TestVariable = classDefinitionInt;
+	}
 
 	int TestVariable;
 	
