@@ -39,7 +39,6 @@ import org.palladiosimulator.pcm.parameter.VariableCharacterisationType;
 import org.palladiosimulator.pcm.reliability.ResourceTimeoutFailureType;
 import org.palladiosimulator.pcm.repository.CompositeDataType;
 import org.palladiosimulator.pcm.repository.DataType;
-import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.Parameter;
 import org.palladiosimulator.pcm.repository.PrimitiveDataType;
@@ -59,7 +58,6 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private ActionSeff actionSeff;
 	private BasicComponentCreator basicComponentCreator;
 	private ComponentInformation componentInformation;
-	private boolean isPassiveResourceSet = false;
 	
 	public Ast2SeffVisitor(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create) {
 		this.actionSeff = actionSeff;
@@ -212,35 +210,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	public boolean visit(final SynchronizedStatement synchronizedStatement) {
-		Expression exp = synchronizedStatement.getExpression();
-		String className = StaticNameMethods.getClassName(exp) + ".class";
 		
 		if (!componentInformation.getIsPassiveResourceSet()) {
 			basicComponentCreator.withPassiveResource("1", (ResourceTimeoutFailureType) create.newResourceTimeoutFailureType("PassiveResourceTimeoutFailure").build(), "Passive Resource");
 			componentInformation.setPassiveResourceSetTrue();
 		}
-		
-		
-//		PassiveResource passiveResource = RepositoryFactory.eINSTANCE.createPassiveResource();
-//		passiveResource.setCapacity_PassiveResource(CoreFactory.eINSTANCE.createPCMRandomVariable());
-//		StaticNameMethods.setEntityName(passiveResource, className);
-//		passiveResource.getCapacity_PassiveResource().setSpecification("1");
-//		if (this.basicComponent.getPassiveResource_BasicComponent().isEmpty())
-//			this.basicComponent.getPassiveResource_BasicComponent().add(passiveResource);
-//		else {
-//			EList<PassiveResource> passiveResoceList = this.basicComponent.getPassiveResource_BasicComponent();
-//			boolean found = false;
-//			for (PassiveResource entry : passiveResoceList) {
-//				if (found)
-//					break;
-//				if (entry.getEntityName() == className) {
-//					found = true;
-//					passiveResource = entry;
-//				}
-//			}
-//			if(!found)
-//				this.basicComponent.getPassiveResource_BasicComponent().add(passiveResource);
-//		}
 
 		actionSeff = actionSeff.acquireAction().withName("Aquire Action").withPassiveResource(create.fetchOfPassiveResource("Passive Resource")).followedBy();
 
@@ -348,7 +322,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	 * 
 	 * Neu in Ast2Seff dazu gekommen, war nicht in JaMoPP vorhanden
 	 * Verhalten aus "MediaStore3 -> AudioWatermarking" abgeschaut +
-	 * zusätzliche infos von: https://www.palladio-simulator.com/tools/tutorials/ (PCM Parameter (PDF) -> 18)
+	 * zusï¿½tzliche infos von: https://www.palladio-simulator.com/tools/tutorials/ (PCM Parameter (PDF) -> 18)
 	 * 
 	 *** The following types are available
 	 * BYTESIZE: Memory footprint of a parameter
@@ -418,8 +392,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		if(node instanceof IfStatement) {
 			IfStatement ifStatement = (IfStatement) node;
 			node = ifStatement.getThenStatement();
-		}
-		else if (node instanceof TryStatement) {
+		} else if (node instanceof TryStatement) {
 			TryStatement tryStatement = (TryStatement) node;
 			node = tryStatement.getBody();
 		}
@@ -427,7 +400,6 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName("Start Action").followedBy();
 		innerActionSeff = this.perform(node, innerActionSeff);
 		SeffCreator seffCreator = innerActionSeff.stopAction().withName("Stop Action").createBehaviourNow();
-		
 		branchActionCreator.withGuardedBranchTransition("expression", seffCreator, "Guarded Branch Transition");
 
 		return branchActionCreator;

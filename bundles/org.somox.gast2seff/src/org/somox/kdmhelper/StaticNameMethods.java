@@ -27,14 +27,17 @@ public class StaticNameMethods {
 	public static String getClassName(MethodInvocation methodInvocation) {
 		return StaticNameMethods.getClassName(methodInvocation.getExpression());
 	}
+	
 	public static String getClassName(Expression calledClass) {
 		String result = "unknown";
-		ITypeBinding bindingExpression = calledClass.resolveTypeBinding();
-		if(bindingExpression != null && bindingExpression.getPackage() != null)
-			result = bindingExpression.getBinaryName();
-		else
-			logger.warn("No Class Name found for: " + calledClass.toString());
-		
+		if (calledClass.resolveTypeBinding() != null) {
+			ITypeBinding bindingExpression = calledClass.resolveTypeBinding();
+			if (bindingExpression != null && bindingExpression.getPackage() != null) {
+				result = bindingExpression.getBinaryName();
+			} else {
+				logger.warn("No Class Name found for: " + calledClass.toString());							
+			}
+		}
 		return result;
 	}
 	public static String getExpressionClassName(Expression variable) {

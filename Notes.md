@@ -333,9 +333,9 @@ Bearbeitete Aufgaben:
 - (Marcel) Aufräumen -> Alte Dateien raus + überflüssigen/auskommentierten Code
 - (Marcel) CompositeDataType
 - (Marcel) InternallCallAction fertigstellen
-- (Fabi) Entity Names richtig setzen
+- (Fabi) Entity Names richtig setzen -> Entity Names im Source Code setzen 
 - (Fabi) Tests + Testplan (Überdeckung?)
-- (Fabi) Sekretariat schreiben wegen Präsentation, nacheinander oder zusammen, gemeinsame Fragerunde) 
+- (Fabi) Sekretariat schreiben wegen Präsentation  (nacheinander oder zusammen, gemeinsame Fragerunde) 
 - (Fabi) ToDo für Probabilistic setzen (Limitation)
 - (Beide) Refactoring ?
 - (Beide) Checkstyle + SpotBugs Eclipse Plugin
