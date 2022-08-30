@@ -1,12 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.somox.gast2seff.test
-Bundle-SymbolicName: org.somox.gast2seff.test
+Bundle-SymbolicName: org.somox.ast2seff.test
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: somox.org
 Automatic-Module-Name: org.somox.gast2seff.test
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Require-Bundle: org.somox.gast2seff,
+Require-Bundle: org.somox.ast2seff,
  org.junit.jupiter.api,
  de.uka.ipd.sdq.workflow,
  org.eclipse.ui,

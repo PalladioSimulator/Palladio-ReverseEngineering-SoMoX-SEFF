@@ -1,4 +1,4 @@
-package org.somox.kdmhelper;
+package org.somox.ast2seff.models;
 
 public class MethodPalladioInformation {
 

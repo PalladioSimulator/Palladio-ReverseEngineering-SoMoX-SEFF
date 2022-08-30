@@ -1,4 +1,4 @@
-package org.somox.gast2seff;
+package org.somox.ast2seff;
 
 import java.util.ArrayList;
 import java.util.Collections;

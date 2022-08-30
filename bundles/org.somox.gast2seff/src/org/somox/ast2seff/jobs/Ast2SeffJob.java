@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.somox.gast2seff.jobs;
+package org.somox.ast2seff.jobs;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,10 +36,10 @@ import org.palladiosimulator.generator.fluent.repository.structure.internals.Pri
 import org.palladiosimulator.generator.fluent.repository.structure.types.CompositeDataTypeCreator;
 import org.palladiosimulator.pcm.repository.ParameterModifier;
 import org.palladiosimulator.pcm.repository.Repository;
-import org.somox.gast2seff.visitors.Ast2SeffVisitor;
-import org.somox.kdmhelper.ComponentInformation;
-import org.somox.kdmhelper.MethodBundlePair;
-import org.somox.kdmhelper.MethodPalladioInformation;
+import org.somox.ast2seff.models.ComponentInformation;
+import org.somox.ast2seff.models.MethodBundlePair;
+import org.somox.ast2seff.models.MethodPalladioInformation;
+import org.somox.ast2seff.visitors.Ast2SeffVisitor;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
@@ -53,9 +53,9 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
  *
  * @author Steffen Becker, Klaus Krogmann
  */
-public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
+public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>> {
 
-	private static final Logger LOGGER = Logger.getLogger(Ast2Seff.class);
+	private static final Logger LOGGER = Logger.getLogger(Ast2SeffJob.class);
 	private static final FluentRepositoryFactory create = new FluentRepositoryFactory();
 	
 	/** The SoMoX blackboard to interact with. */
@@ -66,7 +66,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	private Map<String, List<MethodBundlePair>> bundleName2methodBundleMap;
 	private List<String> parameterList = new ArrayList<String>();
 
-	public Ast2Seff() {
+	public Ast2SeffJob() {
 	}
 
 	/*

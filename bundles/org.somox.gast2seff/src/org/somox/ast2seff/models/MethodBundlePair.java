@@ -1,4 +1,4 @@
-package org.somox.kdmhelper;
+package org.somox.ast2seff.models;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 

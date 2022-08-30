@@ -1,4 +1,4 @@
-package org.somox.gast2seff;
+package org.somox.ast2seff;
 
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.CompilationUnit;

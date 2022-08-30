@@ -1,4 +1,4 @@
-package org.somox.gast2seff.resources;
+package org.somox.gast2seff.res;
 
 import java.util.ArrayList;
 import java.util.List;

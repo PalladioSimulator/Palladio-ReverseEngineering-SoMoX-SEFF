@@ -1,4 +1,4 @@
-package org.somox.kdmhelper;
+package org.somox.ast2seff.util;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
@@ -19,7 +19,7 @@ import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.WhileStatement;
-import org.somox.gast2seff.visitors.Ast2SeffVisitor;
+import org.somox.ast2seff.visitors.Ast2SeffVisitor;
 
 public class StaticNameMethods {
 	private static final Logger logger = Logger.getLogger(Ast2SeffVisitor.class);
@@ -27,14 +27,17 @@ public class StaticNameMethods {
 	public static String getClassName(MethodInvocation methodInvocation) {
 		return StaticNameMethods.getClassName(methodInvocation.getExpression());
 	}
+	
 	public static String getClassName(Expression calledClass) {
 		String result = "unknown";
-		ITypeBinding bindingExpression = calledClass.resolveTypeBinding();
-		if(bindingExpression != null && bindingExpression.getPackage() != null)
-			result = bindingExpression.getBinaryName();
-		else
-			logger.warn("No Class Name found for: " + calledClass.toString());
-		
+		if (calledClass.resolveTypeBinding() != null) {
+			ITypeBinding bindingExpression = calledClass.resolveTypeBinding();
+			if (bindingExpression != null && bindingExpression.getPackage() != null) {
+				result = bindingExpression.getBinaryName();
+			} else {
+				logger.warn("No Class Name found for: " + calledClass.toString());							
+			}
+		}
 		return result;
 	}
 	public static String getExpressionClassName(Expression variable) {

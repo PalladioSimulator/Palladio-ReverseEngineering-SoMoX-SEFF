@@ -1,4 +1,4 @@
-package org.somox.gast2seff;
+package org.somox.ast2seff;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,8 +27,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.SeffFactory;
-import org.somox.gast2seff.jobs.Ast2Seff;
-import org.somox.kdmhelper.MethodBundlePair;
+import org.somox.ast2seff.jobs.Ast2SeffJob;
+import org.somox.ast2seff.models.MethodBundlePair;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
@@ -88,7 +88,7 @@ public class Ast2SeffTest {
         parser.setResolveBindings(true);
         parser.setKind(ASTParser.K_COMPILATION_UNIT);
         parser.setBindingsRecovery(true);
-        File resource = new File("src/org/somox/gast2seff/resources/SimpleClass.java");
+        File resource = new File("src/org/somox/gast2seff/res/SimpleClass.java");
         java.nio.file.Path sourcePath = Paths.get(resource.toURI());
         String sourceString = new String(Files.readAllBytes(sourcePath));
         char[] source = sourceString.toCharArray();
@@ -104,7 +104,7 @@ public class Ast2SeffTest {
             methodBindingMap.put(methodDeclaration, seff);
         }
 
-        Ast2Seff ast2SeffJob = new Ast2Seff();
+        Ast2SeffJob ast2SeffJob = new Ast2SeffJob();
         // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
         Blackboard<Object> blackboard = new Blackboard<>();
         
@@ -119,7 +119,7 @@ public class Ast2SeffTest {
     @Test
     public void testAllClassesInDirectory() throws JobFailedException, UserCanceledException, IOException {
     	
-    	Path directoryPath = Path.of("src/org/somox/gast2seff/resources");
+    	Path directoryPath = Path.of("src/org/somox/gast2seff/res");
     	Map<String, CompilationUnit> compUnitMap = parseDirectory(directoryPath);
         
         Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = new HashMap<>();
@@ -150,7 +150,7 @@ public class Ast2SeffTest {
 		}
         
        
-        Ast2Seff ast2SeffJob = new Ast2Seff();
+        Ast2SeffJob ast2SeffJob = new Ast2SeffJob();
         // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
         Blackboard<Object> blackboard = new Blackboard<>();
         
@@ -171,7 +171,7 @@ public class Ast2SeffTest {
         parser.setKind(ASTParser.K_COMPILATION_UNIT);
         parser.setBindingsRecovery(true);
         parser.setStatementsRecovery(true);
-        File resource = new File("src/org/somox/gast2seff/resources/SimpleExternalClass.java");
+        File resource = new File("src/org/somox/gast2seff/res/SimpleExternalClass.java");
         java.nio.file.Path sourcePath = Paths.get(resource.toURI());
         String sourceString = new String(Files.readAllBytes(sourcePath));
         char[] source = sourceString.toCharArray();
@@ -187,7 +187,7 @@ public class Ast2SeffTest {
             methodBindingMap.put(methodDeclaration, seff);
         }
 
-        Ast2Seff ast2SeffJob = new Ast2Seff();
+        Ast2SeffJob ast2SeffJob = new Ast2SeffJob();
         // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
         Blackboard<Object> blackboard = new Blackboard<>();
         
