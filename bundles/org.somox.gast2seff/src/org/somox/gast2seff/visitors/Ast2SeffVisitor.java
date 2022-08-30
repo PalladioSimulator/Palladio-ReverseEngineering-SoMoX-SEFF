@@ -39,7 +39,6 @@ import org.palladiosimulator.pcm.parameter.VariableCharacterisationType;
 import org.palladiosimulator.pcm.reliability.ResourceTimeoutFailureType;
 import org.palladiosimulator.pcm.repository.CompositeDataType;
 import org.palladiosimulator.pcm.repository.DataType;
-import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.Parameter;
 import org.palladiosimulator.pcm.repository.PrimitiveDataType;
@@ -88,12 +87,13 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		Expression expression = expressionStatement.getExpression();
 
 		if(expression instanceof Assignment) {
-			//Variable Assignment
-			Assignment transformedExpression = (Assignment) expression;
-			SetVariableActionCreator setVariableActionCreator = actionSeff.setVariableAction();
-			VariableUsageCreator inputVariable = this.generateInputVariableUsage(transformedExpression.getRightHandSide());
-			setVariableActionCreator.withLocalVariableUsage(inputVariable);
-			this.actionSeff = setVariableActionCreator.followedBy();
+			//TODO: further tests if this makes sense
+			////Variable Assignment
+			//Assignment transformedExpression = (Assignment) expression;
+			//SetVariableActionCreator setVariableActionCreator = actionSeff.setVariableAction();
+			//VariableUsageCreator inputVariable = this.generateInputVariableUsage(transformedExpression.getRightHandSide());
+			//setVariableActionCreator.withLocalVariableUsage(inputVariable);
+			//this.actionSeff = setVariableActionCreator.followedBy();
 		} else if (expression instanceof MethodInvocation && this.isExternal((MethodInvocation) expression)) {
 			//internal / external Action
 			MethodInvocation methodInvocation = (MethodInvocation) expression;
@@ -109,7 +109,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			// 		 -> enter method body and generate seff for it
 			createInternalAction(expressionStatement);
 		}
-		return super.visit(expressionStatement);
+		return false;
 	}
 	
 	private void generateClassMethodSeff(MethodPalladioInformation methodPalladioInformation) {
@@ -125,7 +125,6 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		externalCallActionCreator.withCalledService(create.fetchOfOperationSignature(externalMethodInformation.getOperationSignatureName()));
 		externalCallActionCreator.withRequiredRole(create.fetchOfOperationRequiredRole(externalMethodInformation.getOperationInterfaceName()));
 		
-		// TODO: Change to Fluent Api
 		OperationSignature calledFunctionSignature = create.fetchOfOperationSignature(externalMethodInformation.getOperationSignatureName());
 		VariableUsageCreator variableUsage;
 		if(!methodInvocation.arguments().isEmpty()) {

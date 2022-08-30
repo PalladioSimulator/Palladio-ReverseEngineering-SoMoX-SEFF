@@ -342,3 +342,10 @@ Bearbeitete Aufgaben:
 - Event Based Communication
 - Expression aus if Condition (ggf. Limitation)
 - Doku (Ãœberschriften planen, an anderen Projekten orientieren)
+
+### Offene Aufgaben (Aufschrieb Marcel 29.08)
+- .project aus gitignore nehmen und in Fork hinzufügen
+- Jenkinsfile loeschen
+- resource ordner fuer SimpleClass / SimpleExternalClass erstellen (niedrige prio, link im teams)
+- gast2seff -> ast2seff
+- kdmhelper -> helper und in ast2seff zu visitors / jobs schieben und org.somox.gast2seff -> org.palladiosimulator.somox.ast2seff

@@ -4,6 +4,7 @@
 package org.somox.gast2seff.jobs;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +64,7 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 	private Map<String, MethodPalladioInformation> methodPalladioInfoMap = new HashMap<>();
 	private Map<MethodBundlePair, MethodPalladioInformation> methodBundlePalladioInfoMap = new HashMap<>();
 	private Map<String, List<MethodBundlePair>> bundleName2methodBundleMap;
+	private List<String> parameterList = new ArrayList<String>();
 
 	public Ast2Seff() {
 	}
@@ -148,13 +150,18 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
         						// TODO: handle error
         					}
         					
-        					methodOperationSignature.withParameter(parameterName, primitive, ParameterModifier.IN);
+        					//if(parameterList.contains(primitiveTypeCodeString)) {
+        					//	methodOperationSignature.withParameter(parameterName, create.fetchOfDataType(primitive), ParameterModifier.IN);
+        					//} else {
+        						methodOperationSignature.withParameter(parameterName, primitive, ParameterModifier.IN);
+        					//	parameterList.add(primitiveTypeCodeString);
+        					//}
         				} else if(type.isSimpleType()) {
-        					//SimpleType simpleType = (SimpleType) type;
-        					//CompositeDataTypeCreator compositeDataType = create.newCompositeDataType().withName(simpleType.toString());
+        					SimpleType simpleType = (SimpleType) type;
+        					CompositeDataTypeCreator compositeDataType = create.newCompositeDataType().withName(simpleType.toString());
 //        					
 //        					//testing stuff
-        					//compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
+        					compositeDataType = compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
 //        					IVariableBinding binding = variableDeclaration.resolveBinding();
 //        					if(binding.getDeclaringClass() != null) {
 //        						int test = 3;
@@ -174,7 +181,13 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 //        						////end Snipped
         					//}
         					//end testing stuff
-        					//methodOperationSignature.withParameter(parameterName, compositeDataType.build(), ParameterModifier.IN);
+        					if(parameterList.contains(simpleType.toString())) {
+        						methodOperationSignature.withParameter(parameterName, compositeDataType.build(), ParameterModifier.IN);
+        						//methodOperationSignature.withParameter(parameterName, create.fetchOfCompositeDataType("Simple Repository." + simpleType.toString()), ParameterModifier.IN);
+        					} else {
+        						methodOperationSignature.withParameter(parameterName, compositeDataType.build(), ParameterModifier.IN);
+        						parameterList.add(simpleType.toString());
+        					}
         				}
         			}
         		}
@@ -246,8 +259,6 @@ public class Ast2Seff implements IBlackboardInteractingJob<Blackboard<Object>> {
 		LOGGER.info("Task finished.");
 		subMonitor.done();
 	}
-	
-
 
 	/*
 	 * (non-Javadoc)
