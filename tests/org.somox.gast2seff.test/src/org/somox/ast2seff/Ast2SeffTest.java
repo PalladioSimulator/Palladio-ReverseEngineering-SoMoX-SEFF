@@ -1,4 +1,4 @@
-package org.somox.gast2seff;
+package org.somox.ast2seff;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,7 +88,7 @@ public class Ast2SeffTest {
         parser.setResolveBindings(true);
         parser.setKind(ASTParser.K_COMPILATION_UNIT);
         parser.setBindingsRecovery(true);
-        File resource = new File("src/org/somox/gast2seff/resources/SimpleClass.java");
+        File resource = new File("src/org/somox/gast2seff/res/SimpleClass.java");
         java.nio.file.Path sourcePath = Paths.get(resource.toURI());
         String sourceString = new String(Files.readAllBytes(sourcePath));
         char[] source = sourceString.toCharArray();
@@ -119,7 +119,7 @@ public class Ast2SeffTest {
     @Test
     public void testAllClassesInDirectory() throws JobFailedException, UserCanceledException, IOException {
     	
-    	Path directoryPath = Path.of("src/org/somox/gast2seff/resources");
+    	Path directoryPath = Path.of("src/org/somox/gast2seff/res");
     	Map<String, CompilationUnit> compUnitMap = parseDirectory(directoryPath);
         
         Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = new HashMap<>();
@@ -171,7 +171,7 @@ public class Ast2SeffTest {
         parser.setKind(ASTParser.K_COMPILATION_UNIT);
         parser.setBindingsRecovery(true);
         parser.setStatementsRecovery(true);
-        File resource = new File("src/org/somox/gast2seff/resources/SimpleExternalClass.java");
+        File resource = new File("src/org/somox/gast2seff/res/SimpleExternalClass.java");
         java.nio.file.Path sourcePath = Paths.get(resource.toURI());
         String sourceString = new String(Files.readAllBytes(sourcePath));
         char[] source = sourceString.toCharArray();

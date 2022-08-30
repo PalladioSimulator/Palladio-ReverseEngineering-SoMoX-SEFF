@@ -1,4 +1,4 @@
-package org.somox.gast2seff.resources;
+package org.somox.gast2seff.res;
 
 public class SimpleExternalClass {
 
@@ -28,6 +28,6 @@ public class SimpleExternalClass {
 		System.out.println("just some logging");
 	}
 	
-	// TODO: Parameterübergabe
+	// TODO: Parameterï¿½bergabe
 	// TODO: External Calls
 }

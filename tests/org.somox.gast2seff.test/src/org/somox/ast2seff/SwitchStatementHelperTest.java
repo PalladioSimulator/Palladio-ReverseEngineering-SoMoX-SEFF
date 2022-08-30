@@ -1,4 +1,4 @@
-package org.somox.gast2seff;
+package org.somox.ast2seff;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
