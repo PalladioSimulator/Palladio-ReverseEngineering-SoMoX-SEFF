@@ -81,7 +81,6 @@ public class ForStatementVisitorTest {
 	}
 	
 	@Test
-	@Disabled
 	public void singleStatementTest() {
 		
 		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
@@ -90,6 +89,9 @@ public class ForStatementVisitorTest {
 		BasicComponentCreator basicComponentCreator = create.newBasicComponent();
 		AST ast = AST.newAST(AST.getJLSLatest(), false);
 		ForStatement forStatement = ast.newForStatement();
+		forStatement.initializers().add(ast.newVariableDeclarationExpression(ast.newVariableDeclarationFragment()));
+		forStatement.setExpression(ast.newInfixExpression());
+		forStatement.updaters().add(ast.newPostfixExpression());
 		Block block = ast.newBlock();
 		MethodInvocation methodInvocation = ast.newMethodInvocation();
 		methodInvocation.setName(ast.newSimpleName("SimpleName"));
@@ -117,7 +119,6 @@ public class ForStatementVisitorTest {
 	}
 	
 	@Test
-	@Disabled
 	public void statementInsideSameStatementTest() {
 		
 		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
@@ -126,8 +127,14 @@ public class ForStatementVisitorTest {
 		BasicComponentCreator basicComponentCreator = create.newBasicComponent();
 		AST ast = AST.newAST(AST.getJLSLatest(), false);
 		ForStatement forStatement = ast.newForStatement();
+		forStatement.initializers().add(ast.newVariableDeclarationExpression(ast.newVariableDeclarationFragment()));
+		forStatement.setExpression(ast.newInfixExpression());
+		forStatement.updaters().add(ast.newPostfixExpression());
 		Block block = ast.newBlock();
 		ForStatement innerForStatement = ast.newForStatement();
+		innerForStatement.initializers().add(ast.newVariableDeclarationExpression(ast.newVariableDeclarationFragment()));
+		innerForStatement.setExpression(ast.newInfixExpression());
+		innerForStatement.updaters().add(ast.newPostfixExpression());
 		innerForStatement.setBody(ast.newBlock());
 		forStatement.setBody(innerForStatement);
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", forStatement);
@@ -151,7 +158,6 @@ public class ForStatementVisitorTest {
 	}
 	
 	@Test
-	@Disabled
 	public void statementInsideOtherStatementTest() {
 		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
 		Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
@@ -159,6 +165,9 @@ public class ForStatementVisitorTest {
 		BasicComponentCreator basicComponentCreator = create.newBasicComponent();
 		AST ast = AST.newAST(AST.getJLSLatest(), false);
 		ForStatement forStatement = ast.newForStatement();
+		forStatement.initializers().add(ast.newVariableDeclarationExpression(ast.newVariableDeclarationFragment()));
+		forStatement.setExpression(ast.newInfixExpression());
+		forStatement.updaters().add(ast.newPostfixExpression());
 		Block block = ast.newBlock();
 		WhileStatement whileStatement = ast.newWhileStatement();
 		block.statements().add(whileStatement);
