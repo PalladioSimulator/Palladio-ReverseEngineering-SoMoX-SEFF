@@ -27,8 +27,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.SeffFactory;
-import org.somox.gast2seff.jobs.Ast2Seff;
-import org.somox.kdmhelper.MethodBundlePair;
+import org.somox.ast2seff.jobs.Ast2SeffJob;
+import org.somox.ast2seff.models.MethodBundlePair;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
@@ -104,7 +104,7 @@ public class Ast2SeffTest {
             methodBindingMap.put(methodDeclaration, seff);
         }
 
-        Ast2Seff ast2SeffJob = new Ast2Seff();
+        Ast2SeffJob ast2SeffJob = new Ast2SeffJob();
         // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
         Blackboard<Object> blackboard = new Blackboard<>();
         
@@ -150,7 +150,7 @@ public class Ast2SeffTest {
 		}
         
        
-        Ast2Seff ast2SeffJob = new Ast2Seff();
+        Ast2SeffJob ast2SeffJob = new Ast2SeffJob();
         // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
         Blackboard<Object> blackboard = new Blackboard<>();
         
@@ -187,7 +187,7 @@ public class Ast2SeffTest {
             methodBindingMap.put(methodDeclaration, seff);
         }
 
-        Ast2Seff ast2SeffJob = new Ast2Seff();
+        Ast2SeffJob ast2SeffJob = new Ast2SeffJob();
         // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
         Blackboard<Object> blackboard = new Blackboard<>();
         

@@ -27,10 +27,10 @@ import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
-import org.somox.gast2seff.visitors.Ast2SeffVisitor;
-import org.somox.kdmhelper.ComponentInformation;
-import org.somox.kdmhelper.MethodBundlePair;
-import org.somox.kdmhelper.MethodPalladioInformation;
+import org.somox.ast2seff.models.ComponentInformation;
+import org.somox.ast2seff.models.MethodBundlePair;
+import org.somox.ast2seff.models.MethodPalladioInformation;
+import org.somox.ast2seff.visitors.Ast2SeffVisitor;
 
 public class ForStatementVisitorTest {
 

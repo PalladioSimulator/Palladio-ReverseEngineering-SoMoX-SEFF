@@ -1,4 +1,4 @@
-package org.somox.gast2seff.visitors;
+package org.somox.ast2seff.util;
 
 import java.util.ArrayList;
 import java.util.List;

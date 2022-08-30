@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.SwitchCase;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.junit.jupiter.api.Test;
-import org.somox.gast2seff.visitors.SwitchStatementHelper;
+import org.somox.ast2seff.util.SwitchStatementHelper;
 
 public class SwitchStatementHelperTest {
 	

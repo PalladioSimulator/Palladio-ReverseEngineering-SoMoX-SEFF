@@ -1,4 +1,4 @@
-package org.somox.gast2seff.visitors;
+package org.somox.ast2seff.visitors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +42,11 @@ import org.palladiosimulator.pcm.repository.DataType;
 import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.Parameter;
 import org.palladiosimulator.pcm.repository.PrimitiveDataType;
-import org.somox.kdmhelper.ComponentInformation;
-import org.somox.kdmhelper.MethodBundlePair;
-import org.somox.kdmhelper.MethodPalladioInformation;
-import org.somox.kdmhelper.StaticNameMethods;
+import org.somox.ast2seff.models.ComponentInformation;
+import org.somox.ast2seff.models.MethodBundlePair;
+import org.somox.ast2seff.models.MethodPalladioInformation;
+import org.somox.ast2seff.util.StaticNameMethods;
+import org.somox.ast2seff.util.SwitchStatementHelper;
 
 public class Ast2SeffVisitor extends ASTVisitor {
 
