@@ -128,100 +128,39 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
         				Type type = variableDeclaration.getType();
         				String parameterName = variableDeclaration.getName().toString();
         				if (type.isPrimitiveType()) {
-        					Primitive primitive = Primitive.STRING;
         					PrimitiveType primitiveType = (PrimitiveType) type;
         					String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode().toString();
-        					
-        					if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
-        						primitive = Primitive.INTEGER;
-        					} else if (primitiveTypeCodeString.equals(PrimitiveType.SHORT.toString())) {
-        						primitive = Primitive.INTEGER;
-        					} else if (primitiveTypeCodeString.equals(PrimitiveType.DOUBLE.toString())) {
-        						primitive = Primitive.DOUBLE;
-        					} else if (primitiveTypeCodeString.equals(PrimitiveType.FLOAT.toString())) {
-        						primitive = Primitive.DOUBLE;
-        					} else if (primitiveTypeCodeString.equals(PrimitiveType.CHAR.toString())) {
-        						primitive = Primitive.CHAR;
-        					} else if (primitiveTypeCodeString.equals(PrimitiveType.BYTE.toString())) {
-        						primitive = Primitive.BYTE;
-        					} else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
-        						primitive = Primitive.BOOLEAN;
+
+        					if(parameterList.contains(primitiveTypeCodeString)) {
+        						Primitive primitive = this.getPrimitiveType(primitiveTypeCodeString);
+        						methodOperationSignature.withParameter(parameterName, create.fetchOfDataType(primitive), ParameterModifier.IN);
         					} else {
-        						// TODO: handle error
-        					}
-        					
-        					//if(parameterList.contains(primitiveTypeCodeString)) {
-        					//	methodOperationSignature.withParameter(parameterName, create.fetchOfDataType(primitive), ParameterModifier.IN);
-        					//} else {
+        						Primitive primitive = this.getPrimitiveType(primitiveTypeCodeString);
         						methodOperationSignature.withParameter(parameterName, primitive, ParameterModifier.IN);
-        					//	parameterList.add(primitiveTypeCodeString);
-        					//}
+        						parameterList.add(primitiveTypeCodeString);
+        					}
         				} else if(type.isSimpleType()) {
         					SimpleType simpleType = (SimpleType) type;
-        					CompositeDataTypeCreator compositeDataType = create.newCompositeDataType().withName(simpleType.toString());
-//        					
-//        					//testing stuff
-        					compositeDataType = compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
-//        					IVariableBinding binding = variableDeclaration.resolveBinding();
-//        					if(binding.getDeclaringClass() != null) {
-//        						int test = 3;
-//        						int testasdf = 5;
-//        						
-//        						//TODO: add primitiveTypes
-//        						////Composite Data Type Snipped
-//        						//EList<DataType> repositoryDataTypes = repository.getDataTypes__Repository();
-//        						//PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
-//        						//primitiveDataType.setType(PrimitiveTypeEnum.INT);
-//        						//primitiveDataType.setRepository__DataType(repository);
-//        						//InnerDeclaration innerDataType = RepositoryFactory.eINSTANCE.createInnerDeclaration();
-//        						//innerDataType.setEntityName("TestInnerName");
-//        						//innerDataType.setDatatype_InnerDeclaration(primitiveDataType);
-//        						//compositeDataType.getInnerDeclaration_CompositeDataType().add(innerDataType);
-//        						//repositoryDataTypes.add(compositeDataType);
-//        						////end Snipped
-        					//}
-        					//end testing stuff
-        					if(parameterList.contains(simpleType.toString())) {
-        						methodOperationSignature.withParameter(parameterName, compositeDataType.build(), ParameterModifier.IN);
-        						//methodOperationSignature.withParameter(parameterName, create.fetchOfCompositeDataType("Simple Repository." + simpleType.toString()), ParameterModifier.IN);
-        					} else {
-        						methodOperationSignature.withParameter(parameterName, compositeDataType.build(), ParameterModifier.IN);
+        					
+        					if(!parameterList.contains(simpleType.toString())) {
+            					CompositeDataTypeCreator compositeDataType = create.newCompositeDataType().withName(simpleType.toString());
+            					if(simpleType.toString().equals("SimpleClass"))
+            						compositeDataType = compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
+        						repoAddition.addToRepository(compositeDataType);
         						parameterList.add(simpleType.toString());
         					}
+        					methodOperationSignature.withParameter(parameterName, create.fetchOfCompositeDataType(simpleType.toString()), ParameterModifier.IN);
         				}
         			}
         		}
         		
         		Type returnType = methodDeclaration.getReturnType2();
         		if(returnType != null && returnType.isPrimitiveType()) {
-        			Primitive primitive = Primitive.STRING;
-        			//PrimitiveDataType primitiveDataType = RepositoryFactory.eINSTANCE.createPrimitiveDataType();
         			PrimitiveType primitiveType = (PrimitiveType) returnType;
         			String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode().toString();
         			
-        			//TODO: refactor
         			if (!primitiveTypeCodeString.equals(PrimitiveType.VOID.toString())) {
-        				
-        				if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
-        					primitive = Primitive.INTEGER;
-        				} else if (primitiveTypeCodeString.equals(PrimitiveType.SHORT.toString())) {
-        					primitive = Primitive.INTEGER;
-        				} else if (primitiveTypeCodeString.equals(PrimitiveType.DOUBLE.toString())) {
-        					primitive = Primitive.DOUBLE;
-        				} else if (primitiveTypeCodeString.equals(PrimitiveType.FLOAT.toString())) {
-        					primitive = Primitive.DOUBLE;
-        				} else if (primitiveTypeCodeString.equals(PrimitiveType.CHAR.toString())) {
-        					primitive = Primitive.CHAR;
-        				} else if (primitiveTypeCodeString.equals(PrimitiveType.BYTE.toString())) {
-        					primitive = Primitive.BYTE;
-        				} else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
-        					primitive = Primitive.BOOLEAN;
-        				} else {
-        					// TODO: handle error
-        				}
-        				
-        				//methodOperationSignature.withParameter("OutputPara", primitive, ParameterModifier.OUT);
-        				methodOperationSignature.withReturnType(primitive);
+        				methodOperationSignature.withReturnType(this.getPrimitiveType(primitiveTypeCodeString));
         			}
         		}
         		
@@ -311,5 +250,25 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
 	@Override
 	public void cleanup(final IProgressMonitor monitor) throws CleanupFailedException {
+	}
+	
+	private Primitive getPrimitiveType(String primitiveTypeCodeString) {
+		if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
+			return Primitive.INTEGER;
+		} else if (primitiveTypeCodeString.equals(PrimitiveType.SHORT.toString())) {
+			return Primitive.INTEGER;
+		} else if (primitiveTypeCodeString.equals(PrimitiveType.DOUBLE.toString())) {
+			return Primitive.DOUBLE;
+		} else if (primitiveTypeCodeString.equals(PrimitiveType.FLOAT.toString())) {
+			return Primitive.DOUBLE;
+		} else if (primitiveTypeCodeString.equals(PrimitiveType.CHAR.toString())) {
+			return Primitive.CHAR;
+		} else if (primitiveTypeCodeString.equals(PrimitiveType.BYTE.toString())) {
+			return Primitive.BYTE;
+		} else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
+			return Primitive.BOOLEAN;
+		} else {
+			return Primitive.STRING; //String as default
+		}
 	}
 }

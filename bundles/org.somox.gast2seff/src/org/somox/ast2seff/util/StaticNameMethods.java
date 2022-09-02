@@ -71,7 +71,7 @@ public class StaticNameMethods {
 		}
 	}
 	
-	public static String getConditiontring(IfStatement ifStatement) {
+	public static String getConditionString(IfStatement ifStatement) {
 		Expression expression = ifStatement.getExpression();
 		
 		final StringBuilder positionString = new StringBuilder(" @position: ");
