@@ -102,7 +102,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			if (!methodBundlePair.getBundleName().equals(methodPalladioInformation.getOperationInterfaceName())) {
 				createExternalCallAction(methodInvocation, methodPalladioInformation);
 			} else {
-				generateClassMethodSeff(methodPalladioInformation);
+				createInternallCallAction(expressionStatement, methodPalladioInformation);
 			}
 		} else {
 			// TODO: check if we need to detect if expression statement is a class method 
@@ -112,9 +112,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
-	private void generateClassMethodSeff(MethodPalladioInformation methodPalladioInformation) {
+	private void createInternallCallAction(ExpressionStatement expressionStatement, MethodPalladioInformation methodPalladioInformation) {
 		// TODO: Internal Call Action?
 //		perform(methodPalladioInformation.getAstNode(), actionSeff);
+		actionSeff = actionSeff.internalCallAction().withName(StaticNameMethods.getEntityName(expressionStatement)).followedBy();
 	}
 	
 	private void createExternalCallAction(MethodInvocation methodInvocation, MethodPalladioInformation externalMethodInformation) {
