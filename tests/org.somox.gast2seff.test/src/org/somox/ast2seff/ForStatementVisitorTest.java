@@ -62,7 +62,7 @@ public class ForStatementVisitorTest {
 		forStatement.setExpression(ast.newInfixExpression());
 		forStatement.updaters().add(ast.newPostfixExpression());
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", forStatement);
-		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement", "ifStatement", "Interface", methodBundlePair);
+		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("forStatement", "forStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
 		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
 		
@@ -99,7 +99,7 @@ public class ForStatementVisitorTest {
 		block.statements().add(ast.newExpressionStatement(methodInvocation));
 		forStatement.setBody(block);
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", forStatement);
-		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement", "ifStatement", "Interface", methodBundlePair);
+		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("forStatement", "forStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
 		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
 		
@@ -138,7 +138,7 @@ public class ForStatementVisitorTest {
 		innerForStatement.setBody(ast.newBlock());
 		forStatement.setBody(innerForStatement);
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", forStatement);
-		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement", "ifStatement", "Interface", methodBundlePair);
+		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("forStatement", "forStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
 		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
 		
@@ -173,7 +173,7 @@ public class ForStatementVisitorTest {
 		block.statements().add(whileStatement);
 		forStatement.setBody(block);
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", forStatement);
-		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement", "ifStatement", "Interface", methodBundlePair);
+		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("forStatement", "forStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
 		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
 		
