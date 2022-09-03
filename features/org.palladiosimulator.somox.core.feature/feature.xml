@@ -20,7 +20,7 @@
    </requires>
 
    <plugin
-         id="org.somox.ast2seff"
+         id="org.palladiosimulator.somox.ast2seff"
          download-size="0"
          install-size="0"
          version="0.0.0"
