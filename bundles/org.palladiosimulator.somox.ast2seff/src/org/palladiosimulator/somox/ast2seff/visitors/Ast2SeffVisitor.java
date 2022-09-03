@@ -27,6 +27,7 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
+import org.palladiosimulator.generator.fluent.repository.api.seff.InternalSeff;
 import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
 import org.palladiosimulator.generator.fluent.repository.structure.components.BasicComponentCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.components.seff.BranchActionCreator;
@@ -111,7 +112,15 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	private void createInternallCallAction(ExpressionStatement expressionStatement, MethodPalladioInformation methodPalladioInformation) {
-		actionSeff = actionSeff.internalCallAction().withName(StaticNameMethods.getEntityName(expressionStatement)).followedBy();
+		
+		ActionSeff internalActionSeff = create.newInternalBehaviour().withStartAction().withName("Start Action").followedBy();
+		internalActionSeff = this.perform(methodPalladioInformation.getMethodBundlePair().getAstNode(), internalActionSeff);
+		InternalSeff internalBehaviour = internalActionSeff.stopAction().withName("Stop Action").createBehaviourNow();
+		
+		actionSeff = actionSeff.internalCallAction()
+				.withName(StaticNameMethods.getEntityName(expressionStatement))
+				.withInternalBehaviour(internalBehaviour)
+				.followedBy();
 	}
 	
 	private void createExternalCallAction(MethodInvocation methodInvocation, MethodPalladioInformation externalMethodInformation) {
