@@ -145,10 +145,11 @@ public class SimpleClass {
 	}
 	
 	public boolean charMethodBoolReturn(char input) {
-		if(input == 'a')
-			return true;
-		else
-			return false;
+		if (input == 'a') {
+		    return true;
+		} else {
+		    return false;		    
+		}
 	}
 	
 	public void callInternalMethods(String caseString) {

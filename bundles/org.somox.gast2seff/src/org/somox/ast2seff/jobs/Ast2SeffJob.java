@@ -55,220 +55,251 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
  */
 public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>> {
 
-	private static final Logger LOGGER = Logger.getLogger(Ast2SeffJob.class);
-	private static final FluentRepositoryFactory create = new FluentRepositoryFactory();
-	
-	/** The SoMoX blackboard to interact with. */
-	private Blackboard<Object> blackboard;
-	
-	private Map<String, MethodPalladioInformation> methodPalladioInfoMap = new HashMap<>();
-	private Map<MethodBundlePair, MethodPalladioInformation> methodBundlePalladioInfoMap = new HashMap<>();
-	private Map<String, List<MethodBundlePair>> bundleName2methodBundleMap;
-	private List<String> parameterList = new ArrayList<String>();
+    private static final Logger LOGGER = Logger.getLogger(Ast2SeffJob.class);
+    private static final FluentRepositoryFactory create = new FluentRepositoryFactory();
 
-	public Ast2SeffJob() {
-	}
+    /** The SoMoX blackboard to interact with. */
+    private Blackboard<Object> blackboard;
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see de.uka.ipd.sdq.workflow.IJob#execute(org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	@Override
-	public void execute(final IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
+    private Map<String, MethodPalladioInformation> methodPalladioInfoMap = new HashMap<>();
+    private Map<MethodBundlePair, MethodPalladioInformation> methodBundlePalladioInfoMap = new HashMap<>();
+    private Map<String, List<MethodBundlePair>> bundleName2methodBundleMap;
+    private List<String> parameterList = new ArrayList<String>();
 
-		monitor.subTask("loading models from blackboard");
-		
-		try {
-			this.bundleName2methodBundleMap = (Map<String, List<MethodBundlePair>>) this.blackboard.getPartition("bundleName2methodAssociationMap");
-		} catch (Exception e) {
-			LOGGER.error(e);
-		}
+    public Ast2SeffJob() {
+    }
 
-        RepoAddition repoAddition = create.newRepository().withName("Simple Repository");
-        
-        LOGGER.info("Found " + bundleName2methodBundleMap.size() + " Bundles. Computing Interfaces.");
-		int counter = 0;
-        
-        for(Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
-        	String bundleName = entry.getKey();
-        	List<MethodBundlePair> methodAssociationListOfBundle = entry.getValue();
-        	LOGGER.info("Found " + methodAssociationListOfBundle.size() + " methods to " + bundleName + ". Computing Interfaces.");
-        	counter += methodAssociationListOfBundle.size();
-        	
-        	OperationInterfaceCreator bundleOperationInterfaceCreator = create.newOperationInterface().withName(bundleName);
-        	
-        	for (MethodBundlePair methodBundlePair : methodAssociationListOfBundle) {
-        		MethodDeclaration methodDeclaration = (MethodDeclaration) methodBundlePair.getAstNode();
-        		OperationSignatureCreator methodOperationSignature = create.newOperationSignature().withName(methodDeclaration.getName().toString());
-        		
-    			//How is Bundle defined? Can one Bundle have multiple CompilationUnits?
-        		String strPackageName = "unknown";
-    			ASTNode root = methodDeclaration.getRoot();
-    			if (root instanceof CompilationUnit) {
-    				PackageDeclaration packageName = ((CompilationUnit) root).getPackage();
-    				strPackageName = packageName.getName().toString() + "." + bundleName;
-    			} else {
-    				LOGGER.error("No CompilationUnit found for: " + methodDeclaration.toString());
-    			}
-    			
-    			String key = strPackageName + "." + methodDeclaration.getName().toString();
-    			String operationSignatureName = methodDeclaration.getName().toString();
-    			String operationInterfaceName = bundleName;
-    			if (!this.methodPalladioInfoMap.containsKey(key)) {
-    				MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation(key, operationSignatureName, operationInterfaceName, methodBundlePair);
-    				this.methodPalladioInfoMap.put(key, methodPalladioInformation);
-    				this.methodBundlePalladioInfoMap.put(methodBundlePair, methodPalladioInformation);
-    			}
-        			
-        		List<SingleVariableDeclaration> singleVariableDeclarationList = methodDeclaration.parameters();
-        		
-        		if (singleVariableDeclarationList != null && singleVariableDeclarationList.size() > 0) {
-        			for (SingleVariableDeclaration variableDeclaration : singleVariableDeclarationList) {
-        				Type type = variableDeclaration.getType();
-        				String parameterName = variableDeclaration.getName().toString();
-        				if (type.isPrimitiveType()) {
-        					PrimitiveType primitiveType = (PrimitiveType) type;
-        					String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode().toString();
+    /*
+     * (non-Javadoc)
+     *
+     * @see de.uka.ipd.sdq.workflow.IJob#execute(org.eclipse.core.runtime.IProgressMonitor)
+     */
+    @Override
+    public void execute(final IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-        					if(parameterList.contains(primitiveTypeCodeString)) {
-        						Primitive primitive = this.getPrimitiveType(primitiveTypeCodeString);
-        						methodOperationSignature.withParameter(parameterName, create.fetchOfDataType(primitive), ParameterModifier.IN);
-        					} else {
-        						Primitive primitive = this.getPrimitiveType(primitiveTypeCodeString);
-        						methodOperationSignature.withParameter(parameterName, primitive, ParameterModifier.IN);
-        						parameterList.add(primitiveTypeCodeString);
-        					}
-        				} else if(type.isSimpleType()) {
-        					SimpleType simpleType = (SimpleType) type;
-        					
-        					if(!parameterList.contains(simpleType.toString())) {
-            					CompositeDataTypeCreator compositeDataType = create.newCompositeDataType().withName(simpleType.toString());
-            					if(simpleType.toString().equals("SimpleClass"))
-            						compositeDataType = compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
-        						repoAddition.addToRepository(compositeDataType);
-        						parameterList.add(simpleType.toString());
-        					}
-        					methodOperationSignature.withParameter(parameterName, create.fetchOfCompositeDataType(simpleType.toString()), ParameterModifier.IN);
-        				}
-        			}
-        		}
-        		
-        		Type returnType = methodDeclaration.getReturnType2();
-        		if(returnType != null && returnType.isPrimitiveType()) {
-        			PrimitiveType primitiveType = (PrimitiveType) returnType;
-        			String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode().toString();
-        			
-        			if (!primitiveTypeCodeString.equals(PrimitiveType.VOID.toString())) {
-        				methodOperationSignature.withReturnType(this.getPrimitiveType(primitiveTypeCodeString));
-        			}
-        		}
-        		
-        		bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature);
-        	}
-        	repoAddition.addToRepository(bundleOperationInterfaceCreator);
-        }
-
-		final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
-		subMonitor.setTaskName("Creating SEFF behaviour");
-    	LOGGER.info("Interfaces done. Computing " + counter + " SEFFs.");
-		
-		for(Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
-        	String bundleName = entry.getKey();
-        	List<MethodBundlePair> methodBundleList = entry.getValue();
-        	
-        	BasicComponentCreator basicComponentCreator = create.newBasicComponent().withName(bundleName).provides(create.fetchOfOperationInterface(bundleName));
-        	ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        	
-			for (MethodBundlePair methodBundlePair : methodBundleList) {
-				MethodPalladioInformation methodPalladioInformation = methodBundlePalladioInfoMap.get(methodBundlePair);
-				basicComponentCreator.withServiceEffectSpecification(this.createSeff(methodPalladioInformation, componentInformation).withName(methodPalladioInformation.getMethodName()));
-				monitor.worked(1);
-			}
-			
-			repoAddition.addToRepository(basicComponentCreator);
-		}
-		
-		LOGGER.info("SEFFs done. Creating Repository.");
-		Repository repository = repoAddition.createRepositoryNow();
-		
-		LOGGER.info("Repository done. Creating XML.");
-		this.generateSeffXmlFile(repository);
-
-		LOGGER.info("Task finished.");
-		subMonitor.done();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see de.uka.ipd.sdq.workflow.IJob#getName()
-	 */
-	@Override
-	public String getName() {
-		return "AST 2 SEFF Transformation Job";
-	}
-
-	/**
-	 * Create a new PCM SEFF.
-	 *
-	 * @param seff
-	 *            The SEFF which is filled by this method
-	 * @param methodDeclaration
-	 * @return The completed SEFF, returned for convenience
-	 * @throws JobFailedException
-	 */
-	private SeffCreator createSeff(MethodPalladioInformation methodPalladioInformation, ComponentInformation componentInformation) throws JobFailedException {
-		ActionSeff actionSeff = create.newSeff().onSignature(create.fetchOfSignature(methodPalladioInformation.getOperationSignatureName()))
-				.withSeffBehaviour().withStartAction().withName("Start Action").followedBy();
-		
-		return Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, this.methodPalladioInfoMap, componentInformation, create)
-				.stopAction().withName("Stop Action").createBehaviourNow();
-	}
-	
-	private void generateSeffXmlFile(final Repository repository) {
-		
-		EcorePlugin.ExtensionProcessor.process(null);
-		Resource resource = new ResourceSetImpl().createResource(URI.createFileURI("Repository.xml"));
-        resource.getContents().add(repository);
+        monitor.subTask("loading models from blackboard");
 
         try {
-        	resource.save(Collections.EMPTY_MAP);
-     	} catch (IOException e) {
+            this.bundleName2methodBundleMap = (Map<String, List<MethodBundlePair>>) this.blackboard
+                .getPartition("bundleName2methodAssociationMap");
+        } catch (Exception e) {
+            LOGGER.error(e);
+        }
+
+        RepoAddition repoAddition = create.newRepository()
+            .withName("Simple Repository");
+
+        LOGGER.info("Found " + bundleName2methodBundleMap.size() + " Bundles. Computing Interfaces.");
+        int counter = 0;
+
+        for (Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
+            String bundleName = entry.getKey();
+            List<MethodBundlePair> methodAssociationListOfBundle = entry.getValue();
+            LOGGER.info("Found " + methodAssociationListOfBundle.size() + " methods to " + bundleName
+                    + ". Computing Interfaces.");
+            counter += methodAssociationListOfBundle.size();
+
+            OperationInterfaceCreator bundleOperationInterfaceCreator = create.newOperationInterface()
+                .withName(bundleName);
+
+            for (MethodBundlePair methodBundlePair : methodAssociationListOfBundle) {
+                MethodDeclaration methodDeclaration = (MethodDeclaration) methodBundlePair.getAstNode();
+                OperationSignatureCreator methodOperationSignature = create.newOperationSignature()
+                    .withName(methodDeclaration.getName()
+                        .toString());
+
+                // How is Bundle defined? Can one Bundle have multiple CompilationUnits?
+                String strPackageName = "unknown";
+                ASTNode root = methodDeclaration.getRoot();
+                if (root instanceof CompilationUnit) {
+                    PackageDeclaration packageName = ((CompilationUnit) root).getPackage();
+                    strPackageName = packageName.getName()
+                        .toString() + "." + bundleName;
+                } else {
+                    LOGGER.error("No CompilationUnit found for: " + methodDeclaration.toString());
+                }
+
+                String key = strPackageName + "." + methodDeclaration.getName()
+                    .toString();
+                String operationSignatureName = methodDeclaration.getName()
+                    .toString();
+                String operationInterfaceName = bundleName;
+                if (!this.methodPalladioInfoMap.containsKey(key)) {
+                    MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation(key,
+                            operationSignatureName, operationInterfaceName, methodBundlePair);
+                    this.methodPalladioInfoMap.put(key, methodPalladioInformation);
+                    this.methodBundlePalladioInfoMap.put(methodBundlePair, methodPalladioInformation);
+                }
+
+                List<SingleVariableDeclaration> singleVariableDeclarationList = methodDeclaration.parameters();
+
+                if (singleVariableDeclarationList != null && singleVariableDeclarationList.size() > 0) {
+                    for (SingleVariableDeclaration variableDeclaration : singleVariableDeclarationList) {
+                        Type type = variableDeclaration.getType();
+                        String parameterName = variableDeclaration.getName()
+                            .toString();
+                        if (type.isPrimitiveType()) {
+                            PrimitiveType primitiveType = (PrimitiveType) type;
+                            String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode()
+                                .toString();
+
+                            if (parameterList.contains(primitiveTypeCodeString)) {
+                                Primitive primitive = this.getPrimitiveType(primitiveTypeCodeString);
+                                methodOperationSignature.withParameter(parameterName, create.fetchOfDataType(primitive),
+                                        ParameterModifier.IN);
+                            } else {
+                                Primitive primitive = this.getPrimitiveType(primitiveTypeCodeString);
+                                methodOperationSignature.withParameter(parameterName, primitive, ParameterModifier.IN);
+                                parameterList.add(primitiveTypeCodeString);
+                            }
+                        } else if (type.isSimpleType()) {
+                            SimpleType simpleType = (SimpleType) type;
+
+                            if (!parameterList.contains(simpleType.toString())) {
+                                CompositeDataTypeCreator compositeDataType = create.newCompositeDataType()
+                                    .withName(simpleType.toString());
+                                if (simpleType.toString()
+                                    .equals("SimpleClass"))
+                                    compositeDataType = compositeDataType.withInnerDeclaration("counter",
+                                            Primitive.INTEGER);
+                                repoAddition.addToRepository(compositeDataType);
+                                parameterList.add(simpleType.toString());
+                            }
+                            methodOperationSignature.withParameter(parameterName,
+                                    create.fetchOfCompositeDataType(simpleType.toString()), ParameterModifier.IN);
+                        }
+                    }
+                }
+
+                Type returnType = methodDeclaration.getReturnType2();
+                if (returnType != null && returnType.isPrimitiveType()) {
+                    PrimitiveType primitiveType = (PrimitiveType) returnType;
+                    String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode()
+                        .toString();
+
+                    if (!primitiveTypeCodeString.equals(PrimitiveType.VOID.toString())) {
+                        methodOperationSignature.withReturnType(this.getPrimitiveType(primitiveTypeCodeString));
+                    }
+                }
+
+                bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature);
+            }
+            repoAddition.addToRepository(bundleOperationInterfaceCreator);
+        }
+
+        final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
+        subMonitor.setTaskName("Creating SEFF behaviour");
+        LOGGER.info("Interfaces done. Computing " + counter + " SEFFs.");
+
+        for (Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
+            String bundleName = entry.getKey();
+            List<MethodBundlePair> methodBundleList = entry.getValue();
+
+            BasicComponentCreator basicComponentCreator = create.newBasicComponent()
+                .withName(bundleName)
+                .provides(create.fetchOfOperationInterface(bundleName));
+            ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
+
+            for (MethodBundlePair methodBundlePair : methodBundleList) {
+                MethodPalladioInformation methodPalladioInformation = methodBundlePalladioInfoMap.get(methodBundlePair);
+                basicComponentCreator
+                    .withServiceEffectSpecification(this.createSeff(methodPalladioInformation, componentInformation)
+                        .withName(methodPalladioInformation.getMethodName()));
+                monitor.worked(1);
+            }
+
+            repoAddition.addToRepository(basicComponentCreator);
+        }
+
+        LOGGER.info("SEFFs done. Creating Repository.");
+        Repository repository = repoAddition.createRepositoryNow();
+
+        LOGGER.info("Repository done. Creating XML.");
+        this.generateSeffXmlFile(repository);
+
+        LOGGER.info("Task finished.");
+        subMonitor.done();
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see de.uka.ipd.sdq.workflow.IJob#getName()
+     */
+    @Override
+    public String getName() {
+        return "AST 2 SEFF Transformation Job";
+    }
+
+    /**
+     * Create a new PCM SEFF.
+     *
+     * @param seff
+     *            The SEFF which is filled by this method
+     * @param methodDeclaration
+     * @return The completed SEFF, returned for convenience
+     * @throws JobFailedException
+     */
+    private SeffCreator createSeff(MethodPalladioInformation methodPalladioInformation,
+            ComponentInformation componentInformation) throws JobFailedException {
+        ActionSeff actionSeff = create.newSeff()
+            .onSignature(create.fetchOfSignature(methodPalladioInformation.getOperationSignatureName()))
+            .withSeffBehaviour()
+            .withStartAction()
+            .withName("Start Action")
+            .followedBy();
+
+        return Ast2SeffVisitor
+            .perform(methodPalladioInformation, actionSeff, this.methodPalladioInfoMap, componentInformation, create)
+            .stopAction()
+            .withName("Stop Action")
+            .createBehaviourNow();
+    }
+
+    private void generateSeffXmlFile(final Repository repository) {
+
+        EcorePlugin.ExtensionProcessor.process(null);
+        Resource resource = new ResourceSetImpl().createResource(URI.createFileURI("Repository.xml"));
+        resource.getContents()
+            .add(repository);
+
+        try {
+            resource.save(Collections.EMPTY_MAP);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-	}
+    }
 
-	/**
-	 * @param blackBoard
-	 *            the blackBoard to set
-	 */
-	@Override
-	public void setBlackboard(final Blackboard<Object> blackBoard) {
-		this.blackboard = blackBoard;
-	}
+    /**
+     * @param blackBoard
+     *            the blackBoard to set
+     */
+    @Override
+    public void setBlackboard(final Blackboard<Object> blackBoard) {
+        this.blackboard = blackBoard;
+    }
 
-	@Override
-	public void cleanup(final IProgressMonitor monitor) throws CleanupFailedException {
-	}
-	
-	private Primitive getPrimitiveType(String primitiveTypeCodeString) {
-		if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
-			return Primitive.INTEGER;
-		} else if (primitiveTypeCodeString.equals(PrimitiveType.SHORT.toString())) {
-			return Primitive.INTEGER;
-		} else if (primitiveTypeCodeString.equals(PrimitiveType.DOUBLE.toString())) {
-			return Primitive.DOUBLE;
-		} else if (primitiveTypeCodeString.equals(PrimitiveType.FLOAT.toString())) {
-			return Primitive.DOUBLE;
-		} else if (primitiveTypeCodeString.equals(PrimitiveType.CHAR.toString())) {
-			return Primitive.CHAR;
-		} else if (primitiveTypeCodeString.equals(PrimitiveType.BYTE.toString())) {
-			return Primitive.BYTE;
-		} else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
-			return Primitive.BOOLEAN;
-		} else {
-			return Primitive.STRING; //String as default
-		}
-	}
+    @Override
+    public void cleanup(final IProgressMonitor monitor) throws CleanupFailedException {
+    }
+
+    private Primitive getPrimitiveType(String primitiveTypeCodeString) {
+        if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
+            return Primitive.INTEGER;
+        } else if (primitiveTypeCodeString.equals(PrimitiveType.SHORT.toString())) {
+            return Primitive.INTEGER;
+        } else if (primitiveTypeCodeString.equals(PrimitiveType.DOUBLE.toString())) {
+            return Primitive.DOUBLE;
+        } else if (primitiveTypeCodeString.equals(PrimitiveType.FLOAT.toString())) {
+            return Primitive.DOUBLE;
+        } else if (primitiveTypeCodeString.equals(PrimitiveType.CHAR.toString())) {
+            return Primitive.CHAR;
+        } else if (primitiveTypeCodeString.equals(PrimitiveType.BYTE.toString())) {
+            return Primitive.BYTE;
+        } else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
+            return Primitive.BOOLEAN;
+        } else {
+            return Primitive.STRING; // String as default
+        }
+    }
 }

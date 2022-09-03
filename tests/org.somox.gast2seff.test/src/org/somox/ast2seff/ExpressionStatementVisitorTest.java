@@ -37,7 +37,8 @@ import org.somox.ast2seff.models.MethodPalladioInformation;
 import org.somox.ast2seff.visitors.Ast2SeffVisitor;
 
 public class ExpressionStatementVisitorTest {
-private static final FluentRepositoryFactory create = new FluentRepositoryFactory();
+	
+	private static final FluentRepositoryFactory create = new FluentRepositoryFactory();
 	
 	// Testplan (Entity Namen setzen)
 	// 1. Leeres Statement

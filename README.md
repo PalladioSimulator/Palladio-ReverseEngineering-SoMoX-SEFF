@@ -1,10 +1,23 @@
 # Abbildung von Java-Methoden und –Aufrufen in einer Art Aktivitätsdiagramm
 
-A fluid interface for easy and programmatic creation of PCM model instances.
+If you are familiar with the background of PCM and fluent interfaces, jump directly to [Motivation](#motivation).
 
-If you are familiar with the background of PCM and fluent interfaces, jump directly to [Motivation](#motivation) or [How to use the Fluent API Model Generator](#how-to-use-the-fluent-api-model-generator).
+## Introduction
 
-## Background
+This project is based on the Palladio Component Model, which is a modelling concept developed at the software quality and design institute of KIT.
+
+Was ist PCM?  
+Was ist ein SEFF? Was ist ein RDSEFF? (Eine Art Aktivitätsdiagramm)  
+Motivation für unser Projekt (Reverse Engineering) -> Vom Code zum Model für Analyse, Refactoring, Featureimplementierung, Wartung  
+
+Was haben wir in unserem Projekt gemacht?   
+(MoDisCoo zu JDT, zunächst normale Konstruktoren danach Fluent API, Was ist die Fluent API, )
+
+Wie kann man unser Projekt aufsetzen?  (Getting started etc.)  
+
+Was sind und waren Probleme in unserer Implementierung?   s
+Was sind die Limitierungen in unserem  Projekt? (Was haben wir gemacht und was haben wir für zukünftige Arbeiten offen gelassen)? 
+
 
 ### Palladio Component Model (PCM)
 Palladio is a software architecture simulation approach which analyses your software at the model level for performance bottlenecks, scalability issues, reliability threats, and allows for a subsequent optimization.

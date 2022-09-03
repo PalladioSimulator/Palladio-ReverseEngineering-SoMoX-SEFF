@@ -87,15 +87,15 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		Expression expression = expressionStatement.getExpression();
 
 		if(expression instanceof Assignment) {
-			//TODO: further tests if this makes sense
-			////Variable Assignment
-			//Assignment transformedExpression = (Assignment) expression;
-			//SetVariableActionCreator setVariableActionCreator = actionSeff.setVariableAction();
-			//VariableUsageCreator inputVariable = this.generateInputVariableUsage(transformedExpression.getRightHandSide());
-			//setVariableActionCreator.withLocalVariableUsage(inputVariable);
-			//this.actionSeff = setVariableActionCreator.followedBy();
+			// TODO: further tests if this makes sense - Limitation
+			// Variable Assignment
+			// Assignment transformedExpression = (Assignment) expression;
+			// SetVariableActionCreator setVariableActionCreator = actionSeff.setVariableAction();
+			// VariableUsageCreator inputVariable = this.generateInputVariableUsage(transformedExpression.getRightHandSide());
+			// setVariableActionCreator.withLocalVariableUsage(inputVariable);
+			// this.actionSeff = setVariableActionCreator.followedBy();
 		} else if (expression instanceof MethodInvocation && this.isExternal((MethodInvocation) expression)) {
-			//internal / external Action
+		    
 			MethodInvocation methodInvocation = (MethodInvocation) expression;
 			MethodPalladioInformation methodPalladioInformation = this.getMethodPalladioInformation(methodInvocation);
 			
@@ -105,16 +105,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 				createInternallCallAction(expressionStatement, methodPalladioInformation);
 			}
 		} else {
-			// TODO: check if we need to detect if expression statement is a class method 
-			// 		 -> enter method body and generate seff for it
 			createInternalAction(expressionStatement);
 		}
 		return false;
 	}
 	
 	private void createInternallCallAction(ExpressionStatement expressionStatement, MethodPalladioInformation methodPalladioInformation) {
-		// TODO: Internal Call Action?
-//		perform(methodPalladioInformation.getAstNode(), actionSeff);
 		actionSeff = actionSeff.internalCallAction().withName(StaticNameMethods.getEntityName(expressionStatement)).followedBy();
 	}
 	
@@ -309,7 +305,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
-	// TODO: Further work
+	// TODO: Further work - Limitation
 	public boolean visit(final VariableDeclarationStatement variableDeclarationStatement) {
 		Type test = variableDeclarationStatement.getType();
 		return super.visit(variableDeclarationStatement);
@@ -391,7 +387,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 
 	private BranchActionCreator generateBranchAction(ASTNode node, BranchActionCreator branchActionCreator) {
 
-		if(node instanceof IfStatement) {
+		if (node instanceof IfStatement) {
 			IfStatement ifStatement = (IfStatement) node;
 			node = ifStatement.getThenStatement();
 		} else if (node instanceof TryStatement) {

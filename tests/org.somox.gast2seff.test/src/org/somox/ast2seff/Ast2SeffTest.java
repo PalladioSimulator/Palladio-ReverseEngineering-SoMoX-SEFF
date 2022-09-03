@@ -122,13 +122,12 @@ public class Ast2SeffTest {
     	Path directoryPath = Path.of("src/org/somox/gast2seff/res");
     	Map<String, CompilationUnit> compUnitMap = parseDirectory(directoryPath);
         
-        Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = new HashMap<>();
         Map<String, List<MethodBundlePair>> bundleName2methodAssociationMap = new HashMap<String, List<MethodBundlePair>>();
         
         for (var entry : compUnitMap.entrySet()) {
 			List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(entry.getValue());
 			for (MethodDeclaration methodDeclaration : methodDeclarations) {
-				List<IExtendedModifier> modifierList = methodDeclaration.modifiers();
+				List<IExtendedModifier> modifierList = (List<IExtendedModifier>) methodDeclaration.modifiers();
 				
 				// Generate a seff for public methods only
 				IExtendedModifier firstModifier = modifierList.get(0);

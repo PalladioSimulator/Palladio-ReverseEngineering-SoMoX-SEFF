@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
+	<classpathentry kind="con"
+		path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
 		<attributes>
-			<attribute name="module" value="true"/>
+			<attribute name="module" value="true" />
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins">
+	<classpathentry kind="con"
+		path="org.eclipse.pde.core.requiredPlugins">
 		<accessrules>
-			<accessrule kind="accessible" pattern="org/e*/**"/>
-			<accessrule kind="accessible" pattern="de/uka/**"/>
-			<accessrule kind="accessible" pattern="org/palladiosimulator/**"/>
+			<accessrule kind="accessible" pattern="org/e*/**" />
+			<accessrule kind="accessible" pattern="de/uka/**" />
+			<accessrule kind="accessible"
+				pattern="org/palladiosimulator/**" />
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src">
 		<attributes>
-			<attribute name="test" value="true"/>
+			<attribute name="test" value="true" />
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="bin" />
 </classpath>
