@@ -124,11 +124,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 		OperationSignature calledFunctionSignature = create.fetchOfOperationSignature(externalMethodInformation.getOperationSignatureName());
 		VariableUsageCreator variableUsage;
-		if(!methodInvocation.arguments().isEmpty()) {
-			if(calledFunctionSignature != null && (calledFunctionSignature.getParameters__OperationSignature().size() == methodInvocation.arguments().size())) {
+		if (!methodInvocation.arguments().isEmpty()) {
+			if (calledFunctionSignature != null && (calledFunctionSignature.getParameters__OperationSignature().size() == methodInvocation.arguments().size())) {
 				//try to get variables from interface
 				EList<Parameter> calledFunctParameterList = calledFunctionSignature.getParameters__OperationSignature();
-				for(int i=0; i < calledFunctParameterList.size(); i++) {
+				for (int i=0; i < calledFunctParameterList.size(); i++) {
 					Parameter para = calledFunctParameterList.get(i);
 					Expression castedArgument = (Expression) methodInvocation.arguments().get(i);
 					variableUsage = generateInputVariableUsage(castedArgument, para);
@@ -136,7 +136,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 				}
 			} else {
 				//fallback if interface is not found or argumentsArrays have different sizes
-				for(Object argument : methodInvocation.arguments()) {
+				for (Object argument : methodInvocation.arguments()) {
 					Expression castedArgument = (Expression) argument;
 					variableUsage = generateInputVariableUsage(castedArgument);
 					externalCallActionCreator.withInputVariableUsage(variableUsage);
@@ -241,7 +241,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	public boolean visit(final ForStatement forStatement) {
 		LoopActionCreator loopActionCreator = actionSeff.loopAction();
 		Expression forStatementExpression = forStatement.getExpression();
-		if(forStatementExpression != null && forStatementExpression instanceof InfixExpression) {
+		if (forStatementExpression != null && forStatementExpression instanceof InfixExpression) {
 			loopActionCreator.withIterationCount(((InfixExpression) forStatementExpression).getRightOperand().toString());
 		}
 		loopActionCreator = generateLoopAction(forStatement.getBody(), loopActionCreator);
@@ -252,7 +252,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	public boolean visit(final EnhancedForStatement forStatement) {
 		LoopActionCreator loopActionCreator = actionSeff.loopAction();
 		Expression forStatementExpression = forStatement.getExpression();
-		if(forStatementExpression != null && forStatementExpression instanceof SimpleName) {
+		if (forStatementExpression != null && forStatementExpression instanceof SimpleName) {
 			loopActionCreator.withIterationCount("1");
 		}
 		loopActionCreator = generateLoopAction(forStatement.getBody(), loopActionCreator);
@@ -263,7 +263,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	public boolean visit(final WhileStatement whileStatement) {
 		LoopActionCreator loopActionCreator = actionSeff.loopAction();
 		Expression whileStatementExpression = whileStatement.getExpression();
-		if(whileStatementExpression != null && whileStatementExpression instanceof SimpleName) {
+		if (whileStatementExpression != null && whileStatementExpression instanceof SimpleName) {
 			loopActionCreator.withIterationCount("1");
 		}
 		loopActionCreator = generateLoopAction(whileStatement.getBody(), loopActionCreator);
@@ -335,12 +335,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		//randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
 		String randomPCMName;
 		DataType paraDataType = para.getDataType__Parameter();
-		if(paraDataType instanceof PrimitiveDataType) {
+		if (paraDataType instanceof PrimitiveDataType) {
 			variableUsage.withNamespaceReference(((PrimitiveDataType) paraDataType).getType().toString(), variable.toString());
 			randomPCMName = ((PrimitiveDataType) paraDataType).getType().toString() + "." + variable.toString();
 			variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
 		}
-		else if(paraDataType instanceof CompositeDataType) {
+		else if (paraDataType instanceof CompositeDataType) {
 			variableUsage.withNamespaceReference(((CompositeDataType) paraDataType).getEntityName(), variable.toString());
 			randomPCMName = ((CompositeDataType) paraDataType).getEntityName() + "." + variable.toString();
 			variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.BYTESIZE);
@@ -367,12 +367,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		VariableUsageCreator variableUsage = create.newVariableUsage();
 		String randomPCMName;
 
-		if(returnType instanceof PrimitiveDataType) {
+		if (returnType instanceof PrimitiveDataType) {
 			variableUsage.withNamespaceReference(((PrimitiveDataType) returnType).getType().toString(), "tempVariable");
 			randomPCMName = ((PrimitiveDataType) returnType).getType().toString() + "." + "tempVariable";
 			variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
 		}
-		else if(returnType instanceof CompositeDataType) {
+		else if (returnType instanceof CompositeDataType) {
 			variableUsage.withNamespaceReference(((CompositeDataType) returnType).getEntityName(), "tempVariable");
 			randomPCMName = ((CompositeDataType) returnType).getEntityName() + "." + "tempVariable";
 			variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.BYTESIZE);
