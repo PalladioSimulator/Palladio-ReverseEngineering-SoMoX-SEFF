@@ -32,21 +32,19 @@ public class EnhancedForStatementVisitorTest {
 
 	private static final FluentRepositoryFactory create = new FluentRepositoryFactory();
 	
-	// Testplan (Entity Namen setzen)
-	// 1. Leeres Statement
-	// 2. Statement mit einer System.out.println
-	// 3. Statement mit gleichem Statement im Body
-	// 4. Statement mit anderem Statement im Body
+	// Testplan
+	// 1. Test: Statement mit leerem Body
+	// 2. Test: Statement mit einer System.out.println (Internal Action)
+	// 3. Test: Statement mit gleichem Statement im Body
+	// 4. Test: Statement mit anderem Statement im Body
 	
 	// Welche Assertions sollen immer getestet werden:
-	// 1. Anzahl der Aktionen 
-	// 2. Einen Entity Namen überprüfen
-	// 3. Falls ein innerer Block existiert, Anzahl der Aktionen überprüfen
-	// 4. Existenz der zu generierenden Aktion überprüfen (z.B. Branch Action)
-	
+	// - Anzahl der Aktionen
+	// - Falls ein innerer Block existiert, Anzahl der Aktionen überprüfen
+	// - Existenz der zu generierenden Aktion überprüfen (z.B. Branch Action)
 	
 	@Test
-	public void emptyStatementTest() {
+	public void emptyBodyStatementTest() {
 		
 		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
 		Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();

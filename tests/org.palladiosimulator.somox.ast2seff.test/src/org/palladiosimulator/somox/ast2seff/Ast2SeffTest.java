@@ -29,6 +29,7 @@ import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.palladiosimulator.somox.ast2seff.jobs.Ast2SeffJob;
 import org.palladiosimulator.somox.ast2seff.models.MethodBundlePair;
+import org.palladiosimulator.somox.ast2seff.util.MethodDeclarationFinder;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;

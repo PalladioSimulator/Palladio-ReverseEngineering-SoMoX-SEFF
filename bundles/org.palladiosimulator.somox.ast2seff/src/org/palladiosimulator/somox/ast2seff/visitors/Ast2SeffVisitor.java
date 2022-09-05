@@ -47,7 +47,7 @@ import org.palladiosimulator.somox.ast2seff.models.ComponentInformation;
 import org.palladiosimulator.somox.ast2seff.models.MethodBundlePair;
 import org.palladiosimulator.somox.ast2seff.models.MethodPalladioInformation;
 import org.palladiosimulator.somox.ast2seff.util.StaticNameMethods;
-import org.palladiosimulator.somox.ast2seff.util.SwitchStatementHelper;
+import org.palladiosimulator.somox.ast2seff.util.SwitchStatementUtil;
 
 public class Ast2SeffVisitor extends ASTVisitor {
 
@@ -284,7 +284,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		BranchActionCreator branchActionCreator = actionSeff.branchAction();
 		branchActionCreator.withName(StaticNameMethods.getEntityName(switchStatement));
 		
-		List<List<Statement>> blockList = SwitchStatementHelper.createBlockListFromSwitchStatement(switchStatement);
+		List<List<Statement>> blockList = SwitchStatementUtil.createBlockListFromSwitchStatement(switchStatement);
 		for (List<Statement> block : blockList) {
 			
 			ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName("Start Action").followedBy();

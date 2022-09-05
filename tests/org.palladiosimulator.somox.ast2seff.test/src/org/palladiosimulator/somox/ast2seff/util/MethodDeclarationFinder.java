@@ -1,4 +1,4 @@
-package org.palladiosimulator.somox.ast2seff;
+package org.palladiosimulator.somox.ast2seff.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
