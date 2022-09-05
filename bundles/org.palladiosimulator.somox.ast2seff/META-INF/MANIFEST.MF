@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.palladiosimulator.somox.ast2seff
 Bundle-SymbolicName: org.palladiosimulator.somox.ast2seff;singleton:=true
 Bundle-Version: 5.1.0.qualifier
-Bundle-Vendor: palladiosimulator.somox.org
+Bundle-Vendor: palladiosimulator.org
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
