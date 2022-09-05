@@ -114,7 +114,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private void createInternallCallAction(ExpressionStatement expressionStatement, MethodPalladioInformation methodPalladioInformation) {
 		
 		ActionSeff internalActionSeff = create.newInternalBehaviour().withStartAction().withName("Start Action").followedBy();
-		internalActionSeff = this.perform(methodPalladioInformation.getMethodBundlePair().getAstNode(), internalActionSeff);
+		// internalActionSeff = this.perform(methodPalladioInformation.getMethodBundlePair().getAstNode(), internalActionSeff);
 		InternalSeff internalBehaviour = internalActionSeff.stopAction().withName("Stop Action").createBehaviourNow();
 		
 		actionSeff = actionSeff.internalCallAction()
