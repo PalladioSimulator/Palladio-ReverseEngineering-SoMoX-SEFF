@@ -72,11 +72,11 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-
-
 1. Install [Eclipse 2021-12](https://www.eclipse.org/downloads/packages/release/2021-12/r/eclipse-modeling-tools)
 2. Open Eclipse and navigate to Help > Install New Software...
 3. Install [Palladio Build Updatesite](https://updatesite.palladio-simulator.com/palladio-build-updatesite/nightly/), [Palladio Core Commons](https://updatesite.palladio-simulator.com/palladio-core-commons/nightly/), [Palladio Reverse Engineering Java](https://updatesite.palladio-simulator.com/palladio-reverseengineering-java/nightly/) and [Palladio FluentAPI Model Generator](https://updatesite.palladio-simulator.com/palladio-addons-fluentapimodelgenerator/nightly/)
+	1. Always accept the warnings and install the software anyway
+5. After a final restart all dependencies are installed and Eclipse is ready to go importing the project files
 
 
 ### Installation
@@ -99,6 +99,8 @@ _Below is an example of how you can instruct your audience on installing and set
 5. Several projects get listed. Select all of them.
 6. Press on "Finish".
 
+Now you are ready to see the implementation and test the available solution.
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
@@ -114,6 +116,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 ## Limitations:
 - We were only implementing Guarded Branch Transitions and omitting Probabilistic Branch Transitions, because we cannot make any reasonable guess about the probability of the different branches.
 - We have started exploring the Assignment Statement and its conversion to a SetVariableAction element in the SEFF context. As we found out during our exploration, the SetVariableAction element is used for functions which have a return statement. We stopped further exploration but leave the initial code at the ExpressionStatement visit function.
+- 
 
 ## Testing
 For the usage model JUnit testing is available. The tests and a bigger example for can be found in [```FluentUsageModelFactoryTest```](tests/org.palladiosimulator.generator.fluent.test/src/org/palladiosimulator/generator/fluent/usagemodel/factory/FluentUsageModelFactoryTest.java). In future versions the examples of the other models can be written into unit tests and saved under [```Tests```](tests/org.palladiosimulator.generator.fluent.test/src/org/palladiosimulator/generator/fluent).
