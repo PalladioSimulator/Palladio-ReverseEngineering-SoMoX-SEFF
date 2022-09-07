@@ -9,6 +9,7 @@ import java.util.Map;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.Block;
+import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.ReturnStatement;
@@ -57,6 +58,10 @@ public class ReturnStatementTest {
 		BasicComponentCreator basicComponentCreator = create.newBasicComponent();
 		AST ast = AST.newAST(AST.getJLSLatest(), false);
 		ReturnStatement returnStatement = ast.newReturnStatement();
+		MethodInvocation methodInvocation = ast.newMethodInvocation();
+		methodInvocation.setName(ast.newSimpleName("ReturnExpression"));
+		methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
+		returnStatement.setExpression(methodInvocation);
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", returnStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("returnStatement", "returnStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
@@ -67,74 +72,28 @@ public class ReturnStatementTest {
 		
 		assertEquals(actionList.size(), 3);
 		assertTrue(actionList.get(1) instanceof SetVariableAction);
+		
+		SetVariableAction setVariableAction = (SetVariableAction) actionList.get(1);
+		
+		// assertEquals(setVariableAction.getEntityName(), "ReturnExpression");
 	}
 	
 	@Test
 	@Disabled
-	public void ifElseIfElseStatementTest() {
+	public void booleanReturnStatementTest() {
 		
 		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
 		Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
 		
 		BasicComponentCreator basicComponentCreator = create.newBasicComponent();
 		AST ast = AST.newAST(AST.getJLSLatest(), false);
-		IfStatement ifStatement = ast.newIfStatement();
-		Block block = ast.newBlock();
-		IfStatement innerIfStatement = ast.newIfStatement();
-		innerIfStatement.setThenStatement(ast.newBlock());
-		innerIfStatement.setElseStatement(ast.newBlock());
-		ifStatement.setThenStatement(ast.newBlock());
-		ifStatement.setElseStatement(innerIfStatement);
-		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", ifStatement);
-		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement", "ifStatement", "Interface", methodBundlePair);
-		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
-		
-		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
-		
-		assertEquals(actionList.size(), 3);
-		assertTrue(actionList.get(1) instanceof BranchAction);
-		
-		BranchAction branchAction = (BranchAction) actionList.get(1);
-		AbstractBranchTransition firstBranchTransition = branchAction.getBranches_Branch().get(0);
-		AbstractBranchTransition secondBranchTransition = branchAction.getBranches_Branch().get(1);
-
-		AbstractBranchTransition thirdBranchTransition = branchAction.getBranches_Branch().get(2);
-		ResourceDemandingBehaviour firstResourceDemandingBehaviour = firstBranchTransition.getBranchBehaviour_BranchTransition();
-		ResourceDemandingBehaviour secondResourceDemandingBehaviour = secondBranchTransition.getBranchBehaviour_BranchTransition();
-		ResourceDemandingBehaviour thirdResourceDemandingBehaviour = thirdBranchTransition.getBranchBehaviour_BranchTransition();
-		
-		assertEquals(branchAction.getBranches_Branch().size(), 3);
-		assertEquals(firstResourceDemandingBehaviour.getSteps_Behaviour().size(), 2);
-		assertTrue(firstResourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
-		assertTrue(firstResourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof StopAction);
-		assertEquals(secondResourceDemandingBehaviour.getSteps_Behaviour().size(), 2);
-		assertTrue(secondResourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
-		assertTrue(secondResourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof StopAction);
-		assertEquals(thirdResourceDemandingBehaviour.getSteps_Behaviour().size(), 2);
-		assertTrue(thirdResourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
-		assertTrue(thirdResourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof StopAction);
-	}
-	
-	@Test
-	@Disabled
-	public void singleStatementTest() {
-		
-		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-		Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-		
-		BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-		AST ast = AST.newAST(AST.getJLSLatest(), false);
-		IfStatement ifStatement = ast.newIfStatement();
-		Block block = ast.newBlock();
+		ReturnStatement returnStatement = ast.newReturnStatement();
 		MethodInvocation methodInvocation = ast.newMethodInvocation();
-		methodInvocation.setName(ast.newSimpleName("SimpleName"));
+		methodInvocation.setName(ast.newSimpleName("ReturnExpression"));
 		methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-		block.statements().add(ast.newExpressionStatement(methodInvocation));
-		ifStatement.setThenStatement(block);
-		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", ifStatement);
-		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement", "ifStatement", "Interface", methodBundlePair);
+		returnStatement.setExpression(methodInvocation);
+		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", returnStatement);
+		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("returnStatement", "returnStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
 		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
 		
@@ -142,17 +101,71 @@ public class ReturnStatementTest {
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
 		
 		assertEquals(actionList.size(), 3);
-		assertTrue(actionList.get(1) instanceof BranchAction);
+		assertTrue(actionList.get(1) instanceof SetVariableAction);
 		
-		BranchAction branchAction = (BranchAction) actionList.get(1);
-		AbstractBranchTransition branchTransition = branchAction.getBranches_Branch().get(0);
-		ResourceDemandingBehaviour resourceDemandingBehaviour = branchTransition.getBranchBehaviour_BranchTransition();
+		SetVariableAction setVariableAction = (SetVariableAction) actionList.get(1);
 		
-		assertEquals(branchAction.getBranches_Branch().size(), 1);
-		assertEquals(resourceDemandingBehaviour.getSteps_Behaviour().size(), 3);
-		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
-		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof InternalAction);
-		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(2) instanceof StopAction);
+		// assertEquals(setVariableAction.getEntityName(), "ReturnExpression");
+	}
+	
+	@Test
+	@Disabled
+	public void charReturnStatementTest() {
+		
+		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
+		Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
+		
+		BasicComponentCreator basicComponentCreator = create.newBasicComponent();
+		AST ast = AST.newAST(AST.getJLSLatest(), false);
+		ReturnStatement returnStatement = ast.newReturnStatement();
+		MethodInvocation methodInvocation = ast.newMethodInvocation();
+		methodInvocation.setName(ast.newSimpleName("ReturnExpression"));
+		methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
+		returnStatement.setExpression(methodInvocation);
+		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", returnStatement);
+		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("returnStatement", "returnStatement", "Interface", methodBundlePair);
+		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
+		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		
+		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+		
+		assertEquals(actionList.size(), 3);
+		assertTrue(actionList.get(1) instanceof SetVariableAction);
+		
+		SetVariableAction setVariableAction = (SetVariableAction) actionList.get(1);
+		
+		// assertEquals(setVariableAction.getEntityName(), "ReturnExpression");
+	}
+	
+	@Test
+	@Disabled
+	public void stringReturnStatementTest() {
+		
+		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
+		Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
+		
+		BasicComponentCreator basicComponentCreator = create.newBasicComponent();
+		AST ast = AST.newAST(AST.getJLSLatest(), false);
+		ReturnStatement returnStatement = ast.newReturnStatement();
+		MethodInvocation methodInvocation = ast.newMethodInvocation();
+		methodInvocation.setName(ast.newSimpleName("ReturnExpression"));
+		methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
+		returnStatement.setExpression(methodInvocation);
+		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", returnStatement);
+		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("returnStatement", "returnStatement", "Interface", methodBundlePair);
+		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
+		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		
+		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+		
+		assertEquals(actionList.size(), 3);
+		assertTrue(actionList.get(1) instanceof SetVariableAction);
+		
+		SetVariableAction setVariableAction = (SetVariableAction) actionList.get(1);
+		
+		// assertEquals(setVariableAction.getEntityName(), "ReturnExpression");
 	}
 	
 	@Test

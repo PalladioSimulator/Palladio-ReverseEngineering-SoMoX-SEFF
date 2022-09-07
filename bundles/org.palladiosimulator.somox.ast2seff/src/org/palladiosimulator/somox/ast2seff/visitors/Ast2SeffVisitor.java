@@ -46,7 +46,7 @@ import org.palladiosimulator.pcm.repository.PrimitiveDataType;
 import org.palladiosimulator.somox.ast2seff.models.ComponentInformation;
 import org.palladiosimulator.somox.ast2seff.models.MethodBundlePair;
 import org.palladiosimulator.somox.ast2seff.models.MethodPalladioInformation;
-import org.palladiosimulator.somox.ast2seff.util.StaticNameMethods;
+import org.palladiosimulator.somox.ast2seff.util.NameUtil;
 import org.palladiosimulator.somox.ast2seff.util.SwitchStatementUtil;
 
 public class Ast2SeffVisitor extends ASTVisitor {
@@ -118,7 +118,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		InternalSeff internalBehaviour = internalActionSeff.stopAction().withName("Stop Action").createBehaviourNow();
 		
 		actionSeff = actionSeff.internalCallAction()
-				.withName(StaticNameMethods.getEntityName(expressionStatement))
+				.withName(NameUtil.getEntityName(expressionStatement))
 				.withInternalBehaviour(internalBehaviour)
 				.followedBy();
 	}
@@ -158,7 +158,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			externalCallActionCreator.withReturnVariableUsage(variableUsage);
 		}
 		
-		actionSeff = externalCallActionCreator.withName(StaticNameMethods.getEntityName(methodInvocation)).followedBy();
+		actionSeff = externalCallActionCreator.withName(NameUtil.getEntityName(methodInvocation)).followedBy();
 	}
 	
 	private void addRequiredInterfaceToComponent(String requiredInterfaceName) {
@@ -179,7 +179,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	private void createInternalAction(final ExpressionStatement expressionStatement) {
-		actionSeff = actionSeff.internalAction().withName(StaticNameMethods.getEntityName(expressionStatement)).followedBy();
+		actionSeff = actionSeff.internalAction().withName(NameUtil.getEntityName(expressionStatement)).followedBy();
 	}
 	
 	public boolean visit(final IfStatement ifStatement) {
@@ -190,7 +190,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			branchActionCreator = handleElseStatement(ifStatement.getElseStatement(), branchActionCreator);	
 		}
 		
-		actionSeff = branchActionCreator.withName(StaticNameMethods.getEntityName(ifStatement)).followedBy();
+		actionSeff = branchActionCreator.withName(NameUtil.getEntityName(ifStatement)).followedBy();
 		return false;
 	}
 	
@@ -240,10 +240,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName("Start Action").followedBy();
 			innerActionSeff = this.perform(catchClause.getBody(), innerActionSeff);
 			SeffCreator seffCreator = innerActionSeff.stopAction().withName("Stop Action").createBehaviourNow();
-			branchActionCreator = branchActionCreator.withGuardedBranchTransition("expression", seffCreator, StaticNameMethods.getEntityName(tryStatement));
+			branchActionCreator = branchActionCreator.withGuardedBranchTransition("expression", seffCreator, NameUtil.getEntityName(tryStatement));
 		}
 		
-		actionSeff = branchActionCreator.withName(StaticNameMethods.getEntityName(tryStatement)).followedBy();
+		actionSeff = branchActionCreator.withName(NameUtil.getEntityName(tryStatement)).followedBy();
 		return false;
 	}
 	
@@ -254,7 +254,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			loopActionCreator.withIterationCount(((InfixExpression) forStatementExpression).getRightOperand().toString());
 		}
 		loopActionCreator = generateLoopAction(forStatement.getBody(), loopActionCreator);
-		actionSeff = loopActionCreator.withName(StaticNameMethods.getEntityName(forStatement)).followedBy();
+		actionSeff = loopActionCreator.withName(NameUtil.getEntityName(forStatement)).followedBy();
 		return false;
 	}
 	
@@ -265,7 +265,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			loopActionCreator.withIterationCount("1");
 		}
 		loopActionCreator = generateLoopAction(forStatement.getBody(), loopActionCreator);
-		actionSeff = loopActionCreator.withName(StaticNameMethods.getEntityName(forStatement)).followedBy();
+		actionSeff = loopActionCreator.withName(NameUtil.getEntityName(forStatement)).followedBy();
 		return false;
 	}
 	
@@ -276,13 +276,13 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			loopActionCreator.withIterationCount("1");
 		}
 		loopActionCreator = generateLoopAction(whileStatement.getBody(), loopActionCreator);
-		actionSeff = loopActionCreator.withName(StaticNameMethods.getEntityName(whileStatement)).followedBy();
+		actionSeff = loopActionCreator.withName(NameUtil.getEntityName(whileStatement)).followedBy();
 		return false;
 	}
 	
 	public boolean visit(final SwitchStatement switchStatement) {
 		BranchActionCreator branchActionCreator = actionSeff.branchAction();
-		branchActionCreator.withName(StaticNameMethods.getEntityName(switchStatement));
+		branchActionCreator.withName(NameUtil.getEntityName(switchStatement));
 		
 		List<List<Statement>> blockList = SwitchStatementUtil.createBlockListFromSwitchStatement(switchStatement);
 		for (List<Statement> block : blockList) {
@@ -297,7 +297,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			branchActionCreator= branchActionCreator.withGuardedBranchTransition("expression", seffCreator);
 		}
 		
-		actionSeff = branchActionCreator.withName(StaticNameMethods.getEntityName(switchStatement)).followedBy();
+		actionSeff = branchActionCreator.withName(NameUtil.getEntityName(switchStatement)).followedBy();
 		return false;
 	}
 
@@ -363,8 +363,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	private VariableUsageCreator generateInputVariableUsage(Expression variable) {
 		VariableUsageCreator variableUsage = create.newVariableUsage();
-		variableUsage.withNamespaceReference("PrimitiveType", StaticNameMethods.getExpressionClassName(variable));
-		String randomPCMName = "PrimitiveType" + "." + StaticNameMethods.getExpressionClassName(variable);
+		variableUsage.withNamespaceReference("PrimitiveType", NameUtil.getExpressionClassName(variable));
+		String randomPCMName = "PrimitiveType" + "." + NameUtil.getExpressionClassName(variable);
 		variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
 		return variableUsage;
 	}
@@ -422,13 +422,13 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	private boolean isExternal(MethodInvocation methodInvocation) {
 		String methodName = methodInvocation.getName().toString();
-		String className = StaticNameMethods.getClassName(methodInvocation);
+		String className = NameUtil.getClassName(methodInvocation);
 		return this.methodPalladioInfoMap.containsKey(className + "." + methodName);
 	}
 	
 	private MethodPalladioInformation getMethodPalladioInformation(MethodInvocation methodInvocation) {
 		String methodName = methodInvocation.getName().toString();
-		String className = StaticNameMethods.getClassName(methodInvocation);
+		String className = NameUtil.getClassName(methodInvocation);
 		if (this.methodPalladioInfoMap.containsKey(className + "." + methodName)) {
 			return this.methodPalladioInfoMap.get(className + "." + methodName);
 		} else {

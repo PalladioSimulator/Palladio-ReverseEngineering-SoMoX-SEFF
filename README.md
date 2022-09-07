@@ -35,14 +35,15 @@ A fluent interface, also called fluent API, is a certain style of interface whic
 Prominent examples of fluent interfaces are the [Java Stream API](https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html) and [JMock](http://jmock.org).
 
 ## Motivation
-Even though the model editor provides a comfortable and graphic possibility of creating PCM models, experienced users may find it exhausting to work with a graphical interface and wish for a simple API to create their models programmatically and therefore faster.
-However, the backend of PCM provides not just one but around 10 different factories, that are needed to create a PCM repository model and 5 needed for the system model. Although the allocation and resource environment model each only require a single factory to be created, a fluent api exists for their creation. This ensures that all models can be created in a similar fashion. Searching for the correct factory for the different model elements and the method names that sets the desired properties is not user friendly. Especially, because the model objects offer more method proposals than sensible for creating a repository model.
 
-The following code example shows the code needed for creating half of the repository model from the image of the graphical editor.
+However, the backend of PCM provides not just one but around 10 different factories, that are needed to create a PCM repository model and 5 needed for the system model.
 
-The overhead of creating the repository model that way is extensive. The fluent API has the goal not only to reduce the overhead of creating a model programmatically but also to provide a clear frame that guides the user through the different steps of the model creation, naturally indicating which step comes next. Consequently, the API is easy to use even for unexperienced users.
+Although the allocation and resource environment model each only require a single factory to be created, a fluent api exists for their creation. 
 
-Check out the full code of the example from the image of the graphical editor [here](documentation/repository.md#example).
+This ensures that all models can be created in a similar fashion. Searching for the correct factory for the different model elements and the method names that sets the desired properties is not user friendly. Especially, because the model objects offer more method proposals than sensible for creating a repository model.
+
+The fluent API has the goal not only to reduce the overhead of creating a model programmatically but also to provide a clear frame that guides the user through the different steps of the model creation, naturally indicating which step comes next. Consequently, the API is easy to use even for unexperienced users.
+
 
 ## How to use the Fluent API Model Generator
 
@@ -71,33 +72,32 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-For using the fluent API, three dependencies are required:
-1. Palladio-Core-PCM (org.palladiosimulator.pcm)
-2. Palladio-Core-PCM Resources (org.palladiosimulator.pcm.resources)
-3. Palladio FluentAPI (org.palladiosimulator.fluentapi)
 
-It is recommended to work with a PCM installation. Therefore, install the PCM Nightly as described at [PCM_Installation#PCM_Nightly](https://sdqweb.ipd.kit.edu/wiki/PCM_Installation#PCM_Nightly).
-Create your own Plug-in Project and add the three dependencies in the MANIFEST.MF file.
-You are now ready to use the fluent API to create Models.
-  ```
+
+1. Install [Eclipse 2021-12](https://www.eclipse.org/downloads/packages/release/2021-12/r/eclipse-modeling-tools)
+2. Open Eclipse and navigate to Help > Install New Software...
+3. Install [Palladio Build Updatesite](https://updatesite.palladio-simulator.com/palladio-build-updatesite/nightly/), [Palladio Core Commons](https://updatesite.palladio-simulator.com/palladio-core-commons/nightly/), [Palladio Reverse Engineering Java](https://updatesite.palladio-simulator.com/palladio-reverseengineering-java/nightly/) and [Palladio FluentAPI Model Generator](https://updatesite.palladio-simulator.com/palladio-addons-fluentapimodelgenerator/nightly/)
+
 
 ### Installation
 
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repository to a directory of your choice
+
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   https:
+   git clone https://github.com/PalladioSimulator/Palladio-ReverseEngineering-SoMoX.git
+   
+   ssh:
+   git clone git@github.com:PalladioSimulator/Palladio-ReverseEngineering-SoMoX.git
    ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+   
+2. Open Eclipse and create a new workspace for the project.
+3. Select File > Open Projects From File System...
+4. Press on "Directory" and select the cloned repository directory in the file system.
+5. Several projects get listed. Select all of them.
+6. Press on "Finish".
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

@@ -21,11 +21,12 @@ import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.palladiosimulator.somox.ast2seff.visitors.Ast2SeffVisitor;
 
-public class StaticNameMethods {
+public class NameUtil {
+	
 	private static final Logger logger = Logger.getLogger(Ast2SeffVisitor.class);
 
 	public static String getClassName(MethodInvocation methodInvocation) {
-		return StaticNameMethods.getClassName(methodInvocation.getExpression());
+		return NameUtil.getClassName(methodInvocation.getExpression());
 	}
 	
 	public static String getClassName(Expression calledClass) {
@@ -40,6 +41,7 @@ public class StaticNameMethods {
 		}
 		return result;
 	}
+	
 	public static String getExpressionClassName(Expression variable) {
 		if(variable instanceof BooleanLiteral) {
 			return "BOOLEAN";
