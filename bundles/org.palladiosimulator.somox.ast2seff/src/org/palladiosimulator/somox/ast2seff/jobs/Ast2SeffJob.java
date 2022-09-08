@@ -66,9 +66,10 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     private Map<String, List<MethodBundlePair>> bundleName2methodBundleMap;
     private List<String> parameterList = new ArrayList<String>();
 
-    public Ast2SeffJob() {
-    }
+    public Ast2SeffJob() { }
 
+    
+    
     /*
      * (non-Javadoc)
      *
@@ -91,8 +92,54 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
         LOGGER.info("Found " + bundleName2methodBundleMap.size() + " Bundles. Computing Interfaces.");
         int counter = 0;
+        
+        createOperationInterfacesForRepository(repoAddition, counter);
 
+        final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
+        subMonitor.setTaskName("Creating SEFF behaviour");
+        LOGGER.info("Interfaces done. Computing " + counter + " SEFFs.");
+
+        createSeffsForComponents(repoAddition, monitor);
+
+        LOGGER.info("SEFFs done. Creating Repository.");
+        Repository repository = repoAddition.createRepositoryNow();
+
+        LOGGER.info("Repository done. Creating XML.");
+        this.generateSeffXmlFile(repository);
+
+        LOGGER.info("Task finished.");
+        subMonitor.done();
+    }
+    
+    private void createSeffsForComponents(RepoAddition repoAddition, IProgressMonitor monitor) {
         for (Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
+            String bundleName = entry.getKey();
+            List<MethodBundlePair> methodBundleList = entry.getValue();
+
+            BasicComponentCreator basicComponentCreator = create.newBasicComponent()
+                .withName(bundleName)
+                .provides(create.fetchOfOperationInterface(bundleName));
+            ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
+
+            for (MethodBundlePair methodBundlePair : methodBundleList) {
+                MethodPalladioInformation methodPalladioInformation = methodBundlePalladioInfoMap.get(methodBundlePair);
+                try {
+					basicComponentCreator
+					    .withServiceEffectSpecification(this.createSeff(methodPalladioInformation, componentInformation)
+					        .withName(methodPalladioInformation.getMethodName()));
+				} catch (JobFailedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                monitor.worked(1);
+            }
+
+            repoAddition.addToRepository(basicComponentCreator);
+        }
+    }
+    
+    private void createOperationInterfacesForRepository(RepoAddition repoAddition, int counter) {
+    	for (Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
             String bundleName = entry.getKey();
             List<MethodBundlePair> methodAssociationListOfBundle = entry.getValue();
             LOGGER.info("Found " + methodAssociationListOfBundle.size() + " methods to " + bundleName
@@ -134,41 +181,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                 List<SingleVariableDeclaration> singleVariableDeclarationList = methodDeclaration.parameters();
 
                 if (singleVariableDeclarationList != null && singleVariableDeclarationList.size() > 0) {
-                    for (SingleVariableDeclaration variableDeclaration : singleVariableDeclarationList) {
-                        Type type = variableDeclaration.getType();
-                        String parameterName = variableDeclaration.getName()
-                            .toString();
-                        if (type.isPrimitiveType()) {
-                            PrimitiveType primitiveType = (PrimitiveType) type;
-                            String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode()
-                                .toString();
-
-                            if (parameterList.contains(primitiveTypeCodeString)) {
-                                Primitive primitive = this.getPrimitiveType(primitiveTypeCodeString);
-                                methodOperationSignature.withParameter(parameterName, create.fetchOfDataType(primitive),
-                                        ParameterModifier.IN);
-                            } else {
-                                Primitive primitive = this.getPrimitiveType(primitiveTypeCodeString);
-                                methodOperationSignature.withParameter(parameterName, primitive, ParameterModifier.IN);
-                                parameterList.add(primitiveTypeCodeString);
-                            }
-                        } else if (type.isSimpleType()) {
-                            SimpleType simpleType = (SimpleType) type;
-
-                            if (!parameterList.contains(simpleType.toString())) {
-                                CompositeDataTypeCreator compositeDataType = create.newCompositeDataType()
-                                    .withName(simpleType.toString());
-                                if (simpleType.toString()
-                                    .equals("SimpleClass"))
-                                    compositeDataType = compositeDataType.withInnerDeclaration("counter",
-                                            Primitive.INTEGER);
-                                repoAddition.addToRepository(compositeDataType);
-                                parameterList.add(simpleType.toString());
-                            }
-                            methodOperationSignature.withParameter(parameterName,
-                                    create.fetchOfCompositeDataType(simpleType.toString()), ParameterModifier.IN);
-                        }
-                    }
+                    setParametersToSignature(singleVariableDeclarationList, repoAddition, methodOperationSignature);
                 }
 
                 Type returnType = methodDeclaration.getReturnType2();
@@ -186,40 +199,47 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
             }
             repoAddition.addToRepository(bundleOperationInterfaceCreator);
         }
-
-        final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
-        subMonitor.setTaskName("Creating SEFF behaviour");
-        LOGGER.info("Interfaces done. Computing " + counter + " SEFFs.");
-
-        for (Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
-            String bundleName = entry.getKey();
-            List<MethodBundlePair> methodBundleList = entry.getValue();
-
-            BasicComponentCreator basicComponentCreator = create.newBasicComponent()
-                .withName(bundleName)
-                .provides(create.fetchOfOperationInterface(bundleName));
-            ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-
-            for (MethodBundlePair methodBundlePair : methodBundleList) {
-                MethodPalladioInformation methodPalladioInformation = methodBundlePalladioInfoMap.get(methodBundlePair);
-                basicComponentCreator
-                    .withServiceEffectSpecification(this.createSeff(methodPalladioInformation, componentInformation)
-                        .withName(methodPalladioInformation.getMethodName()));
-                monitor.worked(1);
-            }
-
-            repoAddition.addToRepository(basicComponentCreator);
-        }
-
-        LOGGER.info("SEFFs done. Creating Repository.");
-        Repository repository = repoAddition.createRepositoryNow();
-
-        LOGGER.info("Repository done. Creating XML.");
-        this.generateSeffXmlFile(repository);
-
-        LOGGER.info("Task finished.");
-        subMonitor.done();
     }
+    
+    private void setParametersToSignature(List<SingleVariableDeclaration> singleVariableDeclarationList, RepoAddition repoAddition, OperationSignatureCreator methodOperationSignature) {
+    	for (SingleVariableDeclaration variableDeclaration : singleVariableDeclarationList) {
+            Type type = variableDeclaration.getType();
+            String parameterName = variableDeclaration.getName()
+                .toString();
+            if (type.isPrimitiveType()) {
+                PrimitiveType primitiveType = (PrimitiveType) type;
+                String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode()
+                    .toString();
+
+                if (parameterList.contains(primitiveTypeCodeString)) {
+                    Primitive primitive = this.getPrimitiveType(primitiveTypeCodeString);
+                    methodOperationSignature.withParameter(parameterName, create.fetchOfDataType(primitive),
+                            ParameterModifier.IN);
+                } else {
+                    Primitive primitive = this.getPrimitiveType(primitiveTypeCodeString);
+                    methodOperationSignature.withParameter(parameterName, primitive, ParameterModifier.IN);
+                    parameterList.add(primitiveTypeCodeString);
+                }
+            } else if (type.isSimpleType()) {
+                SimpleType simpleType = (SimpleType) type;
+
+                if (!parameterList.contains(simpleType.toString())) {
+                    CompositeDataTypeCreator compositeDataType = create.newCompositeDataType()
+                        .withName(simpleType.toString());
+                    if (simpleType.toString()
+                        .equals("SimpleClass"))
+                        compositeDataType = compositeDataType.withInnerDeclaration("counter",
+                                Primitive.INTEGER);
+                    repoAddition.addToRepository(compositeDataType);
+                    parameterList.add(simpleType.toString());
+                }
+                methodOperationSignature.withParameter(parameterName,
+                        create.fetchOfCompositeDataType(simpleType.toString()), ParameterModifier.IN);
+            }
+        }
+    }
+    
+    
 
     /*
      * (non-Javadoc)
