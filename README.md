@@ -6,17 +6,17 @@ If you are familiar with the background of PCM and fluent interfaces, jump direc
 
 This project is based on the Palladio Component Model, which is a modelling concept developed at the software quality and design institute of KIT.
 
-Was ist PCM?  
-Was ist ein SEFF? Was ist ein RDSEFF? (Eine Art Aktivitätsdiagramm)  
-Motivation für unser Projekt (Reverse Engineering) -> Vom Code zum Model für Analyse, Refactoring, Featureimplementierung, Wartung  
+Was ist PCM?
+Was ist ein SEFF? Was ist ein RDSEFF? (Eine Art Aktivitätsdiagramm)
+Motivation für unser Projekt (Reverse Engineering) -> Vom Code zum Model für Analyse, Refactoring, Featureimplementierung, Wartung
 
-Was haben wir in unserem Projekt gemacht?   
+Was haben wir in unserem Projekt gemacht?
 (MoDisCoo zu JDT, zunächst normale Konstruktoren danach Fluent API, Was ist die Fluent API, )
 
-Wie kann man unser Projekt aufsetzen?  (Getting started etc.)  
+Wie kann man unser Projekt aufsetzen?  (Getting started etc.)
 
-Was sind und waren Probleme in unserer Implementierung?   s
-Was sind die Limitierungen in unserem  Projekt? (Was haben wir gemacht und was haben wir für zukünftige Arbeiten offen gelassen)? 
+Was sind und waren Probleme in unserer Implementierung?
+Was sind die Limitierungen in unserem  Projekt? (Was haben wir gemacht und was haben wir für zukünftige Arbeiten offen gelassen)?
 
 
 ### Palladio Component Model (PCM)
@@ -30,25 +30,18 @@ The tree view of the repository model editor shows the model elements in their s
 ![PCM Repository Model: Tree Editor](documentation/pcm_repo_model_tree.png "PCM Repository Model: Tree Editor")
 s
 #### Fluent Interfaces
-A fluent interface, also called fluent API, is a certain style of interface which is especially useful for creating and manipulating objects. The goal of a fluent interface is to increase code legibility by creating a domain-specific language (DSL). Its design relies on method chaining to implement method cascading. Thus, each method usually returns this, i.e. the manipulated object itself. Furthermore, the chaining methods are supposed to "flow like a natural sentence" (hence the name "fluent interface"), automatically guiding the user and giving a natural feeling of the available features.
+A fluent interface, also called fluent API, is a certain style of interface which is especially useful for creating and manipulating objects. The goal of a fluent interface is to increase code legibility by creating a domain-specific language (DSL). Its design relies on method chaining to implement method cascading, thus, each method usually returns the manipulated object itself (a this pointer). Furthermore, the chaining methods are supposed to "flow like a natural sentence" (hence the name "fluent interface"), automatically guiding the user and giving a natural feeling of the available features. The fluent API has the goal to not only reduce the overhead of creating a model programmatically but also to provide a clear frame that guides the user through the different steps of the model creation, naturally indicating which step comes next. Consequently, the API is easy to use even for unexperienced users and is very helpfull in combination with modern IDEs, due to their code completion highlighting.
 
 Prominent examples of fluent interfaces are the [Java Stream API](https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html) and [JMock](http://jmock.org).
 
 ## Motivation
-
-However, the backend of PCM provides not just one but around 10 different factories, that are needed to create a PCM repository model and 5 needed for the system model.
-
-Although the allocation and resource environment model each only require a single factory to be created, a fluent api exists for their creation. 
-
-This ensures that all models can be created in a similar fashion. Searching for the correct factory for the different model elements and the method names that sets the desired properties is not user friendly. Especially, because the model objects offer more method proposals than sensible for creating a repository model.
-
-The fluent API has the goal not only to reduce the overhead of creating a model programmatically but also to provide a clear frame that guides the user through the different steps of the model creation, naturally indicating which step comes next. Consequently, the API is easy to use even for unexperienced users.
-
+Since the backend of PCM provides not just one, but around 10 different factories that are needed all to create a PCM repository model and the system model, a fluent api is a much appreciated help. Although the allocation and resource environment model each only require a single factory the code can get very messy for other parts like the creation of actions and the assignment of variables without one. The Fluent Api also ensures that all models can be created in a similar fashion. Searching for the correct factory for the different model elements and the method names that sets the desired properties is not user friendly, especially, since the model objects offer more method proposals than required for creating a repository model. Thankfully, a fluent-api was created in previous work and was ready to use for this implementation.
 
 ## How to use the Fluent API Model Generator
-
 The easiest way to use the API as an end user is to install it in Eclipse via the provided update page:
 * https://updatesite.palladio-simulator.com/palladio-addons-fluentapimodelgenerator/nightly/
+and follow the the instructions under
+* https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator/blob/master/documentation
 
 ### Create Models
 The different models each have their own factory. See the links below to get an introduction to each of the models.
