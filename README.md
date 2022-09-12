@@ -36,18 +36,18 @@ and follow the the instructions under
 
 ### Create Models
 The different models each have their own factory. See the links below to get an introduction to each of the models.
-- [Repository](documentation/repository.md)
-- [System](documentation/system.md)
-- [Resource Environment](documentation/resourceEnvironment.md)
-- [Allocation](documentation/allocation.md)
-- [Usage Model](documentation/usagemodel.md)
+- [Repository](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator/blob/master/documentation/repository.md)
+- [System](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator/blob/master/documentation/system.md)
+- [Resource Environment](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator/blob/master/documentation/resourceEnvironment.md)
+- [Allocation](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator/blob/master/documentation/allocation.md)
+- [Usage Model](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator/blob/master/documentation/usagemodel.md)
 
 ## Objectives: 
+We focused on different objectives in this work to help the user:
 - To gain better understanding of the system by visualisation
 - To provide fast and parallel view (UML Diagram) next to the tree-/code-editor in Eclipse
 - To replace the existing PlantUML diagram by a new simplified one
 - Transformation of elements from Palladio models to UML elements programatically
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -62,7 +62,6 @@ To get a local copy up and running follow these simple example steps.
 3. Install [Palladio Build Updatesite](https://updatesite.palladio-simulator.com/palladio-build-updatesite/nightly/), [Palladio Core Commons](https://updatesite.palladio-simulator.com/palladio-core-commons/nightly/), [Palladio Reverse Engineering Java](https://updatesite.palladio-simulator.com/palladio-reverseengineering-java/nightly/) and [Palladio FluentAPI Model Generator](https://updatesite.palladio-simulator.com/palladio-addons-fluentapimodelgenerator/nightly/)
 	1. Always accept the warnings and install the software anyway
 5. After a final restart all dependencies are installed and Eclipse is ready to go importing the project files
-
 
 ### Installation
 
