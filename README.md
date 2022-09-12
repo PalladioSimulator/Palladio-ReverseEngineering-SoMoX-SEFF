@@ -1,27 +1,16 @@
 # Abbildung von Java-Methoden und –Aufrufen in einer Art Aktivitätsdiagramm
 
-If you are familiar with the background of PCM and fluent interfaces, jump directly to [Motivation](#motivation).
-
 ## Introduction
+This project is based on the Palladio Component Model, which is a modeling concept developed at the software quality and design institute of KIT. It is used together with a Service Effect Specification (Seff) and the Eclipse AST parser to create an Abstraction of passed code and modeling of internal behavior. It can be used to describe relationships between provided and required components and models their input and output variables. In future work, it can even be used to analyze runtime variables like CPU / HDD demands.
 
-This project is based on the Palladio Component Model, which is a modelling concept developed at the software quality and design institute of KIT.
-
-Was ist PCM?
-Was ist ein SEFF? Was ist ein RDSEFF? (Eine Art Aktivitätsdiagramm)
-Motivation für unser Projekt (Reverse Engineering) -> Vom Code zum Model für Analyse, Refactoring, Featureimplementierung, Wartung
-
-Was haben wir in unserem Projekt gemacht?
-(MoDisCoo zu JDT, zunächst normale Konstruktoren danach Fluent API, Was ist die Fluent API, )
-
-Wie kann man unser Projekt aufsetzen?  (Getting started etc.)
-
-Was sind und waren Probleme in unserer Implementierung?
-Was sind die Limitierungen in unserem  Projekt? (Was haben wir gemacht und was haben wir für zukünftige Arbeiten offen gelassen)?
-
+If you are familiar with the background of PCM, Seff, AST and fluent interfaces, jump directly to [Motivation](#motivation).
 
 ### Palladio Component Model (PCM)
 Palladio is a software architecture simulation approach which analyses your software at the model level for performance bottlenecks, scalability issues, reliability threats, and allows for a subsequent optimization.
 The Palladio Component Model (PCM) is one of the core assets of the Palladio approach. It is designed to enable early performance, reliability, maintainability, and cost predictions for software architectures and is aligned with a component-based software development process. The PCM is implemented using the Eclipse Modeling Framework (EMF). Visit the [Homepage](https://www.palladio-simulator.com) for more information.
+
+### Service Effect Specification (Seff)
+Was ist ein SEFF? Was ist ein RDSEFF? (Eine Art Aktivitätsdiagramm)
 
 #### Creation of PCM Models
 The PCM is realized as an Eclipse Plugin. The creation of the different palladio models is fairly similar. As an example, the creation of a repository is shown. Creating PCM repository model is fairly simple using the diagram editor. The image below shows the graphical diagram editor with a simple repository model. The palette on the right provides the user with all the model elements. Selecting an element and clicking onto the model plane creates the basic model elements. Additionally, most elements can be further edited using the ```Properties``` view.
@@ -37,9 +26,12 @@ Prominent examples of fluent interfaces are the [Java Stream API](https://docs.o
 ## Motivation
 Since the backend of PCM provides not just one, but around 10 different factories that are needed all to create a PCM repository model and the system model, a fluent api is a much appreciated help. Although the allocation and resource environment model each only require a single factory the code can get very messy for other parts like the creation of actions and the assignment of variables without one. The Fluent Api also ensures that all models can be created in a similar fashion. Searching for the correct factory for the different model elements and the method names that sets the desired properties is not user friendly, especially, since the model objects offer more method proposals than required for creating a repository model. Thankfully, a fluent-api was created in previous work and was ready to use for this implementation.
 
+Motivation für unser Projekt (Reverse Engineering) -> Vom Code zum Model für Analyse, Refactoring, Featureimplementierung, Wartung
+
 ## How to use the Fluent API Model Generator
 The easiest way to use the API as an end user is to install it in Eclipse via the provided update page:
 * https://updatesite.palladio-simulator.com/palladio-addons-fluentapimodelgenerator/nightly/
+
 and follow the the instructions under
 * https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator/blob/master/documentation
 
@@ -56,6 +48,7 @@ The different models each have their own factory. See the links below to get an 
 - To provide fast and parallel view (UML Diagram) next to the tree-/code-editor in Eclipse
 - To replace the existing PlantUML diagram by a new simplified one
 - Transformation of elements from Palladio models to UML elements programatically
+
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -108,8 +101,11 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 ## Limitations:
 - We were only implementing Guarded Branch Transitions and omitting Probabilistic Branch Transitions, because we cannot make any reasonable guess about the probability of the different branches.
-- We have started exploring the Assignment Statement and its conversion to a SetVariableAction element in the SEFF context. As we found out during our exploration, the SetVariableAction element is used for functions which have a return statement. We stopped further exploration but leave the initial code at the ExpressionStatement visit function.
+- We have started exploring the Assignment Statement and its conversion to a SetVariableAction element in the SEFF context. As we found out during our exploration, the SetVariableAction element is used for functions which have a return statement. We stopped further exploration but leave the initial code at the ExpressionStatement visit function
 - 
+
+Was sind und waren Probleme in unserer Implementierung?
+Was sind die Limitierungen in unserem  Projekt? (Was haben wir gemacht und was haben wir für zukünftige Arbeiten offen gelassen)?
 
 ## Testing
 For the usage model JUnit testing is available. The tests and a bigger example for can be found in [```FluentUsageModelFactoryTest```](tests/org.palladiosimulator.generator.fluent.test/src/org/palladiosimulator/generator/fluent/usagemodel/factory/FluentUsageModelFactoryTest.java). In future versions the examples of the other models can be written into unit tests and saved under [```Tests```](tests/org.palladiosimulator.generator.fluent.test/src/org/palladiosimulator/generator/fluent).
