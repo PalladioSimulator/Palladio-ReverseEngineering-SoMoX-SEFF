@@ -90,7 +90,7 @@ Now you are ready to see the implementation and test the available solution.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-To analyze the code it first has to be converted into an [AST representation](https://www.vogella.com/tutorials/EclipseJDT/article.html). To do so create a parser first and parse all wanted files (or directories like in the example below). What the additional settings do can be read in the [Eclipse help Platform Documentation](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html).
+To analyze the code it first has to be converted into an [AST representation](https://www.vogella.com/tutorials/EclipseJDT/article.html). To do so create a parser first and parse all wanted files (or directories like in the example below). What the additional settings do can be read in the [Eclipse help Platform Documentation](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html). The full implementation of this simple case can also be found in our [Tests](tests/org.palladiosimulator.somox.ast2seff.test/src/org/palladiosimulator/somox/ast2seff/Ast2SeffTest.java).
 First the parser needs to be set up:
 
   ```sh
@@ -181,8 +181,6 @@ Now that the map is set up we chose to use a blackboard as storage unit instead 
     NullProgressMonitor progressMonitor = new NullProgressMonitor();
     ast2SeffJob.execute(progressMonitor);
   ```
-
-The full implementation of this simple case can be found in our [Tests](tests/org.palladiosimulator.somox.ast2seff.test/src/org/palladiosimulator/somox/ast2seff/Ast2SeffTest.java).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
