@@ -99,17 +99,17 @@ First the parser needs to be set up:
     parser.setResolveBindings(true);
     parser.setBindingsRecovery(true);
     parser.setStatementsRecovery(true);
-    parser.setCompilerOptions(Map.of(JavaCore.COMPILER_SOURCE, javaCoreVersion, JavaCore.COMPILER_COMPLIANCE, javaCoreVersion, JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, javaCoreVersion));
+    parser.setCompilerOptions(Map.of(JavaCore.COMPILER_SOURCE, javaCoreVersion, JavaCore.COMPILER_COMPLIANCE,
+            javaCoreVersion, JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, javaCoreVersion));
   ```
 
 Since we want to parse ".java" files and have environment informations from the ".jar" files we created a helper function "get Entries":
 
   ```sh
-   	private String[] getEntries(Path dir, String suffix) {
+  private String[] getEntries(Path dir, String suffix) {
         try (Stream<Path> paths = Files.walk(dir)) {
             return paths
-                    .filter(path -> Files.isRegularFile(path)
-                            && path.getFileName().toString().toLowerCase().endsWith(suffix))
+                    .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().toLowerCase().endsWith(suffix))
                     .map(Path::toAbsolutePath).map(Path::normalize).map(Path::toString).toArray(i -> new String[i]);
         } catch (final IOException e) {
         	e.printStackTrace();
