@@ -106,7 +106,7 @@ First the parser needs to be set up:
 Since we want to parse ".java" files and have environment informations from the ".jar" files we created a helper function "get Entries":
 
   ```sh
-  private String[] getEntries(Path dir, String suffix) {
+    private String[] getEntries(Path dir, String suffix) {
         try (Stream<Path> paths = Files.walk(dir)) {
             return paths
                     .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().toLowerCase().endsWith(suffix))
