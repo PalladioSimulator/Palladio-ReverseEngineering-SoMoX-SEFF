@@ -3,7 +3,7 @@
 ## Introduction
 This project is based on the Palladio Component Model (PCM), which is a modeling concept developed at the software quality and design institute of KIT. It is used together with a Service Effect Specification (Seff) and the Eclipse AST parser to create an Abstraction of passed code and modeling of internal behavior. It can be used to describe relationships between provided and required components and models their input and output variables. In future work, it can even be used to analyze runtime variables like CPU / HDD demands.
 
-If you are familiar with the background of PCM, Seff, AST and fluent interfaces, jump directly to [Motivation](#motivation).
+If you are familiar with the background of PCM, Seff, AST and fluent interfaces, jump directly to [Motivation](#motivation) or if you are familiar with the project, jump direclty to [Usage](#usage).
 
 ### Palladio Component Model (PCM)
 Palladio is a software architecture simulation approach which analyses your software at the model level for performance bottlenecks, scalability issues, reliability threats, and allows for a subsequent optimization.
@@ -52,20 +52,21 @@ We focused on different objectives in this work to help the user:
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-1. Install [Eclipse 2021-12](https://www.eclipse.org/downloads/packages/release/2021-12/r/eclipse-modeling-tools)
-2. Open Eclipse and navigate to Help > Install New Software...
-3. Install [Palladio Build Updatesite](https://updatesite.palladio-simulator.com/palladio-build-updatesite/nightly/), [Palladio Core Commons](https://updatesite.palladio-simulator.com/palladio-core-commons/nightly/), [Palladio Reverse Engineering Java](https://updatesite.palladio-simulator.com/palladio-reverseengineering-java/nightly/) and [Palladio FluentAPI Model Generator](https://updatesite.palladio-simulator.com/palladio-addons-fluentapimodelgenerator/nightly/)
+1. Install Java (jdk-11)
+2. Install maven (latest)
+3. Install [Eclipse 2021-12](https://www.eclipse.org/downloads/packages/release/2021-12/r/eclipse-modeling-tools)
+4. Open Eclipse and navigate to Help > Install New Software...
+5. Install [Palladio Build Updatesite](https://updatesite.palladio-simulator.com/palladio-build-updatesite/nightly/), [Palladio Core Commons](https://updatesite.palladio-simulator.com/palladio-core-commons/nightly/), [Palladio Reverse Engineering Java](https://updatesite.palladio-simulator.com/palladio-reverseengineering-java/nightly/) and [Palladio FluentAPI Model Generator](https://updatesite.palladio-simulator.com/palladio-addons-fluentapimodelgenerator/nightly/)
 	1. Always accept the warnings and install the software anyway
-5. After a final restart all dependencies are installed and Eclipse is ready to go importing the project files
+7. After a final restart all dependencies are installed and Eclipse is ready to go importing the project files
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+_Below is an example of how you can install and set up your app. This template doesn't rely on any external dependencies or services._
 
 1. Clone the repository to a directory of your choice
 
@@ -89,10 +90,99 @@ Now you are ready to see the implementation and test the available solution.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+To analyze the code it first has to be converted into an [AST representation](https://www.vogella.com/tutorials/EclipseJDT/article.html). To do so create a parser first and parse all wanted files (or directories like in the example below). What the additional settings do can be read in the [Eclipse help Platform Documentation](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html).
+First the parser needs to be set up:
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+  ```sh
+    String  javaCoreVersion = JavaCore.latestSupportedJavaVersion();
+    final ASTParser parser = ASTParser.newParser(AST.getJLSLatest());
+    parser.setResolveBindings(true);
+    parser.setBindingsRecovery(true);
+    parser.setStatementsRecovery(true);
+    parser.setCompilerOptions(Map.of(JavaCore.COMPILER_SOURCE, javaCoreVersion, JavaCore.COMPILER_COMPLIANCE, javaCoreVersion, JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, javaCoreVersion));
+  ```
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+Since we want to parse ".java" files and have environment informations from the ".jar" files we created a helper function "get Entries":
+
+  ```sh
+   	private String[] getEntries(Path dir, String suffix) {
+        try (Stream<Path> paths = Files.walk(dir)) {
+            return paths
+                    .filter(path -> Files.isRegularFile(path)
+                            && path.getFileName().toString().toLowerCase().endsWith(suffix))
+                    .map(Path::toAbsolutePath).map(Path::normalize).map(Path::toString).toArray(i -> new String[i]);
+        } catch (final IOException e) {
+        	e.printStackTrace();
+            return new String[0];
+        }
+	  }
+  ```
+
+Now that the parser is set up and and the helper function is defined we can start parsing our [directory](tests/org.palladiosimulator.somox.ast2seff.test/src/org/palladiosimulator/somox/ast2seff/res/) and create a [Compilation Unit](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html) for each file.
+
+  ```sh
+    Path dir = Path.of("src/org/palladiosimulator/somox/ast2seff/res");
+    String[] classpathEntries = getEntries(dir, ".jar");
+    final String[] sources = getEntries(dir, ".java");
+    final String[] encodings = new String[sources.length];
+    Arrays.fill(encodings,  StandardCharsets.UTF_8.toString());
+    final Map<String, CompilationUnit> compilationUnits = new HashMap<>();
+    try {
+        parser.setEnvironment(classpathEntries, new String[0], new String[0], true);
+        parser.createASTs(sources, encodings, new String[0], new FileASTRequestor() {
+            @Override
+            public void acceptAST(final String sourceFilePath, final CompilationUnit ast) {
+                compilationUnits.put(sourceFilePath, ast);
+            }
+        }, new NullProgressMonitor());
+    } catch (IllegalArgumentException | IllegalStateException e) {
+    	e.printStackTrace();
+    }
+    return compilationUnits;
+  ```
+
+Since additional filtering like exclusion of Private functions is often wanted we did chose to not pass the whole compilationUnits to the ast2SeffJob, instead we pass a mapping of classNames to [methodDeclarations](bundles/org.palladiosimulator.somox.ast2seff/src/org/palladiosimulator/somox/ast2seff/models/MethodBundlePair.java), which we defined as a pair of [MethodDeclarations](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html) and bundleNames.
+
+  ```sh
+    Map<String, List<MethodBundlePair>> bundleName2methodAssociationMap = new HashMap<String, List<MethodBundlePair>>();
+    
+    for (var entry : compUnitMap.entrySet()) {
+			List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(entry.getValue());
+			for (MethodDeclaration methodDeclaration : methodDeclarations) {
+				List<IExtendedModifier> modifierList = (List<IExtendedModifier>) methodDeclaration.modifiers();
+				
+				// Generate a seff for public methods only
+				IExtendedModifier firstModifier = modifierList.get(0);
+				if (firstModifier.isModifier()) {
+					Modifier modifier = (Modifier) firstModifier;
+					if (modifier.isPublic()) {
+						TypeDeclaration typeDeclaration = (TypeDeclaration) methodDeclaration.getParent();
+						String className = typeDeclaration.getName().toString();
+						if (bundleName2methodAssociationMap.containsKey(className)) {
+							bundleName2methodAssociationMap.get(className).add(new MethodBundlePair(className, methodDeclaration)); 
+						} else {
+							List<MethodBundlePair> methodAssociationList = new ArrayList<MethodBundlePair>();
+							methodAssociationList.add(new MethodBundlePair(className, methodDeclaration));
+							bundleName2methodAssociationMap.put(className, methodAssociationList); 
+						}
+					}
+				}
+			}
+		}
+  ```
+
+Now that the map is set up we chose to use a blackboard as storage unit instead of directly passing it to enable a free execution. The convertion from ast to seff starts when ` ast2SeffJob.execute() ` is called.
+
+  ```sh
+    Ast2SeffJob ast2SeffJob = new Ast2SeffJob();
+    Blackboard<Object> blackboard = new Blackboard<>();
+    blackboard.addPartition("bundleName2methodAssociationMap", bundleName2methodAssociationMap);
+    ast2SeffJob.setBlackboard(blackboard);
+    NullProgressMonitor progressMonitor = new NullProgressMonitor();
+    ast2SeffJob.execute(progressMonitor);
+  ```
+
+The full implementation of this simple case can be found in our [Tests](tests/org.palladiosimulator.somox.ast2seff.test/src/org/palladiosimulator/somox/ast2seff/Ast2SeffTest.java).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
