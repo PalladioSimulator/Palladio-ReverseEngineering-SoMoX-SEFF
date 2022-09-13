@@ -28,6 +28,7 @@ Analyzing code can be very time-consuming and exhausting. Sometimes one "if" can
 This feature was not eazy to implement, since the backend of PCM provides not just one, but around 10 different factories that are all needed to create a PCM repository and system model. A fluent API is a much-appreciated help. Although the allocation and resource environment model each only require a single factory the code can get very messy for other parts like the creation of actions and the assignment of variables without one. The Fluent API also ensures that all models can be created similarly. Searching for the correct factory for the different model elements and the method names that set the desired properties is not user-friendly, especially, since the model objects offer more method proposals than required for creating a repository model. Thankfully, a fluent-API was created in previous work and was ready to use for this implementation.
 
 ## Objectives: 
+Technology choises: (Jmop to JDT)
 We focused on different objectives in this work to help the user:
 - To gain better understanding of the system by visualisation
 - To provide fast and parallel view (UML Diagram) next to the tree-/code-editor in Eclipse
@@ -75,8 +76,7 @@ Now you are ready to see the implementation and test the available solution.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-To analyze the code it first has to be converted into an [AST Representation](https://www.vogella.com/tutorials/EclipseJDT/article.html). To do so create a parser first and parse all wanted files (or directories like in the example below). What the additional settings do can be read in the [Eclipse help Platform Documentation](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html).
-
+To analyze the code it first has to be converted into an [AST Representation](https://www.vogella.com/tutorials/EclipseJDT/article.html). To do so create a parser first and parse all wanted files (or directories like in the example below). What the additional settings do can be read in the [Eclipse help Platform Documentation](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html).  
 The full implementation of this simple case can also be found in our [Tests](tests/org.palladiosimulator.somox.ast2seff.test/src/org/palladiosimulator/somox/ast2seff/Ast2SeffTest.java).
 
 First the parser needs to be set up:
@@ -106,7 +106,7 @@ Since we want to parse ".java" files and have environment informations from the 
     }
   ```
 
-Now that the parser is set up and and the helper function is defined we can start parsing our [directory](tests/org.palladiosimulator.somox.ast2seff.test/src/org/palladiosimulator/somox/ast2seff/res/) and create a [Compilation Unit](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html) for each file.
+Now that the parser is set up and and the helper function is defined we can start parsing our [Directory](tests/org.palladiosimulator.somox.ast2seff.test/src/org/palladiosimulator/somox/ast2seff/res/) and create a [Compilation Unit](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html) for each file.
 
   ```sh
     Path dir = Path.of("src/org/palladiosimulator/somox/ast2seff/res");
@@ -129,7 +129,7 @@ Now that the parser is set up and and the helper function is defined we can star
     return compilationUnits;
   ```
 
-Since additional filtering like exclusion of Private functions is often wanted we did chose to not pass the whole compilationUnits to the ast2SeffJob, instead we pass a mapping of classNames to [methodDeclarations](bundles/org.palladiosimulator.somox.ast2seff/src/org/palladiosimulator/somox/ast2seff/models/MethodBundlePair.java), which we defined as a pair of [MethodDeclarations](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html) and bundleNames.
+Since additional filtering like exclusion of Private functions is often wanted we did chose to not pass the whole compilationUnits to the ast2SeffJob, instead we pass a mapping of classNames to [MethodDeclarations](bundles/org.palladiosimulator.somox.ast2seff/src/org/palladiosimulator/somox/ast2seff/models/MethodBundlePair.java), which we defined as a pair of [MethodDeclarations](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html) and bundleNames.
 
   ```sh
     Map<String, List<MethodBundlePair>> bundleName2methodAssociationMap = new HashMap<String, List<MethodBundlePair>>();
