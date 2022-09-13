@@ -24,23 +24,8 @@ A fluent interface, also called fluent API, is a certain style of interface whic
 Prominent examples of fluent interfaces are the [Java Stream API](https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html) and [JMock](http://jmock.org).
 
 ## Motivation
-Analyzing code can be very time-consuming and exhausting. Sometimes one "if" can make the difference between a performant implementation and a slow one, but if you are not common with the code it's hard to find the excact location. Thats why an automated, eazy readable PCM graph from the code would be a perfekt fit for every programmer. It can be used for reverse engineering purposes to find bugs like unaccessable paths or to model the whole program and find all internal and external connections. It eases the learning process for new emlopees and enables a clean codebase with fast to find refactors or analization of resource demands.
+Analyzing code can be very time-consuming and exhausting. Sometimes one "if" can make the difference between a performant implementation and a slow one, but if you are not common with the code it's hard to find the excact location. Thats why an automated, eazy readable PCM graph from the code would be a perfekt fit for every programmer. It can be used for reverse engineering purposes to find bugs like unaccessable paths or to model the whole program and find all internal and external connections. It eases the learning process for new emlopees and enables a clean codebase with fast to find refactors or analization of resource demands.  
 This feature was not eazy to implement, since the backend of PCM provides not just one, but around 10 different factories that are all needed to create a PCM repository and system model. A fluent API is a much-appreciated help. Although the allocation and resource environment model each only require a single factory the code can get very messy for other parts like the creation of actions and the assignment of variables without one. The Fluent API also ensures that all models can be created similarly. Searching for the correct factory for the different model elements and the method names that set the desired properties is not user-friendly, especially, since the model objects offer more method proposals than required for creating a repository model. Thankfully, a fluent-API was created in previous work and was ready to use for this implementation.
-
-## How to use the Fluent API Model Generator
-The easiest way to use the API as an end user is to install it in Eclipse via the provided update page:
-* https://updatesite.palladio-simulator.com/palladio-addons-fluentapimodelgenerator/nightly/
-
-and follow the the instructions under
-* https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator/blob/master/documentation
-
-### Create Models
-The different models each have their own factory. See the links below to get an introduction to each of the models.
-- [Repository](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator/blob/master/documentation/repository.md)
-- [System](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator/blob/master/documentation/system.md)
-- [Resource Environment](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator/blob/master/documentation/resourceEnvironment.md)
-- [Allocation](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator/blob/master/documentation/allocation.md)
-- [Usage Model](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator/blob/master/documentation/usagemodel.md)
 
 ## Objectives: 
 We focused on different objectives in this work to help the user:
@@ -90,7 +75,7 @@ Now you are ready to see the implementation and test the available solution.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-To analyze the code it first has to be converted into an [AST representation](https://www.vogella.com/tutorials/EclipseJDT/article.html). To do so create a parser first and parse all wanted files (or directories like in the example below). What the additional settings do can be read in the [Eclipse help Platform Documentation](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html).
+To analyze the code it first has to be converted into an [AST Representation](https://www.vogella.com/tutorials/EclipseJDT/article.html). To do so create a parser first and parse all wanted files (or directories like in the example below). What the additional settings do can be read in the [Eclipse help Platform Documentation](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html).
 
 The full implementation of this simple case can also be found in our [Tests](tests/org.palladiosimulator.somox.ast2seff.test/src/org/palladiosimulator/somox/ast2seff/Ast2SeffTest.java).
 
