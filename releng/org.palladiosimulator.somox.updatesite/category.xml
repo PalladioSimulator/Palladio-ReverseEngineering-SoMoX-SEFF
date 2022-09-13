@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+    <!-- add features here -->
+    <feature id="org.palladiosimulator.somox.core.feature">
+        <category name="org.palladiosimulator.reverseengineering.category" />
+    </feature>
+    <!-- category definitions -->
+    <category-def name="org.palladiosimulator.reverseengineering.category"
+        label="Palladio Bench Reverse Engineering Features">
+        <description>
+            This category contains all features that are part of a full installation of the SOftware MOdel eXtractor features.
+        </description>
+    </category-def>
+</site>
