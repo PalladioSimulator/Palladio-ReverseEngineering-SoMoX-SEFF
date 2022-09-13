@@ -184,6 +184,8 @@ Was sind die Limitierungen in unserem  Projekt? (Was haben wir gemacht und was h
 ## Testing
 For the usage model JUnit testing is available. The tests and a bigger example for can be found in [```FluentUsageModelFactoryTest```](tests/org.palladiosimulator.generator.fluent.test/src/org/palladiosimulator/generator/fluent/usagemodel/factory/FluentUsageModelFactoryTest.java). In future versions the examples of the other models can be written into unit tests and saved under [```Tests```](tests/org.palladiosimulator.generator.fluent.test/src/org/palladiosimulator/generator/fluent).
 
+Es wurde systematisch getestet, tests laufen in der build pipeline durch und werden somit immer ausgeführt
+
 ## Miscellaneous
 See the Palladio-Jira for further improvements to this API:
 * https://jira.palladio-simulator.com/browse/COMMONS-30
