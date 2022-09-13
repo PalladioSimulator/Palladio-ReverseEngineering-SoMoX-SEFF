@@ -107,13 +107,13 @@ Since we want to parse ".java" files and have environment informations from the 
 
   ```sh
     private String[] getEntries(Path dir, String suffix) {
-        try (Stream<Path> paths = Files.walk(dir)) {
-            return paths
-                    .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().toLowerCase().endsWith(suffix))
-                    .map(Path::toAbsolutePath).map(Path::normalize).map(Path::toString).toArray(i -> new String[i]);
+      try (Stream<Path> paths = Files.walk(dir)) {
+        return paths
+          .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().toLowerCase().endsWith(suffix))
+          .map(Path::toAbsolutePath).map(Path::normalize).map(Path::toString).toArray(i -> new String[i]);
         } catch (final IOException e) {
         	e.printStackTrace();
-            return new String[0];
+          return new String[0];
         }
 	  }
   ```
@@ -128,13 +128,13 @@ Now that the parser is set up and and the helper function is defined we can star
     Arrays.fill(encodings,  StandardCharsets.UTF_8.toString());
     final Map<String, CompilationUnit> compilationUnits = new HashMap<>();
     try {
-        parser.setEnvironment(classpathEntries, new String[0], new String[0], true);
-        parser.createASTs(sources, encodings, new String[0], new FileASTRequestor() {
-            @Override
-            public void acceptAST(final String sourceFilePath, final CompilationUnit ast) {
-                compilationUnits.put(sourceFilePath, ast);
-            }
-        }, new NullProgressMonitor());
+      parser.setEnvironment(classpathEntries, new String[0], new String[0], true);
+      parser.createASTs(sources, encodings, new String[0], new FileASTRequestor() {
+        @Override
+        public void acceptAST(final String sourceFilePath, final CompilationUnit ast) {
+          compilationUnits.put(sourceFilePath, ast);
+        }
+      }, new NullProgressMonitor());
     } catch (IllegalArgumentException | IllegalStateException e) {
     	e.printStackTrace();
     }
