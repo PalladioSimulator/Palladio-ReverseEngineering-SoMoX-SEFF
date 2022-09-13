@@ -111,11 +111,11 @@ Since we want to parse ".java" files and have environment informations from the 
         return paths
           .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().toLowerCase().endsWith(suffix))
           .map(Path::toAbsolutePath).map(Path::normalize).map(Path::toString).toArray(i -> new String[i]);
-        } catch (final IOException e) {
-        	e.printStackTrace();
-          return new String[0];
-        }
-	  }
+      } catch (final IOException e) {
+        e.printStackTrace();
+        return new String[0];
+      }
+    }
   ```
 
 Now that the parser is set up and and the helper function is defined we can start parsing our [directory](tests/org.palladiosimulator.somox.ast2seff.test/src/org/palladiosimulator/somox/ast2seff/res/) and create a [Compilation Unit](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html) for each file.
@@ -136,7 +136,7 @@ Now that the parser is set up and and the helper function is defined we can star
         }
       }, new NullProgressMonitor());
     } catch (IllegalArgumentException | IllegalStateException e) {
-    	e.printStackTrace();
+      e.printStackTrace();
     }
     return compilationUnits;
   ```
@@ -147,28 +147,28 @@ Since additional filtering like exclusion of Private functions is often wanted w
     Map<String, List<MethodBundlePair>> bundleName2methodAssociationMap = new HashMap<String, List<MethodBundlePair>>();
     
     for (var entry : compUnitMap.entrySet()) {
-			List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(entry.getValue());
-			for (MethodDeclaration methodDeclaration : methodDeclarations) {
-				List<IExtendedModifier> modifierList = (List<IExtendedModifier>) methodDeclaration.modifiers();
-				
-				// Generate a seff for public methods only
-				IExtendedModifier firstModifier = modifierList.get(0);
-				if (firstModifier.isModifier()) {
-					Modifier modifier = (Modifier) firstModifier;
-					if (modifier.isPublic()) {
-						TypeDeclaration typeDeclaration = (TypeDeclaration) methodDeclaration.getParent();
-						String className = typeDeclaration.getName().toString();
-						if (bundleName2methodAssociationMap.containsKey(className)) {
-							bundleName2methodAssociationMap.get(className).add(new MethodBundlePair(className, methodDeclaration)); 
-						} else {
-							List<MethodBundlePair> methodAssociationList = new ArrayList<MethodBundlePair>();
-							methodAssociationList.add(new MethodBundlePair(className, methodDeclaration));
-							bundleName2methodAssociationMap.put(className, methodAssociationList); 
-						}
-					}
-				}
-			}
-		}
+      List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(entry.getValue());
+      for (MethodDeclaration methodDeclaration : methodDeclarations) {
+        List<IExtendedModifier> modifierList = (List<IExtendedModifier>) methodDeclaration.modifiers();
+
+        // Generate a seff for public methods only
+        IExtendedModifier firstModifier = modifierList.get(0);
+        if (firstModifier.isModifier()) {
+          Modifier modifier = (Modifier) firstModifier;
+          if (modifier.isPublic()) {
+            TypeDeclaration typeDeclaration = (TypeDeclaration) methodDeclaration.getParent();
+            String className = typeDeclaration.getName().toString();
+            if (bundleName2methodAssociationMap.containsKey(className)) {
+              bundleName2methodAssociationMap.get(className).add(new MethodBundlePair(className, methodDeclaration)); 
+            } else {
+              List<MethodBundlePair> methodAssociationList = new ArrayList<MethodBundlePair>();
+              methodAssociationList.add(new MethodBundlePair(className, methodDeclaration));
+              bundleName2methodAssociationMap.put(className, methodAssociationList); 
+            }
+          }
+        }
+      }
+    }
   ```
 
 Now that the map is set up we chose to use a blackboard as storage unit instead of directly passing it to enable a free execution. The convertion from ast to seff starts when ` ast2SeffJob.execute() ` is called.
