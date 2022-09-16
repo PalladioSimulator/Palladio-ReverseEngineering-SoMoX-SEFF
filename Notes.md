@@ -349,3 +349,6 @@ Bearbeitete Aufgaben:
 - resource ordner fuer SimpleClass / SimpleExternalClass erstellen (niedrige prio, link im teams)
 - gast2seff -> ast2seff
 - kdmhelper -> helper und in ast2seff zu visitors / jobs schieben und org.somox.gast2seff -> org.palladiosimulator.somox.ast2seff
+
+Code fixen (gleich machen)
+grafische representation des PCM Repository Models im Sirius Editor
