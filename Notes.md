@@ -344,11 +344,8 @@ Bearbeitete Aufgaben:
 - Doku (Ãœberschriften planen, an anderen Projekten orientieren)
 
 ### Offene Aufgaben (Aufschrieb Marcel 29.08)
-- .project aus gitignore nehmen und in Fork hinzufügen
+- .project aus gitignore nehmen und in Fork hinzufï¿½gen
 - Jenkinsfile loeschen
 - resource ordner fuer SimpleClass / SimpleExternalClass erstellen (niedrige prio, link im teams)
 - gast2seff -> ast2seff
 - kdmhelper -> helper und in ast2seff zu visitors / jobs schieben und org.somox.gast2seff -> org.palladiosimulator.somox.ast2seff
-
-Code fixen (gleich machen)
-grafische representation des PCM Repository Models im Sirius Editor
