@@ -60,6 +60,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private ActionSeff actionSeff;
 	private BasicComponentCreator basicComponentCreator;
 	private ComponentInformation componentInformation;
+	private int internalCallActionDepth = 0;
 	
 	public Ast2SeffVisitor(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create) {
 		this.actionSeff = actionSeff;
@@ -71,6 +72,17 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		this.create = create;
 	}
 	
+	private Ast2SeffVisitor(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create, int internalCallActionDepth) {
+		this.actionSeff = actionSeff;
+		this.methodPalladioInfoMap = methodPalladionInfoMap;
+		this.methodBundlePair = methodPalladioInformation.getMethodBundlePair();
+		this.methodPalladioInfo = methodPalladioInformation;
+		this.componentInformation = componentInformation;
+		this.basicComponentCreator = componentInformation.getBasicComponentCreator();
+		this.create = create;
+		this.internalCallActionDepth = internalCallActionDepth;
+	}
+	
 	public static ActionSeff perform(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create) {
 		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodPalladioInformation, actionSeff, methodPalladionInfoMap, componentInformation, create);
 		methodPalladioInformation.getMethodBundlePair().getAstNode().accept(newFunctionCallClassificationVisitor);
@@ -79,6 +91,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	private ActionSeff perform(ASTNode node, ActionSeff actionSeff) {
 		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodPalladioInfo, actionSeff, methodPalladioInfoMap, componentInformation, create);
+		node.accept(newFunctionCallClassificationVisitor);
+		return actionSeff;
+	}
+	
+	private ActionSeff perform(ASTNode node, ActionSeff actionSeff, int internalCallActionDepth) {
+		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodPalladioInfo, actionSeff, methodPalladioInfoMap, componentInformation, create, internalCallActionDepth);
 		node.accept(newFunctionCallClassificationVisitor);
 		return actionSeff;
 	}
@@ -103,7 +121,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			if (!methodBundlePair.getBundleName().equals(methodPalladioInformation.getOperationInterfaceName())) {
 				createExternalCallAction(methodInvocation, methodPalladioInformation);
 			} else {
-				createInternalCallAction(expressionStatement, methodPalladioInformation);
+				if (internalCallActionDepth < 1) {
+					// TODO: Finish InternalCallAction With Depth 1
+					createInternalCallAction(expressionStatement, methodPalladioInformation);					
+				} else {
+					createInternalAction(expressionStatement);
+				}
 			}
 		} else {
 			createInternalAction(expressionStatement);
@@ -113,16 +136,17 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	private void createInternalCallAction(ExpressionStatement expressionStatement, MethodPalladioInformation methodPalladioInformation) {
 		LOGGER.debug("Expression Statement is Internal Call Action");
-		// TODO: Finish InternalCallAction With Depth 1
 		
 		ActionSeff internalActionSeff = create.newInternalBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
-		// internalActionSeff = this.perform(methodPalladioInformation.getMethodBundlePair().getAstNode(), internalActionSeff);
+		internalActionSeff = this.perform(methodPalladioInformation.getMethodBundlePair().getAstNode(), internalActionSeff, internalCallActionDepth + 1);
 		InternalSeff internalBehaviour = internalActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
 		
 		actionSeff = actionSeff.internalCallAction()
 				.withName(NameUtil.getEntityName(expressionStatement))
 				.withInternalBehaviour(internalBehaviour)
 				.followedBy();
+
+		
 	}
 	
 	private void createExternalCallAction(MethodInvocation methodInvocation, MethodPalladioInformation externalMethodInformation) {
@@ -421,12 +445,16 @@ public class Ast2SeffVisitor extends ASTVisitor {
 
 	private BranchActionCreator generateBranchAction(ASTNode node, BranchActionCreator branchActionCreator) {
 
+		String condition = "";
+		
 		if (node instanceof IfStatement) {
 			IfStatement ifStatement = (IfStatement) node;
 			node = ifStatement.getThenStatement();
+			condition = NameUtil.getIfStatementConditionString(ifStatement);
 		} else if (node instanceof TryStatement) {
 			TryStatement tryStatement = (TryStatement) node;
 			node = tryStatement.getBody();
+			condition = NameUtil.getTryStatementConditionString(tryStatement);
 		}
 		
 		LOGGER.debug("Generate Inner Branch Behaviour");
@@ -435,7 +463,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
 		
 		// TODO: Enter Expression
-		branchActionCreator.withGuardedBranchTransition("expression", seffCreator, "Guarded Branch Transition").withName(NameUtil.BRANCH_ACTION_NAME);
+		branchActionCreator.withGuardedBranchTransition(condition, seffCreator, "Guarded Branch Transition").withName(NameUtil.BRANCH_ACTION_NAME);
 
 		return branchActionCreator;
 	}

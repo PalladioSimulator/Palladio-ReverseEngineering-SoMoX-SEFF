@@ -78,7 +78,8 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
      */
     @Override
     public void execute(final IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
-
+    	LOGGER.info("Executing SEFF Creation Job.");
+    	
         monitor.subTask("Loading models from blackboard");
 
         try {
@@ -97,8 +98,8 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
         final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
         subMonitor.setTaskName("Creating SEFF behaviour");
+        
         LOGGER.info("Created Interfaces. Computing " + counter + " SEFFs.");
-
         createSeffsForComponents(repoAddition, monitor);
 
         LOGGER.info("Created SEFFs. Creating Repository.");

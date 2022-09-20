@@ -23,7 +23,7 @@ import org.palladiosimulator.somox.ast2seff.visitors.Ast2SeffVisitor;
 
 public class NameUtil {
 	
-	private static final Logger logger = Logger.getLogger(Ast2SeffVisitor.class);
+	private static final Logger LOGGER = Logger.getLogger(Ast2SeffVisitor.class);
 	
 	public static final String START_ACTION_NAME = "Start Action";
 	public static final String STOP_ACTION_NAME = "Stop Action";
@@ -43,7 +43,7 @@ public class NameUtil {
 			if (bindingExpression != null && bindingExpression.getPackage() != null) {
 				result = bindingExpression.getBinaryName();
 			} else {
-				logger.warn("No Class Name found for: " + calledClass.toString());							
+				LOGGER.warn("No Class Name found for: " + calledClass.toString());							
 			}
 		}
 		return result;
@@ -80,38 +80,12 @@ public class NameUtil {
 		}
 	}
 	
-	public static String getConditionString(IfStatement ifStatement) {
-		Expression expression = ifStatement.getExpression();
-		
-		final StringBuilder positionString = new StringBuilder(" @position: ");
-		positionString.append("Cond: if(").append(expression).append(")");
-		return positionString.toString();
-	}
-	
 	public static String getEntityName(Statement elseStatement) {		
 		final StringBuilder positionString = new StringBuilder(" @position: ");
 		positionString.append("Cond: ").append("else").append("");
 		return positionString.toString();
 	}
-	
-//	public static String getEntityName(TryStatement tryStatement) {
-		//Expression expression = tryStatement.catchClauses();
-		
-		//final StringBuilder positionString = new StringBuilder(" @position: ");
-		//positionString.append("Cond: if(").append(expression).append(")");
-		//branchTransitionElse.setEntityName(positionString.toString());
-//	}
-	
-//	public static String getEntityName(List<Statement> block) {
-		//cant access block name. mb need to rewrite Blocklist
-		
-		//Expression expression = tryStatement.catchClauses();
-		
-		//final StringBuilder positionString = new StringBuilder(" @position: ");
-		//positionString.append("Cond: if(").append(expression).append(")");
-		//branchTransitionElse.setEntityName(positionString.toString());
-//	}
-	
+
 	public static String getEntityName(final ForStatement forStatement) {
 		Expression initializers = (Expression) forStatement.initializers().get(0);
 		Expression updaters = (Expression) forStatement.updaters().get(0);
@@ -159,16 +133,39 @@ public class NameUtil {
 		return className;
 	}
 	
+	public static String whileStatementExpressionString(Expression expression) {
+		final StringBuilder positionString = new StringBuilder(" @position: ");
+		positionString.append("expression name \"").append(expression).append("\"");
+		return positionString.toString();
+	}
 	
-//	public static String whileStatementToString(Expression expression) {
-//		final StringBuilder positionString = new StringBuilder(" @position: ");
-//		positionString.append("expression name \"").append(expression).append("\"");
-//		return positionString.toString();
-//	}
+	public static String getIfStatementConditionString(IfStatement ifStatement) {
+		Expression expression = ifStatement.getExpression();
+		
+		final StringBuilder conditionString = new StringBuilder(" @position: ");
+		conditionString.append("Condition: if(").append(expression).append(")");
+		return conditionString.toString();
+	}
 	
-//	public static String elseStatementToString(Expression expression) {
-//		final StringBuilder positionString = new StringBuilder(" @position: ");
-//		positionString.append("Cond: !").append(expression).append("");
-//		return positionString.toString();
-//	}
+	public static String getElseStatementConditionString(Expression expression) {
+		final StringBuilder conditionString = new StringBuilder(" @position: ");
+		conditionString.append("Condition: !").append(expression).append("");
+		return conditionString.toString();
+	}
+
+	public static String getTryStatementConditionString(TryStatement tryStatement) {
+		
+		// TODO: Try Statement Catch Clause
+//		Expression expression = tryStatement.catchClauses().get(0);
+		
+//		final StringBuilder conditionString = new StringBuilder(" @position: ");
+//		conditionString.append("Condition: if(").append(expression).append(")");
+//		return conditionString.toString();
+		return "condition";
+	}
+	
+	public static String getSwitchStatementConditionString(SwitchStatement switchStatement) {
+		// TODO: Finish function
+		return "condition";
+	}
 }

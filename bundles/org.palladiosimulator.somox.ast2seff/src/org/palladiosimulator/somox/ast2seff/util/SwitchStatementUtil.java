@@ -14,12 +14,12 @@ import org.eclipse.jdt.core.dom.SwitchStatement;
  * Computes for a {@link SwitchStatement} the case branches in a way that to the case branches, that
  * do not end with break, the following case branch is added.
  *
- * @author Wenzel, Fabian
+ * @author Fabian Wenzel
  *
  */
 public class SwitchStatementUtil {
 
-    private static final Logger logger = Logger.getLogger(SwitchStatementUtil.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(SwitchStatementUtil.class.getSimpleName());
 
     public static List<List<Statement>> createBlockListFromSwitchStatement(final SwitchStatement switchStatement) {
         final ArrayList<List<Statement>> blockList = new ArrayList<>();
@@ -55,7 +55,6 @@ public class SwitchStatementUtil {
     			firstSwitchCase = true;
             }
 		}
-        
         
         return blockList;
     }
