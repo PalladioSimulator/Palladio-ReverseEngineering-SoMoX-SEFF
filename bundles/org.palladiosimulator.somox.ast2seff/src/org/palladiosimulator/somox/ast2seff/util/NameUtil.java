@@ -146,12 +146,15 @@ public class NameUtil {
 	public static String getEntityName(final SwitchStatement switchStatement) {
 		return "Switch Branch";			
 	}
+	
 	public static String getEntityName(final IfStatement ifStatement) {
 		return "If Branch";
 	}
+	
 	public static String getEntityName(final TryStatement tryStatement) {
 		return "Try Catch Branch";
 	}
+	
 	public static String getEntityName(String className) {
 		return className;
 	}

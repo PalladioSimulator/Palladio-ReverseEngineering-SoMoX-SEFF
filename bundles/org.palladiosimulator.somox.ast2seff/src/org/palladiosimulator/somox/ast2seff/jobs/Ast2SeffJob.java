@@ -49,10 +49,10 @@ import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
- * Transformation Job transforming a SAM instance with GAST Behaviours into a SAM instance with SEFF
+ * Transformation Job transforming a SAM instance with AST Behaviours into a SAM instance with SEFF
  * behaviours
  *
- * @author Steffen Becker, Klaus Krogmann
+ * @author Steffen Becker, Klaus Krogmann, Marcel Rühle, Fabian Wenzel
  */
 public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>> {
 
@@ -114,11 +114,14 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     private void createSeffsForComponents(RepoAddition repoAddition, IProgressMonitor monitor) {
         for (Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
             String bundleName = entry.getKey();
+            String interfaceName = "I" + bundleName;
+            
             List<MethodBundlePair> methodBundleList = entry.getValue();
 
+            
             BasicComponentCreator basicComponentCreator = create.newBasicComponent()
                 .withName(bundleName)
-                .provides(create.fetchOfOperationInterface("I" + bundleName), "I" + bundleName);
+                .provides(create.fetchOfOperationInterface(interfaceName), interfaceName);
             ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
 
             for (MethodBundlePair methodBundlePair : methodBundleList) {
@@ -140,13 +143,14 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     private void createOperationInterfacesForRepository(RepoAddition repoAddition, int counter) {
     	for (Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
             String bundleName = entry.getKey();
+            String interfaceName = "I" + bundleName;
             List<MethodBundlePair> methodAssociationListOfBundle = entry.getValue();
             LOGGER.info("Found " + methodAssociationListOfBundle.size() + " methods to " + bundleName
                     + ". Computing Interfaces.");
             counter += methodAssociationListOfBundle.size();
 
             OperationInterfaceCreator bundleOperationInterfaceCreator = create.newOperationInterface()
-                .withName("I" + bundleName);
+                .withName(interfaceName);
 
             for (MethodBundlePair methodBundlePair : methodAssociationListOfBundle) {
                 MethodDeclaration methodDeclaration = (MethodDeclaration) methodBundlePair.getAstNode();
@@ -169,10 +173,9 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                     .toString();
                 String operationSignatureName = methodDeclaration.getName()
                     .toString();
-                String operationInterfaceName = "I" + bundleName;
                 if (!this.methodPalladioInfoMap.containsKey(key)) {
                     MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation(key,
-                            operationSignatureName, operationInterfaceName, methodBundlePair);
+                            operationSignatureName, interfaceName, methodBundlePair);
                     this.methodPalladioInfoMap.put(key, methodPalladioInformation);
                     this.methodBundlePalladioInfoMap.put(methodBundlePair, methodPalladioInformation);
                 }
@@ -203,8 +206,8 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     private void setParametersToSignature(List<SingleVariableDeclaration> singleVariableDeclarationList, RepoAddition repoAddition, OperationSignatureCreator methodOperationSignature) {
     	for (SingleVariableDeclaration variableDeclaration : singleVariableDeclarationList) {
             Type type = variableDeclaration.getType();
-            String parameterName = variableDeclaration.getName()
-                .toString();
+            String parameterName = variableDeclaration.getName().toString();
+            
             if (type.isPrimitiveType()) {
                 PrimitiveType primitiveType = (PrimitiveType) type;
                 String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode()
@@ -225,6 +228,8 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                 if (!parameterList.contains(simpleType.toString())) {
                     CompositeDataTypeCreator compositeDataType = create.newCompositeDataType()
                         .withName(simpleType.toString());
+                    
+                    // TODO: WHY is the name important? This is not a generic approach, needs to be fixed
                     if (simpleType.toString()
                         .equals("SimpleClass"))
                         compositeDataType = compositeDataType.withInnerDeclaration("counter",
@@ -289,8 +294,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     }
 
     /**
-     * @param blackBoard
-     *            the blackBoard to set
+     * @param blackBoard The BlackBoard to set
      */
     @Override
     public void setBlackboard(final Blackboard<Object> blackBoard) {
@@ -298,8 +302,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     }
 
     @Override
-    public void cleanup(final IProgressMonitor monitor) throws CleanupFailedException {
-    }
+    public void cleanup(final IProgressMonitor monitor) throws CleanupFailedException { }
 
     private Primitive getPrimitiveType(String primitiveTypeCodeString) {
         if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {

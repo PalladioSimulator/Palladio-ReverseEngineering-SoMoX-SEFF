@@ -51,7 +51,7 @@ import org.palladiosimulator.somox.ast2seff.util.SwitchStatementUtil;
 
 public class Ast2SeffVisitor extends ASTVisitor {
 
-	private static final Logger logger = Logger.getLogger(Ast2SeffVisitor.class);
+	private static final Logger LOGGER = Logger.getLogger(Ast2SeffVisitor.class);
 	
 	private FluentRepositoryFactory create;	
 	private Map<String, MethodPalladioInformation> methodPalladioInfoMap;
@@ -84,7 +84,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	public boolean visit(final ExpressionStatement expressionStatement) {
-		
+		LOGGER.debug("Visit Expression Statement");
 		Expression expression = expressionStatement.getExpression();
 
 		if (expression instanceof Assignment) {
@@ -103,7 +103,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			if (!methodBundlePair.getBundleName().equals(methodPalladioInformation.getOperationInterfaceName())) {
 				createExternalCallAction(methodInvocation, methodPalladioInformation);
 			} else {
-				createInternallCallAction(expressionStatement, methodPalladioInformation);
+				createInternalCallAction(expressionStatement, methodPalladioInformation);
 			}
 		} else {
 			createInternalAction(expressionStatement);
@@ -111,8 +111,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
-	private void createInternallCallAction(ExpressionStatement expressionStatement, MethodPalladioInformation methodPalladioInformation) {
-		
+	private void createInternalCallAction(ExpressionStatement expressionStatement, MethodPalladioInformation methodPalladioInformation) {
+		LOGGER.debug("Expression Statement is Internal Call Action");
 		// TODO: Finish InternalCallAction With Depth 1
 		
 		ActionSeff internalActionSeff = create.newInternalBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
@@ -126,7 +126,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	private void createExternalCallAction(MethodInvocation methodInvocation, MethodPalladioInformation externalMethodInformation) {
-
+		LOGGER.debug("Expression Statement is External Call Action");
+		
 		ExternalCallActionCreator externalCallActionCreator = actionSeff.externalCallAction();
 
 		addRequiredInterfaceToComponent(externalMethodInformation.getOperationInterfaceName());
@@ -139,7 +140,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			if (calledFunctionSignature != null && (calledFunctionSignature.getParameters__OperationSignature().size() == methodInvocation.arguments().size())) {
 				// try to get variables from interface
 				EList<Parameter> calledFunctParameterList = calledFunctionSignature.getParameters__OperationSignature();
-				for (int i=0; i < calledFunctParameterList.size(); i++) {
+				
+				for (int i = 0; i < calledFunctParameterList.size(); i++) {
 					Parameter para = calledFunctParameterList.get(i);
 					Expression castedArgument = (Expression) methodInvocation.arguments().get(i);
 					variableUsage = generateInputVariableUsage(castedArgument, para);
@@ -181,14 +183,17 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	private void createInternalAction(final ExpressionStatement expressionStatement) {
+		LOGGER.debug("Expression Statement is Internal Action");
 		actionSeff = actionSeff.internalAction().withName(NameUtil.getEntityName(expressionStatement)).followedBy();
 	}
 	
 	public boolean visit(final IfStatement ifStatement) {
+		LOGGER.debug("Visit If Statement");
 		BranchActionCreator branchActionCreator = actionSeff.branchAction();
 		branchActionCreator = generateBranchAction(ifStatement, branchActionCreator);
 		
 		if (ifStatement.getElseStatement() != null) {
+			
 			branchActionCreator = handleElseStatement(ifStatement.getElseStatement(), branchActionCreator);	
 		}
 		
@@ -201,13 +206,17 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
 		
 		if (statement instanceof IfStatement) {
+			LOGGER.debug("Else Statement is If Else Statement");
 			IfStatement elseIfStatement = (IfStatement) statement;
 			innerActionSeff = this.perform(elseIfStatement.getThenStatement(), innerActionSeff);
 		} else {
+			LOGGER.debug("If Statement is Else Statement");
 			innerActionSeff = this.perform(statement, innerActionSeff);
 		}
 		
 		SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
+		
+		// TODO: Enter Expression
 		branchActionCreator = branchActionCreator.withGuardedBranchTransition("expression", seffCreator, "Guarded Branch Transition");
 
 		if (statement instanceof IfStatement) {
@@ -219,6 +228,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	public boolean visit(final SynchronizedStatement synchronizedStatement) {
+		LOGGER.debug("Visit Synchronized Statement");
 		
 		if (!componentInformation.getIsPassiveResourceSet()) {
 			basicComponentCreator.withPassiveResource("1", (ResourceTimeoutFailureType) create.newResourceTimeoutFailureType("PassiveResourceTimeoutFailure").build(), "Passive Resource");
@@ -235,6 +245,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	public boolean visit(final TryStatement tryStatement) {
+		LOGGER.debug("Visit Try Statement");
+		
 		BranchActionCreator branchActionCreator = actionSeff.branchAction();
 		branchActionCreator = generateBranchAction(tryStatement, branchActionCreator);
 		
@@ -251,6 +263,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	public boolean visit(final ForStatement forStatement) {
+		LOGGER.debug("Visit For Statement");
 		LoopActionCreator loopActionCreator = actionSeff.loopAction();
 		Expression forStatementExpression = forStatement.getExpression();
 		if (forStatementExpression != null && forStatementExpression instanceof InfixExpression) {
@@ -262,6 +275,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	public boolean visit(final EnhancedForStatement forStatement) {
+		LOGGER.debug("Visit Enhanced For Statement");
 		LoopActionCreator loopActionCreator = actionSeff.loopAction();
 		Expression forStatementExpression = forStatement.getExpression();
 		if (forStatementExpression != null && forStatementExpression instanceof SimpleName) {
@@ -273,6 +287,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	public boolean visit(final WhileStatement whileStatement) {
+		LOGGER.debug("Visit While Statement");
 		LoopActionCreator loopActionCreator = actionSeff.loopAction();
 		Expression whileStatementExpression = whileStatement.getExpression();
 		if (whileStatementExpression != null && whileStatementExpression instanceof SimpleName) {
@@ -284,10 +299,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	public boolean visit(final SwitchStatement switchStatement) {
+		LOGGER.debug("Visit Switch Statement");
 		BranchActionCreator branchActionCreator = actionSeff.branchAction();
 		branchActionCreator.withName(NameUtil.getEntityName(switchStatement));
 		
 		List<List<Statement>> blockList = SwitchStatementUtil.createBlockListFromSwitchStatement(switchStatement);
+		LOGGER.debug("Generate Inner Branch Behaviour");
 		for (List<Statement> block : blockList) {
 			
 			ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
@@ -309,6 +326,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	 * Verhalten aus "MediaStore3 -> AudioWatermarking" abgeschaut
 	 */
 	public boolean visit(final ReturnStatement returnStatement) {
+		LOGGER.debug("Visit Return Statement");
 		Expression returnExpression = returnStatement.getExpression();
 		SetVariableActionCreator setVariableActionCreator = actionSeff.setVariableAction();
 		VariableUsageCreator returnVariable = this.generateInputVariableUsage(returnExpression);
@@ -319,6 +337,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	// TODO: Further work - Limitation
 	public boolean visit(final VariableDeclarationStatement variableDeclarationStatement) {
+		LOGGER.debug("Visit Variable Declaration Statement");
 		Type test = variableDeclarationStatement.getType();
 		return super.visit(variableDeclarationStatement);
 	}
@@ -344,7 +363,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private VariableUsageCreator generateInputVariableUsage(Expression variable, Parameter para) {
 		VariableUsageCreator variableUsage = create.newVariableUsage();
 		
+		
+		// TODO: Muss das noch hinzugefügt werden?
 		//randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
+		
 		String randomPCMName;
 		DataType paraDataType = para.getDataType__Parameter();
 		if (paraDataType instanceof PrimitiveDataType) {
@@ -407,6 +429,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			node = tryStatement.getBody();
 		}
 		
+		LOGGER.debug("Generate Inner Branch Behaviour");
 		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
 		innerActionSeff = this.perform(node, innerActionSeff);
 		SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
@@ -418,6 +441,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	private LoopActionCreator generateLoopAction(ASTNode node, LoopActionCreator loopActionCreator) {
+		LOGGER.debug("Generate Inner Loop Behaviour");
 		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
 		innerActionSeff = this.perform(node, innerActionSeff);
 		SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
