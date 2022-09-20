@@ -138,7 +138,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		LOGGER.debug("Expression Statement is Internal Call Action");
 		
 		ActionSeff internalActionSeff = create.newInternalBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
-		internalActionSeff = this.perform(methodPalladioInformation.getMethodBundlePair().getAstNode(), internalActionSeff, internalCallActionDepth + 1);
+//		internalActionSeff = this.perform(methodPalladioInformation.getMethodBundlePair().getAstNode(), internalActionSeff, internalCallActionDepth + 1);
 		InternalSeff internalBehaviour = internalActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
 		
 		actionSeff = actionSeff.internalCallAction()
@@ -180,7 +180,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 				}
 			}
 		}
-		if(calledFunctionSignature != null && calledFunctionSignature.getReturnType__OperationSignature() != null) {
+		
+		if (calledFunctionSignature != null && calledFunctionSignature.getReturnType__OperationSignature() != null) {
 			DataType returnType = calledFunctionSignature.getReturnType__OperationSignature();
 			variableUsage = generateOutputVariableUsage(returnType);
 			externalCallActionCreator.withReturnVariableUsage(variableUsage);
