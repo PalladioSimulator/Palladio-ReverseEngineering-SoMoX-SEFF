@@ -87,7 +87,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 		Expression expression = expressionStatement.getExpression();
 
-		if(expression instanceof Assignment) {
+		if (expression instanceof Assignment) {
 			// TODO: further tests if this makes sense - Limitation
 			// Variable Assignment
 			// Assignment transformedExpression = (Assignment) expression;
@@ -113,9 +113,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	private void createInternallCallAction(ExpressionStatement expressionStatement, MethodPalladioInformation methodPalladioInformation) {
 		
-		ActionSeff internalActionSeff = create.newInternalBehaviour().withStartAction().withName("Start Action").followedBy();
+		// TODO: Finish InternalCallAction With Depth 1
+		
+		ActionSeff internalActionSeff = create.newInternalBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
 		// internalActionSeff = this.perform(methodPalladioInformation.getMethodBundlePair().getAstNode(), internalActionSeff);
-		InternalSeff internalBehaviour = internalActionSeff.stopAction().withName("Stop Action").createBehaviourNow();
+		InternalSeff internalBehaviour = internalActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
 		
 		actionSeff = actionSeff.internalCallAction()
 				.withName(NameUtil.getEntityName(expressionStatement))
@@ -135,7 +137,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		VariableUsageCreator variableUsage;
 		if (!methodInvocation.arguments().isEmpty()) {
 			if (calledFunctionSignature != null && (calledFunctionSignature.getParameters__OperationSignature().size() == methodInvocation.arguments().size())) {
-				//try to get variables from interface
+				// try to get variables from interface
 				EList<Parameter> calledFunctParameterList = calledFunctionSignature.getParameters__OperationSignature();
 				for (int i=0; i < calledFunctParameterList.size(); i++) {
 					Parameter para = calledFunctParameterList.get(i);
@@ -144,7 +146,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 					externalCallActionCreator.withInputVariableUsage(variableUsage);
 				}
 			} else {
-				//fallback if interface is not found or argumentsArrays have different sizes
+				// fallback if interface is not found or argumentsArrays have different sizes
 				for (Object argument : methodInvocation.arguments()) {
 					Expression castedArgument = (Expression) argument;
 					variableUsage = generateInputVariableUsage(castedArgument);
@@ -196,7 +198,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	private BranchActionCreator handleElseStatement(Statement statement, BranchActionCreator branchActionCreator) {
 		
-		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName("Start Action").followedBy();
+		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
 		
 		if (statement instanceof IfStatement) {
 			IfStatement elseIfStatement = (IfStatement) statement;
@@ -205,7 +207,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			innerActionSeff = this.perform(statement, innerActionSeff);
 		}
 		
-		SeffCreator seffCreator = innerActionSeff.stopAction().withName("Stop Action").createBehaviourNow();
+		SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
 		branchActionCreator = branchActionCreator.withGuardedBranchTransition("expression", seffCreator, "Guarded Branch Transition");
 
 		if (statement instanceof IfStatement) {
@@ -223,10 +225,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			componentInformation.setPassiveResourceSetTrue();
 		}
 
-		actionSeff = actionSeff.acquireAction().withName("Aquire Action").withPassiveResource(create.fetchOfPassiveResource("Passive Resource")).followedBy();
+		actionSeff.acquireAction().withName(NameUtil.ACQUIRE_ACTION_NAME).withPassiveResource(create.fetchOfPassiveResource("Passive Resource")).followedBy();
 
-		actionSeff = this.perform(synchronizedStatement.getBody(), actionSeff)
-				.releaseAction().withName("Release Action").withPassiveResource(create.fetchOfPassiveResource("Passive Resource")).followedBy();
+		actionSeff = this.perform(synchronizedStatement.getBody(), actionSeff);
+				
+		actionSeff.releaseAction().withName(NameUtil.RELEASE_ACTION_NAME).withPassiveResource(create.fetchOfPassiveResource("Passive Resource")).followedBy();
 
 		return false;
 	}
@@ -237,9 +240,9 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 		List<CatchClause> catchClauseList = tryStatement.catchClauses();
 		for (CatchClause catchClause : catchClauseList) {
-			ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName("Start Action").followedBy();
+			ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
 			innerActionSeff = this.perform(catchClause.getBody(), innerActionSeff);
-			SeffCreator seffCreator = innerActionSeff.stopAction().withName("Stop Action").createBehaviourNow();
+			SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
 			branchActionCreator = branchActionCreator.withGuardedBranchTransition("expression", seffCreator, NameUtil.getEntityName(tryStatement));
 		}
 		
@@ -287,13 +290,13 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		List<List<Statement>> blockList = SwitchStatementUtil.createBlockListFromSwitchStatement(switchStatement);
 		for (List<Statement> block : blockList) {
 			
-			ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName("Start Action").followedBy();
+			ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
 			
 			for (Statement statement : block) {
 				innerActionSeff = this.perform(statement, innerActionSeff);
 			}
 			
-			SeffCreator seffCreator = innerActionSeff.stopAction().withName("Stop Action").createBehaviourNow();
+			SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
 			branchActionCreator= branchActionCreator.withGuardedBranchTransition("expression", seffCreator);
 		}
 		
@@ -372,23 +375,23 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	 * Same as generateVariables above, but for Output Variables 
 	 */
 	private VariableUsageCreator generateOutputVariableUsage(DataType returnType) {
-		//From ParameterFactory Docs: Note that it was an explicit design decision to refer to variable names instead of the actual variables (i.e., by refering to Parameter class).
+		// From ParameterFactory Docs: Note that it was an explicit design decision to refer to variable names instead of the actual variables (i.e., by refering to Parameter class).
 		VariableUsageCreator variableUsage = create.newVariableUsage();
-		String randomPCMName;
 
+		String randomPCMName = "tempVariable";
+		
 		if (returnType instanceof PrimitiveDataType) {
-			variableUsage.withNamespaceReference(((PrimitiveDataType) returnType).getType().toString(), "tempVariable");
-			randomPCMName = ((PrimitiveDataType) returnType).getType().toString() + "." + "tempVariable";
+			variableUsage.withNamespaceReference(((PrimitiveDataType) returnType).getType().toString(), randomPCMName);
+			randomPCMName = ((PrimitiveDataType) returnType).getType().toString() + "." + randomPCMName;
 			variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
 		}
 		else if (returnType instanceof CompositeDataType) {
-			variableUsage.withNamespaceReference(((CompositeDataType) returnType).getEntityName(), "tempVariable");
-			randomPCMName = ((CompositeDataType) returnType).getEntityName() + "." + "tempVariable";
+			variableUsage.withNamespaceReference(((CompositeDataType) returnType).getEntityName(), randomPCMName);
+			randomPCMName = ((CompositeDataType) returnType).getEntityName() + "." + randomPCMName;
 			variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.BYTESIZE);
 		}
 		else {
-			variableUsage.withNamespaceReference(null, "tempVariable");
-			randomPCMName = "tempVariable";
+			variableUsage.withNamespaceReference(null, randomPCMName);
 			variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
 		}
 		return variableUsage;
@@ -404,19 +407,21 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			node = tryStatement.getBody();
 		}
 		
-		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName("Start Action").followedBy();
+		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
 		innerActionSeff = this.perform(node, innerActionSeff);
-		SeffCreator seffCreator = innerActionSeff.stopAction().withName("Stop Action").createBehaviourNow();
-		branchActionCreator.withGuardedBranchTransition("expression", seffCreator, "Guarded Branch Transition");
+		SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
+		
+		// TODO: Enter Expression
+		branchActionCreator.withGuardedBranchTransition("expression", seffCreator, "Guarded Branch Transition").withName(NameUtil.BRANCH_ACTION_NAME);
 
 		return branchActionCreator;
 	}
 	
 	private LoopActionCreator generateLoopAction(ASTNode node, LoopActionCreator loopActionCreator) {
-		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName("Start Action").followedBy();
+		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
 		innerActionSeff = this.perform(node, innerActionSeff);
-		SeffCreator seffCreator = innerActionSeff.stopAction().withName("Stop Action").createBehaviourNow();
-		loopActionCreator = loopActionCreator.withLoopBody(seffCreator).withName("Loop Action");
+		SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
+		loopActionCreator.withLoopBody(seffCreator).withName(NameUtil.LOOP_ACTION_NAME);
 		return loopActionCreator;
 	}
 	

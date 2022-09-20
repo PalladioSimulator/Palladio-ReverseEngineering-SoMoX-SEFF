@@ -39,6 +39,7 @@ import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.somox.ast2seff.models.ComponentInformation;
 import org.palladiosimulator.somox.ast2seff.models.MethodBundlePair;
 import org.palladiosimulator.somox.ast2seff.models.MethodPalladioInformation;
+import org.palladiosimulator.somox.ast2seff.util.NameUtil;
 import org.palladiosimulator.somox.ast2seff.visitors.Ast2SeffVisitor;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
@@ -68,7 +69,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
     public Ast2SeffJob() { }
 
-    
+  
     
     /*
      * (non-Javadoc)
@@ -78,7 +79,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     @Override
     public void execute(final IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-        monitor.subTask("loading models from blackboard");
+        monitor.subTask("Loading models from blackboard");
 
         try {
             this.bundleName2methodBundleMap = (Map<String, List<MethodBundlePair>>) this.blackboard
@@ -87,8 +88,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
             LOGGER.error(e);
         }
 
-        RepoAddition repoAddition = create.newRepository()
-            .withName("Simple Repository");
+        RepoAddition repoAddition = create.newRepository().withName("Repository");
 
         LOGGER.info("Found " + bundleName2methodBundleMap.size() + " Bundles. Computing Interfaces.");
         int counter = 0;
@@ -97,17 +97,17 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
         final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
         subMonitor.setTaskName("Creating SEFF behaviour");
-        LOGGER.info("Interfaces done. Computing " + counter + " SEFFs.");
+        LOGGER.info("Created Interfaces. Computing " + counter + " SEFFs.");
 
         createSeffsForComponents(repoAddition, monitor);
 
-        LOGGER.info("SEFFs done. Creating Repository.");
+        LOGGER.info("Created SEFFs. Creating Repository.");
         Repository repository = repoAddition.createRepositoryNow();
 
-        LOGGER.info("Repository done. Creating XML.");
+        LOGGER.info("Created Repository. Creating XML.");
         this.generateSeffXmlFile(repository);
 
-        LOGGER.info("Task finished.");
+        LOGGER.info("Created XML. Task finished.");
         subMonitor.done();
     }
     
@@ -118,7 +118,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
             BasicComponentCreator basicComponentCreator = create.newBasicComponent()
                 .withName(bundleName)
-                .provides(create.fetchOfOperationInterface(bundleName));
+                .provides(create.fetchOfOperationInterface("I" + bundleName), "I" + bundleName);
             ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
 
             for (MethodBundlePair methodBundlePair : methodBundleList) {
@@ -128,8 +128,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 					    .withServiceEffectSpecification(this.createSeff(methodPalladioInformation, componentInformation)
 					        .withName(methodPalladioInformation.getMethodName()));
 				} catch (JobFailedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					LOGGER.error(e.toString());
 				}
                 monitor.worked(1);
             }
@@ -147,7 +146,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
             counter += methodAssociationListOfBundle.size();
 
             OperationInterfaceCreator bundleOperationInterfaceCreator = create.newOperationInterface()
-                .withName(bundleName);
+                .withName("I" + bundleName);
 
             for (MethodBundlePair methodBundlePair : methodAssociationListOfBundle) {
                 MethodDeclaration methodDeclaration = (MethodDeclaration) methodBundlePair.getAstNode();
@@ -170,7 +169,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                     .toString();
                 String operationSignatureName = methodDeclaration.getName()
                     .toString();
-                String operationInterfaceName = bundleName;
+                String operationInterfaceName = "I" + bundleName;
                 if (!this.methodPalladioInfoMap.containsKey(key)) {
                     MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation(key,
                             operationSignatureName, operationInterfaceName, methodBundlePair);
@@ -266,13 +265,13 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
             .onSignature(create.fetchOfSignature(methodPalladioInformation.getOperationSignatureName()))
             .withSeffBehaviour()
             .withStartAction()
-            .withName("Start Action")
+            .withName(NameUtil.START_ACTION_NAME)
             .followedBy();
 
         return Ast2SeffVisitor
             .perform(methodPalladioInformation, actionSeff, this.methodPalladioInfoMap, componentInformation, create)
             .stopAction()
-            .withName("Stop Action")
+            .withName(NameUtil.STOP_ACTION_NAME)
             .createBehaviourNow();
     }
 
@@ -280,8 +279,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
         EcorePlugin.ExtensionProcessor.process(null);
         Resource resource = new ResourceSetImpl().createResource(URI.createFileURI("Repository.xml"));
-        resource.getContents()
-            .add(repository);
+        resource.getContents().add(repository);
 
         try {
             resource.save(Collections.EMPTY_MAP);

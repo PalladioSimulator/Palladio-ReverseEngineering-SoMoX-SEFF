@@ -24,6 +24,13 @@ import org.palladiosimulator.somox.ast2seff.visitors.Ast2SeffVisitor;
 public class NameUtil {
 	
 	private static final Logger logger = Logger.getLogger(Ast2SeffVisitor.class);
+	
+	public static final String START_ACTION_NAME = "Start Action";
+	public static final String STOP_ACTION_NAME = "Stop Action";
+	public static final String RELEASE_ACTION_NAME = "Release Action";
+	public static final String ACQUIRE_ACTION_NAME = "Acquire Action";
+	public static final String LOOP_ACTION_NAME = "Loop Action";
+	public static final String BRANCH_ACTION_NAME = "Branch Action";
 
 	public static String getClassName(MethodInvocation methodInvocation) {
 		return NameUtil.getClassName(methodInvocation.getExpression());
