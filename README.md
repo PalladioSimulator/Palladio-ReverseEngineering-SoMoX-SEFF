@@ -47,37 +47,19 @@ The Eclipse Java Development Tools (JDT) offer functionality to traverse Java so
 
 #### JaMoPPStatemenVisitor
 
-| ** SEFF Element **       | ** JaMoPP Version **     | ** MoDisco Version **  | ** JDT Version **   |
-|--------------------------|----------------------------------------------------|
-| LoopStatement            | ForStatement, EnhancedForStatement, WhileStatement |
-| Switch                   | SwitchStatement                                    |
-| TryBlock                 | TryStatement                                       |
-| ClassMethod              | ExpressionStatement                                |
-| SynchronizedBlock        | SynchronizedStatement                              |
-| SimpleStatement          | ExpressionStatement                                |
-| Condition                | IfStatement                                        |
-
-#### Modisco GastStatementVisitor
-
-| **Alte Implementierung** | **Aktuelle Implementierung** |
-|--------------------------|------------------------------|
-| EnhancedForStatement     | EnhancedForStatement         |
-| SwitchStatement          | SwitchStatement              |
-| TryStatement             | TryStatement                 |
-| ClassMethod              | ExpressionStatement          |
-| SynchronizedStatement    | SynchronizedStatement        |
-| ExpressionStatement      | ExpressionStatement          |
-| IfStatement              | IfStatement                  |
-| WhileStatement           | WhileStatement               |
-| ForStatement             | ForStatement                 |
-| ReturnStatement          | ReturnStatement              |
-| Block                    |                              |
-
+| ** SEFF Element **       | ** MoDisco Version **                                       | ** JaMoPP Version **        | ** JDT Version **                                         |
+|--------------------------|-------------------------------------------------------------|-----------------------------|-----------------------------------------------------------|
+| LoopAction               | ForStatement, EnhancedForStatement, WhileStatement          | LoopStatement               | ForStatement, EnhancedForStatement, WhileStatement        |
+| BranchAction             | SwitchStatement, TryStatement, IfStatement, IfElseStatement | Switch, TryBlock, Condition | SwitchStatement, TryStatement, IfStatement, ElseStatement |
+| AcquireAction            | SynchronizedStatement                                       | SynchronizedBlock           | SynchronizedStatement                                     |
+| InternalCallAction​       | ExpressionStatement                                         | CallStatement               | ExpressionStatement                                       |
+| ExternalCallAction​       | ExpressionStatement                                         | CallStatement               | ExpressionStatement                                       |
+| InternalAction​           | ExpressionStatement                                         | ThisStatement               | ExpressionStatement                                       |
+| SetVariableAction        | -                                                           | -                           | ReturnStatement                                           |
+| WithInputVariable​        | -                                                           | -                           | ExpressionStatement                                       |
 
 #### FluentAPI
-Since the creation of PCM models can get very messy, [a FluentAPI](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator) was added to this project. It enables the user to focus on creating functional code and takes away the burden of creating PCM objects and refering them to each other. The FluentAPI also ensures that all models can be created similarly and therefore increases the readability of the code. Searching for the correct factory for the different model elements and the method names that set the desired properties is not user-friendly, especially, since the model objects offer more method proposals than required for creating a repository model. It also opens the possibility to read the code like a natural sentence and provides an uniform interface where changes to the PCM Meta model can be made without changing every appearance in our code.
-
-Thankfully, a FluentAPI was created in previous work and was ready to use for this implementation.
+Since the creation of PCM models can get very messy, [a FluentAPI](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator) was added to this project. It enables the user to focus on creating functional code and takes away the burden of creating PCM objects and refering them to each other. The FluentAPI also ensures that all models can be created similarly and therefore increases the readability of the code. Searching for the correct factory for the different model elements and the method names that set the desired properties is not user-friendly, especially, since the model objects offer more method proposals than required for creating a repository model. It also opens the possibility to read the code like a natural sentence and provides an uniform interface where changes to the PCM Meta model can be made without changing every appearance in our code. Thankfully, a FluentAPI was created in previous work and was ready to use for this implementation.
 
 ## Objectives: (Marcel)
 The project focused on different objectives to help the user:
