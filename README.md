@@ -74,14 +74,10 @@ The Eclipse Java Development Tools (JDT) offer functionality to traverse Java so
 | Block                    |                              |
 
 
-#### FluentAPI (Marcel)
-A fluent interface, also called fluent API, is a certain style of interface which is especially useful for creating and manipulating objects. The goal of a fluent interface is to increase code legibility by creating a domain-specific language (DSL).
+#### FluentAPI
+Since the creation of PCM models can get very messy, [a FluentAPI](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator) was added to this project. It enables the user to focus on creating functional code and takes away the burden of creating PCM objects and refering them to each other. The FluentAPI also ensures that all models can be created similarly and therefore increases the readability of the code. Searching for the correct factory for the different model elements and the method names that set the desired properties is not user-friendly, especially, since the model objects offer more method proposals than required for creating a repository model. It also opens the possibility to read the code like a natural sentence and provides an uniform interface where changes to the PCM Meta model can be made without changing every appearance in our code.
 
-This feature was not easy to implement, since the backend of PCM provides not just one, but around 10 different factories that are all needed to create a PCM repository and system model. A fluent API is a much-appreciated help. Although the allocation and resource environment model each only require a single factory the code can get very messy for other parts like the creation of actions and the assignment of variables without one. The FluentAPI also ensures that all models can be created similarly. Searching for the correct factory for the different model elements and the method names that set the desired properties is not user-friendly, especially, since the model objects offer more method proposals than required for creating a repository model. Thankfully, a FluentAPI was created in previous work and was ready to use for this implementation.
-
-Its design relies on method chaining to implement method cascading, thus, each method usually returns the manipulated object itself (a this pointer). Furthermore, the chaining methods are supposed to "flow like a natural sentence" (hence the name "fluent interface"), automatically guiding the user and giving a natural feeling of the available features. The fluent API has the goal to not only reduce the overhead of creating a model programmatically but also to provide a clear frame that guides the user through the different steps of the model creation, naturally indicating which step comes next. Consequently, the API is easy to use even for unexperienced users and is very helpfull in combination with modern IDEs, due to their code completion highlighting.
-
-Prominent examples of fluent interfaces are the [Java Stream API](https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html) and [JMock](http://jmock.org).
+Thankfully, a FluentAPI was created in previous work and was ready to use for this implementation.
 
 ## Objectives: (Marcel)
 The project focused on different objectives to help the user:
