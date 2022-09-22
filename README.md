@@ -38,6 +38,14 @@ How to traverse the AST?
 The visitor pattern is a common used behavioral pattern. 
 What is the visitor pattern good for
 
+## Objectives:
+The project focused on different objectives to help the user:
+- Transformation of Java source code to a Palladio Component Model repository with SEFF elements
+- Understandable source code structures to enable changes of the original code and further development
+- Preprocessing for Runtime analysis via PCM
+
+Since there where previous implementations of this project the objectives always stayed the same, but this version updated the code base to match newer Java versions. To stay compatible with the build process of other versions we also created an ` IBlackboardInteractingJob <Blackboard<Object>> ` called Ast2SeffJob. It uses a similar visitor pattern then the other versions but has direct access to the code via the JDT Ast pattern. Further informations can be found in [section JDT Version](#JDT Version).
+
 ### MoDisco/JaMoPP Version
 This project is a further development from the MoDisco version and JaMoPP version.  
 The MoDisco version was the first version of the reverse engineering project and was implemented by Klaus Kogmann. The structure of the project was understandable 
@@ -45,32 +53,27 @@ The MoDisco version was the first version of the reverse engineering project and
 ### JDT Version
 The Eclipse Java Development Tools (JDT) offer functionality to traverse Java source code, enriched with additional information like type resolutions and package affiliations. This project tries a new approach by building the visitor pattern with direct reference to the JDT library, omitting the JaMoPP dependency of the previous project implementation.
 
-#### JaMoPPStatemenVisitor
+### Comparison of different implementations
+
+Since this project has a long history with different versions we created a table to compare them all to each other. If you are familiar with one of the versions, this can give a good overview how the others were structured. Keep in mind that this table only represents what the visitor got as input and does not reflect the preproccessing done in JaMoPP (e.g. gethering For/EnhancedFor/While to Loop beforehand). SetVariableAction and WithInputVariable were recently added to the JDT version and therefore there is no JaMoPP / MoDisco version for it.
 
 | ** SEFF Element **       | ** MoDisco Version **                                       | ** JaMoPP Version **        | ** JDT Version **                                         |
 |--------------------------|-------------------------------------------------------------|-----------------------------|-----------------------------------------------------------|
 | LoopAction               | ForStatement, EnhancedForStatement, WhileStatement          | LoopStatement               | ForStatement, EnhancedForStatement, WhileStatement        |
 | BranchAction             | SwitchStatement, TryStatement, IfStatement, IfElseStatement | Switch, TryBlock, Condition | SwitchStatement, TryStatement, IfStatement, ElseStatement |
 | AcquireAction            | SynchronizedStatement                                       | SynchronizedBlock           | SynchronizedStatement                                     |
-| InternalCallAction​       | ExpressionStatement                                         | CallStatement               | ExpressionStatement                                       |
-| ExternalCallAction​       | ExpressionStatement                                         | CallStatement               | ExpressionStatement                                       |
-| InternalAction​           | ExpressionStatement                                         | ThisStatement               | ExpressionStatement                                       |
+| InternalCallAction       | ExpressionStatement                                         | CallStatement               | ExpressionStatement                                       |
+| ExternalCallAction       | ExpressionStatement                                         | CallStatement               | ExpressionStatement                                       |
+| InternalAction           | ExpressionStatement                                         | ThisStatement               | ExpressionStatement                                       |
 | SetVariableAction        | -                                                           | -                           | ReturnStatement                                           |
-| WithInputVariable​        | -                                                           | -                           | ExpressionStatement                                       |
+| WithInputVariable        | -                                                           | -                           | ExpressionStatement                                       |
 
-#### FluentAPI
+### FluentAPI
 Since the creation of PCM models can get very messy, [a FluentAPI](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator) was added to this project. It enables the user to focus on creating functional code and takes away the burden of creating PCM objects and refering them to each other. The FluentAPI also ensures that all models can be created similarly and therefore increases the readability of the code. Searching for the correct factory for the different model elements and the method names that set the desired properties is not user-friendly, especially, since the model objects offer more method proposals than required for creating a repository model. It also opens the possibility to read the code like a natural sentence and provides an uniform interface where changes to the PCM Meta model can be made without changing every appearance in our code. Thankfully, a FluentAPI was created in previous work and was ready to use for this implementation.
-
-## Objectives: (Marcel)
-The project focused on different objectives to help the user:
-- Transformation of Java source code to a Palladio Component Model repository with SEFF elements
-- Understandable source code structures to enable changes of the original code and further development
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-To get a local copy up and running follow these simple example steps.
+Now that the foundation of our project is clear we can jump right into it. To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
@@ -84,7 +87,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
-_Below is an example of how you can install and set up your app. This template doesn't rely on any external dependencies or services._
+Below is an example of how this project can be installed and set up. Be sure to meet all [Prerequisites](#Prerequisites), else the installation might fail.
 
 1. Clone the repository to a directory of your choice
 
