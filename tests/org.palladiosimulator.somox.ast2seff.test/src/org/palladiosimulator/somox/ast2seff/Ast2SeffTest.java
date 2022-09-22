@@ -1,5 +1,8 @@
 package org.palladiosimulator.somox.ast2seff;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -25,6 +28,10 @@ import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.palladiosimulator.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.repository.Interface;
+import org.palladiosimulator.pcm.repository.OperationInterface;
+import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.palladiosimulator.somox.ast2seff.jobs.Ast2SeffJob;
@@ -159,7 +166,26 @@ public class Ast2SeffTest {
         ast2SeffJob.setBlackboard(blackboard);
         NullProgressMonitor progressMonitor = new NullProgressMonitor();
         ast2SeffJob.execute(progressMonitor);
-        // TODO Formulate assertions for blackboard content (= results of execution)
+        
+        Repository repository = (Repository) blackboard.getPartition("repository");
+        
+        assertNotNull(repository);
+        
+        assertEquals(2, repository.getComponents__Repository().size());
+        assertEquals(2, repository.getInterfaces__Repository().size());
+        
+        BasicComponent basicComponentOne = (BasicComponent) repository.getComponents__Repository().get(0);
+        BasicComponent basicComponentTwo = (BasicComponent) repository.getComponents__Repository().get(1);
+        OperationInterface interfaceOne = (OperationInterface) repository.getInterfaces__Repository().get(0);
+        OperationInterface interfaceTwo = (OperationInterface) repository.getInterfaces__Repository().get(1);
+        
+        assertEquals(4, basicComponentOne.getServiceEffectSpecifications__BasicComponent().size());
+        assertEquals(14, basicComponentTwo.getServiceEffectSpecifications__BasicComponent().size());
+        assertEquals(1, basicComponentOne.getProvidedRoles_InterfaceProvidingEntity().size());
+        assertEquals(1, basicComponentOne.getRequiredRoles_InterfaceRequiringEntity().size());
+        assertEquals(1, basicComponentTwo.getProvidedRoles_InterfaceProvidingEntity().size());
+        assertEquals(4, interfaceOne.getSignatures__OperationInterface().size());
+        assertEquals(14, interfaceTwo.getSignatures__OperationInterface().size());
     }
     
     @Test

@@ -118,7 +118,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			MethodInvocation methodInvocation = (MethodInvocation) expression;
 			MethodPalladioInformation methodPalladioInformation = this.getMethodPalladioInformation(methodInvocation);
 			
-			if (!methodBundlePair.getBundleName().equals(methodPalladioInformation.getOperationInterfaceName())) {
+			String potentialInterfaceName = "I" + methodBundlePair.getBundleName();
+			if (!potentialInterfaceName.equals(methodPalladioInformation.getOperationInterfaceName())) {
 				createExternalCallAction(methodInvocation, methodPalladioInformation);
 			} else {
 				if (internalCallActionDepth < 1) {
@@ -224,32 +225,6 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		
 		actionSeff = branchActionCreator.withName(NameUtil.getEntityName(ifStatement)).followedBy();
 		return false;
-	}
-	
-	private BranchActionCreator handleElseStatement(Statement statement, BranchActionCreator branchActionCreator) {
-		
-		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
-		
-		if (statement instanceof IfStatement) {
-			LOGGER.debug("Else Statement is If Else Statement");
-			IfStatement elseIfStatement = (IfStatement) statement;
-			innerActionSeff = this.perform(elseIfStatement.getThenStatement(), innerActionSeff);
-		} else {
-			LOGGER.debug("If Statement is Else Statement");
-			innerActionSeff = this.perform(statement, innerActionSeff);
-		}
-		
-		SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
-		
-		// TODO: Enter Expression
-		branchActionCreator = branchActionCreator.withGuardedBranchTransition("expression", seffCreator, "Guarded Branch Transition");
-
-		if (statement instanceof IfStatement) {
-			IfStatement elseIfStatement = (IfStatement) statement;
-			branchActionCreator = handleElseStatement(elseIfStatement.getElseStatement(), branchActionCreator);
-		}
-		
-		return branchActionCreator;
 	}
 	
 	public boolean visit(final SynchronizedStatement synchronizedStatement) {
@@ -411,6 +386,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		}
 		return variableUsage;
 	}
+	
 	private VariableUsageCreator generateInputVariableUsage(Expression variable) {
 		VariableUsageCreator variableUsage = create.newVariableUsage();
 		variableUsage.withNamespaceReference("PrimitiveType", NameUtil.getExpressionClassName(variable));
@@ -418,6 +394,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
 		return variableUsage;
 	}
+	
 	/*
 	 * Same as generateVariables above, but for Output Variables 
 	 */
@@ -466,6 +443,38 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		// TODO: Enter Expression
 		branchActionCreator.withGuardedBranchTransition(condition, seffCreator, "Guarded Branch Transition").withName(NameUtil.BRANCH_ACTION_NAME);
 
+		return branchActionCreator;
+	}
+	
+	private BranchActionCreator handleElseStatement(Statement statement, BranchActionCreator branchActionCreator) {
+		
+		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
+		
+		String condition = "condition";
+		
+		if (statement instanceof IfStatement) {
+			LOGGER.debug("Else Statement is If Else Statement");
+			IfStatement elseIfStatement = (IfStatement) statement;
+			innerActionSeff = this.perform(elseIfStatement.getThenStatement(), innerActionSeff);
+			condition = NameUtil.getIfStatementConditionString(elseIfStatement);
+		} else {
+			LOGGER.debug("If Statement is Else Statement");
+			innerActionSeff = this.perform(statement, innerActionSeff);
+			
+			// TODO: How to define else statement?
+//			condition = NameUtil.getElseStatementConditionString(statement);
+		}
+		
+		SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
+		
+		// TODO: Enter Expression
+		branchActionCreator = branchActionCreator.withGuardedBranchTransition("expression", seffCreator, "Guarded Branch Transition");
+
+		if (statement instanceof IfStatement) {
+			IfStatement elseIfStatement = (IfStatement) statement;
+			branchActionCreator = handleElseStatement(elseIfStatement.getElseStatement(), branchActionCreator);
+		}
+		
 		return branchActionCreator;
 	}
 	

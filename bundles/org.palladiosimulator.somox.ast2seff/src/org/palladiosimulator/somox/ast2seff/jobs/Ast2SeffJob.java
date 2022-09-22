@@ -69,8 +69,6 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
     public Ast2SeffJob() { }
 
-  
-    
     /*
      * (non-Javadoc)
      *
@@ -110,6 +108,8 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
         LOGGER.info("Created XML. Task finished.");
         subMonitor.done();
+        
+        this.blackboard.addPartition("repository", repository);
     }
     
     private void createSeffsForComponents(RepoAddition repoAddition, IProgressMonitor monitor) {
@@ -119,7 +119,6 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
             
             List<MethodBundlePair> methodBundleList = entry.getValue();
 
-            
             BasicComponentCreator basicComponentCreator = create.newBasicComponent()
                 .withName(bundleName)
                 .provides(create.fetchOfOperationInterface(interfaceName), interfaceName);
@@ -127,13 +126,8 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
             for (MethodBundlePair methodBundlePair : methodBundleList) {
                 MethodPalladioInformation methodPalladioInformation = methodBundlePalladioInfoMap.get(methodBundlePair);
-                try {
-					basicComponentCreator
-					    .withServiceEffectSpecification(this.createSeff(methodPalladioInformation, componentInformation)
-					        .withName(methodPalladioInformation.getMethodName()));
-				} catch (JobFailedException e) {
-					LOGGER.error(e.toString());
-				}
+				basicComponentCreator
+				    .withServiceEffectSpecification(this.createSeff(methodPalladioInformation, componentInformation));
                 monitor.worked(1);
             }
 
@@ -231,10 +225,10 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                         .withName(simpleType.toString());
                     
                     // TODO: WHY is the name important? This is not a generic approach, needs to be fixed
-                    if (simpleType.toString()
-                        .equals("SimpleClass"))
-                        compositeDataType = compositeDataType.withInnerDeclaration("counter",
-                                Primitive.INTEGER);
+                    if (simpleType.toString().equals("SimpleClass")) {
+                    	compositeDataType = compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
+                    }
+                    
                     repoAddition.addToRepository(compositeDataType);
                     parameterList.add(simpleType.toString());
                 }
@@ -257,16 +251,15 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     }
 
     /**
-     * Create a new PCM SEFF.
+     * Create a new SeffCreator element .
      *
-     * @param seff
-     *            The SEFF which is filled by this method
-     * @param methodDeclaration
-     * @return The completed SEFF, returned for convenience
+     * @param methodPalladioInformation 
+     * @param componentInformation
+     * @return SeffCreator object
      * @throws JobFailedException
      */
     private SeffCreator createSeff(MethodPalladioInformation methodPalladioInformation,
-            ComponentInformation componentInformation) throws JobFailedException {
+            ComponentInformation componentInformation) {
         ActionSeff actionSeff = create.newSeff()
             .onSignature(create.fetchOfSignature(methodPalladioInformation.getOperationSignatureName()))
             .withSeffBehaviour()
