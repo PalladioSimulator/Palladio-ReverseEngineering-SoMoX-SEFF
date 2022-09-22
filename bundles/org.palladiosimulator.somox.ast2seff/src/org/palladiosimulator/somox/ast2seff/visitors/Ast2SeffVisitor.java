@@ -363,7 +363,6 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private VariableUsageCreator generateInputVariableUsage(Expression variable, Parameter para) {
 		VariableUsageCreator variableUsage = create.newVariableUsage();
 		
-		
 		// TODO: Muss das noch hinzugefügt werden?
 		//randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
 		
@@ -468,7 +467,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
 		
 		// TODO: Enter Expression
-		branchActionCreator = branchActionCreator.withGuardedBranchTransition("expression", seffCreator, "Guarded Branch Transition");
+		branchActionCreator = branchActionCreator.withGuardedBranchTransition(condition, seffCreator, "Guarded Branch Transition");
 
 		if (statement instanceof IfStatement) {
 			IfStatement elseIfStatement = (IfStatement) statement;
@@ -483,7 +482,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
 		innerActionSeff = this.perform(node, innerActionSeff);
 		SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
-		loopActionCreator.withLoopBody(seffCreator).withName(NameUtil.LOOP_ACTION_NAME);
+		loopActionCreator.withLoopBody(seffCreator);
 		return loopActionCreator;
 	}
 	

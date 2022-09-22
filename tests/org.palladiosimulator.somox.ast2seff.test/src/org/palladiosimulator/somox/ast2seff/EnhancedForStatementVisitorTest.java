@@ -26,6 +26,7 @@ import org.palladiosimulator.pcm.seff.StopAction;
 import org.palladiosimulator.somox.ast2seff.models.ComponentInformation;
 import org.palladiosimulator.somox.ast2seff.models.MethodBundlePair;
 import org.palladiosimulator.somox.ast2seff.models.MethodPalladioInformation;
+import org.palladiosimulator.somox.ast2seff.util.NameUtil;
 import org.palladiosimulator.somox.ast2seff.visitors.Ast2SeffVisitor;
 
 public class EnhancedForStatementVisitorTest {
@@ -62,6 +63,7 @@ public class EnhancedForStatementVisitorTest {
 		
 		assertEquals(actionList.size(), 3);
 		assertTrue(actionList.get(1) instanceof LoopAction);
+		assertEquals(actionList.get(1).getEntityName(), "@position: for (int MISSING : MISSING)");
 		
 		LoopAction loopAction = (LoopAction) actionList.get(1);
 		ResourceDemandingBehaviour resourceDemandingBehaviour = loopAction.getBodyBehaviour_Loop();

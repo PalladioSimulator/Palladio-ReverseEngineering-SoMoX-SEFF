@@ -81,7 +81,7 @@ public class NameUtil {
 	}
 	
 	public static String getEntityName(Statement elseStatement) {		
-		final StringBuilder positionString = new StringBuilder(" @position: ");
+		final StringBuilder positionString = new StringBuilder("@position: ");
 		positionString.append("Cond: ").append("else").append("");
 		return positionString.toString();
 	}
@@ -91,7 +91,7 @@ public class NameUtil {
 		Expression updaters = (Expression) forStatement.updaters().get(0);
 		Expression expression = forStatement.getExpression(); 
 		
-		final StringBuilder positionString = new StringBuilder(" @position: ");
+		final StringBuilder positionString = new StringBuilder("@position: ");
 		if (initializers instanceof VariableDeclarationExpression && expression instanceof InfixExpression && updaters instanceof PostfixExpression) {
 			positionString.append(" from ").append(initializers).append(" to ").append(expression).append(" with ").append(updaters);
 		} else {
@@ -104,7 +104,7 @@ public class NameUtil {
 		SingleVariableDeclaration variableDeclaration = forStatement.getParameter();
 		Expression expression = forStatement.getExpression();
 		
-		final StringBuilder positionString = new StringBuilder(" @position: ");
+		final StringBuilder positionString = new StringBuilder("@position: ");
 		positionString.append("for (").append(variableDeclaration).append(" : ").append(expression).append(")");
 		return positionString.toString();
 	}
@@ -112,7 +112,7 @@ public class NameUtil {
 	public static String getEntityName(final WhileStatement whileStatement) {
 		Expression expression = whileStatement.getExpression();
 		
-		final StringBuilder positionString = new StringBuilder(" @position: ");
+		final StringBuilder positionString = new StringBuilder("@position: ");
 		positionString.append("expression name \"").append(expression).append("\"");
 		return positionString.toString();
 	}
@@ -134,7 +134,7 @@ public class NameUtil {
 	}
 	
 	public static String whileStatementExpressionString(Expression expression) {
-		final StringBuilder positionString = new StringBuilder(" @position: ");
+		final StringBuilder positionString = new StringBuilder("@position: ");
 		positionString.append("expression name \"").append(expression).append("\"");
 		return positionString.toString();
 	}
