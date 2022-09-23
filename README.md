@@ -169,7 +169,7 @@ Now that the parser is set up and and the helper function is defined we can star
     return compilationUnits;
   ```
 
-Since additional filtering like exclusion of private functions is wanted we did chose not to pass the whole CompilationUnit-Objects to the ast2SeffJob, instead we pass a mapping of classNames to [methodDeclarations](bundles/org.palladiosimulator.somox.ast2seff/src/org/palladiosimulator/somox/ast2seff/models/MethodBundlePair.java), which we defined as a pair of [MethodDeclarations](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html) and bundleNames.
+Since additional filtering like exclusion of private functions is wanted we choose to not pass the whole [CompilationUnit-Objects](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html) to the ast2SeffJob, instead we pass a mapping of classNames to methodDeclarations, which we defined as [MethodBundlePairs](bundles/org.palladiosimulator.somox.ast2seff/src/org/palladiosimulator/somox/ast2seff/models/MethodBundlePair.java).
 
   ```sh
     Map<String, List<MethodBundlePair>> bundleName2methodAssociationMap = new HashMap<String, List<MethodBundlePair>>();
