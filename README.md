@@ -42,15 +42,18 @@ What is the visitor pattern good for
 The project focused on different objectives to help the user:
 - Transformation of Java source code to a Palladio Component Model repository with SEFF elements
 - Understandable source code structures to enable changes of the original code and further development
-- Preprocessing for Runtime analysis via PCM
+- Preprocessing for Runtime analysis via PCM  
 
 Since there where previous implementations of this project the objectives always stayed the same, but this version updated the code base to match newer Java versions. To stay compatible with the build process of other versions we also created an ` IBlackboardInteractingJob <Blackboard<Object>> ` called Ast2SeffJob. It uses a similar visitor pattern then the other versions but has direct access to the code via the JDT Ast pattern. Further informations can be found in [section JDT Version](#JDT Version).
 
 ### MoDisco/JaMoPP Version
-This project is a further development from the MoDisco version and JaMoPP version.  
-The MoDisco version was the first version of the reverse engineering project and was implemented by Klaus Kogmann. The structure of the project was understandable 
+This project is a further development from the MoDisco and JaMoPP version. It was implemeted based on the JaMopp version, which was based on the MoDisco version. To fully understand our implementation we first describe the differences between MoDisco and JaMoPP.  
+The MoDisco version was the first version of the reverse engineering project and was implemented by Klaus Kogmann. It was very clean structured since it had comprehensible mapping rules and was able to directly map code blocks to SEFF actions. The parsing process took Java code and parsed it with the MoDisco parser into the MoDisco model, made processing via the visitor pattern in the GAST2SEFF class and outputted different SEFFs as XML. Since the support for the parser stopped and it was not able to parse new structured Java Code the development of the MoDisco version stopped and a new version (JaMoPP) was implemented.  
+The JaMoPP version had two different milestones. First it was implemented with the default JaMoPP parser by Michael Langhammer, but then again the support for the parser stopped and it was not able to parse new structured Java Code. Instead of recreating everything the ??KASTEL?? institute decided to swap the JaMoPP parser to the JDT parser and created a translation between the two models. This text focusses on the JDT parser version.  
+Since the JaMopp model was different then the MoDisco model a bit of preprocessing was needed to create a similar matching like before. It was not able to directly differ between Internal and External Actions, therefore a big library named "SourceCodeDecorator" was created to help with this process and to make some runtime analysis. The parsing process took Java code and parsed it with the JDT parser, translated it into the JaMoPP model and made preprocessing steps, then parsed it into a adjusted GAST2SEFF class where a visitor pattern processed the JaMoPP model to output different SEFFs as XML. The process was therefore very similar to the MoDisco version, but the preprocessing made the whole code very unreadable and induced an unneeded extra step by retranslating the code from the JDT AST model to the JaMoPP model.
 
 ### JDT Version
+To soften the stiff JaMoPP implementation we choose to skip this translation part and directly process the JDT AST model via an AST2SEFF class. This option opens us the possibility to abandon the whole "SourceCodeDecorator" and make the code cleaner again.  
 The Eclipse Java Development Tools (JDT) offer functionality to traverse Java source code, enriched with additional information like type resolutions and package affiliations. This project tries a new approach by building the visitor pattern with direct reference to the JDT library, omitting the JaMoPP dependency of the previous project implementation.
 
 ### Comparison of different implementations
