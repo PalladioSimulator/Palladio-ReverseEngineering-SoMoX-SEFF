@@ -51,7 +51,7 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 /**
  * Transformation Job transforming a JDT AST instance into a SEFF using the FluentAPI
  *
- * @author Marcel RÃ¼hle, Fabian Wenzel
+ * @author Marcel Rühle, Fabian Wenzel
  */
 public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>> {
 
@@ -68,8 +68,10 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
     public Ast2SeffJob() { }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * This function executes the Ast2Seff execution process.
+     * It requires that the bundleName2methodAssociationMap is set inside the blackboard
+     * and processes it via the Ast2SeffVisitor
      *
      * @see de.uka.ipd.sdq.workflow.IJob#execute(org.eclipse.core.runtime.IProgressMonitor)
      */
@@ -112,9 +114,10 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     }
     
     /**
+     * This function creates the BasicComponents and their corresponding Seffs for each passed methodBundlePair.
      * 
-     * @param repoAddition
-     * @param monitor
+     * @param repoAddition the Repository where BasicComponents are added
+     * @param monitor IProgressMonitor for IBlackboardInteractingJob interaction (@see de.uka.ipd.sdq.workflow.IJob#IProgressMonitor(org.eclipse.core.runtime.IProgressMonitor))
      */
     private void createSeffsForComponents(RepoAddition repoAddition, IProgressMonitor monitor) {
         for (Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
@@ -140,9 +143,11 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     }
     
     /**
+     * This function creates the interfaces for each bundle.
+     * It also adds the information for the methodPalladioInfoMap and the methodBundlePalladioInfoMap for the Ast2SeffVisitor.
      * 
-     * @param repoAddition
-     * @param counter
+     * @param repoAddition the Repository where Interfaces are added
+     * @param counter counts how many interfaces are computed for logging
      */
     private void createOperationInterfacesForRepository(RepoAddition repoAddition, int counter) {
     	for (Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
@@ -208,10 +213,11 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     }
     
     /**
+     * This function takes a list of variable Declarations, traverses it and adds them depending on their type to the operationSignature
      * 
-     * @param singleVariableDeclarationList
-     * @param repoAddition
-     * @param methodOperationSignature
+     * @param singleVariableDeclarationList a List of variables that should be added
+     * @param repoAddition the Repository where DataTypes are added
+     * @param methodOperationSignature the Signature where variables are added 
      */
     private void setParametersToSignature(List<SingleVariableDeclaration> singleVariableDeclarationList, RepoAddition repoAddition, OperationSignatureCreator methodOperationSignature) {
     	for (SingleVariableDeclaration variableDeclaration : singleVariableDeclarationList) {
@@ -267,11 +273,11 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     }
 
     /**
-     * Create a new SeffCreator element .
-     *
-     * @param methodPalladioInformation 
-     * @param componentInformation
-     * @return SeffCreator object
+     * This function creates a new SeffCreator element, adds the signature and transverses all children to create a new Seff with their matching functionality.
+     * 
+     * @param methodPalladioInformation contains the OperationSignatureName for a fatch on the Seff and the MethodBundlePair for the Ast2SeffVisitor
+     * @param componentInformation informations about the component thats is currently parsed
+     * @return SeffCreator object returns the SeffCreator with all informations in it
      */
     private SeffCreator createSeffCreator(MethodPalladioInformation methodPalladioInformation,
             ComponentInformation componentInformation) {
@@ -283,15 +289,16 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
             .followedBy();
 
         return Ast2SeffVisitor
-            .perform(methodPalladioInformation, actionSeff, this.methodPalladioInfoMap, componentInformation, create)
+            .perform(methodPalladioInformation.getMethodBundlePair(), actionSeff, this.methodPalladioInfoMap, componentInformation, create)
             .stopAction()
             .withName(NameUtil.STOP_ACTION_NAME)
             .createBehaviourNow();
     }
 
     /**
+     * This function generates a XML File based on the transfered repository.
      * 
-     * @param repository
+     * @param repository the previously created repository that should be outputted as file
      */
     private void generateSeffXmlFile(final Repository repository) {
 
@@ -317,6 +324,12 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     @Override
     public void cleanup(final IProgressMonitor monitor) throws CleanupFailedException { }
 
+    /**
+     * private function that mapps Strings to Privitive types
+     * 
+     * @param primitiveTypeCodeString String that should be mapped to type
+     * @return Primitive type matching to the String
+     */
     private Primitive getPrimitiveType(String primitiveTypeCodeString) {
         if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
             return Primitive.INTEGER;
