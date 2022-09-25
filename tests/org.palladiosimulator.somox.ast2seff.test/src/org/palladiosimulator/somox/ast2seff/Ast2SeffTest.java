@@ -101,7 +101,7 @@ public class Ast2SeffTest {
 			for (MethodDeclaration methodDeclaration : methodDeclarations) {
 				List<IExtendedModifier> modifierList = (List<IExtendedModifier>) methodDeclaration.modifiers();
 				
-				// Generate a seff for public methods only
+				// Generate a SEFF for public methods
 				IExtendedModifier firstModifier = modifierList.get(0);
 				if (firstModifier.isModifier()) {
 					Modifier modifier = (Modifier) firstModifier;
@@ -122,6 +122,7 @@ public class Ast2SeffTest {
         
        
         Ast2SeffJob ast2SeffJob = new Ast2SeffJob();
+        
         // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
         Blackboard<Object> blackboard = new Blackboard<>();
         

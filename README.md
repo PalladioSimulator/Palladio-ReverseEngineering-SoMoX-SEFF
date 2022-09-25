@@ -9,26 +9,25 @@ If you are familiar with the project, jump directly to [Usage](#usage).
 ## Motivation & Background
 Most of the time a forward engineering approach is used when developing software. After the definition of the system specification a software design is created. With this software design the source code can be built in a structured way. Some legacy projects do not have any kind of specification or design documentation available. Reverse engineering is a very interesting approach in this scenario, because it tries to build higher abstraction models of the available source code. The code analyzation can be a very time-consuming and exhausting task. Single condition statements can make the difference between a performant or slow implementation. If the developer is not common with the code it's hard to find the exact location. Thats why an automated, easy readable diagram from the code would be a perfect solution for developers. 
 
-It can be used for reverse engineering purposes to retrieve the original design and find all connections between components. It eases the feature development and bugfixing process in legacy systems and enables a clean codebase with fast to find refactors or analization of resource demands.  
+It can be used for reverse engineering purposes to retrieve the original design and find all connections between components. It eases the feature development and improvement process in legacy systems and enables a clean code-base with fast to find refactoring options or analization of resource demands.  
 
 ### Palladio Component Model (PCM)
-Palladio is a software architecture simulation approach which analyzes your software at the model level for performance bottlenecks, scalability issues, reliability threats, and allows for a subsequent optimization. 
-
-
-The Palladio Component Model (PCM) is one of the core assets of the Palladio approach. It is designed to enable early performance, reliability, maintainability, and cost predictions for software architectures and is aligned with a component-based software development process. The PCM is implemented using the Eclipse Modeling Framework (EMF). Visit the [Homepage](https://www.palladio-simulator.com) for more information.
+Palladio is a software architecture simulation approach which analyzes a software project at the model level for performance bottlenecks, issues with scalability, reliability threats, and allows for a subsequent optimization. The approach needs different artifacts as input to perform the simulation. Artifacts can be the specification of the components, the composition of the components or a specification of the behavior of the functions inside the components. This behavior specification is known as Service Effect Specification.
 
 ### Service Effect Specification (SEFF)
-Was ist ein SEFF? Was ist ein RDSEFF? (Eine Art UML-Aktivitätsdiagramm)  
+The Service Effect Specification (SEFF) is a kind of activity diagram to model an abstraction of the component and function behavior. It offers several ways to specify the type of the action elements of the diagram. For the simulation the actions can be enriched with resource allocation specifications such as CPU or HDD usage.
 
 ### AST
-Eclipse provides a way to access and manipulate Java source code via the Java Development Tools (JDT) API. The API can either be accessed via the Java Model or via the Abstract Syntax Tree (AST). For our implementation, we choose to follow the AST path, since it matches the MoDisco / JaMoPP models described [below](#modiscojamopp-version).  
+Eclipse provides a way to access and manipulate Java source code via the Java Development Tools (JDT) API. The API can either be accessed via the Java Model or via the Abstract Syntax Tree (AST). For our implementation, we choose to follow the AST path, since it matches the MoDisco / JaMoPP models described [below](#modiscojamopp-version).   
+
 The AST is a detailed tree representation of the Java source code which can be traversed via the [visitor Pattern](#visitor-pattern). It consists of a root node (ICompilationUnit) and many different child nodes which are built upon each other.  
 The AST has a structure similar to  
 ![AST: Structure](doc/ASTStructure.png "AST: Typical AST structure")
-where each MethodDeclaration describes a function of the root class and each Statement describes a different code snippet. The AST can be enriched with additional informations like TypeDeclarations to model the affiliated classes which we choose not to do (see [Limitations & Future Work](#limitations--future-work)).  
+where each MethodDeclaration describes a function of the root class and each Statement describes a different code snippet. The AST can be enriched with additional informations like TypeDeclarations to model the affiliated classes which we choose not to do (see [Limitations & Future Work](#limitations-&-future-work)).  
 
 ### Visitor Pattern
-The visitor pattern is a commonly used behavioral pattern, which provides the possibility to separate an algorithm from an object structure on which it operates. It is a perfect match to traverse the AST since it opens the possibility to read and process parts of the object structure without directly modifying it.  
+The visitor pattern is a commonly used behavioral pattern, which provides the possibility to separate an algorithm from an object structure on which it operates. It is a perfect match to traverse the AST since it opens the possibility to read and process parts of the object structure without directly modifying it.   
+
 The AST provides an interface where visitors can be accepted and calls their visit function in a recursive cycle. To react to the different types of nodes the visit function has to be overloaded ensuring that each type and its children are processed correctly. Since it's not always wanted to process each child till the very deep end a return value can be set where true traverses the children and false stops the traversing of the children and returns to the parent.  
 This pattern enabled us to build a very lightweight code structure and helped to meet all Objectives.
 
@@ -36,22 +35,26 @@ This pattern enabled us to build a very lightweight code structure and helped to
 The project focused on different objectives to help the user:
 - Transformation of Java source code to a Palladio Component Model repository with SEFF elements
 - Understandable source code structures to enable changes to the original code and further development
-- Preprocessing for Runtime analysis via PCM  
+- Preprocessing the source code for runtime analysis via PCM
 
 Since there were previous implementations of this project the objectives always stayed the same, but this version updated the code base to match newer Java versions. To stay compatible with the build process of other versions we also created an ` IBlackboardInteractingJob <Blackboard<Object>> ` called Ast2SeffJob. It uses a similar visitor pattern to the other versions but has direct access to the code via the JDT Ast pattern. Further information can be found in [section JDT Version](#jdt-version).
 
 ### MoDisco/JaMoPP Version
 This project is a further development from the MoDisco and JaMoPP versions. It was implemented based on the JaMopp version, which was based on the MoDisco version. To fully understand our implementation we first describe the differences between MoDisco and JaMoPP.  
-The MoDisco version was the first version of the reverse engineering project and was implemented by Klaus Kogmann. It was very clean structured since it had comprehensible mapping rules and was able to directly map code blocks to SEFF actions. The parsing process took Java code and parsed it with the MoDisco parser into the MoDisco model, made processing via the visitor pattern in the GAST2SEFF class, and outputted different SEFFs as XML. Since the support for the parser stopped and it was not able to parse new structured Java Code the development of the MoDisco version stopped and a new version (JaMoPP) was implemented.  
+The MoDisco version was the first version of the reverse engineering project and was implemented by Klaus Kogmann. It was very clean structured since it had comprehensible mapping rules and was able to directly map code blocks to SEFF actions. The parsing process took Java code and parsed it with the MoDisco parser into the MoDisco model, made processing via the visitor pattern in the GAST2SEFF class, and output different SEFF objects in the XML format. Since the support for the parser stopped and it was not able to parse new structured Java Code the development of the MoDisco version stopped and a new version (JaMoPP) was implemented.   
+
+
 The JaMoPP version had two different milestones. First, it was implemented with the default JaMoPP parser by Michael Langhammer, but then again the support for the parser stopped and it was not able to parse new structured Java Code. Instead of recreating everything the ??KASTEL?? institute decided to swap the JaMoPP parser for the JDT parser and created a translation between the two models. This text focuses on the JDT parser version.  
-Since the JaMopp model was different than the MoDisco model a bit of preprocessing was needed to create a similar matching as before. It was not able to directly differentiate between Internal and External Actions, therefore a big library named "SourceCodeDecorator" was created to help with this process and to make some runtime analysis. The parsing process took Java code and parsed it with the JDT parser. The JDT model was then translated into the JaMoPP model and preprocessed, then parsed into an adjusted GAST2SEFF class where a visitor pattern processed the JaMoPP model to output different SEFFs as XML. The process was therefore very similar to the MoDisco version, but the preprocessing made the whole code very unreadable and induced an unneeded extra step by retranslating the code from the JDT AST model to the JaMoPP model.
+
+
+Since the JaMopp model was different than the MoDisco model a bit of preprocessing was needed to create a similar matching as before. It was not able to directly differentiate between Internal and External Actions, therefore a big library named "SourceCodeDecorator" was created to help with this process and to make some runtime analysis. The parsing process took Java code and parsed it with the JDT parser. The JDT model was then translated into the JaMoPP model and preprocessed, then parsed into an adjusted GAST2SEFF class where a visitor pattern processed the JaMoPP model to output different SEFFs as XML. The process was therefore very similar to the MoDisco version, but the preprocessing made the whole code very unreadable and induced an unneeded extra step by transforming the code from the JDT AST model to the JaMoPP model.
 
 ### JDT Version
-The Eclipse Java Development Tools (JDT) offers functionality to traverse Java source code, enriched with additional information like type resolutions and package affiliations. This project tries a new approach by building the visitor pattern with direct reference to the JDT library, omitting the JaMoPP dependency of the previous project implementation. This softens the stiff JaMoPP implementation and opens the possibility to abandon the whole "SourceCodeDecorator". It makes the code cleaner again without any restrictions since the JDT model has full control over which Actions are Internal / External Actions.  
+The Eclipse Java Development Tools (JDT) offer functionality to traverse Java source code, enriched with additional information like type resolutions and package affiliations. This project tries a new approach by building the visitor pattern with direct reference to the JDT library, omitting the JaMoPP dependency of the previous project implementation. This softens the stiff JaMoPP implementation and opens the possibility to abandon the whole "SourceCodeDecorator". It makes the code cleaner again without any restrictions since the JDT model has full control over which Actions are Internal / External Actions.  
 The parsing process takes Java code and parses it with the JDT parser, which is directly traversed by the AST2SEFF visitor pattern to output different SEFFs as XML. It is more similar to the MoDisco version again.
 
 ### Comparison of different implementations
-Since this project has a long history with different versions we created a table to compare them all to each other. If you are familiar with one of the versions, this can give a good overview how the others were structured. Keep in mind that this table only represents what the visitor got as input and does not reflect the preproccessing done in JaMoPP (e.g. gethering For/EnhancedFor/While to Loop beforehand). SetVariableAction and WithInputVariable were recently added to the JDT version and therefore there is no JaMoPP / MoDisco version for it.
+Since this project has a long history with different versions we created a table to compare them all to each other. If you are familiar with one of the versions, this can give a good overview how the others were structured. Keep in mind that this table only represents what the visitor got as input and does not reflect the preproccessing done in JaMoPP (e.g. gathering For/EnhancedFor/While to Loop beforehand). SetVariableAction and WithInputVariable were recently added to the JDT version and therefore there is no JaMoPP / MoDisco version for it.
 
 | **SEFF Element**         | **MoDisco Version**                                         | **JaMoPP Version**          | **JDT Version**                                           |
 |--------------------------|-------------------------------------------------------------|-----------------------------|-----------------------------------------------------------|
@@ -65,7 +68,7 @@ Since this project has a long history with different versions we created a table
 | WithInputVariable        | -                                                           | -                           | ExpressionStatement                                       |
 
 ### FluentAPI
-Since the creation of PCM models can get very messy, [a FluentAPI](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator) was added to this project. It enables the user to focus on creating functional code and takes away the burden of creating PCM objects and referring them to each other. The FluentAPI also ensures that all models can be created similarly and therefore increases the readability of the code. Searching for the correct factory for the different model elements and the method names that set the desired properties is not user-friendly, especially, since the model objects offer more method proposals than required for creating a repository model. It also opens the possibility to read the code like a natural sentence and provides an uniform interface where changes to the PCM Meta-model can be made without changing every appearance in our code. Thankfully, a FluentAPI was created in previous work and was ready to use for this implementation.
+Since the creation of PCM models can get very messy, a [FluentAPI](https://github.com/PalladioSimulator/Palladio-Addons-FluentApiModelGenerator) was added to this project. It enables the user to focus on creating functional code and takes away the burden of creating PCM objects and referring them to each other. The FluentAPI also ensures that all models can be created similarly and therefore increases the readability of the code. Searching for the correct factory for the different model elements and the method names that set the desired properties is not user-friendly, especially, since the model objects offer more method proposals than required for creating a repository model. It also opens the possibility to read the code like a natural sentence and provides an uniform interface where changes to the PCM meta-model can be made without changing every appearance in our code. Thankfully, a FluentAPI was created in previous work and was ready to use for this implementation.
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -209,15 +212,21 @@ Now that the map is set up, the already developed blackboard implementation for 
 ## Limitations & Future Work
 - Our current model only implemented Guarded Branch Transitions and omitted Probabilistic Branch Transitions, since we cannot make any reasonable guesses about the probability of the different branches. In future work, a method to approximate the probabilities should be added.
 - We have started exploring the Assignment Statement and its conversion to a SetVariableAction element in the SEFF context. As we found out during our exploration, the SetVariableAction element is used for functions which have a return statement. We stopped further exploration but left the initial code at the ExpressionStatement visit-function for future work.
-- Our parser currently creates one ICompilationUnit for each parsed file, omitting the Classes inside the file. This limits the possible parsed code to one class per file since all methods get parsed into the matching ICompilationUnit. In future work, a more precises abstraction could be made where either more ICompilationUnit gets created or the TypeDeclaration (in this case the Classes) isn't omitted.
-- Currently, there is no runtime analyzation like CPU / HDD demands. This was previously implemented in the JaMoPP version, but since we started from scratch again, not covered in this version. With more analysis of the JaMoPP version it should be fairly eazy to readd it into the JDT version.
-- Our internalCallActions are only implemented as method-inlining with a depth of 1. This means that if an internalCallAction is called multiple times it's NOT refered to each other, instead created multiple times. If methods refere to each other (= depth > 1) they are shown as internalActions.
+- Our parser currently creates one ICompilationUnit for each parsed file, omitting the Classes inside the file. This limits the possible parsed code to one class per file since all methods get parsed into the matching ICompilationUnit. In future work, a more precise abstraction could be made where either more ICompilationUnit gets created or the TypeDeclaration (in this case the Classes) isn't omitted.
+- Currently, there is no runtime analyzation like CPU / HDD demands. This was previously implemented in the JaMoPP version, but since we started from scratch again, not covered in this version. With more analysis of the JaMoPP version it should be easy to read it into the JDT version.
+- Our internalCallActions are only implemented as method inlining with a depth of 1. This means that if an internalCallAction is called multiple times it's NOT referred to each other, instead created multiple times. If methods refer to each other (= depth > 1) they are shown as internalActions.
+- Expression Statements inside if statements could be modeled in further development. Therefore you need to find out if the there is a method invocation inside the if condition and model it as InternalAction, InternalCallAction or ExternalCallAction.
 
 ## Testing
-The JUnit Framework was used for the quality assurance in this project. JUnit has a good integration into the Eclipse IDE, therefore this decision was straightforward. For the usage model JUnit tests are available. The tests and a bigger example of the overall usage with test classes can be found in the test folder of the project [```FluentUsageModelFactoryTest```](tests/org.palladiosimulator.generator.fluent.test/src/org/palladiosimulator/generator/fluent/usagemodel/factory/FluentUsageModelFactoryTest.java). In future versions the examples of the other models can be written into unit tests and saved under [```Tests```](tests/org.palladiosimulator.generator.fluent.test/src/org/palladiosimulator/generator/fluent).
+The JUnit Framework was used for the quality assurance in this project. JUnit has a good integration into the Eclipse IDE, therefore this decision was straightforward. For the usage model JUnit tests are available. The tests and a bigger example of the overall usage with test classes can be found in the test folder of the project.
 
+A simple test strategy was followed to catch the general test cases for each statement visitor function.  
+The four standard test cases are:
+1. Test an empty statement
+2. Test the statement with an expression statement inside
+3. Test the statement with the same statement inside
+4. Test the statement with another statement inside (loop or branch statement)  
 
-## Miscellaneous
-See the Palladio-Jira for further improvements to this API:
-* https://jira.palladio-simulator.com/browse/COMMONS-30
+Additional test cases for specific attributes for the different kind of statements were tested when needed. 
+
 

@@ -1,5 +1,7 @@
 package org.palladiosimulator.somox.ast2seff.util;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
 import org.eclipse.jdt.core.dom.CatchClause;
@@ -19,11 +21,13 @@ import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.StringLiteral;
+import org.eclipse.jdt.core.dom.SwitchCase;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.TryStatement;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.WhileStatement;
+import org.eclipse.jdt.core.dom.SwitchCase;
 import org.palladiosimulator.somox.ast2seff.visitors.Ast2SeffVisitor;
 
 public class NameUtil {
@@ -168,8 +172,17 @@ public class NameUtil {
 		return conditionString.toString();
 	}
 	
-	public static String getSwitchStatementConditionString(SwitchStatement switchStatement) {
+	public static String getSwitchCaseConditionString(SwitchCase switchCase) {
+		List<Expression> expressionList = switchCase.expressions();
+		String expressionString = "";
+		
+		for(Expression expression : expressionList) {
+			expressionString += expression.toString();
+		}
+		
 		// TODO: Finish function
-		return "condition";
+		final StringBuilder conditionString = new StringBuilder("@position: ");
+		conditionString.append("Condition: if(").append(expressionString).append(")");
+		return conditionString.toString();
 	}
 }

@@ -20,6 +20,7 @@ import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.SwitchCase;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.SynchronizedStatement;
 import org.eclipse.jdt.core.dom.TryStatement;
@@ -428,7 +429,9 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			}
 			
 			SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
-			branchActionCreator= branchActionCreator.withGuardedBranchTransition("expression", seffCreator);
+			SwitchCase switchCase = (SwitchCase) block.get(0);
+			String condition = NameUtil.getSwitchCaseConditionString(switchCase);
+			branchActionCreator = branchActionCreator.withGuardedBranchTransition(condition, seffCreator);
 		}
 		
 		actionSeff = branchActionCreator.withName(NameUtil.getEntityName(switchStatement)).followedBy();
