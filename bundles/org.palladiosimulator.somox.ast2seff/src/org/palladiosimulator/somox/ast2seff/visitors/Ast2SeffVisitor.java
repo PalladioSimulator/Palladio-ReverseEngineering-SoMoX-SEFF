@@ -62,6 +62,14 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private ComponentInformation componentInformation;
 	private int internalCallActionDepth = 0;
 	
+	/**
+	 * 
+	 * @param methodPalladioInformation
+	 * @param actionSeff
+	 * @param methodPalladionInfoMap
+	 * @param componentInformation
+	 * @param create
+	 */
 	public Ast2SeffVisitor(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create) {
 		this.actionSeff = actionSeff;
 		this.methodPalladioInfoMap = methodPalladionInfoMap;
@@ -72,6 +80,15 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		this.create = create;
 	}
 	
+	/**
+	 * 
+	 * @param methodPalladioInformation
+	 * @param actionSeff
+	 * @param methodPalladionInfoMap
+	 * @param componentInformation
+	 * @param create
+	 * @param internalCallActionDepth
+	 */
 	private Ast2SeffVisitor(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create, int internalCallActionDepth) {
 		this.actionSeff = actionSeff;
 		this.methodPalladioInfoMap = methodPalladionInfoMap;
@@ -83,30 +100,56 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		this.internalCallActionDepth = internalCallActionDepth;
 	}
 	
+	/**
+	 * 
+	 * @param methodPalladioInformation
+	 * @param actionSeff
+	 * @param methodPalladionInfoMap
+	 * @param componentInformation
+	 * @param create
+	 * @return
+	 */
 	public static ActionSeff perform(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create) {
 		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodPalladioInformation, actionSeff, methodPalladionInfoMap, componentInformation, create);
 		methodPalladioInformation.getMethodBundlePair().getAstNode().accept(newFunctionCallClassificationVisitor);
 		return actionSeff;
 	}
 	
+	/**
+	 * 
+	 * @param node
+	 * @param actionSeff
+	 * @return
+	 */
 	private ActionSeff perform(ASTNode node, ActionSeff actionSeff) {
 		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodPalladioInfo, actionSeff, methodPalladioInfoMap, componentInformation, create);
 		node.accept(newFunctionCallClassificationVisitor);
 		return actionSeff;
 	}
 	
+	/**
+	 * 
+	 * @param node
+	 * @param actionSeff
+	 * @param internalCallActionDepth
+	 * @return
+	 */
 	private ActionSeff perform(ASTNode node, ActionSeff actionSeff, int internalCallActionDepth) {
 		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodPalladioInfo, actionSeff, methodPalladioInfoMap, componentInformation, create, internalCallActionDepth);
 		node.accept(newFunctionCallClassificationVisitor);
 		return actionSeff;
 	}
 	
+	/**
+	 * @param expressionStatement
+	 * @return
+	 */
 	public boolean visit(final ExpressionStatement expressionStatement) {
 		LOGGER.debug("Visit Expression Statement");
 		Expression expression = expressionStatement.getExpression();
 
 		if (expression instanceof Assignment) {
-			// TODO: further tests if this makes sense - Limitation
+			// Limitation / Future Work: Represent Variable Assignment In SEFF
 			// Variable Assignment
 			// Assignment transformedExpression = (Assignment) expression;
 			// SetVariableActionCreator setVariableActionCreator = actionSeff.setVariableAction();
@@ -132,9 +175,15 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		} else {
 			createInternalAction(expressionStatement);
 		}
+		
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param expressionStatement
+	 * @param methodPalladioInformation
+	 */
 	private void createInternalCallAction(ExpressionStatement expressionStatement, MethodPalladioInformation methodPalladioInformation) {
 		LOGGER.debug("Expression Statement is Internal Call Action");
 		
@@ -145,11 +194,14 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		actionSeff = actionSeff.internalCallAction()
 				.withName(NameUtil.getEntityName(expressionStatement))
 				.withInternalBehaviour(internalBehaviour)
-				.followedBy();
-
-		
+				.followedBy();	
 	}
 	
+	/**
+	 * 
+	 * @param methodInvocation
+	 * @param externalMethodInformation
+	 */
 	private void createExternalCallAction(MethodInvocation methodInvocation, MethodPalladioInformation externalMethodInformation) {
 		LOGGER.debug("Expression Statement is External Call Action");
 		
@@ -173,12 +225,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 					externalCallActionCreator.withInputVariableUsage(variableUsage);
 				}
 			} else {
-				// fallback if interface is not found or argumentsArrays have different sizes
-				for (Object argument : methodInvocation.arguments()) {
-					Expression castedArgument = (Expression) argument;
-					variableUsage = generateInputVariableUsage(castedArgument);
-					externalCallActionCreator.withInputVariableUsage(variableUsage);
-				}
+				LOGGER.error("Called Function Signature Not Found Or Wrong Parameter Size");
 			}
 		}
 		
@@ -191,6 +238,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		actionSeff = externalCallActionCreator.withName(NameUtil.getEntityName(methodInvocation)).followedBy();
 	}
 	
+	/**
+	 * 
+	 * @param requiredInterfaceName
+	 */
 	private void addRequiredInterfaceToComponent(String requiredInterfaceName) {
 		String basicComponentName = methodBundlePair.getBundleName();
 		Map<String, List<String>> componentRequiredListMap = componentInformation.getComponentRequiredListMap();
@@ -208,11 +259,19 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param expressionStatement
+	 */
 	private void createInternalAction(final ExpressionStatement expressionStatement) {
 		LOGGER.debug("Expression Statement is Internal Action");
 		actionSeff = actionSeff.internalAction().withName(NameUtil.getEntityName(expressionStatement)).followedBy();
 	}
 	
+	/**
+	 * @param ifStatement
+	 * @return
+	 */
 	public boolean visit(final IfStatement ifStatement) {
 		LOGGER.debug("Visit If Statement");
 		BranchActionCreator branchActionCreator = actionSeff.branchAction();
@@ -227,6 +286,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
+	/**
+	 * @param synchronizedStatement
+	 * @return
+	 */
 	public boolean visit(final SynchronizedStatement synchronizedStatement) {
 		LOGGER.debug("Visit Synchronized Statement");
 		
@@ -236,14 +299,16 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		}
 
 		actionSeff.acquireAction().withName(NameUtil.ACQUIRE_ACTION_NAME).withPassiveResource(create.fetchOfPassiveResource("Passive Resource")).followedBy();
-
 		actionSeff = this.perform(synchronizedStatement.getBody(), actionSeff);
-				
 		actionSeff.releaseAction().withName(NameUtil.RELEASE_ACTION_NAME).withPassiveResource(create.fetchOfPassiveResource("Passive Resource")).followedBy();
 
 		return false;
 	}
 	
+	/**
+	 * @param tryStatement
+	 * @return
+	 */
 	public boolean visit(final TryStatement tryStatement) {
 		LOGGER.debug("Visit Try Statement");
 		
@@ -255,13 +320,18 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
 			innerActionSeff = this.perform(catchClause.getBody(), innerActionSeff);
 			SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
-			branchActionCreator = branchActionCreator.withGuardedBranchTransition("expression", seffCreator, NameUtil.getEntityName(tryStatement));
+			String condition = NameUtil.getCatchClauseConditionString(catchClause);
+			branchActionCreator = branchActionCreator.withGuardedBranchTransition(condition, seffCreator, NameUtil.getEntityName(tryStatement));
 		}
 		
 		actionSeff = branchActionCreator.withName(NameUtil.getEntityName(tryStatement)).followedBy();
 		return false;
 	}
 	
+	/**
+	 * @param forStatement
+	 * @return
+	 */
 	public boolean visit(final ForStatement forStatement) {
 		LOGGER.debug("Visit For Statement");
 		LoopActionCreator loopActionCreator = actionSeff.loopAction();
@@ -274,18 +344,26 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
-	public boolean visit(final EnhancedForStatement forStatement) {
+	/**
+	 * @param enhancedForStatement
+	 * @return
+	 */
+	public boolean visit(final EnhancedForStatement enhancedForStatement) {
 		LOGGER.debug("Visit Enhanced For Statement");
 		LoopActionCreator loopActionCreator = actionSeff.loopAction();
-		Expression forStatementExpression = forStatement.getExpression();
+		Expression forStatementExpression = enhancedForStatement.getExpression();
 		if (forStatementExpression != null && forStatementExpression instanceof SimpleName) {
 			loopActionCreator.withIterationCount("1");
 		}
-		loopActionCreator = generateLoopAction(forStatement.getBody(), loopActionCreator);
-		actionSeff = loopActionCreator.withName(NameUtil.getEntityName(forStatement)).followedBy();
+		loopActionCreator = generateLoopAction(enhancedForStatement.getBody(), loopActionCreator);
+		actionSeff = loopActionCreator.withName(NameUtil.getEntityName(enhancedForStatement)).followedBy();
 		return false;
 	}
 	
+	/**
+	 * @param whileStatement
+	 * @return
+	 */
 	public boolean visit(final WhileStatement whileStatement) {
 		LOGGER.debug("Visit While Statement");
 		LoopActionCreator loopActionCreator = actionSeff.loopAction();
@@ -298,6 +376,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
+	/**
+	 * @param switchStatement
+	 * @return
+	 */
 	public boolean visit(final SwitchStatement switchStatement) {
 		LOGGER.debug("Visit Switch Statement");
 		BranchActionCreator branchActionCreator = actionSeff.branchAction();
@@ -321,9 +403,9 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 
-	/*
-	 * Neu in Ast2Seff dazu gekommen, war nicht in JaMoPP vorhanden
-	 * Verhalten aus "MediaStore3 -> AudioWatermarking" abgeschaut
+	/**
+	 * @param returnStatement
+	 * @return
 	 */
 	public boolean visit(final ReturnStatement returnStatement) {
 		LOGGER.debug("Visit Return Statement");
@@ -335,52 +417,48 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return false;
 	}
 	
-	// TODO: Further work - Limitation
+	/**
+	 * Limitation / Future Work
+	 * 
+	 * 
+	 * @param variableDeclarationStatement
+	 * @return
+	 */
 	public boolean visit(final VariableDeclarationStatement variableDeclarationStatement) {
 		LOGGER.debug("Visit Variable Declaration Statement");
 		Type test = variableDeclarationStatement.getType();
 		return super.visit(variableDeclarationStatement);
 	}
 	
-	/*
-	 * generates Input Variable Usages
+	/**
+	 * Generate Input Variable Usages
 	 * 
-	 * Parameters:  
-	 * 	Expression: Expression of variable that is passed in AST
-	 *	Parameter: optional parameter, if matching interface to function was found for additional 
+	 * New feature, not included in JaMoPP version 
+	 * Behavior from MediaStore3 -> AudioWatermarking +
+	 * Additional Information: https://www.palladio-simulator.com/tools/tutorials/ (PCM Parameter (PDF) -> 18)
 	 * 
-	 * Neu in Ast2Seff dazu gekommen, war nicht in JaMoPP vorhanden
-	 * Verhalten aus "MediaStore3 -> AudioWatermarking" abgeschaut +
-	 * zus�tzliche infos von: https://www.palladio-simulator.com/tools/tutorials/ (PCM Parameter (PDF) -> 18)
-	 * 
-	 *** The following types are available
-	 * BYTESIZE: Memory footprint of a parameter
-	 * VALUE: The actual value of a parameter for primitive types
-	 * STRUCTURE: Structure of data, like sorted or unsorted
-	 * NUMBER_OF_ELEMENTS: The number of elements in a collection
-	 * TYPE: The actual type of a parameter (vs. the declared type)
+	 * @param expression Expression of variable that is passed in AST
+	 * @param parameter Optional parameter, if matching interface to function was found for additional 
+	 * @return
 	 */
-	private VariableUsageCreator generateInputVariableUsage(Expression variable, Parameter para) {
+	private VariableUsageCreator generateInputVariableUsage(Expression expression, Parameter parameter) {
 		VariableUsageCreator variableUsage = create.newVariableUsage();
-		
-		// TODO: Muss das noch hinzugefügt werden?
-		//randomPCMVariable.setSpecification(namespaceReference.getReferenceName().toString() + "." + variableReference.getReferenceName().toString() + "." + booleanVariable.getType().toString());
-		
+
 		String randomPCMName;
-		DataType paraDataType = para.getDataType__Parameter();
+		DataType paraDataType = parameter.getDataType__Parameter();
 		if (paraDataType instanceof PrimitiveDataType) {
-			variableUsage.withNamespaceReference(((PrimitiveDataType) paraDataType).getType().toString(), variable.toString());
-			randomPCMName = ((PrimitiveDataType) paraDataType).getType().toString() + "." + variable.toString();
+			variableUsage.withNamespaceReference(((PrimitiveDataType) paraDataType).getType().toString(), expression.toString());
+			randomPCMName = ((PrimitiveDataType) paraDataType).getType().toString() + "." + expression.toString();
 			variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
 		}
 		else if (paraDataType instanceof CompositeDataType) {
-			variableUsage.withNamespaceReference(((CompositeDataType) paraDataType).getEntityName(), variable.toString());
-			randomPCMName = ((CompositeDataType) paraDataType).getEntityName() + "." + variable.toString();
+			variableUsage.withNamespaceReference(((CompositeDataType) paraDataType).getEntityName(), expression.toString());
+			randomPCMName = ((CompositeDataType) paraDataType).getEntityName() + "." + expression.toString();
 			variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.BYTESIZE);
 		}
 		else {
-			variableUsage.withNamespaceReference(para.getParameterName(), variable.toString());
-			randomPCMName = para.getParameterName() + "." + variable.toString();
+			variableUsage.withNamespaceReference(parameter.getParameterName(), expression.toString());
+			randomPCMName = parameter.getParameterName() + "." + expression.toString();
 			variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
 		}
 		return variableUsage;
@@ -394,8 +472,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return variableUsage;
 	}
 	
-	/*
-	 * Same as generateVariables above, but for Output Variables 
+	/**
+	 * 
+	 * @param returnType
+	 * @return
 	 */
 	private VariableUsageCreator generateOutputVariableUsage(DataType returnType) {
 		// From ParameterFactory Docs: Note that it was an explicit design decision to refer to variable names instead of the actual variables (i.e., by refering to Parameter class).
@@ -420,6 +500,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return variableUsage;
 	}
 
+	/**
+	 * 
+	 * @param node
+	 * @param branchActionCreator
+	 * @return
+	 */
 	private BranchActionCreator generateBranchAction(ASTNode node, BranchActionCreator branchActionCreator) {
 
 		String condition = "";
@@ -431,7 +517,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		} else if (node instanceof TryStatement) {
 			TryStatement tryStatement = (TryStatement) node;
 			node = tryStatement.getBody();
-			condition = NameUtil.getTryStatementConditionString(tryStatement);
+			condition = NameUtil.getTryStatementConditionString();
 		}
 		
 		LOGGER.debug("Generate Inner Branch Behaviour");
@@ -439,12 +525,17 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		innerActionSeff = this.perform(node, innerActionSeff);
 		SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
 		
-		// TODO: Enter Expression
 		branchActionCreator.withGuardedBranchTransition(condition, seffCreator, "Guarded Branch Transition").withName(NameUtil.BRANCH_ACTION_NAME);
 
 		return branchActionCreator;
 	}
 	
+	/**
+	 * 
+	 * @param statement
+	 * @param branchActionCreator
+	 * @return
+	 */
 	private BranchActionCreator handleElseStatement(Statement statement, BranchActionCreator branchActionCreator) {
 		
 		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
@@ -460,13 +551,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			LOGGER.debug("If Statement is Else Statement");
 			innerActionSeff = this.perform(statement, innerActionSeff);
 			
-			// TODO: How to define else statement?
-//			condition = NameUtil.getElseStatementConditionString(statement);
+			condition = NameUtil.getElseStatementConditionString();
 		}
 		
 		SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
 		
-		// TODO: Enter Expression
 		branchActionCreator = branchActionCreator.withGuardedBranchTransition(condition, seffCreator, "Guarded Branch Transition");
 
 		if (statement instanceof IfStatement) {
@@ -477,6 +566,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return branchActionCreator;
 	}
 	
+	/**
+	 * 
+	 * @param node
+	 * @param loopActionCreator
+	 * @return
+	 */
 	private LoopActionCreator generateLoopAction(ASTNode node, LoopActionCreator loopActionCreator) {
 		LOGGER.debug("Generate Inner Loop Behaviour");
 		ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
@@ -486,12 +581,22 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return loopActionCreator;
 	}
 	
+	/**
+	 * 
+	 * @param methodInvocation
+	 * @return
+	 */
 	private boolean isExternal(MethodInvocation methodInvocation) {
 		String methodName = methodInvocation.getName().toString();
 		String className = NameUtil.getClassName(methodInvocation);
 		return this.methodPalladioInfoMap.containsKey(className + "." + methodName);
 	}
 	
+	/**
+	 * 
+	 * @param methodInvocation
+	 * @return
+	 */
 	private MethodPalladioInformation getMethodPalladioInformation(MethodInvocation methodInvocation) {
 		String methodName = methodInvocation.getName().toString();
 		String className = NameUtil.getClassName(methodInvocation);

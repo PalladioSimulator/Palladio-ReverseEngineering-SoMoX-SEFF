@@ -87,42 +87,6 @@ public class Ast2SeffTest {
         }
         return compilationUnits;
     }
-
-    @Disabled
-    @Test
-    public void testSimpleClass() throws JobFailedException, UserCanceledException, IOException {
-    	
-        ASTParser parser = ASTParser.newParser(AST.getJLSLatest());
-        parser.setResolveBindings(true);
-        parser.setKind(ASTParser.K_COMPILATION_UNIT);
-        parser.setBindingsRecovery(true);
-        File resource = new File("src/org/palladiosimulator/somox/ast2seff/res/SimpleClass.java");
-        java.nio.file.Path sourcePath = Paths.get(resource.toURI());
-        String sourceString = new String(Files.readAllBytes(sourcePath));
-        char[] source = sourceString.toCharArray();
-        parser.setSource(source);
-        parser.setUnitName(sourcePath.toAbsolutePath().toString());
-        CompilationUnit astRoot = (CompilationUnit) parser.createAST(null);
-        
-        Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = new HashMap<>();
-        
-        List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(astRoot);
-        for (MethodDeclaration methodDeclaration : methodDeclarations) {
-        	ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
-            methodBindingMap.put(methodDeclaration, seff);
-        }
-
-        Ast2SeffJob ast2SeffJob = new Ast2SeffJob();
-        // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
-        Blackboard<Object> blackboard = new Blackboard<>();
-        
-        blackboard.addPartition("methodBindingMap", methodBindingMap);
-        
-        ast2SeffJob.setBlackboard(blackboard);
-        NullProgressMonitor progressMonitor = new NullProgressMonitor();
-        ast2SeffJob.execute(progressMonitor);
-        // TODO Formulate assertions for blackboard content (= results of execution)
-    }
     
     @Test
     public void testAllClassesInDirectory() throws JobFailedException, UserCanceledException, IOException {
@@ -186,43 +150,6 @@ public class Ast2SeffTest {
         assertEquals(1, basicComponentTwo.getProvidedRoles_InterfaceProvidingEntity().size());
         assertEquals(4, interfaceOne.getSignatures__OperationInterface().size());
         assertEquals(14, interfaceTwo.getSignatures__OperationInterface().size());
-    }
-    
-    @Test
-    @Disabled
-    public void testSimpleExternalClass() throws JobFailedException, UserCanceledException, IOException {
-    	
-        ASTParser parser = ASTParser.newParser(AST.getJLSLatest());
-        parser.setResolveBindings(true);
-        parser.setKind(ASTParser.K_COMPILATION_UNIT);
-        parser.setBindingsRecovery(true);
-        parser.setStatementsRecovery(true);
-        File resource = new File("src/org/palladiosimulator/somox/ast2seff/res/SimpleExternalClass.java");
-        java.nio.file.Path sourcePath = Paths.get(resource.toURI());
-        String sourceString = new String(Files.readAllBytes(sourcePath));
-        char[] source = sourceString.toCharArray();
-        parser.setSource(source);
-        parser.setUnitName(sourcePath.toAbsolutePath().toString());
-        CompilationUnit astRoot = (CompilationUnit) parser.createAST(null);
-        
-        Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = new HashMap<>();
-        
-        List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(astRoot);
-        for (MethodDeclaration methodDeclaration : methodDeclarations) {
-        	ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
-            methodBindingMap.put(methodDeclaration, seff);
-        }
-
-        Ast2SeffJob ast2SeffJob = new Ast2SeffJob();
-        // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
-        Blackboard<Object> blackboard = new Blackboard<>();
-        
-        blackboard.addPartition("methodBindingMap", methodBindingMap);
-        
-        ast2SeffJob.setBlackboard(blackboard);
-        NullProgressMonitor progressMonitor = new NullProgressMonitor();
-        ast2SeffJob.execute(progressMonitor);
-        // TODO Formulate assertions for blackboard content (= results of execution)
     }
     
 }

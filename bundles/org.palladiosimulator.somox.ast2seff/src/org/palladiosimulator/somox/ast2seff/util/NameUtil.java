@@ -2,6 +2,7 @@ package org.palladiosimulator.somox.ast2seff.util;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
+import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.CharacterLiteral;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.Expression;
@@ -12,6 +13,7 @@ import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.PostfixExpression;
+import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.StringLiteral;
@@ -135,33 +137,36 @@ public class NameUtil {
 	
 	public static String whileStatementExpressionString(Expression expression) {
 		final StringBuilder positionString = new StringBuilder("@position: ");
-		positionString.append("expression name \"").append(expression).append("\"");
+		positionString.append("Condition: \"").append(expression).append("\"");
 		return positionString.toString();
 	}
 	
 	public static String getIfStatementConditionString(IfStatement ifStatement) {
 		Expression expression = ifStatement.getExpression();
 		
-		final StringBuilder conditionString = new StringBuilder(" @position: ");
+		final StringBuilder conditionString = new StringBuilder("@position: ");
 		conditionString.append("Condition: if(").append(expression).append(")");
 		return conditionString.toString();
 	}
 	
-	public static String getElseStatementConditionString(Expression expression) {
-		final StringBuilder conditionString = new StringBuilder(" @position: ");
-		conditionString.append("Condition: !").append(expression).append("");
-		return conditionString.toString();
+	public static String getElseStatementConditionString() {
+		final StringBuilder positionString = new StringBuilder("@position: ");
+		positionString.append("Condition: ").append("else").append("");
+		return positionString.toString();
+	}
+	
+	public static String getTryStatementConditionString() {
+		final StringBuilder positionString = new StringBuilder("@position: ");
+		positionString.append("Try Block");
+		return positionString.toString();
 	}
 
-	public static String getTryStatementConditionString(TryStatement tryStatement) {
-		
-		// TODO: Try Statement Catch Clause
-//		Expression expression = tryStatement.catchClauses().get(0);
-		
-//		final StringBuilder conditionString = new StringBuilder(" @position: ");
-//		conditionString.append("Condition: if(").append(expression).append(")");
-//		return conditionString.toString();
-		return "condition";
+	public static String getCatchClauseConditionString(CatchClause catchClause) {
+		SimpleType type = (SimpleType) catchClause.getException().getType();
+		Expression expression = type.getName();
+		final StringBuilder conditionString = new StringBuilder("@position: ");
+		conditionString.append("Condition: catch ").append(expression);
+		return conditionString.toString();
 	}
 	
 	public static String getSwitchStatementConditionString(SwitchStatement switchStatement) {
