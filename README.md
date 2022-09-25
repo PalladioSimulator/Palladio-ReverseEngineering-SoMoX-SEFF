@@ -30,12 +30,13 @@ The tree view of the repository model editor shows the model elements in their s
 
 ### AST
 Eclipse provides a way to access and manipulate Java source code via the Java Development Tools (JDT) API. The API can either be accessed via the Java Model or via the Abstract Syntax Tree (AST). For our implementation, we choose to follow the AST path, since it matches the MoDisco / JaMoPP models described [below](#modiscojamopp-version).  
-The AST is a detailed tree representation of the Java source code which can be traversed via the [visitor Pattern](#visitor-pattern). It consists of a root node (ICompilationUnit) and many different child nodes which are build upon each other. The AST has a structure similar to  
+The AST is a detailed tree representation of the Java source code which can be traversed via the [visitor Pattern](#visitor-pattern). It consists of a root node (ICompilationUnit) and many different child nodes which are build upon each other.  
+The AST has a structure similar to  
 ![AST: Structure](doc/ASTStructure.png "AST: Typical AST structure")
 where each MethodDeclaration descirbes a function of the root class and each Statement describes a different code snippet. The AST can be enriched with aditional informations like TypeDeclarations to model the affiliated classes which we choose not to do (see [Limitations & Future Work](#limitations--future-work)).  
 
 ### Visitor Pattern
-The visitor pattern is a common used behavioral pattern. 
+The visitor pattern is a common used behavioral pattern, which is often used to traverse a structure and 
 The AST provides an interface where visitors 
 What is the visitor pattern good for
 
@@ -60,7 +61,7 @@ The parsing process takes Java code and parses it with the JDT parser, which is 
 ### Comparison of different implementations
 Since this project has a long history with different versions we created a table to compare them all to each other. If you are familiar with one of the versions, this can give a good overview how the others were structured. Keep in mind that this table only represents what the visitor got as input and does not reflect the preproccessing done in JaMoPP (e.g. gethering For/EnhancedFor/While to Loop beforehand). SetVariableAction and WithInputVariable were recently added to the JDT version and therefore there is no JaMoPP / MoDisco version for it.
 
-| ** SEFF Element **       | ** MoDisco Version **                                       | ** JaMoPP Version **        | ** JDT Version **                                         |
+| **SEFF Element**         | **MoDisco Version**                                         | **JaMoPP Version**          | **JDT Version**                                           |
 |--------------------------|-------------------------------------------------------------|-----------------------------|-----------------------------------------------------------|
 | LoopAction               | ForStatement, EnhancedForStatement, WhileStatement          | LoopStatement               | ForStatement, EnhancedForStatement, WhileStatement        |
 | BranchAction             | SwitchStatement, TryStatement, IfStatement, IfElseStatement | Switch, TryBlock, Condition | SwitchStatement, TryStatement, IfStatement, ElseStatement |
