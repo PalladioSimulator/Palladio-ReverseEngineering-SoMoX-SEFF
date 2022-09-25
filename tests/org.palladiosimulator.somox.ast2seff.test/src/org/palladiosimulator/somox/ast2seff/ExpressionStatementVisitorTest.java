@@ -68,7 +68,7 @@ public class ExpressionStatementVisitorTest {
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", expressionStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("expressionStatement", "expressionStatement", "Simple Component", methodBundlePair);
 	
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodPalladioInfoMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodPalladioInfoMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
@@ -99,7 +99,7 @@ public class ExpressionStatementVisitorTest {
 		
 		methodPalladioInfoMap.put("unknown.SimpleName", methodPalladioInformation);
 		
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodPalladioInfoMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodPalladioInfoMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
@@ -132,7 +132,7 @@ public class ExpressionStatementVisitorTest {
 		
 		methodPalladioInfoMap.put("unknown.SimpleName", methodPalladioInformationTwo);
 		
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodPalladioInfoMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodPalladioInfoMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
@@ -186,7 +186,7 @@ public class ExpressionStatementVisitorTest {
 		methodPalladioInfoMap.put("unknown.SimpleName", methodPalladioInformationTwo);
 		methodPalladioInfoMap.put("unknown.SimpleNameTwo", methodPalladioInformationThree);
 		
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodPalladioInfoMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodPalladioInfoMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();

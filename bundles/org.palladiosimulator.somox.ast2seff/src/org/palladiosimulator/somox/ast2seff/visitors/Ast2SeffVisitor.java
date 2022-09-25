@@ -53,7 +53,6 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	private FluentRepositoryFactory create;	
 	private Map<String, MethodPalladioInformation> methodPalladioInfoMap;
-	private MethodPalladioInformation methodPalladioInfo;
 	private MethodBundlePair methodBundlePair;
 	private ActionSeff actionSeff;
 	private BasicComponentCreator basicComponentCreator;
@@ -71,11 +70,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	 * @param componentInformation object for the current SEFF component which gets modeled
 	 * @param create factory object to create additional SEFF elements and fetch created SEFF elements from the repository
 	 */
-	public Ast2SeffVisitor(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create) {
+	public Ast2SeffVisitor(MethodBundlePair methodBundlePair, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create) {
 		this.actionSeff = actionSeff;
 		this.methodPalladioInfoMap = methodPalladionInfoMap;
-		this.methodBundlePair = methodPalladioInformation.getMethodBundlePair();
-		this.methodPalladioInfo = methodPalladioInformation;
+		this.methodBundlePair = methodBundlePair;
 		this.componentInformation = componentInformation;
 		this.basicComponentCreator = componentInformation.getBasicComponentCreator();
 		this.create = create;
@@ -87,18 +85,16 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	 * Sets all relevant variables for the public visit functions of the class
 	 * Has a additional parameter to set the depth for the method inlining process
 	 * 
-	 * @param methodPalladioInformation object to give access to necessary transformation information 
 	 * @param actionSeff current action SEFF creator object which is used to model the SEFF elements
 	 * @param methodPalladionInfoMap object to give access to the information of all methods which should be modeled
 	 * @param componentInformation object for the current SEFF component which gets modeled
 	 * @param create factory object to create additional SEFF elements and fetch created SEFF elements from the repository
 	 * @param methodInliningDepth integer value to set the current method inlining depth
 	 */
-	private Ast2SeffVisitor(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create, int methodInliningDepth) {
+	private Ast2SeffVisitor(MethodBundlePair methodBundlePair, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create, int methodInliningDepth) {
 		this.actionSeff = actionSeff;
 		this.methodPalladioInfoMap = methodPalladionInfoMap;
-		this.methodBundlePair = methodPalladioInformation.getMethodBundlePair();
-		this.methodPalladioInfo = methodPalladioInformation;
+		this.methodBundlePair = methodBundlePair;
 		this.componentInformation = componentInformation;
 		this.basicComponentCreator = componentInformation.getBasicComponentCreator();
 		this.create = create;
@@ -116,9 +112,9 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	 * @param create factory object to create additional SEFF elements and fetch created SEFF elements from the repository
 	 * @return ActionSeff object which contains the transformed the complete MethodDeclaration
 	 */
-	public static ActionSeff perform(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create) {
-		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodPalladioInformation, actionSeff, methodPalladionInfoMap, componentInformation, create);
-		methodPalladioInformation.getMethodBundlePair().getAstNode().accept(newFunctionCallClassificationVisitor);
+	public static ActionSeff perform(MethodBundlePair methodBundlePair, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create) {
+		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodBundlePair, actionSeff, methodPalladionInfoMap, componentInformation, create);
+		methodBundlePair.getAstNode().accept(newFunctionCallClassificationVisitor);
 		return actionSeff;
 	}
 	
@@ -131,7 +127,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	 * @return ActionSeff object which contains the transformed the ASTNode object
 	 */
 	private ActionSeff perform(ASTNode node, ActionSeff actionSeff) {
-		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodPalladioInfo, actionSeff, methodPalladioInfoMap, componentInformation, create);
+		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodBundlePair, actionSeff, methodPalladioInfoMap, componentInformation, create);
 		node.accept(newFunctionCallClassificationVisitor);
 		return actionSeff;
 	}
@@ -147,7 +143,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	 * @return ActionSeff object which contains the transformed the ASTNode object
 	 */
 	private ActionSeff perform(ASTNode node, ActionSeff actionSeff, int methodInliningDepth) {
-		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodPalladioInfo, actionSeff, methodPalladioInfoMap, componentInformation, create, methodInliningDepth);
+		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodBundlePair, actionSeff, methodPalladioInfoMap, componentInformation, create, methodInliningDepth);
 		node.accept(newFunctionCallClassificationVisitor);
 		return actionSeff;
 	}
