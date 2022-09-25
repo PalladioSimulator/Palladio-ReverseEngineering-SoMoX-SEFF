@@ -21,6 +21,15 @@ public class SwitchStatementUtil {
 
     private static final Logger LOGGER = Logger.getLogger(SwitchStatementUtil.class.getSimpleName());
 
+    /**
+     * 
+     * Switch Statement Util function to define the blocks which get modeled as branch transitions in the SEFF model
+     * This function generates a list of all statements from the beginning of the case to the next break or end of the switch statement
+     * Therefore statements can be included into several lists when a case is not ended with a break statement
+     * 
+     * @param switchStatement Switch statement which should get get broken in blocks
+     * @return List of lists with statements of one block
+     */
     public static List<List<Statement>> createBlockListFromSwitchStatement(final SwitchStatement switchStatement) {
         final ArrayList<List<Statement>> blockList = new ArrayList<>();
         final List<Statement> statementList = switchStatement.statements();

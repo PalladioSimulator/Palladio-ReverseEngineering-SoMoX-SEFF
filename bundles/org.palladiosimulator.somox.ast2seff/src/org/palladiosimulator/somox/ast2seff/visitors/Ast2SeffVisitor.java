@@ -62,11 +62,14 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	/**
 	 * 
-	 * @param methodPalladioInformation
-	 * @param actionSeff
-	 * @param methodPalladionInfoMap
-	 * @param componentInformation
-	 * @param create
+	 * Constructor for the visitor object
+	 * Sets all relevant variables for the public visit functions of the class
+	 * 
+	 * @param methodPalladioInformation object to give access to necessary transformation information 
+	 * @param actionSeff current action SEFF creator object which is used to model the SEFF elements
+	 * @param methodPalladionInfoMap object to give access to the information of all methods which should be modeled
+	 * @param componentInformation object for the current SEFF component which gets modeled
+	 * @param create factory object to create additional SEFF elements and fetch created SEFF elements from the repository
 	 */
 	public Ast2SeffVisitor(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create) {
 		this.actionSeff = actionSeff;
@@ -80,12 +83,16 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	/**
 	 * 
-	 * @param methodPalladioInformation
-	 * @param actionSeff
-	 * @param methodPalladionInfoMap
-	 * @param componentInformation
-	 * @param create
-	 * @param internalCallActionDepth
+	 * Constructor for the visitor object
+	 * Sets all relevant variables for the public visit functions of the class
+	 * Has a additional parameter to set the depth for the method inlining process
+	 * 
+	 * @param methodPalladioInformation object to give access to necessary transformation information 
+	 * @param actionSeff current action SEFF creator object which is used to model the SEFF elements
+	 * @param methodPalladionInfoMap object to give access to the information of all methods which should be modeled
+	 * @param componentInformation object for the current SEFF component which gets modeled
+	 * @param create factory object to create additional SEFF elements and fetch created SEFF elements from the repository
+	 * @param methodInliningDepth integer value to set the current method inlining depth
 	 */
 	private Ast2SeffVisitor(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create, int methodInliningDepth) {
 		this.actionSeff = actionSeff;
@@ -100,12 +107,14 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	/**
 	 * 
-	 * @param methodPalladioInformation
-	 * @param actionSeff
-	 * @param methodPalladionInfoMap
-	 * @param componentInformation
-	 * @param create
-	 * @return
+	 * Function to start the traversal of a MethodDeclaration
+	 * 
+	 * @param methodPalladioInformation object to give access to necessary transformation information 
+	 * @param actionSeff current action SEFF creator object which is used to model the SEFF elements
+	 * @param methodPalladionInfoMap object to give access to the information of all methods which should be modeled
+	 * @param componentInformation object for the current SEFF component which gets modeled
+	 * @param create factory object to create additional SEFF elements and fetch created SEFF elements from the repository
+	 * @return ActionSeff object which contains the transformed the complete MethodDeclaration
 	 */
 	public static ActionSeff perform(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create) {
 		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodPalladioInformation, actionSeff, methodPalladionInfoMap, componentInformation, create);
@@ -115,9 +124,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	/**
 	 * 
-	 * @param node
-	 * @param actionSeff
-	 * @return
+	 * Function to start the traversal of a ASTNode object (inner statements)
+	 * 
+	 * @param node ASTNode object which should be traversed and transformed to SEFF elements
+	 * @param actionSeff current action SEFF creator object which is used to model the SEFF elements
+	 * @return ActionSeff object which contains the transformed the ASTNode object
 	 */
 	private ActionSeff perform(ASTNode node, ActionSeff actionSeff) {
 		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodPalladioInfo, actionSeff, methodPalladioInfoMap, componentInformation, create);
@@ -127,20 +138,26 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	/**
 	 * 
-	 * @param node
-	 * @param actionSeff
-	 * @param internalCallActionDepth
-	 * @return
+	 * Function to start the traversal of a ASTNode object (inner statements)
+	 * Special function to set the methodInliningDepth for the MethodInling creation process
+	 * 
+	 * @param node ASTNode object which should be traversed and transformed to SEFF elements
+	 * @param actionSeff current action SEFF creator object which is used to model the SEFF elements
+	 * @param methodInliningDepth integer to specify the current depth for the inner visitor traversal
+	 * @return ActionSeff object which contains the transformed the ASTNode object
 	 */
-	private ActionSeff perform(ASTNode node, ActionSeff actionSeff, int internalCallActionDepth) {
-		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodPalladioInfo, actionSeff, methodPalladioInfoMap, componentInformation, create, internalCallActionDepth);
+	private ActionSeff perform(ASTNode node, ActionSeff actionSeff, int methodInliningDepth) {
+		Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodPalladioInfo, actionSeff, methodPalladioInfoMap, componentInformation, create, methodInliningDepth);
 		node.accept(newFunctionCallClassificationVisitor);
 		return actionSeff;
 	}
 	
 	/**
-	 * @param expressionStatement
-	 * @return
+	 * 
+	 * Transform an expression statement to a Method Inlining, Internal Action or External Action
+	 * 
+	 * @param expressionStatement statement to transform
+	 * @return always false, no further visiting of child elements
 	 */
 	public boolean visit(final ExpressionStatement expressionStatement) {
 		LOGGER.debug("Visit Expression Statement");
@@ -150,7 +167,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			/**
 			 * Limitation / Future Work
 			 * 
-			 * Set Variable Action objects should be generated for methods with return type
+			 * Set Variable Actions only should be modeled for functions with return statement
 			 * 
 			**/
 		} else if (expression instanceof MethodInvocation && this.isExternal((MethodInvocation) expression)) {
@@ -163,7 +180,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 				createExternalCallAction(methodInvocation, methodPalladioInformation);
 			} else {
 				if (methodInliningDepth < 1) {
-					createMethodInlining(expressionStatement, methodPalladioInformation);					
+					createMethodInlining(methodPalladioInformation);					
 				} else {
 					createInternalAction(expressionStatement);
 				}
@@ -177,20 +194,21 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	/**
 	 * Limitation / Future Work:
+	 * This function could be restructured and further developed to implement internal call actions where appropriate
 	 * 
-	 * 
-	 * @param expressionStatement
-	 * @param methodPalladioInformation
+	 * @param methodPalladioInformation information of method which gets inlined
 	 */
-	private void createMethodInlining(ExpressionStatement expressionStatement, MethodPalladioInformation methodPalladioInformation) {
+	private void createMethodInlining(MethodPalladioInformation methodPalladioInformation) {
 		LOGGER.debug("Expression Statement is Method Inlining");
 		this.perform(methodPalladioInformation.getMethodBundlePair().getAstNode(), actionSeff, methodInliningDepth + 1);
 	}
 	
 	/**
 	 * 
-	 * @param methodInvocation
-	 * @param externalMethodInformation
+	 * Transformation to an ExternalCallAction
+	 * 
+	 * @param methodInvocation invocation of external method
+	 * @param externalMethodInformation information of external method which gets referenced
 	 */
 	private void createExternalCallAction(MethodInvocation methodInvocation, MethodPalladioInformation externalMethodInformation) {
 		LOGGER.debug("Expression Statement is External Call Action");
@@ -230,7 +248,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	/**
 	 * 
-	 * @param requiredInterfaceName
+	 * Add the Required Interface element for external calls to the current component
+	 * Checks if the interface is already required
+	 * 
+	 * @param requiredInterfaceName name of the interface
 	 */
 	private void addRequiredInterfaceToComponent(String requiredInterfaceName) {
 		String basicComponentName = methodBundlePair.getBundleName();
@@ -251,7 +272,9 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	/**
 	 * 
-	 * @param expressionStatement
+	 * Transformation to an InternalAction
+	 * 
+	 * @param expressionStatement statement to transfrom to internal action
 	 */
 	private void createInternalAction(final ExpressionStatement expressionStatement) {
 		LOGGER.debug("Expression Statement is Internal Action");
@@ -259,8 +282,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	/**
-	 * @param ifStatement
-	 * @return
+	 * 
+	 * Transformation of an IfStatement to a BranchAction
+	 * 
+	 * @param ifStatement statement to transform
+	 * @return always false, no further visiting of child elements
 	 */
 	public boolean visit(final IfStatement ifStatement) {
 		LOGGER.debug("Visit If Statement");
@@ -277,8 +303,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	/**
-	 * @param synchronizedStatement
-	 * @return
+	 * 
+	 * Transformation of an SynchronizedStatement to a AcquireAction and ReleaseAction with the body between the two actions
+	 * For all synchronized statements in on component only one passive resource gets modeled
+	 * 
+	 * @param synchronizedStatement statement to transform
+	 * @return always false, no further visiting of child elements
 	 */
 	public boolean visit(final SynchronizedStatement synchronizedStatement) {
 		LOGGER.debug("Visit Synchronized Statement");
@@ -296,8 +326,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	/**
-	 * @param tryStatement
-	 * @return
+	 * 
+	 * Transformation of a TryStatement to a BranchAction
+	 * 
+	 * @param tryStatement statement to transform
+	 * @return always false, no further visiting of child elements
 	 */
 	public boolean visit(final TryStatement tryStatement) {
 		LOGGER.debug("Visit Try Statement");
@@ -319,8 +352,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	/**
-	 * @param forStatement
-	 * @return
+	 * 
+	 * Transformation of a ForStatement to a LoopAction
+	 * 
+	 * @param forStatement statement to transform
+	 * @return always false, no further visiting of child elements
 	 */
 	public boolean visit(final ForStatement forStatement) {
 		LOGGER.debug("Visit For Statement");
@@ -335,8 +371,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	/**
-	 * @param enhancedForStatement
-	 * @return
+	 * 
+	 * Transformation of a EnhancedForStatement to a LoopAction
+	 * 
+	 * @param enhancedForStatement statement to transform
+	 * @return always false, no further visiting of child elements
 	 */
 	public boolean visit(final EnhancedForStatement enhancedForStatement) {
 		LOGGER.debug("Visit Enhanced For Statement");
@@ -351,8 +390,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	/**
-	 * @param whileStatement
-	 * @return
+	 * 
+	 * Transformation of a WhileStatement to a LoopAction
+	 * 
+	 * @param whileStatement statement to transform
+	 * @return always false, no further visiting of child elements
 	 */
 	public boolean visit(final WhileStatement whileStatement) {
 		LOGGER.debug("Visit While Statement");
@@ -367,8 +409,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	/**
-	 * @param switchStatement
-	 * @return
+	 * 
+	 * Transformation of a SwitchStatement to a BranchAction
+	 * Usage of the SwitchStatementUtil to break down the different cases to different blocks
+	 * 
+	 * @param switchStatement statement to transform
+	 * @return always false, no further visiting of child elements
 	 */
 	public boolean visit(final SwitchStatement switchStatement) {
 		LOGGER.debug("Visit Switch Statement");
@@ -394,8 +440,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 
 	/**
-	 * @param returnStatement
-	 * @return
+	 * 
+	 * Generate Set Variable Action for functions with a return statement
+	 * 
+	 * @param returnStatement return statement of the function containing the object which gets returned
+	 * @return always false, no further visiting of child elements
 	 */
 	public boolean visit(final ReturnStatement returnStatement) {
 		LOGGER.debug("Visit Return Statement");
@@ -411,10 +460,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	/**
 	 * Limitation / Future Work
 	 * 
-	 * Set Variable Action objects should be generated for methods with return type
+	 * Set Variable Actions only should be modeled for functions with return statement
 	 * 
-	 * @param variableDeclarationStatement
-	 * @return
 	 */
 	public boolean visit(final VariableDeclarationStatement variableDeclarationStatement) {
 		LOGGER.debug("Visit Variable Declaration Statement");
@@ -428,9 +475,9 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	 * Behavior from MediaStore3 -> AudioWatermarking +
 	 * Additional Information: https://www.palladio-simulator.com/tools/tutorials/ (PCM Parameter (PDF) -> 18)
 	 * 
-	 * @param expression Expression of variable that is passed in AST
+	 * @param expression object that is passed inside the statement
 	 * @param parameter Optional parameter, if matching interface to function was found for additional 
-	 * @return
+	 * @return VariableUsageCreator object ready to be added to a Set Variable Action
 	 */
 	private VariableUsageCreator generateInputVariableUsage(Expression expression, Parameter parameter) {
 		VariableUsageCreator variableUsage = create.newVariableUsage();
@@ -456,9 +503,13 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	/**
+	 * Generate Input Variable Usages
 	 * 
-	 * @param expression
-	 * @return
+	 * New feature, not included in JaMoPP version 
+	 * Behavior from MediaStore3 -> AudioWatermarking +
+	 * Additional Information: https://www.palladio-simulator.com/tools/tutorials/ (PCM Parameter (PDF) -> 18)
+	 * @param expression object that is passed inside the statement
+	 * @return VariableUsageCreator object ready to be added to a Set Variable Action
 	 */
 	private VariableUsageCreator generateInputVariableUsage(Expression expression) {
 		VariableUsageCreator variableUsage = create.newVariableUsage();
@@ -470,12 +521,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	/**
 	 * 
-	 * Limitation / Future Work: 
+	 * Generate Output Variable Usages
 	 * 
-	 * Inner Declaration
-	 * 
-	 * @param returnType
-	 * @return
+	 * @param returnType type of the returned variable
+	 * @return VariableUsageCreator object ready to be added to a Set Variable Action
 	 */
 	private VariableUsageCreator generateOutputVariableUsage(DataType returnType) {
 		VariableUsageCreator variableUsage = create.newVariableUsage();
@@ -501,9 +550,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 
 	/**
 	 * 
-	 * @param node
-	 * @param branchActionCreator
-	 * @return
+	 * Generate a Branch Action Body for statements which could be modeled as branch (if, try)
+	 * 
+	 * @param node object to create the branch for
+	 * @param branchActionCreator object to add the branch transition with the branch seff
+	 * @return BranchActionCreator with GuardedBranchTransition
 	 */
 	private BranchActionCreator generateBranchAction(ASTNode node, BranchActionCreator branchActionCreator) {
 
@@ -531,9 +582,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	/**
 	 * 
-	 * @param statement
-	 * @param branchActionCreator
-	 * @return
+	 * Create the branch for the Else Statement
+	 * Can be a If Else Statement or an Else Statement
+	 * 
+	 * @param statement object to create the branch for
+	 * @param branchActionCreator object to add the branch transition with the branch seff
+	 * @return BranchActionCreator with GuardedBranchTransition
 	 */
 	private BranchActionCreator handleElseStatement(Statement statement, BranchActionCreator branchActionCreator) {
 		
@@ -567,9 +621,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	/**
 	 * 
-	 * @param node
-	 * @param loopActionCreator
-	 * @return
+	 * Generate a Loop Action Body for any statement which could be modeled as loop (while, for, enriched for)
+	 * 
+	 * @param node object which can be modeled as loop action
+	 * @param loopActionCreator object to insert the created SEFF as body
+	 * @return LoopActionCreator with loop body
 	 */
 	private LoopActionCreator generateLoopAction(ASTNode node, LoopActionCreator loopActionCreator) {
 		LOGGER.debug("Generate Inner Loop Behaviour");
@@ -582,8 +638,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	/**
 	 * 
-	 * @param methodInvocation
-	 * @return
+	 * Check whether the MethodInvocation is of an external or internal component
+	 * 
+	 * @param methodInvocation object to check for
+	 * @return boolean if the object is external
 	 */
 	private boolean isExternal(MethodInvocation methodInvocation) {
 		String methodName = methodInvocation.getName().toString();
@@ -593,8 +651,10 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	
 	/**
 	 * 
-	 * @param methodInvocation
-	 * @return
+	 * Return the MethodPalladioInformation object for a methodInvocation object
+	 * 
+	 * @param methodInvocation object name refers to a MethodPalladioInformation
+	 * @return MethodPalladioInformation object
 	 */
 	private MethodPalladioInformation getMethodPalladioInformation(MethodInvocation methodInvocation) {
 		String methodName = methodInvocation.getName().toString();
