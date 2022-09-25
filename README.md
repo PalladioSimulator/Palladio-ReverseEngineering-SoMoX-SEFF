@@ -1,5 +1,4 @@
-# Abbildung von Java-Methoden und –Aufrufen in einer Art Aktivitätsdiagramm
-# Mapping from Java methods and calls to a kind of activity diagram
+# Palladio-ReverseEngineering-SoMoX
 
 ## Introduction
 This project assists the reverse engineering process by transforming the input source code into a Palladio Component Model artefact, the Service Effect Specification (SEFF). The project is based on the Palladio Component Model (PCM), which is a modeling concept developed at the Software Quality and Design (SQD) institute at KIT. It is used together with the Service Effect Specification (SEFF) and the Eclipse JDT AST parser to create an abstraction model of the source code. It can be used to describe relationships between provided and required components and models their input and output variables.
@@ -20,13 +19,6 @@ The Palladio Component Model (PCM) is one of the core assets of the Palladio app
 
 ### Service Effect Specification (SEFF)
 Was ist ein SEFF? Was ist ein RDSEFF? (Eine Art UML-Aktivitätsdiagramm)  
-
-
-#### Creation of PCM Models
-To develop a PCM an Eclipse plug-in is available. The creation of the different Palladio models is fairly similar. As an example, the creation of a repository is shown. Creating PCM repository model is fairly simple using the diagram editor. The image below shows the graphical diagram editor with a simple repository model. The palette on the right provides the user with all the model elements. Selecting an element and clicking onto the model plane creates the basic model elements. Additionally, most elements can be further edited using the ```Properties``` view.
-![PCM Repository Model: Diagram Editor](documentation/pcm_repo_model_diagram.png "PCM Repository Model: Diagram Editor")
-The tree view of the repository model editor shows the model elements in their structure. New model elements, i.e. children of the tree branches, can be created by right clicking on a tree node. The editor shows the selection that is sensible at this point in the model structure. Furthermore, the tree view shows the 3 repositories that are imported by default: primitive types, failure types and a resource repository. Their elements can be used freely.
-![PCM Repository Model: Tree Editor](documentation/pcm_repo_model_tree.png "PCM Repository Model: Tree Editor")
 
 ### AST
 Eclipse provides a way to access and manipulate Java source code via the Java Development Tools (JDT) API. The API can either be accessed via the Java Model or via the Abstract Syntax Tree (AST). For our implementation, we choose to follow the AST path, since it matches the MoDisco / JaMoPP models described [below](#modiscojamopp-version).  
@@ -215,14 +207,11 @@ Now that the map is set up, the already developed blackboard implementation for 
 
 
 ## Limitations & Future Work
-- We were only implementing Guarded Branch Transitions and omitting Probabilistic Branch Transitions, because we cannot make any reasonable guess about the probability of the different branches. In future work, a method to approximate the probabilities could be interesting.
-- We have started exploring the Assignment Statement and its conversion to a SetVariableAction element in the SEFF context. As we found out during our exploration, the SetVariableAction element is used for functions which have a return statement. We stopped further exploration but leave the initial code at the ExpressionStatement visit function for future work.
+- Our current model only implemented Guarded Branch Transitions and omitted Probabilistic Branch Transitions, since we cannot make any reasonable guesses about the probability of the different branches. In future work, a method to approximate the probabilities should be added.
+- We have started exploring the Assignment Statement and its conversion to a SetVariableAction element in the SEFF context. As we found out during our exploration, the SetVariableAction element is used for functions which have a return statement. We stopped further exploration but left the initial code at the ExpressionStatement visit-function for future work.
 - Our parser currently creates one ICompilationUnit for each parsed file, omitting the Classes inside the file. This limits the possible parsed code to one class per file since all methods get parsed into the matching ICompilationUnit. In future work, a more precises abstraction could be made where either more ICompilationUnit gets created or the TypeDeclaration (in this case the Classes) isn't omitted.
-
-In future work, it can even be used to analyze runtime variables like CPU / HDD demands.
-
-Was sind und waren Probleme in unserer Implementierung?
-Was sind die Limitierungen in unserem  Projekt? (Was haben wir gemacht und was haben wir für zukünftige Arbeiten offen gelassen)?
+- Currently, there is no runtime analyzation like CPU / HDD demands. This was previously implemented in the JaMoPP version, but since we started from scratch again, not covered in this version. With more analysis of the JaMoPP version it should be fairly eazy to readd it into the JDT version.
+- Our internalCallActions are only implemented as method-inlining with a depth of 1. This means that if an internalCallAction is called multiple times it's NOT refered to each other, instead created multiple times. If methods refere to each other (= depth > 1) they are shown as internalActions.
 
 ## Testing
 The JUnit Framework was used for the quality assurance in this project. JUnit has a good integration into the Eclipse IDE, therefore this decision was straightforward. For the usage model JUnit tests are available. The tests and a bigger example can be found in [```FluentUsageModelFactoryTest```](tests/org.palladiosimulator.generator.fluent.test/src/org/palladiosimulator/generator/fluent/usagemodel/factory/FluentUsageModelFactoryTest.java). In future versions the examples of the other models can be written into unit tests and saved under [```Tests```](tests/org.palladiosimulator.generator.fluent.test/src/org/palladiosimulator/generator/fluent).
