@@ -51,7 +51,7 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 /**
  * Transformation Job transforming a JDT AST instance into a SEFF using the FluentAPI
  *
- * @author Marcel Rühle, Fabian Wenzel
+ * @author Marcel RÃ¼hle, Fabian Wenzel
  */
 public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>> {
 
@@ -69,9 +69,8 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     public Ast2SeffJob() { }
 
     /**
-     * This function executes the Ast2Seff execution process.
-     * It requires that the bundleName2methodAssociationMap is set inside the blackboard
-     * and processes it via the Ast2SeffVisitor
+     * This function executes the Ast2Seff execution process
+     * It requires that the bundleName2methodAssociationMap is set inside the blackboard and processes it via the Ast2SeffVisitor
      *
      * @see de.uka.ipd.sdq.workflow.IJob#execute(org.eclipse.core.runtime.IProgressMonitor)
      */
@@ -114,7 +113,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     }
     
     /**
-     * This function creates the BasicComponents and their corresponding Seffs for each passed methodBundlePair.
+     * This function creates the BasicComponents and their corresponding SEFF objects for each passed methodBundlePair
      * 
      * @param repoAddition the Repository where BasicComponents are added
      * @param monitor IProgressMonitor for IBlackboardInteractingJob interaction (@see de.uka.ipd.sdq.workflow.IJob#IProgressMonitor(org.eclipse.core.runtime.IProgressMonitor))
@@ -143,8 +142,8 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     }
     
     /**
-     * This function creates the interfaces for each bundle.
-     * It also adds the information for the methodPalladioInfoMap and the methodBundlePalladioInfoMap for the Ast2SeffVisitor.
+     * This function creates the interfaces for each bundle
+     * It also adds the information for the methodPalladioInfoMap and the methodBundlePalladioInfoMap for the Ast2SeffVisitor
      * 
      * @param repoAddition the Repository where Interfaces are added
      * @param counter counts how many interfaces are computed for logging
@@ -273,9 +272,9 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     }
 
     /**
-     * This function creates a new SeffCreator element, adds the signature and transverses all children to create a new Seff with their matching functionality.
+     * This function creates a new SeffCreator object, adds the signature and traverses all children to create a new SEFF with their matching functionality.
      * 
-     * @param methodPalladioInformation contains the OperationSignatureName for a fatch on the Seff and the MethodBundlePair for the Ast2SeffVisitor
+     * @param methodPalladioInformation contains the OperationSignatureName for a fetch on the SEFF and the MethodBundlePair for the Ast2SeffVisitor
      * @param componentInformation informations about the component thats is currently parsed
      * @return SeffCreator object returns the SeffCreator with all informations in it
      */
@@ -296,9 +295,9 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     }
 
     /**
-     * This function generates a XML File based on the transfered repository.
+     * This function generates a XML File based on the given repository.
      * 
-     * @param repository the previously created repository that should be outputted as file
+     * @param repository the previously created repository that should be a file output
      */
     private void generateSeffXmlFile(final Repository repository) {
 
@@ -325,7 +324,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     public void cleanup(final IProgressMonitor monitor) throws CleanupFailedException { }
 
     /**
-     * private function that mapps Strings to Privitive types
+     * Private function that maps code strings to primitive types
      * 
      * @param primitiveTypeCodeString String that should be mapped to type
      * @return Primitive type matching to the String
