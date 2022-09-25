@@ -49,8 +49,7 @@ import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
- * Transformation Job transforming a SAM instance with AST Behaviours into a SAM instance with SEFF
- * behaviours
+ * Transformation Job transforming a JDT AST instance into a SEFF using the FluentAPI
  *
  * @author Marcel Rühle, Fabian Wenzel
  */
@@ -112,6 +111,11 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
         this.blackboard.addPartition("repository", repository);
     }
     
+    /**
+     * 
+     * @param repoAddition
+     * @param monitor
+     */
     private void createSeffsForComponents(RepoAddition repoAddition, IProgressMonitor monitor) {
         for (Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
             String bundleName = entry.getKey();
@@ -135,6 +139,11 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
         }
     }
     
+    /**
+     * 
+     * @param repoAddition
+     * @param counter
+     */
     private void createOperationInterfacesForRepository(RepoAddition repoAddition, int counter) {
     	for (Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
             String bundleName = entry.getKey();
@@ -198,6 +207,12 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
         }
     }
     
+    /**
+     * 
+     * @param singleVariableDeclarationList
+     * @param repoAddition
+     * @param methodOperationSignature
+     */
     private void setParametersToSignature(List<SingleVariableDeclaration> singleVariableDeclarationList, RepoAddition repoAddition, OperationSignatureCreator methodOperationSignature) {
     	for (SingleVariableDeclaration variableDeclaration : singleVariableDeclarationList) {
             Type type = variableDeclaration.getType();
@@ -225,10 +240,10 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                     CompositeDataTypeCreator compositeDataType = create.newCompositeDataType()
                         .withName(simpleType.toString());
                     
-                    // TODO: WHY is the name important? This is not a generic approach, needs to be fixed
-                    if (simpleType.toString().equals("SimpleClass")) {
-                    	compositeDataType = compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
-                    }
+                    // Limitation / Future Work: How to add inner declarations to composite data types 
+//                    if (simpleType.toString().equals("SimpleClass")) {
+//                    	compositeDataType = compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
+//                    } 
                     
                     repoAddition.addToRepository(compositeDataType);
                     parameterList.add(simpleType.toString());
@@ -257,7 +272,6 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
      * @param methodPalladioInformation 
      * @param componentInformation
      * @return SeffCreator object
-     * @throws JobFailedException
      */
     private SeffCreator createSeffCreator(MethodPalladioInformation methodPalladioInformation,
             ComponentInformation componentInformation) {
@@ -275,6 +289,10 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
             .createBehaviourNow();
     }
 
+    /**
+     * 
+     * @param repository
+     */
     private void generateSeffXmlFile(final Repository repository) {
 
         EcorePlugin.ExtensionProcessor.process(null);
