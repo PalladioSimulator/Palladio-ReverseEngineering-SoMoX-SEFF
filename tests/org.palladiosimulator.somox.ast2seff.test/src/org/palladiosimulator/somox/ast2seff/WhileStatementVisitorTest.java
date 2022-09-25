@@ -58,7 +58,7 @@ public class WhileStatementVisitorTest {
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", whileStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("whileStatement", "whileStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
@@ -93,7 +93,7 @@ public class WhileStatementVisitorTest {
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", whileStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("whileStatement", "whileStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
@@ -125,7 +125,7 @@ public class WhileStatementVisitorTest {
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", whileStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("whileStatement", "whileStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
@@ -160,7 +160,7 @@ public class WhileStatementVisitorTest {
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", whileStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("whileStatement", "whileStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
