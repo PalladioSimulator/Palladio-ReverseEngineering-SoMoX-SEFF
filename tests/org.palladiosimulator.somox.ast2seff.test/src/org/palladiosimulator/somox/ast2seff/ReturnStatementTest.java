@@ -74,8 +74,7 @@ public class ReturnStatementTest {
 		assertTrue(actionList.get(1) instanceof SetVariableAction);
 		
 		SetVariableAction setVariableAction = (SetVariableAction) actionList.get(1);
-		
-		// assertEquals(setVariableAction.getEntityName(), "ReturnExpression");
+		assertEquals("Name.Qualified.ReturnExpression()", setVariableAction.getEntityName());
 	}
 	
 	@Test
@@ -105,7 +104,6 @@ public class ReturnStatementTest {
 		
 		SetVariableAction setVariableAction = (SetVariableAction) actionList.get(1);
 		
-		// assertEquals(setVariableAction.getEntityName(), "ReturnExpression");
 	}
 	
 	@Test
@@ -168,74 +166,5 @@ public class ReturnStatementTest {
 		// assertEquals(setVariableAction.getEntityName(), "ReturnExpression");
 	}
 	
-	@Test
-	@Disabled
-	public void statementInsideSameStatementTest() {
-		
-		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-		Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-		
-		BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-		AST ast = AST.newAST(AST.getJLSLatest(), false);
-		IfStatement ifStatement = ast.newIfStatement();
-		Block block = ast.newBlock();
-		IfStatement innerIfStatement = ast.newIfStatement();
-		innerIfStatement.setThenStatement(ast.newBlock());
-		ifStatement.setThenStatement(innerIfStatement);
-		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", ifStatement);
-		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement", "ifStatement", "Interface", methodBundlePair);
-		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
-		
-		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
-		
-		assertEquals(actionList.size(), 3);
-		assertTrue(actionList.get(1) instanceof BranchAction);
-		
-		BranchAction branchAction = (BranchAction) actionList.get(1);
-		AbstractBranchTransition branchTransition = branchAction.getBranches_Branch().get(0);
-		ResourceDemandingBehaviour resourceDemandingBehaviour = branchTransition.getBranchBehaviour_BranchTransition();
-		
-		assertEquals(branchAction.getBranches_Branch().size(), 1);
-		assertEquals(resourceDemandingBehaviour.getSteps_Behaviour().size(), 3);
-		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
-		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof BranchAction);
-		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(2) instanceof StopAction);
-	}
-	
-	@Test
-	@Disabled
-	public void statementInsideOtherStatementTest() {
-		ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-		Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-		
-		BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-		AST ast = AST.newAST(AST.getJLSLatest(), false);
-		IfStatement ifStatement = ast.newIfStatement();
-		Block block = ast.newBlock();
-		WhileStatement whileStatement = ast.newWhileStatement();
-		block.statements().add(whileStatement);
-		ifStatement.setThenStatement(block);
-		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", ifStatement);
-		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement", "ifStatement", "Interface", methodBundlePair);
-		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
-		
-		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
-		
-		assertEquals(actionList.size(), 3);
-		assertTrue(actionList.get(1) instanceof BranchAction);
-		
-		BranchAction branchAction = (BranchAction) actionList.get(1);
-		AbstractBranchTransition branchTransition = branchAction.getBranches_Branch().get(0);
-		ResourceDemandingBehaviour resourceDemandingBehaviour = branchTransition.getBranchBehaviour_BranchTransition();
-		
-		assertEquals(branchAction.getBranches_Branch().size(), 1);
-		assertEquals(resourceDemandingBehaviour.getSteps_Behaviour().size(), 3);
-		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
-		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof LoopAction);
-		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(2) instanceof StopAction);
-	}
+
 }

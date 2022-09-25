@@ -13,12 +13,15 @@ import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.PostfixExpression;
+import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.StringLiteral;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.TryStatement;
+import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.palladiosimulator.somox.ast2seff.visitors.Ast2SeffVisitor;
@@ -82,10 +85,8 @@ public class NameUtil {
 		}
 	}
 	
-	public static String getEntityName(Statement elseStatement) {		
-		final StringBuilder positionString = new StringBuilder("@position: ");
-		positionString.append("Cond: ").append("else").append("");
-		return positionString.toString();
+	public static String getEntityName(ReturnStatement returnStatement) {		
+		return returnStatement.getExpression().toString();
 	}
 
 	public static String getEntityName(final ForStatement forStatement) {
@@ -97,7 +98,7 @@ public class NameUtil {
 		if (initializers instanceof VariableDeclarationExpression && expression instanceof InfixExpression && updaters instanceof PostfixExpression) {
 			positionString.append(" from ").append(initializers).append(" to ").append(expression).append(" with ").append(updaters);
 		} else {
-			positionString.append("no position information available");
+			positionString.append("No position information available");
 		}
 		return positionString.toString();
 	}
@@ -115,7 +116,7 @@ public class NameUtil {
 		Expression expression = whileStatement.getExpression();
 		
 		final StringBuilder positionString = new StringBuilder("@position: ");
-		positionString.append("expression name \"").append(expression).append("\"");
+		positionString.append("while (").append(expression).append(")");
 		return positionString.toString();
 	}
 	
@@ -129,16 +130,6 @@ public class NameUtil {
 	
 	public static String getEntityName(final TryStatement tryStatement) {
 		return "Try Catch Branch";
-	}
-	
-	public static String getEntityName(String className) {
-		return className;
-	}
-	
-	public static String whileStatementExpressionString(Expression expression) {
-		final StringBuilder positionString = new StringBuilder("@position: ");
-		positionString.append("Condition: \"").append(expression).append("\"");
-		return positionString.toString();
 	}
 	
 	public static String getIfStatementConditionString(IfStatement ifStatement) {
@@ -162,8 +153,16 @@ public class NameUtil {
 	}
 
 	public static String getCatchClauseConditionString(CatchClause catchClause) {
-		SimpleType type = (SimpleType) catchClause.getException().getType();
-		Expression expression = type.getName();
+		
+		String expression = "Exception";
+		Type type = catchClause.getException().getType();
+		
+		if (type.isSimpleType()) {
+			expression = ((SimpleType) type).getName().toString();
+		} else if (type.isPrimitiveType()) {
+			expression = ((PrimitiveType) type).toString();
+		}
+		
 		final StringBuilder conditionString = new StringBuilder("@position: ");
 		conditionString.append("Condition: catch ").append(expression);
 		return conditionString.toString();

@@ -65,7 +65,7 @@ public class WhileStatementVisitorTest {
 		
 		assertEquals(3, actionList.size());
 		assertTrue(actionList.get(1) instanceof LoopAction);
-		assertEquals("@position: expression name \"true\"", actionList.get(1).getEntityName());
+		assertEquals("@position: while (true)", actionList.get(1).getEntityName());
 		
 		LoopAction loopAction = (LoopAction) actionList.get(1);
 		ResourceDemandingBehaviour resourceDemandingBehaviour = loopAction.getBodyBehaviour_Loop();

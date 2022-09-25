@@ -23,11 +23,9 @@ import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.SynchronizedStatement;
 import org.eclipse.jdt.core.dom.TryStatement;
-import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
-import org.palladiosimulator.generator.fluent.repository.api.seff.InternalSeff;
 import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
 import org.palladiosimulator.generator.fluent.repository.structure.components.BasicComponentCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.components.seff.BranchActionCreator;
@@ -60,7 +58,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	private ActionSeff actionSeff;
 	private BasicComponentCreator basicComponentCreator;
 	private ComponentInformation componentInformation;
-	private int internalCallActionDepth = 0;
+	private int methodInliningDepth = 0;
 	
 	/**
 	 * 
@@ -89,7 +87,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	 * @param create
 	 * @param internalCallActionDepth
 	 */
-	private Ast2SeffVisitor(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create, int internalCallActionDepth) {
+	private Ast2SeffVisitor(MethodPalladioInformation methodPalladioInformation, ActionSeff actionSeff, Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation, FluentRepositoryFactory create, int methodInliningDepth) {
 		this.actionSeff = actionSeff;
 		this.methodPalladioInfoMap = methodPalladionInfoMap;
 		this.methodBundlePair = methodPalladioInformation.getMethodBundlePair();
@@ -97,7 +95,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		this.componentInformation = componentInformation;
 		this.basicComponentCreator = componentInformation.getBasicComponentCreator();
 		this.create = create;
-		this.internalCallActionDepth = internalCallActionDepth;
+		this.methodInliningDepth = methodInliningDepth;
 	}
 	
 	/**
@@ -149,13 +147,12 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		Expression expression = expressionStatement.getExpression();
 
 		if (expression instanceof Assignment) {
-			// Limitation / Future Work: Represent Variable Assignment In SEFF
-			// Variable Assignment
-			// Assignment transformedExpression = (Assignment) expression;
-			// SetVariableActionCreator setVariableActionCreator = actionSeff.setVariableAction();
-			// VariableUsageCreator inputVariable = this.generateInputVariableUsage(transformedExpression.getRightHandSide());
-			// setVariableActionCreator.withLocalVariableUsage(inputVariable);
-			// this.actionSeff = setVariableActionCreator.followedBy();
+			/**
+			 * Limitation / Future Work
+			 * 
+			 * Set Variable Action objects should be generated for methods with return type
+			 * 
+			**/
 		} else if (expression instanceof MethodInvocation && this.isExternal((MethodInvocation) expression)) {
 		    
 			MethodInvocation methodInvocation = (MethodInvocation) expression;
@@ -165,9 +162,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 			if (!potentialInterfaceName.equals(methodPalladioInformation.getOperationInterfaceName())) {
 				createExternalCallAction(methodInvocation, methodPalladioInformation);
 			} else {
-				if (internalCallActionDepth < 1) {
-					// TODO: Finish InternalCallAction With Depth 1
-					createInternalCallAction(expressionStatement, methodPalladioInformation);					
+				if (methodInliningDepth < 1) {
+					createMethodInlining(expressionStatement, methodPalladioInformation);					
 				} else {
 					createInternalAction(expressionStatement);
 				}
@@ -180,21 +176,15 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	}
 	
 	/**
+	 * Limitation / Future Work:
+	 * 
 	 * 
 	 * @param expressionStatement
 	 * @param methodPalladioInformation
 	 */
-	private void createInternalCallAction(ExpressionStatement expressionStatement, MethodPalladioInformation methodPalladioInformation) {
-		LOGGER.debug("Expression Statement is Internal Call Action");
-		
-		ActionSeff internalActionSeff = create.newInternalBehaviour().withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
-//		internalActionSeff = this.perform(methodPalladioInformation.getMethodBundlePair().getAstNode(), internalActionSeff, internalCallActionDepth + 1);
-		InternalSeff internalBehaviour = internalActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
-		
-		actionSeff = actionSeff.internalCallAction()
-				.withName(NameUtil.getEntityName(expressionStatement))
-				.withInternalBehaviour(internalBehaviour)
-				.followedBy();	
+	private void createMethodInlining(ExpressionStatement expressionStatement, MethodPalladioInformation methodPalladioInformation) {
+		LOGGER.debug("Expression Statement is Method Inlining");
+		this.perform(methodPalladioInformation.getMethodBundlePair().getAstNode(), actionSeff, methodInliningDepth + 1);
 	}
 	
 	/**
@@ -410,7 +400,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	public boolean visit(final ReturnStatement returnStatement) {
 		LOGGER.debug("Visit Return Statement");
 		Expression returnExpression = returnStatement.getExpression();
-		SetVariableActionCreator setVariableActionCreator = actionSeff.setVariableAction();
+		String entityName = NameUtil.getEntityName(returnStatement);
+		SetVariableActionCreator setVariableActionCreator = actionSeff.setVariableAction().withName(entityName);
 		VariableUsageCreator returnVariable = this.generateInputVariableUsage(returnExpression);
 		setVariableActionCreator.withLocalVariableUsage(returnVariable);
 		this.actionSeff = setVariableActionCreator.followedBy();
@@ -420,14 +411,14 @@ public class Ast2SeffVisitor extends ASTVisitor {
 	/**
 	 * Limitation / Future Work
 	 * 
+	 * Set Variable Action objects should be generated for methods with return type
 	 * 
 	 * @param variableDeclarationStatement
 	 * @return
 	 */
 	public boolean visit(final VariableDeclarationStatement variableDeclarationStatement) {
 		LOGGER.debug("Visit Variable Declaration Statement");
-		Type test = variableDeclarationStatement.getType();
-		return super.visit(variableDeclarationStatement);
+		return false;
 	}
 	
 	/**
@@ -464,21 +455,29 @@ public class Ast2SeffVisitor extends ASTVisitor {
 		return variableUsage;
 	}
 	
-	private VariableUsageCreator generateInputVariableUsage(Expression variable) {
+	/**
+	 * 
+	 * @param expression
+	 * @return
+	 */
+	private VariableUsageCreator generateInputVariableUsage(Expression expression) {
 		VariableUsageCreator variableUsage = create.newVariableUsage();
-		variableUsage.withNamespaceReference("PrimitiveType", NameUtil.getExpressionClassName(variable));
-		String randomPCMName = "PrimitiveType" + "." + NameUtil.getExpressionClassName(variable);
+		variableUsage.withNamespaceReference("PrimitiveType", NameUtil.getExpressionClassName(expression));
+		String randomPCMName = "PrimitiveType" + "." + NameUtil.getExpressionClassName(expression);
 		variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
 		return variableUsage;
 	}
 	
 	/**
 	 * 
+	 * Limitation / Future Work: 
+	 * 
+	 * Inner Declaration
+	 * 
 	 * @param returnType
 	 * @return
 	 */
 	private VariableUsageCreator generateOutputVariableUsage(DataType returnType) {
-		// From ParameterFactory Docs: Note that it was an explicit design decision to refer to variable names instead of the actual variables (i.e., by refering to Parameter class).
 		VariableUsageCreator variableUsage = create.newVariableUsage();
 
 		String randomPCMName = "tempVariable";
