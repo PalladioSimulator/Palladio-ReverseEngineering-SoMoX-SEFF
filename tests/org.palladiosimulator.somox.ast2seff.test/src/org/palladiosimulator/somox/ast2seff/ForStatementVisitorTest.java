@@ -9,9 +9,18 @@ import java.util.Map;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.Block;
+import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.PostfixExpression;
+import org.eclipse.jdt.core.dom.PostfixExpression.Operator;
+import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.Type;
+import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -56,9 +65,22 @@ public class ForStatementVisitorTest {
 		BasicComponentCreator basicComponentCreator = create.newBasicComponent();
 		AST ast = AST.newAST(AST.getJLSLatest(), false);
 		ForStatement forStatement = ast.newForStatement();
-		forStatement.initializers().add(ast.newVariableDeclarationExpression(ast.newVariableDeclarationFragment()));
-		forStatement.setExpression(ast.newInfixExpression());
-		forStatement.updaters().add(ast.newPostfixExpression());
+		VariableDeclarationFragment variableDeclarationFragment = ast.newVariableDeclarationFragment();
+		variableDeclarationFragment.setName(ast.newSimpleName("i"));
+		variableDeclarationFragment.setInitializer(ast.newNumberLiteral("0"));
+		VariableDeclarationExpression variableDeclarationExpression = ast.newVariableDeclarationExpression(variableDeclarationFragment);
+		forStatement.initializers().add(variableDeclarationExpression);
+		InfixExpression infixExpression = ast.newInfixExpression();
+		infixExpression.setLeftOperand(ast.newSimpleName("i"));
+		infixExpression.setOperator(InfixExpression.Operator.toOperator("<"));
+		infixExpression.setRightOperand(ast.newNumberLiteral("10"));
+		forStatement.setExpression(infixExpression);
+		PostfixExpression postfixExpression = ast.newPostfixExpression();
+		postfixExpression.setOperand(ast.newSimpleName("i"));
+		postfixExpression.setOperator(Operator.toOperator("++"));
+		forStatement.updaters().add(postfixExpression);
+		
+		
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", forStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("forStatement", "forStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
@@ -67,13 +89,14 @@ public class ForStatementVisitorTest {
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
 		
-		assertEquals(actionList.size(), 3);
+		assertEquals(3, actionList.size());
 		assertTrue(actionList.get(1) instanceof LoopAction);
+		assertEquals("@position:  from int i=0 to i < 10 with i++", actionList.get(1).getEntityName());
 		
 		LoopAction loopAction = (LoopAction) actionList.get(1);
 		ResourceDemandingBehaviour resourceDemandingBehaviour = loopAction.getBodyBehaviour_Loop();
 		
-		assertEquals(resourceDemandingBehaviour.getSteps_Behaviour().size(), 2);
+		assertEquals(2, resourceDemandingBehaviour.getSteps_Behaviour().size());
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof StopAction);
 	}
@@ -104,13 +127,13 @@ public class ForStatementVisitorTest {
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
 		
-		assertEquals(actionList.size(), 3);
+		assertEquals(3, actionList.size());
 		assertTrue(actionList.get(1) instanceof LoopAction);
 		
 		LoopAction loopAction = (LoopAction) actionList.get(1);
 		ResourceDemandingBehaviour resourceDemandingBehaviour = loopAction.getBodyBehaviour_Loop();
 		
-		assertEquals(resourceDemandingBehaviour.getSteps_Behaviour().size(), 3);
+		assertEquals(3, resourceDemandingBehaviour.getSteps_Behaviour().size());
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof InternalAction);
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(2) instanceof StopAction);
@@ -143,13 +166,13 @@ public class ForStatementVisitorTest {
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
 		
-		assertEquals(actionList.size(), 3);
+		assertEquals(3, actionList.size());
 		assertTrue(actionList.get(1) instanceof LoopAction);
 		
 		LoopAction loopAction = (LoopAction) actionList.get(1);
 		ResourceDemandingBehaviour resourceDemandingBehaviour = loopAction.getBodyBehaviour_Loop();
 		
-		assertEquals(resourceDemandingBehaviour.getSteps_Behaviour().size(), 3);
+		assertEquals(3, resourceDemandingBehaviour.getSteps_Behaviour().size());
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof LoopAction);
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(2) instanceof StopAction);
@@ -178,12 +201,13 @@ public class ForStatementVisitorTest {
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
 		
-		assertEquals(actionList.size(), 3);
+		assertEquals(3, actionList.size());
 		assertTrue(actionList.get(1) instanceof LoopAction);
 		
 		LoopAction loopAction = (LoopAction) actionList.get(1);
 		ResourceDemandingBehaviour resourceDemandingBehaviour = loopAction.getBodyBehaviour_Loop();
 		
+		assertEquals(3, resourceDemandingBehaviour.getSteps_Behaviour().size());
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof LoopAction);
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(2) instanceof StopAction);

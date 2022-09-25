@@ -52,7 +52,7 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
  * Transformation Job transforming a SAM instance with AST Behaviours into a SAM instance with SEFF
  * behaviours
  *
- * @author Steffen Becker, Klaus Krogmann, Marcel Rühle, Fabian Wenzel
+ * @author Marcel Rühle, Fabian Wenzel
  */
 public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>> {
 
@@ -127,7 +127,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
             for (MethodBundlePair methodBundlePair : methodBundleList) {
                 MethodPalladioInformation methodPalladioInformation = methodBundlePalladioInfoMap.get(methodBundlePair);
 				basicComponentCreator
-				    .withServiceEffectSpecification(this.createSeff(methodPalladioInformation, componentInformation));
+				    .withServiceEffectSpecification(this.createSeffCreator(methodPalladioInformation, componentInformation));
                 monitor.worked(1);
             }
 
@@ -217,6 +217,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                     methodOperationSignature.withParameter(parameterName, primitive, ParameterModifier.IN);
                     parameterList.add(primitiveTypeCodeString);
                 }
+                
             } else if (type.isSimpleType()) {
                 SimpleType simpleType = (SimpleType) type;
 
@@ -258,7 +259,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
      * @return SeffCreator object
      * @throws JobFailedException
      */
-    private SeffCreator createSeff(MethodPalladioInformation methodPalladioInformation,
+    private SeffCreator createSeffCreator(MethodPalladioInformation methodPalladioInformation,
             ComponentInformation componentInformation) {
         ActionSeff actionSeff = create.newSeff()
             .onSignature(create.fetchOfSignature(methodPalladioInformation.getOperationSignatureName()))

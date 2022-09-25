@@ -65,6 +65,7 @@ public class TryStatementVisitorTest {
 		
 		assertEquals(actionList.size(), 3);
 		assertTrue(actionList.get(1) instanceof BranchAction);
+		assertEquals("Try Catch Branch", actionList.get(1).getEntityName());
 		
 		BranchAction branchAction = (BranchAction) actionList.get(1);
 		AbstractBranchTransition branchTransition = branchAction.getBranches_Branch().get(0);
