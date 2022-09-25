@@ -4,10 +4,10 @@
 ## Introduction
 This project assists the reverse engineering process by transforming the input source code into a Palladio Component Model artefact, the Service Effect Specification (SEFF). The project is based on the Palladio Component Model (PCM), which is a modeling concept developed at the Software Quality and Design (SQD) institute at KIT. It is used together with the Service Effect Specification (SEFF) and the Eclipse JDT AST parser to create an abstraction model of the source code. It can be used to describe relationships between provided and required components and models their input and output variables.
 
-If you are familiar with the background of PCM, SEFF, AST and fluent interfaces, jump directly to [Creation of PCM Models](#creation-of-pcm-models).  
+If you are familiar with the background of PCM, SEFF, AST and fluent interfaces, jump directly to [Objectives](#Objectives).  
 If you are familiar with the project, jump directly to [Usage](#usage).
 
-## Motivation
+## Motivation & Background
 Most of the time a forward engineering approach is used when developing software. After the definition of the system specification a software design is created. With this software design the source code can be built in a structured way. Some legacy projects do not have any kind of specification or design documentation available. Reverse engineering is a very interesting approach in this scenario, because it tries to build higher abstraction models of the available source code. The code analyzation can be a very time-consuming and exhausting task. Single condition statements can make the difference between a performant or slow implementation. If the developer is not common with the code it's hard to find the exact location. Thats why an automated, easy readable diagram from the code would be a perfect solution for developers. 
 
 It can be used for reverse engineering purposes to retrieve the original design and find all connections between components. It eases the feature development and bugfixing process in legacy systems and enables a clean codebase with fast to find refactors or analization of resource demands.  
@@ -29,13 +29,14 @@ The tree view of the repository model editor shows the model elements in their s
 ![PCM Repository Model: Tree Editor](documentation/pcm_repo_model_tree.png "PCM Repository Model: Tree Editor")
 
 ### AST
-What is an AST Representation?
-Abstract Syntax Tree 
-Which information contains the AST?
-How to traverse the AST?
+Eclipse provides a way to access and manipulate Java source code via the Java Development Tools (JDT) API. The API can either be accessed via the Java Model or via the Abstract Syntax Tree (AST). For our implementation, we choose to follow the AST path, since it matches the MoDisco / JaMoPP models described [below](#modiscojamopp-version).  
+The AST is a detailed tree representation of the Java source code which can be traversed via the [visitor Pattern](#visitor-pattern). It consists of a root node (ICompilationUnit) and many different child nodes which are build upon each other. The AST has a structure similar to  
+![AST: Structure](doc/ASTStructure.png "AST: Typical AST structure")
+where each MethodDeclaration descirbes a function of the root class and each Statement describes a different code snippet. The AST can be enriched with aditional informations like TypeDeclarations to model the affiliated classes which we choose not to do (see [Limitations & Future Work](#limitations--future-work)).  
 
 ### Visitor Pattern
 The visitor pattern is a common used behavioral pattern. 
+The AST provides an interface where visitors 
 What is the visitor pattern good for
 
 ## Objectives:
@@ -44,7 +45,7 @@ The project focused on different objectives to help the user:
 - Understandable source code structures to enable changes to the original code and further development
 - Preprocessing for Runtime analysis via PCM  
 
-Since there were previous implementations of this project the objectives always stayed the same, but this version updated the code base to match newer Java versions. To stay compatible with the build process of other versions we also created an ` IBlackboardInteractingJob <Blackboard<Object>> ` called Ast2SeffJob. It uses a similar visitor pattern to the other versions but has direct access to the code via the JDT Ast pattern. Further information can be found in [section JDT Version](#JDT Version).
+Since there were previous implementations of this project the objectives always stayed the same, but this version updated the code base to match newer Java versions. To stay compatible with the build process of other versions we also created an ` IBlackboardInteractingJob <Blackboard<Object>> ` called Ast2SeffJob. It uses a similar visitor pattern to the other versions but has direct access to the code via the JDT Ast pattern. Further information can be found in [section JDT Version](#jdt-version).
 
 ### MoDisco/JaMoPP Version
 This project is a further development from the MoDisco and JaMoPP versions. It was implemented based on the JaMopp version, which was based on the MoDisco version. To fully understand our implementation we first describe the differences between MoDisco and JaMoPP.  
@@ -215,7 +216,7 @@ Now that the map is set up, the already developed blackboard implementation for 
 ## Limitations & Future Work
 - We were only implementing Guarded Branch Transitions and omitting Probabilistic Branch Transitions, because we cannot make any reasonable guess about the probability of the different branches. In future work, a method to approximate the probabilities could be interesting.
 - We have started exploring the Assignment Statement and its conversion to a SetVariableAction element in the SEFF context. As we found out during our exploration, the SetVariableAction element is used for functions which have a return statement. We stopped further exploration but leave the initial code at the ExpressionStatement visit function for future work.
-- 
+- Our parser currently creates one ICompilationUnit for each parsed file, omitting the Classes inside the file. This limits the possible parsed code to one class per file since all methods get parsed into the matching ICompilationUnit. In future work, a more precises abstraction could be made where either more ICompilationUnit gets created or the TypeDeclaration (in this case the Classes) isn't omitted.
 
 In future work, it can even be used to analyze runtime variables like CPU / HDD demands.
 
