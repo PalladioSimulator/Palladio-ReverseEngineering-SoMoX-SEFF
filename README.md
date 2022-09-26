@@ -1,21 +1,21 @@
 # Palladio-ReverseEngineering-SoMoX
 
 ## Introduction
-This project assists the reverse engineering process by transforming the input source code into a Palladio Component Model artifact, the Service Effect Specification (SEFF). The project is based on the Palladio Component Model (PCM), which is a modeling concept developed at the Software Quality and Design (SQD) institute at KIT. It is used together with the Service Effect Specification (SEFF) and the Eclipse JDT AST parser to create an abstraction model of the source code. It can be used to describe relationships between provided and required components and models their input and output variables.
+This project assists the reverse engineering process by transforming the input source code into a Palladio Component Model artifact, the Service Effect Specification (SEFF). The project is based on the Palladio Component Model (PCM), which is a modeling concept developed at the Software Quality and Design (SQD) institute at KIT. It is used together with the Service Effect Specification (SEFF) and the Eclipse JDT AST parser to create an abstract model of the source code. It can be used to describe relationships between provided and required components and models their input and output variables.
 
-If you are familiar with the background of PCM, SEFF, AST and fluent interfaces, jump directly to [Objectives](#Objectives).  
+If you are familiar with the background of PCM, SEFF, AST, and fluent interfaces, jump directly to [Objectives](#Objectives).  
 If you are familiar with the project, jump directly to [Usage](#usage).
 
 ## Motivation & Background
-Most of the time a forward engineering approach is used when developing software. After the definition of the system specification a software design is created. With this software design the source code can be built in a structured way. Some legacy projects do not have any kind of specification or design documentation available. Reverse engineering is a very interesting approach in this scenario, because it tries to build higher abstraction models of the available source code. The code analysis can be a very time-consuming and exhausting task. Single condition statements can make the difference between a performant or slow implementation. If the developer is not common with the code it's hard to find the exact location. Thats why an automated, easy readable diagram from the code would be a perfect solution for developers. 
+Most of the time a forward engineering approach is used when developing software. After the definition of the system specification, a software design is created. With this software design, the source code can be built in a structured way. Some legacy projects do not have any kind of specification or design documentation available. Reverse engineering is a very interesting approach in this scenario because it tries to build higher abstraction models of the available source code. Code analysis can be a very time-consuming and exhausting task. Single condition statements can make the difference between a performant or slow implementation. If the developer is not common with the code it's hard to find the exact location. That's why an automated, easily readable diagram from the code would be a perfect solution for developers. 
 
-It can be used for reverse engineering purposes to retrieve the original design and find all connections between components. It eases the feature development and improvement process in legacy systems and enables a clean code-base with fast to find refactoring options or analysis of resource demands.  
+It can be used for reverse engineering purposes to retrieve the original design and find all connections between components. It eases the feature development and improvement process in legacy systems and enables a clean code base with fast-to-find refactoring options or analysis of resource demands.  
 
 ### Palladio Component Model (PCM)
-Palladio is a software architecture simulation approach which analyzes a software project at the model level for performance bottlenecks, issues with scalability, reliability threats, and allows for a subsequent optimization. The approach needs different artifacts as input to perform the simulation. Artifacts can be the specification of the components, the composition of the components or a specification of the behavior of the functions inside the components. This behavior specification is known as Service Effect Specification.
+Palladio is a software architecture simulation approach that analyzes a software project at the model level for performance bottlenecks, issues with scalability, reliability threats, and allows for subsequent optimization. The approach needs different artifacts as input to perform the simulation. Artifacts can be the specification of the components, the composition of the components, or a specification of the behavior of the functions inside the components. This behavior specification is known as Service Effect Specification.
 
 ### Service Effect Specification (SEFF)
-The Service Effect Specification (SEFF) is a kind of activity diagram to model an abstraction of the component and function behavior. It offers several ways to specify the type of the action elements of the diagram. For the simulation the actions can be enriched with resource allocation specifications such as CPU or HDD usage.
+The Service Effect Specification (SEFF) is a kind of activity diagram to model abstraction of the component and function behavior. It offers several ways to specify the type of action elements of the diagram. For the simulation, the actions can be enriched with resource allocation specifications such as CPU or HDD usage.
 
 ### AST
 Eclipse provides a way to access and manipulate Java source code via the Java Development Tools (JDT) API. The API can either be accessed via the Java Model or via the Abstract Syntax Tree (AST). For our implementation, we choose to follow the AST path, since it matches the MoDisco / JaMoPP models described [below](#modiscojamopp-version).   
@@ -23,7 +23,7 @@ Eclipse provides a way to access and manipulate Java source code via the Java De
 The AST is a detailed tree representation of the Java source code which can be traversed via the [visitor Pattern](#visitor-pattern). It consists of a root node (ICompilationUnit) and many different child nodes which are built upon each other.  
 The AST has a structure similar to  
 ![AST: Structure](doc/ASTStructure.png "AST: Typical AST structure")
-where each MethodDeclaration describes a function of the root class and each Statement describes a different code snippet. The AST can be enriched with additional informations like TypeDeclarations to model the affiliated classes which we choose not to do (see [Limitations & Future Work](#limitations-&-future-work)).  
+where each MethodDeclaration describes a function of the root class and each Statement describes a different code snippet. The AST can be enriched with additional information like TypeDeclarations to model the affiliated classes which we choose not to do (see [Limitations & Future Work](#limitations-&-future-work)).  
 
 ### Visitor Pattern
 The visitor pattern is a commonly used behavioral pattern, which provides the possibility to separate an algorithm from an object structure on which it operates. It is a perfect match to traverse the AST since it opens the possibility to read and process parts of the object structure without directly modifying it.   
@@ -54,7 +54,7 @@ The Eclipse Java Development Tools (JDT) offer functionality to traverse Java so
 The parsing process takes Java code and parses it with the JDT parser, which is directly traversed by the AST2SEFF visitor pattern to output different SEFFs as XML. It is more similar to the MoDisco version again.
 
 ### Comparison Of Approaches
-Since this project has a long history with different versions we created a table to compare them all to each other. If you are familiar with one of the versions, this can give a good overview how the others were structured. Keep in mind that this table only represents what the visitor got as input and does not reflect the preproccessing done in JaMoPP (e.g. gathering For/EnhancedFor/While to Loop beforehand). SetVariableAction and WithInputVariable were recently added to the JDT version and therefore there is no JaMoPP / MoDisco version for it.
+Since this project has a long history with different versions we created a table to compare them all to each other. If you are familiar with one of the versions, this can give a good overview of how the others were structured. Keep in mind that this table only represents what the visitor got as input and does not reflect the preprocessing done in JaMoPP (e.g. gathering For/EnhancedFor/While to Loop beforehand). SetVariableAction and WithInputVariable were recently added to the JDT version and therefore there is no JaMoPP / MoDisco version for it.
 
 | **SEFF Element**         | **MoDisco Version**                                         | **JaMoPP Version**          | **JDT Version**                                           |
 |--------------------------|-------------------------------------------------------------|-----------------------------|-----------------------------------------------------------|
@@ -86,7 +86,7 @@ Now that the foundation of our project is clear we can jump right into it. To ge
 
 ### Installation
 
-Below is an example of how this project can be installed and set up. Be sure to meet all [Prerequisites](#Prerequisites), else the installation might fail.
+Below is an example of how this project can be installed and set up. Be sure to meet all [Prerequisites](#Prerequisites), or else the installation might fail.
 
 1. Clone the repository to a directory of your choice
 
@@ -104,7 +104,7 @@ Below is an example of how this project can be installed and set up. Be sure to 
 5. Several projects get listed. Select all of them.
 6. Press on "Finish".
 
-Now you are ready to review, test and develop the implementation.
+Now you are ready to review, test, and develop the implementation.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -115,7 +115,7 @@ To analyze the code it first has to be converted into an [AST Representation](ht
 
 The full implementation of this simple case can also be found in our [Tests](tests/org.palladiosimulator.somox.ast2seff.test/src/org/palladiosimulator/somox/ast2seff/Ast2SeffTest.java).
 
-First the parser needs to be set up:
+First, the parser needs to be set up:
 
   ```sh
     String  javaCoreVersion = JavaCore.latestSupportedJavaVersion();
@@ -127,7 +127,7 @@ First the parser needs to be set up:
             javaCoreVersion, JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, javaCoreVersion));
   ```
 
-Since we want to parse ".java" files and have environment informations from the ".jar" files we created a helper function "get Entries":
+Since we want to parse ".java" files and have environment information from the ".jar" files we created a helper function "get Entries":
 
   ```sh
     private String[] getEntries(Path dir, String suffix) {
@@ -165,7 +165,7 @@ Now that the parser is set up and and the helper function is defined we can star
     return compilationUnits;
   ```
 
-Since additional filtering like exclusion of private functions is wanted we choose to not pass the whole [CompilationUnit-Objects](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html) to the ast2SeffJob, instead we pass a mapping of classNames to methodDeclarations, which we defined as [MethodBundlePairs](bundles/org.palladiosimulator.somox.ast2seff/src/org/palladiosimulator/somox/ast2seff/models/MethodBundlePair.java).
+Since additional filtering like the exclusion of private functions is wanted we choose to not pass the whole [CompilationUnit-Objects](https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2FCompilationUnit.html) to the ast2SeffJob, instead we pass a mapping of classNames to methodDeclarations, which we defined as [MethodBundlePairs](bundles/org.palladiosimulator.somox.ast2seff/src/org/palladiosimulator/somox/ast2seff/models/MethodBundlePair.java).
 
   ```sh
     Map<String, List<MethodBundlePair>> bundleName2methodAssociationMap = new HashMap<String, List<MethodBundlePair>>();
@@ -211,14 +211,14 @@ Now that the map is set up, the already developed blackboard implementation for 
 
 ## Limitations & Future Work
 - Our current model only implemented Guarded Branch Transitions and omitted Probabilistic Branch Transitions, since we cannot make any reasonable guesses about the probability of the different branches. In future work, a method to approximate the probabilities should be added.
-- We have started exploring the Assignment Statement and its conversion to a SetVariableAction element in the SEFF context. As we found out during our exploration, the SetVariableAction element is used for functions which have a return statement. We stopped further exploration but left the initial code at the ExpressionStatement visit-function for future work.
-- Our parser currently creates one ICompilationUnit for each parsed file, omitting the class structures inside the file. This limits the possible parsed code to one class per file since all methods get parsed into the matching ICompilationUnit. In future work, a more precise abstraction could be made where either more ICompilationUnit gets created or the TypeDeclaration (in this case the class structures) get included.
+- We have started exploring the Assignment Statement and its conversion to a SetVariableAction element in the SEFF context. As we found out during our exploration, the SetVariableAction element is used for functions that have a return statement. We stopped further exploration but left the initial code at the ExpressionStatement visit function for future work.
+- Our parser currently creates one ICompilationUnit for each parsed file, omitting the class structures inside the file. This limits the possible parsed code to one class per file since all methods get parsed into the matching ICompilationUnit. In future work, a more precise abstraction could be made where either more ICompilationUnit gets created or the TypeDeclaration (in this case the class structures) gets included.
 - Currently, there is no resource usage information addition for CPU or HDD demands. This was previously implemented in the JaMoPP version, but since we started from scratch again, not covered in this version. With more analysis of the JaMoPP version it should be easy to read it into the JDT version.
-- Our internalCallActions are only implemented as method inlining with a depth of 1. This means that if an InternalCallAction is called multiple times it's not referred to each other, instead created multiple times. If methods refer to each other (and the depth is greater then 1) they are shown as InternalActions.
-- Expression Statements inside if statements could be modeled in further development. Therefore you need to find out if the there is a method invocation inside the if condition and model it as InternalAction, InternalCallAction or ExternalCallAction.
+- Our internalCallActions are only implemented as a method inlining with a depth of 1. This means that if an InternalCallAction is called multiple times it's not referred to each other, but instead created multiple times. If methods refer to each other (and the depth is greater than 1) they are shown as InternalActions.
+- Expression Statements inside if statements could be modeled in further development. Therefore you need to find out if there is a method invocation inside the if condition and model it as InternalAction, InternalCallAction, or ExternalCallAction.
 
 ## Testing
-The JUnit Framework was used for the quality assurance in this project. JUnit has a good integration into the Eclipse IDE, therefore this decision was straightforward. For the usage model JUnit tests are available. The tests and a bigger example of the overall usage with test classes can be found in the [test folder](./tests/org.palladiosimulator.somox.ast2seff.test) of the project.
+The JUnit Framework was used for quality assurance in this project. JUnit has good integration into the Eclipse IDE, therefore this decision was straightforward. For the usage model, JUnit tests are available. The tests and a bigger example of the overall usage with test classes can be found in the [test folder](./tests/org.palladiosimulator.somox.ast2seff.test) of the project.
 
 A simple test strategy was followed to catch the general test cases for each statement visitor function.  
 The four standard test cases are:
@@ -227,6 +227,6 @@ The four standard test cases are:
 3. Test the statement with the same statement inside
 4. Test the statement with another statement inside (loop or branch statement)  
 
-Additional test cases for specific attributes for the different kind of statements were tested when needed. 
+Additional test cases for specific attributes for the different kinds of statements were tested when needed. 
 
 
