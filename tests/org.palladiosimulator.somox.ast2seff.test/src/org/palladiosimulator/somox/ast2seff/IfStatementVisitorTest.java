@@ -58,20 +58,22 @@ public class IfStatementVisitorTest {
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", ifStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement", "ifStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
 		
-		assertEquals(actionList.size(), 3);
+		assertEquals(3, actionList.size());
 		assertTrue(actionList.get(1) instanceof BranchAction);
+		assertEquals("If Branch", actionList.get(1).getEntityName());
 		
 		BranchAction branchAction = (BranchAction) actionList.get(1);
 		AbstractBranchTransition branchTransition = branchAction.getBranches_Branch().get(0);
 		ResourceDemandingBehaviour resourceDemandingBehaviour = branchTransition.getBranchBehaviour_BranchTransition();
 		
-		assertEquals(branchAction.getBranches_Branch().size(), 1);
-		assertEquals(resourceDemandingBehaviour.getSteps_Behaviour().size(), 2);
+		assertEquals("Guarded Branch Transition", branchTransition.getEntityName());
+		assertEquals(1, branchAction.getBranches_Branch().size());
+		assertEquals(2, resourceDemandingBehaviour.getSteps_Behaviour().size());
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof StopAction);
 	}
@@ -94,12 +96,12 @@ public class IfStatementVisitorTest {
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", ifStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement", "ifStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
 		
-		assertEquals(actionList.size(), 3);
+		assertEquals(3, actionList.size());
 		assertTrue(actionList.get(1) instanceof BranchAction);
 		
 		BranchAction branchAction = (BranchAction) actionList.get(1);
@@ -111,14 +113,14 @@ public class IfStatementVisitorTest {
 		ResourceDemandingBehaviour secondResourceDemandingBehaviour = secondBranchTransition.getBranchBehaviour_BranchTransition();
 		ResourceDemandingBehaviour thirdResourceDemandingBehaviour = thirdBranchTransition.getBranchBehaviour_BranchTransition();
 		
-		assertEquals(branchAction.getBranches_Branch().size(), 3);
-		assertEquals(firstResourceDemandingBehaviour.getSteps_Behaviour().size(), 2);
+		assertEquals(3, branchAction.getBranches_Branch().size());
+		assertEquals(2, firstResourceDemandingBehaviour.getSteps_Behaviour().size());
 		assertTrue(firstResourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
 		assertTrue(firstResourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof StopAction);
-		assertEquals(secondResourceDemandingBehaviour.getSteps_Behaviour().size(), 2);
+		assertEquals(2, secondResourceDemandingBehaviour.getSteps_Behaviour().size());
 		assertTrue(secondResourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
 		assertTrue(secondResourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof StopAction);
-		assertEquals(thirdResourceDemandingBehaviour.getSteps_Behaviour().size(), 2);
+		assertEquals(2, thirdResourceDemandingBehaviour.getSteps_Behaviour().size());
 		assertTrue(thirdResourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
 		assertTrue(thirdResourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof StopAction);
 	}
@@ -141,20 +143,20 @@ public class IfStatementVisitorTest {
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", ifStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement", "ifStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
 		
-		assertEquals(actionList.size(), 3);
+		assertEquals(3, actionList.size());
 		assertTrue(actionList.get(1) instanceof BranchAction);
 		
 		BranchAction branchAction = (BranchAction) actionList.get(1);
 		AbstractBranchTransition branchTransition = branchAction.getBranches_Branch().get(0);
 		ResourceDemandingBehaviour resourceDemandingBehaviour = branchTransition.getBranchBehaviour_BranchTransition();
 		
-		assertEquals(branchAction.getBranches_Branch().size(), 1);
-		assertEquals(resourceDemandingBehaviour.getSteps_Behaviour().size(), 3);
+		assertEquals(1, branchAction.getBranches_Branch().size());
+		assertEquals(3, resourceDemandingBehaviour.getSteps_Behaviour().size());
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof InternalAction);
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(2) instanceof StopAction);
@@ -176,20 +178,20 @@ public class IfStatementVisitorTest {
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", ifStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement", "ifStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
 		
-		assertEquals(actionList.size(), 3);
+		assertEquals(3, actionList.size());
 		assertTrue(actionList.get(1) instanceof BranchAction);
 		
 		BranchAction branchAction = (BranchAction) actionList.get(1);
 		AbstractBranchTransition branchTransition = branchAction.getBranches_Branch().get(0);
 		ResourceDemandingBehaviour resourceDemandingBehaviour = branchTransition.getBranchBehaviour_BranchTransition();
 		
-		assertEquals(branchAction.getBranches_Branch().size(), 1);
-		assertEquals(resourceDemandingBehaviour.getSteps_Behaviour().size(), 3);
+		assertEquals(1, branchAction.getBranches_Branch().size());
+		assertEquals(3, resourceDemandingBehaviour.getSteps_Behaviour().size());
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof BranchAction);
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(2) instanceof StopAction);
@@ -210,20 +212,20 @@ public class IfStatementVisitorTest {
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", ifStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement", "ifStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
 		
-		assertEquals(actionList.size(), 3);
+		assertEquals(3, actionList.size());
 		assertTrue(actionList.get(1) instanceof BranchAction);
 		
 		BranchAction branchAction = (BranchAction) actionList.get(1);
 		AbstractBranchTransition branchTransition = branchAction.getBranches_Branch().get(0);
 		ResourceDemandingBehaviour resourceDemandingBehaviour = branchTransition.getBranchBehaviour_BranchTransition();
 		
-		assertEquals(branchAction.getBranches_Branch().size(), 1);
-		assertEquals(resourceDemandingBehaviour.getSteps_Behaviour().size(), 3);
+		assertEquals(1, branchAction.getBranches_Branch().size());
+		assertEquals(3, resourceDemandingBehaviour.getSteps_Behaviour().size());
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(0) instanceof StartAction);
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(1) instanceof LoopAction);
 		assertTrue(resourceDemandingBehaviour.getSteps_Behaviour().get(2) instanceof StopAction);

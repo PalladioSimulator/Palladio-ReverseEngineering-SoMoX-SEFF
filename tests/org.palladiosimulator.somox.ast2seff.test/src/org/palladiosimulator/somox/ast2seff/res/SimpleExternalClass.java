@@ -28,7 +28,4 @@ public class SimpleExternalClass {
 	private void internalCallMethod() {
 		System.out.println("just some logging");
 	}
-	
-	// TODO: Parameter�bergabe
-	// TODO: External Calls
 }

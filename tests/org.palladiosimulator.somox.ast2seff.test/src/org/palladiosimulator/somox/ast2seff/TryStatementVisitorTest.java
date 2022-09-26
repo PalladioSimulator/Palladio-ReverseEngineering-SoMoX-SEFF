@@ -58,13 +58,14 @@ public class TryStatementVisitorTest {
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", tryStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("tryStatement", "tryStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
 		
 		assertEquals(actionList.size(), 3);
 		assertTrue(actionList.get(1) instanceof BranchAction);
+		assertEquals("Try Catch Branch", actionList.get(1).getEntityName());
 		
 		BranchAction branchAction = (BranchAction) actionList.get(1);
 		AbstractBranchTransition branchTransition = branchAction.getBranches_Branch().get(0);
@@ -92,7 +93,7 @@ public class TryStatementVisitorTest {
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", tryStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("tryStatement", "tryStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
@@ -139,7 +140,7 @@ public class TryStatementVisitorTest {
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", tryStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("tryStatement", "tryStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
@@ -175,7 +176,7 @@ public class TryStatementVisitorTest {
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", tryStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("tryStatement", "tryStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();
@@ -209,7 +210,7 @@ public class TryStatementVisitorTest {
 		MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", tryStatement);
 		MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("tryStatement", "tryStatement", "Interface", methodBundlePair);
 		ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-		actionSeff = Ast2SeffVisitor.perform(methodPalladioInformation, actionSeff, methodNameMap, componentInformation, create);
+		actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 		
 		ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
 		EList<AbstractAction> actionList = seff.getSteps_Behaviour();

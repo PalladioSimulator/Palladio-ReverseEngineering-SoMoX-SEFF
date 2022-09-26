@@ -1,5 +1,8 @@
 package org.palladiosimulator.somox.ast2seff;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -25,6 +28,10 @@ import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.palladiosimulator.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.repository.Interface;
+import org.palladiosimulator.pcm.repository.OperationInterface;
+import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.SeffFactory;
 import org.palladiosimulator.somox.ast2seff.jobs.Ast2SeffJob;
@@ -80,42 +87,6 @@ public class Ast2SeffTest {
         }
         return compilationUnits;
     }
-
-    @Disabled
-    @Test
-    public void testSimpleClass() throws JobFailedException, UserCanceledException, IOException {
-    	
-        ASTParser parser = ASTParser.newParser(AST.getJLSLatest());
-        parser.setResolveBindings(true);
-        parser.setKind(ASTParser.K_COMPILATION_UNIT);
-        parser.setBindingsRecovery(true);
-        File resource = new File("src/org/palladiosimulator/somox/ast2seff/res/SimpleClass.java");
-        java.nio.file.Path sourcePath = Paths.get(resource.toURI());
-        String sourceString = new String(Files.readAllBytes(sourcePath));
-        char[] source = sourceString.toCharArray();
-        parser.setSource(source);
-        parser.setUnitName(sourcePath.toAbsolutePath().toString());
-        CompilationUnit astRoot = (CompilationUnit) parser.createAST(null);
-        
-        Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = new HashMap<>();
-        
-        List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(astRoot);
-        for (MethodDeclaration methodDeclaration : methodDeclarations) {
-        	ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
-            methodBindingMap.put(methodDeclaration, seff);
-        }
-
-        Ast2SeffJob ast2SeffJob = new Ast2SeffJob();
-        // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
-        Blackboard<Object> blackboard = new Blackboard<>();
-        
-        blackboard.addPartition("methodBindingMap", methodBindingMap);
-        
-        ast2SeffJob.setBlackboard(blackboard);
-        NullProgressMonitor progressMonitor = new NullProgressMonitor();
-        ast2SeffJob.execute(progressMonitor);
-        // TODO Formulate assertions for blackboard content (= results of execution)
-    }
     
     @Test
     public void testAllClassesInDirectory() throws JobFailedException, UserCanceledException, IOException {
@@ -130,7 +101,7 @@ public class Ast2SeffTest {
 			for (MethodDeclaration methodDeclaration : methodDeclarations) {
 				List<IExtendedModifier> modifierList = (List<IExtendedModifier>) methodDeclaration.modifiers();
 				
-				// Generate a seff for public methods only
+				// Generate a SEFF for public methods
 				IExtendedModifier firstModifier = modifierList.get(0);
 				if (firstModifier.isModifier()) {
 					Modifier modifier = (Modifier) firstModifier;
@@ -151,6 +122,7 @@ public class Ast2SeffTest {
         
        
         Ast2SeffJob ast2SeffJob = new Ast2SeffJob();
+        
         // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
         Blackboard<Object> blackboard = new Blackboard<>();
         
@@ -159,44 +131,26 @@ public class Ast2SeffTest {
         ast2SeffJob.setBlackboard(blackboard);
         NullProgressMonitor progressMonitor = new NullProgressMonitor();
         ast2SeffJob.execute(progressMonitor);
-        // TODO Formulate assertions for blackboard content (= results of execution)
-    }
-    
-    @Test
-    @Disabled
-    public void testSimpleExternalClass() throws JobFailedException, UserCanceledException, IOException {
-    	
-        ASTParser parser = ASTParser.newParser(AST.getJLSLatest());
-        parser.setResolveBindings(true);
-        parser.setKind(ASTParser.K_COMPILATION_UNIT);
-        parser.setBindingsRecovery(true);
-        parser.setStatementsRecovery(true);
-        File resource = new File("src/org/palladiosimulator/somox/ast2seff/res/SimpleExternalClass.java");
-        java.nio.file.Path sourcePath = Paths.get(resource.toURI());
-        String sourceString = new String(Files.readAllBytes(sourcePath));
-        char[] source = sourceString.toCharArray();
-        parser.setSource(source);
-        parser.setUnitName(sourcePath.toAbsolutePath().toString());
-        CompilationUnit astRoot = (CompilationUnit) parser.createAST(null);
         
-        Map<MethodDeclaration, ResourceDemandingSEFF> methodBindingMap = new HashMap<>();
+        Repository repository = (Repository) blackboard.getPartition("repository");
         
-        List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(astRoot);
-        for (MethodDeclaration methodDeclaration : methodDeclarations) {
-        	ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
-            methodBindingMap.put(methodDeclaration, seff);
-        }
-
-        Ast2SeffJob ast2SeffJob = new Ast2SeffJob();
-        // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
-        Blackboard<Object> blackboard = new Blackboard<>();
+        assertNotNull(repository);
         
-        blackboard.addPartition("methodBindingMap", methodBindingMap);
+        assertEquals(2, repository.getComponents__Repository().size());
+        assertEquals(2, repository.getInterfaces__Repository().size());
         
-        ast2SeffJob.setBlackboard(blackboard);
-        NullProgressMonitor progressMonitor = new NullProgressMonitor();
-        ast2SeffJob.execute(progressMonitor);
-        // TODO Formulate assertions for blackboard content (= results of execution)
+        BasicComponent basicComponentOne = (BasicComponent) repository.getComponents__Repository().get(0);
+        BasicComponent basicComponentTwo = (BasicComponent) repository.getComponents__Repository().get(1);
+        OperationInterface interfaceOne = (OperationInterface) repository.getInterfaces__Repository().get(0);
+        OperationInterface interfaceTwo = (OperationInterface) repository.getInterfaces__Repository().get(1);
+        
+        assertEquals(4, basicComponentOne.getServiceEffectSpecifications__BasicComponent().size());
+        assertEquals(14, basicComponentTwo.getServiceEffectSpecifications__BasicComponent().size());
+        assertEquals(1, basicComponentOne.getProvidedRoles_InterfaceProvidingEntity().size());
+        assertEquals(1, basicComponentOne.getRequiredRoles_InterfaceRequiringEntity().size());
+        assertEquals(1, basicComponentTwo.getProvidedRoles_InterfaceProvidingEntity().size());
+        assertEquals(4, interfaceOne.getSignatures__OperationInterface().size());
+        assertEquals(14, interfaceTwo.getSignatures__OperationInterface().size());
     }
     
 }

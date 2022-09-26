@@ -1,7 +1,10 @@
 package org.palladiosimulator.somox.ast2seff.util;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.eclipse.jdt.core.dom.BooleanLiteral;
+import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.CharacterLiteral;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.Expression;
@@ -12,18 +15,31 @@ import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.PostfixExpression;
+import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.ReturnStatement;
+import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.StringLiteral;
+import org.eclipse.jdt.core.dom.SwitchCase;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.TryStatement;
+import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.WhileStatement;
+import org.eclipse.jdt.core.dom.SwitchCase;
 import org.palladiosimulator.somox.ast2seff.visitors.Ast2SeffVisitor;
 
 public class NameUtil {
 	
-	private static final Logger logger = Logger.getLogger(Ast2SeffVisitor.class);
+	private static final Logger LOGGER = Logger.getLogger(Ast2SeffVisitor.class);
+	
+	public static final String START_ACTION_NAME = "Start Action";
+	public static final String STOP_ACTION_NAME = "Stop Action";
+	public static final String RELEASE_ACTION_NAME = "Release Action";
+	public static final String ACQUIRE_ACTION_NAME = "Acquire Action";
+	public static final String LOOP_ACTION_NAME = "Loop Action";
+	public static final String BRANCH_ACTION_NAME = "Branch Action";
 
 	public static String getClassName(MethodInvocation methodInvocation) {
 		return NameUtil.getClassName(methodInvocation.getExpression());
@@ -36,7 +52,7 @@ public class NameUtil {
 			if (bindingExpression != null && bindingExpression.getPackage() != null) {
 				result = bindingExpression.getBinaryName();
 			} else {
-				logger.warn("No Class Name found for: " + calledClass.toString());							
+				LOGGER.warn("No Class Name found for: " + calledClass.toString());							
 			}
 		}
 		return result;
@@ -73,48 +89,20 @@ public class NameUtil {
 		}
 	}
 	
-	public static String getConditionString(IfStatement ifStatement) {
-		Expression expression = ifStatement.getExpression();
-		
-		final StringBuilder positionString = new StringBuilder(" @position: ");
-		positionString.append("Cond: if(").append(expression).append(")");
-		return positionString.toString();
+	public static String getEntityName(ReturnStatement returnStatement) {		
+		return returnStatement.getExpression().toString();
 	}
-	
-	public static String getEntityName(Statement elseStatement) {		
-		final StringBuilder positionString = new StringBuilder(" @position: ");
-		positionString.append("Cond: ").append("else").append("");
-		return positionString.toString();
-	}
-	
-//	public static String getEntityName(TryStatement tryStatement) {
-		//Expression expression = tryStatement.catchClauses();
-		
-		//final StringBuilder positionString = new StringBuilder(" @position: ");
-		//positionString.append("Cond: if(").append(expression).append(")");
-		//branchTransitionElse.setEntityName(positionString.toString());
-//	}
-	
-//	public static String getEntityName(List<Statement> block) {
-		//cant access block name. mb need to rewrite Blocklist
-		
-		//Expression expression = tryStatement.catchClauses();
-		
-		//final StringBuilder positionString = new StringBuilder(" @position: ");
-		//positionString.append("Cond: if(").append(expression).append(")");
-		//branchTransitionElse.setEntityName(positionString.toString());
-//	}
-	
+
 	public static String getEntityName(final ForStatement forStatement) {
 		Expression initializers = (Expression) forStatement.initializers().get(0);
 		Expression updaters = (Expression) forStatement.updaters().get(0);
 		Expression expression = forStatement.getExpression(); 
 		
-		final StringBuilder positionString = new StringBuilder(" @position: ");
+		final StringBuilder positionString = new StringBuilder("@position: ");
 		if (initializers instanceof VariableDeclarationExpression && expression instanceof InfixExpression && updaters instanceof PostfixExpression) {
 			positionString.append(" from ").append(initializers).append(" to ").append(expression).append(" with ").append(updaters);
 		} else {
-			positionString.append("no position information available");
+			positionString.append("No position information available");
 		}
 		return positionString.toString();
 	}
@@ -123,7 +111,7 @@ public class NameUtil {
 		SingleVariableDeclaration variableDeclaration = forStatement.getParameter();
 		Expression expression = forStatement.getExpression();
 		
-		final StringBuilder positionString = new StringBuilder(" @position: ");
+		final StringBuilder positionString = new StringBuilder("@position: ");
 		positionString.append("for (").append(variableDeclaration).append(" : ").append(expression).append(")");
 		return positionString.toString();
 	}
@@ -131,34 +119,70 @@ public class NameUtil {
 	public static String getEntityName(final WhileStatement whileStatement) {
 		Expression expression = whileStatement.getExpression();
 		
-		final StringBuilder positionString = new StringBuilder(" @position: ");
-		positionString.append("expression name \"").append(expression).append("\"");
+		final StringBuilder positionString = new StringBuilder("@position: ");
+		positionString.append("while (").append(expression).append(")");
 		return positionString.toString();
 	}
 	
 	public static String getEntityName(final SwitchStatement switchStatement) {
 		return "Switch Branch";			
 	}
+	
 	public static String getEntityName(final IfStatement ifStatement) {
 		return "If Branch";
 	}
+	
 	public static String getEntityName(final TryStatement tryStatement) {
 		return "Try Catch Branch";
 	}
-	public static String getEntityName(String className) {
-		return className;
+	
+	public static String getIfStatementConditionString(IfStatement ifStatement) {
+		Expression expression = ifStatement.getExpression();
+		
+		final StringBuilder conditionString = new StringBuilder("@position: ");
+		conditionString.append("Condition: if(").append(expression).append(")");
+		return conditionString.toString();
 	}
 	
+	public static String getElseStatementConditionString() {
+		final StringBuilder positionString = new StringBuilder("@position: ");
+		positionString.append("Condition: ").append("else").append("");
+		return positionString.toString();
+	}
 	
-//	public static String whileStatementToString(Expression expression) {
-//		final StringBuilder positionString = new StringBuilder(" @position: ");
-//		positionString.append("expression name \"").append(expression).append("\"");
-//		return positionString.toString();
-//	}
+	public static String getTryStatementConditionString() {
+		final StringBuilder positionString = new StringBuilder("@position: ");
+		positionString.append("Try Block");
+		return positionString.toString();
+	}
+
+	public static String getCatchClauseConditionString(CatchClause catchClause) {
+		
+		String expression = "Exception";
+		Type type = catchClause.getException().getType();
+		
+		if (type.isSimpleType()) {
+			expression = ((SimpleType) type).getName().toString();
+		} else if (type.isPrimitiveType()) {
+			expression = ((PrimitiveType) type).toString();
+		}
+		
+		final StringBuilder conditionString = new StringBuilder("@position: ");
+		conditionString.append("Condition: catch ").append(expression);
+		return conditionString.toString();
+	}
 	
-//	public static String elseStatementToString(Expression expression) {
-//		final StringBuilder positionString = new StringBuilder(" @position: ");
-//		positionString.append("Cond: !").append(expression).append("");
-//		return positionString.toString();
-//	}
+	public static String getSwitchCaseConditionString(SwitchCase switchCase) {
+		List<Expression> expressionList = switchCase.expressions();
+		String expressionString = "";
+		
+		for(Expression expression : expressionList) {
+			expressionString += expression.toString();
+		}
+		
+		// TODO: Finish function
+		final StringBuilder conditionString = new StringBuilder("@position: ");
+		conditionString.append("Condition: if(").append(expressionString).append(")");
+		return conditionString.toString();
+	}
 }

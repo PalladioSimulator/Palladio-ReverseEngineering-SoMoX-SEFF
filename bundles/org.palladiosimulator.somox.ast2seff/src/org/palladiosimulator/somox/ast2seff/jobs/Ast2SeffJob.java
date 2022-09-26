@@ -39,6 +39,7 @@ import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.somox.ast2seff.models.ComponentInformation;
 import org.palladiosimulator.somox.ast2seff.models.MethodBundlePair;
 import org.palladiosimulator.somox.ast2seff.models.MethodPalladioInformation;
+import org.palladiosimulator.somox.ast2seff.util.NameUtil;
 import org.palladiosimulator.somox.ast2seff.visitors.Ast2SeffVisitor;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
@@ -48,10 +49,9 @@ import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
- * Transformation Job transforming a SAM instance with GAST Behaviours into a SAM instance with SEFF
- * behaviours
+ * Transformation Job transforming a JDT AST instance into a SEFF using the FluentAPI
  *
- * @author Steffen Becker, Klaus Krogmann
+ * @author Marcel Rühle, Fabian Wenzel
  */
 public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>> {
 
@@ -68,17 +68,17 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
     public Ast2SeffJob() { }
 
-    
-    
-    /*
-     * (non-Javadoc)
+    /**
+     * This function executes the Ast2Seff execution process
+     * It requires that the bundleName2methodAssociationMap is set inside the blackboard and processes it via the Ast2SeffVisitor
      *
      * @see de.uka.ipd.sdq.workflow.IJob#execute(org.eclipse.core.runtime.IProgressMonitor)
      */
     @Override
     public void execute(final IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
-
-        monitor.subTask("loading models from blackboard");
+    	LOGGER.info("Executing SEFF Creation Job.");
+    	
+        monitor.subTask("Loading models from blackboard");
 
         try {
             this.bundleName2methodBundleMap = (Map<String, List<MethodBundlePair>>) this.blackboard
@@ -87,8 +87,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
             LOGGER.error(e);
         }
 
-        RepoAddition repoAddition = create.newRepository()
-            .withName("Simple Repository");
+        RepoAddition repoAddition = create.newRepository().withName("Repository");
 
         LOGGER.info("Found " + bundleName2methodBundleMap.size() + " Bundles. Computing Interfaces.");
         int counter = 0;
@@ -97,40 +96,44 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
         final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
         subMonitor.setTaskName("Creating SEFF behaviour");
-        LOGGER.info("Interfaces done. Computing " + counter + " SEFFs.");
-
+        
+        LOGGER.info("Created Interfaces. Computing " + counter + " SEFFs.");
         createSeffsForComponents(repoAddition, monitor);
 
-        LOGGER.info("SEFFs done. Creating Repository.");
+        LOGGER.info("Created SEFFs. Creating Repository.");
         Repository repository = repoAddition.createRepositoryNow();
 
-        LOGGER.info("Repository done. Creating XML.");
+        LOGGER.info("Created Repository. Creating XML.");
         this.generateSeffXmlFile(repository);
 
-        LOGGER.info("Task finished.");
+        LOGGER.info("Created XML. Task finished.");
         subMonitor.done();
+        
+        this.blackboard.addPartition("repository", repository);
     }
     
+    /**
+     * This function creates the BasicComponents and their corresponding SEFF objects for each passed methodBundlePair
+     * 
+     * @param repoAddition the Repository where BasicComponents are added
+     * @param monitor IProgressMonitor for IBlackboardInteractingJob interaction (@see de.uka.ipd.sdq.workflow.IJob#IProgressMonitor(org.eclipse.core.runtime.IProgressMonitor))
+     */
     private void createSeffsForComponents(RepoAddition repoAddition, IProgressMonitor monitor) {
         for (Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
             String bundleName = entry.getKey();
+            String interfaceName = "I" + bundleName;
+            
             List<MethodBundlePair> methodBundleList = entry.getValue();
 
             BasicComponentCreator basicComponentCreator = create.newBasicComponent()
                 .withName(bundleName)
-                .provides(create.fetchOfOperationInterface(bundleName));
+                .provides(create.fetchOfOperationInterface(interfaceName), interfaceName);
             ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
 
             for (MethodBundlePair methodBundlePair : methodBundleList) {
                 MethodPalladioInformation methodPalladioInformation = methodBundlePalladioInfoMap.get(methodBundlePair);
-                try {
-					basicComponentCreator
-					    .withServiceEffectSpecification(this.createSeff(methodPalladioInformation, componentInformation)
-					        .withName(methodPalladioInformation.getMethodName()));
-				} catch (JobFailedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				basicComponentCreator
+				    .withServiceEffectSpecification(this.createSeffCreator(methodPalladioInformation, componentInformation));
                 monitor.worked(1);
             }
 
@@ -138,16 +141,24 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
         }
     }
     
+    /**
+     * This function creates the interfaces for each bundle
+     * It also adds the information for the methodPalladioInfoMap and the methodBundlePalladioInfoMap for the Ast2SeffVisitor
+     * 
+     * @param repoAddition the Repository where Interfaces are added
+     * @param counter counts how many interfaces are computed for logging
+     */
     private void createOperationInterfacesForRepository(RepoAddition repoAddition, int counter) {
     	for (Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
             String bundleName = entry.getKey();
+            String interfaceName = "I" + bundleName;
             List<MethodBundlePair> methodAssociationListOfBundle = entry.getValue();
             LOGGER.info("Found " + methodAssociationListOfBundle.size() + " methods to " + bundleName
                     + ". Computing Interfaces.");
             counter += methodAssociationListOfBundle.size();
 
             OperationInterfaceCreator bundleOperationInterfaceCreator = create.newOperationInterface()
-                .withName(bundleName);
+                .withName(interfaceName);
 
             for (MethodBundlePair methodBundlePair : methodAssociationListOfBundle) {
                 MethodDeclaration methodDeclaration = (MethodDeclaration) methodBundlePair.getAstNode();
@@ -170,10 +181,9 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                     .toString();
                 String operationSignatureName = methodDeclaration.getName()
                     .toString();
-                String operationInterfaceName = bundleName;
                 if (!this.methodPalladioInfoMap.containsKey(key)) {
                     MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation(key,
-                            operationSignatureName, operationInterfaceName, methodBundlePair);
+                            operationSignatureName, interfaceName, methodBundlePair);
                     this.methodPalladioInfoMap.put(key, methodPalladioInformation);
                     this.methodBundlePalladioInfoMap.put(methodBundlePair, methodPalladioInformation);
                 }
@@ -201,11 +211,18 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
         }
     }
     
+    /**
+     * This function takes a list of variable Declarations, traverses it and adds them depending on their type to the operationSignature
+     * 
+     * @param singleVariableDeclarationList a List of variables that should be added
+     * @param repoAddition the Repository where DataTypes are added
+     * @param methodOperationSignature the Signature where variables are added 
+     */
     private void setParametersToSignature(List<SingleVariableDeclaration> singleVariableDeclarationList, RepoAddition repoAddition, OperationSignatureCreator methodOperationSignature) {
     	for (SingleVariableDeclaration variableDeclaration : singleVariableDeclarationList) {
             Type type = variableDeclaration.getType();
-            String parameterName = variableDeclaration.getName()
-                .toString();
+            String parameterName = variableDeclaration.getName().toString();
+            
             if (type.isPrimitiveType()) {
                 PrimitiveType primitiveType = (PrimitiveType) type;
                 String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode()
@@ -220,16 +237,19 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                     methodOperationSignature.withParameter(parameterName, primitive, ParameterModifier.IN);
                     parameterList.add(primitiveTypeCodeString);
                 }
+                
             } else if (type.isSimpleType()) {
                 SimpleType simpleType = (SimpleType) type;
 
                 if (!parameterList.contains(simpleType.toString())) {
                     CompositeDataTypeCreator compositeDataType = create.newCompositeDataType()
                         .withName(simpleType.toString());
-                    if (simpleType.toString()
-                        .equals("SimpleClass"))
-                        compositeDataType = compositeDataType.withInnerDeclaration("counter",
-                                Primitive.INTEGER);
+                    
+                    // Limitation / Future Work: How to add inner declarations to composite data types 
+//                    if (simpleType.toString().equals("SimpleClass")) {
+//                    	compositeDataType = compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
+//                    } 
+                    
                     repoAddition.addToRepository(compositeDataType);
                     parameterList.add(simpleType.toString());
                 }
@@ -252,36 +272,38 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     }
 
     /**
-     * Create a new PCM SEFF.
-     *
-     * @param seff
-     *            The SEFF which is filled by this method
-     * @param methodDeclaration
-     * @return The completed SEFF, returned for convenience
-     * @throws JobFailedException
+     * This function creates a new SeffCreator object, adds the signature and traverses all children to create a new SEFF with their matching functionality.
+     * 
+     * @param methodPalladioInformation contains the OperationSignatureName for a fetch on the SEFF and the MethodBundlePair for the Ast2SeffVisitor
+     * @param componentInformation informations about the component thats is currently parsed
+     * @return SeffCreator object returns the SeffCreator with all informations in it
      */
-    private SeffCreator createSeff(MethodPalladioInformation methodPalladioInformation,
-            ComponentInformation componentInformation) throws JobFailedException {
+    private SeffCreator createSeffCreator(MethodPalladioInformation methodPalladioInformation,
+            ComponentInformation componentInformation) {
         ActionSeff actionSeff = create.newSeff()
             .onSignature(create.fetchOfSignature(methodPalladioInformation.getOperationSignatureName()))
             .withSeffBehaviour()
             .withStartAction()
-            .withName("Start Action")
+            .withName(NameUtil.START_ACTION_NAME)
             .followedBy();
 
         return Ast2SeffVisitor
-            .perform(methodPalladioInformation, actionSeff, this.methodPalladioInfoMap, componentInformation, create)
+            .perform(methodPalladioInformation.getMethodBundlePair(), actionSeff, this.methodPalladioInfoMap, componentInformation, create)
             .stopAction()
-            .withName("Stop Action")
+            .withName(NameUtil.STOP_ACTION_NAME)
             .createBehaviourNow();
     }
 
+    /**
+     * This function generates a XML File based on the given repository.
+     * 
+     * @param repository the previously created repository that should be a file output
+     */
     private void generateSeffXmlFile(final Repository repository) {
 
         EcorePlugin.ExtensionProcessor.process(null);
         Resource resource = new ResourceSetImpl().createResource(URI.createFileURI("Repository.xml"));
-        resource.getContents()
-            .add(repository);
+        resource.getContents().add(repository);
 
         try {
             resource.save(Collections.EMPTY_MAP);
@@ -291,8 +313,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     }
 
     /**
-     * @param blackBoard
-     *            the blackBoard to set
+     * @param blackBoard The BlackBoard to set
      */
     @Override
     public void setBlackboard(final Blackboard<Object> blackBoard) {
@@ -300,9 +321,14 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     }
 
     @Override
-    public void cleanup(final IProgressMonitor monitor) throws CleanupFailedException {
-    }
+    public void cleanup(final IProgressMonitor monitor) throws CleanupFailedException { }
 
+    /**
+     * Private function that maps code strings to primitive types
+     * 
+     * @param primitiveTypeCodeString String that should be mapped to type
+     * @return Primitive type matching to the String
+     */
     private Primitive getPrimitiveType(String primitiveTypeCodeString) {
         if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
             return Primitive.INTEGER;

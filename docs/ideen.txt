@@ -1,0 +1,23 @@
+Start:
+unser Projekt zeigt genau der grund warum es unser projekt gibt
+man fängt an an einem neuem projekt zu arbeiten
+Haufen code
+Blickt nicht durch
+versucht sich zu helfen
+Code kaputt
+Miro board
+alles von hand => keine garantie ob richtig
+wäre gut wenn es automatisierte Code analyse gäbe
+
+überleitung PCM
+überleitung Seff
+überleitung Alter code (Jmopp probleme)
+überleitung neuer code (JDT AST)
+überleitung visitor pattern
+überleitung direkter vergleich (was konnten wir / was können die)
+überleitung integration Fluent-Api
+überleitung fix von Fluent-Api
+überleitung beispiel analyse von unserem Programm
+überleitung Testing
+überleitung Future work (mögliche weitere visitatoren / Laufzeit analyse)
+Überleitung Ende

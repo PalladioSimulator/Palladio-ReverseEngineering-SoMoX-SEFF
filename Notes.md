@@ -344,7 +344,7 @@ Bearbeitete Aufgaben:
 - Doku (Ãœberschriften planen, an anderen Projekten orientieren)
 
 ### Offene Aufgaben (Aufschrieb Marcel 29.08)
-- .project aus gitignore nehmen und in Fork hinzufügen
+- .project aus gitignore nehmen und in Fork hinzufï¿½gen
 - Jenkinsfile loeschen
 - resource ordner fuer SimpleClass / SimpleExternalClass erstellen (niedrige prio, link im teams)
 - gast2seff -> ast2seff
