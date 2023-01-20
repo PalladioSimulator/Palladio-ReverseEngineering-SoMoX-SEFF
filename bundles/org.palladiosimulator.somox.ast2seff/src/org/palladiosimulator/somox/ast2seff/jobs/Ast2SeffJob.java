@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -65,7 +66,8 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     private Map<String, List<MethodBundlePair>> bundleName2methodBundleMap;
     private List<String> parameterList = new ArrayList<String>();
 
-    public Ast2SeffJob() {
+    public Ast2SeffJob(Blackboard<Object> blackboard) {
+        this.blackboard = Objects.requireNonNull(blackboard);
     }
 
     /**

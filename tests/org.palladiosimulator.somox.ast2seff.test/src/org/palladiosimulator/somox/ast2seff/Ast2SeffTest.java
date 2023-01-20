@@ -115,14 +115,12 @@ public class Ast2SeffTest {
             }
         }
 
-        Ast2SeffJob ast2SeffJob = new Ast2SeffJob();
+        Blackboard<Object> blackboard = new Blackboard<>();
+        Ast2SeffJob ast2SeffJob = new Ast2SeffJob(blackboard);
 
         // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
-        Blackboard<Object> blackboard = new Blackboard<>();
-
         blackboard.addPartition("bundleName2methodAssociationMap", bundleName2methodAssociationMap);
 
-        ast2SeffJob.setBlackboard(blackboard);
         NullProgressMonitor progressMonitor = new NullProgressMonitor();
         ast2SeffJob.execute(progressMonitor);
 
