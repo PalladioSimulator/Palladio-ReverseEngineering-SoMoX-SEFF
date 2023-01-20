@@ -64,7 +64,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     private Map<String, MethodPalladioInformation> methodPalladioInfoMap = new HashMap<>();
     private Map<MethodBundlePair, MethodPalladioInformation> methodBundlePalladioInfoMap = new HashMap<>();
     private Map<String, List<MethodBundlePair>> bundleName2methodBundleMap;
-    private List<String> parameterList = new ArrayList<String>();
+    private List<String> parameterList = new ArrayList<>();
 
     public Ast2SeffJob(Blackboard<Object> blackboard) {
         this.blackboard = Objects.requireNonNull(blackboard);

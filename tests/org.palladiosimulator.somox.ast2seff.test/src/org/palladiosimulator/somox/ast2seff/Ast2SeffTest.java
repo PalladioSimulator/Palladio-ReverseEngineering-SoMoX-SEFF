@@ -88,7 +88,7 @@ public class Ast2SeffTest {
         Map<String, CompilationUnit> compUnitMap = parseDirectory(directoryPath);
 
         Map<String,
-                List<MethodBundlePair>> bundleName2methodAssociationMap = new HashMap<String, List<MethodBundlePair>>();
+                List<MethodBundlePair>> bundleName2methodAssociationMap = new HashMap<>();
 
         for (var entry : compUnitMap.entrySet()) {
             List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(entry.getValue());
@@ -106,7 +106,7 @@ public class Ast2SeffTest {
                             bundleName2methodAssociationMap.get(className)
                                     .add(new MethodBundlePair(className, methodDeclaration));
                         } else {
-                            List<MethodBundlePair> methodAssociationList = new ArrayList<MethodBundlePair>();
+                            List<MethodBundlePair> methodAssociationList = new ArrayList<>();
                             methodAssociationList.add(new MethodBundlePair(className, methodDeclaration));
                             bundleName2methodAssociationMap.put(className, methodAssociationList);
                         }
