@@ -60,14 +60,16 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
     /** The SoMoX blackboard to interact with. */
     private Blackboard<Object> blackboard;
+    private final String repositoryOutputKey;
 
     private Map<String, MethodPalladioInformation> methodPalladioInfoMap = new HashMap<>();
     private Map<MethodBundlePair, MethodPalladioInformation> methodBundlePalladioInfoMap = new HashMap<>();
     private Map<String, List<MethodBundlePair>> bundleName2methodBundleMap;
     private List<String> parameterList = new ArrayList<>();
 
-    public Ast2SeffJob(Blackboard<Object> blackboard) {
+    public Ast2SeffJob(Blackboard<Object> blackboard, String repositoryOutputKey) {
         this.blackboard = Objects.requireNonNull(blackboard);
+        this.repositoryOutputKey = Objects.requireNonNull(repositoryOutputKey);
     }
 
     /**
@@ -111,7 +113,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
         LOGGER.info("Created XML. Task finished.");
         subMonitor.done();
 
-        this.blackboard.addPartition("repository", repository);
+        this.blackboard.addPartition(repositoryOutputKey, repository);
     }
 
     /**

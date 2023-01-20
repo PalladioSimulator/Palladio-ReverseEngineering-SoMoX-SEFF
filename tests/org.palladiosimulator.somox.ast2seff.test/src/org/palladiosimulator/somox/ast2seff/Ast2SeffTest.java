@@ -116,7 +116,8 @@ public class Ast2SeffTest {
         }
 
         Blackboard<Object> blackboard = new Blackboard<>();
-        Ast2SeffJob ast2SeffJob = new Ast2SeffJob(blackboard);
+        String repositoryOutputKey = "repository";
+        Ast2SeffJob ast2SeffJob = new Ast2SeffJob(blackboard, repositoryOutputKey);
 
         // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
         blackboard.addPartition("bundleName2methodAssociationMap", bundleName2methodAssociationMap);
@@ -124,7 +125,7 @@ public class Ast2SeffTest {
         NullProgressMonitor progressMonitor = new NullProgressMonitor();
         ast2SeffJob.execute(progressMonitor);
 
-        Repository repository = (Repository) blackboard.getPartition("repository");
+        Repository repository = (Repository) blackboard.getPartition(repositoryOutputKey);
 
         assertNotNull(repository);
 
