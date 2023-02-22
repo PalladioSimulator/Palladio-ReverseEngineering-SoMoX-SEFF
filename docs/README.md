@@ -78,7 +78,7 @@ Now that the foundation of our project is clear we can jump right into it. To ge
 
 1. Install Java (jdk-11)
 2. Install Maven (latest)
-3. Install [Eclipse 2021-12](https://www.eclipse.org/downloads/packages/release/2021-12/r/eclipse-modeling-tools)
+3. Install [Eclipse 2022-12](https://www.eclipse.org/downloads/packages/release/2022-12/r/eclipse-modeling-tools)
 4. Open Eclipse and navigate to Help > Install New Software...
 5. Install [Palladio Build Updatesite](https://updatesite.palladio-simulator.com/palladio-build-updatesite/nightly/), [Palladio Core Commons](https://updatesite.palladio-simulator.com/palladio-core-commons/nightly/), [Palladio Reverse Engineering Java](https://updatesite.palladio-simulator.com/palladio-reverseengineering-java/nightly/) and [Palladio FluentAPI Model Generator](https://updatesite.palladio-simulator.com/palladio-addons-fluentapimodelgenerator/nightly/)
 	1. Always accept the warnings and install the software anyway
