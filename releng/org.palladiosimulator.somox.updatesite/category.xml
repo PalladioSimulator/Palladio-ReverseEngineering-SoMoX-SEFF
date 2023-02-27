@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
     <!-- add features here -->
-    <feature id="org.palladiosimulator.somox.core.feature">
+    <feature id="org.palladiosimulator.somox.ast2seff.feature">
         <category name="org.palladiosimulator.reverseengineering.category" />
     </feature>
+    <feature id="org.palladiosimulator.somox.ast2seff.feature.source">
+        <category name="org.palladiosimulator.reverseengineering.category" />
+    </feature>    
     <!-- category definitions -->
     <category-def name="org.palladiosimulator.reverseengineering.category"
         label="Palladio Bench Reverse Engineering Features">
