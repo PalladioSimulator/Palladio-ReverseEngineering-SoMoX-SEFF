@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.palladiosimulator.somox.core.feature"
+      id="org.palladiosimulator.somox.ast2seff.feature"
       label="Ast2Seff Core Feature"
       version="5.1.0.qualifier"
       provider-name="palladiosimulator.org"
