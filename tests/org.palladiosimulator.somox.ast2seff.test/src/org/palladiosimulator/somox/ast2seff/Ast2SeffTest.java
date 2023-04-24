@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +16,7 @@ import java.util.stream.Stream;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FileASTRequestor;
@@ -25,11 +25,14 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.junit.jupiter.api.Test;
+import org.palladiosimulator.generator.fluent.repository.api.RepoAddition;
+import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
+import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationSignatureCreator;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.Repository;
+import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.somox.ast2seff.jobs.Ast2SeffJob;
-import org.palladiosimulator.somox.ast2seff.models.MethodBundlePair;
 import org.palladiosimulator.somox.ast2seff.util.MethodDeclarationFinder;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
@@ -86,30 +89,42 @@ public class Ast2SeffTest {
 
         Path directoryPath = Path.of("src/org/palladiosimulator/somox/ast2seff/res");
         Map<String, CompilationUnit> compUnitMap = parseDirectory(directoryPath);
-
-        Map<String,
-                List<MethodBundlePair>> bundleName2methodAssociationMap = new HashMap<>();
+        Map<ASTNode, ServiceEffectSpecification> ast2seffMap = new HashMap<>();
 
         for (var entry : compUnitMap.entrySet()) {
             List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(entry.getValue());
             for (MethodDeclaration methodDeclaration : methodDeclarations) {
                 List<IExtendedModifier> modifierList = methodDeclaration.modifiers();
 
-                // Generate a SEFF for public methods
+                // Check whether method declaration belongs to public method
                 IExtendedModifier firstModifier = modifierList.get(0);
                 if (firstModifier.isModifier()) {
                     Modifier modifier = (Modifier) firstModifier;
                     if (modifier.isPublic()) {
                         TypeDeclaration typeDeclaration = (TypeDeclaration) methodDeclaration.getParent();
                         String className = typeDeclaration.getName().toString();
-                        if (bundleName2methodAssociationMap.containsKey(className)) {
-                            bundleName2methodAssociationMap.get(className)
-                                    .add(new MethodBundlePair(className, methodDeclaration));
-                        } else {
-                            List<MethodBundlePair> methodAssociationList = new ArrayList<>();
-                            methodAssociationList.add(new MethodBundlePair(className, methodDeclaration));
-                            bundleName2methodAssociationMap.put(className, methodAssociationList);
-                        }
+                        String methodName = methodDeclaration.getName().toString();
+
+                        // Create empty placeholder service effect specification for chosen method declarations
+                        FluentRepositoryFactory fluentFactory = new FluentRepositoryFactory();
+                        RepoAddition fluentRepository = fluentFactory.newRepository();
+                        OperationSignatureCreator operationSignatureCreator = fluentFactory.newOperationSignature()
+                                .withName(methodName);
+                        OperationInterface operationInterface = fluentFactory.newOperationInterface()
+                                // TODO Evaluate alternatives for interface name. Is there a better name based on input?
+                                .withName("I" + className)
+                                .withOperationSignature(operationSignatureCreator)
+                                .build();
+                        BasicComponent basicComponent = fluentFactory.newBasicComponent()
+                                .withName(className)
+                                .provides(operationInterface)
+                                .build();
+                        ServiceEffectSpecification seff = fluentFactory.newSeff().buildRDSeff();
+                        seff.setBasicComponent_ServiceEffectSpecification(basicComponent);
+                        seff.setDescribedService__SEFF(operationInterface.getSignatures__OperationInterface().get(0));
+
+                        // Add method declaration and ast node to map
+                        ast2seffMap.put(methodDeclaration, seff);
                     }
                 }
             }
@@ -118,9 +133,7 @@ public class Ast2SeffTest {
         Blackboard<Object> blackboard = new Blackboard<>();
         String repositoryOutputKey = "repository";
         Ast2SeffJob ast2SeffJob = new Ast2SeffJob(blackboard, repositoryOutputKey);
-
-        // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
-        blackboard.addPartition("bundleName2methodAssociationMap", bundleName2methodAssociationMap);
+        blackboard.addPartition("org.palladiosimulator.somox.analyzer.seff_associations", ast2seffMap);
 
         NullProgressMonitor progressMonitor = new NullProgressMonitor();
         ast2SeffJob.execute(progressMonitor);
