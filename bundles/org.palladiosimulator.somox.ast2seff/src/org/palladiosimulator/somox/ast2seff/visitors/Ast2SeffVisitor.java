@@ -312,22 +312,24 @@ public class Ast2SeffVisitor extends ASTVisitor {
     public boolean visit(final SynchronizedStatement synchronizedStatement) {
         LOGGER.debug("Visit Synchronized Statement");
 
-        if (!getComponentOfRootNode().getPassiveResource_BasicComponent().isEmpty()) {
+        if (getComponentOfRootNode().getPassiveResource_BasicComponent().isEmpty()) {
             PCMRandomVariable randomVariable = CoreFactory.eINSTANCE.createPCMRandomVariable();
             randomVariable.setSpecification("1");
             PassiveResource pass = RepositoryFactory.eINSTANCE.createPassiveResource();
             pass.setCapacity_PassiveResource(randomVariable);
-            pass.setResourceTimeoutFailureType__PassiveResource(
-                    (ResourceTimeoutFailureType) create.newResourceTimeoutFailureType("PassiveResourceTimeoutFailure"));
+            pass.setResourceTimeoutFailureType__PassiveResource((ResourceTimeoutFailureType) create
+                    .newResourceTimeoutFailureType("PassiveResourceTimeoutFailure").build());
             pass.setEntityName("Passive Resource");
             getComponentOfRootNode().getPassiveResource_BasicComponent().add(pass);
         }
 
+        PassiveResource passiveResource = getComponentOfRootNode().getPassiveResource_BasicComponent().stream()
+                .filter(resource -> resource.getEntityName().equals("Passive Resource")).findFirst().orElseThrow();
         actionSeff.acquireAction().withName(NameUtil.ACQUIRE_ACTION_NAME)
-                .withPassiveResource(create.fetchOfPassiveResource("Passive Resource")).followedBy();
+                .withPassiveResource(passiveResource).followedBy();
         actionSeff = this.perform(synchronizedStatement.getBody(), actionSeff);
         actionSeff.releaseAction().withName(NameUtil.RELEASE_ACTION_NAME)
-                .withPassiveResource(create.fetchOfPassiveResource("Passive Resource")).followedBy();
+                .withPassiveResource(passiveResource).followedBy();
 
         return false;
     }
