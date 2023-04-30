@@ -7,15 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.WhileStatement;
+import org.eclipse.net4j.util.collection.Pair;
 import org.junit.jupiter.api.Test;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
-import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
-import org.palladiosimulator.generator.fluent.repository.structure.components.BasicComponentCreator;
 import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.AbstractBranchTransition;
 import org.palladiosimulator.pcm.seff.BranchAction;
@@ -23,16 +22,12 @@ import org.palladiosimulator.pcm.seff.InternalAction;
 import org.palladiosimulator.pcm.seff.LoopAction;
 import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
+import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
-import org.palladiosimulator.somox.ast2seff.models.ComponentInformation;
-import org.palladiosimulator.somox.ast2seff.models.MethodBundlePair;
-import org.palladiosimulator.somox.ast2seff.models.MethodPalladioInformation;
 import org.palladiosimulator.somox.ast2seff.visitors.Ast2SeffVisitor;
 
-public class IfStatementVisitorTest {
-    private static final FluentRepositoryFactory create = new FluentRepositoryFactory();
-
+public class IfStatementVisitorTest extends VisitorTest {
     // Testplan
     // 1. Test: Statement mit leerem Body
     // 2. Test: Statement mit einer System.out.println (Internal Action)
@@ -46,21 +41,19 @@ public class IfStatementVisitorTest {
 
     @Test
     public void emptyBodyStatementTest() {
-
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
         IfStatement ifStatement = ast.newIfStatement();
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", ifStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement",
-                "ifStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "ifStatement", ifStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
+
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(3, actionList.size());
         assertTrue(actionList.get(1) instanceof BranchAction);
@@ -79,27 +72,24 @@ public class IfStatementVisitorTest {
 
     @Test
     public void ifElseIfElseStatementTest() {
-
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
         IfStatement ifStatement = ast.newIfStatement();
-        Block block = ast.newBlock();
         IfStatement innerIfStatement = ast.newIfStatement();
         innerIfStatement.setThenStatement(ast.newBlock());
         innerIfStatement.setElseStatement(ast.newBlock());
         ifStatement.setThenStatement(ast.newBlock());
         ifStatement.setElseStatement(innerIfStatement);
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", ifStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement",
-                "ifStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "ifStatement", ifStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
+
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(3, actionList.size());
         assertTrue(actionList.get(1) instanceof BranchAction);
@@ -130,12 +120,6 @@ public class IfStatementVisitorTest {
 
     @Test
     public void singleStatementTest() {
-
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
         IfStatement ifStatement = ast.newIfStatement();
         Block block = ast.newBlock();
         MethodInvocation methodInvocation = ast.newMethodInvocation();
@@ -143,14 +127,18 @@ public class IfStatementVisitorTest {
         methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
         block.statements().add(ast.newExpressionStatement(methodInvocation));
         ifStatement.setThenStatement(block);
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", ifStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement",
-                "ifStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "ifStatement", ifStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
+
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(3, actionList.size());
         assertTrue(actionList.get(1) instanceof BranchAction);
@@ -168,25 +156,23 @@ public class IfStatementVisitorTest {
 
     @Test
     public void statementInsideSameStatementTest() {
-
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
         IfStatement ifStatement = ast.newIfStatement();
         Block block = ast.newBlock();
         IfStatement innerIfStatement = ast.newIfStatement();
         innerIfStatement.setThenStatement(ast.newBlock());
         ifStatement.setThenStatement(innerIfStatement);
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", ifStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement",
-                "ifStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "ifStatement", ifStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
+
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(3, actionList.size());
         assertTrue(actionList.get(1) instanceof BranchAction);
@@ -204,24 +190,23 @@ public class IfStatementVisitorTest {
 
     @Test
     public void statementInsideOtherStatementTest() {
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
         IfStatement ifStatement = ast.newIfStatement();
         Block block = ast.newBlock();
         WhileStatement whileStatement = ast.newWhileStatement();
         block.statements().add(whileStatement);
         ifStatement.setThenStatement(block);
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", ifStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("ifStatement",
-                "ifStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "ifStatement", ifStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
+
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(3, actionList.size());
         assertTrue(actionList.get(1) instanceof BranchAction);
