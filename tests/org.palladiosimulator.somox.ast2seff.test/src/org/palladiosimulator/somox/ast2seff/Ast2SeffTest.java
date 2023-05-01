@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -27,10 +28,11 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.junit.jupiter.api.Test;
 import org.palladiosimulator.generator.fluent.repository.api.RepoAddition;
 import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
-import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationSignatureCreator;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.OperationInterface;
+import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.Repository;
+import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.somox.ast2seff.jobs.Ast2SeffJob;
 import org.palladiosimulator.somox.ast2seff.util.MethodDeclarationFinder;
@@ -93,6 +95,9 @@ public class Ast2SeffTest {
 
         for (var entry : compUnitMap.entrySet()) {
             List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(entry.getValue());
+            Map<String, BasicComponent> createdNamedComponents = new HashMap<>();
+            Map<String, OperationInterface> createdInterfacesOfNamedComponents = new HashMap<>();
+
             for (MethodDeclaration methodDeclaration : methodDeclarations) {
                 List<IExtendedModifier> modifierList = methodDeclaration.modifiers();
 
@@ -105,23 +110,34 @@ public class Ast2SeffTest {
                         String className = typeDeclaration.getName().toString();
                         String methodName = methodDeclaration.getName().toString();
 
-                        // Create empty placeholder service effect specification for chosen method declarations
+                        // Create fluent factory & fluent repository
                         FluentRepositoryFactory fluentFactory = new FluentRepositoryFactory();
                         RepoAddition fluentRepository = fluentFactory.newRepository();
-                        OperationSignatureCreator operationSignatureCreator = fluentFactory.newOperationSignature()
-                                .withName(methodName);
-                        OperationInterface operationInterface = fluentFactory.newOperationInterface()
-                                // TODO Evaluate alternatives for interface name. Is there a better name based on input?
-                                .withName("I" + className)
-                                .withOperationSignature(operationSignatureCreator)
-                                .build();
-                        BasicComponent basicComponent = fluentFactory.newBasicComponent()
-                                .withName(className)
-                                .provides(operationInterface)
-                                .build();
+
+                        // Create operation signature for method declaration
+                        OperationSignature operationSignature = RepositoryFactory.eINSTANCE.createOperationSignature();
+                        operationSignature.setEntityName(methodName);
+
+                        // Fetch component and interface if already created or create new if needed
+                        BasicComponent basicComponent = createdNamedComponents.get(className);
+                        OperationInterface operationInterface = createdInterfacesOfNamedComponents.get(className);
+                        if (Objects.isNull(basicComponent)) {
+                            operationInterface = fluentFactory.newOperationInterface()
+                                    .withName("I" + className)
+                                    .build();
+                            basicComponent = fluentFactory.newBasicComponent()
+                                    .withName(className)
+                                    .provides(operationInterface)
+                                    .build();
+                            createdNamedComponents.put(className, basicComponent);
+                            createdInterfacesOfNamedComponents.put(className, operationInterface);
+                        }
+                        operationInterface.getSignatures__OperationInterface().add(operationSignature);
+
+                        // Create empty placeholder service effect specification for chosen method declarations
                         ServiceEffectSpecification seff = fluentFactory.newSeff().buildRDSeff();
                         seff.setBasicComponent_ServiceEffectSpecification(basicComponent);
-                        seff.setDescribedService__SEFF(operationInterface.getSignatures__OperationInterface().get(0));
+                        seff.setDescribedService__SEFF(operationSignature);
 
                         // Add method declaration and ast node to map
                         ast2seffMap.put(methodDeclaration, seff);
