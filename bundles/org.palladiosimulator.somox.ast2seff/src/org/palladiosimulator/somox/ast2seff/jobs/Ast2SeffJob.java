@@ -4,10 +4,8 @@
 package org.palladiosimulator.somox.ast2seff.jobs;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -18,13 +16,6 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.MethodDeclaration;
-import org.eclipse.jdt.core.dom.PackageDeclaration;
-import org.eclipse.jdt.core.dom.PrimitiveType;
-import org.eclipse.jdt.core.dom.SimpleType;
-import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
-import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
 import org.palladiosimulator.generator.fluent.repository.api.RepoAddition;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
@@ -33,15 +24,17 @@ import org.palladiosimulator.generator.fluent.repository.structure.components.Ba
 import org.palladiosimulator.generator.fluent.repository.structure.components.seff.SeffCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationInterfaceCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationSignatureCreator;
-import org.palladiosimulator.generator.fluent.repository.structure.internals.Primitive;
-import org.palladiosimulator.generator.fluent.repository.structure.types.CompositeDataTypeCreator;
-import org.palladiosimulator.pcm.repository.ParameterModifier;
+import org.palladiosimulator.pcm.repository.BasicComponent;
+import org.palladiosimulator.pcm.repository.OperationInterface;
+import org.palladiosimulator.pcm.repository.OperationProvidedRole;
+import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.Repository;
-import org.palladiosimulator.somox.ast2seff.models.ComponentInformation;
-import org.palladiosimulator.somox.ast2seff.models.MethodBundlePair;
-import org.palladiosimulator.somox.ast2seff.models.MethodPalladioInformation;
+import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.somox.ast2seff.util.NameUtil;
 import org.palladiosimulator.somox.ast2seff.visitors.Ast2SeffVisitor;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
@@ -62,10 +55,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     private Blackboard<Object> blackboard;
     private final String repositoryOutputKey;
 
-    private Map<String, MethodPalladioInformation> methodPalladioInfoMap = new HashMap<>();
-    private Map<MethodBundlePair, MethodPalladioInformation> methodBundlePalladioInfoMap = new HashMap<>();
-    private Map<String, List<MethodBundlePair>> bundleName2methodBundleMap;
-    private List<String> parameterList = new ArrayList<>();
+    private Map<ASTNode, ServiceEffectSpecification> ast2SeffMap;
 
     public Ast2SeffJob(Blackboard<Object> blackboard, String repositoryOutputKey) {
         this.blackboard = Objects.requireNonNull(blackboard);
@@ -81,27 +71,17 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     @Override
     public void execute(final IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
         LOGGER.info("Executing SEFF Creation Job.");
-
-        monitor.subTask("Loading models from blackboard");
-
-        try {
-            this.bundleName2methodBundleMap = (Map<String, List<MethodBundlePair>>) this.blackboard
-                    .getPartition("bundleName2methodAssociationMap");
-        } catch (Exception e) {
-            LOGGER.error(e);
-        }
-
-        RepoAddition repoAddition = create.newRepository().withName("Repository");
-
-        LOGGER.info("Found " + bundleName2methodBundleMap.size() + " Bundles. Computing Interfaces.");
-        int counter = 0;
-
-        createOperationInterfacesForRepository(repoAddition, counter);
+        monitor.subTask("Loading AST node to SEFF association map from blackboard");
+        this.ast2SeffMap = (Map<ASTNode, ServiceEffectSpecification>) this.blackboard
+                .getPartition("org.palladiosimulator.somox.analyzer.seff_associations");
 
         final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
         subMonitor.setTaskName("Creating SEFF behaviour");
 
-        LOGGER.info("Created Interfaces. Computing " + counter + " SEFFs.");
+        // TODO Evaluate what informations have to be added to fluent repository before seff creation
+        RepoAddition repoAddition = create.newRepository().withName("Repository");
+
+        LOGGER.info("Creating " + ast2SeffMap.size() + " SEFFs.");
         createSeffsForComponents(repoAddition, monitor);
 
         LOGGER.info("Created SEFFs. Creating Repository.");
@@ -113,6 +93,8 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
         LOGGER.info("Created XML. Task finished.");
         subMonitor.done();
 
+        // TODO Fix wrong placeholder component in repository instead real component from placeholder seff
+        // -> e.g. return list of correct seffs instead repository or copy content from placeholder seff to real one
         this.blackboard.addPartition(repositoryOutputKey, repository);
     }
 
@@ -124,147 +106,91 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
      *                     de.uka.ipd.sdq.workflow.IJob#IProgressMonitor(org.eclipse.core.runtime.IProgressMonitor))
      */
     private void createSeffsForComponents(RepoAddition repoAddition, IProgressMonitor monitor) {
-        for (Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
-            String bundleName = entry.getKey();
-            String interfaceName = "I" + bundleName;
+        // Get all unique components from empty seff entities
+        Multimap<BasicComponent, ASTNode> componentNodeMap = ArrayListMultimap.create();
+        for (ASTNode node : this.ast2SeffMap.keySet()) {
+            ServiceEffectSpecification placeholderSeff = this.ast2SeffMap.get(node);
+            BasicComponent persistedComponent = placeholderSeff.getBasicComponent_ServiceEffectSpecification();
+            componentNodeMap.put(persistedComponent, node);
+        }
 
-            List<MethodBundlePair> methodBundleList = entry.getValue();
+        // Remember already created operation interface creators & operation signature creators in map indexed by name
+        Map<String, OperationInterfaceCreator> interfaceCreators = new HashMap<>();
+        Map<String, OperationSignatureCreator> signatureCreators = new HashMap<>();
 
+        // Iterate over all nodes of a component
+        for (BasicComponent persistedComponent : componentNodeMap.keySet()) {
+            // Create new placeholder component for fluent repository
             BasicComponentCreator basicComponentCreator = create.newBasicComponent()
-                    .withName(bundleName)
-                    .provides(create.fetchOfOperationInterface(interfaceName), interfaceName);
-            ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
+                    .withName(persistedComponent.getEntityName());
 
-            for (MethodBundlePair methodBundlePair : methodBundleList) {
-                MethodPalladioInformation methodPalladioInformation = methodBundlePalladioInfoMap.get(methodBundlePair);
-                basicComponentCreator
-                        .withServiceEffectSpecification(
-                                this.createSeffCreator(methodPalladioInformation, componentInformation));
-                monitor.worked(1);
+            for (ASTNode node : componentNodeMap.get(persistedComponent)) {
+                ServiceEffectSpecification placeholderSeff = this.ast2SeffMap.get(node);
+
+                // Fetch persisted signature and create placeholder if not done already
+                OperationSignature persistedSignature = (OperationSignature) placeholderSeff
+                        .getDescribedService__SEFF();
+                OperationSignatureCreator operationSignatureCreator = signatureCreators
+                        .get(persistedSignature.getEntityName());
+                if (Objects.isNull(operationSignatureCreator)) {
+                    operationSignatureCreator = create.newOperationSignature()
+                            .withName(persistedSignature.getEntityName());
+                    signatureCreators.put(persistedSignature.getEntityName(), operationSignatureCreator);
+                }
+
+                // Fetch persisted interface, create placeholder if not done already,
+                // and provide via placeholder component
+                OperationInterface persistedInterface = ((OperationSignature) placeholderSeff
+                        .getDescribedService__SEFF()).getInterface__OperationSignature();
+                OperationInterfaceCreator operationInterfaceCreator = interfaceCreators
+                        .get(persistedInterface.getEntityName());
+                if (Objects.isNull(operationInterfaceCreator)) {
+                    operationInterfaceCreator = create.newOperationInterface()
+                            .withName(persistedInterface.getEntityName());
+                    interfaceCreators.put(persistedInterface.getEntityName(), operationInterfaceCreator);
+                }
+
+                // Add signature to interface if not added already
+                boolean signatureMissingInInterface = operationInterfaceCreator.build()
+                        .getSignatures__OperationInterface().stream()
+                        .noneMatch(signature -> signature.getEntityName().equals(persistedSignature.getEntityName()));
+                if (signatureMissingInInterface) {
+                    operationInterfaceCreator.withOperationSignature(operationSignatureCreator);
+                }
+
+                // Add provided role of interface to component if not added already
+                boolean providedRoleMissing = basicComponentCreator.build()
+                        .getProvidedRoles_InterfaceProvidingEntity().stream()
+                        .map(role -> (OperationProvidedRole) role)
+                        .map(role -> role.getProvidedInterface__OperationProvidedRole())
+                        .noneMatch(operationInterface -> operationInterface.getEntityName()
+                                .equals(persistedInterface.getEntityName()));
+                if (providedRoleMissing) {
+                    basicComponentCreator.provides(persistedInterface);
+                }
+
+                // Create fluent seff for node
+                ActionSeff actionSeff = create.newSeff()
+                        .onSignature(create.fetchOfSignature(persistedSignature.getEntityName()))
+                        .withSeffBehaviour()
+                        .withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
+
+                // Perform AST node visit to fill empty fluent seff with content
+                SeffCreator actionSeffCreator = Ast2SeffVisitor.perform(actionSeff, node, this.ast2SeffMap, create)
+                        .stopAction().withName(NameUtil.STOP_ACTION_NAME)
+                        .createBehaviourNow();
+
+                // Add completed seff to placeholder component
+                basicComponentCreator.withServiceEffectSpecification(actionSeffCreator);
             }
 
+            // Persist placeholder component in fluent repository
             repoAddition.addToRepository(basicComponentCreator);
+            monitor.worked(1);
         }
-    }
 
-    /**
-     * This function creates the interfaces for each bundle It also adds the information for the methodPalladioInfoMap
-     * and the methodBundlePalladioInfoMap for the Ast2SeffVisitor
-     *
-     * @param repoAddition the Repository where Interfaces are added
-     * @param counter      counts how many interfaces are computed for logging
-     */
-    private void createOperationInterfacesForRepository(RepoAddition repoAddition, int counter) {
-        for (Map.Entry<String, List<MethodBundlePair>> entry : bundleName2methodBundleMap.entrySet()) {
-            String bundleName = entry.getKey();
-            String interfaceName = "I" + bundleName;
-            List<MethodBundlePair> methodAssociationListOfBundle = entry.getValue();
-            LOGGER.info("Found " + methodAssociationListOfBundle.size() + " methods to " + bundleName
-                    + ". Computing Interfaces.");
-            counter += methodAssociationListOfBundle.size();
-
-            OperationInterfaceCreator bundleOperationInterfaceCreator = create.newOperationInterface()
-                    .withName(interfaceName);
-
-            for (MethodBundlePair methodBundlePair : methodAssociationListOfBundle) {
-                MethodDeclaration methodDeclaration = (MethodDeclaration) methodBundlePair.getAstNode();
-                OperationSignatureCreator methodOperationSignature = create.newOperationSignature()
-                        .withName(methodDeclaration.getName()
-                                .toString());
-
-                // How is Bundle defined? Can one Bundle have multiple CompilationUnits?
-                String strPackageName = "unknown";
-                ASTNode root = methodDeclaration.getRoot();
-                if (root instanceof CompilationUnit) {
-                    PackageDeclaration packageName = ((CompilationUnit) root).getPackage();
-                    strPackageName = packageName.getName()
-                            .toString() + "." + bundleName;
-                } else {
-                    LOGGER.error("No CompilationUnit found for: " + methodDeclaration.toString());
-                }
-
-                String key = strPackageName + "." + methodDeclaration.getName()
-                        .toString();
-                String operationSignatureName = methodDeclaration.getName()
-                        .toString();
-                if (!this.methodPalladioInfoMap.containsKey(key)) {
-                    MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation(key,
-                            operationSignatureName, interfaceName, methodBundlePair);
-                    this.methodPalladioInfoMap.put(key, methodPalladioInformation);
-                    this.methodBundlePalladioInfoMap.put(methodBundlePair, methodPalladioInformation);
-                }
-
-                List<SingleVariableDeclaration> singleVariableDeclarationList = methodDeclaration.parameters();
-
-                if (singleVariableDeclarationList != null && singleVariableDeclarationList.size() > 0) {
-                    setParametersToSignature(singleVariableDeclarationList, repoAddition, methodOperationSignature);
-                }
-
-                Type returnType = methodDeclaration.getReturnType2();
-                if (returnType != null && returnType.isPrimitiveType()) {
-                    PrimitiveType primitiveType = (PrimitiveType) returnType;
-                    String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode()
-                            .toString();
-
-                    if (!primitiveTypeCodeString.equals(PrimitiveType.VOID.toString())) {
-                        methodOperationSignature.withReturnType(this.getPrimitiveType(primitiveTypeCodeString));
-                    }
-                }
-
-                bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature);
-            }
-            repoAddition.addToRepository(bundleOperationInterfaceCreator);
-        }
-    }
-
-    /**
-     * This function takes a list of variable Declarations, traverses it and adds them depending on their type to the
-     * operationSignature
-     *
-     * @param singleVariableDeclarationList a List of variables that should be added
-     * @param repoAddition                  the Repository where DataTypes are added
-     * @param methodOperationSignature      the Signature where variables are added
-     */
-    private void setParametersToSignature(List<SingleVariableDeclaration> singleVariableDeclarationList,
-            RepoAddition repoAddition, OperationSignatureCreator methodOperationSignature) {
-        for (SingleVariableDeclaration variableDeclaration : singleVariableDeclarationList) {
-            Type type = variableDeclaration.getType();
-            String parameterName = variableDeclaration.getName().toString();
-
-            if (type.isPrimitiveType()) {
-                PrimitiveType primitiveType = (PrimitiveType) type;
-                String primitiveTypeCodeString = primitiveType.getPrimitiveTypeCode()
-                        .toString();
-
-                if (parameterList.contains(primitiveTypeCodeString)) {
-                    Primitive primitive = this.getPrimitiveType(primitiveTypeCodeString);
-                    methodOperationSignature.withParameter(parameterName, create.fetchOfDataType(primitive),
-                            ParameterModifier.IN);
-                } else {
-                    Primitive primitive = this.getPrimitiveType(primitiveTypeCodeString);
-                    methodOperationSignature.withParameter(parameterName, primitive, ParameterModifier.IN);
-                    parameterList.add(primitiveTypeCodeString);
-                }
-
-            } else if (type.isSimpleType()) {
-                SimpleType simpleType = (SimpleType) type;
-
-                if (!parameterList.contains(simpleType.toString())) {
-                    CompositeDataTypeCreator compositeDataType = create.newCompositeDataType()
-                            .withName(simpleType.toString());
-
-                    // Limitation / Future Work: How to add inner declarations to composite data types
-//                    if (simpleType.toString().equals("SimpleClass")) {
-//                    	compositeDataType = compositeDataType.withInnerDeclaration("counter", Primitive.INTEGER);
-//                    }
-
-                    repoAddition.addToRepository(compositeDataType);
-                    parameterList.add(simpleType.toString());
-                }
-                methodOperationSignature.withParameter(parameterName,
-                        create.fetchOfCompositeDataType(simpleType.toString()), ParameterModifier.IN);
-            }
-        }
+        // Persist placeholder interfaces in fluent repository
+        interfaceCreators.values().forEach(repoAddition::addToRepository);
     }
 
     /*
@@ -278,29 +204,18 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     }
 
     /**
-     * This function creates a new SeffCreator object, adds the signature and traverses all children to create a new
-     * SEFF with their matching functionality.
+     * Sets the blackboard of the job.
      *
-     * @param methodPalladioInformation contains the OperationSignatureName for a fetch on the SEFF and the
-     *                                  MethodBundlePair for the Ast2SeffVisitor
-     * @param componentInformation      informations about the component thats is currently parsed
-     * @return SeffCreator object returns the SeffCreator with all informations in it
+     * @param blackboard the new blackboard that should be set for the job
      */
-    private SeffCreator createSeffCreator(MethodPalladioInformation methodPalladioInformation,
-            ComponentInformation componentInformation) {
-        ActionSeff actionSeff = create.newSeff()
-                .onSignature(create.fetchOfSignature(methodPalladioInformation.getOperationSignatureName()))
-                .withSeffBehaviour()
-                .withStartAction()
-                .withName(NameUtil.START_ACTION_NAME)
-                .followedBy();
+    @Override
+    public void setBlackboard(final Blackboard<Object> blackboard) {
+        this.blackboard = blackboard;
+    }
 
-        return Ast2SeffVisitor
-                .perform(methodPalladioInformation.getMethodBundlePair(), actionSeff, this.methodPalladioInfoMap,
-                        componentInformation, create)
-                .stopAction()
-                .withName(NameUtil.STOP_ACTION_NAME)
-                .createBehaviourNow();
+    @Override
+    public void cleanup(final IProgressMonitor monitor) throws CleanupFailedException {
+        // Nothing to cleanup after the job
     }
 
     /**
@@ -309,53 +224,14 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
      * @param repository the previously created repository that should be a file output
      */
     private void generateSeffXmlFile(final Repository repository) {
-
         EcorePlugin.ExtensionProcessor.process(null);
         Resource resource = new ResourceSetImpl().createResource(URI.createFileURI("Repository.xml"));
         resource.getContents().add(repository);
 
         try {
             resource.save(Collections.EMPTY_MAP);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * @param blackBoard The BlackBoard to set
-     */
-    @Override
-    public void setBlackboard(final Blackboard<Object> blackBoard) {
-        this.blackboard = blackBoard;
-    }
-
-    @Override
-    public void cleanup(final IProgressMonitor monitor) throws CleanupFailedException {
-    }
-
-    /**
-     * Private function that maps code strings to primitive types
-     *
-     * @param primitiveTypeCodeString String that should be mapped to type
-     * @return Primitive type matching to the String
-     */
-    private Primitive getPrimitiveType(String primitiveTypeCodeString) {
-        if (primitiveTypeCodeString.equals(PrimitiveType.INT.toString())) {
-            return Primitive.INTEGER;
-        } else if (primitiveTypeCodeString.equals(PrimitiveType.SHORT.toString())) {
-            return Primitive.INTEGER;
-        } else if (primitiveTypeCodeString.equals(PrimitiveType.DOUBLE.toString())) {
-            return Primitive.DOUBLE;
-        } else if (primitiveTypeCodeString.equals(PrimitiveType.FLOAT.toString())) {
-            return Primitive.DOUBLE;
-        } else if (primitiveTypeCodeString.equals(PrimitiveType.CHAR.toString())) {
-            return Primitive.CHAR;
-        } else if (primitiveTypeCodeString.equals(PrimitiveType.BYTE.toString())) {
-            return Primitive.BYTE;
-        } else if (primitiveTypeCodeString.equals(PrimitiveType.BOOLEAN.toString())) {
-            return Primitive.BOOLEAN;
-        } else {
-            return Primitive.STRING; // String as default
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
     }
 }
