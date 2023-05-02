@@ -161,10 +161,18 @@ public class Ast2SeffTest {
         assertEquals(2, repository.getComponents__Repository().size());
         assertEquals(2, repository.getInterfaces__Repository().size());
 
-        BasicComponent basicComponentOne = (BasicComponent) repository.getComponents__Repository().get(0);
-        BasicComponent basicComponentTwo = (BasicComponent) repository.getComponents__Repository().get(1);
-        OperationInterface interfaceOne = (OperationInterface) repository.getInterfaces__Repository().get(0);
-        OperationInterface interfaceTwo = (OperationInterface) repository.getInterfaces__Repository().get(1);
+        BasicComponent basicComponentOne = (BasicComponent) repository.getComponents__Repository().stream()
+                .filter(component -> component.getEntityName().equals("SimpleExternalClass"))
+                .findFirst().orElseThrow();
+        BasicComponent basicComponentTwo = (BasicComponent) repository.getComponents__Repository().stream()
+                .filter(component -> component.getEntityName().equals("SimpleClass"))
+                .findFirst().orElseThrow();
+        OperationInterface interfaceOne = (OperationInterface) repository.getInterfaces__Repository().stream()
+                .filter(interFace -> interFace.getEntityName().equals("ISimpleExternalClass"))
+                .findFirst().orElseThrow();
+        OperationInterface interfaceTwo = (OperationInterface) repository.getInterfaces__Repository().stream()
+                .filter(interFace -> interFace.getEntityName().equals("ISimpleClass"))
+                .findFirst().orElseThrow();
 
         assertEquals(4, basicComponentOne.getServiceEffectSpecifications__BasicComponent().size());
         assertEquals(14, basicComponentTwo.getServiceEffectSpecifications__BasicComponent().size());
