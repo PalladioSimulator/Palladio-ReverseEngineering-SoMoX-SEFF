@@ -20,7 +20,6 @@ import org.eclipse.net4j.util.om.monitor.SubMonitor;
 import org.palladiosimulator.generator.fluent.repository.api.RepoAddition;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
 import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
-import org.palladiosimulator.generator.fluent.repository.structure.components.BasicComponentCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.components.seff.SeffCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationInterfaceCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.interfaces.OperationSignatureCreator;
@@ -29,6 +28,7 @@ import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.Repository;
+import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.somox.ast2seff.util.NameUtil;
 import org.palladiosimulator.somox.ast2seff.visitors.Ast2SeffVisitor;
@@ -141,8 +141,11 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
         // Iterate over all nodes of a component
         for (BasicComponent persistedComponent : componentNodeMap.keySet()) {
             // Create new placeholder component for fluent repository
-            BasicComponentCreator basicComponentCreator = create.newBasicComponent()
-                    .withName(persistedComponent.getEntityName());
+            BasicComponent placeholderComponent = create.newBasicComponent()
+                    .withName(persistedComponent.getEntityName()).build();
+
+            // Persist placeholder component in fluent repository
+            repoAddition.addToRepository(placeholderComponent);
 
             for (ASTNode node : componentNodeMap.get(persistedComponent)) {
                 ServiceEffectSpecification placeholderSeff = this.ast2SeffMap.get(node);
@@ -151,15 +154,17 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                 OperationInterface persistedInterface = persistedSignature.getInterface__OperationSignature();
 
                 // Add provided role of interface to component if not added already
-                boolean providedRoleMissing = basicComponentCreator.build()
+                boolean providedRoleMissing = placeholderComponent
                         .getProvidedRoles_InterfaceProvidingEntity().stream()
                         .map(role -> (OperationProvidedRole) role)
                         .map(role -> role.getProvidedInterface__OperationProvidedRole())
                         .noneMatch(operationInterface -> operationInterface.getEntityName()
                                 .equals(persistedInterface.getEntityName()));
                 if (providedRoleMissing) {
-                    basicComponentCreator
-                            .provides(create.fetchOfOperationInterface(persistedInterface.getEntityName()));
+                    OperationProvidedRole providedRole = RepositoryFactory.eINSTANCE.createOperationProvidedRole();
+                    providedRole.setProvidedInterface__OperationProvidedRole(
+                            create.fetchOfOperationInterface(persistedInterface.getEntityName()));
+                    placeholderComponent.getProvidedRoles_InterfaceProvidingEntity().add(providedRole);
                 }
 
                 // Create fluent seff for node
@@ -174,11 +179,8 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                         .createBehaviourNow();
 
                 // Add completed seff to placeholder component
-                basicComponentCreator.withServiceEffectSpecification(actionSeffCreator);
+                placeholderComponent.getServiceEffectSpecifications__BasicComponent().add(actionSeffCreator.build());
             }
-
-            // Persist placeholder component in fluent repository
-            repoAddition.addToRepository(basicComponentCreator);
             monitor.worked(1);
         }
     }
