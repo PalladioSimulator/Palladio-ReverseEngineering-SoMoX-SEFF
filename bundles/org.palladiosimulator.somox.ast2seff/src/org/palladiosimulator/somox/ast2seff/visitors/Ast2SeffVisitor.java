@@ -51,6 +51,7 @@ import org.palladiosimulator.pcm.repository.Parameter;
 import org.palladiosimulator.pcm.repository.PassiveResource;
 import org.palladiosimulator.pcm.repository.PrimitiveDataType;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
+import org.palladiosimulator.pcm.repository.RequiredRole;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.somox.ast2seff.util.NameUtil;
@@ -266,11 +267,21 @@ public class Ast2SeffVisitor extends ASTVisitor {
      */
     private OperationRequiredRole addRequiredInterfaceToComponent(String requiredInterfaceName) {
         OperationInterface requiredInterface = create.fetchOfOperationInterface(requiredInterfaceName);
+
+        // Search for already existing required interface
+        BasicComponent rootComponent = getComponentOfRootNode();
+        for (RequiredRole requiredRole : rootComponent.getRequiredRoles_InterfaceRequiringEntity()) {
+            OperationRequiredRole operationRequiredRole = (OperationRequiredRole) requiredRole;
+            if (operationRequiredRole.getRequiredInterface__OperationRequiredRole().getEntityName()
+                    .equals(requiredInterface.getEntityName())) {
+                return operationRequiredRole;
+            }
+        }
+
+        // Create new requiring role if interface is not required by component yet
         OperationRequiredRole requiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
         requiredRole.setRequiredInterface__OperationRequiredRole(requiredInterface);
-
-        // TODO Check if required role was already added
-        getComponentOfRootNode().getRequiredRoles_InterfaceRequiringEntity().add(requiredRole);
+        rootComponent.getRequiredRoles_InterfaceRequiringEntity().add(requiredRole);
         return requiredRole;
     }
 
