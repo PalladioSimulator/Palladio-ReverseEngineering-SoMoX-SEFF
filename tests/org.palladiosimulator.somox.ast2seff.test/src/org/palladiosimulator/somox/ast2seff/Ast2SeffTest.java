@@ -174,6 +174,7 @@ public class Ast2SeffTest {
                 .filter(interFace -> interFace.getEntityName().equals("ISimpleClass"))
                 .findFirst().orElseThrow();
 
+        // TODO Add tests for correctness of relations between components, interfaces, & signatures
         assertEquals(4, basicComponentOne.getServiceEffectSpecifications__BasicComponent().size());
         assertEquals(14, basicComponentTwo.getServiceEffectSpecifications__BasicComponent().size());
         assertEquals(1, basicComponentOne.getProvidedRoles_InterfaceProvidingEntity().size());

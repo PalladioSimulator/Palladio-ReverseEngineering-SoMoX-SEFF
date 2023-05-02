@@ -2,6 +2,7 @@ package org.palladiosimulator.somox.ast2seff.visitors;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
@@ -14,6 +15,7 @@ import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
+import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
@@ -672,24 +674,21 @@ public class Ast2SeffVisitor extends ASTVisitor {
     }
 
     private boolean isExternal(MethodInvocation expression) {
+        // TODO Check if method is from same component -> Not external.
         return getOperationInterface(expression).isPresent();
     }
 
     private Optional<OperationInterface> getOperationInterface(MethodInvocation expression) {
-        // TODO Get interface of method invocation or null if not in ast2seff map
-        // Problem: Names of methods in external nodes were changed. How to find correct method if multiple had
-        // same name initially?
-        // ---> Edit: We get the classname by name utils but name does not necessarily be same as component.
-        String methodName = expression.getName().getIdentifier();
+        IMethodBinding invocationBinding = expression.resolveMethodBinding();
         for (ASTNode node : this.externalNodes.keySet()) {
             ServiceEffectSpecification seff = this.externalNodes.get(node);
             OperationSignature signature = (OperationSignature) seff.getDescribedService__SEFF();
 
             // Check if ast nodes represent same method
             MethodDeclaration methodDeclaration = (MethodDeclaration) node;
-            if (methodDeclaration.getName().toString().equals(methodName) &&
-                    methodDeclaration.resolveBinding().getDeclaringClass()
-                            .isEqualTo(expression.getExpression().resolveTypeBinding().getDeclaringClass())) {
+            IMethodBinding declarationBinding = methodDeclaration.resolveBinding();
+            if (Objects.nonNull(declarationBinding) && Objects.nonNull(invocationBinding)
+                    && declarationBinding.getKey().equals(invocationBinding.getKey())) {
                 return Optional.of(signature.getInterface__OperationSignature());
             }
         }
