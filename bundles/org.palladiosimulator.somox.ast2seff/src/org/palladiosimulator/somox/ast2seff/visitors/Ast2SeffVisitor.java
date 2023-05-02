@@ -269,10 +269,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
         OperationRequiredRole requiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
         requiredRole.setRequiredInterface__OperationRequiredRole(requiredInterface);
 
-        // TODO getComponentOfRootNode returns real non-placeholder component
-        // instead of component from fluent repository
-        getComponentOfRootNode().getRequiredRoles_InterfaceRequiringEntity()
-                .add(requiredRole);
+        // TODO Check if required role was already added
+        getComponentOfRootNode().getRequiredRoles_InterfaceRequiringEntity().add(requiredRole);
         return requiredRole;
     }
 
@@ -694,8 +692,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
         Optional<ServiceEffectSpecification> optionalSeff = getServiceEffectSpecificationOfInvocation(invocation);
         if (optionalSeff.isPresent()) {
             OperationSignature signature = (OperationSignature) optionalSeff.get().getDescribedService__SEFF();
-            OperationInterface placeholderInterface = signature.getInterface__OperationSignature();
-            return Optional.of(create.fetchOfOperationInterface(placeholderInterface.getEntityName()));
+            return Optional.of(signature.getInterface__OperationSignature());
         }
         return Optional.empty();
     }
@@ -703,9 +700,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
     private Optional<OperationSignature> getOperationSignatureOfInvocation(MethodInvocation invocation) {
         Optional<ServiceEffectSpecification> optionalSeff = getServiceEffectSpecificationOfInvocation(invocation);
         if (optionalSeff.isPresent()) {
-            OperationSignature placeholderSignature = (OperationSignature) optionalSeff.get()
-                    .getDescribedService__SEFF();
-            return Optional.of(create.fetchOfOperationSignature(placeholderSignature.getEntityName()));
+            return Optional.of((OperationSignature) optionalSeff.get().getDescribedService__SEFF());
         }
         return Optional.empty();
     }

@@ -4,7 +4,9 @@
 package org.palladiosimulator.somox.ast2seff.jobs;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -121,6 +123,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                             .equals(persistedInterface.getEntityName()))
                     .distinct().toList();
             for (OperationSignature persistedSignature : persistedSignatures) {
+                // TODO Copy parameters and return type because needed in visitor
                 OperationSignatureCreator operationSignatureCreator = create.newOperationSignature()
                         .withName(persistedSignature.getEntityName());
                 operationInterfaceCreator.withOperationSignature(operationSignatureCreator);
@@ -138,7 +141,8 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
             componentNodeMap.put(persistedComponent, node);
         }
 
-        // Iterate over all nodes of a component
+        // Replace unique persistent real components with placeholders
+        Multimap<BasicComponent, ASTNode> fluentComponentNodeMap = ArrayListMultimap.create();
         for (BasicComponent persistedComponent : componentNodeMap.keySet()) {
             // Create new placeholder component for fluent repository
             BasicComponent placeholderComponent = create.newBasicComponent()
@@ -147,41 +151,78 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
             // Persist placeholder component in fluent repository
             repoAddition.addToRepository(placeholderComponent);
 
-            for (ASTNode node : componentNodeMap.get(persistedComponent)) {
-                ServiceEffectSpecification placeholderSeff = this.ast2SeffMap.get(node);
-                OperationSignature persistedSignature = (OperationSignature) placeholderSeff
+            // Change map content by swapping real and fluent components
+            Collection<ASTNode> nodes = componentNodeMap.get(persistedComponent);
+            fluentComponentNodeMap.putAll(placeholderComponent, nodes);
+        }
+
+        // Create new ast2seff map with placeholder elements
+        Map<ASTNode, ServiceEffectSpecification> ast2FluentSeffMap = new HashMap<>();
+        for (ASTNode node : this.ast2SeffMap.keySet()) {
+            ServiceEffectSpecification realSeff = this.ast2SeffMap.get(node);
+            BasicComponent fluentComponent = create
+                    .fetchOfBasicComponent(realSeff.getBasicComponent_ServiceEffectSpecification().getEntityName());
+            OperationSignature fluentSignature = create
+                    .fetchOfOperationSignature(realSeff.getDescribedService__SEFF().getEntityName());
+
+            // Create new empty seff with elements that can be manipulated by visitor
+            ServiceEffectSpecification fluentSeff = create.newSeff()
+                    .onSignature(fluentSignature)
+                    .withSeffBehaviour()
+                    .withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy()
+                    .stopAction().withName(NameUtil.STOP_ACTION_NAME)
+                    .createBehaviourNow()
+                    .build();
+            fluentComponent.getServiceEffectSpecifications__BasicComponent().add(fluentSeff);
+
+            // Add node & fluent seff to ast2FluentSeffMap
+            ast2FluentSeffMap.put(node, fluentSeff);
+        }
+
+        // Iterate over all nodes of a component
+        for (BasicComponent fluentComponent : fluentComponentNodeMap.keySet()) {
+            for (ASTNode node : fluentComponentNodeMap.get(fluentComponent)) {
+                ServiceEffectSpecification fluentSeff = ast2FluentSeffMap.get(node);
+                OperationSignature fluentSignature = (OperationSignature) fluentSeff
                         .getDescribedService__SEFF();
-                OperationInterface persistedInterface = persistedSignature.getInterface__OperationSignature();
+                OperationInterface fluentInterface = fluentSignature.getInterface__OperationSignature();
 
                 // Add provided role of interface to component if not added already
-                boolean providedRoleMissing = placeholderComponent
+                boolean providedRoleMissing = fluentComponent
                         .getProvidedRoles_InterfaceProvidingEntity().stream()
                         .map(role -> (OperationProvidedRole) role)
                         .map(role -> role.getProvidedInterface__OperationProvidedRole())
                         .noneMatch(operationInterface -> operationInterface.getEntityName()
-                                .equals(persistedInterface.getEntityName()));
+                                .equals(fluentInterface.getEntityName()));
                 if (providedRoleMissing) {
                     OperationProvidedRole providedRole = RepositoryFactory.eINSTANCE.createOperationProvidedRole();
-                    providedRole.setProvidedInterface__OperationProvidedRole(
-                            create.fetchOfOperationInterface(persistedInterface.getEntityName()));
-                    placeholderComponent.getProvidedRoles_InterfaceProvidingEntity().add(providedRole);
+                    providedRole.setProvidedInterface__OperationProvidedRole(fluentInterface);
+                    fluentComponent.getProvidedRoles_InterfaceProvidingEntity().add(providedRole);
                 }
 
                 // Create fluent seff for node
                 ActionSeff actionSeff = create.newSeff()
-                        .onSignature(create.fetchOfSignature(persistedSignature.getEntityName()))
+                        .onSignature(fluentSignature)
                         .withSeffBehaviour()
                         .withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
 
                 // Perform AST node visit to fill empty fluent seff with content
-                SeffCreator actionSeffCreator = Ast2SeffVisitor.perform(actionSeff, node, this.ast2SeffMap, create)
+                SeffCreator actionSeffCreator = Ast2SeffVisitor.perform(actionSeff, node, ast2FluentSeffMap, create)
                         .stopAction().withName(NameUtil.STOP_ACTION_NAME)
                         .createBehaviourNow();
 
                 // Add completed seff to placeholder component
-                placeholderComponent.getServiceEffectSpecifications__BasicComponent().add(actionSeffCreator.build());
+                fluentComponent.getServiceEffectSpecifications__BasicComponent().add(actionSeffCreator.build());
             }
             monitor.worked(1);
+        }
+
+        // Remove empty seff placeholders from fluent components to avoid duplicated seffs
+        for (BasicComponent fluentComponent : fluentComponentNodeMap.keySet()) {
+            for (ASTNode node : fluentComponentNodeMap.get(fluentComponent)) {
+                ServiceEffectSpecification emptySeffPlaceholder = ast2FluentSeffMap.get(node);
+                fluentComponent.getServiceEffectSpecifications__BasicComponent().remove(emptySeffPlaceholder);
+            }
         }
     }
 
