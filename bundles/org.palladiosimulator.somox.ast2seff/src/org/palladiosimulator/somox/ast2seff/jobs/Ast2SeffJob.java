@@ -166,7 +166,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                         .noneMatch(operationInterface -> operationInterface.getEntityName()
                                 .equals(persistedInterface.getEntityName()));
                 if (providedRoleMissing) {
-                    basicComponentCreator.provides(persistedInterface);
+                    basicComponentCreator.provides(operationInterfaceCreator);
                 }
 
                 // Create fluent seff for node
