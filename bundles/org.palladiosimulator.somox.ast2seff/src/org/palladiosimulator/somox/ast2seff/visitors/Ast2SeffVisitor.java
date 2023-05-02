@@ -45,6 +45,7 @@ import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.CompositeDataType;
 import org.palladiosimulator.pcm.repository.DataType;
 import org.palladiosimulator.pcm.repository.OperationInterface;
+import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.Parameter;
 import org.palladiosimulator.pcm.repository.PassiveResource;
@@ -181,10 +182,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
         } else if (expression instanceof MethodInvocation && isExternal((MethodInvocation) expression)) {
             MethodInvocation methodInvocation = (MethodInvocation) expression;
             // Never throws due to isExternal check above
-            OperationInterface operationInterface = getOperationInterface(methodInvocation).orElseThrow();
+            OperationInterface operationInterface = getOperationInterfaceOfInvocation(methodInvocation).orElseThrow();
+            OperationSignature operationSignature = getOperationSignatureOfInvocation(methodInvocation).orElseThrow();
             if (!getOperationInterfaceOfRootNode().getEntityName()
                     .equals(operationInterface.getEntityName())) {
-                createExternalCallAction(methodInvocation, operationInterface);
+                createExternalCallAction(methodInvocation, operationInterface, operationSignature);
             } else {
                 if (methodInliningDepth < 1) {
                     createMethodInlining();
@@ -217,19 +219,17 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @param methodInvocation          invocation of external method
      * @param externalMethodInformation information of external method which gets referenced
      */
-    private void createExternalCallAction(MethodInvocation methodInvocation, OperationInterface operationInterface) {
+    private void createExternalCallAction(MethodInvocation methodInvocation, OperationInterface operationInterface,
+            OperationSignature operationSignature) {
         LOGGER.debug("Expression Statement is External Call Action");
 
         ExternalCallActionCreator externalCallActionCreator = actionSeff.externalCallAction();
-        addRequiredInterfaceToComponent(operationInterface.getEntityName());
-        // TODO Is toString correct or identifier?
-        externalCallActionCreator.withCalledService(
-                create.fetchOfOperationSignature(methodInvocation.getName().toString()));
-        externalCallActionCreator.withRequiredRole(
-                create.fetchOfOperationRequiredRole(operationInterface.getEntityName()));
-        // TODO Is toString correct or identifier?
-        OperationSignature calledFunctionSignature = create
-                .fetchOfOperationSignature(methodInvocation.getName().toString());
+        OperationRequiredRole requiredRole = addRequiredInterfaceToComponent(operationInterface.getEntityName());
+        externalCallActionCreator.withCalledService(operationSignature);
+        externalCallActionCreator.withRequiredRole(requiredRole);
+        // TODO Here is real signature needed due to parameters. How can this be designed more straightforward?
+        OperationSignature calledFunctionSignature = (OperationSignature) getServiceEffectSpecificationOfInvocation(
+                methodInvocation).orElseThrow().getDescribedService__SEFF();
         VariableUsageCreator variableUsage;
         if (!methodInvocation.arguments().isEmpty()) {
             if (calledFunctionSignature != null && (calledFunctionSignature.getParameters__OperationSignature()
@@ -264,9 +264,16 @@ public class Ast2SeffVisitor extends ASTVisitor {
      *
      * @param requiredInterfaceName name of the interface
      */
-    private void addRequiredInterfaceToComponent(String requiredInterfaceName) {
+    private OperationRequiredRole addRequiredInterfaceToComponent(String requiredInterfaceName) {
+        OperationInterface requiredInterface = create.fetchOfOperationInterface(requiredInterfaceName);
+        OperationRequiredRole requiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
+        requiredRole.setRequiredInterface__OperationRequiredRole(requiredInterface);
+
+        // TODO getComponentOfRootNode returns real non-placeholder component
+        // instead of component from fluent repository
         getComponentOfRootNode().getRequiredRoles_InterfaceRequiringEntity()
-                .add(create.fetchOfRequiredRole(requiredInterfaceName));
+                .add(requiredRole);
+        return requiredRole;
     }
 
     /**
@@ -673,23 +680,48 @@ public class Ast2SeffVisitor extends ASTVisitor {
         return signature.getInterface__OperationSignature();
     }
 
-    private boolean isExternal(MethodInvocation expression) {
-        // TODO Check if method is from same component -> Not external.
-        return getOperationInterface(expression).isPresent();
+    private boolean isExternal(MethodInvocation invocation) {
+        BasicComponent rootComponent = getComponentOfRootNode();
+        Optional<ServiceEffectSpecification> optionalSeff = getServiceEffectSpecificationOfInvocation(invocation);
+
+        // Invocation is external call if seff for invocation exists, & caller & callee are different components
+        // Important: Component names are unique.
+        return optionalSeff.isPresent() && !optionalSeff.get()
+                .getBasicComponent_ServiceEffectSpecification().getEntityName().equals(rootComponent.getEntityName());
     }
 
-    private Optional<OperationInterface> getOperationInterface(MethodInvocation expression) {
-        IMethodBinding invocationBinding = expression.resolveMethodBinding();
+    private Optional<OperationInterface> getOperationInterfaceOfInvocation(MethodInvocation invocation) {
+        Optional<ServiceEffectSpecification> optionalSeff = getServiceEffectSpecificationOfInvocation(invocation);
+        if (optionalSeff.isPresent()) {
+            OperationSignature signature = (OperationSignature) optionalSeff.get().getDescribedService__SEFF();
+            OperationInterface placeholderInterface = signature.getInterface__OperationSignature();
+            return Optional.of(create.fetchOfOperationInterface(placeholderInterface.getEntityName()));
+        }
+        return Optional.empty();
+    }
+
+    private Optional<OperationSignature> getOperationSignatureOfInvocation(MethodInvocation invocation) {
+        Optional<ServiceEffectSpecification> optionalSeff = getServiceEffectSpecificationOfInvocation(invocation);
+        if (optionalSeff.isPresent()) {
+            OperationSignature placeholderSignature = (OperationSignature) optionalSeff.get()
+                    .getDescribedService__SEFF();
+            return Optional.of(create.fetchOfOperationSignature(placeholderSignature.getEntityName()));
+        }
+        return Optional.empty();
+    }
+
+    private Optional<ServiceEffectSpecification> getServiceEffectSpecificationOfInvocation(
+            MethodInvocation invocation) {
+        IMethodBinding invocationBinding = invocation.resolveMethodBinding();
         for (ASTNode node : this.externalNodes.keySet()) {
             ServiceEffectSpecification seff = this.externalNodes.get(node);
-            OperationSignature signature = (OperationSignature) seff.getDescribedService__SEFF();
 
             // Check if ast nodes represent same method
             MethodDeclaration methodDeclaration = (MethodDeclaration) node;
             IMethodBinding declarationBinding = methodDeclaration.resolveBinding();
             if (Objects.nonNull(declarationBinding) && Objects.nonNull(invocationBinding)
                     && declarationBinding.getKey().equals(invocationBinding.getKey())) {
-                return Optional.of(signature.getInterface__OperationSignature());
+                return Optional.of(seff);
             }
         }
         return Optional.empty();
