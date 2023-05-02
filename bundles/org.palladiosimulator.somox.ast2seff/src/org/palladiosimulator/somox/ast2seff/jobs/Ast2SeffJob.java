@@ -5,7 +5,7 @@ package org.palladiosimulator.somox.ast2seff.jobs;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -106,6 +106,30 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
      *                     de.uka.ipd.sdq.workflow.IJob#IProgressMonitor(org.eclipse.core.runtime.IProgressMonitor))
      */
     private void createSeffsForComponents(RepoAddition repoAddition, IProgressMonitor monitor) {
+        // Create placeholder interfaces with operation signatures and persist in fluent repository
+        List<OperationInterface> persistedInterfaces = this.ast2SeffMap.values().stream()
+                .map(seff -> ((OperationSignature) seff.getDescribedService__SEFF()).getInterface__OperationSignature())
+                .distinct().toList();
+        for (OperationInterface persistedInterface : persistedInterfaces) {
+            OperationInterfaceCreator operationInterfaceCreator = create.newOperationInterface()
+                    .withName(persistedInterface.getEntityName());
+
+            // Get signatures of interface from seffs, create signature creator, & add to interface creator
+            List<OperationSignature> persistedSignatures = this.ast2SeffMap.values().stream()
+                    .map(seff -> (OperationSignature) seff.getDescribedService__SEFF())
+                    .filter(signature -> signature.getInterface__OperationSignature().getEntityName()
+                            .equals(persistedInterface.getEntityName()))
+                    .distinct().toList();
+            for (OperationSignature persistedSignature : persistedSignatures) {
+                OperationSignatureCreator operationSignatureCreator = create.newOperationSignature()
+                        .withName(persistedSignature.getEntityName());
+                operationInterfaceCreator.withOperationSignature(operationSignatureCreator);
+            }
+
+            // Persist placeholder interface
+            repoAddition.addToRepository(operationInterfaceCreator);
+        }
+
         // Get all unique components from empty seff entities
         Multimap<BasicComponent, ASTNode> componentNodeMap = ArrayListMultimap.create();
         for (ASTNode node : this.ast2SeffMap.keySet()) {
@@ -113,10 +137,6 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
             BasicComponent persistedComponent = placeholderSeff.getBasicComponent_ServiceEffectSpecification();
             componentNodeMap.put(persistedComponent, node);
         }
-
-        // Remember already created operation interface creators & operation signature creators in map indexed by name
-        Map<String, OperationInterfaceCreator> interfaceCreators = new HashMap<>();
-        Map<String, OperationSignatureCreator> signatureCreators = new HashMap<>();
 
         // Iterate over all nodes of a component
         for (BasicComponent persistedComponent : componentNodeMap.keySet()) {
@@ -126,37 +146,9 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
             for (ASTNode node : componentNodeMap.get(persistedComponent)) {
                 ServiceEffectSpecification placeholderSeff = this.ast2SeffMap.get(node);
-
-                // Fetch persisted signature and create placeholder if not done already
                 OperationSignature persistedSignature = (OperationSignature) placeholderSeff
                         .getDescribedService__SEFF();
-                OperationSignatureCreator operationSignatureCreator = signatureCreators
-                        .get(persistedSignature.getEntityName());
-                if (Objects.isNull(operationSignatureCreator)) {
-                    operationSignatureCreator = create.newOperationSignature()
-                            .withName(persistedSignature.getEntityName());
-                    signatureCreators.put(persistedSignature.getEntityName(), operationSignatureCreator);
-                }
-
-                // Fetch persisted interface, create placeholder if not done already,
-                // and provide via placeholder component
-                OperationInterface persistedInterface = ((OperationSignature) placeholderSeff
-                        .getDescribedService__SEFF()).getInterface__OperationSignature();
-                OperationInterfaceCreator operationInterfaceCreator = interfaceCreators
-                        .get(persistedInterface.getEntityName());
-                if (Objects.isNull(operationInterfaceCreator)) {
-                    operationInterfaceCreator = create.newOperationInterface()
-                            .withName(persistedInterface.getEntityName());
-                    interfaceCreators.put(persistedInterface.getEntityName(), operationInterfaceCreator);
-                }
-
-                // Add signature to interface if not added already
-                boolean signatureMissingInInterface = operationInterfaceCreator.build()
-                        .getSignatures__OperationInterface().stream()
-                        .noneMatch(signature -> signature.getEntityName().equals(persistedSignature.getEntityName()));
-                if (signatureMissingInInterface) {
-                    operationInterfaceCreator.withOperationSignature(operationSignatureCreator);
-                }
+                OperationInterface persistedInterface = persistedSignature.getInterface__OperationSignature();
 
                 // Add provided role of interface to component if not added already
                 boolean providedRoleMissing = basicComponentCreator.build()
@@ -166,7 +158,8 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                         .noneMatch(operationInterface -> operationInterface.getEntityName()
                                 .equals(persistedInterface.getEntityName()));
                 if (providedRoleMissing) {
-                    basicComponentCreator.provides(operationInterfaceCreator);
+                    basicComponentCreator
+                            .provides(create.fetchOfOperationInterface(persistedInterface.getEntityName()));
                 }
 
                 // Create fluent seff for node
@@ -188,9 +181,6 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
             repoAddition.addToRepository(basicComponentCreator);
             monitor.worked(1);
         }
-
-        // Persist placeholder interfaces in fluent repository
-        interfaceCreators.values().forEach(repoAddition::addToRepository);
     }
 
     /*
