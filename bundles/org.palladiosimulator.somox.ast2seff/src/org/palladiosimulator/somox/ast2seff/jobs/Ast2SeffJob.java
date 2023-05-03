@@ -51,7 +51,7 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
  */
 public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>> {
     private static final Logger LOGGER = Logger.getLogger(Ast2SeffJob.class);
-    private static final FluentRepositoryFactory create = new FluentRepositoryFactory();
+    private static final FluentRepositoryFactory fluentFactory = new FluentRepositoryFactory();
 
     /** The SoMoX blackboard to interact with. */
     private Blackboard<Object> blackboard;
@@ -81,7 +81,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
         subMonitor.setTaskName("Creating SEFF behaviour");
 
         // TODO Evaluate what informations have to be added to fluent repository before seff creation
-        RepoAddition repoAddition = create.newRepository().withName("Repository");
+        RepoAddition repoAddition = fluentFactory.newRepository().withName("Repository");
 
         LOGGER.info("Creating " + ast2SeffMap.size() + " SEFFs.");
         createSeffsForComponents(repoAddition, monitor);
@@ -113,7 +113,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                 .map(seff -> ((OperationSignature) seff.getDescribedService__SEFF()).getInterface__OperationSignature())
                 .distinct().toList();
         for (OperationInterface persistedInterface : persistedInterfaces) {
-            OperationInterfaceCreator operationInterfaceCreator = create.newOperationInterface()
+            OperationInterfaceCreator operationInterfaceCreator = fluentFactory.newOperationInterface()
                     .withName(persistedInterface.getEntityName());
 
             // Get signatures of interface from seffs, create signature creator, & add to interface creator
@@ -124,7 +124,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                     .distinct().toList();
             for (OperationSignature persistedSignature : persistedSignatures) {
                 // TODO Copy parameters and return type because needed in visitor
-                OperationSignatureCreator operationSignatureCreator = create.newOperationSignature()
+                OperationSignatureCreator operationSignatureCreator = fluentFactory.newOperationSignature()
                         .withName(persistedSignature.getEntityName());
                 operationInterfaceCreator.withOperationSignature(operationSignatureCreator);
             }
@@ -145,7 +145,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
         Multimap<BasicComponent, ASTNode> fluentComponentNodeMap = ArrayListMultimap.create();
         for (BasicComponent persistedComponent : componentNodeMap.keySet()) {
             // Create new placeholder component for fluent repository
-            BasicComponent placeholderComponent = create.newBasicComponent()
+            BasicComponent placeholderComponent = fluentFactory.newBasicComponent()
                     .withName(persistedComponent.getEntityName()).build();
 
             // Persist placeholder component in fluent repository
@@ -160,13 +160,13 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
         Map<ASTNode, ServiceEffectSpecification> ast2FluentSeffMap = new HashMap<>();
         for (ASTNode node : this.ast2SeffMap.keySet()) {
             ServiceEffectSpecification realSeff = this.ast2SeffMap.get(node);
-            BasicComponent fluentComponent = create
+            BasicComponent fluentComponent = fluentFactory
                     .fetchOfBasicComponent(realSeff.getBasicComponent_ServiceEffectSpecification().getEntityName());
-            OperationSignature fluentSignature = create
+            OperationSignature fluentSignature = fluentFactory
                     .fetchOfOperationSignature(realSeff.getDescribedService__SEFF().getEntityName());
 
             // Create new empty seff with elements that can be manipulated by visitor
-            ServiceEffectSpecification fluentSeff = create.newSeff()
+            ServiceEffectSpecification fluentSeff = fluentFactory.newSeff()
                     .onSignature(fluentSignature)
                     .withSeffBehaviour()
                     .withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy()
@@ -201,13 +201,13 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                 }
 
                 // Create fluent seff for node
-                ActionSeff actionSeff = create.newSeff()
+                ActionSeff actionSeff = fluentFactory.newSeff()
                         .onSignature(fluentSignature)
                         .withSeffBehaviour()
                         .withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
 
                 // Perform AST node visit to fill empty fluent seff with content
-                SeffCreator actionSeffCreator = Ast2SeffVisitor.perform(actionSeff, node, ast2FluentSeffMap, create)
+                SeffCreator actionSeffCreator = Ast2SeffVisitor.perform(actionSeff, node, ast2FluentSeffMap, fluentFactory)
                         .stopAction().withName(NameUtil.STOP_ACTION_NAME)
                         .createBehaviourNow();
 

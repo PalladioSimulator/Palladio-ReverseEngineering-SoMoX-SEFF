@@ -64,7 +64,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
     private ASTNode rootNode;
     private Map<ASTNode, ServiceEffectSpecification> externalNodes;
 
-    private FluentRepositoryFactory create;
+    private FluentRepositoryFactory fluentFactory;
     private int methodInliningDepth = 0;
 
     /**
@@ -75,15 +75,15 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @param actionSeff                current action SEFF creator object which is used to model the SEFF elements
      * @param methodPalladionInfoMap    object to give access to the information of all methods which should be modeled
      * @param componentInformation      object for the current SEFF component which gets modeled
-     * @param create                    factory object to create additional SEFF elements and fetch created SEFF
+     * @param fluentFactory             factory object to create additional SEFF elements and fetch created SEFF
      *                                  elements from the repository
      */
     public Ast2SeffVisitor(ActionSeff actionSeff, ASTNode rootNode,
-            Map<ASTNode, ServiceEffectSpecification> externalNodes, FluentRepositoryFactory create) {
+            Map<ASTNode, ServiceEffectSpecification> externalNodes, FluentRepositoryFactory fluentFactory) {
         this.actionSeff = actionSeff;
         this.rootNode = rootNode;
         this.externalNodes = externalNodes;
-        this.create = create;
+        this.fluentFactory = fluentFactory;
     }
 
     /**
@@ -94,17 +94,17 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @param actionSeff             current action SEFF creator object which is used to model the SEFF elements
      * @param methodPalladionInfoMap object to give access to the information of all methods which should be modeled
      * @param componentInformation   object for the current SEFF component which gets modeled
-     * @param create                 factory object to create additional SEFF elements and fetch created SEFF elements
+     * @param fluentFactory          factory object to create additional SEFF elements and fetch created SEFF elements
      *                               from the repository
      * @param methodInliningDepth    integer value to set the current method inlining depth
      */
     private Ast2SeffVisitor(ActionSeff actionSeff, ASTNode rootNode,
-            Map<ASTNode, ServiceEffectSpecification> externalNodes, FluentRepositoryFactory create,
+            Map<ASTNode, ServiceEffectSpecification> externalNodes, FluentRepositoryFactory fluentFactory,
             int methodInliningDepth) {
         this.actionSeff = actionSeff;
         this.rootNode = rootNode;
         this.externalNodes = externalNodes;
-        this.create = create;
+        this.fluentFactory = fluentFactory;
         this.methodInliningDepth = methodInliningDepth;
     }
 
@@ -116,14 +116,14 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @param actionSeff                current action SEFF creator object which is used to model the SEFF elements
      * @param methodPalladionInfoMap    object to give access to the information of all methods which should be modeled
      * @param componentInformation      object for the current SEFF component which gets modeled
-     * @param create                    factory object to create additional SEFF elements and fetch created SEFF
+     * @param fluentFactory             factory object to create additional SEFF elements and fetch created SEFF
      *                                  elements from the repository
      * @return ActionSeff object which contains the transformed the complete MethodDeclaration
      */
     public static ActionSeff perform(ActionSeff actionSeff, ASTNode rootNode,
-            Map<ASTNode, ServiceEffectSpecification> externalNodes, FluentRepositoryFactory create) {
+            Map<ASTNode, ServiceEffectSpecification> externalNodes, FluentRepositoryFactory fluentFactory) {
         Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(actionSeff, rootNode, externalNodes,
-                create);
+                fluentFactory);
         rootNode.accept(newFunctionCallClassificationVisitor);
         return actionSeff;
     }
@@ -138,7 +138,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
      */
     private ActionSeff perform(ASTNode node, ActionSeff actionSeff) {
         Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(actionSeff, rootNode, externalNodes,
-                create);
+                fluentFactory);
         node.accept(newFunctionCallClassificationVisitor);
         return actionSeff;
     }
@@ -155,8 +155,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
      */
     private ActionSeff perform(ASTNode node, ActionSeff actionSeff, int methodInliningDepth) {
         Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(actionSeff, rootNode, externalNodes,
-                create,
-                methodInliningDepth);
+                fluentFactory, methodInliningDepth);
         node.accept(newFunctionCallClassificationVisitor);
         return actionSeff;
     }
@@ -266,7 +265,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @param requiredInterfaceName name of the interface
      */
     private OperationRequiredRole addRequiredInterfaceToComponent(String requiredInterfaceName) {
-        OperationInterface requiredInterface = create.fetchOfOperationInterface(requiredInterfaceName);
+        OperationInterface requiredInterface = fluentFactory.fetchOfOperationInterface(requiredInterfaceName);
 
         // Search for already existing required interface
         BasicComponent rootComponent = getComponentOfRootNode();
@@ -335,7 +334,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
             randomVariable.setSpecification("1");
             PassiveResource pass = RepositoryFactory.eINSTANCE.createPassiveResource();
             pass.setCapacity_PassiveResource(randomVariable);
-            pass.setResourceTimeoutFailureType__PassiveResource((ResourceTimeoutFailureType) create
+            pass.setResourceTimeoutFailureType__PassiveResource((ResourceTimeoutFailureType) fluentFactory
                     .newResourceTimeoutFailureType("PassiveResourceTimeoutFailure").build());
             pass.setEntityName("Passive Resource");
             getComponentOfRootNode().getPassiveResource_BasicComponent().add(pass);
@@ -368,7 +367,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 
         List<CatchClause> catchClauseList = tryStatement.catchClauses();
         for (CatchClause catchClause : catchClauseList) {
-            ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction()
+            ActionSeff innerActionSeff = fluentFactory.newSeff().withSeffBehaviour().withStartAction()
                     .withName(NameUtil.START_ACTION_NAME).followedBy();
             innerActionSeff = this.perform(catchClause.getBody(), innerActionSeff);
             SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME)
@@ -461,7 +460,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
         LOGGER.debug("Generate Inner Branch Behaviour");
         for (List<Statement> block : blockList) {
 
-            ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction()
+            ActionSeff innerActionSeff = fluentFactory.newSeff().withSeffBehaviour().withStartAction()
                     .withName(NameUtil.START_ACTION_NAME).followedBy();
 
             for (Statement statement : block) {
@@ -521,7 +520,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @return VariableUsageCreator object ready to be added to a Set Variable Action
      */
     private VariableUsageCreator generateInputVariableUsage(Expression expression, Parameter parameter) {
-        VariableUsageCreator variableUsage = create.newVariableUsage();
+        VariableUsageCreator variableUsage = fluentFactory.newVariableUsage();
 
         String randomPCMName;
         DataType paraDataType = parameter.getDataType__Parameter();
@@ -553,7 +552,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @return VariableUsageCreator object ready to be added to a Set Variable Action
      */
     private VariableUsageCreator generateInputVariableUsage(Expression expression) {
-        VariableUsageCreator variableUsage = create.newVariableUsage();
+        VariableUsageCreator variableUsage = fluentFactory.newVariableUsage();
         variableUsage.withNamespaceReference("PrimitiveType", NameUtil.getExpressionClassName(expression));
         String randomPCMName = "PrimitiveType" + "." + NameUtil.getExpressionClassName(expression);
         variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
@@ -568,7 +567,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @return VariableUsageCreator object ready to be added to a Set Variable Action
      */
     private VariableUsageCreator generateOutputVariableUsage(DataType returnType) {
-        VariableUsageCreator variableUsage = create.newVariableUsage();
+        VariableUsageCreator variableUsage = fluentFactory.newVariableUsage();
 
         String randomPCMName = "tempVariable";
 
@@ -610,7 +609,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
         }
 
         LOGGER.debug("Generate Inner Branch Behaviour");
-        ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction()
+        ActionSeff innerActionSeff = fluentFactory.newSeff().withSeffBehaviour().withStartAction()
                 .withName(NameUtil.START_ACTION_NAME).followedBy();
         innerActionSeff = this.perform(node, innerActionSeff);
         SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
@@ -631,7 +630,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
      */
     private BranchActionCreator handleElseStatement(Statement statement, BranchActionCreator branchActionCreator) {
 
-        ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction()
+        ActionSeff innerActionSeff = fluentFactory.newSeff().withSeffBehaviour().withStartAction()
                 .withName(NameUtil.START_ACTION_NAME).followedBy();
 
         String condition = "condition";
@@ -671,7 +670,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
      */
     private LoopActionCreator generateLoopAction(ASTNode node, LoopActionCreator loopActionCreator) {
         LOGGER.debug("Generate Inner Loop Behaviour");
-        ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction()
+        ActionSeff innerActionSeff = fluentFactory.newSeff().withSeffBehaviour().withStartAction()
                 .withName(NameUtil.START_ACTION_NAME).followedBy();
         innerActionSeff = this.perform(node, innerActionSeff);
         SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
