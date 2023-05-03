@@ -34,10 +34,11 @@ public class ReturnStatementTest extends VisitorTest {
 
     @Test
     public void emptyBodyStatementTest() {
-        ReturnStatement returnStatement = ast.newReturnStatement();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("ReturnExpression"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
+        ReturnStatement returnStatement = this.getAst().newReturnStatement();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("ReturnExpression"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
         returnStatement.setExpression(methodInvocation);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -47,8 +48,8 @@ public class ReturnStatementTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -62,10 +63,11 @@ public class ReturnStatementTest extends VisitorTest {
     @Test
     @Disabled
     public void booleanReturnStatementTest() {
-        ReturnStatement returnStatement = ast.newReturnStatement();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("ReturnExpression"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
+        ReturnStatement returnStatement = this.getAst().newReturnStatement();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("ReturnExpression"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
         returnStatement.setExpression(methodInvocation);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -75,8 +77,8 @@ public class ReturnStatementTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -90,10 +92,11 @@ public class ReturnStatementTest extends VisitorTest {
     @Test
     @Disabled
     public void charReturnStatementTest() {
-        ReturnStatement returnStatement = ast.newReturnStatement();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("ReturnExpression"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
+        ReturnStatement returnStatement = this.getAst().newReturnStatement();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("ReturnExpression"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
         returnStatement.setExpression(methodInvocation);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -103,8 +106,8 @@ public class ReturnStatementTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -119,10 +122,11 @@ public class ReturnStatementTest extends VisitorTest {
     @Test
     @Disabled
     public void stringReturnStatementTest() {
-        ReturnStatement returnStatement = ast.newReturnStatement();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("ReturnExpression"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
+        ReturnStatement returnStatement = this.getAst().newReturnStatement();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("ReturnExpression"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
         returnStatement.setExpression(methodInvocation);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -132,8 +136,8 @@ public class ReturnStatementTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 

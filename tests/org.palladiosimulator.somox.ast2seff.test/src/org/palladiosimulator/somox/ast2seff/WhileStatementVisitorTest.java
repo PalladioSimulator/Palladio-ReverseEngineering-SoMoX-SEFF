@@ -41,8 +41,8 @@ public class WhileStatementVisitorTest extends VisitorTest {
     @Test
     public void emptyBodyStatementTest() {
         // Create statement for body of method declaration under test
-        WhileStatement whileStatement = ast.newWhileStatement();
-        Expression expression = ast.newBooleanLiteral(true);
+        WhileStatement whileStatement = this.getAst().newWhileStatement();
+        Expression expression = this.getAst().newBooleanLiteral(true);
         whileStatement.setExpression(expression);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -52,8 +52,8 @@ public class WhileStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -72,12 +72,13 @@ public class WhileStatementVisitorTest extends VisitorTest {
     @Test
     public void singleStatementTest() {
         // Create statement for body of method declaration under test
-        WhileStatement whileStatement = ast.newWhileStatement();
-        Block block = ast.newBlock();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("SimpleName"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-        block.statements().add(ast.newExpressionStatement(methodInvocation));
+        WhileStatement whileStatement = this.getAst().newWhileStatement();
+        Block block = this.getAst().newBlock();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
+        block.statements().add(this.getAst().newExpressionStatement(methodInvocation));
         whileStatement.setBody(block);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -87,8 +88,8 @@ public class WhileStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -107,9 +108,9 @@ public class WhileStatementVisitorTest extends VisitorTest {
     @Test
     public void statementInsideSameStatementTest() {
         // Create statement for body of method declaration under test
-        WhileStatement whileStatement = ast.newWhileStatement();
-        WhileStatement innerWhileStatement = ast.newWhileStatement();
-        innerWhileStatement.setBody(ast.newBlock());
+        WhileStatement whileStatement = this.getAst().newWhileStatement();
+        WhileStatement innerWhileStatement = this.getAst().newWhileStatement();
+        innerWhileStatement.setBody(this.getAst().newBlock());
         whileStatement.setBody(innerWhileStatement);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -119,8 +120,8 @@ public class WhileStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -139,12 +140,13 @@ public class WhileStatementVisitorTest extends VisitorTest {
     @Test
     public void statementInsideOtherStatementTest() {
         // Create statement for body of method declaration under test
-        ForStatement forStatement = ast.newForStatement();
-        forStatement.initializers().add(ast.newVariableDeclarationExpression(ast.newVariableDeclarationFragment()));
-        forStatement.setExpression(ast.newInfixExpression());
-        forStatement.updaters().add(ast.newPostfixExpression());
-        Block block = ast.newBlock();
-        WhileStatement whileStatement = ast.newWhileStatement();
+        ForStatement forStatement = this.getAst().newForStatement();
+        forStatement.initializers()
+                .add(this.getAst().newVariableDeclarationExpression(this.getAst().newVariableDeclarationFragment()));
+        forStatement.setExpression(this.getAst().newInfixExpression());
+        forStatement.updaters().add(this.getAst().newPostfixExpression());
+        Block block = this.getAst().newBlock();
+        WhileStatement whileStatement = this.getAst().newWhileStatement();
         block.statements().add(forStatement);
         whileStatement.setBody(block);
 
@@ -155,8 +157,8 @@ public class WhileStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 

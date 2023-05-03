@@ -14,8 +14,8 @@ import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 
 public class VisitorTest {
-    protected AST ast;
-    protected FluentRepositoryFactory create;
+    private AST ast;
+    private FluentRepositoryFactory create;
 
     @BeforeEach
     public void initializeTestClass() {
@@ -51,5 +51,13 @@ public class VisitorTest {
         // Create & return pair for node seff association
         Pair<ASTNode, ServiceEffectSpecification> pair = new Pair<>(methodDeclaration, seff);
         return pair;
+    }
+
+    public AST getAst() {
+        return this.ast;
+    }
+
+    public FluentRepositoryFactory getCreate() {
+        return this.create;
     }
 }

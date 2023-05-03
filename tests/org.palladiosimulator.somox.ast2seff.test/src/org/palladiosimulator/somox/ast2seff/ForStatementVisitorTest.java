@@ -44,20 +44,20 @@ public class ForStatementVisitorTest extends VisitorTest {
 
     @Test
     public void emptyBodyStatementTest() {
-        ForStatement forStatement = ast.newForStatement();
-        VariableDeclarationFragment variableDeclarationFragment = ast.newVariableDeclarationFragment();
-        variableDeclarationFragment.setName(ast.newSimpleName("i"));
-        variableDeclarationFragment.setInitializer(ast.newNumberLiteral("0"));
-        VariableDeclarationExpression variableDeclarationExpression = ast
+        ForStatement forStatement = this.getAst().newForStatement();
+        VariableDeclarationFragment variableDeclarationFragment = this.getAst().newVariableDeclarationFragment();
+        variableDeclarationFragment.setName(this.getAst().newSimpleName("i"));
+        variableDeclarationFragment.setInitializer(this.getAst().newNumberLiteral("0"));
+        VariableDeclarationExpression variableDeclarationExpression = this.getAst()
                 .newVariableDeclarationExpression(variableDeclarationFragment);
         forStatement.initializers().add(variableDeclarationExpression);
-        InfixExpression infixExpression = ast.newInfixExpression();
-        infixExpression.setLeftOperand(ast.newSimpleName("i"));
+        InfixExpression infixExpression = this.getAst().newInfixExpression();
+        infixExpression.setLeftOperand(this.getAst().newSimpleName("i"));
         infixExpression.setOperator(InfixExpression.Operator.toOperator("<"));
-        infixExpression.setRightOperand(ast.newNumberLiteral("10"));
+        infixExpression.setRightOperand(this.getAst().newNumberLiteral("10"));
         forStatement.setExpression(infixExpression);
-        PostfixExpression postfixExpression = ast.newPostfixExpression();
-        postfixExpression.setOperand(ast.newSimpleName("i"));
+        PostfixExpression postfixExpression = this.getAst().newPostfixExpression();
+        postfixExpression.setOperand(this.getAst().newSimpleName("i"));
         postfixExpression.setOperator(Operator.toOperator("++"));
         forStatement.updaters().add(postfixExpression);
 
@@ -68,8 +68,8 @@ public class ForStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -87,15 +87,17 @@ public class ForStatementVisitorTest extends VisitorTest {
 
     @Test
     public void singleStatementTest() {
-        ForStatement forStatement = ast.newForStatement();
-        forStatement.initializers().add(ast.newVariableDeclarationExpression(ast.newVariableDeclarationFragment()));
-        forStatement.setExpression(ast.newInfixExpression());
-        forStatement.updaters().add(ast.newPostfixExpression());
-        Block block = ast.newBlock();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("SimpleName"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-        block.statements().add(ast.newExpressionStatement(methodInvocation));
+        ForStatement forStatement = this.getAst().newForStatement();
+        forStatement.initializers()
+                .add(this.getAst().newVariableDeclarationExpression(this.getAst().newVariableDeclarationFragment()));
+        forStatement.setExpression(this.getAst().newInfixExpression());
+        forStatement.updaters().add(this.getAst().newPostfixExpression());
+        Block block = this.getAst().newBlock();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
+        block.statements().add(this.getAst().newExpressionStatement(methodInvocation));
         forStatement.setBody(block);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -105,8 +107,8 @@ public class ForStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -124,17 +126,18 @@ public class ForStatementVisitorTest extends VisitorTest {
 
     @Test
     public void statementInsideSameStatementTest() {
-        ForStatement forStatement = ast.newForStatement();
-        forStatement.initializers().add(ast.newVariableDeclarationExpression(ast.newVariableDeclarationFragment()));
-        forStatement.setExpression(ast.newInfixExpression());
-        forStatement.updaters().add(ast.newPostfixExpression());
-        Block block = ast.newBlock();
-        ForStatement innerForStatement = ast.newForStatement();
+        ForStatement forStatement = this.getAst().newForStatement();
+        forStatement.initializers()
+                .add(this.getAst().newVariableDeclarationExpression(this.getAst().newVariableDeclarationFragment()));
+        forStatement.setExpression(this.getAst().newInfixExpression());
+        forStatement.updaters().add(this.getAst().newPostfixExpression());
+        Block block = this.getAst().newBlock();
+        ForStatement innerForStatement = this.getAst().newForStatement();
         innerForStatement.initializers()
-                .add(ast.newVariableDeclarationExpression(ast.newVariableDeclarationFragment()));
-        innerForStatement.setExpression(ast.newInfixExpression());
-        innerForStatement.updaters().add(ast.newPostfixExpression());
-        innerForStatement.setBody(ast.newBlock());
+                .add(this.getAst().newVariableDeclarationExpression(this.getAst().newVariableDeclarationFragment()));
+        innerForStatement.setExpression(this.getAst().newInfixExpression());
+        innerForStatement.updaters().add(this.getAst().newPostfixExpression());
+        innerForStatement.setBody(this.getAst().newBlock());
         forStatement.setBody(innerForStatement);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -144,8 +147,8 @@ public class ForStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -163,12 +166,13 @@ public class ForStatementVisitorTest extends VisitorTest {
 
     @Test
     public void statementInsideOtherStatementTest() {
-        ForStatement forStatement = ast.newForStatement();
-        forStatement.initializers().add(ast.newVariableDeclarationExpression(ast.newVariableDeclarationFragment()));
-        forStatement.setExpression(ast.newInfixExpression());
-        forStatement.updaters().add(ast.newPostfixExpression());
-        Block block = ast.newBlock();
-        WhileStatement whileStatement = ast.newWhileStatement();
+        ForStatement forStatement = this.getAst().newForStatement();
+        forStatement.initializers()
+                .add(this.getAst().newVariableDeclarationExpression(this.getAst().newVariableDeclarationFragment()));
+        forStatement.setExpression(this.getAst().newInfixExpression());
+        forStatement.updaters().add(this.getAst().newPostfixExpression());
+        Block block = this.getAst().newBlock();
+        WhileStatement whileStatement = this.getAst().newWhileStatement();
         block.statements().add(whileStatement);
         forStatement.setBody(block);
 
@@ -179,8 +183,8 @@ public class ForStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 

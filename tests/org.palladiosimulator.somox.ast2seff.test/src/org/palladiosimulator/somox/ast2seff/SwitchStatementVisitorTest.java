@@ -42,7 +42,7 @@ public class SwitchStatementVisitorTest extends VisitorTest {
 
     @Test
     public void emptyBodyStatementTest() {
-        SwitchStatement switchStatement = ast.newSwitchStatement();
+        SwitchStatement switchStatement = this.getAst().newSwitchStatement();
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
         Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
@@ -51,8 +51,8 @@ public class SwitchStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -62,10 +62,10 @@ public class SwitchStatementVisitorTest extends VisitorTest {
 
     @Test
     public void singleCaseSwitchStatementWithIfStatementTest() {
-        SwitchStatement switchStatement = ast.newSwitchStatement();
-        SwitchCase switchCase = ast.newSwitchCase();
-        IfStatement ifStatement = ast.newIfStatement();
-        Block block = ast.newBlock();
+        SwitchStatement switchStatement = this.getAst().newSwitchStatement();
+        SwitchCase switchCase = this.getAst().newSwitchCase();
+        IfStatement ifStatement = this.getAst().newIfStatement();
+        Block block = this.getAst().newBlock();
         block.statements().add(ifStatement);
         switchStatement.statements().add(switchCase);
         switchStatement.statements().add(block);
@@ -77,8 +77,8 @@ public class SwitchStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -99,13 +99,14 @@ public class SwitchStatementVisitorTest extends VisitorTest {
 
     @Test
     public void singleCaseSwitchStatementWithExpressionStatementTest() {
-        SwitchStatement switchStatement = ast.newSwitchStatement();
-        SwitchCase switchCase = ast.newSwitchCase();
-        Block block = ast.newBlock();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("SimpleName"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-        block.statements().add(ast.newExpressionStatement(methodInvocation));
+        SwitchStatement switchStatement = this.getAst().newSwitchStatement();
+        SwitchCase switchCase = this.getAst().newSwitchCase();
+        Block block = this.getAst().newBlock();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
+        block.statements().add(this.getAst().newExpressionStatement(methodInvocation));
         switchStatement.statements().add(switchCase);
         switchStatement.statements().add(block);
 
@@ -116,8 +117,8 @@ public class SwitchStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -138,14 +139,15 @@ public class SwitchStatementVisitorTest extends VisitorTest {
 
     @Test
     public void singleCaseSwitchStatementWithSwitchStatementTest() {
-        SwitchStatement switchStatement = ast.newSwitchStatement();
-        SwitchCase switchCase = ast.newSwitchCase();
-        Block block = ast.newBlock();
-        SwitchStatement innerSwitchStatement = ast.newSwitchStatement();
-        SwitchCase innerSwitchCase = ast.newSwitchCase();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("SimpleName"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
+        SwitchStatement switchStatement = this.getAst().newSwitchStatement();
+        SwitchCase switchCase = this.getAst().newSwitchCase();
+        Block block = this.getAst().newBlock();
+        SwitchStatement innerSwitchStatement = this.getAst().newSwitchStatement();
+        SwitchCase innerSwitchCase = this.getAst().newSwitchCase();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
         block.statements().add(innerSwitchStatement);
         block.statements().add(innerSwitchCase);
         switchStatement.statements().add(switchCase);
@@ -158,8 +160,8 @@ public class SwitchStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -180,21 +182,23 @@ public class SwitchStatementVisitorTest extends VisitorTest {
 
     @Test
     public void twoCaseSwitchStatementTest() {
-        SwitchStatement switchStatement = ast.newSwitchStatement();
-        SwitchCase switchCaseOne = ast.newSwitchCase();
-        SwitchCase switchCaseTwo = ast.newSwitchCase();
-        BreakStatement breakStatementOne = ast.newBreakStatement();
-        BreakStatement breakStatementTwo = ast.newBreakStatement();
-        Block blockOne = ast.newBlock();
-        Block blockTwo = ast.newBlock();
-        MethodInvocation methodInvocationOne = ast.newMethodInvocation();
-        MethodInvocation methodInvocationTwo = ast.newMethodInvocation();
-        methodInvocationOne.setName(ast.newSimpleName("SimpleName"));
-        methodInvocationOne.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-        methodInvocationTwo.setName(ast.newSimpleName("SimpleName"));
-        methodInvocationTwo.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-        blockOne.statements().add(ast.newExpressionStatement(methodInvocationOne));
-        blockTwo.statements().add(ast.newExpressionStatement(methodInvocationTwo));
+        SwitchStatement switchStatement = this.getAst().newSwitchStatement();
+        SwitchCase switchCaseOne = this.getAst().newSwitchCase();
+        SwitchCase switchCaseTwo = this.getAst().newSwitchCase();
+        BreakStatement breakStatementOne = this.getAst().newBreakStatement();
+        BreakStatement breakStatementTwo = this.getAst().newBreakStatement();
+        Block blockOne = this.getAst().newBlock();
+        Block blockTwo = this.getAst().newBlock();
+        MethodInvocation methodInvocationOne = this.getAst().newMethodInvocation();
+        MethodInvocation methodInvocationTwo = this.getAst().newMethodInvocation();
+        methodInvocationOne.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocationOne.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
+        methodInvocationTwo.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocationTwo.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
+        blockOne.statements().add(this.getAst().newExpressionStatement(methodInvocationOne));
+        blockTwo.statements().add(this.getAst().newExpressionStatement(methodInvocationTwo));
         switchStatement.statements().add(switchCaseOne);
         switchStatement.statements().add(blockOne);
         switchStatement.statements().add(breakStatementOne);
@@ -209,8 +213,8 @@ public class SwitchStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -231,20 +235,22 @@ public class SwitchStatementVisitorTest extends VisitorTest {
 
     @Test
     public void twoCaseSwitchStatementWithoutBreakTest() {
-        SwitchStatement switchStatement = ast.newSwitchStatement();
-        SwitchCase switchCaseOne = ast.newSwitchCase();
-        SwitchCase switchCaseTwo = ast.newSwitchCase();
-        BreakStatement breakStatementOne = ast.newBreakStatement();
-        Block blockOne = ast.newBlock();
-        Block blockTwo = ast.newBlock();
-        MethodInvocation methodInvocationOne = ast.newMethodInvocation();
-        MethodInvocation methodInvocationTwo = ast.newMethodInvocation();
-        methodInvocationOne.setName(ast.newSimpleName("SimpleName"));
-        methodInvocationOne.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-        methodInvocationTwo.setName(ast.newSimpleName("SimpleName"));
-        methodInvocationTwo.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-        blockOne.statements().add(ast.newExpressionStatement(methodInvocationOne));
-        blockTwo.statements().add(ast.newExpressionStatement(methodInvocationTwo));
+        SwitchStatement switchStatement = this.getAst().newSwitchStatement();
+        SwitchCase switchCaseOne = this.getAst().newSwitchCase();
+        SwitchCase switchCaseTwo = this.getAst().newSwitchCase();
+        BreakStatement breakStatementOne = this.getAst().newBreakStatement();
+        Block blockOne = this.getAst().newBlock();
+        Block blockTwo = this.getAst().newBlock();
+        MethodInvocation methodInvocationOne = this.getAst().newMethodInvocation();
+        MethodInvocation methodInvocationTwo = this.getAst().newMethodInvocation();
+        methodInvocationOne.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocationOne.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
+        methodInvocationTwo.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocationTwo.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
+        blockOne.statements().add(this.getAst().newExpressionStatement(methodInvocationOne));
+        blockTwo.statements().add(this.getAst().newExpressionStatement(methodInvocationTwo));
         switchStatement.statements().add(switchCaseOne);
         switchStatement.statements().add(blockOne);
         switchStatement.statements().add(switchCaseTwo);
@@ -258,8 +264,8 @@ public class SwitchStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 

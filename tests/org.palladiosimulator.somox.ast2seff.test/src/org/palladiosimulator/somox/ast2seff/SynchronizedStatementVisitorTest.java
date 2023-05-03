@@ -41,7 +41,7 @@ public class SynchronizedStatementVisitorTest extends VisitorTest {
 
     @Test
     public void emptyBodyStatementTest() {
-        SynchronizedStatement synchronizedStatement = ast.newSynchronizedStatement();
+        SynchronizedStatement synchronizedStatement = this.getAst().newSynchronizedStatement();
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
         Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
@@ -50,8 +50,8 @@ public class SynchronizedStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -65,12 +65,13 @@ public class SynchronizedStatementVisitorTest extends VisitorTest {
 
     @Test
     public void singleStatementTest() {
-        SynchronizedStatement synchronizedStatement = ast.newSynchronizedStatement();
-        Block block = ast.newBlock();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("SimpleName"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-        block.statements().add(ast.newExpressionStatement(methodInvocation));
+        SynchronizedStatement synchronizedStatement = this.getAst().newSynchronizedStatement();
+        Block block = this.getAst().newBlock();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
+        block.statements().add(this.getAst().newExpressionStatement(methodInvocation));
         synchronizedStatement.setBody(block);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -80,8 +81,8 @@ public class SynchronizedStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -96,9 +97,9 @@ public class SynchronizedStatementVisitorTest extends VisitorTest {
 
     @Test
     public void statementInsideSameStatementTest() {
-        SynchronizedStatement synchronizedStatement = ast.newSynchronizedStatement();
-        Block block = ast.newBlock();
-        block.statements().add(ast.newSynchronizedStatement());
+        SynchronizedStatement synchronizedStatement = this.getAst().newSynchronizedStatement();
+        Block block = this.getAst().newBlock();
+        block.statements().add(this.getAst().newSynchronizedStatement());
         synchronizedStatement.setBody(block);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -108,8 +109,8 @@ public class SynchronizedStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -125,9 +126,9 @@ public class SynchronizedStatementVisitorTest extends VisitorTest {
 
     @Test
     public void statementInsideOtherStatementTest() {
-        SynchronizedStatement synchronizedStatement = ast.newSynchronizedStatement();
-        Block block = ast.newBlock();
-        WhileStatement whileStatement = ast.newWhileStatement();
+        SynchronizedStatement synchronizedStatement = this.getAst().newSynchronizedStatement();
+        Block block = this.getAst().newBlock();
+        WhileStatement whileStatement = this.getAst().newWhileStatement();
         block.statements().add(whileStatement);
         synchronizedStatement.setBody(block);
 
@@ -138,8 +139,8 @@ public class SynchronizedStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 

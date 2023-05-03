@@ -41,7 +41,7 @@ public class IfStatementVisitorTest extends VisitorTest {
 
     @Test
     public void emptyBodyStatementTest() {
-        IfStatement ifStatement = ast.newIfStatement();
+        IfStatement ifStatement = this.getAst().newIfStatement();
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
         Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
@@ -50,8 +50,8 @@ public class IfStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -72,11 +72,11 @@ public class IfStatementVisitorTest extends VisitorTest {
 
     @Test
     public void ifElseIfElseStatementTest() {
-        IfStatement ifStatement = ast.newIfStatement();
-        IfStatement innerIfStatement = ast.newIfStatement();
-        innerIfStatement.setThenStatement(ast.newBlock());
-        innerIfStatement.setElseStatement(ast.newBlock());
-        ifStatement.setThenStatement(ast.newBlock());
+        IfStatement ifStatement = this.getAst().newIfStatement();
+        IfStatement innerIfStatement = this.getAst().newIfStatement();
+        innerIfStatement.setThenStatement(this.getAst().newBlock());
+        innerIfStatement.setElseStatement(this.getAst().newBlock());
+        ifStatement.setThenStatement(this.getAst().newBlock());
         ifStatement.setElseStatement(innerIfStatement);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -86,8 +86,8 @@ public class IfStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -120,12 +120,13 @@ public class IfStatementVisitorTest extends VisitorTest {
 
     @Test
     public void singleStatementTest() {
-        IfStatement ifStatement = ast.newIfStatement();
-        Block block = ast.newBlock();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("SimpleName"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-        block.statements().add(ast.newExpressionStatement(methodInvocation));
+        IfStatement ifStatement = this.getAst().newIfStatement();
+        Block block = this.getAst().newBlock();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
+        block.statements().add(this.getAst().newExpressionStatement(methodInvocation));
         ifStatement.setThenStatement(block);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -135,8 +136,8 @@ public class IfStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -156,10 +157,10 @@ public class IfStatementVisitorTest extends VisitorTest {
 
     @Test
     public void statementInsideSameStatementTest() {
-        IfStatement ifStatement = ast.newIfStatement();
-        Block block = ast.newBlock();
-        IfStatement innerIfStatement = ast.newIfStatement();
-        innerIfStatement.setThenStatement(ast.newBlock());
+        IfStatement ifStatement = this.getAst().newIfStatement();
+        Block block = this.getAst().newBlock();
+        IfStatement innerIfStatement = this.getAst().newIfStatement();
+        innerIfStatement.setThenStatement(this.getAst().newBlock());
         ifStatement.setThenStatement(innerIfStatement);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -169,8 +170,8 @@ public class IfStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -190,9 +191,9 @@ public class IfStatementVisitorTest extends VisitorTest {
 
     @Test
     public void statementInsideOtherStatementTest() {
-        IfStatement ifStatement = ast.newIfStatement();
-        Block block = ast.newBlock();
-        WhileStatement whileStatement = ast.newWhileStatement();
+        IfStatement ifStatement = this.getAst().newIfStatement();
+        Block block = this.getAst().newBlock();
+        WhileStatement whileStatement = this.getAst().newWhileStatement();
         block.statements().add(whileStatement);
         ifStatement.setThenStatement(block);
 
@@ -203,8 +204,8 @@ public class IfStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 

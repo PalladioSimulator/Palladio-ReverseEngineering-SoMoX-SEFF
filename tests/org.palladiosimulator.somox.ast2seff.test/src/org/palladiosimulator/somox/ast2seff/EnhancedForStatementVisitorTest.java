@@ -41,10 +41,10 @@ public class EnhancedForStatementVisitorTest extends VisitorTest {
 
     @Test
     public void emptyBodyStatementTest() {
-        EnhancedForStatement forStatement = ast.newEnhancedForStatement();
-        SingleVariableDeclaration variableDeclaration = ast.newSingleVariableDeclaration();
-        variableDeclaration.setName(ast.newSimpleName("test"));
-        Expression expression = ast.newSimpleName("testList");
+        EnhancedForStatement forStatement = this.getAst().newEnhancedForStatement();
+        SingleVariableDeclaration variableDeclaration = this.getAst().newSingleVariableDeclaration();
+        variableDeclaration.setName(this.getAst().newSimpleName("test"));
+        Expression expression = this.getAst().newSimpleName("testList");
         forStatement.setExpression(expression);
         forStatement.setParameter(variableDeclaration);
 
@@ -55,8 +55,8 @@ public class EnhancedForStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -74,12 +74,13 @@ public class EnhancedForStatementVisitorTest extends VisitorTest {
 
     @Test
     public void singleStatementTest() {
-        EnhancedForStatement forStatement = ast.newEnhancedForStatement();
-        Block block = ast.newBlock();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("SimpleName"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-        block.statements().add(ast.newExpressionStatement(methodInvocation));
+        EnhancedForStatement forStatement = this.getAst().newEnhancedForStatement();
+        Block block = this.getAst().newBlock();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
+        block.statements().add(this.getAst().newExpressionStatement(methodInvocation));
         forStatement.setBody(block);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -89,8 +90,8 @@ public class EnhancedForStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -108,9 +109,9 @@ public class EnhancedForStatementVisitorTest extends VisitorTest {
 
     @Test
     public void statementInsideSameStatementTest() {
-        EnhancedForStatement forStatement = ast.newEnhancedForStatement();
-        EnhancedForStatement innerForStatement = ast.newEnhancedForStatement();
-        innerForStatement.setBody(ast.newBlock());
+        EnhancedForStatement forStatement = this.getAst().newEnhancedForStatement();
+        EnhancedForStatement innerForStatement = this.getAst().newEnhancedForStatement();
+        innerForStatement.setBody(this.getAst().newBlock());
         forStatement.setBody(innerForStatement);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -120,8 +121,8 @@ public class EnhancedForStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -139,9 +140,9 @@ public class EnhancedForStatementVisitorTest extends VisitorTest {
 
     @Test
     public void statementInsideOtherStatementTest() {
-        EnhancedForStatement forStatement = ast.newEnhancedForStatement();
-        Block block = ast.newBlock();
-        WhileStatement whileStatement = ast.newWhileStatement();
+        EnhancedForStatement forStatement = this.getAst().newEnhancedForStatement();
+        Block block = this.getAst().newBlock();
+        WhileStatement whileStatement = this.getAst().newWhileStatement();
         block.statements().add(whileStatement);
         forStatement.setBody(block);
 
@@ -152,8 +153,8 @@ public class EnhancedForStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 

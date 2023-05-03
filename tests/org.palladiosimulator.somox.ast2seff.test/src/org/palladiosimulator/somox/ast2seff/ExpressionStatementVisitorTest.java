@@ -44,10 +44,11 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
 
     @Test
     public void internalActionTest() {
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("SimpleName"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-        ExpressionStatement expressionStatement = ast.newExpressionStatement(methodInvocation);
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
+        ExpressionStatement expressionStatement = this.getAst().newExpressionStatement(methodInvocation);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
         Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
@@ -56,8 +57,8 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -67,16 +68,17 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
 
     @Test
     public void methodInliningTest() {
-        RepoAddition repoAddition = create.newRepository().withName("SimpleRepository");
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("SimpleName"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-        ExpressionStatement expressionStatement = ast.newExpressionStatement(methodInvocation);
+        RepoAddition repoAddition = this.getCreate().newRepository().withName("SimpleRepository");
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
+        ExpressionStatement expressionStatement = this.getAst().newExpressionStatement(methodInvocation);
 
         // TODO Evaluate if following statements are needed for test and document
-        OperationSignatureCreator methodOperationSignature = create.newOperationSignature()
+        OperationSignatureCreator methodOperationSignature = this.getCreate().newOperationSignature()
                 .withName("expressionStatement");
-        OperationInterfaceCreator bundleOperationInterfaceCreator = create.newOperationInterface()
+        OperationInterfaceCreator bundleOperationInterfaceCreator = this.getCreate().newOperationInterface()
                 .withName("ISimpleComponent");
         bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature);
         repoAddition.addToRepository(bundleOperationInterfaceCreator);
@@ -88,8 +90,8 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -100,10 +102,10 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
     @Disabled
     @Test
     public void externalCallActionTest() {
-        RepoAddition repoAddition = create.newRepository().withName("Simple Repository");
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
+        RepoAddition repoAddition = this.getCreate().newRepository().withName("Simple Repository");
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
         Map<String, MethodPalladioInformation> methodPalladioInfoMap = new HashMap<>();
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
+        BasicComponentCreator basicComponentCreator = this.getCreate().newBasicComponent();
         ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
 
         AST ast = AST.newAST(AST.getJLSLatest(), false);
@@ -116,9 +118,9 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
                 "expressionStatement", "Simple Component", methodBundlePair);
         MethodPalladioInformation methodPalladioInformationTwo = new MethodPalladioInformation("expressionStatementTwo",
                 "expressionStatementTwo", "Simple Component Two", methodBundlePair);
-        OperationSignatureCreator methodOperationSignature = create.newOperationSignature()
+        OperationSignatureCreator methodOperationSignature = this.getCreate().newOperationSignature()
                 .withName("expressionStatementTwo");
-        OperationInterfaceCreator bundleOperationInterfaceCreator = create.newOperationInterface()
+        OperationInterfaceCreator bundleOperationInterfaceCreator = this.getCreate().newOperationInterface()
                 .withName("Simple Component Two");
         bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature);
         repoAddition.addToRepository(bundleOperationInterfaceCreator);
@@ -139,10 +141,10 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
     @Disabled
     @Test
     public void externalCallActionWithTwoInterfacesTest() {
-        RepoAddition repoAddition = create.newRepository().withName("Simple Repository");
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
+        RepoAddition repoAddition = this.getCreate().newRepository().withName("Simple Repository");
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
         Map<String, MethodPalladioInformation> methodPalladioInfoMap = new HashMap<>();
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
+        BasicComponentCreator basicComponentCreator = this.getCreate().newBasicComponent();
         ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
 
         AST ast = AST.newAST(AST.getJLSLatest(), false);
@@ -166,18 +168,18 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
                 "expressionStatement", "SimpleComponent", methodBundlePair);
         MethodPalladioInformation methodPalladioInformationTwo = new MethodPalladioInformation("expressionStatementTwo",
                 "expressionStatementTwo", "ISimpleComponentTwo", methodBundlePair);
-        OperationSignatureCreator methodOperationSignature = create.newOperationSignature()
+        OperationSignatureCreator methodOperationSignature = this.getCreate().newOperationSignature()
                 .withName("expressionStatementTwo");
-        OperationInterfaceCreator bundleOperationInterfaceCreator = create.newOperationInterface()
+        OperationInterfaceCreator bundleOperationInterfaceCreator = this.getCreate().newOperationInterface()
                 .withName("ISimpleComponentTwo");
         bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature);
 
         MethodBundlePair methodBundlePairTwo = new MethodBundlePair("SimpleComponentThree", expressionStatementTwo);
         MethodPalladioInformation methodPalladioInformationThree = new MethodPalladioInformation(
                 "expressionStatementThree", "expressionStatementThree", "ISimpleComponentThree", methodBundlePairTwo);
-        OperationSignatureCreator methodOperationSignatureTwo = create.newOperationSignature()
+        OperationSignatureCreator methodOperationSignatureTwo = this.getCreate().newOperationSignature()
                 .withName("expressionStatementThree");
-        OperationInterfaceCreator bundleOperationInterfaceCreatorTwo = create.newOperationInterface()
+        OperationInterfaceCreator bundleOperationInterfaceCreatorTwo = this.getCreate().newOperationInterface()
                 .withName("ISimpleComponentThree");
         bundleOperationInterfaceCreatorTwo.withOperationSignature(methodOperationSignatureTwo);
 

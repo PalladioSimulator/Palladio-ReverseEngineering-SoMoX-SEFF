@@ -42,7 +42,7 @@ public class TryStatementVisitorTest extends VisitorTest {
 
     @Test
     public void emptyBodyStatementTest() {
-        TryStatement tryStatement = ast.newTryStatement();
+        TryStatement tryStatement = this.getAst().newTryStatement();
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
         Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
@@ -51,8 +51,8 @@ public class TryStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -72,9 +72,9 @@ public class TryStatementVisitorTest extends VisitorTest {
 
     @Test
     public void tryWithTwoCatchStatements() {
-        TryStatement tryStatement = ast.newTryStatement();
-        CatchClause catchClauseOne = ast.newCatchClause();
-        CatchClause catchClauseTwo = ast.newCatchClause();
+        TryStatement tryStatement = this.getAst().newTryStatement();
+        CatchClause catchClauseOne = this.getAst().newCatchClause();
+        CatchClause catchClauseTwo = this.getAst().newCatchClause();
         tryStatement.catchClauses().add(catchClauseOne);
         tryStatement.catchClauses().add(catchClauseTwo);
 
@@ -85,8 +85,8 @@ public class TryStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -119,12 +119,13 @@ public class TryStatementVisitorTest extends VisitorTest {
 
     @Test
     public void singleStatementTest() {
-        TryStatement tryStatement = ast.newTryStatement();
-        Block block = ast.newBlock();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("SimpleName"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-        block.statements().add(ast.newExpressionStatement(methodInvocation));
+        TryStatement tryStatement = this.getAst().newTryStatement();
+        Block block = this.getAst().newBlock();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
+        block.statements().add(this.getAst().newExpressionStatement(methodInvocation));
         tryStatement.setBody(block);
 
         // Get method declaration with created statement in body & empty seff for palladio information extraction
@@ -134,8 +135,8 @@ public class TryStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -155,10 +156,10 @@ public class TryStatementVisitorTest extends VisitorTest {
 
     @Test
     public void statementInsideSameStatementTest() {
-        TryStatement tryStatement = ast.newTryStatement();
-        Block block = ast.newBlock();
-        TryStatement innerTryStatement = ast.newTryStatement();
-        innerTryStatement.setBody(ast.newBlock());
+        TryStatement tryStatement = this.getAst().newTryStatement();
+        Block block = this.getAst().newBlock();
+        TryStatement innerTryStatement = this.getAst().newTryStatement();
+        innerTryStatement.setBody(this.getAst().newBlock());
         block.statements().add(innerTryStatement);
         tryStatement.setBody(block);
 
@@ -169,8 +170,8 @@ public class TryStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -190,9 +191,9 @@ public class TryStatementVisitorTest extends VisitorTest {
 
     @Test
     public void statementInsideOtherStatementTest() {
-        TryStatement tryStatement = ast.newTryStatement();
-        Block block = ast.newBlock();
-        WhileStatement whileStatement = ast.newWhileStatement();
+        TryStatement tryStatement = this.getAst().newTryStatement();
+        Block block = this.getAst().newBlock();
+        WhileStatement whileStatement = this.getAst().newWhileStatement();
         block.statements().add(whileStatement);
         tryStatement.setBody(block);
 
@@ -203,8 +204,8 @@ public class TryStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, create);
+        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
