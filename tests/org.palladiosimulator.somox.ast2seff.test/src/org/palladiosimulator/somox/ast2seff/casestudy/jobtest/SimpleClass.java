@@ -1,4 +1,4 @@
-package org.palladiosimulator.somox.ast2seff.res;
+package org.palladiosimulator.somox.ast2seff.casestudy.jobtest;
 
 import java.util.ArrayList;
 import java.util.List;

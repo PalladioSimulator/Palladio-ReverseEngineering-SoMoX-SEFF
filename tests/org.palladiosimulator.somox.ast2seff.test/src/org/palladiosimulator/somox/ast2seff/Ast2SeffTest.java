@@ -89,7 +89,7 @@ public class Ast2SeffTest {
     @Test
     public void testAllClassesInDirectory() throws JobFailedException, UserCanceledException, IOException {
 
-        Path directoryPath = Path.of("src/org/palladiosimulator/somox/ast2seff/res");
+        Path directoryPath = Path.of("src/org/palladiosimulator/somox/ast2seff/casestudy/jobtest");
         Map<String, CompilationUnit> compUnitMap = parseDirectory(directoryPath);
         Map<ASTNode, ServiceEffectSpecification> ast2seffMap = new HashMap<>();
 

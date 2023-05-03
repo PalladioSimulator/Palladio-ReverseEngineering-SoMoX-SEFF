@@ -1,4 +1,4 @@
-package org.palladiosimulator.somox.ast2seff.res;
+package org.palladiosimulator.somox.ast2seff.casestudy.jobtest;
 
 public class SimpleExternalClass {
     public void externalCallMethod(SimpleClass externalClass) {
