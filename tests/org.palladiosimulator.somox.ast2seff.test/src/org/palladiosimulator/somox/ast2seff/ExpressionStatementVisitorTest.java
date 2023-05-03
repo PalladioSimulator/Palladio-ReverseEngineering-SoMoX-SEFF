@@ -57,8 +57,8 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -68,7 +68,7 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
 
     @Test
     public void methodInliningTest() {
-        RepoAddition repoAddition = this.getCreate().newRepository().withName("SimpleRepository");
+        RepoAddition repoAddition = this.getFluentFactory().newRepository().withName("SimpleRepository");
         MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
         methodInvocation.setName(this.getAst().newSimpleName("SimpleName"));
         methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
@@ -76,9 +76,9 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
         ExpressionStatement expressionStatement = this.getAst().newExpressionStatement(methodInvocation);
 
         // TODO Evaluate if following statements are needed for test and document
-        OperationSignatureCreator methodOperationSignature = this.getCreate().newOperationSignature()
+        OperationSignatureCreator methodOperationSignature = this.getFluentFactory().newOperationSignature()
                 .withName("expressionStatement");
-        OperationInterfaceCreator bundleOperationInterfaceCreator = this.getCreate().newOperationInterface()
+        OperationInterfaceCreator bundleOperationInterfaceCreator = this.getFluentFactory().newOperationInterface()
                 .withName("ISimpleComponent");
         bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature);
         repoAddition.addToRepository(bundleOperationInterfaceCreator);
@@ -90,8 +90,8 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -102,10 +102,10 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
     @Disabled
     @Test
     public void externalCallActionTest() {
-        RepoAddition repoAddition = this.getCreate().newRepository().withName("Simple Repository");
-        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        RepoAddition repoAddition = this.getFluentFactory().newRepository().withName("Simple Repository");
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
         Map<String, MethodPalladioInformation> methodPalladioInfoMap = new HashMap<>();
-        BasicComponentCreator basicComponentCreator = this.getCreate().newBasicComponent();
+        BasicComponentCreator basicComponentCreator = this.getFluentFactory().newBasicComponent();
         ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
 
         AST ast = AST.newAST(AST.getJLSLatest(), false);
@@ -118,9 +118,9 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
                 "expressionStatement", "Simple Component", methodBundlePair);
         MethodPalladioInformation methodPalladioInformationTwo = new MethodPalladioInformation("expressionStatementTwo",
                 "expressionStatementTwo", "Simple Component Two", methodBundlePair);
-        OperationSignatureCreator methodOperationSignature = this.getCreate().newOperationSignature()
+        OperationSignatureCreator methodOperationSignature = this.getFluentFactory().newOperationSignature()
                 .withName("expressionStatementTwo");
-        OperationInterfaceCreator bundleOperationInterfaceCreator = this.getCreate().newOperationInterface()
+        OperationInterfaceCreator bundleOperationInterfaceCreator = this.getFluentFactory().newOperationInterface()
                 .withName("Simple Component Two");
         bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature);
         repoAddition.addToRepository(bundleOperationInterfaceCreator);
@@ -141,10 +141,10 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
     @Disabled
     @Test
     public void externalCallActionWithTwoInterfacesTest() {
-        RepoAddition repoAddition = this.getCreate().newRepository().withName("Simple Repository");
-        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        RepoAddition repoAddition = this.getFluentFactory().newRepository().withName("Simple Repository");
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
         Map<String, MethodPalladioInformation> methodPalladioInfoMap = new HashMap<>();
-        BasicComponentCreator basicComponentCreator = this.getCreate().newBasicComponent();
+        BasicComponentCreator basicComponentCreator = this.getFluentFactory().newBasicComponent();
         ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
 
         AST ast = AST.newAST(AST.getJLSLatest(), false);
@@ -168,18 +168,18 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
                 "expressionStatement", "SimpleComponent", methodBundlePair);
         MethodPalladioInformation methodPalladioInformationTwo = new MethodPalladioInformation("expressionStatementTwo",
                 "expressionStatementTwo", "ISimpleComponentTwo", methodBundlePair);
-        OperationSignatureCreator methodOperationSignature = this.getCreate().newOperationSignature()
+        OperationSignatureCreator methodOperationSignature = this.getFluentFactory().newOperationSignature()
                 .withName("expressionStatementTwo");
-        OperationInterfaceCreator bundleOperationInterfaceCreator = this.getCreate().newOperationInterface()
+        OperationInterfaceCreator bundleOperationInterfaceCreator = this.getFluentFactory().newOperationInterface()
                 .withName("ISimpleComponentTwo");
         bundleOperationInterfaceCreator.withOperationSignature(methodOperationSignature);
 
         MethodBundlePair methodBundlePairTwo = new MethodBundlePair("SimpleComponentThree", expressionStatementTwo);
         MethodPalladioInformation methodPalladioInformationThree = new MethodPalladioInformation(
                 "expressionStatementThree", "expressionStatementThree", "ISimpleComponentThree", methodBundlePairTwo);
-        OperationSignatureCreator methodOperationSignatureTwo = this.getCreate().newOperationSignature()
+        OperationSignatureCreator methodOperationSignatureTwo = this.getFluentFactory().newOperationSignature()
                 .withName("expressionStatementThree");
-        OperationInterfaceCreator bundleOperationInterfaceCreatorTwo = this.getCreate().newOperationInterface()
+        OperationInterfaceCreator bundleOperationInterfaceCreatorTwo = this.getFluentFactory().newOperationInterface()
                 .withName("ISimpleComponentThree");
         bundleOperationInterfaceCreatorTwo.withOperationSignature(methodOperationSignatureTwo);
 

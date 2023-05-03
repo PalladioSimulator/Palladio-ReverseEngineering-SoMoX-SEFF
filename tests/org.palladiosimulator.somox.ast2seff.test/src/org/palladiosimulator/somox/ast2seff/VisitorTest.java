@@ -15,29 +15,29 @@ import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 
 public class VisitorTest {
     private AST ast;
-    private FluentRepositoryFactory create;
+    private FluentRepositoryFactory fluentFactory;
 
     @BeforeEach
     public void initializeTestClass() {
-        this.create = new FluentRepositoryFactory();
-        create.newRepository();
+        this.fluentFactory = new FluentRepositoryFactory();
+        fluentFactory.newRepository();
         this.ast = AST.newAST(AST.getJLSLatest(), false);
     }
 
     protected Pair<ASTNode, ServiceEffectSpecification> createMethodDeclarationWrappingWithEmptySeff(
             String componentName, String interfaceName, String methodName, Statement statement) {
         // Create an empty ServiceEffectSpecification
-        OperationSignatureCreator operationSignatureCreator = create.newOperationSignature()
+        OperationSignatureCreator operationSignatureCreator = fluentFactory.newOperationSignature()
                 .withName(methodName);
-        OperationInterface operationInterface = create.newOperationInterface()
+        OperationInterface operationInterface = fluentFactory.newOperationInterface()
                 .withName(interfaceName)
                 .withOperationSignature(operationSignatureCreator)
                 .build();
-        BasicComponent basicComponent = create.newBasicComponent()
+        BasicComponent basicComponent = fluentFactory.newBasicComponent()
                 .withName(componentName)
                 .provides(operationInterface)
                 .build();
-        ServiceEffectSpecification seff = create.newSeff().buildRDSeff();
+        ServiceEffectSpecification seff = fluentFactory.newSeff().buildRDSeff();
         seff.setBasicComponent_ServiceEffectSpecification(basicComponent);
         seff.setDescribedService__SEFF(operationInterface.getSignatures__OperationInterface().get(0));
 
@@ -57,7 +57,7 @@ public class VisitorTest {
         return this.ast;
     }
 
-    public FluentRepositoryFactory getCreate() {
-        return this.create;
+    public FluentRepositoryFactory getFluentFactory() {
+        return this.fluentFactory;
     }
 }

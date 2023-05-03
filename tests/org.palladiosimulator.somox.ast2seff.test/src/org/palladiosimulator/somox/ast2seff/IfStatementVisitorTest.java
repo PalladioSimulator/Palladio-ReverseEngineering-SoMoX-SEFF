@@ -50,8 +50,8 @@ public class IfStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -86,8 +86,8 @@ public class IfStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -136,8 +136,8 @@ public class IfStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -170,8 +170,8 @@ public class IfStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
@@ -204,8 +204,8 @@ public class IfStatementVisitorTest extends VisitorTest {
         nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
         // Perform ast2seff conversion via visitor
-        ActionSeff actionSeff = this.getCreate().newSeff().withSeffBehaviour().withStartAction().followedBy();
-        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getCreate());
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
         ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
         EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
