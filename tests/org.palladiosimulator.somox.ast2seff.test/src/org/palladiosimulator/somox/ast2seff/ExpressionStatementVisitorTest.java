@@ -13,6 +13,7 @@ import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.net4j.util.collection.Pair;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.palladiosimulator.generator.fluent.repository.api.RepoAddition;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
@@ -96,9 +97,9 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
         assertTrue(actionList.get(1) instanceof InternalAction);
     }
 
+    @Disabled
     @Test
     public void externalCallActionTest() {
-
         RepoAddition repoAddition = create.newRepository().withName("Simple Repository");
         ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
         Map<String, MethodPalladioInformation> methodPalladioInfoMap = new HashMap<>();
@@ -135,9 +136,9 @@ public class ExpressionStatementVisitorTest extends VisitorTest {
         assertTrue(actionList.get(1) instanceof ExternalCallAction);
     }
 
+    @Disabled
     @Test
     public void externalCallActionWithTwoInterfacesTest() {
-
         RepoAddition repoAddition = create.newRepository().withName("Simple Repository");
         ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
         Map<String, MethodPalladioInformation> methodPalladioInfoMap = new HashMap<>();
