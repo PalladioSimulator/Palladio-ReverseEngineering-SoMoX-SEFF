@@ -147,9 +147,10 @@ public class Ast2SeffTest {
         }
 
         Blackboard<Object> blackboard = new Blackboard<>();
+        String ast2SeffMapKey = "org.palladiosimulator.somox.analyzer.seff_associations";
         String repositoryOutputKey = "repository";
-        Ast2SeffJob ast2SeffJob = new Ast2SeffJob(blackboard, repositoryOutputKey);
-        blackboard.addPartition("org.palladiosimulator.somox.analyzer.seff_associations", ast2seffMap);
+        Ast2SeffJob ast2SeffJob = new Ast2SeffJob(blackboard, ast2SeffMapKey, repositoryOutputKey);
+        blackboard.addPartition(ast2SeffMapKey, ast2seffMap);
 
         NullProgressMonitor progressMonitor = new NullProgressMonitor();
         ast2SeffJob.execute(progressMonitor);
