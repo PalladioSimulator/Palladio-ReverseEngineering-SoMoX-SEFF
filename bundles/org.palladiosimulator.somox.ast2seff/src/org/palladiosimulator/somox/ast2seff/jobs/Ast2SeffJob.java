@@ -55,12 +55,14 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
 
     /** The SoMoX blackboard to interact with. */
     private Blackboard<Object> blackboard;
+    private final String ast2SeffMapKey;
     private final String repositoryOutputKey;
 
     private Map<ASTNode, ServiceEffectSpecification> ast2SeffMap;
 
-    public Ast2SeffJob(Blackboard<Object> blackboard, String repositoryOutputKey) {
+    public Ast2SeffJob(Blackboard<Object> blackboard, String ast2SeffMapKey, String repositoryOutputKey) {
         this.blackboard = Objects.requireNonNull(blackboard);
+        this.ast2SeffMapKey = Objects.requireNonNull(ast2SeffMapKey);
         this.repositoryOutputKey = Objects.requireNonNull(repositoryOutputKey);
     }
 
@@ -75,7 +77,7 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
         LOGGER.info("Executing SEFF Creation Job.");
         monitor.subTask("Loading AST node to SEFF association map from blackboard");
         this.ast2SeffMap = (Map<ASTNode, ServiceEffectSpecification>) this.blackboard
-                .getPartition("org.palladiosimulator.somox.analyzer.seff_associations");
+                .getPartition(this.ast2SeffMapKey);
 
         final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
         subMonitor.setTaskName("Creating SEFF behaviour");
@@ -207,7 +209,8 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
                         .withStartAction().withName(NameUtil.START_ACTION_NAME).followedBy();
 
                 // Perform AST node visit to fill empty fluent seff with content
-                SeffCreator actionSeffCreator = Ast2SeffVisitor.perform(actionSeff, node, ast2FluentSeffMap, fluentFactory)
+                SeffCreator actionSeffCreator = Ast2SeffVisitor
+                        .perform(actionSeff, node, ast2FluentSeffMap, fluentFactory)
                         .stopAction().withName(NameUtil.STOP_ACTION_NAME)
                         .createBehaviourNow();
 
