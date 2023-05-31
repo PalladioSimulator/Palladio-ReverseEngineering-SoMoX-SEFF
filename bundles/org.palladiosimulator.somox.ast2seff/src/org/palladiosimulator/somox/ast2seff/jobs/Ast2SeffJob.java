@@ -1,11 +1,6 @@
-/**
- *
- */
 package org.palladiosimulator.somox.ast2seff.jobs;
 
-import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +8,6 @@ import java.util.Objects;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.net4j.util.om.monitor.SubMonitor;
 import org.palladiosimulator.generator.fluent.repository.api.RepoAddition;
@@ -45,9 +36,10 @@ import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
- * Transformation Job transforming a JDT AST instance into a SEFF using the FluentAPI
+ * Transformer converting a {@link ASTNode JDT AST} instance into a {@link ServiceEffectSpecification Palladio Component
+ * Model SEFF} using the Palladio FluentApiModelGenerator.
  *
- * @author Marcel Rühle, Fabian Wenzel
+ * @author Marcel Rühle, Fabian Wenzel, Moritz Gstuer
  */
 public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>> {
     private static final Logger LOGGER = Logger.getLogger(Ast2SeffJob.class);
@@ -66,15 +58,9 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
         this.repositoryOutputKey = Objects.requireNonNull(repositoryOutputKey);
     }
 
-    /**
-     * This function executes the Ast2Seff execution process It requires that the bundleName2methodAssociationMap is set
-     * inside the blackboard and processes it via the Ast2SeffVisitor
-     *
-     * @see de.uka.ipd.sdq.workflow.IJob#execute(org.eclipse.core.runtime.IProgressMonitor)
-     */
     @Override
     public void execute(final IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
-        LOGGER.info("Executing SEFF Creation Job.");
+        LOGGER.info("Starting SEFF Creation Job.");
         monitor.subTask("Loading AST node to SEFF association map from blackboard");
         this.ast2SeffMap = (Map<ASTNode, ServiceEffectSpecification>) this.blackboard
                 .getPartition(this.ast2SeffMapKey);
@@ -82,33 +68,20 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
         final IProgressMonitor subMonitor = SubMonitor.convert(monitor);
         subMonitor.setTaskName("Creating SEFF behaviour");
 
-        // TODO Evaluate what informations have to be added to fluent repository before seff creation
-        RepoAddition repoAddition = fluentFactory.newRepository().withName("Repository");
-
         LOGGER.info("Creating " + ast2SeffMap.size() + " SEFFs.");
+        RepoAddition repoAddition = fluentFactory.newRepository().withName("Repository");
         createSeffsForComponents(repoAddition, monitor);
 
         LOGGER.info("Created SEFFs. Creating Repository.");
         Repository repository = repoAddition.createRepositoryNow();
 
-        LOGGER.info("Created Repository. Creating XML.");
-        this.generateSeffXmlFile(repository);
-
-        LOGGER.info("Created XML. Task finished.");
-        subMonitor.done();
-
-        // TODO Fix wrong placeholder component in repository instead real component from placeholder seff
-        // -> e.g. return list of correct seffs instead repository or copy content from placeholder seff to real one
+        LOGGER.info("Created Repository. Writing Result to Blackboard.");
         this.blackboard.addPartition(repositoryOutputKey, repository);
+
+        LOGGER.info("Task finished.");
+        subMonitor.done();
     }
 
-    /**
-     * This function creates the BasicComponents and their corresponding SEFF objects for each passed methodBundlePair
-     *
-     * @param repoAddition the Repository where BasicComponents are added
-     * @param monitor      IProgressMonitor for IBlackboardInteractingJob interaction (@see
-     *                     de.uka.ipd.sdq.workflow.IJob#IProgressMonitor(org.eclipse.core.runtime.IProgressMonitor))
-     */
     private void createSeffsForComponents(RepoAddition repoAddition, IProgressMonitor monitor) {
         // Create placeholder interfaces with operation signatures and persist in fluent repository
         List<OperationInterface> persistedInterfaces = this.ast2SeffMap.values().stream()
@@ -252,22 +225,5 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
     @Override
     public void cleanup(final IProgressMonitor monitor) throws CleanupFailedException {
         // Nothing to cleanup after the job
-    }
-
-    /**
-     * This function generates a XML File based on the given repository.
-     *
-     * @param repository the previously created repository that should be a file output
-     */
-    private void generateSeffXmlFile(final Repository repository) {
-        EcorePlugin.ExtensionProcessor.process(null);
-        Resource resource = new ResourceSetImpl().createResource(URI.createFileURI("Repository.xml"));
-        resource.getContents().add(repository);
-
-        try {
-            resource.save(Collections.EMPTY_MAP);
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
     }
 }
