@@ -1,8 +1,9 @@
 package org.palladiosimulator.somox.ast2seff.visitors;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
@@ -14,8 +15,10 @@ import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.ForStatement;
+import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.InfixExpression;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.SimpleName;
@@ -28,35 +31,40 @@ import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
 import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
-import org.palladiosimulator.generator.fluent.repository.structure.components.BasicComponentCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.components.seff.BranchActionCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.components.seff.ExternalCallActionCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.components.seff.LoopActionCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.components.seff.SeffCreator;
 import org.palladiosimulator.generator.fluent.repository.structure.components.seff.SetVariableActionCreator;
 import org.palladiosimulator.generator.fluent.shared.components.VariableUsageCreator;
+import org.palladiosimulator.pcm.core.CoreFactory;
+import org.palladiosimulator.pcm.core.PCMRandomVariable;
 import org.palladiosimulator.pcm.parameter.VariableCharacterisationType;
 import org.palladiosimulator.pcm.reliability.ResourceTimeoutFailureType;
+import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.CompositeDataType;
 import org.palladiosimulator.pcm.repository.DataType;
+import org.palladiosimulator.pcm.repository.OperationInterface;
+import org.palladiosimulator.pcm.repository.OperationRequiredRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.Parameter;
+import org.palladiosimulator.pcm.repository.PassiveResource;
 import org.palladiosimulator.pcm.repository.PrimitiveDataType;
-import org.palladiosimulator.somox.ast2seff.models.ComponentInformation;
-import org.palladiosimulator.somox.ast2seff.models.MethodBundlePair;
-import org.palladiosimulator.somox.ast2seff.models.MethodPalladioInformation;
+import org.palladiosimulator.pcm.repository.RepositoryFactory;
+import org.palladiosimulator.pcm.repository.RequiredRole;
+import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
+import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.somox.ast2seff.util.NameUtil;
 import org.palladiosimulator.somox.ast2seff.util.SwitchStatementUtil;
 
 public class Ast2SeffVisitor extends ASTVisitor {
     private static final Logger LOGGER = Logger.getLogger(Ast2SeffVisitor.class);
 
-    private FluentRepositoryFactory create;
-    private Map<String, MethodPalladioInformation> methodPalladioInfoMap;
-    private MethodBundlePair methodBundlePair;
     private ActionSeff actionSeff;
-    private BasicComponentCreator basicComponentCreator;
-    private ComponentInformation componentInformation;
+    private ASTNode rootNode;
+    private Map<ASTNode, ServiceEffectSpecification> externalNodes;
+
+    private FluentRepositoryFactory fluentFactory;
     private int methodInliningDepth = 0;
 
     /**
@@ -67,18 +75,15 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @param actionSeff                current action SEFF creator object which is used to model the SEFF elements
      * @param methodPalladionInfoMap    object to give access to the information of all methods which should be modeled
      * @param componentInformation      object for the current SEFF component which gets modeled
-     * @param create                    factory object to create additional SEFF elements and fetch created SEFF
+     * @param fluentFactory             factory object to create additional SEFF elements and fetch created SEFF
      *                                  elements from the repository
      */
-    public Ast2SeffVisitor(MethodBundlePair methodBundlePair, ActionSeff actionSeff,
-            Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation,
-            FluentRepositoryFactory create) {
+    public Ast2SeffVisitor(ActionSeff actionSeff, ASTNode rootNode,
+            Map<ASTNode, ServiceEffectSpecification> externalNodes, FluentRepositoryFactory fluentFactory) {
         this.actionSeff = actionSeff;
-        this.methodPalladioInfoMap = methodPalladionInfoMap;
-        this.methodBundlePair = methodBundlePair;
-        this.componentInformation = componentInformation;
-        this.basicComponentCreator = componentInformation.getBasicComponentCreator();
-        this.create = create;
+        this.rootNode = rootNode;
+        this.externalNodes = externalNodes;
+        this.fluentFactory = fluentFactory;
     }
 
     /**
@@ -89,19 +94,17 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @param actionSeff             current action SEFF creator object which is used to model the SEFF elements
      * @param methodPalladionInfoMap object to give access to the information of all methods which should be modeled
      * @param componentInformation   object for the current SEFF component which gets modeled
-     * @param create                 factory object to create additional SEFF elements and fetch created SEFF elements
+     * @param fluentFactory          factory object to create additional SEFF elements and fetch created SEFF elements
      *                               from the repository
      * @param methodInliningDepth    integer value to set the current method inlining depth
      */
-    private Ast2SeffVisitor(MethodBundlePair methodBundlePair, ActionSeff actionSeff,
-            Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation,
-            FluentRepositoryFactory create, int methodInliningDepth) {
+    private Ast2SeffVisitor(ActionSeff actionSeff, ASTNode rootNode,
+            Map<ASTNode, ServiceEffectSpecification> externalNodes, FluentRepositoryFactory fluentFactory,
+            int methodInliningDepth) {
         this.actionSeff = actionSeff;
-        this.methodPalladioInfoMap = methodPalladionInfoMap;
-        this.methodBundlePair = methodBundlePair;
-        this.componentInformation = componentInformation;
-        this.basicComponentCreator = componentInformation.getBasicComponentCreator();
-        this.create = create;
+        this.rootNode = rootNode;
+        this.externalNodes = externalNodes;
+        this.fluentFactory = fluentFactory;
         this.methodInliningDepth = methodInliningDepth;
     }
 
@@ -113,16 +116,15 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @param actionSeff                current action SEFF creator object which is used to model the SEFF elements
      * @param methodPalladionInfoMap    object to give access to the information of all methods which should be modeled
      * @param componentInformation      object for the current SEFF component which gets modeled
-     * @param create                    factory object to create additional SEFF elements and fetch created SEFF
+     * @param fluentFactory             factory object to create additional SEFF elements and fetch created SEFF
      *                                  elements from the repository
      * @return ActionSeff object which contains the transformed the complete MethodDeclaration
      */
-    public static ActionSeff perform(MethodBundlePair methodBundlePair, ActionSeff actionSeff,
-            Map<String, MethodPalladioInformation> methodPalladionInfoMap, ComponentInformation componentInformation,
-            FluentRepositoryFactory create) {
-        Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodBundlePair, actionSeff,
-                methodPalladionInfoMap, componentInformation, create);
-        methodBundlePair.getAstNode().accept(newFunctionCallClassificationVisitor);
+    public static ActionSeff perform(ActionSeff actionSeff, ASTNode rootNode,
+            Map<ASTNode, ServiceEffectSpecification> externalNodes, FluentRepositoryFactory fluentFactory) {
+        Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(actionSeff, rootNode, externalNodes,
+                fluentFactory);
+        rootNode.accept(newFunctionCallClassificationVisitor);
         return actionSeff;
     }
 
@@ -135,8 +137,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @return ActionSeff object which contains the transformed the ASTNode object
      */
     private ActionSeff perform(ASTNode node, ActionSeff actionSeff) {
-        Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodBundlePair, actionSeff,
-                methodPalladioInfoMap, componentInformation, create);
+        Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(actionSeff, rootNode, externalNodes,
+                fluentFactory);
         node.accept(newFunctionCallClassificationVisitor);
         return actionSeff;
     }
@@ -152,8 +154,8 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @return ActionSeff object which contains the transformed the ASTNode object
      */
     private ActionSeff perform(ASTNode node, ActionSeff actionSeff, int methodInliningDepth) {
-        Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(methodBundlePair, actionSeff,
-                methodPalladioInfoMap, componentInformation, create, methodInliningDepth);
+        Ast2SeffVisitor newFunctionCallClassificationVisitor = new Ast2SeffVisitor(actionSeff, rootNode, externalNodes,
+                fluentFactory, methodInliningDepth);
         node.accept(newFunctionCallClassificationVisitor);
         return actionSeff;
     }
@@ -177,17 +179,17 @@ public class Ast2SeffVisitor extends ASTVisitor {
              * Set Variable Actions only should be modeled for functions with return statement
              *
              **/
-        } else if (expression instanceof MethodInvocation && this.isExternal((MethodInvocation) expression)) {
-
+        } else if (expression instanceof MethodInvocation && isExternal((MethodInvocation) expression)) {
             MethodInvocation methodInvocation = (MethodInvocation) expression;
-            MethodPalladioInformation methodPalladioInformation = this.getMethodPalladioInformation(methodInvocation);
-
-            String potentialInterfaceName = "I" + methodBundlePair.getBundleName();
-            if (!potentialInterfaceName.equals(methodPalladioInformation.getOperationInterfaceName())) {
-                createExternalCallAction(methodInvocation, methodPalladioInformation);
+            // Never throws due to isExternal check above
+            OperationInterface operationInterface = getOperationInterfaceOfInvocation(methodInvocation).orElseThrow();
+            OperationSignature operationSignature = getOperationSignatureOfInvocation(methodInvocation).orElseThrow();
+            if (!getOperationInterfaceOfRootNode().getEntityName()
+                    .equals(operationInterface.getEntityName())) {
+                createExternalCallAction(methodInvocation, operationInterface, operationSignature);
             } else {
                 if (methodInliningDepth < 1) {
-                    createMethodInlining(methodPalladioInformation);
+                    createMethodInlining();
                 } else {
                     createInternalAction(expressionStatement);
                 }
@@ -205,9 +207,9 @@ public class Ast2SeffVisitor extends ASTVisitor {
      *
      * @param methodPalladioInformation information of method which gets inlined
      */
-    private void createMethodInlining(MethodPalladioInformation methodPalladioInformation) {
+    private void createMethodInlining() {
         LOGGER.debug("Expression Statement is Method Inlining");
-        this.perform(methodPalladioInformation.getMethodBundlePair().getAstNode(), actionSeff, methodInliningDepth + 1);
+        this.perform(rootNode, actionSeff, methodInliningDepth + 1);
     }
 
     /**
@@ -217,20 +219,17 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @param methodInvocation          invocation of external method
      * @param externalMethodInformation information of external method which gets referenced
      */
-    private void createExternalCallAction(MethodInvocation methodInvocation,
-            MethodPalladioInformation externalMethodInformation) {
+    private void createExternalCallAction(MethodInvocation methodInvocation, OperationInterface operationInterface,
+            OperationSignature operationSignature) {
         LOGGER.debug("Expression Statement is External Call Action");
 
         ExternalCallActionCreator externalCallActionCreator = actionSeff.externalCallAction();
-
-        addRequiredInterfaceToComponent(externalMethodInformation.getOperationInterfaceName());
-        externalCallActionCreator.withCalledService(
-                create.fetchOfOperationSignature(externalMethodInformation.getOperationSignatureName()));
-        externalCallActionCreator.withRequiredRole(
-                create.fetchOfOperationRequiredRole(externalMethodInformation.getOperationInterfaceName()));
-
-        OperationSignature calledFunctionSignature = create
-                .fetchOfOperationSignature(externalMethodInformation.getOperationSignatureName());
+        OperationRequiredRole requiredRole = addRequiredInterfaceToComponent(operationInterface.getEntityName());
+        externalCallActionCreator.withCalledService(operationSignature);
+        externalCallActionCreator.withRequiredRole(requiredRole);
+        // TODO Here is real signature needed due to parameters. How can this be designed more straightforward?
+        OperationSignature calledFunctionSignature = (OperationSignature) getServiceEffectSpecificationOfInvocation(
+                methodInvocation).orElseThrow().getDescribedService__SEFF();
         VariableUsageCreator variableUsage;
         if (!methodInvocation.arguments().isEmpty()) {
             if (calledFunctionSignature != null && (calledFunctionSignature.getParameters__OperationSignature()
@@ -265,23 +264,24 @@ public class Ast2SeffVisitor extends ASTVisitor {
      *
      * @param requiredInterfaceName name of the interface
      */
-    private void addRequiredInterfaceToComponent(String requiredInterfaceName) {
-        String basicComponentName = methodBundlePair.getBundleName();
-        Map<String, List<String>> componentRequiredListMap = componentInformation.getComponentRequiredListMap();
-        if (componentRequiredListMap.containsKey(basicComponentName)) {
-            List<String> requiredList = componentRequiredListMap.get(basicComponentName);
-            if (!requiredList.contains(requiredInterfaceName)) {
-                basicComponentCreator.requires(create.fetchOfOperationInterface(requiredInterfaceName),
-                        requiredInterfaceName);
-                requiredList.add(requiredInterfaceName);
+    private OperationRequiredRole addRequiredInterfaceToComponent(String requiredInterfaceName) {
+        OperationInterface requiredInterface = fluentFactory.fetchOfOperationInterface(requiredInterfaceName);
+
+        // Search for already existing required interface
+        BasicComponent rootComponent = getComponentOfRootNode();
+        for (RequiredRole requiredRole : rootComponent.getRequiredRoles_InterfaceRequiringEntity()) {
+            OperationRequiredRole operationRequiredRole = (OperationRequiredRole) requiredRole;
+            if (operationRequiredRole.getRequiredInterface__OperationRequiredRole().getEntityName()
+                    .equals(requiredInterface.getEntityName())) {
+                return operationRequiredRole;
             }
-        } else {
-            basicComponentCreator.requires(create.fetchOfOperationInterface(requiredInterfaceName),
-                    requiredInterfaceName);
-            List<String> requiredList = new ArrayList<>();
-            requiredList.add(requiredInterfaceName);
-            componentRequiredListMap.put(basicComponentName, requiredList);
         }
+
+        // Create new requiring role if interface is not required by component yet
+        OperationRequiredRole requiredRole = RepositoryFactory.eINSTANCE.createOperationRequiredRole();
+        requiredRole.setRequiredInterface__OperationRequiredRole(requiredInterface);
+        rootComponent.getRequiredRoles_InterfaceRequiringEntity().add(requiredRole);
+        return requiredRole;
     }
 
     /**
@@ -329,19 +329,24 @@ public class Ast2SeffVisitor extends ASTVisitor {
     public boolean visit(final SynchronizedStatement synchronizedStatement) {
         LOGGER.debug("Visit Synchronized Statement");
 
-        if (!componentInformation.getIsPassiveResourceSet()) {
-            basicComponentCreator.withPassiveResource(
-                    "1", (ResourceTimeoutFailureType) create
-                            .newResourceTimeoutFailureType("PassiveResourceTimeoutFailure").build(),
-                    "Passive Resource");
-            componentInformation.setPassiveResourceSetTrue();
+        if (getComponentOfRootNode().getPassiveResource_BasicComponent().isEmpty()) {
+            PCMRandomVariable randomVariable = CoreFactory.eINSTANCE.createPCMRandomVariable();
+            randomVariable.setSpecification("1");
+            PassiveResource pass = RepositoryFactory.eINSTANCE.createPassiveResource();
+            pass.setCapacity_PassiveResource(randomVariable);
+            pass.setResourceTimeoutFailureType__PassiveResource((ResourceTimeoutFailureType) fluentFactory
+                    .newResourceTimeoutFailureType("PassiveResourceTimeoutFailure").build());
+            pass.setEntityName("Passive Resource");
+            getComponentOfRootNode().getPassiveResource_BasicComponent().add(pass);
         }
 
+        PassiveResource passiveResource = getComponentOfRootNode().getPassiveResource_BasicComponent().stream()
+                .filter(resource -> resource.getEntityName().equals("Passive Resource")).findFirst().orElseThrow();
         actionSeff.acquireAction().withName(NameUtil.ACQUIRE_ACTION_NAME)
-                .withPassiveResource(create.fetchOfPassiveResource("Passive Resource")).followedBy();
+                .withPassiveResource(passiveResource).followedBy();
         actionSeff = this.perform(synchronizedStatement.getBody(), actionSeff);
         actionSeff.releaseAction().withName(NameUtil.RELEASE_ACTION_NAME)
-                .withPassiveResource(create.fetchOfPassiveResource("Passive Resource")).followedBy();
+                .withPassiveResource(passiveResource).followedBy();
 
         return false;
     }
@@ -362,7 +367,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
 
         List<CatchClause> catchClauseList = tryStatement.catchClauses();
         for (CatchClause catchClause : catchClauseList) {
-            ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction()
+            ActionSeff innerActionSeff = fluentFactory.newSeff().withSeffBehaviour().withStartAction()
                     .withName(NameUtil.START_ACTION_NAME).followedBy();
             innerActionSeff = this.perform(catchClause.getBody(), innerActionSeff);
             SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME)
@@ -455,7 +460,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
         LOGGER.debug("Generate Inner Branch Behaviour");
         for (List<Statement> block : blockList) {
 
-            ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction()
+            ActionSeff innerActionSeff = fluentFactory.newSeff().withSeffBehaviour().withStartAction()
                     .withName(NameUtil.START_ACTION_NAME).followedBy();
 
             for (Statement statement : block) {
@@ -515,7 +520,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @return VariableUsageCreator object ready to be added to a Set Variable Action
      */
     private VariableUsageCreator generateInputVariableUsage(Expression expression, Parameter parameter) {
-        VariableUsageCreator variableUsage = create.newVariableUsage();
+        VariableUsageCreator variableUsage = fluentFactory.newVariableUsage();
 
         String randomPCMName;
         DataType paraDataType = parameter.getDataType__Parameter();
@@ -547,7 +552,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @return VariableUsageCreator object ready to be added to a Set Variable Action
      */
     private VariableUsageCreator generateInputVariableUsage(Expression expression) {
-        VariableUsageCreator variableUsage = create.newVariableUsage();
+        VariableUsageCreator variableUsage = fluentFactory.newVariableUsage();
         variableUsage.withNamespaceReference("PrimitiveType", NameUtil.getExpressionClassName(expression));
         String randomPCMName = "PrimitiveType" + "." + NameUtil.getExpressionClassName(expression);
         variableUsage.withVariableCharacterisation(randomPCMName, VariableCharacterisationType.VALUE);
@@ -562,7 +567,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
      * @return VariableUsageCreator object ready to be added to a Set Variable Action
      */
     private VariableUsageCreator generateOutputVariableUsage(DataType returnType) {
-        VariableUsageCreator variableUsage = create.newVariableUsage();
+        VariableUsageCreator variableUsage = fluentFactory.newVariableUsage();
 
         String randomPCMName = "tempVariable";
 
@@ -604,7 +609,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
         }
 
         LOGGER.debug("Generate Inner Branch Behaviour");
-        ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction()
+        ActionSeff innerActionSeff = fluentFactory.newSeff().withSeffBehaviour().withStartAction()
                 .withName(NameUtil.START_ACTION_NAME).followedBy();
         innerActionSeff = this.perform(node, innerActionSeff);
         SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
@@ -625,7 +630,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
      */
     private BranchActionCreator handleElseStatement(Statement statement, BranchActionCreator branchActionCreator) {
 
-        ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction()
+        ActionSeff innerActionSeff = fluentFactory.newSeff().withSeffBehaviour().withStartAction()
                 .withName(NameUtil.START_ACTION_NAME).followedBy();
 
         String condition = "condition";
@@ -665,7 +670,7 @@ public class Ast2SeffVisitor extends ASTVisitor {
      */
     private LoopActionCreator generateLoopAction(ASTNode node, LoopActionCreator loopActionCreator) {
         LOGGER.debug("Generate Inner Loop Behaviour");
-        ActionSeff innerActionSeff = create.newSeff().withSeffBehaviour().withStartAction()
+        ActionSeff innerActionSeff = fluentFactory.newSeff().withSeffBehaviour().withStartAction()
                 .withName(NameUtil.START_ACTION_NAME).followedBy();
         innerActionSeff = this.perform(node, innerActionSeff);
         SeffCreator seffCreator = innerActionSeff.stopAction().withName(NameUtil.STOP_ACTION_NAME).createBehaviourNow();
@@ -673,34 +678,57 @@ public class Ast2SeffVisitor extends ASTVisitor {
         return loopActionCreator;
     }
 
-    /**
-     *
-     * Check whether the MethodInvocation is of an external or internal component
-     *
-     * @param methodInvocation object to check for
-     * @return boolean if the object is external
-     */
-    private boolean isExternal(MethodInvocation methodInvocation) {
-        String methodName = methodInvocation.getName().toString();
-        String className = NameUtil.getClassName(methodInvocation);
-        return this.methodPalladioInfoMap.containsKey(className + "." + methodName);
+    private BasicComponent getComponentOfRootNode() {
+        return this.externalNodes.get(this.rootNode).getBasicComponent_ServiceEffectSpecification();
     }
 
-    /**
-     *
-     * Return the MethodPalladioInformation object for a methodInvocation object
-     *
-     * @param methodInvocation object name refers to a MethodPalladioInformation
-     * @return MethodPalladioInformation object
-     */
-    private MethodPalladioInformation getMethodPalladioInformation(MethodInvocation methodInvocation) {
-        String methodName = methodInvocation.getName().toString();
-        String className = NameUtil.getClassName(methodInvocation);
-        if (this.methodPalladioInfoMap.containsKey(className + "." + methodName)) {
-            return this.methodPalladioInfoMap.get(className + "." + methodName);
-        } else {
-            // TODO: handle the return of null
-            return null;
+    private OperationInterface getOperationInterfaceOfRootNode() {
+        ResourceDemandingSEFF seff = (ResourceDemandingSEFF) this.externalNodes.get(this.rootNode);
+        OperationSignature signature = (OperationSignature) seff.getDescribedService__SEFF();
+        return signature.getInterface__OperationSignature();
+    }
+
+    private boolean isExternal(MethodInvocation invocation) {
+        BasicComponent rootComponent = getComponentOfRootNode();
+        Optional<ServiceEffectSpecification> optionalSeff = getServiceEffectSpecificationOfInvocation(invocation);
+
+        // Invocation is external call if seff for invocation exists, & caller & callee are different components
+        // Important: Component names are unique.
+        return optionalSeff.isPresent() && !optionalSeff.get()
+                .getBasicComponent_ServiceEffectSpecification().getEntityName().equals(rootComponent.getEntityName());
+    }
+
+    private Optional<OperationInterface> getOperationInterfaceOfInvocation(MethodInvocation invocation) {
+        Optional<ServiceEffectSpecification> optionalSeff = getServiceEffectSpecificationOfInvocation(invocation);
+        if (optionalSeff.isPresent()) {
+            OperationSignature signature = (OperationSignature) optionalSeff.get().getDescribedService__SEFF();
+            return Optional.of(signature.getInterface__OperationSignature());
         }
+        return Optional.empty();
+    }
+
+    private Optional<OperationSignature> getOperationSignatureOfInvocation(MethodInvocation invocation) {
+        Optional<ServiceEffectSpecification> optionalSeff = getServiceEffectSpecificationOfInvocation(invocation);
+        if (optionalSeff.isPresent()) {
+            return Optional.of((OperationSignature) optionalSeff.get().getDescribedService__SEFF());
+        }
+        return Optional.empty();
+    }
+
+    private Optional<ServiceEffectSpecification> getServiceEffectSpecificationOfInvocation(
+            MethodInvocation invocation) {
+        IMethodBinding invocationBinding = invocation.resolveMethodBinding();
+        for (ASTNode node : this.externalNodes.keySet()) {
+            ServiceEffectSpecification seff = this.externalNodes.get(node);
+
+            // Check if ast nodes represent same method
+            MethodDeclaration methodDeclaration = (MethodDeclaration) node;
+            IMethodBinding declarationBinding = methodDeclaration.resolveBinding();
+            if (Objects.nonNull(declarationBinding) && Objects.nonNull(invocationBinding)
+                    && declarationBinding.getKey().equals(invocationBinding.getKey())) {
+                return Optional.of(seff);
+            }
+        }
+        return Optional.empty();
     }
 }

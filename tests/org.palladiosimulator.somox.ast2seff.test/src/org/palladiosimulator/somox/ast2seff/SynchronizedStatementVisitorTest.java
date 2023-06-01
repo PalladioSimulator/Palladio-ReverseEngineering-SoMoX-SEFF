@@ -7,15 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.SynchronizedStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
+import org.eclipse.net4j.util.collection.Pair;
 import org.junit.jupiter.api.Test;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
-import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
-import org.palladiosimulator.generator.fluent.repository.structure.components.BasicComponentCreator;
 import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.AcquireAction;
 import org.palladiosimulator.pcm.seff.InternalAction;
@@ -23,16 +22,12 @@ import org.palladiosimulator.pcm.seff.LoopAction;
 import org.palladiosimulator.pcm.seff.ReleaseAction;
 import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
+import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
-import org.palladiosimulator.somox.ast2seff.models.ComponentInformation;
-import org.palladiosimulator.somox.ast2seff.models.MethodBundlePair;
-import org.palladiosimulator.somox.ast2seff.models.MethodPalladioInformation;
 import org.palladiosimulator.somox.ast2seff.visitors.Ast2SeffVisitor;
 
-public class SynchronizedStatementVisitorTest {
-    private static final FluentRepositoryFactory create = new FluentRepositoryFactory();
-
+public class SynchronizedStatementVisitorTest extends VisitorTest {
     // Testplan
     // 1. Test: Statement mit leerem Body
     // 2. Test: Statement mit einer System.out.println (Internal Action)
@@ -46,22 +41,19 @@ public class SynchronizedStatementVisitorTest {
 
     @Test
     public void emptyBodyStatementTest() {
+        SynchronizedStatement synchronizedStatement = this.getAst().newSynchronizedStatement();
 
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "synchronizedStatement", synchronizedStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
-        create.newRepository();
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
-        SynchronizedStatement synchronizedStatement = ast.newSynchronizedStatement();
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", synchronizedStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("synchronizedStatement",
-                "synchronizedStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
-
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(actionList.size(), 4);
         assertTrue(actionList.get(0) instanceof StartAction);
@@ -73,30 +65,26 @@ public class SynchronizedStatementVisitorTest {
 
     @Test
     public void singleStatementTest() {
-
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        create.newRepository();
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
-        SynchronizedStatement synchronizedStatement = ast.newSynchronizedStatement();
-
-        Block block = ast.newBlock();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("SimpleName"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-        block.statements().add(ast.newExpressionStatement(methodInvocation));
+        SynchronizedStatement synchronizedStatement = this.getAst().newSynchronizedStatement();
+        Block block = this.getAst().newBlock();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
+        block.statements().add(this.getAst().newExpressionStatement(methodInvocation));
         synchronizedStatement.setBody(block);
 
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", synchronizedStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("synchronizedStatement",
-                "synchronizedStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "synchronizedStatement", synchronizedStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(actionList.size(), 5);
         assertTrue(actionList.get(0) instanceof StartAction);
@@ -109,25 +97,22 @@ public class SynchronizedStatementVisitorTest {
 
     @Test
     public void statementInsideSameStatementTest() {
-
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        create.newRepository();
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
-        SynchronizedStatement synchronizedStatement = ast.newSynchronizedStatement();
-        Block block = ast.newBlock();
-        block.statements().add(ast.newSynchronizedStatement());
+        SynchronizedStatement synchronizedStatement = this.getAst().newSynchronizedStatement();
+        Block block = this.getAst().newBlock();
+        block.statements().add(this.getAst().newSynchronizedStatement());
         synchronizedStatement.setBody(block);
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", synchronizedStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("synchronizedStatement",
-                "synchronizedStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "synchronizedStatement", synchronizedStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
+
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(actionList.size(), 6);
         assertTrue(actionList.get(0) instanceof StartAction);
@@ -141,28 +126,23 @@ public class SynchronizedStatementVisitorTest {
 
     @Test
     public void statementInsideOtherStatementTest() {
-
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        create.newRepository();
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
-        SynchronizedStatement synchronizedStatement = ast.newSynchronizedStatement();
-
-        Block block = ast.newBlock();
-        WhileStatement whileStatement = ast.newWhileStatement();
+        SynchronizedStatement synchronizedStatement = this.getAst().newSynchronizedStatement();
+        Block block = this.getAst().newBlock();
+        WhileStatement whileStatement = this.getAst().newWhileStatement();
         block.statements().add(whileStatement);
         synchronizedStatement.setBody(block);
 
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", synchronizedStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("synchronizedStatement",
-                "synchronizedStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "synchronizedStatement", synchronizedStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(actionList.size(), 5);
         assertTrue(actionList.get(0) instanceof StartAction);

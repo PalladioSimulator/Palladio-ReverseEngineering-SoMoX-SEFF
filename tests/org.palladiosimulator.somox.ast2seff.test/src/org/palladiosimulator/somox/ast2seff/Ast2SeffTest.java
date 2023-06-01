@@ -7,16 +7,17 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FileASTRequestor;
@@ -25,11 +26,15 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.junit.jupiter.api.Test;
+import org.palladiosimulator.generator.fluent.repository.api.RepoAddition;
+import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.OperationInterface;
+import org.palladiosimulator.pcm.repository.OperationSignature;
 import org.palladiosimulator.pcm.repository.Repository;
+import org.palladiosimulator.pcm.repository.RepositoryFactory;
+import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.somox.ast2seff.jobs.Ast2SeffJob;
-import org.palladiosimulator.somox.ast2seff.models.MethodBundlePair;
 import org.palladiosimulator.somox.ast2seff.util.MethodDeclarationFinder;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
@@ -84,43 +89,68 @@ public class Ast2SeffTest {
     @Test
     public void testAllClassesInDirectory() throws JobFailedException, UserCanceledException, IOException {
 
-        Path directoryPath = Path.of("src/org/palladiosimulator/somox/ast2seff/res");
+        Path directoryPath = Path.of("src/org/palladiosimulator/somox/ast2seff/casestudy/jobtest");
         Map<String, CompilationUnit> compUnitMap = parseDirectory(directoryPath);
-
-        Map<String,
-                List<MethodBundlePair>> bundleName2methodAssociationMap = new HashMap<>();
+        Map<ASTNode, ServiceEffectSpecification> ast2seffMap = new HashMap<>();
 
         for (var entry : compUnitMap.entrySet()) {
             List<MethodDeclaration> methodDeclarations = MethodDeclarationFinder.perform(entry.getValue());
+            Map<String, BasicComponent> createdNamedComponents = new HashMap<>();
+            Map<String, OperationInterface> createdInterfacesOfNamedComponents = new HashMap<>();
+
             for (MethodDeclaration methodDeclaration : methodDeclarations) {
                 List<IExtendedModifier> modifierList = methodDeclaration.modifiers();
 
-                // Generate a SEFF for public methods
+                // Check whether method declaration belongs to public method
                 IExtendedModifier firstModifier = modifierList.get(0);
                 if (firstModifier.isModifier()) {
                     Modifier modifier = (Modifier) firstModifier;
                     if (modifier.isPublic()) {
                         TypeDeclaration typeDeclaration = (TypeDeclaration) methodDeclaration.getParent();
                         String className = typeDeclaration.getName().toString();
-                        if (bundleName2methodAssociationMap.containsKey(className)) {
-                            bundleName2methodAssociationMap.get(className)
-                                    .add(new MethodBundlePair(className, methodDeclaration));
-                        } else {
-                            List<MethodBundlePair> methodAssociationList = new ArrayList<>();
-                            methodAssociationList.add(new MethodBundlePair(className, methodDeclaration));
-                            bundleName2methodAssociationMap.put(className, methodAssociationList);
+                        String methodName = methodDeclaration.getName().toString();
+
+                        // Create fluent factory & fluent repository
+                        FluentRepositoryFactory fluentFactory = new FluentRepositoryFactory();
+                        RepoAddition fluentRepository = fluentFactory.newRepository();
+
+                        // Create operation signature for method declaration
+                        OperationSignature operationSignature = RepositoryFactory.eINSTANCE.createOperationSignature();
+                        operationSignature.setEntityName(methodName);
+
+                        // Fetch component and interface if already created or create new if needed
+                        BasicComponent basicComponent = createdNamedComponents.get(className);
+                        OperationInterface operationInterface = createdInterfacesOfNamedComponents.get(className);
+                        if (Objects.isNull(basicComponent)) {
+                            operationInterface = fluentFactory.newOperationInterface()
+                                    .withName("I" + className)
+                                    .build();
+                            basicComponent = fluentFactory.newBasicComponent()
+                                    .withName(className)
+                                    .provides(operationInterface)
+                                    .build();
+                            createdNamedComponents.put(className, basicComponent);
+                            createdInterfacesOfNamedComponents.put(className, operationInterface);
                         }
+                        operationInterface.getSignatures__OperationInterface().add(operationSignature);
+
+                        // Create empty placeholder service effect specification for chosen method declarations
+                        ServiceEffectSpecification seff = fluentFactory.newSeff().buildRDSeff();
+                        seff.setBasicComponent_ServiceEffectSpecification(basicComponent);
+                        seff.setDescribedService__SEFF(operationSignature);
+
+                        // Add method declaration and ast node to map
+                        ast2seffMap.put(methodDeclaration, seff);
                     }
                 }
             }
         }
 
         Blackboard<Object> blackboard = new Blackboard<>();
+        String ast2SeffMapKey = "org.palladiosimulator.somox.analyzer.seff_associations";
         String repositoryOutputKey = "repository";
-        Ast2SeffJob ast2SeffJob = new Ast2SeffJob(blackboard, repositoryOutputKey);
-
-        // TODO Fill blackboard with information (like root compilation units) for Ast2Seff Job
-        blackboard.addPartition("bundleName2methodAssociationMap", bundleName2methodAssociationMap);
+        Ast2SeffJob ast2SeffJob = new Ast2SeffJob(blackboard, ast2SeffMapKey, repositoryOutputKey);
+        blackboard.addPartition(ast2SeffMapKey, ast2seffMap);
 
         NullProgressMonitor progressMonitor = new NullProgressMonitor();
         ast2SeffJob.execute(progressMonitor);
@@ -132,11 +162,20 @@ public class Ast2SeffTest {
         assertEquals(2, repository.getComponents__Repository().size());
         assertEquals(2, repository.getInterfaces__Repository().size());
 
-        BasicComponent basicComponentOne = (BasicComponent) repository.getComponents__Repository().get(0);
-        BasicComponent basicComponentTwo = (BasicComponent) repository.getComponents__Repository().get(1);
-        OperationInterface interfaceOne = (OperationInterface) repository.getInterfaces__Repository().get(0);
-        OperationInterface interfaceTwo = (OperationInterface) repository.getInterfaces__Repository().get(1);
+        BasicComponent basicComponentOne = (BasicComponent) repository.getComponents__Repository().stream()
+                .filter(component -> component.getEntityName().equals("SimpleExternalClass"))
+                .findFirst().orElseThrow();
+        BasicComponent basicComponentTwo = (BasicComponent) repository.getComponents__Repository().stream()
+                .filter(component -> component.getEntityName().equals("SimpleClass"))
+                .findFirst().orElseThrow();
+        OperationInterface interfaceOne = (OperationInterface) repository.getInterfaces__Repository().stream()
+                .filter(interFace -> interFace.getEntityName().equals("ISimpleExternalClass"))
+                .findFirst().orElseThrow();
+        OperationInterface interfaceTwo = (OperationInterface) repository.getInterfaces__Repository().stream()
+                .filter(interFace -> interFace.getEntityName().equals("ISimpleClass"))
+                .findFirst().orElseThrow();
 
+        // TODO Add tests for correctness of relations between components, interfaces, & signatures
         assertEquals(4, basicComponentOne.getServiceEffectSpecifications__BasicComponent().size());
         assertEquals(14, basicComponentTwo.getServiceEffectSpecifications__BasicComponent().size());
         assertEquals(1, basicComponentOne.getProvidedRoles_InterfaceProvidingEntity().size());

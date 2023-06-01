@@ -7,25 +7,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.ReturnStatement;
+import org.eclipse.net4j.util.collection.Pair;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
-import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
-import org.palladiosimulator.generator.fluent.repository.structure.components.BasicComponentCreator;
 import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
+import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.pcm.seff.SetVariableAction;
-import org.palladiosimulator.somox.ast2seff.models.ComponentInformation;
-import org.palladiosimulator.somox.ast2seff.models.MethodBundlePair;
-import org.palladiosimulator.somox.ast2seff.models.MethodPalladioInformation;
 import org.palladiosimulator.somox.ast2seff.visitors.Ast2SeffVisitor;
 
-public class ReturnStatementTest {
-    private static final FluentRepositoryFactory create = new FluentRepositoryFactory();
-
+public class ReturnStatementTest extends VisitorTest {
     // Testplan
     // 1. Test: Statement mit leerem Body
     // 2. Test: Statement mit einer System.out.println (Internal Action)
@@ -39,25 +34,24 @@ public class ReturnStatementTest {
 
     @Test
     public void emptyBodyStatementTest() {
-
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
-        ReturnStatement returnStatement = ast.newReturnStatement();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("ReturnExpression"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
+        ReturnStatement returnStatement = this.getAst().newReturnStatement();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("ReturnExpression"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
         returnStatement.setExpression(methodInvocation);
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", returnStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("returnStatement",
-                "returnStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "returnStatement", returnStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
+
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(actionList.size(), 3);
         assertTrue(actionList.get(1) instanceof SetVariableAction);
@@ -69,55 +63,53 @@ public class ReturnStatementTest {
     @Test
     @Disabled
     public void booleanReturnStatementTest() {
-
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
-        ReturnStatement returnStatement = ast.newReturnStatement();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("ReturnExpression"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
+        ReturnStatement returnStatement = this.getAst().newReturnStatement();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("ReturnExpression"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
         returnStatement.setExpression(methodInvocation);
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", returnStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("returnStatement",
-                "returnStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "returnStatement", returnStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
+
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(actionList.size(), 3);
         assertTrue(actionList.get(1) instanceof SetVariableAction);
 
         SetVariableAction setVariableAction = (SetVariableAction) actionList.get(1);
-
+        // TODO Finish disabled test cases
     }
 
     @Test
     @Disabled
     public void charReturnStatementTest() {
-
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
-        ReturnStatement returnStatement = ast.newReturnStatement();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("ReturnExpression"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
+        ReturnStatement returnStatement = this.getAst().newReturnStatement();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("ReturnExpression"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
         returnStatement.setExpression(methodInvocation);
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", returnStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("returnStatement",
-                "returnStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "returnStatement", returnStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
+
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(actionList.size(), 3);
         assertTrue(actionList.get(1) instanceof SetVariableAction);
@@ -130,25 +122,24 @@ public class ReturnStatementTest {
     @Test
     @Disabled
     public void stringReturnStatementTest() {
-
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
-        ReturnStatement returnStatement = ast.newReturnStatement();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("ReturnExpression"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
+        ReturnStatement returnStatement = this.getAst().newReturnStatement();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("ReturnExpression"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
         returnStatement.setExpression(methodInvocation);
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", returnStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("returnStatement",
-                "returnStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "returnStatement", returnStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
+
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(actionList.size(), 3);
         assertTrue(actionList.get(1) instanceof SetVariableAction);

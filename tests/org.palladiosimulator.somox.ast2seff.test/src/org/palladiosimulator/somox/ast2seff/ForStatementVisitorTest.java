@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.InfixExpression;
@@ -17,25 +17,20 @@ import org.eclipse.jdt.core.dom.PostfixExpression.Operator;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.WhileStatement;
+import org.eclipse.net4j.util.collection.Pair;
 import org.junit.jupiter.api.Test;
 import org.palladiosimulator.generator.fluent.repository.api.seff.ActionSeff;
-import org.palladiosimulator.generator.fluent.repository.factory.FluentRepositoryFactory;
-import org.palladiosimulator.generator.fluent.repository.structure.components.BasicComponentCreator;
 import org.palladiosimulator.pcm.seff.AbstractAction;
 import org.palladiosimulator.pcm.seff.InternalAction;
 import org.palladiosimulator.pcm.seff.LoopAction;
 import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
+import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
-import org.palladiosimulator.somox.ast2seff.models.ComponentInformation;
-import org.palladiosimulator.somox.ast2seff.models.MethodBundlePair;
-import org.palladiosimulator.somox.ast2seff.models.MethodPalladioInformation;
 import org.palladiosimulator.somox.ast2seff.visitors.Ast2SeffVisitor;
 
-public class ForStatementVisitorTest {
-    private static final FluentRepositoryFactory create = new FluentRepositoryFactory();
-
+public class ForStatementVisitorTest extends VisitorTest {
     // Testplan
     // 1. Test: Statement mit leerem Body
     // 2. Test: Statement mit einer System.out.println (Internal Action)
@@ -49,37 +44,34 @@ public class ForStatementVisitorTest {
 
     @Test
     public void emptyBodyStatementTest() {
-
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
-        ForStatement forStatement = ast.newForStatement();
-        VariableDeclarationFragment variableDeclarationFragment = ast.newVariableDeclarationFragment();
-        variableDeclarationFragment.setName(ast.newSimpleName("i"));
-        variableDeclarationFragment.setInitializer(ast.newNumberLiteral("0"));
-        VariableDeclarationExpression variableDeclarationExpression = ast
+        ForStatement forStatement = this.getAst().newForStatement();
+        VariableDeclarationFragment variableDeclarationFragment = this.getAst().newVariableDeclarationFragment();
+        variableDeclarationFragment.setName(this.getAst().newSimpleName("i"));
+        variableDeclarationFragment.setInitializer(this.getAst().newNumberLiteral("0"));
+        VariableDeclarationExpression variableDeclarationExpression = this.getAst()
                 .newVariableDeclarationExpression(variableDeclarationFragment);
         forStatement.initializers().add(variableDeclarationExpression);
-        InfixExpression infixExpression = ast.newInfixExpression();
-        infixExpression.setLeftOperand(ast.newSimpleName("i"));
+        InfixExpression infixExpression = this.getAst().newInfixExpression();
+        infixExpression.setLeftOperand(this.getAst().newSimpleName("i"));
         infixExpression.setOperator(InfixExpression.Operator.toOperator("<"));
-        infixExpression.setRightOperand(ast.newNumberLiteral("10"));
+        infixExpression.setRightOperand(this.getAst().newNumberLiteral("10"));
         forStatement.setExpression(infixExpression);
-        PostfixExpression postfixExpression = ast.newPostfixExpression();
-        postfixExpression.setOperand(ast.newSimpleName("i"));
+        PostfixExpression postfixExpression = this.getAst().newPostfixExpression();
+        postfixExpression.setOperand(this.getAst().newSimpleName("i"));
         postfixExpression.setOperator(Operator.toOperator("++"));
         forStatement.updaters().add(postfixExpression);
 
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", forStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("forStatement",
-                "forStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "forStatement", forStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(3, actionList.size());
         assertTrue(actionList.get(1) instanceof LoopAction);
@@ -95,30 +87,30 @@ public class ForStatementVisitorTest {
 
     @Test
     public void singleStatementTest() {
-
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
-        ForStatement forStatement = ast.newForStatement();
-        forStatement.initializers().add(ast.newVariableDeclarationExpression(ast.newVariableDeclarationFragment()));
-        forStatement.setExpression(ast.newInfixExpression());
-        forStatement.updaters().add(ast.newPostfixExpression());
-        Block block = ast.newBlock();
-        MethodInvocation methodInvocation = ast.newMethodInvocation();
-        methodInvocation.setName(ast.newSimpleName("SimpleName"));
-        methodInvocation.setExpression(ast.newQualifiedName(ast.newName("Name"), ast.newSimpleName("Qualified")));
-        block.statements().add(ast.newExpressionStatement(methodInvocation));
+        ForStatement forStatement = this.getAst().newForStatement();
+        forStatement.initializers()
+                .add(this.getAst().newVariableDeclarationExpression(this.getAst().newVariableDeclarationFragment()));
+        forStatement.setExpression(this.getAst().newInfixExpression());
+        forStatement.updaters().add(this.getAst().newPostfixExpression());
+        Block block = this.getAst().newBlock();
+        MethodInvocation methodInvocation = this.getAst().newMethodInvocation();
+        methodInvocation.setName(this.getAst().newSimpleName("SimpleName"));
+        methodInvocation.setExpression(this.getAst().newQualifiedName(this.getAst().newName("Name"),
+                this.getAst().newSimpleName("Qualified")));
+        block.statements().add(this.getAst().newExpressionStatement(methodInvocation));
         forStatement.setBody(block);
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", forStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("forStatement",
-                "forStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "forStatement", forStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
+
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(3, actionList.size());
         assertTrue(actionList.get(1) instanceof LoopAction);
@@ -134,32 +126,31 @@ public class ForStatementVisitorTest {
 
     @Test
     public void statementInsideSameStatementTest() {
-
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
-        ForStatement forStatement = ast.newForStatement();
-        forStatement.initializers().add(ast.newVariableDeclarationExpression(ast.newVariableDeclarationFragment()));
-        forStatement.setExpression(ast.newInfixExpression());
-        forStatement.updaters().add(ast.newPostfixExpression());
-        Block block = ast.newBlock();
-        ForStatement innerForStatement = ast.newForStatement();
+        ForStatement forStatement = this.getAst().newForStatement();
+        forStatement.initializers()
+                .add(this.getAst().newVariableDeclarationExpression(this.getAst().newVariableDeclarationFragment()));
+        forStatement.setExpression(this.getAst().newInfixExpression());
+        forStatement.updaters().add(this.getAst().newPostfixExpression());
+        Block block = this.getAst().newBlock();
+        ForStatement innerForStatement = this.getAst().newForStatement();
         innerForStatement.initializers()
-                .add(ast.newVariableDeclarationExpression(ast.newVariableDeclarationFragment()));
-        innerForStatement.setExpression(ast.newInfixExpression());
-        innerForStatement.updaters().add(ast.newPostfixExpression());
-        innerForStatement.setBody(ast.newBlock());
+                .add(this.getAst().newVariableDeclarationExpression(this.getAst().newVariableDeclarationFragment()));
+        innerForStatement.setExpression(this.getAst().newInfixExpression());
+        innerForStatement.updaters().add(this.getAst().newPostfixExpression());
+        innerForStatement.setBody(this.getAst().newBlock());
         forStatement.setBody(innerForStatement);
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", forStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("forStatement",
-                "forStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "forStatement", forStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
+
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(3, actionList.size());
         assertTrue(actionList.get(1) instanceof LoopAction);
@@ -175,27 +166,27 @@ public class ForStatementVisitorTest {
 
     @Test
     public void statementInsideOtherStatementTest() {
-        ActionSeff actionSeff = create.newSeff().withSeffBehaviour().withStartAction().followedBy();
-        Map<String, MethodPalladioInformation> methodNameMap = new HashMap<>();
-
-        BasicComponentCreator basicComponentCreator = create.newBasicComponent();
-        AST ast = AST.newAST(AST.getJLSLatest(), false);
-        ForStatement forStatement = ast.newForStatement();
-        forStatement.initializers().add(ast.newVariableDeclarationExpression(ast.newVariableDeclarationFragment()));
-        forStatement.setExpression(ast.newInfixExpression());
-        forStatement.updaters().add(ast.newPostfixExpression());
-        Block block = ast.newBlock();
-        WhileStatement whileStatement = ast.newWhileStatement();
+        ForStatement forStatement = this.getAst().newForStatement();
+        forStatement.initializers()
+                .add(this.getAst().newVariableDeclarationExpression(this.getAst().newVariableDeclarationFragment()));
+        forStatement.setExpression(this.getAst().newInfixExpression());
+        forStatement.updaters().add(this.getAst().newPostfixExpression());
+        Block block = this.getAst().newBlock();
+        WhileStatement whileStatement = this.getAst().newWhileStatement();
         block.statements().add(whileStatement);
         forStatement.setBody(block);
-        MethodBundlePair methodBundlePair = new MethodBundlePair("Simple Component", forStatement);
-        MethodPalladioInformation methodPalladioInformation = new MethodPalladioInformation("forStatement",
-                "forStatement", "Interface", methodBundlePair);
-        ComponentInformation componentInformation = new ComponentInformation(basicComponentCreator);
-        actionSeff = Ast2SeffVisitor.perform(methodBundlePair, actionSeff, methodNameMap, componentInformation, create);
 
-        ResourceDemandingSEFF seff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
-        EList<AbstractAction> actionList = seff.getSteps_Behaviour();
+        // Get method declaration with created statement in body & empty seff for palladio information extraction
+        Pair<ASTNode, ServiceEffectSpecification> astSeffPair = createMethodDeclarationWrappingWithEmptySeff(
+                "Simple Component", "Interface", "forStatement", forStatement);
+        Map<ASTNode, ServiceEffectSpecification> nodes = new HashMap<>();
+        nodes.put(astSeffPair.getElement1(), astSeffPair.getElement2());
+
+        // Perform ast2seff conversion via visitor
+        ActionSeff actionSeff = this.getFluentFactory().newSeff().withSeffBehaviour().withStartAction().followedBy();
+        actionSeff = Ast2SeffVisitor.perform(actionSeff, astSeffPair.getElement1(), nodes, this.getFluentFactory());
+        ResourceDemandingSEFF completeSeff = actionSeff.stopAction().createBehaviourNow().buildRDSeff();
+        EList<AbstractAction> actionList = completeSeff.getSteps_Behaviour();
 
         assertEquals(3, actionList.size());
         assertTrue(actionList.get(1) instanceof LoopAction);

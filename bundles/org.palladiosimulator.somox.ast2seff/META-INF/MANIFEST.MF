@@ -17,7 +17,6 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Export-Package: org.palladiosimulator.somox.ast2seff.jobs,
- org.palladiosimulator.somox.ast2seff.models,
  org.palladiosimulator.somox.ast2seff.util,
  org.palladiosimulator.somox.ast2seff.visitors
 Automatic-Module-Name: org.palladiosimulator.somox.ast2seff
