@@ -654,7 +654,11 @@ public class Ast2SeffVisitor extends ASTVisitor {
 
         if (statement instanceof IfStatement) {
             IfStatement elseIfStatement = (IfStatement) statement;
-            branchActionCreator = handleElseStatement(elseIfStatement.getElseStatement(), branchActionCreator);
+            Statement elseStatement = elseIfStatement.getElseStatement();
+            // `elseStatement` may be null if `statement` does not have an else branch.
+            if (elseStatement != null) {
+                branchActionCreator = handleElseStatement(elseStatement, branchActionCreator);
+            }
         }
 
         return branchActionCreator;
