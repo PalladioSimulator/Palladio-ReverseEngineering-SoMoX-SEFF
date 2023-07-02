@@ -12,8 +12,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf,
  org.palladiosimulator.pcm,
  org.eclipse.jdt.core,
- org.palladiosimulator.generator.fluent;bundle-version="5.1.0",
- org.palladiosimulator.generator.fluent.source;bundle-version="5.1.0"
+ org.palladiosimulator.generator.fluent
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Export-Package: org.palladiosimulator.somox.ast2seff.jobs,
