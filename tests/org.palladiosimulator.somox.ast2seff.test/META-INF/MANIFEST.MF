@@ -16,4 +16,6 @@ Require-Bundle: org.palladiosimulator.somox.ast2seff,
  org.eclipse.emf,
  org.palladiosimulator.pcm,
  org.eclipse.jdt.core,
- org.palladiosimulator.generator.fluent
+ org.palladiosimulator.generator.fluent,
+ org.palladiosimulator.generator.fluent.source,
+ com.google.guava
