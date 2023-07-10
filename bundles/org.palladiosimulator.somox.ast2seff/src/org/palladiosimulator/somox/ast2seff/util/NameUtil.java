@@ -87,7 +87,12 @@ public class NameUtil {
     }
 
     public static String getEntityName(ReturnStatement returnStatement) {
-        return returnStatement.getExpression().toString();
+        Expression returnExpression = returnStatement.getExpression();
+        if (returnExpression == null) {
+            return "";
+        } else {
+            return returnExpression.toString();
+        }
     }
 
     public static String getEntityName(final ForStatement forStatement) {
