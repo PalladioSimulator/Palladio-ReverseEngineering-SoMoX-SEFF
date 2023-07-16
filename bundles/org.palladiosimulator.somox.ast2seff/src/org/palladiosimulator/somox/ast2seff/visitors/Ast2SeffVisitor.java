@@ -489,6 +489,9 @@ public class Ast2SeffVisitor extends ASTVisitor {
     public boolean visit(final ReturnStatement returnStatement) {
         LOGGER.debug("Visit Return Statement");
         Expression returnExpression = returnStatement.getExpression();
+        if (returnExpression == null) {
+            return false;
+        }
         String entityName = NameUtil.getEntityName(returnStatement);
         SetVariableActionCreator setVariableActionCreator = actionSeff.setVariableAction().withName(entityName);
         VariableUsageCreator returnVariable = this.generateInputVariableUsage(returnExpression);
