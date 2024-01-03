@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.palladiosimulator.somox.ast2seff.test
 Bundle-SymbolicName: org.palladiosimulator.somox.ast2seff.test;singleton:=true
-Bundle-Version: 5.1.0.qualifier
+Bundle-Version: 5.2.0.qualifier
 Bundle-Vendor: palladiosimulator.org
 Automatic-Module-Name: org.palladiosimulator.somox.ast2seff.test
 Bundle-RequiredExecutionEnvironment: JavaSE-17
