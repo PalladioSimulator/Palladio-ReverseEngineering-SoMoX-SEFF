@@ -101,8 +101,11 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
             for (OperationSignature persistedSignature : persistedSignatures) {
                 // TODO Copy parameters and return type because needed in visitor
                 OperationSignatureCreator operationSignatureCreator = fluentFactory.newOperationSignature()
-                        .withName(persistedSignature.getEntityName())
-                        .withReturnType(persistedSignature.getReturnType__OperationSignature());
+                        .withName(persistedSignature.getEntityName());
+                var returnType = persistedSignature.getReturnType__OperationSignature();
+                if (returnType != null) {
+                    operationSignatureCreator.withReturnType(returnType);
+                }
                 for (Parameter parameter : persistedSignature.getParameters__OperationSignature()) {
                     operationSignatureCreator.withParameter(parameter.getParameterName(),
                             parameter.getDataType__Parameter(), parameter.getModifier__Parameter());
