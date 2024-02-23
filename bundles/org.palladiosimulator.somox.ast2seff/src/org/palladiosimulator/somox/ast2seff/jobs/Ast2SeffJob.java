@@ -20,6 +20,7 @@ import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.OperationInterface;
 import org.palladiosimulator.pcm.repository.OperationProvidedRole;
 import org.palladiosimulator.pcm.repository.OperationSignature;
+import org.palladiosimulator.pcm.repository.Parameter;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
 import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
@@ -100,7 +101,12 @@ public class Ast2SeffJob implements IBlackboardInteractingJob<Blackboard<Object>
             for (OperationSignature persistedSignature : persistedSignatures) {
                 // TODO Copy parameters and return type because needed in visitor
                 OperationSignatureCreator operationSignatureCreator = fluentFactory.newOperationSignature()
-                        .withName(persistedSignature.getEntityName());
+                        .withName(persistedSignature.getEntityName())
+                        .withReturnType(persistedSignature.getReturnType__OperationSignature());
+                for (Parameter parameter : persistedSignature.getParameters__OperationSignature()) {
+                    operationSignatureCreator.withParameter(parameter.getParameterName(),
+                            parameter.getDataType__Parameter(), parameter.getModifier__Parameter());
+                }
                 operationInterfaceCreator.withOperationSignature(operationSignatureCreator);
             }
 
