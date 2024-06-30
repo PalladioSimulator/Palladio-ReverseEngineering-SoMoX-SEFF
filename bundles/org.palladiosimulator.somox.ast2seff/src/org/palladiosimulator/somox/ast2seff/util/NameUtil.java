@@ -64,7 +64,7 @@ public class NameUtil {
             return "STRING";
         }
 
-        return variable.toString();
+        return variable.toString().replace(".", "_");
     }
 
     /*
