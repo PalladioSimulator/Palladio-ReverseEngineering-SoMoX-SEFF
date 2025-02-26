@@ -7,7 +7,7 @@
         </location>
         <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" refresh="true" type="InstallableUnit">
             <unit id="org.palladiosimulator.pcm.feature.feature.group" version="4.3.0.202008200048"/>
-            <repository location="https://updatesite.palladio-simulator.com/palladio-core-pcm/branches/no_ui-workflow"/>
+            <repository location="https://updatesite.palladio-simulator.com/palladio-core-pcm/branches/no_ui-workflow_edp2"/>
         </location>
         <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" refresh="true" type="InstallableUnit">
             <unit id="de.uka.ipd.sdq.workflow" version="4.3.0.202008200051"/>
@@ -16,11 +16,11 @@
         </location>
         <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" refresh="true" type="InstallableUnit">
             <unit id="org.palladiosimulator.pcm.edit" version="4.3.0.202008200051"/>
-            <repository location="https://updatesite.palladio-simulator.com/palladio-editors-commons/branches/no_ui-workflow"/>
+            <repository location="https://updatesite.palladio-simulator.com/palladio-editors-commons/branches/no_ui-workflow_edp2"/>
         </location>
         <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" refresh="true" type="InstallableUnit">
             <unit id="org.palladiosimulator.generator.fluent" version="5.0.0.202110221124"/>
-            <repository location="https://updatesite.palladio-simulator.com/palladio-addons-fluentapimodelgenerator/branches/no_ui-workflow"/>
+            <repository location="https://updatesite.palladio-simulator.com/palladio-addons-fluentapimodelgenerator/branches/no_ui-workflow_edp2"/>
         </location>
         <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
             <unit id="tools.mdsd.library.emfeditutils.feature.feature.group" version="0.0.0"/>
