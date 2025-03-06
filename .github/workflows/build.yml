@@ -3,8 +3,8 @@ name: Build Pipeline
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  Palladio-ReverseEngineering-SoMoX:
-    uses: PalladioSimulator/Palladio-Build-ActionsPipeline/.github/workflows/build.yml@v3.4
+  Palladio-ReverseEngineering-SoMoX-SEFF:
+    uses: PalladioSimulator/Palladio-Build-ActionsPipeline/.github/workflows/build.yml@master
     with:
       use-display-output: true
       no-caching: true
