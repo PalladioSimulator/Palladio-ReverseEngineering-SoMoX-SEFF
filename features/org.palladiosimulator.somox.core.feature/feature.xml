@@ -2,7 +2,7 @@
 <feature
       id="org.palladiosimulator.somox.ast2seff.feature"
       label="Ast2Seff Core Feature"
-      version="5.2.1.qualifier"
+      version="5.2.2"
       provider-name="palladiosimulator.org"
       plugin="org.palladiosimulator.branding"
       license-feature="org.palladiosimulator.license.epl2"
