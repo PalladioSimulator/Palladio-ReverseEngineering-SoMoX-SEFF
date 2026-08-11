@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?><target name="SoMoX - SOftware MOdel eXtractor" sequenceNumber="2">
 	<locations>
-		<location type="Target" uri="mvn:org.palladiosimulator:palladio-target-platforms:6.0.0-SNAPSHOT:target:palladio-2023-12"/>
+		<location type="Target" uri="mvn:org.palladiosimulator:palladio-target-platforms:6.0.0-SNAPSHOT:target:palladio-2024-06"/>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 			<unit id="de.uka.ipd.sdq.identifier.feature.feature.group" version="0.0.0"/>
 			<repository location="https://updatesite.palladio-simulator.com/palladio-core-commons/nightly/"/>
@@ -25,7 +25,7 @@
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
 			<unit id="tools.mdsd.library.emfeditutils.feature.feature.group" version="0.0.0"/>
-			<repository location="https://updatesite.mdsd.tools/library-emfeditutils/releases/1.0.0/"/>
+			<repository location="https://updatesite.mdsd.tools/library-emfeditutils/nightly/"/>
 		</location>
 	</locations>
 </target>
