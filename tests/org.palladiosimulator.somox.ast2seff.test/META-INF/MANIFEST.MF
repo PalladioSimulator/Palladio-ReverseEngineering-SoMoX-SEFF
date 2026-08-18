@@ -7,7 +7,7 @@ Bundle-Vendor: palladiosimulator.org
 Automatic-Module-Name: org.palladiosimulator.somox.ast2seff.test
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.palladiosimulator.somox.ast2seff,
- junit-jupiter-api,
+ junit-jupiter-api;bundle-version="[5.0.0,6.0.0)",
  de.uka.ipd.sdq.workflow,
  org.eclipse.ui,
  org.eclipse.core.runtime,
